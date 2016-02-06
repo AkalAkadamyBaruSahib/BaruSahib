@@ -1,0 +1,291 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class Visitor_AddNew : System.Web.UI.Page
+{
+    protected static int UserID = -1;
+
+    public string visitorType
+    {
+        set
+        {
+            ViewState["_visitortype"] = value;
+        }
+        get
+        {
+            if (ViewState["_visitortype"] == null)
+            {
+                ViewState["_visitortype"] = "0";
+            }
+            return (string)ViewState["_visitortype"];
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)  
+     {
+        if (!Page.IsPostBack)
+        {
+            if (Session["InchargeID"] != null)
+            {
+                UserID = Convert.ToInt16(Session["InchargeID"].ToString());
+            }
+            if (Request.QueryString["VisitorsId"] != null)
+            {
+                visitorType = Request.QueryString["VisitorsId"].ToString();
+                if (visitorType == "1")
+                {
+                    BindNewVisitor();
+                    
+                }
+                else
+                {
+                    BindPermanentEmp();
+                }
+            }
+            BindVisitorType();
+           // ddlntypeofvisitor.Items.FindByValue("1").Selected = true;
+        }
+    }
+    
+    private void BindVisitorType()
+    {
+        DataSet visitortype = new DataSet();
+        visitortype = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.VisitorType");
+        ddlntypeofvisitor.DataSource = visitortype;
+        ddlntypeofvisitor.DataValueField = "ID";
+        ddlntypeofvisitor.DataTextField = "VisitorType";
+        ddlntypeofvisitor.DataBind();
+        ddlntypeofvisitor.Items.Insert(0, new ListItem("--Select--", "0"));
+
+        ddlntypeofvisitor.Items.RemoveAt(1);
+
+        ddltypeofvisitor.DataSource = visitortype;
+        ddltypeofvisitor.DataValueField = "ID";
+        ddltypeofvisitor.DataTextField = "VisitorType";
+        ddltypeofvisitor.DataBind();
+        
+    }
+
+    private void BindNewVisitor()
+    {
+        lblTag.Text = "Add New Visitor Information";
+        divfileUploadauthority.Visible = false;
+        divdrpNumberOfDays.Visible = false;
+        divddlelectricitybill.Visible = false;
+        divddlroomservice.Visible = false;
+        divddlntypeofvisitor.Visible = false;
+    }
+
+    public void BindPermanentEmp()
+    {
+        lblTag.Text = "Add Permanent Employee Information";
+        divtxtvehicle.Visible = false;
+        divtxtnoofperson.Visible = false;
+        divdrpNumberOfDays.Visible = false;
+        divddlpurpose.Visible = false;
+        divdrpNumberOfDays.Visible = false;
+        DataSet visitortype = new DataSet();
+       
+    }
+
+    public void Clear()
+    {
+        txtName.Text = "";
+        txtnoofperson.Text = "";
+        ddlpurpose.ClearSelection();
+        txtvehicle.Text = "";
+        drpNumberOfDays.ClearSelection();
+        drpProofType.ClearSelection();
+        ddlntypeofvisitor.ClearSelection();
+        txtAddress.Text = "";
+        txtReference.Text = "";
+        txtContactNumber.Text= "";
+        ddlroomservice.ClearSelection();
+        ddlelectricitybill.ClearSelection();
+        txtfirstDate.Text = "";
+        txtlastDate.Text = "";
+        txtstate.Text = "";
+        txtcountry.Text = "";
+        txtcity.Text = "";
+       
+  }
+
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        string fileNameToSave = string.Empty;
+        Visitors visitor = new Visitors();
+
+
+
+        if (fileUploadIdentity.HasFile)
+        {
+
+            string FileEx = System.IO.Path.GetExtension(fileUploadIdentity.FileName);
+            string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtName.Text.Replace(" ", "_") + drpProofType.SelectedItem.Text + FileEx);
+            fileUploadIdentity.PostedFile.SaveAs(visitorfilepath);
+            visitor.IdentificationPath = "VisitorProof/" + txtName.Text.Replace(" ", "_") + drpProofType.SelectedItem.Text + FileEx;
+       }
+        else
+        {
+            visitor.IdentificationPath = string.Empty;
+        }
+       visitor.ID = hdnVisitorID.Value == "" ? 0 : Convert.ToInt16(hdnVisitorID.Value);
+        if (fileUploadphoto.HasFile)
+        {
+            string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
+            string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
+            fileUploadphoto.PostedFile.SaveAs(path);
+            visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
+        }
+        else
+        {
+            visitor.VisitorsPhoto = "";
+        }
+        if (fileUploadauthority.HasFile)
+        {
+            string AuthorityFileEx = System.IO.Path.GetExtension(fileUploadauthority.FileName);
+            string path = Server.MapPath("~/VisitorsAuthourityLetter/" + txtName.Text.Replace(" ", "_") + AuthorityFileEx);
+            fileUploadauthority.PostedFile.SaveAs(path);
+            visitor.VisitorsAuthorityLetter = "VisitorsAuthourityLetter/" + txtName.Text.Replace(" ", "_") + AuthorityFileEx;
+
+        }
+        else
+        {
+            visitor.VisitorsAuthorityLetter = "";
+        }
+        if (ddlroomservice.SelectedValue != null)
+        {
+            visitor.RoomRent = ddlroomservice.SelectedValue;
+        }
+        else
+        {
+            visitor.RoomRent = null;
+        }
+        if (ddlelectricitybill.SelectedValue != null)
+        {
+            visitor.ElectricityBill = ddlelectricitybill.SelectedValue;
+        }
+        else
+        {
+            visitor.ElectricityBill = null;
+        }
+
+        if (string.IsNullOrEmpty(txtfirstDate.Text))
+        {
+            visitor.TimePeriodFrom = System.DateTime.Now;
+        }
+        else
+        { visitor.TimePeriodFrom = Convert.ToDateTime(txtfirstDate.Text); }
+        if (string.IsNullOrEmpty(txtlastDate.Text))
+        {
+            visitor.TimePeriodTo = System.DateTime.Now;
+        }
+        else
+        { visitor.TimePeriodTo = Convert.ToDateTime(txtlastDate.Text); }
+
+        visitor.Name = txtName.Text;
+        if (ddlpurpose.SelectedValue != null)
+        {
+            visitor.PurposeOfVisit = ddlpurpose.SelectedValue;
+        }
+        else
+        {
+            visitor.PurposeOfVisit = null;
+        }
+        visitor.VisitorAddress = txtAddress.Text;
+        visitor.ContactNumber = txtContactNumber.Text;
+        if (txtvehicle.Text == "")
+        {
+            visitor.VehicleNo = "";
+
+        }
+        else
+        {
+            visitor.VehicleNo = txtvehicle.Text;
+        }
+        visitor.BuildingID = Convert.ToInt16(hdnBuildingID.Value);
+        visitor.CreatedOn = DateTime.Now;
+        visitor.CreatedBy = UserID;
+        visitor.ModifyBy = UserID;
+        visitor.ModifyOn = DateTime.Now;
+        if (txtnoofperson.Text == "")
+        {
+            visitor.TotalNoOfPerson = 0;
+        }
+        else
+        {
+            visitor.TotalNoOfPerson = Convert.ToInt32(txtnoofperson.Text);
+
+        }
+        if (drpNumberOfDays.SelectedValue != null)
+        {
+            visitor.NoOfDaysToStay = Convert.ToInt16(drpNumberOfDays.SelectedValue);
+        }
+        else
+        {
+            visitor.NoOfDaysToStay = null;
+        }
+        visitor.Identification = drpProofType.SelectedValue;
+
+        
+        if (ddlntypeofvisitor.SelectedValue == "0")
+        {
+            visitor.VisitorTypeID = 1;
+        }
+        else 
+        {
+             visitor.VisitorTypeID = Convert.ToInt32(ddlntypeofvisitor.SelectedValue);
+        }
+        visitor.State = txtstate.Text;
+        visitor.Country = txtcountry.Text;
+        visitor.City = txtcity.Text;
+        visitor.IsActive = true;
+        visitor.VisitorReference = txtReference.Text;
+
+
+        VisitorRoomNumbers roomNumber = null;
+        visitor.VisitorRoomNumbers = new List<VisitorRoomNumbers>();
+        foreach (string str in hdnbookedSeats.Value.Split(','))
+        {
+            roomNumber = new VisitorRoomNumbers();
+            roomNumber.RoomNumberID = int.Parse(str);
+            roomNumber.CreatedOn = DateTime.Now;
+            visitor.VisitorRoomNumbers.Add(roomNumber);
+        }
+
+        
+        hdnVisitorID.Value = "";
+        hdnbookedSeats.Value = "";
+        VisitorUserRepository repo = new VisitorUserRepository(new AkalAcademy.DataContext());
+        if (visitor.ID == 0)
+        {
+            repo.AddNewVisitor(visitor);
+        }
+        else
+        {
+            
+            repo.UpdateVisitor(visitor);
+        }
+
+
+        ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Record Saved Successfully');</script>", false);
+      
+        Clear();
+    }
+
+    private void getBookedSeatNumbers()
+    {
+        hdnbookedSeats.Value = string.Empty;
+    }
+
+    protected void ddltypeofvisitor_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+}
