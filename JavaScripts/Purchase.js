@@ -29,13 +29,12 @@ function BindMaterialItems(estID) {
     });
 }
 
-function openModelPopUp(EstID,EMRID) {
+function openModelPopUp(EstID, EMRID) {
 
     $("#divRejectItem").modal('show');
     $("input[id*='hidEstID']").val(EstID);
     $("input[id*='hidEMRID']").val(EMRID);
-    $('#lblestid').text(EstID);
-    $('#lblItem').text();
+    $('#lblestid').html("<strong>Reject Item for Estimate No: " + EstID + "</strong>");
 }
 
 function RejectMaterialItems() {

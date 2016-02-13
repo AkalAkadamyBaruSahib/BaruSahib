@@ -559,7 +559,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
                     estimateRelation.CreatedOn = DateTime.Now;
                     estimateRelation.ModifyOn = DateTime.Now;
                     estimateRelation.Active = 1;
-
+                    estimateRelation.IsApproved = true;
                     estimate.EstimateAndMaterialOthersRelations.Add(estimateRelation);
                     
                     rowindex = rowindex + 1;
