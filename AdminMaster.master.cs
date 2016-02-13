@@ -12,7 +12,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
     private static int UserType = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
         if (!IsPostBack)
         {
 
@@ -25,8 +25,8 @@ public partial class AdminMaster : System.Web.UI.MasterPage
                 lblUser.Text = Session["EmailId"].ToString();
                 UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
             }
-            
-            DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '"+ lblUser.Text +"'");
+
+            DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '" + lblUser.Text + "'");
             lblEstCount.Text = dsAdminCount.Tables[0].Rows[0]["Estco"].ToString();
             lblZoneCo.Text = dsAdminCount.Tables[1].Rows[0]["Zoco"].ToString();
             lblAcaCo.Text = dsAdminCount.Tables[2].Rows[0]["Acaco"].ToString();

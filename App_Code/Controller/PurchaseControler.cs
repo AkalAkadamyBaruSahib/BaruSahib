@@ -11,9 +11,11 @@ using System.Web.Services;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 [System.Web.Script.Services.ScriptService]
-public class PurchaseControler : System.Web.Services.WebService {
+public class PurchaseControler : System.Web.Services.WebService
+{
 
-    public PurchaseControler () {
+    public PurchaseControler()
+    {
 
         //Uncomment the following line if using designed components 
         //InitializeComponent(); 
@@ -32,5 +34,5 @@ public class PurchaseControler : System.Web.Services.WebService {
         purRepository.RejectMaterialItemByID(EMRID, EstID);
     }
 
-    
+
 }

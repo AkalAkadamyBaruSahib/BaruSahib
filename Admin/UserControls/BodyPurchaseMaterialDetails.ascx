@@ -24,7 +24,7 @@
         return true;
     }
     // Changes done By nishu
-    
+
 
 </script>
 <asp:HiddenField ID="hidEstID" runat="server" />
@@ -67,36 +67,38 @@
             <table>
                 <tr>
                     <td>
-                       <h3>Reject Item</h3>
+                        <h3>Reject Item</h3>
                     </td>
-                   
+
                 </tr>
                 <tr>
                     <td>Estimate No:</td>
-                    <td><Label ID="lblestid"></Label></td>
+                    <td>
+                        <label id="lblestid"></label>
+                    </td>
                 </tr>
             </table>
-            <Label ID="lblItem" runat="server"></Label>
-           </div>
+            <label id="lblItem" runat="server"></label>
+        </div>
         <div class="modal-body">
             <table>
                 <tr>
                     <td></td>
-                    <td style="color:red;">
+                    <td style="color: red;">
                         <b>Are You Sure You Want To Reject This Item? Please Provide The Valid Comment Below:</b>
-                        </td>
+                    </td>
                 </tr>
                 <tr>
                     <td>Comment</td>
                     <td colspan="2" style="text-align: center">
-                       <asp:TextBox ID="txtRemarks" TextMode="MultiLine" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtRemarks" TextMode="MultiLine" runat="server"></asp:TextBox>
                         <asp:RequiredFieldValidator runat="server" ID="divRequiredtxtRemarks" ValidationGroup="rejectitem" ControlToValidate="txtRemarks" ErrorMessage="Please Enter The Comment" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click"  ValidationGroup="rejectitem" CssClass="btn-primary" />
+            <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" ValidationGroup="rejectitem" CssClass="btn-primary" />
             <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
         </div>
     </div>

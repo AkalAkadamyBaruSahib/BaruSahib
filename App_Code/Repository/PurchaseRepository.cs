@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,7 +18,6 @@ public class PurchaseRepository
     {
         _context = context;
     }
-
 
     public IList<Material> GetMaterialItemsByEstID(int Estid)
     {
@@ -39,7 +39,7 @@ public class PurchaseRepository
         return Materials;
     }
 
-    public void RejectMaterialItemByID(int EMRID,int estID)
+    public void RejectMaterialItemByID(int EMRID, int estID)
     {
         EstimateAndMaterialOthersRelations RejectMaterialItem = _context.EstimateAndMaterialOthersRelations.Where(v => v.Sno == EMRID).FirstOrDefault();
         RejectMaterialItem.IsApproved = false;
@@ -47,9 +47,10 @@ public class PurchaseRepository
         _context.SaveChanges();
 
         Estimate estimate = _context.Estimate.Where(v => v.EstId == estID).FirstOrDefault();
-        estimate.IsItemRejected = false;
+        estimate.IsItemRejected = true;
         _context.Entry(estimate).State = EntityState.Modified;
         _context.SaveChanges();
+
 
     }
 }

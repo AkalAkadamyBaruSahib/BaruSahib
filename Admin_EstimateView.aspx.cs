@@ -15,7 +15,8 @@ public partial class Admin_EstimateView : System.Web.UI.Page
     DataTable dt = new DataTable();
     DataRow dr;
     private bool IsApproved = true;
-    private bool IsItemRejected = true;
+    private bool IsRejected = true;
+    private bool IsItemRejected = false;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -35,14 +36,14 @@ public partial class Admin_EstimateView : System.Web.UI.Page
                 BindAcademy();
                 if (Session["UserTypeID"].ToString() == "21")
                 {
-                    getEstimateDetails(false, -1,false);
+                    getEstimateDetails(false, -1, true);
                     btnNonApproved.Visible = false;
                 }
                 else
                 {
-                    getEstimateDetails(true, -1,true);
+                    getEstimateDetails(true, -1, false);
                 }
-                
+
             }
         }
         if (Request.QueryString["AcaId"] != null)
@@ -69,9 +70,10 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateStatus WHERE Estid=" + p);
         DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM Estimate WHERE Estid=" + p);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Estimate has been deleted Successfully.');", true);
-        getEstimateDetails(false, -1,false);
+        getEstimateDetails(false, -1, true);
         //throw new NotImplementedException();
     }
+
     protected void GetPrint(string id)
     {
         DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialForEmp_V2 '" + id + "'");
@@ -131,16 +133,16 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         EstInfo += "<tbody>";
         for (int i = 0; i < dsValue.Tables[1].Rows.Count; i++)
         {
-           
-                EstInfo += "<tr>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Qty"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
-                EstInfo += "<td style='width:152px;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
-                EstInfo += "</tr>";
-            
+
+            EstInfo += "<tr>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Qty"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
+            EstInfo += "<td style='width:152px;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
+            EstInfo += "</tr>";
+
         }
         EstInfo += "<tr>";
         EstInfo += "<td></td><td></td><td></td><td></td><td><b>Total</b></td>";
@@ -175,6 +177,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         Response.Write(pdfDoc);
         Response.End();
     }
+
     private void GetEstimateDetailsByClick(string id)
     {
         DataSet dsEstimateDetails = new DataSet();
@@ -254,6 +257,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         //ZoneInfo += "</div>";
         divEstimateDetails.InnerHtml = ZoneInfo.ToString();
     }
+
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
@@ -262,6 +266,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void btnExecl_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -289,6 +294,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         }
         Response.End();
     }
+
     private void getEstimateDetails(bool isApproved, int AcaID, bool isItemRejected)
     {
         DataSet dsEstimateDetails = new DataSet();
@@ -300,8 +306,8 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         {
 
             dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                          where mytable.Field<bool>("IsApproved") == isApproved && mytable.Field<bool>("IsItemRejected") == isItemRejected &&
-                          mytable.Field<int>("AcaID") == AcaID
+                          where ((mytable.Field<bool>("IsApproved") == isApproved) && (mytable.Field<bool>("IsItemRejected") == false) &&
+                          mytable.Field<int>("AcaID") == AcaID)
                           select mytable);
         }
         else
@@ -309,14 +315,14 @@ public partial class Admin_EstimateView : System.Web.UI.Page
             if (isApproved)
             {
                 dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<bool>("IsApproved") == isApproved && mytable.Field<bool>("IsItemRejected") == isItemRejected &&
+                              where mytable.Field<bool>("IsApproved") == isApproved && (mytable.Field<bool>("IsItemRejected") == false) &&
                               mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-30)
                               select mytable);
             }
             else
             {
                 dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                              where (mytable.Field<bool>("IsApproved") == isApproved) || (mytable.Field<bool>("IsItemRejected") == false)
+                              where (mytable.Field<bool>("IsApproved") == isApproved) || (mytable.Field<bool>("IsItemRejected") == true)
                               select mytable);
             }
         }
@@ -357,7 +363,6 @@ public partial class Admin_EstimateView : System.Web.UI.Page
             ZoneInfo += "<th width='40%'><table width='100%'><tr><th colspan='3' align='center'>Commulative Total Expenditure as On</th></tr><tr><th width='17%'>Bill Id</th><th width='50%'>Bill Date</th><th width='33%'>Bill Amount</th></tr></table></th>";
         }
 
-
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -365,7 +370,14 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td style='display:none;'>1</td>";
-            ZoneInfo += "<td width='5%'>" + dtapproved.Rows[i]["EstId"].ToString() + "</td>";
+            if (dtapproved.Rows[i]["IsItemRejected"].ToString() == "True" && dtapproved.Rows[i]["IsApproved"].ToString() == "True")
+            {
+                ZoneInfo += "<td width='5%'><table><tr><td>" + dtapproved.Rows[i]["EstId"].ToString() + "</td></tr><tr><td style='color:red'><b>Rejected</b></td></tr></table></td>";
+            }
+            else
+            {
+                ZoneInfo += "<td width='5%'>" + dtapproved.Rows[i]["EstId"].ToString() + "</td>";
+            }
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Estimate File</b>:" + GetFileName(dtapproved.Rows[i]["FilePath"].ToString(), dtapproved.Rows[i]["FileNme"].ToString()) + "</td></tr></table></td>";
             //ZoneInfo += "<td class='center' width='15%'>" + dtapproved.Rows[i]["dt"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='30%'><table>";
@@ -376,11 +388,18 @@ public partial class Admin_EstimateView : System.Web.UI.Page
             //{
             if (isApproved)
             {
-                ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
             }
             else
             {
-                ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a></td></tr>";
+                if (isItemRejected)
+                {
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a></td></tr>";
+                }
+                else
+                {
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a></td></tr>";
+                }
             }
 
             if (!isApproved)
@@ -440,7 +459,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         divEstimateDetails.InnerHtml = ZoneInfo.ToString();
     }
 
-    private string GetFileName(string filepaths,string fileName)
+    private string GetFileName(string filepaths, string fileName)
     {
         string anchorLink = string.Empty;
         string[] filePath = filepaths.Split(',');
@@ -452,8 +471,9 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         }
 
         return anchorLink.Substring(0, anchorLink.Length - 3);
- 
+
     }
+
     protected DataTable BindDatatable2()
     {
         DataTable dt = new DataTable();
@@ -462,6 +482,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void btnExcel2_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -489,14 +510,15 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         }
         Response.End();
     }
+
     protected void btnNonApproved_Click(object sender, EventArgs e)
     {
         string acaID = ddlAcademy.SelectedIndex == -1 ? "-1" : ddlAcademy.SelectedValue;
         if (((Button)sender).Text == "View Non Approved Estimates")
         {
             IsApproved = false;
-            IsItemRejected = false;
-            getEstimateDetails(false, -1,false);
+            IsItemRejected = true;
+            getEstimateDetails(false, -1, true);
             ((Button)sender).Text = "View Approved Estimates";
             ddlAcademy.Visible = false;
         }
@@ -504,7 +526,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         {
             ddlAcademy.Visible = true;
             IsApproved = true;
-            IsItemRejected = true;
+            IsItemRejected = false;
             ((Button)sender).Text = "View Non Approved Estimates";
             Response.Redirect("Admin_EstimateView.aspx");
         }
@@ -514,7 +536,6 @@ public partial class Admin_EstimateView : System.Web.UI.Page
     {
         int acaID = int.Parse(ddlAcademy.SelectedValue);
         getEstimateDetails(IsApproved, acaID, IsItemRejected);
-
     }
 
     private void BindAcademy()
@@ -522,10 +543,8 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM Academy order by AcaName asc");
         ddlAcademy.DataSource = dsBillDetails.Tables[0];
         ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataValueField= "AcaID";
-        ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
-        ddlAcademy.SelectedIndex = 0;
+        ddlAcademy.DataValueField = "AcaID";
         ddlAcademy.DataBind();
- 
+        ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
     }
 }

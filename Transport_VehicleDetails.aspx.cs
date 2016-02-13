@@ -49,8 +49,8 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             GetPrint(Request.QueryString["EstId"].ToString());
 
         }
-
     }
+
     protected void GetPrint(string id)
     {
         DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialForEmp_V2 '" + id + "'");
@@ -243,6 +243,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void btnExecl_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -358,7 +359,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td style='display:none;'>1</td>";
-            ZoneInfo += "<td width='25%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
+            ZoneInfo += "<td width='25%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td><td><a href='javascript: openModelPopUp(" + dtapproved.Rows[i]["ID"].ToString() + ");'><span class='label label-warning'  style='font-size: 15.998px;'>GPS</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
             ZoneInfo += "<td width='30%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Transport Manager</b>: " + dtapproved.Rows[i]["InName"].ToString() + "</td></tr><tr><td><b>Transport Manager Number</b>: " + dtapproved.Rows[i]["TransportManagerNumber"].ToString() + "</td></tr></table>";
             //ZoneInfo += "<td class='center' width='15%'>" + dtapproved.Rows[i]["dt"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='20%'><table>";
@@ -394,8 +395,8 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         }
 
         return anchorLink.Substring(0, anchorLink.Length - 3);
-
     }
+
     protected DataTable BindDatatable2()
     {
         DataTable dt = new DataTable();
@@ -404,6 +405,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void btnExcel2_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -431,6 +433,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         }
         Response.End();
     }
+
     protected void btnNonApproved_Click(object sender, EventArgs e)
     {
         string acaID = ddlAcademy.SelectedIndex == -1 ? "-1" : ddlAcademy.SelectedValue;

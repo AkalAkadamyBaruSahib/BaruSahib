@@ -26,9 +26,8 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
-                UserTypeID= int.Parse(Session["UserTypeID"].ToString());
+                UserTypeID = int.Parse(Session["UserTypeID"].ToString());
                 InchargeID = int.Parse(Session["InchargeID"].ToString());
-                
             }
 
             if (UserTypeID != 1)
@@ -39,7 +38,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             }
             GetEstimateDetails();
             BindGrid();
-            
+
             if (Request.QueryString["EstId"] == null)
             {
                 Response.Redirect("Emp_Home.aspx");
@@ -49,9 +48,10 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 Request.QueryString["EstId"].ToString();
                 //GetEstimateDetails(Request.QueryString["EstId"].ToString());
             }
-     
         }
+
     }
+
     private void GetEstimateDetails()
     {
         string id = Request.QueryString["EstId"].ToString();
@@ -74,7 +74,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlWorkType.Items.FindByText(lblWorkName.Text).Selected = true;
         lblWorkName.Visible = false;
         tdWorkAllot.Visible = true;
-       // divbtnupload.Visible = false;
+        // divbtnupload.Visible = false;
         //divuploadfile.Visible = false;
         if (hdnIsApproved.Value == "True")
         {
@@ -82,19 +82,21 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         }
 
     }
+
     protected void BindGrid()
     {
         string id = Request.QueryString["EstId"].ToString();
         DataSet ds = new DataSet();
         ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EDITEstimate '" + id + "'");
-
-        if (Request.QueryString["IsRejected"] != null && Request.QueryString["IsRejected"].ToString() == "1")
+        if (Request.QueryString["IsRejected"] != null && Request.QueryString["IsRejected"].ToString() == "1" && hdnIsApproved.Value == "True")
         {
             DataTable dtApproved = null;
 
             dtApproved = (from mytable in ds.Tables[0].AsEnumerable()
                           where mytable.Field<bool>("IsItemApproved") == false
                           select mytable).CopyToDataTable();
+            lblmsg.Text = "Below Items Has Been Rejected By The Purchaser. Please See The Remarks for More Information:";
+
             if (ds.Tables[0].Rows.Count > 0)
             {
                 gvDetails.DataSource = dtApproved;
@@ -120,6 +122,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             }
         }
     }
+
     protected void gvDetails_RowEditing(object sender, GridViewEditEventArgs e)
     {
         gvDetails.EditIndex = e.NewEditIndex;
@@ -154,11 +157,9 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlSourceType.DataBind();
         ddlSourceType.Items.Insert(0, "Source Type");
         ddlSourceType.Items.FindByText(ddlPs).Selected = true;
-
-
     }
 
-    private void SaveFiles(bool IsApproved)
+    private void SaveFiles(bool IsApproved, bool IsItemRejected)
     {
         string fileNameToSave = string.Empty;
         if (fuFile.HasFile)
@@ -191,7 +192,9 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             remark = "<span style='color:green'>" + txtRemark.Text + "</span>";
         }
 
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','0','0',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved);
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','0','0',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
+        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1 where estid = '" + Request.QueryString["EstId"].ToString() + "'");
+
 
         if (UserTypeID == 1 || UserTypeID == 21)
         {
@@ -217,11 +220,13 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlMaterail.Items.Insert(0, "Material");
         ddlMaterail.SelectedIndex = 0;
     }
+
     protected void gvDetails_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         gvDetails.EditIndex = -1;
         BindGrid();
     }
+
     protected void gvDetails_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         int Sno = Convert.ToInt32(gvDetails.DataKeys[e.RowIndex].Value.ToString());
@@ -230,13 +235,14 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DropDownList dlMat = (DropDownList)gvDetails.Rows[e.RowIndex].FindControl("ddlMatId");
 
         TextBox txQty = (TextBox)gvDetails.Rows[e.RowIndex].FindControl("txtQty");
+        TextBox txRemarks = (TextBox)gvDetails.Rows[e.RowIndex].FindControl("txtEditRemark");
         TextBox txRate = (TextBox)gvDetails.Rows[e.RowIndex].FindControl("txtRate");
         DropDownList dlSt = (DropDownList)gvDetails.Rows[e.RowIndex].FindControl("ddlPs");
         Label lbUnit = (Label)gvDetails.Rows[e.RowIndex].FindControl("lblUnitEdit");
         DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + lbUnit.Text + "'");
         int uId = Convert.ToInt32(dsUnitId.Tables[0].Rows[0]["UnitId"].ToString());
         Label lbAmt = (Label)gvDetails.Rows[e.RowIndex].FindControl("txtAmtEdit");
-        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set MatTypeId='" + dlMatT.SelectedValue + "',MatId='" + dlMat.SelectedValue + "',Qty='" + txQty.Text + "',Rate='" + txRate.Text + "',PSId='" + dlSt.SelectedValue + "',UnitId='" + uId + "',Amount='" + lbAmt.Text + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where Sno='" + Sno + "'");
+        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set MatTypeId='" + dlMatT.SelectedValue + "',MatId='" + dlMat.SelectedValue + "',Qty='" + txQty.Text + "',Rate='" + txRate.Text + "',PSId='" + dlSt.SelectedValue + "',UnitId='" + uId + "',Amount='" + lbAmt.Text + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',remarkByPurchase='" + txRemarks.Text + "' where Sno='" + Sno + "'");
         DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + lbEstId.Text + "'");
         DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + lbEstId.Text + "'");
         gvDetails.EditIndex = -1;
@@ -245,6 +251,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Row Update Successfully.');", true);
     }
+
     protected void ddlMatId_SelectedIndexChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
@@ -253,6 +260,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
         UnitName.Text = dsUName.Tables[0].Rows[0]["UnitName"].ToString();
     }
+
     protected void txtRate_TextChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
@@ -264,11 +272,11 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal am = qt * ra;
         lblAm.Text = am.ToString();
     }
+
     protected void gvDetails_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName.Equals("AddNew"))
         {
-
             Label lbEstId = (Label)gvDetails.FooterRow.FindControl("lblEstIdFooter");
             string EId = lbEstId.Text;
             string id = Request.QueryString["EstId"].ToString();
@@ -290,7 +298,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 Label lbAmt = (Label)gvDetails.FooterRow.FindControl("lblAmtFooter");
                 DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + dlSt.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',0)");
                 DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + id + "'");
-                DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID+ "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + id + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + id + "'");
                 GetEstimateDetails();
                 BindGrid();
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Row Insert Successfully.');", true);
@@ -304,6 +312,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             Response.Redirect("Admin_EstimateEdit.aspx?EstId=" + Request.QueryString["EstId"].ToString());
         }
     }
+
     protected void ddlMatTIdFooter_SelectedIndexChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
@@ -318,6 +327,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlMaterail.Items.Insert(0, "Material");
         ddlMaterail.SelectedIndex = 0;
     }
+
     protected void ddlMatIdFooter_SelectedIndexChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
@@ -326,6 +336,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
         UnitName.Text = dsUName.Tables[0].Rows[0]["UnitName"].ToString();
     }
+
     protected void txtRateFooter_TextChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
@@ -344,8 +355,10 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
         DataSet dsSourcTypef = new DataSet();
         dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
+        DataSet dsremarks = new DataSet();
+        //dsremarks = DAL.DalAccessUtility.GetDataInDataSet("select remarkByPurchase from EstimateAndMaterialOthersRelations where Active=1");
 
-        
+
         if (e.Row.RowType == DataControlRowType.Footer)
         {
             DropDownList ddlMateTypef = ((DropDownList)e.Row.FindControl("ddlMatTIdFooter"));
@@ -385,13 +398,16 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     protected void btnUpload_Click(object sender, EventArgs e)
     {
         bool IsApproved = false;
+        bool IsItemRejected = true;
         if (UserTypeID == 1 || UserTypeID == 21)
         {
             IsApproved = ((Button)sender).ID == "btnRejectEdit" ? false : true;
+            IsItemRejected = ((Button)sender).ID == "btnRejectEdit" ? true : false;
         }
 
-        SaveFiles(IsApproved);
+        SaveFiles(IsApproved, IsItemRejected);
     }
+
     private void SendSMS(string AcaID, bool IsPurchase, bool IsWorkshop)
     {
         const int CONST_USERTYPE = 2;

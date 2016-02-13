@@ -202,7 +202,7 @@ public class UsersRepository
          {
              var Acali = (from AE in _context.AcademyAssignToEmployee
                           join A in _context.Academy on AE.AcaId equals A.AcaID
-                          select new { A.AcaID, A.AcaName }).Distinct().ToList().OrderByDescending(x => x.AcaName).Reverse();
+                          select new { A.AcaID, A.AcaName }).Distinct().ToList().OrderByDescending(x => x.AcaName).Reverse().DefaultIfEmpty();
 
              Academy academy = null;
              foreach (var item in Acali)
@@ -228,7 +228,7 @@ public class UsersRepository
                  AcademyList.Add(academy);
              }
          }
-
+         
          return AcademyList;
      }
 

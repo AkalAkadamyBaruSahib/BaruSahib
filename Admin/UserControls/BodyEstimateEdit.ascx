@@ -148,7 +148,7 @@
 
                                 <tr>
                                     <td width="50%">
-                                        <div class="control-group" id="divuploadfile"  runat="server">
+                                        <div class="control-group" id="divuploadfile" runat="server">
                                             <label class="control-label" for="typeahead"></label>
                                             <div class="controls">
                                                 Upload File
@@ -171,6 +171,19 @@
                                     <th colspan="2" width="50%" align="left">
                                         <h4></h4>
                                     </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+
+                                                <asp:Label ID="lblmsg" runat="server" Font-Size="18px" ForeColor="Red" Font-Bold="true"></asp:Label>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
                                 </tr>
                                 <tr>
                                     <td colspan="3">
@@ -296,10 +309,14 @@
                                                     </FooterTemplate>
                                                 </asp:TemplateField>
                                                   <asp:TemplateField HeaderText="Remark">
+                                                     <EditItemTemplate>
+                                                           <asp:TextBox ID="txtEditRemark"  runat="server" Text='<%#Eval("remarkByPurchase") %>' />
+                                                     </EditItemTemplate>
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblRemark" runat="server" />
+                                                        <asp:Label ID="lblRemark" runat="server" ForeColor="Red" Text='<%#Eval("remarkByPurchase") %>'/>
                                                     </ItemTemplate>
-                                                   </asp:TemplateField>
+                                                   
+                                                </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle BackColor="#61A6F8" Font-Bold="True" ForeColor="White" />
                                         </asp:GridView>

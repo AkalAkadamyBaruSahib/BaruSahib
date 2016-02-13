@@ -14,12 +14,13 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
 {
     DataTable dt = new DataTable();
     DataRow dr;
-   
+
     protected void Page_Load(object sender, EventArgs e)
     {
+
         if (!Page.IsPostBack)
         {
-          
+
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -38,10 +39,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 BindAcademy();
                 getPurchaseMaterialsDetailsDetails(-1);
-            } 
+            }
         }
-     
-
     }
 
     protected void GetPrint(string id)
@@ -144,7 +143,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 EstInfo += "</table>";
                 EstInfo += "</td>";
             }
-            
+
             //EstInfo += "<td style='width:152px;'>" + dsMatDetails.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
             //if (dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() == null)
             //{
@@ -362,7 +361,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForAdminUser '" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "' ");
                     }
-                   
+
                     for (int j = 0; j < dsMatDetails.Tables[0].Rows.Count; j++)
                     {
                         ZoneInfo += "<tr>";
@@ -413,7 +412,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         }
         divEstimateDetails.InnerHtml = ZoneInfo.ToString();
     }
-    
+
     public DataTable BindDatatable()
     {
         string UserTypeID = Session["UserTypeID"].ToString();
@@ -481,7 +480,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         ddlAcademy.DataValueField = "AcaID";
         ddlAcademy.DataBind();
         ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Academy--", "0"));
-
     }
 
     protected void btnSave_Click(object sender, EventArgs e)
@@ -489,6 +487,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         PurchaseControler controler = new PurchaseControler();
         controler.RejectMaterialItemByID(int.Parse(hidEMRID.Value), int.Parse(hidEstID.Value));
         getPurchaseMaterialsDetailsDetails(-1);
-        
+        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set remarkByPurchase = '" + txtRemarks.Text + "' where estid = '" + hidEstID.Value + "' and sno ='" + hidEMRID.Value + "'");
+        txtRemarks.Text = "";
     }
 }
