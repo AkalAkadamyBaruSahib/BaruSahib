@@ -3,7 +3,7 @@
 <style type="text/css">
     .auto-style1
     {
-        width: 546px;
+        width: 546px; 
     }
 </style>
 <script type="text/javascript">
