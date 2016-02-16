@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class PurchaseMaster : System.Web.UI.MasterPage
 {
+    public int UserTypeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -16,20 +17,15 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         }
-        DataSet dsCount = new DataSet();
-        dsCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_PurchaseCount '" + lblUser.Text + "'");
-        lblUserName.Text = dsCount.Tables[0].Rows[0]["InName"].ToString();
-        lblBillStatus.Text = dsCount.Tables[1].Rows[0]["co"].ToString();
-        lblRejectBill.Text = dsCount.Tables[2].Rows[0]["co"].ToString();
-        lblEst.Text = dsCount.Tables[3].Rows[0]["EstCo"].ToString();
-        lblMsg.Text = dsCount.Tables[4].Rows[0]["MsgCo"].ToString();
+
+
         if (Session["UserTypeID"].ToString() == "4")
         {
             liReport.Visible = true;
+            liestimate.Visible = true;
         }
-
-
     }
     protected void lbLogOut_Click(object sender, EventArgs e)
     {
