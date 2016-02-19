@@ -157,14 +157,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
-                                        <div class="control-group" id="divbtnupload" runat="server">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                <asp:Button ID="btnUpload" CssClass="btn btn-secondry" Text="Save/Approved Changes" runat="server" OnClick="btnUpload_Click" />
-                                            </div>
-                                        </div>
-                                    </td>
+
                                 </tr>
 
                                 <tr>
@@ -308,14 +301,14 @@
                                                         <asp:DropDownList runat="server" ID="ddlPsFooter" Width="115Px"></asp:DropDownList>
                                                     </FooterTemplate>
                                                 </asp:TemplateField>
-                                                  <asp:TemplateField HeaderText="Remark">
-                                                     <EditItemTemplate>
-                                                           <asp:TextBox ID="txtEditRemark"  runat="server" Text='<%#Eval("remarkByPurchase") %>' />
-                                                     </EditItemTemplate>
+                                                <asp:TemplateField HeaderText="Remark">
+                                                    <EditItemTemplate>
+                                                        <asp:TextBox ID="txtEditRemark" runat="server" Text='<%#Eval("remarkByPurchase") %>' />
+                                                    </EditItemTemplate>
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblRemark" runat="server" ForeColor="Red" Text='<%#Eval("remarkByPurchase") %>'/>
+                                                        <asp:Label ID="lblRemark" runat="server" ForeColor="Red" Text='<%#Eval("remarkByPurchase") %>' />
                                                     </ItemTemplate>
-                                                   
+
                                                 </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle BackColor="#61A6F8" Font-Bold="True" ForeColor="White" />
@@ -331,8 +324,15 @@
                                             </div>
                                         </div>
                                         <asp:Button ID="btnRejectEdit" runat="server" Text="Reject Bill" CssClass="btn btn-primary" OnClick="btnUpload_Click" />
+                                        <div class="control-group" id="divbtnupload" runat="server">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                <asp:Button ID="btnUpload" CssClass="btn btn-primary" Text="Save/Approved Changes" runat="server" OnClick="btnUpload_Click" />
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
+
                             </table>
                         </ContentTemplate>
                     </asp:UpdatePanel>

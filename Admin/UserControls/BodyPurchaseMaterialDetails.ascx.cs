@@ -322,7 +322,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     }
                     else if (UserTypeID == "12")
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='PurchaseEmployee_ViewEstMaterial.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a>/<a href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='PurchaseEmployee_ViewEstMaterial.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else
                     {
