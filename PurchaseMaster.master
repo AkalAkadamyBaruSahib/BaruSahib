@@ -145,7 +145,7 @@
                             <li><a href="Purchase_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Material to be dispatch</span></a></li>
                            <!-- <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Stock</span></a></li>
                             <li><a class="ajax-link" href="Purchase_SubmitBills.aspx"><i class="icon-eye-open"></i><span class="hidden-tablet">Submit Bills</span></a></li>-->
-                            <li id="liestimate" runat="server" visible="false"><a class="ajax-link" href="Purchase_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">Estimates</span></a></li>
+                            <li><a class="ajax-link" href="Purchase_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">Estimates</span></a></li>
                            <!-- <li><a class="ajax-link" href="Purchase_BillStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li><a href="Purchase_RejectBills.aspx"><i class="icon-ban-circle"></i><span class="hidden-tablet">Reject Bills(<asp:Label ID="lblRejectBill" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>-->
                             <li id="liReport" visible="false" runat="server"><a href="Purchase_Reports.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Reports</span></a></li>

@@ -15,6 +15,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
 {
     DataTable dt = new DataTable();
     DataRow dr;
+    int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -24,6 +25,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            InchargeID = int.Parse(Session["InchargeID"].ToString());
         }
         if (!Page.IsPostBack)
         {
@@ -222,7 +224,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     {
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AllEstimateView");
+        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_AllEstimateViewByEmployeeID]" + InchargeID);
 
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
 
@@ -237,7 +239,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         {
 
             dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                          where mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-15)
+                          where mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-30)
                           select mytable);
         }
 

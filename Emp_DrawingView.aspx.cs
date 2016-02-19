@@ -13,9 +13,6 @@ public partial class Emp_DrawingView : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-           
-
-
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -24,7 +21,7 @@ public partial class Emp_DrawingView : System.Web.UI.Page
             {
                 lblUser.Text = Session["EmailId"].ToString();
             }
-              BinddWGtYPE();
+            BinddWGtYPE();
             if (Request.QueryString["AcaId"] != null)
             {
                 BindDrawing(Request.QueryString["AcaId"].ToString());
@@ -32,10 +29,6 @@ public partial class Emp_DrawingView : System.Web.UI.Page
             }
             divDrawingView.Visible = false;
             divAllDrawingView.Visible = true;
-           
-            //BindAllDrawing();
-            //BindDrawing();
-          
 
         }
         var js = new HtmlGenericControl("script");
@@ -43,6 +36,7 @@ public partial class Emp_DrawingView : System.Web.UI.Page
         js.Attributes["src"] = "JavaScripts/AdminDrawingView.js?time=" + DateTime.Now.Ticks.ToString();
         Page.Form.Controls.Add(js);
     }
+
     protected void BinddWGtYPE()
     {
         DataSet dsZone = new DataSet();

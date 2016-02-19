@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EmpMaster.master" AutoEventWireup="true" CodeFile="Emp_ParticularEstimateView.aspx.cs" Inherits="Emp_ParticularEstimateView" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <asp:HiddenField ID="hdnIsApproved" runat="server" />
+    <asp:HiddenField ID="hdnIsItemRejected" runat="server" />
     <div id="content" class="span10">
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -147,9 +149,9 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" width="50%">
-                                         <div ID="pnlPdf" runat="server"></div>
+                                        <div id="pnlPdf" runat="server"></div>
                                         <%--<asp:GridView ID="GridView1" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" OnRowDataBound="GridView1_RowDataBound" Visible="false"></asp:GridView>--%>
-                                        <asp:Button ID="btnPdf" runat="server" Text="Estimate Download" CssClass="btn btn-primary" Width="320px" Height="40px" Font-Bold="True" Font-Size="16pt" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details in PDF" data-rel="tooltip" OnClick="btnPdf_Click" />
+                                        <asp:Button ID="btnPdf" runat="server" Visible="false" Text="Estimate Download" CssClass="btn btn-primary" Width="320px" Height="40px" Font-Bold="True" Font-Size="16pt" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details in PDF" data-rel="tooltip" OnClick="btnPdf_Click" />
                                         <%--  onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" --%>
                                     </td>
                                 </tr>

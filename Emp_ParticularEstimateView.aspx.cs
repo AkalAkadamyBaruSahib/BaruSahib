@@ -44,6 +44,13 @@ public partial class Emp_ParticularEstimateView : System.Web.UI.Page
         lblTypeOfWork.Text = dsEstimate1Details.Tables[0].Rows[0]["TypeWorkName"].ToString();
         lblSanctionDate.Text = dsEstimate1Details.Tables[0].Rows[0]["SanctionDate"].ToString();
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
+        hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
+        hdnIsItemRejected.Value = dsEstimate1Details.Tables[0].Rows[0]["IsItemRejected"].ToString();
+        if (hdnIsApproved.Value == "True" && hdnIsItemRejected.Value =="False")
+        {
+            btnPdf.Visible = true;
+        }
+
 
     }
     private void getEstimateWithParticularDetails(string ID)
@@ -188,7 +195,7 @@ public partial class Emp_ParticularEstimateView : System.Web.UI.Page
         EstInfo += "<tbody>";
         for (int i = 0; i < dsValue.Tables[1].Rows.Count; i++)
         {
-            if (i != dsValue.Tables[1].Rows.Count - 1)
+            if (i != dsValue.Tables[1].Rows.Count)
             {
                 EstInfo += "<tr>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "</td>";

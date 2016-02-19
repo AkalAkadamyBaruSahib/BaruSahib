@@ -38,7 +38,10 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             }
             GetEstimateDetails();
             BindGrid();
-
+            if (Request.QueryString["IsRejected"] != null && Request.QueryString["IsRejected"].ToString() == "1")
+            {
+                btnRejectEdit.Visible = false;
+            }
             if (Request.QueryString["EstId"] == null)
             {
                 Response.Redirect("Emp_Home.aspx");
@@ -193,7 +196,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         }
 
         DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','0','0',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
-        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1 where estid = '" + Request.QueryString["EstId"].ToString() + "'");
+        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1,remarkByPurchase='' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
 
 
         if (UserTypeID == 1 || UserTypeID == 21)
@@ -242,13 +245,13 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + lbUnit.Text + "'");
         int uId = Convert.ToInt32(dsUnitId.Tables[0].Rows[0]["UnitId"].ToString());
         Label lbAmt = (Label)gvDetails.Rows[e.RowIndex].FindControl("txtAmtEdit");
+        //lbAmt.Text = (Convert.ToDecimal(txQty.Text) * Convert.ToDecimal(txRate.Text)).ToString();
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set MatTypeId='" + dlMatT.SelectedValue + "',MatId='" + dlMat.SelectedValue + "',Qty='" + txQty.Text + "',Rate='" + txRate.Text + "',PSId='" + dlSt.SelectedValue + "',UnitId='" + uId + "',Amount='" + lbAmt.Text + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',remarkByPurchase='" + txRemarks.Text + "' where Sno='" + Sno + "'");
         DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + lbEstId.Text + "'");
         DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + lbEstId.Text + "'");
         gvDetails.EditIndex = -1;
         GetEstimateDetails();
         BindGrid();
-
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Row Update Successfully.');", true);
     }
 
@@ -399,7 +402,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     {
         bool IsApproved = false;
         bool IsItemRejected = true;
-        if (UserTypeID == 1 || UserTypeID == 21)
+        if (UserTypeID == 1 || UserTypeID == 21 || UserTypeID == 2)
         {
             IsApproved = ((Button)sender).ID == "btnRejectEdit" ? false : true;
             IsItemRejected = ((Button)sender).ID == "btnRejectEdit" ? true : false;
@@ -462,4 +465,6 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlWorkType.Items.Insert(0, "Select Work Allot");
         ddlWorkType.SelectedIndex = 0;
     }
+
 }
+   

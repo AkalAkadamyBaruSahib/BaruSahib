@@ -24,7 +24,6 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         if (Session["UserTypeID"].ToString() == "4")
         {
             liReport.Visible = true;
-            liestimate.Visible = true;
         }
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

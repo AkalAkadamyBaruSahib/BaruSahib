@@ -119,14 +119,14 @@
                             <tr>
                                 <td> Driver Name:<br />    
                                       <asp:DropDownList ID="ddlDriverName" runat="server"></asp:DropDownList>
-                                             <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlDriverName"
-                                                        ControlToValidate="ddlDriverName" ErrorMessage="Please Select The Driver Name" />
+                                            <%-- <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlDriverName"
+                                                        ControlToValidate="ddlDriverName" ErrorMessage="Please Select The Driver Name" />--%>
                                           
                                 </td>
                                 <td> Conductor Name:<br />     
                                     <asp:DropDownList ID="ddlConductorName" runat="server"></asp:DropDownList>
-                                             <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlConductorName"
-                                                        ControlToValidate="ddlConductorName" ErrorMessage="Please Select The Conductor Name" />
+                                            <%-- <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlConductorName"
+                                                        ControlToValidate="ddlConductorName" ErrorMessage="Please Select The Conductor Name" />--%>
                                           
                                 </td>
                             </tr>

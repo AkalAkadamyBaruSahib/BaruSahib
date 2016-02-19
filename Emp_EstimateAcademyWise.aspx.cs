@@ -53,12 +53,12 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         }
 
         var dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                          where mytable.Field<bool>("IsApproved") == IsApproved && mytable.Field<bool>("IsRejected") == !IsApproved
+                          where mytable.Field<bool>("IsApproved") == IsApproved && (mytable.Field<bool>("IsRejected") == !IsApproved) && (mytable.Field<bool>("IsItemRejected") == false)
                           select mytable);
         if (!IsApproved)
         {
             dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<bool>("IsApproved") == IsApproved || mytable.Field<bool>("IsRejected") == !IsApproved
+                          where mytable.Field<bool>("IsApproved") == IsApproved || (mytable.Field<bool>("IsRejected") == !IsApproved) || (mytable.Field<bool>("IsItemRejected") == true)
                               select mytable);
         }
 
@@ -84,7 +84,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
         ZoneInfo += "<th style='display:none;'></th>";
-        ZoneInfo += "<th width='10%'>Estmate No.</th>";
+        ZoneInfo += "<th width='15%'>Estmate No.</th>";
         ZoneInfo += "<th width='15%'>Estimate For</th>";
         ZoneInfo += "<th width='25%'>Details of Sactioned Estimates</th>";
         ZoneInfo += "<th width='15%'>Estimate Cost</th>";
@@ -101,15 +101,21 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
                 ZoneInfo += "<td width='10%'><span class='btn btn-primary'>" + dtapproved.Rows[i]["EstId"].ToString() + "</span></td>";
             }
             else
-            {
-                ZoneInfo += "<td width='10%'><a class='btn btn-primary' href='Emp_EditEstimate.aspx?EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a> </td>";
-            }
-
+                if (dtapproved.Rows[i]["IsApproved"].ToString() == "True" && dtapproved.Rows[i]["IsItemRejected"].ToString() == "True")
+                {
+                    ZoneInfo += "<td width='20%'><table><tr><td><a class='btn btn-primary' href='Emp_EditEstimate.aspx?IsRejected=1&EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a></td></tr><tr><td style='color:red'><b>Rejected</b></td></tr></table></td>";
+                }
+                else
+                {
+                    ZoneInfo += "<td width='20%'><a class='btn btn-primary' href='Emp_EditEstimate.aspx?EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a> </td>";
+                }
+          
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
             ZoneInfo += "<td class='center'width='25%'><table>";
             ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Emp_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dtapproved.Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Sanction Date:</b>" + dtapproved.Rows[i]["SanctionDate"].ToString() + "</td></tr>";
+           
             ZoneInfo += "</table></td>";
             DataSet dsBal = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateBalAmt '" + dtapproved.Rows[i]["EstId"].ToString() + "'");
 
@@ -242,6 +248,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         ColumnText.ShowTextAligned(pdfWriter.DirectContent, Element.ALIGN_CENTER, new Phrase(watermarkText, font), 300, 400, 45);
         document.Close();
     }
+
     public void AddTextWatermark(string sourceFilePath, string watermarkTemplatePath, string targetFilePath)
     {
         var pdfReaderSource = new PdfReader(sourceFilePath);
@@ -258,6 +265,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         pdfStamper.Close();
         pdfReaderTemplate.Close();
     }
+
     public void AddImageWatermark(string sourceFilePath, string watermarkImagePath, string targetFilePath)
     {
         var pdfReader = new PdfReader(sourceFilePath);
@@ -285,6 +293,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         ddlAcademy.Items.Insert(0, "Select Academy");
         ddlAcademy.SelectedIndex = 0;
     }
+
     private void getEstimateDetails()
     {
         DataSet dsEstimateDetails = new DataSet();
@@ -356,12 +365,12 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         divEstimateDetails.InnerHtml = ZoneInfo.ToString();
     }
 
-   
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
         ShowAllEstimateDetails(true);
         //getEstimateDetails();
     }
+
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
@@ -370,6 +379,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void btnExecl_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -397,6 +407,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         }
         Response.End();
     }
+
     protected DataTable BindDatatable2()
     {
         DataTable dt = new DataTable();
@@ -405,6 +416,7 @@ public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void btnExcel1_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
