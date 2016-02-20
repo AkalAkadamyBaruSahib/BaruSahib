@@ -16,6 +16,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     DataTable dt = new DataTable();
     DataRow dr;
     int InchargeID = -1;
+    int UserType = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -26,6 +27,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         {
             lblUser.Text = Session["EmailId"].ToString();
             InchargeID = int.Parse(Session["InchargeID"].ToString());
+            UserType = int.Parse(Session["UserTypeID"].ToString());
         }
         if (!Page.IsPostBack)
         {
@@ -224,7 +226,14 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     {
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_AllEstimateViewByEmployeeID]" + InchargeID);
+        if (UserType == (int)TypeEnum.UserType.PURCHASE)
+        {
+            dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AllEstimateView");
+        }
+        else
+        {
+            dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_AllEstimateViewByEmployeeID]" + InchargeID);
+        }
 
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
 
@@ -237,10 +246,19 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         }
         else
         {
+            if (UserType == (int)TypeEnum.UserType.PURCHASE)
+            {
 
-            dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                          where mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-30)
-                          select mytable);
+                dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
+                              where mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-15)
+                              select mytable);
+            }
+            else
+            {
+                dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
+                              where mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-30)
+                              select mytable);
+            }
         }
 
         DataTable dtapproved = new DataTable();
