@@ -9,8 +9,7 @@ using System.Web;
 /// </summary>
 public class Zone
 {
-     [Key()]
+    [Key()]
     public int ZoneId { get; set; }
     public string ZoneName { get; set; }
-
 }
