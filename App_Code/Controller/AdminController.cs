@@ -25,5 +25,11 @@ public class AdminController : System.Web.Services.WebService {
         AdminRepository adminRepository = new AdminRepository(new AkalAcademy.DataContext());
         adminRepository.AssignAllAcademiesToUser(InchargeID);
     }
-    
+    [WebMethod]
+    public void DeletePSName(int PSID)
+    {
+        AdminRepository repository = new AdminRepository(new AkalAcademy.DataContext());
+        repository.DeletePSName(PSID);
+    }
+   
 }

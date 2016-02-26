@@ -37,6 +37,7 @@ namespace AkalAcademy
         public DbSet<TransportEmployeeRelation> TransportEmployeeRelation { get; set; }
         public DbSet<VehicleEmployee> VehicleEmployee { get; set; }
         public DbSet<Material> Material { get; set; }
+        public DbSet<PurchaseSource> PurchaseSource { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

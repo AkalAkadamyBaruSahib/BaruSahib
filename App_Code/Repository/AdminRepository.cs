@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 using AkalAcademy;
 
 /// <summary>
@@ -36,6 +38,30 @@ public class AdminRepository
             acaAssignToEmployee.CreatedBy = "ADMIN";
             _context.AcademyAssignToEmployee.Add(acaAssignToEmployee);
         }
+        _context.SaveChanges();
+
+
+    }
+
+    public void AddNewPurchaseSource(PurchaseSource purchasesource)
+    {
+        Hashtable param = new Hashtable();
+        param.Add("PSName", purchasesource.PSName);
+        param.Add("CreatedOn", purchasesource.CreatedOn);
+        param.Add("CreatedBy", purchasesource.CreatedBy);
+        param.Add("ModifyBy", purchasesource.ModifyBy);
+        param.Add("ModifyOn", purchasesource.ModifyOn);
+        param.Add("Active", purchasesource.Active);
+        _context.Entry(purchasesource).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+
+    public void DeletePSName(int PSID)
+    {
+        PurchaseSource purchasesource = _context.PurchaseSource.Where(v => v.PSId == PSID)
+                             .FirstOrDefault();
+        purchasesource.Active = 0;
+        _context.Entry(purchasesource).State = EntityState.Modified;
         _context.SaveChanges();
     }
 }

@@ -127,6 +127,8 @@
                             <li id="liFinancial" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet">Create Financial Year</span></a></li>
                             <li id="liZone" runat="server"><a class="ajax-link" href="Admin_Zone.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Create Zone(<asp:Label ID="lblZoneCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li id="liAcademy" runat="server"><a class="ajax-link" href="Admin_Academy.aspx"><i class="icon-eye-open"></i><span class="hidden-tablet">Create Academy(<asp:Label ID="lblAcaCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <li id="liPurchaseSource" runat="server"><a class="ajax-link" href="AddNewPurchaseSource.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Create Purchase Source</span></a></li>
+                       
                             <%--<li><a class="ajax-link" href="Admin_Department.aspx"><i class="icon-edit"></i><span class="hidden-tablet"> Create Department</span></a></li>
 						<li><a class="ajax-link" href="Admin_Designation.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet"> Create Designation</span></a></li>--%>
                             <li id="liEmployee" runat="server"><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet">Employee</span></a>
