@@ -21,6 +21,7 @@ $(document).ready(function () {
     $("#afileUploadaApplicationForm").hide();
     $("input[id*='btnEdit'] ").hide();
 
+
     LoadTransportEmployeeInfo();
 
     $("input[id$='btnSaveChanges']").click(function () {
@@ -39,6 +40,7 @@ $(document).ready(function () {
             return false;
         }
     });
+   
     $("#anc_add").click(function () {
         $('#tbl1 tr').last().after('<tr><td>Static Content [' + cnt + ']</td><td><input type="text" name="txtbx' + cnt + '" value="' + cnt + '"></td></tr>'); // adding new tr after last tr of table
         cnt++; // incrementing variable cnt by 1
@@ -102,6 +104,10 @@ $(document).ready(function () {
                 }
             });
         }
+    });
+    $("#btnClose").click(function () {
+        $("div[id*='divEstimateDetails']").show();
+        $("#divTransportGps").hide();
     });
 });
     
@@ -341,6 +347,7 @@ $(document).ready(function () {
         $('#iframeDailog').attr("src", src);
         $('#myModal').modal('show');
     }
+   
 
     function GetTranportEmployeeInfoToUpdate(vehicleEmployeeID) {
         
@@ -617,6 +624,7 @@ $(document).ready(function () {
         cntR = 2;
     }
 
+   
 
    
 
