@@ -324,11 +324,7 @@
                                             </div>
                                         </div>
                                         <asp:Button ID="btnRejectEdit" runat="server" Text="Reject Bill" CssClass="btn btn-primary" OnClick="btnUpload_Click" />
-                                        <div class="control-group" id="divbtnupload" runat="server">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
                                                 <asp:Button ID="btnUpload" CssClass="btn btn-primary" Text="Save/Approved Changes" runat="server" OnClick="btnUpload_Click" />
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
