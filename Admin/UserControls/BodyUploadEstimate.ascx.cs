@@ -401,7 +401,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
                 dsSourcType = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
                 ViewState["dsSourcType"] = dsSourcType;
             }
-            
+
             ddlSourceType.DataSource = dsSourcType;
             ddlSourceType.DataValueField = "PSId";
             ddlSourceType.DataTextField = "PSName";
@@ -561,7 +561,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
                     estimateRelation.Active = 1;
                     estimateRelation.IsApproved = true;
                     estimate.EstimateAndMaterialOthersRelations.Add(estimateRelation);
-                    
+
                     rowindex = rowindex + 1;
                 }
 
@@ -613,7 +613,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
                 smsTo += inchargeNumber + ",";
             }
 
-            
+
             if (adminNumber != string.Empty)
             {
                 smsTo += adminNumber + ",";
@@ -695,7 +695,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
         lstMaterials.DataTextField = "MatName";
         lstMaterials.DataBind();
 
-        
+
     }
 
     private void SetDefaultMaterialTypes()
@@ -759,7 +759,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
             dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 and MatTypeName<>'OTHERS' order by MatTypeName");
             ViewState["dsMatType"] = dsMatType;
         }
-        
+
         lstMaterialTypes.DataSource = dsMatType;
         lstMaterialTypes.DataValueField = "MatTypeId";
         lstMaterialTypes.DataTextField = "MatTypeName";
@@ -811,7 +811,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
             DropDownList ddlSourceType = (DropDownList)row.FindControl("ddlSourceType");
 
 
-            if (ddlMatType.SelectedValue == "Material Type" || ddlMat.SelectedValue == "Material" || txtQty.Text == "" || txtRate.Text == "" 
+            if (ddlMatType.SelectedValue == "Material Type" || ddlMat.SelectedValue == "Material" || txtQty.Text == "" || txtRate.Text == ""
                 || ddlSourceType.SelectedValue == "Source Type")
             {
                 sflag = false;

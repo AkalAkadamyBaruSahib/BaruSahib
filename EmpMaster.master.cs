@@ -18,16 +18,6 @@ public partial class EmpMaster : System.Web.UI.MasterPage
         {
             lblUser.Text = Session["EmailId"].ToString();
         }
-        DataSet dsUser = new DataSet();
-        dsUser = DAL.DalAccessUtility.GetDataInDataSet("exec USP_UserCount '" + lblUser.Text + "'");
-        lblUserName.Text = dsUser.Tables[0].Rows[0]["InName"].ToString();
-        lblWorkCount.Text = dsUser.Tables[1].Rows[0]["workAllot"].ToString();
-        lblBillStatus.Text = dsUser.Tables[2].Rows[0]["Co"].ToString();
-        lblRejBills.Text = dsUser.Tables[3].Rows[0]["Cou"].ToString();
-        lblEstimate.Text = dsUser.Tables[4].Rows[0]["EstCo"].ToString();
-        lblMsg.Text = dsUser.Tables[5].Rows[0]["Msgco"].ToString();
-       
-        
     }
     protected void lbLogOut_Click(object sender, EventArgs e)
     {

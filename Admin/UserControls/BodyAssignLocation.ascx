@@ -17,6 +17,19 @@
         return true;
     }
 </script>
+<style type="text/css">
+    .chkFontStyle
+    {
+        font-weight: bold;
+    }
+
+    .chkTxtAlign
+    {
+        display: inline !important;
+    }
+</style>
+
+
 <div id="content" class="span10">
     <div class="row-fluid sortable" runat="server" id="divAllot">
         <div class="box span12">
@@ -54,6 +67,11 @@
                                             <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
                                             <%--<asp:DropDownList ID="ddlAcademy" runat="server" ></asp:DropDownList>--%>
                                         </asp:Panel>
+                                        <br />
+                                        <asp:Panel ID="pnlAllZone" runat="server" Visible="false">
+                                            <asp:CheckBox ID="chkAllZone" runat="server" CssClass="chkTxtAlign" />
+                                            <asp:Label ID="lblChkAllZone" runat="server" Text="Assign all zone"></asp:Label>
+                                        </asp:Panel>
                                         <table>
                                             <%-- <tr>
                                                               <asp:Panel ID="PNLmULTIsELECT" runat="server" Width="230px" Visible="false">
@@ -68,7 +86,7 @@
                                                               </td>
                                                                </asp:Panel>
                                                           </tr>--%>
-                                            <tr style="vertical-align:top">
+                                            <tr style="vertical-align: top">
                                                 <td>
 
                                                     <asp:Panel ID="pnlZone" runat="server" Width="330px" ScrollBars="Vertical" Visible="false" Height="200px">
@@ -83,46 +101,47 @@
                                                                         <asp:HiddenField ID="hdnZoneID" runat="server" Value='<%# Eval("ZoneID") %>' />
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                
-                                                                <asp:BoundField DataField="ZoneId" HeaderText="" ItemStyle-Width="0" />
                                                                 <asp:BoundField DataField="ZoneName" HeaderText="Zone" ItemStyle-Width="150" />
                                                             </Columns>
                                                         </asp:GridView>
-                                                        
+
                                                     </asp:Panel>
                                                     <br />
-                                                   <asp:Button runat="server" ID="btnAddAcademy" Visible="false" Text="Select Academy" CssClass="btn btn-primary" OnClick="btnAddAcademy_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                                                   <asp:Label ID="lblZoneId" runat="server" Visible="true"></asp:Label>
+                                                    <asp:Button runat="server" ID="btnAddAcademy" Visible="false" Text="Select Academy" CssClass="btn btn-primary" OnClick="btnAddAcademy_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
+                                                    <asp:Label ID="lblZoneId" runat="server" Visible="true"></asp:Label>
                                                 </td>
-                                                <td style="width:50px">
-                                                    &nbsp;
+                                                <td style="width: 50px">&nbsp;
                                                 </td>
                                                 <td>
                                                     <asp:Panel ID="pnlAcademy" runat="server" Width="330px" ScrollBars="Vertical" Visible="false">
-                                                        <div style="overflow:scroll;height:400px">
-                                                        <asp:GridView ID="GridAcademy" runat="server" AutoGenerateColumns="false" class="table table-striped table-bordered bootstrap-datatable datatable">
-                                                            <AlternatingRowStyle />
-                                                            <Columns>
-                                                                <asp:TemplateField ItemStyle-Width="5">
-                                                                    <ItemTemplate>
-                                                                        <asp:CheckBox ID="chkCtrl" runat="server" OnCheckedChanged="chkCtrl_CheckedChanged" AutoPostBack="true" />
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
-                                                                <asp:BoundField DataField="AcaId" HeaderText="" ItemStyle-Width="0" />
-                                                                <asp:BoundField DataField="AcaName" HeaderText="Academy" ItemStyle-Width="150" />
-                                                            </Columns>
-                                                        </asp:GridView>
-                                                        <asp:Button runat="server" ID="btnAddAca" CssClass="btn btn-primary" Text="Load Academy" OnClick="btnAddAca_Click" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                                                        <asp:Label ID="lblAcaId" runat="server" Visible="true"></asp:Label>
-                                                            </div> 
+                                                        <div style="overflow: scroll; height: 400px">
+                                                            <asp:GridView ID="GridAcademy" runat="server" AutoGenerateColumns="false" class="table table-striped table-bordered bootstrap-datatable datatable">
+                                                                <AlternatingRowStyle />
+                                                                <Columns>
+                                                                    <asp:TemplateField ItemStyle-Width="5">
+                                                                        <HeaderTemplate>
+                                                                            <asp:CheckBox ID="chkboxSelectAll" Text="Select All" Font-Bold="true" CssClass="chkFontStyle" TextAlign="Left" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxSelectAll_CheckedChanged" />
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <asp:CheckBox ID="chkCtrl" runat="server" OnCheckedChanged="chkCtrl_CheckedChanged" AutoPostBack="true" />
+                                                                            <asp:HiddenField ID="hdnAcaId" runat="server" Value='<%# Eval("AcaID") %>' />
+                                                                            <asp:HiddenField ID="hdnZoneID" runat="server" Value='<%# Eval("ZoneID") %>' />
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle Width="5px" />
+                                                                    </asp:TemplateField>
+
+                                                                    <asp:BoundField DataField="AcaName" HeaderText="Academy" ItemStyle-Width="150">
+                                                                        <ItemStyle Width="150px" />
+                                                                    </asp:BoundField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                            <asp:Button runat="server" ID="btnAddAca" CssClass="btn btn-primary" Text="Load Academy" OnClick="btnAddAca_Click" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
+                                                            <asp:Label ID="lblAcaId" runat="server" Visible="true"></asp:Label>
+                                                        </div>
                                                     </asp:Panel>
                                                 </td>
                                             </tr>
                                         </table>
-
-
-
-
                                     </div>
                                 </div>
                             </ContentTemplate>
