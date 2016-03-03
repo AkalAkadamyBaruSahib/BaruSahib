@@ -9,7 +9,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 {
     public int ModuleID = -1;
     protected void Page_Load(object sender, EventArgs e)
-    {
+     {
         if (Session["ModuleID"] != null)
         {
             ModuleID = int.Parse(Session["ModuleID"].ToString());
@@ -175,19 +175,20 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 
     protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
     {
-        DataSet dsZo = DAL.DalAccessUtility.GetDataInDataSet("select distinct EmpId from AcademyAssignToEmployee where ZoneId='" + ddlZone.SelectedValue + "' and Active=1");
-        if (dsZo.Tables[0].Rows.Count > 0)
-        {
-            DataSet dsDepId = DAL.DalAccessUtility.GetDataInDataSet("select DepId,UserTypeId from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
-            if (dsDepId.Tables[0].Rows[0]["DepId"].ToString() == ddlDept.SelectedValue)
-            {
-                if (dsDepId.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
-                {
-                    DataSet dsEmpName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + dsEmpName.Tables[0].Rows[0]["InName"].ToString() + " already assigned to " + ddlZone.SelectedItem.Text + ", Please Assign another Zone.');", true);
-                }
-            }
-        }
+        //DataSet dsZo = DAL.DalAccessUtility.GetDataInDataSet("select distinct EmpId from AcademyAssignToEmployee where ZoneId='" + ddlZone.SelectedValue + "' and Active=1");
+        //if (dsZo.Tables[0].Rows.Count > 0)
+        //{
+        //    DataSet dsDepId = DAL.DalAccessUtility.GetDataInDataSet("select DepId,UserTypeId from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
+        //    if (dsDepId.Tables[0].Rows[0]["DepId"].ToString() == ddlDept.SelectedValue)
+        //    {
+        //        if (dsDepId.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
+        //        {
+        //            DataSet dsEmpName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
+        //            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + dsEmpName.Tables[0].Rows[0]["InName"].ToString() + " already assigned to " + ddlZone.SelectedItem.Text + ", Please Assign another Zone.');", true);
+        //        }
+        //    }
+        //}
+
     }
 
     protected void ddlEmpl_SelectedIndexChanged(object sender, EventArgs e)
@@ -199,7 +200,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         DataSet dsval = new DataSet();
         dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InName='" + ddlEmpl.SelectedItem.Text + "'");
         string userTypeID = dsval.Tables[0].Rows[0]["UserTypeId"].ToString();
-        if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.CONSTRUCTION).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.FrontDesk).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.CONSTRUCTIONSUBADMIN).ToString())
+        if (userTypeID == ((int)TypeEnum.UserType.CONSTRUCTION).ToString() || userTypeID == ((int)TypeEnum.UserType.FrontDesk).ToString() || userTypeID == ((int)TypeEnum.UserType.CONSTRUCTIONSUBADMIN).ToString())
         {
             pnlSingleSelect.Visible = true;
             lblDesignation.Visible = true;
@@ -207,8 +208,8 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             pnlAllZone.Visible = false;
             pnlAcademy.Visible = false;
         }
-       
-        else if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.ACADEMIC).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.AUDIT).ToString())
+
+        else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC).ToString() || userTypeID == ((int)TypeEnum.UserType.AUDIT).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE).ToString() || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTTRAINEE).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICETRAINEE).ToString())
         { 
             BindZoneGridOnSelectedEmp();
             BindBtnAcademyClickGrid();
@@ -218,7 +219,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             pnlAllZone.Visible = false;
             pnlSingleSelect.Visible = false;
         }
-        else if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.WORKSHOP).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.ARCHITECTURAL).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.PURCHASE).ToString())
+        else if (userTypeID == ((int)TypeEnum.UserType.WORKSHOP).ToString() || userTypeID == ((int)TypeEnum.UserType.ARCHITECTURAL).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASE).ToString())
         {
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = false;
@@ -534,14 +535,14 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 
     protected void chkCtrl_CheckedChanged(object sender, EventArgs e)
     {
-
         CheckBox chkbox = (CheckBox)sender;
         GridViewRow Grow = (GridViewRow)chkbox.NamingContainer;
         DataSet dsExist = null;
-        string aid = Grow.Cells[1].Text;
+        HiddenField hdnAcaId = Grow.FindControl("hdnAcaId") as HiddenField;
+       // string aid = Grow.Cells[1].Text;
         if (Session["UserTypeID"].ToString() == "1")
         {
-            dsExist = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Incharge.InName FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where Incharge.InchargeID=" + ddlEmpl.SelectedValue + " and AcaId='" + aid + "'");
+            dsExist = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Incharge.InName FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where Incharge.InchargeID=" + ddlEmpl.SelectedValue + " and AcaId='" + hdnAcaId.Value + "'");
 
             if (dsExist.Tables[0].Rows.Count > 0)
             {
@@ -722,11 +723,11 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 
             if (ModuleID == 1)
             {
-                dsAca = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId in (" + output + ") order by AcaName ASC");
+                dsAca = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,AcaId,AcaName from Academy where ZoneId in (" + output + ") order by AcaName ASC");
             }
             else
             {
-                dsAca = DAL.DalAccessUtility.GetDataInDataSet("SELECT A.AcaId,A.AcaName FROM [TransportZoneAcademyRelation] TR Inner Join Academy A  on A.AcaID=TR.TransportAcaID WHERE TR.ZoneId in (" + output + ") order by A.AcaName ASC");
+                dsAca = DAL.DalAccessUtility.GetDataInDataSet("SELECT A.ZoneId,A.AcaId,A.AcaName FROM [TransportZoneAcademyRelation] TR Inner Join Academy A  on A.AcaID=TR.TransportAcaID WHERE TR.ZoneId in (" + output + ") order by A.AcaName ASC");
             }
             GridAcademy.DataSource = dsAca;
             GridAcademy.DataBind();
