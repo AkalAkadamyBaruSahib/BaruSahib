@@ -428,4 +428,61 @@ public static class Utility
         }	
 
     }
+
+
+    public static string GetTransportReport()
+    {
+        DataTable dtVehicleSummary = new DataTable();
+        dtVehicleSummary.Columns.Add("AcademyName");
+        dtVehicleSummary.Columns.Add("TotalNumberOfVehicles");
+        dtVehicleSummary.Columns.Add("RC");
+        dtVehicleSummary.Columns.Add("Insurance");
+        dtVehicleSummary.Columns.Add("Permit");
+        dtVehicleSummary.Columns.Add("Tax");
+        dtVehicleSummary.Columns.Add("Passing");
+        dtVehicleSummary.Columns.Add("DLType");
+        dtVehicleSummary.Columns.Add("DLExpired");
+        dtVehicleSummary.Columns.Add("Pollution");
+        dtVehicleSummary.Columns.Add("Total");
+        dtVehicleSummary.Columns.Add("Norms");
+        dtVehicleSummary.Columns.Add("TransportManager");
+        dtVehicleSummary.Columns.Add("VehicleDetails");
+
+        DataRow dr = new DataRow();
+
+        UsersRepository repository = new UsersRepository(new AkalAcademy.DataContext());
+
+        List<Academy> academies = repository.GetAcademyByZoneID(2, 2);
+        DataTable dtTotalNumberOfVehicles;
+        foreach (Academy aca in academies)
+        {
+            dr["AcademyName"] = aca.AcaName;
+            dtTotalNumberOfVehicles = DAL.DalAccessUtility.GetDataInDataSet("select count(id) from Vehicles where AcademyID = " + aca.AcaID).Tables[0];
+            dr["TotalNumberOfVehicles"] = dtTotalNumberOfVehicles.Rows[0]["count"].ToString();
+
+
+        }
+ 
+
+
+
+    }
+
+    public static string GetPendingRC(int acaID)
+    {
+        TransportUserRepository trepository = new TransportUserRepository(new AkalAcademy.DataContext());
+        List<Vehicles> vehicles = trepository.GetAllVehiclesByAcademyID(acaID);
+        
+        int RC = 0;
+        foreach (Vehicles v in vehicles)
+        {
+            
+        }
+
+        return string.Empty;
+
+    }
+
+
+
 }
