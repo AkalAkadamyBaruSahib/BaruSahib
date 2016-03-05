@@ -4,6 +4,7 @@
     <script src="JavaScripts/Transport.js"></script>
 
     <div id="content" class="span10">
+       
         <div class="box-header well">
             <h2><i class="icon-user"></i>Download Transport Reports</h2>
             <div class="box-icon">
@@ -19,6 +20,7 @@
                     <asp:DropDownList ID="ddlReport" runat="server" onchange="test(this);">
                         <asp:ListItem Text="Daily Document Uploaded Report" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Pending Documents" Value="2"></asp:ListItem>
+                        <asp:ListItem Text="Summary Report" Value="3"></asp:ListItem>
                     </asp:DropDownList><br />
                 </div>
                 <div class="box-content" id="divPendingDocumentReport" style="display: none">
@@ -33,7 +35,14 @@
                     Date To:
                                    <asp:TextBox runat="server" ID="txtlastDate" CssClass="input-xlarge datepicker" Width="85px"></asp:TextBox>
                 </div>
+                <div class="box-content" id="divSummaryReport" style="display: none">
+                    Select Zone to Summary Report:
+                    <asp:DropDownList ID="ddlALLZone" runat="server">
+                    </asp:DropDownList><br />
+                    
+                </div>
             </div>
+
         </div>
         <asp:Button ID="Button1" runat="server" Text="Click To Download Execl" OnClientClick="test();" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
     </div>

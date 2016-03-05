@@ -18,9 +18,10 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             BindZones();
+            BindAllZones();
         }
         
-    }
+   }
 
     protected void btnDownload_Click(object sender, EventArgs e)
     {
@@ -51,9 +52,9 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
     }
 
 
-    public static void GetTransportSummaryReport()
+    public  DataTable GetTransportSummaryReport()
     {
-        DataTable dtVehicleSummary = new DataTable();
+       DataTable dtVehicleSummary = new DataTable();
         dtVehicleSummary.Columns.Add("AcademyName");
         dtVehicleSummary.Columns.Add("TotalNumberOfVehicles");
         dtVehicleSummary.Columns.Add("RC");
@@ -69,11 +70,10 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         dtVehicleSummary.Columns.Add("TransportManager");
         dtVehicleSummary.Columns.Add("VehicleDetails");
 
-        DataRow dr;
-
+        DataRow dr; 
+        int zoneid = Convert.ToInt32(ddlALLZone.SelectedValue);
         UsersRepository repository = new UsersRepository(new AkalAcademy.DataContext());
-
-        List<Academy> academies = repository.GetAcademyByZoneID(1, 2);
+        List<Academy> academies = repository.GetAcademyByZoneID(zoneid,2);
         DataTable dtTotalNumberOfVehicles;
         foreach (Academy aca in academies)
         {
@@ -152,7 +152,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             }
             dtVehicleSummary.Rows.Add(dr);
 
-        }
+        } return dtVehicleSummary;
     }
 
     protected DataTable GetPendingDocumentReport()
@@ -372,8 +372,11 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         {
             dt = GetPendingDocumentReport();
         }
-        
-        
+        else 
+        {
+          dt = GetTransportSummaryReport();
+        }
+       
         return dt;
     }
 
@@ -399,4 +402,15 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         ddlZone.DataBind();
 
     }
+
+    private void BindAllZones()
+    {
+        DataSet allzone = new DataSet();
+        allzone = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.Zone");
+        ddlALLZone.DataSource = allzone;
+        ddlALLZone.DataValueField = "ZoneID";
+        ddlALLZone.DataTextField = "ZoneName";
+        ddlALLZone.DataBind();
+        ddlALLZone.Items.Insert(0, new ListItem("--Select--", "0"));
+   }
 }
