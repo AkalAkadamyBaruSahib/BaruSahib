@@ -21,6 +21,17 @@ public class TypeEnum
         Reference = 2
     }
 
+    public enum TransportDocumentType : int
+    {
+        Registration = 1,
+        Pollution = 2,
+        Permit = 3,
+        Tax = 4,
+        Passing = 5,
+        Insurance = 6,
+        WrittenContract = 7
+    }
+
     public enum UserType : int
     {
         ADMIN = 1,

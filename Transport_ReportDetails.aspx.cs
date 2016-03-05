@@ -21,6 +21,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         }
         
     }
+
     protected void btnDownload_Click(object sender, EventArgs e)
     {
         Response.ClearContent();
@@ -47,6 +48,111 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         }
         Response.End();
        
+    }
+
+
+    public static void GetTransportSummaryReport()
+    {
+        DataTable dtVehicleSummary = new DataTable();
+        dtVehicleSummary.Columns.Add("AcademyName");
+        dtVehicleSummary.Columns.Add("TotalNumberOfVehicles");
+        dtVehicleSummary.Columns.Add("RC");
+        dtVehicleSummary.Columns.Add("Insurance");
+        dtVehicleSummary.Columns.Add("Permit");
+        dtVehicleSummary.Columns.Add("Tax");
+        dtVehicleSummary.Columns.Add("Passing");
+        dtVehicleSummary.Columns.Add("DLType");
+        dtVehicleSummary.Columns.Add("DLExpired");
+        dtVehicleSummary.Columns.Add("Pollution");
+        dtVehicleSummary.Columns.Add("Total");
+        dtVehicleSummary.Columns.Add("Norms");
+        dtVehicleSummary.Columns.Add("TransportManager");
+        dtVehicleSummary.Columns.Add("VehicleDetails");
+
+        DataRow dr;
+
+        UsersRepository repository = new UsersRepository(new AkalAcademy.DataContext());
+
+        List<Academy> academies = repository.GetAcademyByZoneID(1, 2);
+        DataTable dtTotalNumberOfVehicles;
+        foreach (Academy aca in academies)
+        {
+            dr = dtVehicleSummary.NewRow();
+            dr["AcademyName"] = aca.AcaName;
+            dtTotalNumberOfVehicles = DAL.DalAccessUtility.GetDataInDataSet("select count(id) as count from Vehicles where AcademyID = " + aca.AcaID).Tables[0];
+            if (dtTotalNumberOfVehicles.Rows.Count > 0)
+            {
+                dr["TotalNumberOfVehicles"] = dtTotalNumberOfVehicles.Rows[0]["count"].ToString();
+            }
+
+            TransportUserRepository trepository = new TransportUserRepository(new AkalAcademy.DataContext());
+            List<Vehicles> vehicles = trepository.GetAllVehiclesByAcademyID(aca.AcaID);
+
+            DataTable dtTransportManagerName = new DataTable();
+
+            DataTable getDocuments = new DataTable();
+            int RC = 0;
+            int Insurance = 0;
+            int Permit = 0;
+            int Passing = 0;
+            int Pollution = 0;
+            int Tax = 0;
+            foreach (Vehicles v in vehicles)
+            {
+                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.VechilesDocumentRelation WHERE VehicleID=" + v.ID).Tables[0];
+
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration)).Count() == 0)
+                {
+                    RC += 1;
+                }
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Insurance)).Count() == 0)
+                {
+                    Insurance += 1;
+                }
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing)).Count() == 0)
+                {
+                    Passing += 1;
+                }
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit)).Count() == 0)
+                {
+                    Permit += 1;
+                }
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Pollution)).Count() == 0)
+                {
+                    Pollution += 1;
+                }
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax)).Count() == 0)
+                {
+                    Tax += 1;
+                }
+
+            }
+
+
+            dr["RC"] = RC;
+            dr["Insurance"] = Insurance;
+            dr["Permit"] = Permit;
+            dr["Tax"] = Tax;
+            dr["Passing"] = Passing;
+            dr["Pollution"] = Pollution;
+            dr["Total"] = (RC + Insurance + Permit + Tax + Passing + Pollution);
+
+            dtTransportManagerName = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct INC.* FROM Vehicles V " +
+            "INNER JOIN dbo.AcademyAssignToEmployee A ON A.AcaID=V.AcademyID " +
+            "INNER JOIN Incharge INC ON INC.InchargeID=A.EMPID " +
+            "INNER JOIN Academy Ac ON Ac.AcaId=A.AcaID WHERE INC.ModuleID=2  AND INC.UserTypeId=14 AND A.AcaID=" + aca.AcaID).Tables[0];
+
+            if (dtTransportManagerName.Rows.Count > 0)
+            {
+                dr["TransportManager"] = String.Join(",", dtTransportManagerName.AsEnumerable().Select(x => x.Field<string>("InName").ToString()).ToArray());
+            }
+            else
+            {
+                dr["TransportManager"] = "No Transport Assign";
+            }
+            dtVehicleSummary.Rows.Add(dr);
+
+        }
     }
 
     protected DataTable GetPendingDocumentReport()
@@ -266,6 +372,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         {
             dt = GetPendingDocumentReport();
         }
+        
         
         return dt;
     }
