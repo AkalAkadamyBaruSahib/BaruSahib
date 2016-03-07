@@ -27,7 +27,18 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
     {
         Response.ClearContent();
         Response.Buffer = true;
-        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "UploadedData.xls"));
+        if (ddlReport.SelectedValue == "1")
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DailyDocumentReport.xls"));
+        }
+        else if (ddlReport.SelectedValue == "2")
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PendingDocumentsReport.xls"));
+        }
+        else
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "SummaryReport.xls"));
+        }
         Response.ContentType = "application/ms-excel";
         DataTable dt = BindDatatable();
         string str = string.Empty;
@@ -56,25 +67,26 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
     {
        DataTable dtVehicleSummary = new DataTable();
         dtVehicleSummary.Columns.Add("AcademyName");
-        dtVehicleSummary.Columns.Add("TotalNumberOfVehicles");
-        dtVehicleSummary.Columns.Add("RC");
-        dtVehicleSummary.Columns.Add("Insurance");
-        dtVehicleSummary.Columns.Add("Permit");
-        dtVehicleSummary.Columns.Add("Tax");
-        dtVehicleSummary.Columns.Add("Passing");
-        dtVehicleSummary.Columns.Add("DLType");
-        dtVehicleSummary.Columns.Add("DLExpired");
-        dtVehicleSummary.Columns.Add("Pollution");
-        dtVehicleSummary.Columns.Add("Total");
-        dtVehicleSummary.Columns.Add("Norms");
-        dtVehicleSummary.Columns.Add("TransportManager");
-        dtVehicleSummary.Columns.Add("VehicleDetails");
+        dtVehicleSummary.Columns.Add("TotalNumberOfVehicles", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("RC", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("Insurance", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("Permit", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("Tax", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("Passing", typeof(System.Int32));
+        //dtVehicleSummary.Columns.Add("DLType");
+        //dtVehicleSummary.Columns.Add("DLExpired");
+        dtVehicleSummary.Columns.Add("Pollution", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("Total", typeof(System.Int32));
+        //dtVehicleSummary.Columns.Add("Norms");
+        dtVehicleSummary.Columns.Add("TransportManager", typeof(System.String));
+        //dtVehicleSummary.Columns.Add("VehicleDetails");
 
         DataRow dr; 
         int zoneid = Convert.ToInt32(ddlALLZone.SelectedValue);
         UsersRepository repository = new UsersRepository(new AkalAcademy.DataContext());
         List<Academy> academies = repository.GetAcademyByZoneID(zoneid,2);
         DataTable dtTotalNumberOfVehicles;
+        int sumOfVehicles=0;
         foreach (Academy aca in academies)
         {
             dr = dtVehicleSummary.NewRow();
@@ -83,6 +95,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             if (dtTotalNumberOfVehicles.Rows.Count > 0)
             {
                 dr["TotalNumberOfVehicles"] = dtTotalNumberOfVehicles.Rows[0]["count"].ToString();
+                sumOfVehicles+= Convert.ToInt32(dtTotalNumberOfVehicles.Rows[0]["count"].ToString());
             }
 
             TransportUserRepository trepository = new TransportUserRepository(new AkalAcademy.DataContext());
@@ -152,7 +165,22 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             }
             dtVehicleSummary.Rows.Add(dr);
 
-        } return dtVehicleSummary;
+        }
+        dr = dtVehicleSummary.NewRow();
+        dr["AcademyName"] = "Total No. Of Vehicles";
+        dr["TotalNumberOfVehicles"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(TotalNumberOfVehicles)", string.Empty));
+        dr["RC"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(TotalNumberOfVehicles)", string.Empty));
+        dr["Insurance"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(RC)", string.Empty));
+        dr["Permit"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Insurance)", string.Empty));
+        dr["Tax"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Tax)", string.Empty));
+        dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
+        dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
+        dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
+        dtVehicleSummary.Rows.Add(dr);
+
+        
+        
+        return dtVehicleSummary;
     }
 
     protected DataTable GetPendingDocumentReport()
