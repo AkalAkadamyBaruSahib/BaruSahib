@@ -64,7 +64,7 @@
                                         <asp:Panel ID="pnlSingleSelect" runat="server" Visible="false">
                                             Assign work location
                                             <br />
-                                            <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
+                                            <asp:DropDownList ID="ddlZone" runat="server"></asp:DropDownList>
                                             <%--<asp:DropDownList ID="ddlAcademy" runat="server" ></asp:DropDownList>--%>
                                         </asp:Panel>
                                         <br />

@@ -9,7 +9,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 {
     public int ModuleID = -1;
     protected void Page_Load(object sender, EventArgs e)
-     {
+    {
         if (Session["ModuleID"] != null)
         {
             ModuleID = int.Parse(Session["ModuleID"].ToString());
@@ -36,7 +36,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
                 divAllot.Visible = false;
                 divLocation.Visible = true;
                 divLocationAssignFromAdminHome.Visible = false;
-                GetAllotmentDtails(Request.QueryString["ZoneId"].ToString());
+              //  GetAllotmentDtails(Request.QueryString["ZoneId"].ToString());
 
             }
             if (Request.QueryString["ZoneIdLoc"] != null)
@@ -44,50 +44,13 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
                 divAllot.Visible = false;
                 divLocation.Visible = false;
                 divLocationAssignFromAdminHome.Visible = true;
-                GetDetailFromAdminHomePage(Request.QueryString["ZoneIdLoc"].ToString());
-                BindAcademyFromHome(Request.QueryString["ZoneIdLoc"].ToString());
+               // GetDetailFromAdminHomePage(Request.QueryString["ZoneIdLoc"].ToString());
+              //  BindAcademyFromHome(Request.QueryString["ZoneIdLoc"].ToString());
             }
         }
     }
 
-    protected void BindAcademyFromHome(string id)
-    {
-        DataSet dsAca = new DataSet();
-        dsAca = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId = '" + id + "'");
-        grdAcaFromHome.DataSource = dsAca;
-        grdAcaFromHome.DataBind();
-    }
-
-    protected void GetDetailFromAdminHomePage(string id)
-    {
-        DataSet dsZOneName = DAL.DalAccessUtility.GetDataInDataSet("select ZoneName from Zone where ZoneId='" + id + "'");
-        lblZoneName.Text = dsZOneName.Tables[0].Rows[0]["ZoneName"].ToString();
-        tdAcaDemy.Visible = false;
-        tdEmpl.Visible = false;
-    }
-
-    protected void GetAllotmentDtails(string id)
-    {
-        DataSet dsAllotLoDetails = new DataSet();
-        dsAllotLoDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EmpAssignToLocationDetailByZoneId '" + id + "', '" + Session["UserTypeId"].ToString() + "','" + Session["EmpId"].ToString() + "'");
-        lblEmp.Text = dsAllotLoDetails.Tables[0].Rows[0]["InName"].ToString();
-        lblCrtLocation.Text = dsAllotLoDetails.Tables[0].Rows[0]["ZoneName"].ToString();
-        lblDept.Text = dsAllotLoDetails.Tables[0].Rows[0]["department"].ToString();
-        lblDegis.Text = dsAllotLoDetails.Tables[0].Rows[0]["Designation"].ToString();
-        //Session["EmpId"] = dsAllotLoDetails.Tables[0].Rows[0]["InchargeId"].ToString();
-        //Bind Zone
-
-        DataSet dsZone = new DataSet();
-        dsZone = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,ZoneName from Zone where Active=1 and ZoneId<> '" + id + "'");
-        ddlLocatio.DataSource = dsZone;
-        ddlLocatio.DataValueField = "ZoneId";
-        ddlLocatio.DataTextField = "ZoneName";
-        ddlLocatio.DataBind();
-        ddlLocatio.Items.Insert(0, "Select Zone");
-        ddlLocatio.SelectedIndex = 0;
-    }
-
-    protected void BindZoneGrid()
+     protected void BindZoneGrid()
     {
         DataSet dsZone = new DataSet();
         dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Z.ZoneID,Z.ZoneName FROM [TransportZoneAcademyRelation] TR Inner Join Zone Z  on Z.ZoneID=TR.ZoneID order by ZoneName ASC");
@@ -173,24 +136,6 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         ddlZone.SelectedIndex = 0;
     }
 
-    protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        //DataSet dsZo = DAL.DalAccessUtility.GetDataInDataSet("select distinct EmpId from AcademyAssignToEmployee where ZoneId='" + ddlZone.SelectedValue + "' and Active=1");
-        //if (dsZo.Tables[0].Rows.Count > 0)
-        //{
-        //    DataSet dsDepId = DAL.DalAccessUtility.GetDataInDataSet("select DepId,UserTypeId from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
-        //    if (dsDepId.Tables[0].Rows[0]["DepId"].ToString() == ddlDept.SelectedValue)
-        //    {
-        //        if (dsDepId.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
-        //        {
-        //            DataSet dsEmpName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
-        //            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + dsEmpName.Tables[0].Rows[0]["InName"].ToString() + " already assigned to " + ddlZone.SelectedItem.Text + ", Please Assign another Zone.');", true);
-        //        }
-        //    }
-        //}
-
-    }
-
     protected void ddlEmpl_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlZone.ClearSelection();
@@ -210,7 +155,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         }
 
         else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC).ToString() || userTypeID == ((int)TypeEnum.UserType.AUDIT).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE).ToString() || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTTRAINEE).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICETRAINEE).ToString())
-        { 
+        {
             BindZoneGridOnSelectedEmp();
             BindBtnAcademyClickGrid();
             pnlZone.Visible = true;
@@ -267,13 +212,13 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             else
             {
                 SaveSelectedAcademyInZones();
-            } 
+            }
         }
     }
 
     private void SaveSelectedAcademyInZones()
     {
-        
+
         foreach (GridViewRow row in GridAcademy.Rows)
         {
             if (row.RowType == DataControlRowType.DataRow)
@@ -370,55 +315,49 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         BindBtnAcademyClickGrid();
     }
 
-    protected void btnAddAca_Click(object sender, EventArgs e)
-    {
-
-
-    }
-
     protected void btnChnageLoc_Click(object sender, EventArgs e)
     {
-        if (ddlLocatio.SelectedIndex == 0)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Select New Zone to Change Location.');", true);
-        }
-        else
-        {
-            DataSet dsExist = new DataSet();
-            dsExist = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExistingAssginLocation '" + ddlLocatio.SelectedValue + "'");
-            if (dsExist.Tables[0].Rows.Count > 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Already Assigned location to " + dsExist.Tables[0].Rows[0]["InName"].ToString() + ".');", true);
-            }
-            else
-            {
-                DataSet dsval = new DataSet();
-                dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InchargeId='" + Session["EmpId"].ToString() + "'");
-                if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
-                {
-                    DataSet dsA = new DataSet();
-                    dsA = DAL.DalAccessUtility.GetDataInDataSet("select AcaId from Academy where ZoneId='" + ddlLocatio.SelectedValue + "'");
-                    DAL.DalAccessUtility.ExecuteNonQuery("update AcademyAssignToEmployee set Active=0, ChangeLocationStatus=0 where EmpId='" + Session["EmpId"].ToString() + "' ");
-                    //string Ai = string.Empty;
-                    foreach (DataRow drAi in dsA.Tables[0].Rows)
-                    {
-                        string Ai = string.Empty;
-                        Ai = Ai + "," + drAi["AcaId"].ToString();
-                        string[] Ai0 = Ai.Split(',');
-                        foreach (string Ai1 in Ai.Split(','))
-                        {
-                            //DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee (AcaId,EmpId,Active,CreatedBy,CreatedOn,ZoneId,ChangeLocationStatus,ChangeLocationOn,LastLocation) values ('" + ddlZone.SelectedValue + "','" + Ai1 + "','" + ddlEmpl.SelectedValue + "','1','" + lblUser.Text + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "') ");
-                            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_ChangeLocation '" + ddlLocatio.SelectedValue + "','" + Ai1 + "','" + Session["EmpId"].ToString() + "','" + lblUser.Text + "'");
-                            DAL.DalAccessUtility.ExecuteNonQuery("delete AcademyAssignToEmployee where AcaId=0");
-                        }
-                    }
-                    DataSet dsLoginId = DAL.DalAccessUtility.GetDataInDataSet("select LoginId from Incharge where InchargeId='" + Session["EmpId"].ToString() + "'");
-                    DAL.DalAccessUtility.ExecuteNonQuery("insert into StockRegister(CreatedBy) values('" + dsLoginId.Tables[0].Rows[0]["LoginId"].ToString() + "')");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Location chnage Successfully.');", true);
-                    BindInchargeDetails();
-                }
-            }
-        }
+        //if (ddlLocatio.SelectedIndex == 0)
+        //{
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Select New Zone to Change Location.');", true);
+        //}
+        //else
+        //{
+        //    DataSet dsExist = new DataSet();
+        //    dsExist = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExistingAssginLocation '" + ddlLocatio.SelectedValue + "'");
+        //    if (dsExist.Tables[0].Rows.Count > 0)
+        //    {
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Already Assigned location to " + dsExist.Tables[0].Rows[0]["InName"].ToString() + ".');", true);
+        //    }
+        //    else
+        //    {
+        //        DataSet dsval = new DataSet();
+        //        dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InchargeId='" + Session["EmpId"].ToString() + "'");
+        //        if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
+        //        {
+        //            DataSet dsA = new DataSet();
+        //            dsA = DAL.DalAccessUtility.GetDataInDataSet("select AcaId from Academy where ZoneId='" + ddlLocatio.SelectedValue + "'");
+        //            DAL.DalAccessUtility.ExecuteNonQuery("update AcademyAssignToEmployee set Active=0, ChangeLocationStatus=0 where EmpId='" + Session["EmpId"].ToString() + "' ");
+        //            //string Ai = string.Empty;
+        //            foreach (DataRow drAi in dsA.Tables[0].Rows)
+        //            {
+        //                string Ai = string.Empty;
+        //                Ai = Ai + "," + drAi["AcaId"].ToString();
+        //                string[] Ai0 = Ai.Split(',');
+        //                foreach (string Ai1 in Ai.Split(','))
+        //                {
+        //                    //DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee (AcaId,EmpId,Active,CreatedBy,CreatedOn,ZoneId,ChangeLocationStatus,ChangeLocationOn,LastLocation) values ('" + ddlZone.SelectedValue + "','" + Ai1 + "','" + ddlEmpl.SelectedValue + "','1','" + lblUser.Text + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "') ");
+        //                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_ChangeLocation '" + ddlLocatio.SelectedValue + "','" + Ai1 + "','" + Session["EmpId"].ToString() + "','" + lblUser.Text + "'");
+        //                    DAL.DalAccessUtility.ExecuteNonQuery("delete AcademyAssignToEmployee where AcaId=0");
+        //                }
+        //            }
+        //            DataSet dsLoginId = DAL.DalAccessUtility.GetDataInDataSet("select LoginId from Incharge where InchargeId='" + Session["EmpId"].ToString() + "'");
+        //            DAL.DalAccessUtility.ExecuteNonQuery("insert into StockRegister(CreatedBy) values('" + dsLoginId.Tables[0].Rows[0]["LoginId"].ToString() + "')");
+        //            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Location chnage Successfully.');", true);
+        //            BindInchargeDetails();
+        //        }
+        //    }
+        //}
     }
 
     protected void ddlSerchEmp_SelectedIndexChanged(object sender, EventArgs e)
@@ -539,7 +478,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         GridViewRow Grow = (GridViewRow)chkbox.NamingContainer;
         DataSet dsExist = null;
         HiddenField hdnAcaId = Grow.FindControl("hdnAcaId") as HiddenField;
-       // string aid = Grow.Cells[1].Text;
+        // string aid = Grow.Cells[1].Text;
         if (Session["UserTypeID"].ToString() == "1")
         {
             dsExist = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Incharge.InName FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where Incharge.InchargeID=" + ddlEmpl.SelectedValue + " and AcaId='" + hdnAcaId.Value + "'");
@@ -553,7 +492,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
                     chkbox.Enabled = false;
                     chkbox.Checked = false;
                 }
-               
+
             }
         }
 
@@ -587,107 +526,107 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 
     protected void ddlUserTpe4Assign_SelectedIndexChanged(object sender, EventArgs e)
     {
-        DataSet dsDept = new DataSet();
-        dsDept = DAL.DalAccessUtility.GetDataInDataSet("select InchargeId,InName from Incharge where UserTypeId='" + ddlUserTpe4Assign.SelectedValue + "' order by InName ASC");
-        ddlEmp4Assign.DataSource = dsDept;
-        ddlEmp4Assign.DataValueField = "InchargeId";
-        ddlEmp4Assign.DataTextField = "InName";
-        ddlEmp4Assign.DataBind();
-        ddlEmp4Assign.Items.Insert(0, "Select Incharge");
-        ddlEmp4Assign.SelectedIndex = 0;
-        tdAcaDemy.Visible = true;
-        tdEmpl.Visible = true;
+        //DataSet dsDept = new DataSet();
+        //dsDept = DAL.DalAccessUtility.GetDataInDataSet("select InchargeId,InName from Incharge where UserTypeId='" + ddlUserTpe4Assign.SelectedValue + "' order by InName ASC");
+        //ddlEmp4Assign.DataSource = dsDept;
+        //ddlEmp4Assign.DataValueField = "InchargeId";
+        //ddlEmp4Assign.DataTextField = "InName";
+        //ddlEmp4Assign.DataBind();
+        //ddlEmp4Assign.Items.Insert(0, "Select Incharge");
+        //ddlEmp4Assign.SelectedIndex = 0;
+        //tdAcaDemy.Visible = true;
+        //tdEmpl.Visible = true;
     }
 
     protected void ddlEmp4Assign_SelectedIndexChanged(object sender, EventArgs e)
     {
-        DataSet dsLo = DAL.DalAccessUtility.GetDataInDataSet("select distinct ZoneId from AcademyAssignToEmployee where EmpId='" + ddlEmp4Assign.SelectedValue + "' and Active=1");
-        if (dsLo.Tables[0].Rows.Count > 0)
-        {
-            DataSet dsZoneName = DAL.DalAccessUtility.GetDataInDataSet("SELECT DISTINCT STUFF(( select DISTINCT ' , ' +Zone.ZoneName FROM AcademyAssignToEmployee INNER JOIN Zone ON AcademyAssignToEmployee.ZoneId = Zone.ZoneId where AcademyAssignToEmployee.Active=1 and EmpId='" + ddlEmp4Assign.SelectedValue + "' for xml path('')),1,1,'') as Result from AcademyAssignToEmployee");
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + ddlEmp4Assign.SelectedItem.Text + " is a incharge of " + dsZoneName.Tables[0].Rows[0]["Result"].ToString() + ".');", true);
-        }
-        pnlSelectAcademy.Visible = false;
+        //DataSet dsLo = DAL.DalAccessUtility.GetDataInDataSet("select distinct ZoneId from AcademyAssignToEmployee where EmpId='" + ddlEmp4Assign.SelectedValue + "' and Active=1");
+        //if (dsLo.Tables[0].Rows.Count > 0)
+        //{
+        //    DataSet dsZoneName = DAL.DalAccessUtility.GetDataInDataSet("SELECT DISTINCT STUFF(( select DISTINCT ' , ' +Zone.ZoneName FROM AcademyAssignToEmployee INNER JOIN Zone ON AcademyAssignToEmployee.ZoneId = Zone.ZoneId where AcademyAssignToEmployee.Active=1 and EmpId='" + ddlEmp4Assign.SelectedValue + "' for xml path('')),1,1,'') as Result from AcademyAssignToEmployee");
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + ddlEmp4Assign.SelectedItem.Text + " is a incharge of " + dsZoneName.Tables[0].Rows[0]["Result"].ToString() + ".');", true);
+        //}
+        //pnlSelectAcademy.Visible = false;
     }
 
     protected void btnAssignFrmHomePage_Click(object sender, EventArgs e)
     {
-        System.Threading.Thread.Sleep(1000);
-        string zid = Request.QueryString["ZoneIdLoc"].ToString();
-        DataSet dsExist = new DataSet();
-        dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct * from AcademyAssignToEmployee where EmpId='" + ddlEmp4Assign.SelectedValue + "' and ZoneId='" + zid + "'");
-        if (dsExist.Tables[0].Rows.Count > 0)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Already Assigned location to this Incharge.');", true);
-        }
-        else
-        {
-            DataSet dsval = new DataSet();
-            dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InName='" + ddlEmp4Assign.SelectedItem.Text + "'");
-            if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
-            {
+        //System.Threading.Thread.Sleep(1000);
+        //string zid = Request.QueryString["ZoneIdLoc"].ToString();
+        //DataSet dsExist = new DataSet();
+        //dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct * from AcademyAssignToEmployee where EmpId='" + ddlEmp4Assign.SelectedValue + "' and ZoneId='" + zid + "'");
+        //if (dsExist.Tables[0].Rows.Count > 0)
+        //{
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Already Assigned location to this Incharge.');", true);
+        //}
+        //else
+        //{
+        //    DataSet dsval = new DataSet();
+        //    dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InName='" + ddlEmp4Assign.SelectedItem.Text + "'");
+        //    if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
+        //    {
 
-               
-                DataSet dsA = new DataSet();
-                dsA = DAL.DalAccessUtility.GetDataInDataSet("select AcaId from Academy where ZoneId='" + zid + "'");
-                //string Ai = string.Empty;
-                foreach (DataRow drAi in dsA.Tables[0].Rows)
-                {
-                    string Ai = string.Empty;
-                    Ai = Ai + "," + drAi["AcaId"].ToString();
-                    string[] Ai0 = Ai.Split(',');
-                    foreach (string Ai1 in Ai.Split(','))
-                    {
-                        DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee(ZoneId,AcaId,EmpId,Active,CreatedBy,CreatedOn) values ('" + zid + "','" + Ai1 + "','" + ddlEmp4Assign.SelectedValue + "','1','" + lblUser.Text + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "') ");
-                        DAL.DalAccessUtility.ExecuteNonQuery("delete AcademyAssignToEmployee where AcaId=0");
-                    }
-                }
-                DataSet dsLoginId = DAL.DalAccessUtility.GetDataInDataSet("select LoginId from Incharge where InName='" + ddlEmp4Assign.SelectedItem.Text + "'");
-                DAL.DalAccessUtility.ExecuteNonQuery("insert into StockRegister(CreatedBy) values('" + dsLoginId.Tables[0].Rows[0]["LoginId"].ToString() + "')");
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Location assign Successfully.');", true);
-                BindInchargeDetails();
-            }
-            else
-            {
 
-                //string data = "";
-                //DataTable dt = new DataTable();
-                //DataRow dr = null;
-                //dt.Columns.Add(new DataColumn("AcaId", typeof(string)));
-                //dt.Columns.Add(new DataColumn("AcaName", typeof(string)));
-                //foreach (GridViewRow row in grdAcaFromHome.Rows)
-                //{
-                //    if (row.RowType == DataControlRowType.DataRow)
-                //    {
-                //        CheckBox chkRow = (row.Cells[0].FindControl("chkCtrlHome") as CheckBox);
-                //        if (chkRow.Checked)
-                //        {
-                //            dr = dt.NewRow();
-                //            dr["AcaId"] = row.Cells[1].Text;
-                //            dr["AcaName"] = row.Cells[2].Text;
-                //            dt.Rows.Add(dr);
-                //            data = data + dr["AcaId"] + ",";
-                //        }
-                //    }
+        //        DataSet dsA = new DataSet();
+        //        dsA = DAL.DalAccessUtility.GetDataInDataSet("select AcaId from Academy where ZoneId='" + zid + "'");
+        //        //string Ai = string.Empty;
+        //        foreach (DataRow drAi in dsA.Tables[0].Rows)
+        //        {
+        //            string Ai = string.Empty;
+        //            Ai = Ai + "," + drAi["AcaId"].ToString();
+        //            string[] Ai0 = Ai.Split(',');
+        //            foreach (string Ai1 in Ai.Split(','))
+        //            {
+        //                DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee(ZoneId,AcaId,EmpId,Active,CreatedBy,CreatedOn) values ('" + zid + "','" + Ai1 + "','" + ddlEmp4Assign.SelectedValue + "','1','" + lblUser.Text + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "') ");
+        //                DAL.DalAccessUtility.ExecuteNonQuery("delete AcademyAssignToEmployee where AcaId=0");
+        //            }
+        //        }
+        //        DataSet dsLoginId = DAL.DalAccessUtility.GetDataInDataSet("select LoginId from Incharge where InName='" + ddlEmp4Assign.SelectedItem.Text + "'");
+        //        DAL.DalAccessUtility.ExecuteNonQuery("insert into StockRegister(CreatedBy) values('" + dsLoginId.Tables[0].Rows[0]["LoginId"].ToString() + "')");
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Location assign Successfully.');", true);
+        //        BindInchargeDetails();
+        //    }
+        //    else
+        //    {
 
-                //}
-                //dt.AcceptChanges();
-                //string Aid = data;
-                //string output = Aid.Remove(Aid.Length - 1, 1);
-                //string[] values = output.Split(',');
-                //foreach (string da in output.Split(','))
-                //{
+        //        //string data = "";
+        //        //DataTable dt = new DataTable();
+        //        //DataRow dr = null;
+        //        //dt.Columns.Add(new DataColumn("AcaId", typeof(string)));
+        //        //dt.Columns.Add(new DataColumn("AcaName", typeof(string)));
+        //        //foreach (GridViewRow row in grdAcaFromHome.Rows)
+        //        //{
+        //        //    if (row.RowType == DataControlRowType.DataRow)
+        //        //    {
+        //        //        CheckBox chkRow = (row.Cells[0].FindControl("chkCtrlHome") as CheckBox);
+        //        //        if (chkRow.Checked)
+        //        //        {
+        //        //            dr = dt.NewRow();
+        //        //            dr["AcaId"] = row.Cells[1].Text;
+        //        //            dr["AcaName"] = row.Cells[2].Text;
+        //        //            dt.Rows.Add(dr);
+        //        //            data = data + dr["AcaId"] + ",";
+        //        //        }
+        //        //    }
 
-                //    DataSet dsZoneId = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId from Academy where AcaId='" + da + "'");
-                //    DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee(ZoneId,AcaId,EmpId,Active,CreatedBy,CreatedOn) values ('" + zid + "','" + da + "','" + ddlEmp4Assign.SelectedValue + "','1','" + lblUser.Text + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "') ");
-                //}
-                ////DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee(ZoneId,AcaId,EmpId,Active,CreatedBy,CreatedOn) values ('" + ddlZone.SelectedValue + "','','" + ddlEmpl.SelectedValue + "','1','"+ lblUser.Text +"','"+ System.DateTime.Now.ToString("yyyy-MM-dd")   +"') ");
-                //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Location assign Successfully.');", true);
-                //BindInchargeDetails();
+        //        //}
+        //        //dt.AcceptChanges();
+        //        //string Aid = data;
+        //        //string output = Aid.Remove(Aid.Length - 1, 1);
+        //        //string[] values = output.Split(',');
+        //        //foreach (string da in output.Split(','))
+        //        //{
 
-                //}
-            }
-        }
+        //        //    DataSet dsZoneId = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId from Academy where AcaId='" + da + "'");
+        //        //    DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee(ZoneId,AcaId,EmpId,Active,CreatedBy,CreatedOn) values ('" + zid + "','" + da + "','" + ddlEmp4Assign.SelectedValue + "','1','" + lblUser.Text + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "') ");
+        //        //}
+        //        ////DAL.DalAccessUtility.ExecuteNonQuery("insert into AcademyAssignToEmployee(ZoneId,AcaId,EmpId,Active,CreatedBy,CreatedOn) values ('" + ddlZone.SelectedValue + "','','" + ddlEmpl.SelectedValue + "','1','"+ lblUser.Text +"','"+ System.DateTime.Now.ToString("yyyy-MM-dd")   +"') ");
+        //        //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Location assign Successfully.');", true);
+        //        //BindInchargeDetails();
+
+        //        //}
+        //    }
+        //}
     }
 
     private void AssignAllAcademy()
@@ -695,7 +634,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         int InchargeID = int.Parse(ddlEmpl.SelectedValue);
         AdminController adminController = new AdminController();
         adminController.AssignAllAcademiesToUser(InchargeID);
-        
+
     }
 
     private void BindBtnAcademyClickGrid()
@@ -821,4 +760,63 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             }
         }
     }
+
+    #region CommentedExtraCode
+    protected void BindAcademyFromHome(string id)
+    {
+        //DataSet dsAca = new DataSet();
+        //dsAca = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId = '" + id + "'");
+        //grdAcaFromHome.DataSource = dsAca;
+        //grdAcaFromHome.DataBind();
+    }
+    protected void GetDetailFromAdminHomePage(string id)
+    {
+        //DataSet dsZOneName = DAL.DalAccessUtility.GetDataInDataSet("select ZoneName from Zone where ZoneId='" + id + "'");
+        //lblZoneName.Text = dsZOneName.Tables[0].Rows[0]["ZoneName"].ToString();
+        //tdAcaDemy.Visible = false;
+        //tdEmpl.Visible = false;
+    }
+    protected void GetAllotmentDtails(string id)
+    {
+        //DataSet dsAllotLoDetails = new DataSet();
+        //dsAllotLoDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EmpAssignToLocationDetailByZoneId '" + id + "', '" + Session["UserTypeId"].ToString() + "','" + Session["EmpId"].ToString() + "'");
+        //lblEmp.Text = dsAllotLoDetails.Tables[0].Rows[0]["InName"].ToString();
+        //lblCrtLocation.Text = dsAllotLoDetails.Tables[0].Rows[0]["ZoneName"].ToString();
+        //lblDept.Text = dsAllotLoDetails.Tables[0].Rows[0]["department"].ToString();
+        //lblDegis.Text = dsAllotLoDetails.Tables[0].Rows[0]["Designation"].ToString();
+        ////Session["EmpId"] = dsAllotLoDetails.Tables[0].Rows[0]["InchargeId"].ToString();
+        ////Bind Zone
+
+        //DataSet dsZone = new DataSet();
+        //dsZone = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,ZoneName from Zone where Active=1 and ZoneId<> '" + id + "'");
+        //ddlLocatio.DataSource = dsZone;
+        //ddlLocatio.DataValueField = "ZoneId";
+        //ddlLocatio.DataTextField = "ZoneName";
+        //ddlLocatio.DataBind();
+        //ddlLocatio.Items.Insert(0, "Select Zone");
+        //ddlLocatio.SelectedIndex = 0;
+    }
+    protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        //DataSet dsZo = DAL.DalAccessUtility.GetDataInDataSet("select distinct EmpId from AcademyAssignToEmployee where ZoneId='" + ddlZone.SelectedValue + "' and Active=1");
+        //if (dsZo.Tables[0].Rows.Count > 0)
+        //{
+        //    DataSet dsDepId = DAL.DalAccessUtility.GetDataInDataSet("select DepId,UserTypeId from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
+        //    if (dsDepId.Tables[0].Rows[0]["DepId"].ToString() == ddlDept.SelectedValue)
+        //    {
+        //        if (dsDepId.Tables[0].Rows[0]["UserTypeId"].ToString() == "2")
+        //        {
+        //            DataSet dsEmpName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeId='" + dsZo.Tables[0].Rows[0]["EmpId"].ToString() + "'");
+        //            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + dsEmpName.Tables[0].Rows[0]["InName"].ToString() + " already assigned to " + ddlZone.SelectedItem.Text + ", Please Assign another Zone.');", true);
+        //        }
+        //    }
+        //}
+
+    }
+    protected void btnAddAca_Click(object sender, EventArgs e)
+    {
+
+
+    }
+    #endregion
 }
