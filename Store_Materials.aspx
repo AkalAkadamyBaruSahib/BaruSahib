@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StoreMaster.master" AutoEventWireup="true" CodeFile="Store_Materials.aspx.cs" Inherits="Store_Materials" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script src="JavaScripts/Store.js"></script>
     <script type="text/javascript">
         function ClientSideClick(myButton) {
             // Client side validation
@@ -27,8 +28,7 @@
             $("#divIsReceived").modal('show');
         }
 
-        function OpenDispatchMaterial(EMRId)
-        {
+        function OpenDispatchMaterial(EMRId) {
             $("input[id*='hdnIsReceived']").val(0);
             $("input[id*='hdnEMRId']").val(EMRId);
             $("input[id*='btnSave']").val('Dispatch');
@@ -43,6 +43,8 @@
 
     </script>
     <div id="content" class="span10">
+        <asp:HiddenField ID="hdnEstID" runat="server" />
+
         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -62,8 +64,8 @@
                                         <asp:Button ID="btnExecl" runat="server" Text="Dispatch Excel Download" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnExecl_Click" />
 
                                     </td>
-                                    <td>
-                                        Select Academy: <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged" ></asp:DropDownList>
+                                    <td>Select Academy:
+                                        <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList>
                                     </td>
                                 </tr>
                             </tbody>
@@ -76,14 +78,14 @@
         <div id="divEstimateDetails" runat="server"></div>
     </div>
 
-    <div id="divIsReceived" class="modal hide fade" style="display: none;width:500px">
+    <div id="divIsReceived" class="modal hide fade" style="display: none; width: 500px">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Stock Register</h3>
         </div>
         <div class="modal-body">
             <asp:HiddenField ID="hdnEMRId" runat="server" />
-                           <asp:HiddenField ID="hdnIsReceived" runat="server" />
+            <asp:HiddenField ID="hdnIsReceived" runat="server" />
             <table>
                 <tr>
                     <td>Enter Received Quantity:
@@ -99,42 +101,62 @@
         </div>
         <div class="modal-footer">
             <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" CssClass="btn btn-primary" />
-            <input id="Text1" value="Close" style="width:100px" class="btn btn-primary" data-dismiss="modal" />
+            <input id="Text1" value="Close" style="width: 100px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>
 
-    <div id="divUploadBill"  class="modal hide fade" style="display: none;width:500px">
+    <div id="divUploadBill" class="modal hide fade" style="display: none; width: 780px;">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Stock Register: Upload Bill</h3>
         </div>
         <div class="modal-body">
-            <table>
-                <tr>
-                    <td>Bill No:
-                        <asp:TextBox ID="txtBillNo" Width="100px" runat="server"></asp:TextBox>
-                    </td>
-                    <td>Bill Name:
-                        <asp:TextBox ID="txtBillName" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr id="tr1">
-                    <td>Upload Purchase Bill:
-                        <asp:FileUpload ID="fileUploadBill" runat="server"></asp:FileUpload>
-                    </td>
-                    <td>
-                        <asp:HiddenField ID="hdnEstID" runat="server" />
-                           <asp:HiddenField ID="HiddenField2" runat="server" />
-                    </td>
-                </tr>
+            <table id="tblUploadBill" style="width: 730px;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label class="control-label" for="typeahead">BillNo:</label>
+                            <div class="controls">
+                                <input id="txtBillNo1" type="text" style="width: 150px; height: 18px;" class="span6 typeahead" />
+                            </div>
+                        </td>
+                        <td>
+
+                            <label class="control-label" for="typeahead">Bill Name:</label>
+                            <div class="controls">
+                                <input id="txtBillName1" type="text" style="width: 150px; height: 18px;" class="span6 typeahead" />
+                            </div>
+                        </td>
+                        <td>
+
+                            <label class="control-label" for="typeahead">Upload Purchase Bill:</label>
+                            <div class="controls">
+                                <input id="uploadePurchaseFile1" type="file" style="width: 150px; height: 18px;" class="span6 typeahead" />
+                            </div>
+                        </td>
+                        <td>
+                            <label class="control-label" for="typeahead"></label>
+                            <div class="controls">
+                                <a href="javascript:void(0);" id="aReference" onclick="addNewBill();">
+                                    <input id="btnadd" class="btn btn-primary" value="+" style="width: 10px" /></a>
+                            </div>
+                        </td>
+                        <td>
+                            <label class="control-label" for="typeahead"></label>
+                            <div class="controls">
+                                <a href="javascript:void(0);" id="aDeleterow" onclick="removeRow();">
+                                    <input id="btnremove" class="btn btn-primary" value="-" style="width: 10px" /></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnUploadSave" runat="server" OnClick="btnUploadSave_Click" Text="Received" CssClass="btn btn-primary" />
-            <input id="btncloase" value="Close" style="width:100px" class="btn btn-primary" data-dismiss="modal" />
-            
+            <asp:Button ID="btnUploadSave" Text="Save" runat="server" CssClass="btn btn-primary" />
+            <input id="btncloase" value="Close" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>
-    
+
 </asp:Content>
 

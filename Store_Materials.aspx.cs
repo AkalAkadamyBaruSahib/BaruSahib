@@ -250,7 +250,7 @@ public partial class Store_Materials : System.Web.UI.Page
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         double receivedQty = 0;
-       
+
         int Sno = -1;
 
         ZoneInfo += "<div class='row-fluid sortable'>";
@@ -290,10 +290,10 @@ public partial class Store_Materials : System.Web.UI.Page
             ZoneInfo += "<th width='5%'><b>SNo.</b></th>";
             ZoneInfo += "<th width='200px'>Material Name</th>";
             ZoneInfo += "<th>Received Quantity</th>";
-            ZoneInfo += "<th>Balance Quantity</th>";
+            ZoneInfo += "<th>In Store Quantity</th>";
             ZoneInfo += "<th>Source Type</th>";
             ZoneInfo += "<th>Received On</th>";
-           // ZoneInfo += "<th>Dispatch On</th>";
+            // ZoneInfo += "<th>Dispatch On</th>";
             ZoneInfo += "<th>Dispatch Status</th>";
             //ZoneInfo += "<th width='0%'>Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>";
             ZoneInfo += "</tr>";
@@ -436,38 +436,8 @@ public partial class Store_Materials : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
         }
         getEstimateDetails(int.Parse(ddlAcademy.SelectedValue));
-
     }
-    protected void btnUploadSave_Click(object sender, EventArgs e)
-    {
-        string FileDwgEx = System.IO.Path.GetExtension(fileUploadBill.FileName);
-        String FDwgNam = System.IO.Path.GetFileNameWithoutExtension(fileUploadBill.FileName);
 
-        Int64 i = 0;
-        //<OnServerCode>
-
-        string dwgfilepath = "Bills/" + txtBillName.Text + FileDwgEx;
-
-        try
-        {
-            DataSet dtTable = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM StoreMaterialBill WHERE BillNo='" + txtBillNo.Text + "' AND EstID='" + hdnEstID.Value + "'");
-
-            if (dtTable != null && dtTable.Tables[0].Rows.Count == 0)
-            {
-                i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StoreMaterialBill (EstID,BillName,BillNo, BillPath) VALUES (" + hdnEstID.Value + ",'" + txtBillName.Text + "'," + txtBillNo.Text + ",'" + dwgfilepath + "')");
-
-                if (i > 0)
-                {
-                    fileUploadBill.SaveAs(Server.MapPath(dwgfilepath));
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill has Been has been uploaded.');", true);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + ex.Message + "');", true);
-        }
-    }
 
     private void BindAcademy()
     {
