@@ -63,9 +63,9 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
     }
 
 
-    public  DataTable GetTransportSummaryReport()
+    public DataTable GetTransportSummaryReport()
     {
-       DataTable dtVehicleSummary = new DataTable();
+        DataTable dtVehicleSummary = new DataTable();
         dtVehicleSummary.Columns.Add("AcademyName");
         dtVehicleSummary.Columns.Add("TotalNumberOfVehicles", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("RC", typeof(System.Int32));
@@ -74,28 +74,30 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         dtVehicleSummary.Columns.Add("Tax", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("Passing", typeof(System.Int32));
         //dtVehicleSummary.Columns.Add("DLType");
-        //dtVehicleSummary.Columns.Add("DLExpired");
+        dtVehicleSummary.Columns.Add("WrittenContract", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("Pollution", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("Total", typeof(System.Int32));
         //dtVehicleSummary.Columns.Add("Norms");
         dtVehicleSummary.Columns.Add("TransportManager", typeof(System.String));
         //dtVehicleSummary.Columns.Add("VehicleDetails");
 
-        DataRow dr; 
+        DataRow dr;
         int zoneid = Convert.ToInt32(ddlALLZone.SelectedValue);
         UsersRepository repository = new UsersRepository(new AkalAcademy.DataContext());
-        List<Academy> academies = repository.GetAcademyByZoneID(zoneid,2);
+        List<Academy> academies = repository.GetAcademyByZoneID(zoneid, 2);
         DataTable dtTotalNumberOfVehicles;
-        int sumOfVehicles=0;
+        int sumOfVehicles = 0;
+        string numbers = string.Empty;
         foreach (Academy aca in academies)
         {
+            numbers = string.Empty;
             dr = dtVehicleSummary.NewRow();
             dr["AcademyName"] = aca.AcaName;
             dtTotalNumberOfVehicles = DAL.DalAccessUtility.GetDataInDataSet("select count(id) as count from Vehicles where AcademyID = " + aca.AcaID).Tables[0];
             if (dtTotalNumberOfVehicles.Rows.Count > 0)
             {
                 dr["TotalNumberOfVehicles"] = dtTotalNumberOfVehicles.Rows[0]["count"].ToString();
-                sumOfVehicles+= Convert.ToInt32(dtTotalNumberOfVehicles.Rows[0]["count"].ToString());
+                sumOfVehicles += Convert.ToInt32(dtTotalNumberOfVehicles.Rows[0]["count"].ToString());
             }
 
             TransportUserRepository trepository = new TransportUserRepository(new AkalAcademy.DataContext());
@@ -110,9 +112,10 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             int Passing = 0;
             int Pollution = 0;
             int Tax = 0;
+            int WrittenContract = 0;
             foreach (Vehicles v in vehicles)
             {
-                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.VechilesDocumentRelation WHERE VehicleID=" + v.ID).Tables[0];
+                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
 
                 if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration)).Count() == 0)
                 {
@@ -138,6 +141,10 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     Tax += 1;
                 }
+                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract)).Count() == 0)
+                {
+                    WrittenContract += 1;
+                }
 
             }
 
@@ -148,7 +155,8 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["Tax"] = Tax;
             dr["Passing"] = Passing;
             dr["Pollution"] = Pollution;
-            dr["Total"] = (RC + Insurance + Permit + Tax + Passing + Pollution);
+            dr["WrittenContract"] = WrittenContract;
+            dr["Total"] = (RC + Insurance + Permit + Tax + Passing + Pollution + WrittenContract);
 
             dtTransportManagerName = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct INC.* FROM Vehicles V " +
             "INNER JOIN dbo.AcademyAssignToEmployee A ON A.AcaID=V.AcademyID " +
@@ -169,17 +177,16 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         dr = dtVehicleSummary.NewRow();
         dr["AcademyName"] = "Total No. Of Vehicles";
         dr["TotalNumberOfVehicles"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(TotalNumberOfVehicles)", string.Empty));
-        dr["RC"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(TotalNumberOfVehicles)", string.Empty));
-        dr["Insurance"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(RC)", string.Empty));
-        dr["Permit"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Insurance)", string.Empty));
+        dr["RC"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(RC)", string.Empty));
+        dr["Insurance"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Insurance)", string.Empty));
+        dr["Permit"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Permit)", string.Empty));
         dr["Tax"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Tax)", string.Empty));
         dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
+        dr["WrittenContract"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(WrittenContract)", string.Empty));
         dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
         dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
         dtVehicleSummary.Rows.Add(dr);
 
-        
-        
         return dtVehicleSummary;
     }
 
