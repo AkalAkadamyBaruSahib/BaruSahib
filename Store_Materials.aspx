@@ -41,6 +41,8 @@
             $("#divUploadBill").modal('show');
         }
 
+
+
     </script>
     <div id="content" class="span10">
         <asp:HiddenField ID="hdnEstID" runat="server" />
@@ -158,5 +160,25 @@
         </div>
     </div>
 
+    <div id="divViewbill" class="modal hide fade" style="display: none; width: 500px;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Bill(s) for Estimate ID:- <span id="spnEstID"></span> </h3>
+        </div>
+        <div class="modal-body" style="width: 300px;">
+            <table id="grdBills" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                <thead>
+                    <tr>
+                        <th>Bills</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <input id="btnclose" value="Close" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
+        </div>
+    </div>
 </asp:Content>
 

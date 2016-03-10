@@ -30,6 +30,7 @@ public partial class Store_Materials : System.Web.UI.Page
             if (Request.QueryString["EstId"] != null)
             {
                 GetPrint(Request.QueryString["EstId"].ToString());
+
             }
             else
             {
@@ -37,7 +38,6 @@ public partial class Store_Materials : System.Web.UI.Page
                 getEstimateDetails(-1);
             }
         }
-
     }
     protected void GetPrint(string id)
     {
@@ -218,6 +218,7 @@ public partial class Store_Materials : System.Web.UI.Page
         Response.Write(pdfDoc);
         Response.End();
     }
+
     private void getEstimateDetails(int AcaID)
     {
         string UserTypeID = Session["UserTypeID"].ToString();
@@ -282,7 +283,8 @@ public partial class Store_Materials : System.Web.UI.Page
             ZoneInfo += "<td class='center'><b style='color:red;'>Sanction Date:</b> " + dtapproved.Rows[i]["SanctionDate"].ToString() + "</td>";
             ZoneInfo += "<td class='center'><b style='color:red;'>Sub Estimate:</b> " + dtapproved.Rows[i]["SubEstimate"].ToString() + "</td>";
             ZoneInfo += "<td class='center'><b style='color:red;'>Academy:</b> " + dtapproved.Rows[i]["AcaName"].ToString() + "</td>";
-            ZoneInfo += "<td class='center'><b style='color:red;'>Upload Bill:</b><br/><a onclick='OpenUploadbill(" + dtapproved.Rows[i]["EstId"].ToString() + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Upload Bill</span></a></td>";
+
+            ZoneInfo += "<td class='center'><table><tr><td class='center'><b style='color:red;'>Upload Bill:</b><br/><a onclick='OpenUploadbill(" + dtapproved.Rows[i]["EstId"].ToString() + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Upload Bill</span></a></td><td class='center'><b style='color:red;'>View Bill:</b><br/><a onclick='OpenViewbill(" + dtapproved.Rows[i]["EstId"].ToString() + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>View Bill</span></a></td></tr></table><td>";
             ZoneInfo += "</tr>";
             ZoneInfo += "</table>";
             ZoneInfo += "<table border='1' class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -456,3 +458,4 @@ public partial class Store_Materials : System.Web.UI.Page
         getEstimateDetails(acaID);
     }
 }
+   

@@ -19,12 +19,13 @@ public class StoreRepository
 
     public void SaveStoreBill(StoreMaterialBill StoreMaterialBill)
     {
-        Hashtable param = new Hashtable();
-        param.Add("EstID", StoreMaterialBill.EstID);
-        param.Add("BillName", StoreMaterialBill.BillName);
-        param.Add("BillNo", StoreMaterialBill.BillNo);
-        param.Add("BillPath", StoreMaterialBill.BillPath);
-        int StoreMaterialBillID = DAL.DalAccessUtility.GetDataInScaler("procSaveStoreMaterialBill", param);
+        _context.Entry(StoreMaterialBill).State = System.Data.Entity.EntityState.Added;
+        _context.SaveChanges();
+    }
 
+    public List<StoreMaterialBill> GetBillDetails(int EstID)
+    {
+        List<StoreMaterialBill> storeMaterialBill = _context.StoreMaterialBill.Where(s => s.EstID == EstID).ToList();
+        return storeMaterialBill;
     }
 }

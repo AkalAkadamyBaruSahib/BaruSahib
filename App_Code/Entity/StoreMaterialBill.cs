@@ -9,13 +9,6 @@ using System.Web;
 /// </summary>
 public class StoreMaterialBill
 {
-    public StoreMaterialBill()
-    {
-        //
-        // TODO: Add constructor logic here
-        //
-    }
-
     [Key()]
     public int ID { get; set; }
 

@@ -29,4 +29,11 @@ public class StoreController : System.Web.Services.WebService
         storeRepository.SaveStoreBill(StoreMaterialBill);
     }
 
+    [WebMethod]
+    public List<StoreMaterialBill> GetBillDetails(int EstID)
+    {
+        StoreRepository storeRepository = new StoreRepository(new AkalAcademy.DataContext());
+        return storeRepository.GetBillDetails(EstID);
+    }
+
 }
