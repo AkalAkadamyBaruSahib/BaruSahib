@@ -33,6 +33,12 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository purRepository = new PurchaseRepository(new AkalAcademy.DataContext());
         purRepository.RejectMaterialItemByID(EMRID, EstID);
     }
+    [WebMethod]
+    public void DeleteVendorInfo(int VID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.DeleteVendorInfo(VID);
+    }
 
 
 }

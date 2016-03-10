@@ -2,7 +2,20 @@
 
 
 $(document).ready(function () {
-   
+    if (str.length > 0) {
+        var selectedMatItems = "";
+        if ($("input[id*='hdnMaterialitems']").val() == "") {
+            selectedSeats += str.join(',');
+            $("input[id*='hdnMaterialitems']").val(selectedMatItems);
+        }
+        else {
+            selectedMatItems = $("input[id*='hdnMaterialitems']").val() + ",";
+            selectedMatItems += str.join(',');
+            $("input[id*='hdnMaterialitems']").val(selectedMatItems);
+        }
+
+       
+    }
 });
 
 function BindMaterialItems(estID) {

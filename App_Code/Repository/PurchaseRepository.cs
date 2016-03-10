@@ -53,4 +53,21 @@ public class PurchaseRepository
 
 
     }
+
+    public void AddNewVendorInformation(VendorInfo vendorInfo)
+    {
+        _context.Entry(vendorInfo).State = EntityState.Added;
+        _context.SaveChanges();
+        
+    }
+
+    public void DeleteVendorInfo(int VID)
+    {
+        VendorInfo vendorinfo = _context.VendorInfo.Where(v => v.ID == VID)
+                             .FirstOrDefault();
+        vendorinfo.Active = false;
+        _context.Entry(vendorinfo).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+  
 }

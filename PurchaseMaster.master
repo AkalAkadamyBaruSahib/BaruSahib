@@ -25,15 +25,15 @@
     <!-- The styles -->
     <link id="bs-css" href="css/bootstrap-united.css" rel="stylesheet">
     <style type="text/css">
-        body 
+        body
         {
             padding-bottom: 40px;
         }
 
         .sidebar-nav
-         {
+        {
             padding: 9px 0;
-         }
+        }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/charisma-app.css" rel="stylesheet">
@@ -51,7 +51,7 @@
     <link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
     <link href='css/opa-icons.css' rel='stylesheet'>
     <link href='css/uploadify.css' rel='stylesheet'>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -143,14 +143,19 @@
                             <li class="nav-header hidden-tablet">Main</li>
                             <li><a class="ajax-link" href="Purchase_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
                             <li><a href="Purchase_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Material to be dispatch</span></a></li>
-                           <!-- <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Stock</span></a></li>
+                            <!-- <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Stock</span></a></li>
                             <li><a class="ajax-link" href="Purchase_SubmitBills.aspx"><i class="icon-eye-open"></i><span class="hidden-tablet">Submit Bills</span></a></li>-->
                             <li><a class="ajax-link" href="Purchase_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">Estimates</span></a></li>
-                           <!-- <li><a class="ajax-link" href="Purchase_BillStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <!-- <li><a class="ajax-link" href="Purchase_BillStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li><a href="Purchase_RejectBills.aspx"><i class="icon-ban-circle"></i><span class="hidden-tablet">Reject Bills(<asp:Label ID="lblRejectBill" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>-->
                             <li id="liReport" visible="false" runat="server"><a href="Purchase_Reports.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Reports</span></a></li>
                             <li><a class="ajax-link" href="Purchase_Gallery.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
-                          <!--  <li><a href="Purchase_Materials.aspx"><i class="icon-ban-circle"></i><span class="hidden-tablet">Materials</span></a></li>-->
+                            <li><a class="ajax-link" href="Purchase_MaterialSearch.aspx"><i class="icon-search"></i><span class="hidden-tablet">Material Search</span></a></li>
+                            <li><a class="ajax-link" href="Purchase_AddVendorInfo.aspx"><i class="icon-edit"></i><span class="hidden-tablet">Vendor Information</span></a></li>
+                            <li><a class="ajax-link" href="AddPurchaseOrder.aspx"><i class="icon-edit"></i><span class="hidden-tablet">Purchase Order</span></a></li>
+
+
+                            <!--  <li><a href="Purchase_Materials.aspx"><i class="icon-ban-circle"></i><span class="hidden-tablet">Materials</span></a></li>-->
 
                         </ul>
 

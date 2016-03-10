@@ -38,6 +38,9 @@ namespace AkalAcademy
         public DbSet<VehicleEmployee> VehicleEmployee { get; set; }
         public DbSet<Material> Material { get; set; }
         public DbSet<PurchaseSource> PurchaseSource { get; set; }
+        public DbSet<VendorInfo> VendorInfo { get; set; }
+        public DbSet<VendorMaterialRelation> VendorMaterialRelation { get; set; }
+        public DbSet<StoreMaterialBill> StoreMaterialBill { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -46,6 +49,8 @@ namespace AkalAcademy
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             modelBuilder.Entity<Visitors>().HasMany(r => r.VisitorRoomNumbers).WithOptional().HasForeignKey(r => r.VisitorID);
+
+            modelBuilder.Entity<VendorInfo>().HasMany(v => v.VendorMaterialRelation).WithOptional().HasForeignKey(r => r.VendorID);
 
         }
     }
