@@ -314,4 +314,11 @@ public class TransportUserRepository
         _context.Entry(DelVehicleEmployee).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public void AddVechiclesRouteMap(VechiclesRouteMap vechiclesroutemap)
+    {
+        _context.Entry(vechiclesroutemap).State = EntityState.Added;
+        _context.SaveChanges();
+
+    }
 }
