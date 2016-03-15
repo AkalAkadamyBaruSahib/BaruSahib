@@ -19,7 +19,12 @@ $(document).ready(function () {
     $("#aIdentityProof").hide();
     $("#aPhoto").hide();
     $("#aAuthorityLetter").hide();
-
+    $("#aRoomNumber").hide();
+    $("input[id*='txtfirstDate']").datepicker({
+        dateFormat: "mm/dd/yy",
+        minDate: -0,
+        maxDate: "+0M +0D"
+    });
     $('.seat').live('click', function () {
         if ($(this).hasClass(settings.selectedSeatCss)) {
             alert('This seat is already reserved');
@@ -57,8 +62,8 @@ $(document).ready(function () {
                 selectedSeats += str.join(',');
                 $("input[id*='hdnbookedSeats']").val(selectedSeats);
             }
-           
-            $("#aRoomNumber").text("Allocated Rooms: " + SelectedRoomNo);
+            $("#aRoomNumber").show();
+            $("#aRoomNumber").text("Allocated Rooms: " + selectedSeats);
         }
     });
 
@@ -320,13 +325,10 @@ function LoadVisitorByVisitorID(visitorID) {
                 $("#aPhoto").attr("href", msg.VisitorsPhoto);
                 $("#aAuthorityLetter").show();
                 $("#aAuthorityLetter").attr("href", msg.VisitorsAuthorityLetter);
-
+                $("#aRoomNumber").show();
                 $("#aRoomNumber").text("Allocated Rooms: " + bookedRoom);
                 $("input[id*='hdnbookedSeats'] ").val(bookedRoom);
-
-
-            
-
+                $("input[id*='btnSave'] ").val("Update");
                 EnableDisabledValidator();
             }
         },

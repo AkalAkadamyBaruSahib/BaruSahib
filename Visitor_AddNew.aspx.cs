@@ -254,7 +254,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         foreach (string str in hdnbookedSeats.Value.Split(','))
         {
             roomNumber = new VisitorRoomNumbers();
-            roomNumber.RoomNumberID = int.Parse(str);
+            roomNumber.RoomNumberID = Convert.ToInt32(str);
             roomNumber.CreatedOn = DateTime.Now;
             visitor.VisitorRoomNumbers.Add(roomNumber);
         }
