@@ -126,6 +126,7 @@
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_VehicleDetails.aspx"><i></i><span class="hidden-tablet">Vehicle Info</span></a></li>
                                     <li><a class="ajax-link" href="AddEditVehicle.aspx"><i></i><span class="hidden-tablet">Add New Vehicle</span></a></li>
+                                    <li><a class="ajax-link" href="Transport_VechicleRouteMap.aspx"><i></i><span class="hidden-tablet">Vehicle Route Map</span></a></li>
                                 </ul>
                             </li>
                             <li id="lireport" runat="server"><a class="dropmenu" href="#"><i><img src="img/report.png" /></i><span class="hidden-tablet"><b> REPORTS</b></span></a>
