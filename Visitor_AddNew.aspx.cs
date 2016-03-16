@@ -120,9 +120,6 @@ public partial class Visitor_AddNew : System.Web.UI.Page
     {
         string fileNameToSave = string.Empty;
         Visitors visitor = new Visitors();
-
-
-
         if (fileUploadIdentity.HasFile)
         {
 
@@ -130,30 +127,29 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtName.Text.Replace(" ", "_") + drpProofType.SelectedItem.Text + FileEx);
             fileUploadIdentity.PostedFile.SaveAs(visitorfilepath);
             visitor.IdentificationPath = "VisitorProof/" + txtName.Text.Replace(" ", "_") + drpProofType.SelectedItem.Text + FileEx;
-       }
+        }
         else
         {
             visitor.IdentificationPath = string.Empty;
         }
        visitor.ID = hdnVisitorID.Value == "" ? 0 : Convert.ToInt16(hdnVisitorID.Value);
-        if (fileUploadphoto.HasFile)
-        {
-            string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
-            string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
-            fileUploadphoto.PostedFile.SaveAs(path);
-            visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
-        }
-        else
-        {
-            visitor.VisitorsPhoto = "";
-        }
+       if (fileUploadphoto.HasFile)
+       {
+           string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
+           string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
+           fileUploadphoto.PostedFile.SaveAs(path);
+           visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
+       }
+       else
+       {
+           visitor.VisitorsPhoto = "";
+       }
         if (fileUploadauthority.HasFile)
         {
             string AuthorityFileEx = System.IO.Path.GetExtension(fileUploadauthority.FileName);
             string path = Server.MapPath("~/VisitorsAuthourityLetter/" + txtName.Text.Replace(" ", "_") + AuthorityFileEx);
             fileUploadauthority.PostedFile.SaveAs(path);
             visitor.VisitorsAuthorityLetter = "VisitorsAuthourityLetter/" + txtName.Text.Replace(" ", "_") + AuthorityFileEx;
-
         }
         else
         {
@@ -254,7 +250,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         foreach (string str in hdnbookedSeats.Value.Split(','))
         {
             roomNumber = new VisitorRoomNumbers();
-            roomNumber.RoomNumberID = Convert.ToInt32(str);
+            roomNumber.RoomNumberID = int.Parse(str);
             roomNumber.CreatedOn = DateTime.Now;
             visitor.VisitorRoomNumbers.Add(roomNumber);
         }

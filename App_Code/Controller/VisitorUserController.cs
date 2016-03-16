@@ -57,7 +57,7 @@ public class VisitorUserController : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public string GetBookedRoomsByVisitorID(int VisitorID)
+    public IList<RoomNumbers> GetBookedRoomsByVisitorID(int VisitorID)
     {
         VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
         return repository.GetBookedRoomsByVisitorID(VisitorID);

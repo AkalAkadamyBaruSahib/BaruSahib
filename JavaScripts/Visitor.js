@@ -20,12 +20,16 @@ $(document).ready(function () {
     $("#aPhoto").hide();
     $("#aAuthorityLetter").hide();
     $("#aRoomNumber").hide();
+    $("input[id*='hdnBuildingID']").val()
+  
     $("input[id*='txtfirstDate']").datepicker({
-        dateFormat: "mm/dd/yy",
-        minDate: -0,
-        maxDate: "+0M +0D"
+        maxDate: 0
     });
-    $('.seat').live('click', function () {
+    $("input[id*='txtlastDate']").datepicker({
+        minDate: 0
+    });
+
+   $('.seat').live('click', function () {
         if ($(this).hasClass(settings.selectedSeatCss)) {
             alert('This seat is already reserved');
         }
@@ -42,10 +46,11 @@ $(document).ready(function () {
     });
 
     $('.close').click(function () {
-        var str = [], item,SelectedRoomNo;
+        var str = [], item;
+        var SelectedRoomNo = "";
         $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
             item = $(this).attr('title');
-            SelectedRoomNo = $(this)[0].text;
+            SelectedRoomNo += ($(this)[0].text) + ",";
             str.push(item);
             
 
@@ -63,7 +68,8 @@ $(document).ready(function () {
                 $("input[id*='hdnbookedSeats']").val(selectedSeats);
             }
             $("#aRoomNumber").show();
-            $("#aRoomNumber").text("Allocated Rooms: " + selectedSeats);
+            SelectedRoomNo = SelectedRoomNo.substr(0, SelectedRoomNo.length - 1);
+            $("#aRoomNumber").text("Allocated Rooms: " + SelectedRoomNo);
         }
     });
 
@@ -188,6 +194,7 @@ function LoadBuildings() {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("#drpbuilding").append($("<option></option>").val(value.ID).html(value.Name));
+                   
                 });
             }
         },
@@ -326,8 +333,6 @@ function LoadVisitorByVisitorID(visitorID) {
                 $("#aAuthorityLetter").show();
                 $("#aAuthorityLetter").attr("href", msg.VisitorsAuthorityLetter);
                 $("#aRoomNumber").show();
-                $("#aRoomNumber").text("Allocated Rooms: " + bookedRoom);
-                $("input[id*='hdnbookedSeats'] ").val(bookedRoom);
                 $("input[id*='btnSave'] ").val("Update");
                 EnableDisabledValidator();
             }
@@ -339,6 +344,9 @@ function LoadVisitorByVisitorID(visitorID) {
 }
 
 function GetVisitorRoomList(visitorID) {
+
+    var hdnbookedSeats = "";
+    var aRoomNumber = "";
     var roomnumbers = "";
     $.ajax({
         type: "POST",
@@ -348,7 +356,15 @@ function GetVisitorRoomList(visitorID) {
         data: JSON.stringify({ VisitorID: visitorID }),
         dataType: "json",
         success: function (responce) {
-            return roomnumbers = responce.d;
+            roomnumbers = responce.d;
+            for (var i = 0; i < roomnumbers.length; i++) {
+                hdnbookedSeats += roomnumbers[i].ID + ",";
+                aRoomNumber += roomnumbers[i].Number + ",";
+            }
+            hdnbookedSeats = hdnbookedSeats.substr(0, hdnbookedSeats.length - 1);
+            aRoomNumber = aRoomNumber.substr(0, aRoomNumber.length - 1);
+            $("#aRoomNumber").text("Allocated Rooms: " + aRoomNumber);
+            $("input[id*='hdnbookedSeats'] ").val(hdnbookedSeats);
         }
     });
     return roomnumbers;

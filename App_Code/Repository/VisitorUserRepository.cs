@@ -111,11 +111,17 @@ public class VisitorUserRepository
             {
                 for (int i = 0; i < visitortype.Tables[0].Rows.Count; i++)
                 {
-                    visitDTO.BuildingName = visitortype.Tables[0].Rows[i]["Name"].ToString();
+                    if (visitDTO.BuildingName == null || !visitDTO.BuildingName.Contains(visitortype.Tables[0].Rows[i]["Name"].ToString()))
+                    {
+                        visitDTO.BuildingName += visitortype.Tables[0].Rows[i]["Name"].ToString() + ",";
+                    }
                     visitDTO.RoomNumbers += visitortype.Tables[0].Rows[i]["Number"].ToString() + ",";
                 }
+
                 string room = visitDTO.RoomNumbers.Substring(0, visitDTO.RoomNumbers.Length - 1);
+                string buildingname = visitDTO.BuildingName.Substring(0, visitDTO.BuildingName.Length - 1);
                 visitDTO.RoomNumbers = room;
+                visitDTO.BuildingName = buildingname;
             }
             dto.Add(visitDTO);
         }
@@ -204,19 +210,25 @@ public class VisitorUserRepository
         return roomnumbers;
     }
 
-    public string GetBookedRoomsByVisitorID(int VisitorID)
+    public IList<RoomNumbers> GetBookedRoomsByVisitorID(int VisitorID)
     {
-        List<RoomNumbers> rm = new List<RoomNumbers>();
         string roomnumbers = string.Empty;
 
         var result = (from vr in _context.VisitorRoomNumbers
                       join r in _context.RoomNumbers on vr.RoomNumberID equals r.ID
                       where vr.VisitorID == VisitorID
-                      select r.Number).ToList();
+                      select new
+                      {
+                          ID = r.ID,
+                          Number = r.Number
+                      }).AsEnumerable().Select(x => new RoomNumbers
+                      {
+                          ID = x.ID,
+                          Number = x.Number
+                      }).ToList();
 
 
-        roomnumbers = string.Join(",", result);
-        return roomnumbers;
+        return result;
     }
 
     public List<RoomNumbers> GetRoomList(int BuildingID)
@@ -344,7 +356,7 @@ public class VisitorUserRepository
         foreach (VisitorRoomNumbers rm in visitor.VisitorRoomNumbers)
         {
             visitorRoom = new VisitorRoomNumbers();
-            visitorRoom.VisitorID = rm.VisitorID;
+            visitorRoom.VisitorID = newVisitor.ID;
             visitorRoom.RoomNumberID = rm.RoomNumberID;
             visitorRoom.CreatedOn = DateTime.Now;
 

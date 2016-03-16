@@ -3,6 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+  
     <style>
         #holder {
             height: 750px;
@@ -443,7 +444,7 @@
         <div id="divRoomNumbers" class="modal hide fade" style="display: none; width: 800px; height: 500px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Rools Allocation | <span id="spnBuildingName"></span></h3>
+                <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3>
             </div>
             <div class="modal-body">
                 <div class="box-content" style="width: 800px; height: 500px">
