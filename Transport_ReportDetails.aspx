@@ -18,6 +18,7 @@
                 <div class="box-content">
                     Select Report to Download Data:
                     <asp:DropDownList ID="ddlReport" runat="server" onchange="test(this);">
+                        <asp:ListItem Text="--Choose Report Type--" Selected="True" Value="-1"></asp:ListItem>
                         <asp:ListItem Text="Daily Document Uploaded Report" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Pending Documents" Value="2"></asp:ListItem>
                         <asp:ListItem Text="Summary Report" Value="3"></asp:ListItem>

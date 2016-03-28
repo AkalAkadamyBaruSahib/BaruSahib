@@ -405,15 +405,25 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         if (ddlReport.SelectedValue == "1")
         {
             ds = DAL.DalAccessUtility.GetDataInDataSet("exec GetdocumentInfo");
-            dt = ds.Tables[0];
+            
+            try
+            {
+                dt = ds.Tables[0].AsEnumerable().Where(x => x.Field<DateTime>("CreatedOnDate").Date >= Convert.ToDateTime(txtfirstDate.Text).Date &&
+                    x.Field<DateTime>("CreatedOnDate").Date <= Convert.ToDateTime(txtlastDate.Text).Date).CopyToDataTable();
+            }
+            catch (Exception ex)
+            {
+                dt.Clear();
+            }
         }
+
         else if (ddlReport.SelectedValue == "2")
         {
             dt = GetPendingDocumentReport();
         }
-        else 
+        else
         {
-          dt = GetTransportSummaryReport();
+            dt = GetTransportSummaryReport();
         }
        
         return dt;
