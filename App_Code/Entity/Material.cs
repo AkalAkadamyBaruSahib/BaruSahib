@@ -43,4 +43,6 @@ public class Material
     public DateTime? ChangeMatTypeOn { get; set; }
 
     public string ImageUrl { get; set; }
+
+    public bool? IsRateApproved { get; set; }
 }

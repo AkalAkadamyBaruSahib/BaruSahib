@@ -42,6 +42,8 @@ namespace AkalAcademy
         public DbSet<VendorMaterialRelation> VendorMaterialRelation { get; set; }
         public DbSet<StoreMaterialBill> StoreMaterialBill { get; set; }
         public DbSet<VechiclesRouteMap> VechiclesRouteMap { get; set; }
+        public DbSet<MaterialRateApproved> MaterialRateApproved { get; set; }
+        public DbSet<SecurityEmployeeInfo> SecurityEmployeeInfo { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -21,7 +21,8 @@ public class TransportUserRepository
 
     public DataSet GetVehiclesByInchargeID(int InchargeID)
     {
-        return DAL.DalAccessUtility.GetDataInDataSet("exec GetVehiclesByInchargeID " + InchargeID);
+        //  return DAL.DalAccessUtility.GetDataInDataSet("exec GetVehiclesByInchargeID " + InchargeID );
+      return DAL.DalAccessUtility.GetDataInDataSet("exec GetVehiclesByInchargeID " + InchargeID + ", 1");
     }
 
     public List<Vehicles> GetAllVehicles()
@@ -40,6 +41,9 @@ public class TransportUserRepository
 
     public List<Vehicles> GetVehiclesByZoneID(int ZoneID)
     {
+
+
+
         return _context.Vehicles.Where(v => v.ZoneID == ZoneID)
             .Include(a => a.Academy)
             .Include(z => z.Zone).ToList();
@@ -321,4 +325,14 @@ public class TransportUserRepository
         _context.SaveChanges();
 
     }
+
+    public void DeleteVechicleInfo(int VID)
+    {
+        Vehicles vehicles = _context.Vehicles.Where(v => v.ID == VID)
+                             .FirstOrDefault();
+        vehicles.IsApproved = false;
+        _context.Entry(vehicles).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+  
 }

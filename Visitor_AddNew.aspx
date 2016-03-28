@@ -3,9 +3,10 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-  
+
     <style>
-        #holder {
+        #holder
+        {
             height: 750px;
             width: 740px;
             background-color: #F5F5F5;
@@ -14,7 +15,8 @@
             overflow: auto;
         }
 
-        #place {
+        #place
+        {
             margin: 7px;
         }
 
@@ -22,48 +24,57 @@
             line-height: 68px;
         }*/
 
-            #place a {
+            #place a
+            {
                 font-size: 0.6em;
             }
 
-            #place li {
+            #place li
+            {
                 list-style: none outside none;
             }
 
-                #place li:hover {
+                #place li:hover
+                {
                     background-color: yellow;
                 }
 
-            #place .seat {
+            #place .seat
+            {
                 background: url("img/available_seat_img.gif") no-repeat scroll 0 0 transparent;
                 height: 50px;
                 width: 33px;
                 display: block;
             }
 
-            #place .selectedSeat {
+            #place .selectedSeat
+            {
                 background: url("img/booked_seat_img.gif") no-repeat scroll 0 0 transparent;
                 height: 50px;
                 width: 33px;
                 display: block;
             }
 
-            #place .selectingSeat {
+            #place .selectingSeat
+            {
                 background-image: url("img/selected_seat_img.gif");
             }
 
-            #place .row-3, #place .row-4 {
+            #place .row-3, #place .row-4
+            {
                 margin-top: 10px;
             }
 
-        #seatDescription li {
+        #seatDescription li
+        {
             vertical-align: top;
             list-style: none outside none;
             padding-left: 20px;
             float: left;
         }
 
-        .controls {
+        .controls
+        {
             width: 519px;
         }
     </style>
@@ -192,7 +203,7 @@
                                 <tr>
                                     <td colspan="1" width="50%">
                                         <div class="control-group">
-                                            <label class="control-label" for="typeahead">Select Building Name with Floor Number:</label>
+                                            <label class="control-label" for="typeahead">Select Building Name with Room Number:</label>
                                             <div class="controls">
                                                 <a id="aRoomNumber" style="font-size: 13px;" href="#">Allocated Rooms: </a>
                                                 <div id="selectdiv">
@@ -435,6 +446,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h3>Visitor <span id="spnName"></span>| <span id="spanidentityfication"></span></h3>
+             
             </div>
             <div class="modal-body">
                 <iframe id="iframeDailog" style="width: 750px; height: 500px"></iframe>
@@ -443,8 +455,9 @@
 
         <div id="divRoomNumbers" class="modal hide fade" style="display: none; width: 800px; height: 500px">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3>
+                <input id="btnclose" value="Ok" style="width: 40px; float: right;" class="btn btn-primary" data-dismiss="modal" />
+                <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3> 
+                
             </div>
             <div class="modal-body">
                 <div class="box-content" style="width: 800px; height: 500px">

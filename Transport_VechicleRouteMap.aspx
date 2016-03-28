@@ -80,46 +80,41 @@
                                         <asp:Button ID="btnEdit" Text="Update" ValidationGroup="driver" runat="server" CssClass="btn btn-primary" Visible="false" OnClick="btnEdit_Click" />
                                     </div>
 
-                                     <div class="row-fluid sortable">
-            <div class="box span12">
-                <div class="box-header well" data-original-title>
-                    <h2><i class="icon-user"></i>Vehicles Route Map</h2>
-                    <div class="box-icon">
-                        <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-                    </div>
-                </div>
-                <div class="box-content">
-                    <div id="divMatDetails" runat="server">
-                        <div id="divRoutMapDetails" runat="server">
-                            <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
-                                <thead>
-                                    <tr>
+                                    <div class="row-fluid sortable">
+                                        <div class="box span12">
+                                            <div class="box-header well" data-original-title>
+                                                <h2><i class="icon-user"></i>Vehicles Route Map</h2>
+                                                <div class="box-icon">
+                                                    <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
+                                                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                                                    <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="box-content">
+                                                <div id="divMatDetails" runat="server">
+                                                    <div id="divRoutMapDetails" runat="server">
+                                                        <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                                                            <thead>
+                                                                <tr>
 
-                                        <th style="color: #cc3300;">Zone Name</th>
-                                        <th style="color: #cc3300;">Academy Name</th>
-                                        <th style="color: #cc3300;">Route No</th>
-                                        <th style="color: #cc3300;">Vehicles List</th>
-                                        <th style="color: #cc3300;">Action</th>
-                                        <%-- <th style= "color: #cc3300;">DL Scan Copy</th>--%>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/span-->
+                                                                    <th style="color: #cc3300;">Zone Name</th>
+                                                                    <th style="color: #cc3300;">Academy Name</th>
+                                                                    <th style="color: #cc3300;">Route No</th>
+                                                                    <th style="color: #cc3300;">Vehicles List</th>
+                                                                    <th style="color: #cc3300;">Action</th>
+                                                                    <%-- <th style= "color: #cc3300;">DL Scan Copy</th>--%>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbody">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
 
-        </div>
-
-
-
-
-
+                                    </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>
 
@@ -128,7 +123,5 @@
                 </div>
             </div>
         </div>
-
-       
 </asp:Content>
 

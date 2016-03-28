@@ -37,6 +37,10 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             BindAcademy();
 
             getVehicleDetails(true, -1);
+            if (Request.QueryString["ActiveVehicleID"] != null)
+            {
+                InActiveVechicle(Request.QueryString["ActiveVehicleID"].ToString());
+            }
         }
         if (Request.QueryString["AcaId"] != null)
         {
@@ -49,6 +53,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             GetPrint(Request.QueryString["EstId"].ToString());
 
         }
+        
     }
 
     protected void GetPrint(string id)
@@ -276,7 +281,8 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
     {
         int UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         DataSet dsVehicleDetails = new DataSet();
-        dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]");
+      //dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]");
+          dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
         DataTable dtapproved = new DataTable();
         int InchargeID = int.Parse(Session["InchargeID"].ToString());
@@ -344,8 +350,8 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
         ZoneInfo += "<th style='display:none;'></th>";
-        ZoneInfo += "<th width='25%'>Vehicle No.</th>";
-        ZoneInfo += "<th width='30%'>Vehicle For</th>";
+        ZoneInfo += "<th width='30%'>Vehicle No.</th>";
+        ZoneInfo += "<th width='25%'>Vehicle For</th>";
         //ZoneInfo += "<th width='15%'>Sanction Date</th>";
         ZoneInfo += "<th width='20%'>Details of Vehicle</th>";
         ZoneInfo += "<th width='5%'>Norms Completed (out of 16)</th>";
@@ -361,7 +367,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             ZoneInfo += "<td style='display:none;'>1</td>";
             var msg = dtapproved.Rows[i]["Number"].ToString();
             var vehileno = msg.Replace("-", "");
-            ZoneInfo += "<td width='25%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td><td><a href='javascript: openModelPopUp(\"" + vehileno + "\");'><span class='label label-warning'  style='font-size: 15.998px;'>GPS</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
+            ZoneInfo += "<td width='30%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td><td><a href='javascript: openModelPopUp(\"" + vehileno + "\");'><span class='label label-warning'  style='font-size: 15.998px;'>GPS</span></a></td><td><a href='Transport_VehicleDetails.aspx?ActiveVehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span class='label label-success' style='font-size: 15.998px;' title='Vehicle Active'>IsActive</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
             ZoneInfo += "<td width='30%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Transport Manager</b>: " + dtapproved.Rows[i]["InName"].ToString() + "</td></tr><tr><td><b>Transport Manager Number</b>: " + dtapproved.Rows[i]["TransportManagerNumber"].ToString() + "</td></tr></table>";
             //ZoneInfo += "<td class='center' width='15%'>" + dtapproved.Rows[i]["dt"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='20%'><table>";
@@ -480,5 +486,13 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         ddlAcademy.Items.Insert(0, (new System.Web.UI.WebControls.ListItem("-- All Academy --", "0")));
         ddlAcademy.SelectedIndex = 0;
 
+    }
+
+    protected void InActiveVechicle(string vid)
+    {
+        TransportController transportcontroller = new TransportController();
+        transportcontroller.DeleteVechicleInfo(Convert.ToInt32(vid));
+        getVehicleDetails(true, -1);
+        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle Information  Delete Successfully.');", true);
     }
 }

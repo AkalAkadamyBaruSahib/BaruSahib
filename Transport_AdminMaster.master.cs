@@ -22,9 +22,12 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
         }
         if (Session["UserTypeID"].ToString() != "13")
         {
-            lireport.Visible = false;
-            liEmployee.Visible = false;
-        }
+           // lireport.Visible = false;
+            liDesignation.Visible = false;
+            liDepartment.Visible = false;
+            liCreateEditEmployee.Visible = false;
+            liLocationAssign.Visible = false;
+         }
 
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

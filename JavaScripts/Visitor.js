@@ -45,7 +45,7 @@ $(document).ready(function () {
         });
     });
 
-    $('.close').click(function () {
+    $('#btnclose').click(function () {
         var str = [], item;
         var SelectedRoomNo = "";
         $.each($('#place li.' + settings.selectingSeatCss + ' a'), function (index, value) {
@@ -194,7 +194,6 @@ function LoadBuildings() {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("#drpbuilding").append($("<option></option>").val(value.ID).html(value.Name));
-                   
                 });
             }
         },
@@ -230,31 +229,28 @@ function LoadVisitors() {
 
                     $("#tbody").append(rowTemplate);
                 }
-                 var visitorType="";
+                var visitorType = "";
                 for (var i = 0; i < adminLoanList.length; i++) {
                     var className = "info";
                     if (i % 2 == 0) {
                         className = "warning";
                     }
-                   if(adminLoanList[i].VisitorTypeID==1)
-                        {
-                            visitorType="Visitor";
-                        }
-                        else if(adminLoanList[i].VisitorTypeID==2)
-                        {
-                            visitorType="Sewadar";
-                        }
-                        else
-                        {
-                            visitorType="Employee";
-                        }
+                    if (adminLoanList[i].VisitorTypeID == 1) {
+                        visitorType = "Visitor";
+                    }
+                    else if (adminLoanList[i].VisitorTypeID == 2) {
+                        visitorType = "Sewadar";
+                    }
+                    else {
+                        visitorType = "Employee";
+                    }
                     var $newRow = $("#rowTemplate").clone();
 
-                   $newRow.find("#Name").html("<table><tr><td><ul class='thumbnails gallery><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].VisitorsPhoto + ")'  href='" + adminLoanList[i].VisitorsPhoto + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].VisitorsPhoto + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + visitorType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].ContactNumber + "</td></tr><tr><td><b>Address:</b> " + adminLoanList[i].VisitorAddress + "</td></tr></table>");
-                   $newRow.find("#Rooms").html("<table><tr><td><b>Building Name :</b> " + adminLoanList[i].BuildingName + "</td></tr><tr><td><b>RoomNumber(s):</b> " + adminLoanList[i].RoomNumbers + "</td></tr><tr><td><a href='#' class='warning' onclick='CheckOutRoom(" + adminLoanList[i].ID + ")'>Check-Out</a></td></tr></table>"); //(adminLoanList[i].Rooms);
-                   $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
-                   $newRow.find("#NoOfDays").html(adminLoanList[i].NoOfDaysToStay);
-                
+                    $newRow.find("#Name").html("<table><tr><td><ul class='thumbnails gallery><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].VisitorsPhoto + ")'  href='" + adminLoanList[i].VisitorsPhoto + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].VisitorsPhoto + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + visitorType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].ContactNumber + "</td></tr><tr><td><b>Address:</b> " + adminLoanList[i].VisitorAddress + "</td></tr></table>");
+                    $newRow.find("#Rooms").html("<table><tr><td><b>Building Name :</b> " + adminLoanList[i].BuildingName + "</td></tr><tr><td><b>RoomNumber(s):</b> " + adminLoanList[i].RoomNumbers + "</td></tr><tr><td><a href='#' class='warning' onclick='CheckOutRoom(" + adminLoanList[i].ID + ")'>Check-Out</a></td></tr></table>"); //(adminLoanList[i].Rooms);
+                    $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
+                    $newRow.find("#NoOfDays").html(adminLoanList[i].NoOfDaysToStay);
+
                     $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='#' onclick='LoadVisitorByVisitorID(" + adminLoanList[i].ID + ")'>Update</a></td></tr></table>");
                     $newRow.addClass(className);
                     $newRow.show();

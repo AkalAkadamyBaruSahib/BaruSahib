@@ -1,7 +1,6 @@
 ﻿var cnt = 2;
 var cntR = 2;
 
-
 $(document).ready(function () {
     $("select[id*='drpEmployeeType']").change(function () {
         DisableDLControl();
@@ -139,7 +138,9 @@ $(document).ready(function () {
 
     function addRefernceRow() {
     $('#tblRefernceDetail tr').last().after('<tr id="trR' + cntR + '"><td><input type="text" style=" width: 192px;height: 18px;" id="txtRefName' + cntR + '" name="txtRefName' + cntR + '" value=""></td><td><input type="text" style=" width: 192px;height: 18px;"  id="txtRefAddress' + cntR + '" name="txtRefAddress' + cntR + '" value=""></td><td><input type="text" style=" width: 192px;height: 18px;"  id="txtRefPhoneNo' + cntR + '" name="txtRefPhoneNo' + cntR + '" value=""></td><td><input type="text" style=" width: 192px;height: 18px;"  id="txtRefRelation' + cntR + '" name="txtRefRelation' + cntR + '" value=""></td><td><a href="javascript:void(0);" onclick="removeRowReference(' + cntR + ');">Delete</a></td></tr>');
-    cntR++;}
+    cntR++;
+}
+   
 
     function DLScanCopyUpload() {
         var files = $("#fileUploadDlValidity")[0].files;
@@ -255,9 +256,11 @@ $(document).ready(function () {
 
                         var $newRow = $("#rowTemplate").clone();
                         $newRow.find("#Name").html("<table><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + EmployeeType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].MobileNumber + "</td></tr><tr><td><b>Date Of Joining:</b>" + adminLoanList[i].DateOfJoining + "</td></tr></table>");
-                        $newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].DLScanCopy + "\",\"" + adminLoanList[i].Name + "\")'>DL Scan Copy</a></td></tr></table>");
+                        //$newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].DLScanCopy + "\",\"" + adminLoanList[i].Name + "\")'>DL Scan Copy</a></td></tr></table>");
+                        $newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].DLScanCopy + "'>DL Scan Copy</a></td></tr></table>");
                         $newRow.find("#CntactNoInCaseOfEmegeny").html(adminLoanList[i].ContactNoInCaseOfEmergency);
-                        $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].Qualification + "\",\"" + adminLoanList[i].Name + "\")'>Qualification</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].ApplicationForm + "\",\"" + adminLoanList[i].Name + "\")'>ApplicationForm</a></td></tr></table>");
+                        //$newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].Qualification + "'>Qualification</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].ApplicationForm + "\",\"" + adminLoanList[i].Name + "\")'>ApplicationForm</a></td></tr></table>");
+                        $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].Qualification + "'>Qualification</a></td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].ApplicationForm + "'>ApplicationForm</a></td></tr></table>");
                         $newRow.addClass(className);
                         $newRow.show();
 
@@ -280,7 +283,6 @@ $(document).ready(function () {
                         "bDestroy": true
 
                     });
-
                 }
             },
             error: function (result, textStatus) {

@@ -20,8 +20,8 @@
         }
     </script>
     <div id="content" class="span10">
-          <asp:HiddenField ID="hdnMaterialitems" runat="server" />
-          <asp:HiddenField ID="hdnVendorID" runat="server" />
+        <asp:HiddenField ID="hdnMaterialitems" runat="server" />
+        <asp:HiddenField ID="hdnVendorID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -78,27 +78,27 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                Select Material Type
+                                            <td width="50%">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="typeahead"></label>
+                                                    <div class="controls">
+                                                        Select Material Type
                                                     <br />
-                                                <asp:ListBox ID="lstMaterialTypes" Height="150px" Width="400px" CssClass="list-group" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" SelectionMode="Multiple" runat="server"></asp:ListBox>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                Select  Material Items
+                                                        <asp:ListBox ID="lstMaterialTypes" Height="150px" Width="400px" CssClass="list-group" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" SelectionMode="Multiple" runat="server"></asp:ListBox>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td width="50%">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="typeahead"></label>
+                                                    <div class="controls">
+                                                        Select  Material Items
                                                     <br />
-                                                <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
-                                           </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                        <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <asp:Panel ID="pnlActiveVendor" runat="server" Visible="false">
@@ -110,10 +110,7 @@
                                     </table>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
-
-
                             <div class="form-actions">
-
                                 <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnSave_Click" />
                                 <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnEdit_Click" />
                                 <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn" OnClick="btnCl_Click" />
@@ -124,7 +121,6 @@
                 </div>
             </div>
             <!--/span-->
-
         </div>
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -136,15 +132,11 @@
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
                 </div>
-                <div class="box-content">
-
-                    <asp:CheckBox ID="chkShowAllVendor" runat="server" OnCheckedChanged="chkShowAllVendor_CheckedChanged" AutoPostBack="true" />View All Vendors
-                    <div id="divVendorDetails" runat="server"></div>
-
-                </div>
             </div>
-            <!--/span-->
-
+            <div class="box-content">
+                <asp:CheckBox ID="chkShowAllVendor" runat="server" OnCheckedChanged="chkShowAllVendor_CheckedChanged" AutoPostBack="true" />View All Vendors
+                    <div id="divVendorDetails" runat="server"></div>
+            </div>
         </div>
     </div>
 </asp:Content>

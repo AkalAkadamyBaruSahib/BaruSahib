@@ -180,7 +180,6 @@ public partial class Transport_VechicleRouteMap : System.Web.UI.Page
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('This vechicle already running on the Route No " + dsVExist.Tables[0].Rows[0]["RouteNo"].ToString() + " in Academy " + dsVExist.Tables[0].Rows[0]["AcaName"].ToString() + "');", true);
             }
-          
         }
         else
         {

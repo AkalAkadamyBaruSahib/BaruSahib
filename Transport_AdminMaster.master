@@ -114,11 +114,11 @@
                             <li><a class="ajax-link" href="TransportHome.aspx"><i class="icon-home"></i><span class="hidden-tablet">HOME</span></a></li>
                             <li id="liEmployee" runat="server"><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet"><b> EMPLOYEE</b></span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Transport_Designation.aspx"><i></i><span class="hidden-tablet">Designation</span></a></li>
-                                    <li><a class="ajax-link" href="Transport_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
-                                    <li><a class="ajax-link" href="Transport_NewEmployee.aspx"><i></i><span class="hidden-tablet">Create/Edit Employee</span></a></li>
-                                    <li><a class="ajax-link" href="Transport_AssignLocation.aspx"><i></i><span class="hidden-tablet">Location Assign</span></a></li>
-                                    <li><a class="ajax-link" href="Transport_AddNewDriver.aspx"><i></i><span class="hidden-tablet">Add New Driver/Conductor</span></a></li>
+                                    <li id="liDesignation" runat="server"><a class="ajax-link" href="Transport_Designation.aspx"><i></i><span class="hidden-tablet">Designation</span></a></li>
+                                    <li id="liDepartment" runat="server"><a class="ajax-link" href="Transport_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
+                                    <li id="liCreateEditEmployee" runat="server"><a class="ajax-link" href="Transport_NewEmployee.aspx"><i></i><span class="hidden-tablet">Create/Edit Employee</span></a></li>
+                                    <li id="liLocationAssign" runat="server"><a class="ajax-link" href="Transport_AssignLocation.aspx"><i></i><span class="hidden-tablet">Location Assign</span></a></li>
+                                    <li id="liAddNewDriverConductor" runat="server"><a class="ajax-link" href="Transport_AddNewDriver.aspx"><i></i><span class="hidden-tablet">Add New Driver/Conductor</span></a></li>
 
                                 </ul>
                             </li>

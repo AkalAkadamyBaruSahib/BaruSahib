@@ -26,4 +26,6 @@ public class VendorMaterialRelation
     public DateTime? CreatedOn { get; set; }
 
     public DateTime? ModifyOn { get; set; }
+
+    public int MatType { get; set; }
 }

@@ -174,19 +174,23 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dtVehicleSummary.Rows.Add(dr);
 
         }
-        dr = dtVehicleSummary.NewRow();
-        dr["AcademyName"] = "Total No. Of Vehicles";
-        dr["TotalNumberOfVehicles"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(TotalNumberOfVehicles)", string.Empty));
-        dr["RC"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(RC)", string.Empty));
-        dr["Insurance"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Insurance)", string.Empty));
-        dr["Permit"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Permit)", string.Empty));
-        dr["Tax"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Tax)", string.Empty));
-        dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
-        dr["WrittenContract"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(WrittenContract)", string.Empty));
-        dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
-        dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
-        dtVehicleSummary.Rows.Add(dr);
 
+        if (dtVehicleSummary.Rows.Count > 0)
+        {
+            dr = dtVehicleSummary.NewRow();
+
+            dr["AcademyName"] = "Total No. Of Vehicles";
+            dr["TotalNumberOfVehicles"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(TotalNumberOfVehicles)", string.Empty));
+            dr["RC"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(RC)", string.Empty));
+            dr["Insurance"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Insurance)", string.Empty));
+            dr["Permit"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Permit)", string.Empty));
+            dr["Tax"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Tax)", string.Empty));
+            dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
+            dr["WrittenContract"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(WrittenContract)", string.Empty));
+            dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
+            dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
+            dtVehicleSummary.Rows.Add(dr);
+        }
         return dtVehicleSummary;
     }
 

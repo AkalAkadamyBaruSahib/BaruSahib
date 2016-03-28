@@ -120,6 +120,7 @@ public class VisitorUserRepository
 
                 string room = visitDTO.RoomNumbers.Substring(0, visitDTO.RoomNumbers.Length - 1);
                 string buildingname = visitDTO.BuildingName.Substring(0, visitDTO.BuildingName.Length - 1);
+               
                 visitDTO.RoomNumbers = room;
                 visitDTO.BuildingName = buildingname;
             }
@@ -177,11 +178,16 @@ public class VisitorUserRepository
             {
                 for (int i = 0; i < visitortype.Tables[0].Rows.Count; i++)
                 {
-                    visitDTO.BuildingName = visitortype.Tables[0].Rows[i]["Name"].ToString();
+                    if (visitDTO.BuildingName == null || !visitDTO.BuildingName.Contains(visitortype.Tables[0].Rows[i]["Name"].ToString()))
+                    {
+                        visitDTO.BuildingName = visitortype.Tables[0].Rows[i]["Name"].ToString() + ",";
+                    }
                     visitDTO.RoomNumbers += visitortype.Tables[0].Rows[i]["Number"].ToString() + ",";
                 }
                 string room = visitDTO.RoomNumbers.Substring(0, visitDTO.RoomNumbers.Length - 1);
+                string buildingname = visitDTO.BuildingName.Substring(0, visitDTO.BuildingName.Length - 1);
                 visitDTO.RoomNumbers = room;
+                visitDTO.BuildingName = buildingname;
             }
             dto.Add(visitDTO);
         }

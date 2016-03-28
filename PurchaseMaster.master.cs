@@ -19,11 +19,13 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
             lblUser.Text = Session["EmailId"].ToString();
             UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         }
-
-
         if (Session["UserTypeID"].ToString() == "4")
         {
             liReport.Visible = true;
+        }
+        if (Session["UserTypeID"].ToString() == "23")
+        {
+            liRateApproved.Visible = true;
         }
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

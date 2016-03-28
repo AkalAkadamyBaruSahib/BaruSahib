@@ -36,8 +36,6 @@ public class EstimateAndMaterialOthersRelations
     public int PurchaseEmpId { get; set; }
     public DateTime? EmployeeAssignDateTime { get; set; }
     public bool IsApproved { get; set; }
-
-    public List<Material> Material { get; set; }
 }
 
 

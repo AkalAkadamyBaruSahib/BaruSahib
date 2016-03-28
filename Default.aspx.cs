@@ -57,7 +57,7 @@ public partial class _Default : System.Web.UI.Page
                     {
                         Response.Redirect("Workshop_Home.aspx");
                     }
-                    else if (Convert.ToInt16(ds.Tables[0].Rows[0]["UserTypeId"].ToString()) == 4 || Convert.ToInt16(ds.Tables[0].Rows[0]["UserTypeId"].ToString()) == 12)
+                    else if (Convert.ToInt16(ds.Tables[0].Rows[0]["UserTypeId"].ToString()) == 4 || Convert.ToInt16(ds.Tables[0].Rows[0]["UserTypeId"].ToString()) == 12 || Convert.ToInt16(ds.Tables[0].Rows[0]["UserTypeId"].ToString()) == 23)
                     {
                         Response.Redirect("Purchase_Home.aspx");
                     }
@@ -97,6 +97,10 @@ public partial class _Default : System.Web.UI.Page
                     else if (UserTypeID == 22)
                     {
                         Response.Redirect("Visitor_Home.aspx");
+                    }
+                    else if (UserTypeID == 24)
+                    {
+                        Response.Redirect("Security_Home.aspx");
                     }
                     else
                     {

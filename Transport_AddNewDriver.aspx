@@ -130,7 +130,7 @@
                                             <label class="control-label" for="typeahead">DL Number:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDlNumber" runat="server" CssClass="span6 typeahead" Style="width: 200px; height: 25px;"></asp:TextBox>
-                                             
+
                                             </div>
                                         </div>
                                     </td>
@@ -141,16 +141,16 @@
                                                 <div class="controls">
                                                     <asp:DropDownList ID="drpDlType" runat="server" Style="width: 200px; height: 25px;">
                                                     </asp:DropDownList>
-                                                 
+
+                                                </div>
                                             </div>
-                                        </div>
                                     </td>
                                     <td>
                                         <div class="control-group" id="divfileUploadDlValidity" runat="server">
                                             <label class="control-label" for="typeahead">DL Validity:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtdlvalidity" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox><br />
-                                               
+
 
                                             </div>
                                         </div>
@@ -246,43 +246,45 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                   
-                                                            <label class="control-label" for="typeahead">Name:</label>
-                                                            <div class="controls">
-                                                                <input id="txtFamilyName1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
-                                                            </div>
-                                                       
+
+                                                        <label class="control-label" for="typeahead">Name:</label>
+                                                        <div class="controls">
+                                                            <input id="txtFamilyName1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
+                                                        </div>
+
                                                     </td>
                                                     <td style="float: left; width: 174px;">
-                                                     
-                                                            <label class="control-label" for="typeahead">Age:</label>
-                                                            <div class="controls">
-                                                                <input id="txtFamilyAge1" type="text" style="width: 71px; height: 18px;" class="span6 typeahead"/>
-                                                            </div>
-                                                    
+
+                                                        <label class="control-label" for="typeahead">Age:</label>
+                                                        <div class="controls">
+                                                            <input id="txtFamilyAge1" type="text" style="width: 71px; height: 18px;" class="span6 typeahead" />
+                                                        </div>
+
                                                     </td>
-                                                    <td style="float: left;  width: 83px;">
-                                                 
-                                                            <label class="control-label" for="typeahead">Relation:</label>
-                                                            <div class="controls">
-                                                                <select id="ddlFamilyRelation1" style="width: 170px; height: 25px;">
-                                                                    <option value="0">--Select One--</option>
-                                                                    <option value="Father">Father</option>
-                                                                    <option value="Mother">Mother</option>
-                                                                    <option value="Wife">Wife</option>
-                                                                    <option value="Brother">Brother</option>
-                                                                    <option value="Sister">Sister</option>
-                                                                </select>
-                                                            </div>
-                                                   
+                                                    <td style="float: left; width: 83px;">
+
+                                                        <label class="control-label" for="typeahead">Relation:</label>
+                                                        <div class="controls">
+                                                            <select id="ddlFamilyRelation1" style="width: 170px; height: 25px;">
+                                                                <option value="0">--Select One--</option>
+                                                                <option value="Father">Father</option>
+                                                                <option value="Mother">Mother</option>
+                                                                <option value="Wife">Wife</option>
+                                                                <option value="Brother">Brother</option>
+                                                                <option value="Sister">Sister</option>
+                                                                <option value="Brother">Son</option>
+                                                                <option value="Sister">Daughter</option>
+                                                            </select>
+                                                        </div>
+
                                                     </td>
                                                     <td style="float: right; width: 230px;">
-                                                 
-                                                         <label class="control-label" for="typeahead">Nominee:</label>
-                                                            <div class="controls">
-                                                                <input type="checkbox" id="chkNominee" style="width: 10px; height: 10px;" />
-                                                            </div>
-                                                      
+
+                                                        <label class="control-label" for="typeahead">Nominee:</label>
+                                                        <div class="controls">
+                                                            <input type="checkbox" id="chkNominee" style="width: 10px; height: 10px;" />
+                                                        </div>
+
                                                     </td>
                                                     <td></td>
 
@@ -302,36 +304,36 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                    <%--    <div class="control-group">--%>
-                                                            <label class="control-label" for="typeahead">Name:</label>
-                                                            <div class="controls">
-                                                                <input id="txtRefName1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
-                                                            </div>
-                                                     <%--   </div>--%>
+                                                        <%--    <div class="control-group">--%>
+                                                        <label class="control-label" for="typeahead">Name:</label>
+                                                        <div class="controls">
+                                                            <input id="txtRefName1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
+                                                        </div>
+                                                        <%--   </div>--%>
                                                     </td>
                                                     <td>
-                                                    <%--    <div class="control-group">--%>
-                                                            <label class="control-label" for="typeahead">Address:</label>
-                                                            <div class="controls">
-                                                                <input id="txtRefAddress1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
-                                                            </div>
-                                                     <%--   </div>--%>
+                                                        <%--    <div class="control-group">--%>
+                                                        <label class="control-label" for="typeahead">Address:</label>
+                                                        <div class="controls">
+                                                            <input id="txtRefAddress1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
+                                                        </div>
+                                                        <%--   </div>--%>
                                                     </td>
                                                     <td>
-                                                       <%-- <div class="control-group">--%>
-                                                            <label class="control-label" for="typeahead">Phone No:</label>
-                                                            <div class="controls">
-                                                                <input id="txtRefPhoneNo1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
-                                                            </div>
-                                                      <%--  </div>--%>
+                                                        <%-- <div class="control-group">--%>
+                                                        <label class="control-label" for="typeahead">Phone No:</label>
+                                                        <div class="controls">
+                                                            <input id="txtRefPhoneNo1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
+                                                        </div>
+                                                        <%--  </div>--%>
                                                     </td>
                                                     <td>
-                                                     <%--   <div class="control-group">--%>
-                                                            <label class="control-label" for="typeahead">Relation:</label>
-                                                            <div class="controls">
-                                                                <input id="txtRefRelation1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
-                                                            </div>
-                                                      <%--  </div>--%>
+                                                        <%--   <div class="control-group">--%>
+                                                        <label class="control-label" for="typeahead">Relation:</label>
+                                                        <div class="controls">
+                                                            <input id="txtRefRelation1" type="text" style="width: 200px; height: 18px;" class="span6 typeahead" />
+                                                        </div>
+                                                        <%--  </div>--%>
                                                     </td>
                                                     <td></td>
                                                 </tr>

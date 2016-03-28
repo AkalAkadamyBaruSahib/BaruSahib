@@ -65,4 +65,11 @@ public class TransportController : System.Web.Services.WebService
         repository.TranportEmployeeInfoToDelete(VehicleEmployeeID);
     }
 
+    [WebMethod]
+    public void DeleteVechicleInfo(int VID)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        repository.DeleteVechicleInfo(VID);
+    }
+
 }
