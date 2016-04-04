@@ -339,6 +339,7 @@ public partial class RateUpload : System.Web.UI.Page
     {
 
         Material material = null;
+        MaterialNonApprovedRate materialnonapprovedrate = null;
         List<Material> materials = new List<Material>();
 
         string MaterialType, Material, Unit, Rate;
@@ -359,21 +360,18 @@ public partial class RateUpload : System.Web.UI.Page
 
             Rate = txtra.Text;
 
-            material.MatId = int.Parse(Material);
-            material.MatTypeId = int.Parse(MaterialType);
-            material.UnitId = int.Parse(Unit);
-            material.MatCost = decimal.Parse(Rate);
-            material.CreatedBy = InchargeID;
-            material.ModifyBy = InchargeID;
-            material.CreatedOn = DateTime.Now;
-            material.ModifyOn = DateTime.Now;
-            material.Active = 1;
-            material.IsRateApproved = false;
-            materials.Add(material);
-        }
-
-        ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
-        repo.SaveMaterial(materials);
+            materialnonapprovedrate = new MaterialNonApprovedRate();
+            Material = ddlma.SelectedValue;
+            Rate = txtra.Text;
+            materialnonapprovedrate.MatID = int.Parse(Material);
+            materialnonapprovedrate.Rate = decimal.Parse(Rate);
+            materialnonapprovedrate.CreatedBy = InchargeID;
+            materialnonapprovedrate.CreatedOn = DateTime.Now;
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Material set IsRateApproved= 0 where MatId = '" + Material + "'");
+            ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
+            repo.SaveMaterial(materialnonapprovedrate);
+         }
+       
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Rate Upload Successfully.');", true);
 
         grvMaterialDetails.DataSource = null;
