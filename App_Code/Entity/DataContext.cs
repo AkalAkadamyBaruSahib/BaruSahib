@@ -44,6 +44,7 @@ namespace AkalAcademy
         public DbSet<VechiclesRouteMap> VechiclesRouteMap { get; set; }
         public DbSet<MaterialRateApproved> MaterialRateApproved { get; set; }
         public DbSet<SecurityEmployeeInfo> SecurityEmployeeInfo { get; set; }
+        public DbSet<MaterialNonApprovedRate> MaterialNonApprovedRate { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -54,6 +55,7 @@ namespace AkalAcademy
             modelBuilder.Entity<Visitors>().HasMany(r => r.VisitorRoomNumbers).WithOptional().HasForeignKey(r => r.VisitorID);
 
             modelBuilder.Entity<VendorInfo>().HasMany(v => v.VendorMaterialRelation).WithOptional().HasForeignKey(r => r.VendorID);
+          
 
         }
     }

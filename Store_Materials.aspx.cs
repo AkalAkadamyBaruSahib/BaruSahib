@@ -34,9 +34,10 @@ public partial class Store_Materials : System.Web.UI.Page
             }
             else
             {
+              
                 BindAcademy();
                 getEstimateDetails(-1);
-            }
+            }  BindVendor();
         }
     }
     protected void GetPrint(string id)
@@ -426,7 +427,8 @@ public partial class Store_Materials : System.Web.UI.Page
         {
             Int64 i = 0;
             i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
-            if (i > 0)
+            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + ddlVendorName.SelectedValue + "' where Sno =" + hdnEMRId.Value + "");
+            //if (i > 0)
             {
                 //upBillUpload.SaveAs(Server.MapPath(dwgfilepath));
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been received.');", true);
@@ -438,6 +440,7 @@ public partial class Store_Materials : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
         }
         getEstimateDetails(int.Parse(ddlAcademy.SelectedValue));
+        BindVendor();
     }
 
 
@@ -456,6 +459,18 @@ public partial class Store_Materials : System.Web.UI.Page
     {
         int acaID = int.Parse(ddlAcademy.SelectedValue);
         getEstimateDetails(acaID);
+    }
+
+    public void BindVendor()
+    {
+        DataSet dsvendor = new DataSet();
+        dsvendor = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM VendorInfo order by VendorName asc");
+        ddlVendorName.DataSource = dsvendor;
+        ddlVendorName.DataValueField = "ID";
+        ddlVendorName.DataTextField = "VendorName";
+        ddlVendorName.DataBind();
+        ddlVendorName.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Vendor--", "0"));
+
     }
 }
    

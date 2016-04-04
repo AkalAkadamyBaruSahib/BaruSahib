@@ -50,21 +50,28 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtMaterialName" Width="300px" runat="server" Text='<%# Eval("MatName") %>'></asp:Label>
+                                                            <asp:Label ID="txtMaterialName" Width="240px" runat="server" Text='<%# Eval("MatName") %>'></asp:Label>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="315px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Unit" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtUnitName" Width="200px" runat="server" Text='<%# Eval("UnitName") %>'></asp:Label>
+                                                            <asp:Label ID="txtUnitName" Width="100px" runat="server" Text='<%# Eval("UnitName") %>'></asp:Label>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Price/Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Old Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:TextBox ID="txtRate" runat="server" Text='<%# Eval("MatCost") %>' CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
+                                                              <asp:Label ID="txtRate" Width="200px" runat="server" Text='<%# Eval("MatCost") %>'></asp:Label>
+                                                         </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                    </asp:TemplateField>
+                                                     <asp:TemplateField HeaderText="New Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                        <ItemTemplate>
+                                                            <asp:TextBox ID="txtNewRate" runat="server" Text='<%# Eval("Rate") %>' CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />

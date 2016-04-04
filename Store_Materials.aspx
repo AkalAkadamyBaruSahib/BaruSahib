@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StoreMaster.master" AutoEventWireup="true" CodeFile="Store_Materials.aspx.cs" Inherits="Store_Materials" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script src="JavaScripts/Store.js"></script>
     <script type="text/javascript">
@@ -90,6 +91,14 @@
             <asp:HiddenField ID="hdnIsReceived" runat="server" />
             <table>
                 <tr>
+                    <td>Select The Vendor:
+                        <asp:DropDownList ID="ddlVendorName" runat="server" Width="125px"></asp:DropDownList>
+                        <asp:RequiredFieldValidator  InitialValue="0" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator_ddlVendorName"
+                            ControlToValidate="ddlVendorName" ForeColor="Red" ErrorMessage="Please Select The Vendor" />
+
+                    </td>
+                </tr>
+                <tr>
                     <td>Enter Received Quantity:
                         <asp:TextBox ID="txtReceivedQty" Width="100px" runat="server"></asp:TextBox>
                     </td>
@@ -102,7 +111,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" CssClass="btn btn-primary" />
+            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" ValidationGroup="vendor" CssClass="btn btn-primary" />
             <input id="Text1" value="Close" style="width: 100px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>
@@ -163,7 +172,7 @@
     <div id="divViewbill" class="modal hide fade" style="display: none; width: 500px;">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h3>Bill(s) for Estimate ID:- <span id="spnEstID"></span> </h3>
+            <h3>Bill(s) for Estimate ID:- <span id="spnEstID"></span></h3>
         </div>
         <div class="modal-body" style="width: 300px;">
             <table id="grdBills" class='table table-striped table-bordered bootstrap-datatable datatable'>

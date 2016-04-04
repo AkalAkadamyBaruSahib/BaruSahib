@@ -40,26 +40,10 @@ public class ConstructionUserRepository
         _context.Estimate.Add(estimate);
         _context.SaveChanges();
     }
-    public void SaveMaterial(List<Material> materials)
+    public void SaveMaterial(MaterialNonApprovedRate materials)
     {
-        Material dbMat = null;
 
-        foreach (Material item in materials)
-        {
-            dbMat = new Material();
-            dbMat = _context.Material.Where(m => m.MatId == item.MatId).FirstOrDefault();
-            dbMat.MatId = item.MatId;
-            dbMat.MatTypeId = item.MatTypeId;
-            dbMat.UnitId = item.UnitId;
-            dbMat.MatCost = item.MatCost;
-            dbMat.CreatedBy = item.CreatedBy;
-            dbMat.ModifyBy = item.ModifyBy;
-            dbMat.CreatedOn = DateTime.Now;
-            dbMat.ModifyOn = DateTime.Now;
-            dbMat.Active = 1;
-            dbMat.IsRateApproved = false;
-            _context.Entry(dbMat).State = EntityState.Modified;
-        }
+        _context.MaterialNonApprovedRate.Add(materials);
         _context.SaveChanges();
     }
 

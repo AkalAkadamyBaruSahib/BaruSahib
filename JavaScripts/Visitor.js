@@ -22,9 +22,9 @@ $(document).ready(function () {
     $("#aRoomNumber").hide();
     $("input[id*='hdnBuildingID']").val()
   
-    $("input[id*='txtfirstDate']").datepicker({
-        maxDate: 0
-    });
+    //$("input[id*='txtfirstDate']").datepicker({
+    //    maxDate: 0
+    //});
     $("input[id*='txtlastDate']").datepicker({
         minDate: 0
     });

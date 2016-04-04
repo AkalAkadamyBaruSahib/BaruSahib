@@ -27,7 +27,7 @@ public partial class RateApproved : System.Web.UI.Page
     protected void BindNonApprovedRateMaterial()
     {
         DataSet dsMat = new DataSet();
-        dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName from Material M Inner join MaterialType MT on M.MatTypeId = MT.MatTypeId Inner Join Unit U On M.UnitId = U.UnitId  where M.IsRateApproved = 0");
+        dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,MN.Rate from Material M Inner join MaterialType MT on M.MatTypeId = MT.MatTypeId Inner Join Unit U On M.UnitId = U.UnitId Inner Join MaterialNonApprovedRate MN on M.MatId = MN.MatID  where M.IsRateApproved = 0");
         grvNonApprovedRateDetails.DataSource = dsMat;
         grvNonApprovedRateDetails.DataBind();
     }
@@ -37,13 +37,14 @@ public partial class RateApproved : System.Web.UI.Page
         MaterialRateApproved materialrateapproved = new MaterialRateApproved();
         GridViewRow gr = (GridViewRow)((DataControlFieldCell)((Button)sender).Parent).Parent;
         Button btnapproved = (Button)gr.FindControl("btn_Approved");
-        TextBox txtRate = (TextBox)gr.FindControl("txtRate");
+        Label txtRate = (Label)gr.FindControl("txtRate");
+        TextBox txtNewRate = (TextBox)gr.FindControl("txtNewRate");
         string approvedid = btnapproved.CommandArgument.ToString();
         DataSet dsMat = new DataSet();
         dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select MatId from Material  where MatId = '" + approvedid + "'");
         if (approvedid == dsMat.Tables[0].Rows[0]["MatId"].ToString())
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("Update Material set MatCost='" + txtRate.Text + "',IsRateApproved = 1 where MatId = '" + approvedid + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Material set MatCost='" + txtNewRate.Text + "',IsRateApproved = 1 where MatId = '" + approvedid + "'");
         }
         materialrateapproved.MatID = Convert.ToInt32(approvedid);
         materialrateapproved.ApprovedBy = lblUser.Text;
