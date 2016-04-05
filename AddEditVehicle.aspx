@@ -373,11 +373,15 @@
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblDocumentType" runat="server" Text='<%# Eval("DocumentName") %>' class="control-label"></asp:Label>
                                                         </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="200px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Document Expiry Date" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
                                                             <asp:TextBox ID="txtDate" runat="server" CssClass="input-large datepicker">(mm/dd/yyyy)</asp:TextBox>
                                                         </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="View/Download" ItemStyle-Width="300px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
@@ -385,13 +389,24 @@
                                                             <asp:Label ID="lblDocu" Text="-1" runat="server" Visible="false" class="control-label"></asp:Label>
                                                             <asp:HyperLink ID="hypDoc" Target="_blank" runat="server" Text="No document Uploaded"></asp:HyperLink>
                                                         </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="300px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Upload Document" ItemStyle-Width="400px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
                                                             <asp:FileUpload ID="fiupload" runat="server" />
                                                         </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="400px" />
                                                     </asp:TemplateField>
-                                                </Columns>
+                                                          <asp:TemplateField  HeaderText="Action"  ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                        <ItemTemplate>
+                                                            <asp:Button ID="btn_Approved" Visible="false" Text="Delete"  CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-primary" OnClick="btn_Approved_Click" />
+                                                        </ItemTemplate>
+                                                              <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                              <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                    </asp:TemplateField>
+                                                   </Columns>
                                                 <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
                                                 <RowStyle BackColor="#EFF3FB" />
                                                 <EditRowStyle BackColor="#2461BF" />

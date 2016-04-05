@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     $("#aQualification").hide();
     $("#afileUploadDlValidity").hide();
-    $("#afileUploadaApplicationForm").hide();
+    $("#afileUploadApplicationForm").hide();
     $("input[id*='btnEdit'] ").hide();
 
 
@@ -60,16 +60,39 @@ $(document).ready(function () {
             VehicleEmployee.Address = $("textarea[id*='txtAddress']").val();
             VehicleEmployee.FatherName = $("input[id*='txtFatherName']").val();
             VehicleEmployee.DateOfBirth = $("input[id*='txtDateOfBirth']").val();
-            if ($("#fileUploadQualification")[0].files[0] != undefined) {
-                VehicleEmployee.Qualification = "TransportEmployeeQualification/" + $("#fileUploadQualification")[0].files[0].name;
+            var fileUploadQualification = $("#fileUploadQualification")[0].files;
+
+            if ($("#fileUploadQualification")[0].files != undefined) {
+                VehicleEmployee.Qualification = "";
+                for (var i = 0; i < fileUploadQualification.length; i++) {
+                  
+                    VehicleEmployee.Qualification += "TransportEmployeeQualification/" + $("#fileUploadQualification")[0].files[i].name + ",";
+                }
+                VehicleEmployee.Qualification = VehicleEmployee.Qualification.substr(0, VehicleEmployee.Qualification.length - 1);
             }
+            
             VehicleEmployee.DLNumber = $("input[id*='txtDlNumber']").val();
-            if ($("#fileUploadDlValidity")[0].files[0] != undefined) {
-                VehicleEmployee.DLScanCopy = "TransportDLScanCopy/" + $("#fileUploadDlValidity")[0].files[0].name;
+
+            var fileUploadDlValidity = $("#fileUploadDlValidity")[0].files;
+            if ($("#fileUploadDlValidity")[0].files != undefined) {
+                VehicleEmployee.DLScanCopy = "";
+                for (var i = 0; i < fileUploadDlValidity.length; i++) {
+                  
+                    VehicleEmployee.DLScanCopy += "TransportDLScanCopy/" + $("#fileUploadDlValidity")[0].files[i].name + ",";
+                }
+                VehicleEmployee.DLScanCopy = VehicleEmployee.DLScanCopy.substr(0, VehicleEmployee.DLScanCopy.length - 1);
             }
+           
             VehicleEmployee.DateOfJoining = $("input[id*='txtDateOfJoin']").val();
-            if ($("#fileUploadaApplicationForm")[0].files[0] != undefined) {
-                VehicleEmployee.ApplicationForm = "TransportApplicationForm/" + $("#fileUploadaApplicationForm")[0].files[0].name;
+
+            var fileUploadApplicationForm = $("#fileUploadApplicationForm")[0].files;
+            if ($("#fileUploadApplicationForm")[0].files != undefined) {
+                VehicleEmployee.ApplicationForm = "";
+                for (var i = 0; i < fileUploadApplicationForm.length; i++) {
+                  
+                    VehicleEmployee.ApplicationForm += "TransportApplicationForm/" + $("#fileUploadApplicationForm")[0].files[i].name + ",";
+                }
+                VehicleEmployee.ApplicationForm = VehicleEmployee.ApplicationForm.substr(0, VehicleEmployee.ApplicationForm.length - 1);
             }
             VehicleEmployee.ContactNoInCaseOfEmergency = $("input[id*='txtEmergencyContactNo']").val();
             VehicleEmployee.PreviousCompanyName = $("input[id*='txtNameOfTheComp']").val();
@@ -167,7 +190,7 @@ $(document).ready(function () {
     }
 
     function ApplicationFormUpload() {
-        var files = $("#fileUploadaApplicationForm")[0].files;
+        var files = $("#fileUploadApplicationForm")[0].files;
 
         var data = new FormData();
         for (var i = 0; i < files.length; i++) {
@@ -292,7 +315,7 @@ $(document).ready(function () {
     }
 
     function ValidateUploadFile() {
-        if ($("#fileUploadQualification").val() == "" || $("#fileUploadDlValidity").val() == "" || $("#fileUploadaApplicationForm").val() == "") {
+        if ($("#fileUploadQualification").val() == "" || $("#fileUploadDlValidity").val() == "" || $("#fileUploadApplicationForm").val() == "") {
             alert("Please Upload The File");
             return false;
         }
@@ -306,7 +329,7 @@ $(document).ready(function () {
             rules: {
                 fileUploadQualification: "required",
                 fileUploadDlValidity: "required",
-                fileUploadaApplicationForm: "required"
+                fileUploadApplicationForm: "required"
             },
 
             // Specify the validation error messages
@@ -385,11 +408,29 @@ $(document).ready(function () {
                     $("select[id*='ddlyear']").val(rdata.ExperienceInYear);
                     $("select[id*='ddlmonth']").val(rdata.ExperienceInMonth);
                     $("#aQualification").show();
-                    $("#aQualification").attr("href", rdata.Qualification);
+                    var qualificationPics = rdata.Qualification.split(',');
+                    var link = "";
+                    for (var i = 0; i < qualificationPics.length; i++)
+                    {
+                        link += " <a href='" + qualificationPics[i] + "' target='_blank'>Qualification_" + (i + 1) + "</a>";
+                    }
+                    $("#aQualification")[0].innerHTML = link;
+
                     $("#afileUploadDlValidity").show();
-                    $("#afileUploadDlValidity").attr("href", rdata.DLScanCopy);
-                    $("#afileUploadaApplicationForm").show();
-                    $("#afileUploadaApplicationForm").attr("href", rdata.ApplicationForm);
+                    var dlPics = rdata.DLScanCopy.split(',');
+                    var DLlink = "";
+                    for (var i = 0; i < dlPics.length; i++) {
+                        DLlink += " <a href='" + dlPics[i] + "' target='_blank'>DLScanCopy_" + (i + 1) + "</a>";
+                    }
+                    $("#afileUploadDlValidity")[0].innerHTML = DLlink;
+
+                    $("#afileUploadApplicationForm").show();
+                    var ApplicationFormPics = rdata.ApplicationForm.split(',');
+                    var linkForm = "";
+                    for (var i = 0; i < ApplicationFormPics.length; i++) {
+                        linkForm += " <a href='" + ApplicationFormPics[i] + "' target='_blank'>ApplicationForm_" + (i + 1) + "</a>";
+                    }
+                    $("#afileUploadApplicationForm")[0].innerHTML = linkForm;
 
                     var familyrow = 1;
                     var Referencerow = 1;
@@ -514,17 +555,36 @@ $(document).ready(function () {
         vehicleEmployee.Address = $("textarea[id*='txtAddress']").val();
         vehicleEmployee.FatherName = $("input[id*='txtFatherName']").val();
         vehicleEmployee.DateOfBirth = $("input[id*='txtDateOfBirth']").val();
+
+        var fileUploadQualification = $("#fileUploadQualification")[0].files;
         if ($("#fileUploadQualification")[0].files[0] != undefined) {
-            vehicleEmployee.Qualification = "TransportEmployeeQualification/" + $("#fileUploadQualification")[0].files[0].name;
+            vehicleEmployee.Qualification = "";
+            for (var i = 0; i < fileUploadQualification.length; i++) {
+                vehicleEmployee.Qualification += "TransportEmployeeQualification/" + $("#fileUploadQualification")[0].files[i].name + ",";
+            }
+            vehicleEmployee.Qualification = vehicleEmployee.Qualification.substr(0, vehicleEmployee.Qualification.length - 1);
         }
         vehicleEmployee.DLNumber = $("input[id*='txtDlNumber']").val();
+        var fileUploadDlValidity = $("#fileUploadDlValidity")[0].files;
         if ($("#fileUploadDlValidity")[0].files[0] != undefined) {
-            vehicleEmployee.DLScanCopy = "TransportDLScanCopy/" + $("#fileUploadDlValidity")[0].files[0].name;
+            vehicleEmployee.DLScanCopy = "";
+            for (var i = 0; i < fileUploadDlValidity.length; i++) {
+               
+                vehicleEmployee.DLScanCopy += "TransportDLScanCopy/" + $("#fileUploadDlValidity")[0].files[i].name + ",";
+            }
+            vehicleEmployee.DLScanCopy = vehicleEmployee.DLScanCopy.substr(0, vehicleEmployee.DLScanCopy.length - 1);
         }
         vehicleEmployee.DateOfJoining = $("input[id*='txtDateOfJoin']").val();
-        if ($("#fileUploadaApplicationForm")[0].files[0] != undefined) {
-            vehicleEmployee.ApplicationForm = "TransportApplicationForm/" + $("#fileUploadaApplicationForm")[0].files[0].name;
+
+        var fileUploadApplicationForm = $("#fileUploadApplicationForm")[0].files;
+        if ($("#fileUploadApplicationForm")[0].files[0] != undefined) {
+            vehicleEmployee.ApplicationForm = "";
+            for (var i = 0; i < fileUploadApplicationForm.length; i++) {
+                vehicleEmployee.ApplicationForm += "TransportApplicationForm/" + $("#fileUploadApplicationForm")[0].files[i].name + ",";
+            }
+            vehicleEmployee.ApplicationForm = vehicleEmployee.ApplicationForm.substr(0, vehicleEmployee.ApplicationForm.length - 1);
         }
+
         vehicleEmployee.ContactNoInCaseOfEmergency = $("input[id*='txtEmergencyContactNo']").val();
         vehicleEmployee.PreviousCompanyName = $("input[id*='txtNameOfTheComp']").val();
         vehicleEmployee.ExperienceInYear = $("select[id*='ddlyear']").val();
@@ -536,22 +596,23 @@ $(document).ready(function () {
             transportEmployeeRelation = new Object();
             transportEmployeeRelation.VehicleEmployeeID = vehicleEmployee.ID;
             transportEmployeeRelation.RelationTypeID = 1;
-                transportEmployeeRelation.Name = $("input[id*='txtFamilyName" + i + "']").val();
-                transportEmployeeRelation.Age = $("input[id*='txtFamilyAge" + i + "']").val();
-                transportEmployeeRelation.Relation = $("select[id*='ddlFamilyRelation" + i + "']").val();
-                transportEmployeeRelation.Nominee = $("input[id*='chkNominee" + i + "']").is(":checked");
-                arr.push(transportEmployeeRelation);
+            transportEmployeeRelation.Name = $("input[id*='txtFamilyName" + i + "']").val();
+            transportEmployeeRelation.Age = $("input[id*='txtFamilyAge" + i + "']").val();
+            transportEmployeeRelation.Relation = $("select[id*='ddlFamilyRelation" + i + "']").val();
+            transportEmployeeRelation.Nominee = $("input[id*='chkNominee" + i + "']").is(":checked");
+            arr.push(transportEmployeeRelation);
         }
 
         for (var i = 1; i < cntR; i++) {
             transportEmployeeRelation = new Object();
             transportEmployeeRelation.VehicleEmployeeID = vehicleEmployee.ID;
             transportEmployeeRelation.RelationTypeID = 2;
-                transportEmployeeRelation.Name = $("input[id*='txtRefName" + i + "']").val();
-                transportEmployeeRelation.Relation = $("input[id*='txtRefRelation" + i + "']").val();
-                transportEmployeeRelation.PhoneNo = $("input[id*='txtRefPhoneNo" + i + "']").val();
-                transportEmployeeRelation.Address = $("input[id*='txtRefAddress" + i + "']").val();
-                arr.push(transportEmployeeRelation);
+            transportEmployeeRelation.Name = $("input[id*='txtRefName" + i + "']").val();
+            transportEmployeeRelation.Relation = $("input[id*='txtRefRelation" + i + "']").val();
+            transportEmployeeRelation.PhoneNo = $("input[id*='txtRefPhoneNo" + i + "']").val();
+            transportEmployeeRelation.Address = $("input[id*='txtRefAddress" + i + "']").val();
+            arr.push(transportEmployeeRelation);
+
         }
 
         vehicleEmployee.TransportEmployeeRelation = arr;

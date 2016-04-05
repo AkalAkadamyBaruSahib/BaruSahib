@@ -13,12 +13,10 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
-
             Page.Form.Attributes.Add("enctype", "multipart/form-data");
             BindYear();
             Fillmonth();
             BindDLType();
-
         }
     }
 

@@ -327,7 +327,8 @@ public partial class AddVehicle : System.Web.UI.Page
         DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
         gvDocuments.DataSource = TransportDocuments.Tables[0];
         gvDocuments.DataBind();
-
+        
+       
     }
     protected void gvDocuments_RowDataBound(object sender, GridViewRowEventArgs e)
     {
@@ -342,6 +343,8 @@ public partial class AddVehicle : System.Web.UI.Page
             HyperLink hypDoc = e.Row.FindControl("hypDoc") as HyperLink;
             Label lblDocu = e.Row.FindControl("lblDocu") as Label;
             TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
+            Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
+            
             string path = string.Empty;
             ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + VehicleID);
             if (ds.Tables[0].Rows.Count > 0)
@@ -355,7 +358,9 @@ public partial class AddVehicle : System.Web.UI.Page
                 {
                     txtDate.Text = Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()).ToShortDateString();
                 }
+                btn_Approved.Visible = true;
             }
+            
         }
     }
 
@@ -574,4 +579,24 @@ public partial class AddVehicle : System.Web.UI.Page
             trRear2.Visible = true;
         }
     }
+
+    protected void btn_Approved_Click(object sender, EventArgs e)
+    {
+        GridViewRow gr = (GridViewRow)((DataControlFieldCell)((Button)sender).Parent).Parent;
+        Button btnapproved = (Button)gr.FindControl("btn_Approved");
+        string approvedid = btnapproved.CommandArgument.ToString();
+        DataSet dsMat = new DataSet();
+        dsMat = DAL.DalAccessUtility.GetDataInDataSet("SELECT ID,TransportDocumentID FROM VechilesDocumentRelation WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + VehicleID);
+        if (dsMat != null && dsMat.Tables[0] != null && dsMat.Tables[0].Rows.Count > 0)
+        {
+            DAL.DalAccessUtility.ExecuteNonQuery("Delete FROM VechilesDocumentRelation WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + VehicleID);
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Vehicle Document Delete Successfully');</script>", false);
+
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('File does not exit!!!!! Please select the correct File');</script>", false);
+        }
+         bindDocumentGrid();
+       }
 }

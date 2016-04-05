@@ -96,12 +96,11 @@
                                         <div class="control-group" id="divfileUploadQualification" runat="server">
                                             <label class="control-label" for="typeahead">Qualification:</label>
                                             <div class="controls">
-                                                <input type="file" id="fileUploadQualification" />
-                                                <a id="aQualification" style="font-size: 13px;" target="_blank">Qualification</a>
+                                                <input type="file" id="fileUploadQualification" multiple="multiple"/>
+                                                <div id="aQualification"></div>
                                             </div>
                                         </div>
                                     </td>
-
                                     <td>
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Date Of Joining:</label>
@@ -117,8 +116,9 @@
                                         <div class="control-group" id="div1" runat="server">
                                             <label class="control-label" for="typeahead">DL Scan Copy:</label>
                                             <div class="controls">
-                                                <input type="file" id="fileUploadDlValidity" />
-                                                <a id="afileUploadDlValidity" style="font-size: 13px;" target="_blank">Scan Copy</a>
+                                                <input type="file" id="fileUploadDlValidity" multiple="multiple" />
+                                                   <div id="afileUploadDlValidity"></div>
+                                             
 
                                             </div>
                                         </div>
@@ -168,15 +168,13 @@
                                             </div>
                                         </div>
                                     </td>
-
-
-
                                     <td>
-                                        <div class="control-group" id="divfileUploadaApplicationForm" runat="server">
+                                        <div class="control-group" id="divfileUploadApplicationForm" runat="server">
                                             <label class="control-label" for="typeahead">Application Form:</label>
                                             <div class="controls">
-                                                <input type="file" id="fileUploadaApplicationForm" />
-                                                <a id="afileUploadaApplicationForm" style="font-size: 13px;" target="_blank">Application Form</a>
+                                                <input type="file" id="fileUploadApplicationForm" multiple="multiple" />
+                                                  <div id="afileUploadApplicationForm"></div>
+                                         
                                             </div>
                                         </div>
                                     </td>
