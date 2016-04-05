@@ -45,4 +45,6 @@ public class Material
     public string ImageUrl { get; set; }
 
     public bool? IsRateApproved { get; set; }
+
+    public List<VendorMaterialRelation> VendorMaterialRelation { get; set; }
 }
