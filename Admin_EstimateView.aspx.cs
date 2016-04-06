@@ -15,7 +15,6 @@ public partial class Admin_EstimateView : System.Web.UI.Page
     DataTable dt = new DataTable();
     DataRow dr;
     private bool IsApproved = true;
-    private bool IsRejected = true;
     private bool IsItemRejected = false;
 
     protected void Page_Load(object sender, EventArgs e)
@@ -370,7 +369,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td style='display:none;'>1</td>";
-            if (dtapproved.Rows[i]["IsItemRejected"].ToString() == "True" && dtapproved.Rows[i]["IsApproved"].ToString() == "True")
+            if (dtapproved.Rows[i]["IsItemRejected"].ToString() == "True")
             {
                 ZoneInfo += "<td width='5%'><table><tr><td>" + dtapproved.Rows[i]["EstId"].ToString() + "</td></tr><tr><td style='color:red'><b>Rejected</b></td></tr></table></td>";
             }
@@ -392,7 +391,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
             }
             else
             {
-                if (isItemRejected)
+                if (dtapproved.Rows[i]["IsItemRejected"].ToString() == "True")
                 {
                     ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a></td></tr>";
                 }
