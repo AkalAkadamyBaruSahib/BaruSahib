@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -69,5 +70,35 @@ public class PurchaseRepository
         _context.Entry(vendorinfo).State = EntityState.Modified;
         _context.SaveChanges();
     }
-  
+
+    public List<MaterialsDTO> GetActiveMaterials()
+    {
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        return mt = _context.Material.Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
+                         {
+                             MatID = x.MatId,
+                             MatName = x.MatName,
+                         }).OrderByDescending(m => m.MatName).Reverse().ToList();
+
+    }
+
+    public List<VendorInfo> GetVendorsNameList()
+    {
+        return _context.VendorInfo.ToList();
+    }
+
+    public List<Estimate> GetEstimateNumberList()
+    {
+        return _context.Estimate.ToList();
+    }
+
+    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
+    {
+
+        var Materialsname = _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID).ToList();
+
+
+        return Materialsname;
+        //return _context.EstimateAndMaterialOthersRelations.Where(r => r.EstId == EstimateID).ToList();
+    }
 }

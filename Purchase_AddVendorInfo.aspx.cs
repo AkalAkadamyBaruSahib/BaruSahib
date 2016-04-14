@@ -54,6 +54,9 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
             vendorinfo.VendorName = txtVendorName.Text;
             vendorinfo.VendorAddress = txtAddress.Text;
             vendorinfo.VendorContactNo = txtPhone.Text;
+            vendorinfo.VendorState = txtState.Text;
+            vendorinfo.VendorCity = txtCity.Text;
+            vendorinfo.VendorZip = txtZip.Text;
             vendorinfo.CreatedOn = DateTime.Now;
             vendorinfo.ModifyBy = lblUser.Text;
             vendorinfo.ModifyOn = DateTime.Now;
@@ -86,7 +89,7 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
     protected void BindActiveVendorsDetails()
     {
         DataSet dsVDDetails = new DataSet();
-        dsVDDetails = DAL.DalAccessUtility.GetDataInDataSet("select ID,VendorName,VendorContactNo,VendorAddress,Active from VendorInfo where Active=1");
+        dsVDDetails = DAL.DalAccessUtility.GetDataInDataSet("select ID,VendorName,VendorContactNo,VendorAddress,Active,VendorState,VendorCity,VendorZip from VendorInfo where Active=1");
         divVendorDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -144,12 +147,15 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
     private void getVendorDetails(string vid)
     {
         DataSet dsGetVendorDetail = new DataSet();
-        dsGetVendorDetail = DAL.DalAccessUtility.GetDataInDataSet("select ID,VendorName,VendorContactNo,VendorAddress,Active,CreatedOn,ModifyOn,ModifyBy from VendorInfo where ID = '" + vid + "' order by ID asc");
+        dsGetVendorDetail = DAL.DalAccessUtility.GetDataInDataSet("select ID,VendorName,VendorContactNo,VendorAddress,Active,VendorState,VendorCity,VendorZip,CreatedOn,ModifyOn,ModifyBy from VendorInfo where ID = '" + vid + "' order by ID asc");
         if (dsGetVendorDetail.Tables[0].Rows.Count > 0)
         {
             txtVendorName.Text = dsGetVendorDetail.Tables[0].Rows[0]["VendorName"].ToString();
             txtAddress.Text = dsGetVendorDetail.Tables[0].Rows[0]["VendorAddress"].ToString();
             txtPhone.Text = dsGetVendorDetail.Tables[0].Rows[0]["VendorContactNo"].ToString();
+            txtState.Text = dsGetVendorDetail.Tables[0].Rows[0]["VendorState"].ToString();
+            txtCity.Text = dsGetVendorDetail.Tables[0].Rows[0]["VendorCity"].ToString();
+            txtZip.Text = dsGetVendorDetail.Tables[0].Rows[0]["VendorZip"].ToString();
             bool ShowCkBoxValue = Convert.ToBoolean(dsGetVendorDetail.Tables[0].Rows[0]["Active"].ToString());
             chkInactive.Checked = ShowCkBoxValue;
         }
@@ -173,7 +179,7 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         string VNameId = Request.QueryString["VIdEdit"];
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewVendorInfoProc '" + txtVendorName.Text + "','" + txtAddress.Text + "','" + txtPhone.Text + "','" + lblUser.Text + "','2','" + VNameId + "','" + chkInactive.Checked + "'");
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewVendorInfoProc '" + txtVendorName.Text + "','" + txtAddress.Text + "','" + txtPhone.Text + "','" + lblUser.Text + "','2','" + VNameId + "','" + chkInactive.Checked + "','" + txtState.Text + "','" + txtCity.Text + "','" + txtZip.Text + "'");
         
             DAL.DalAccessUtility.ExecuteNonQuery("Delete from VendorMaterialRelation where Vendorid ='" + VNameId + "'");
             foreach (ListItem item in lstMaterials.Items)
@@ -202,6 +208,9 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
         txtPhone.Text = "";
         txtVendorName.Text = "";
         txtAddress.Text = "";
+        txtZip.Text = "";
+        txtState.Text = "";
+        txtCity.Text = "";
         chkInactive.Checked = false;
         lstMaterials.Items.Clear();
     }

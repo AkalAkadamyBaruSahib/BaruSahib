@@ -33,5 +33,11 @@ public class VendorInfo
 
     public bool Active { get; set; }
 
+    public string VendorState { get; set; }
+
+    public string VendorCity { get; set; }
+
+    public string VendorZip { get; set; }
+
     public List<VendorMaterialRelation> VendorMaterialRelation { get; set; }
 }

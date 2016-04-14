@@ -28,7 +28,7 @@ public class Estimate
 
     public DateTime? SanctionDate { get; set; }
 
-    public int Active { get; set; }
+    public int? Active { get; set; }
 
     public int CreatedBy { get; set; }
 
@@ -53,6 +53,8 @@ public class Estimate
     public bool? IsRejected { get; set; }
 
     public bool IsItemRejected { get; set; }
+
+    public bool IsActive { get; set; }
 
     public List<EstimateAndMaterialOthersRelations> EstimateAndMaterialOthersRelations { get; set; }
 

@@ -407,31 +407,33 @@ $(document).ready(function () {
                     $("input[id*='txtNameOfTheComp']").val(rdata.PreviousCompanyName);
                     $("select[id*='ddlyear']").val(rdata.ExperienceInYear);
                     $("select[id*='ddlmonth']").val(rdata.ExperienceInMonth);
-                    $("#aQualification").show();
-                    var qualificationPics = rdata.Qualification.split(',');
-                    var link = "";
-                    for (var i = 0; i < qualificationPics.length; i++)
-                    {
-                        link += " <a href='" + qualificationPics[i] + "' target='_blank'>Qualification_" + (i + 1) + "</a>";
+                    if (rdata.Qualification != null) {
+                        $("#aQualification").show();
+                        var qualificationPics = rdata.Qualification.split(',');
+                        var link = "";
+                        for (var i = 0; i < qualificationPics.length; i++) {
+                            link += " <a href='" + qualificationPics[i] + "' target='_blank'>Qualification_" + (i + 1) + "</a>";
+                        }
+                        $("#aQualification")[0].innerHTML = link;
                     }
-                    $("#aQualification")[0].innerHTML = link;
-
-                    $("#afileUploadDlValidity").show();
-                    var dlPics = rdata.DLScanCopy.split(',');
-                    var DLlink = "";
-                    for (var i = 0; i < dlPics.length; i++) {
-                        DLlink += " <a href='" + dlPics[i] + "' target='_blank'>DLScanCopy_" + (i + 1) + "</a>";
+                    if (rdata.DLScanCopy != null) {
+                        $("#afileUploadDlValidity").show();
+                        var dlPics = rdata.DLScanCopy.split(',');
+                        var DLlink = "";
+                        for (var i = 0; i < dlPics.length; i++) {
+                            DLlink += " <a href='" + dlPics[i] + "' target='_blank'>DLScanCopy_" + (i + 1) + "</a>";
+                        }
+                        $("#afileUploadDlValidity")[0].innerHTML = DLlink;
                     }
-                    $("#afileUploadDlValidity")[0].innerHTML = DLlink;
-
-                    $("#afileUploadApplicationForm").show();
-                    var ApplicationFormPics = rdata.ApplicationForm.split(',');
-                    var linkForm = "";
-                    for (var i = 0; i < ApplicationFormPics.length; i++) {
-                        linkForm += " <a href='" + ApplicationFormPics[i] + "' target='_blank'>ApplicationForm_" + (i + 1) + "</a>";
+                    if (rdata.ApplicationForm != null) {
+                        $("#afileUploadApplicationForm").show();
+                        var ApplicationFormPics = rdata.ApplicationForm.split(',');
+                        var linkForm = "";
+                        for (var i = 0; i < ApplicationFormPics.length; i++) {
+                            linkForm += " <a href='" + ApplicationFormPics[i] + "' target='_blank'>ApplicationForm_" + (i + 1) + "</a>";
+                        }
+                        $("#afileUploadApplicationForm")[0].innerHTML = linkForm;
                     }
-                    $("#afileUploadApplicationForm")[0].innerHTML = linkForm;
-
                     var familyrow = 1;
                     var Referencerow = 1;
                     for (var i = 0; i < rdata.TransportEmployeeRelationDTO.length; i++) {

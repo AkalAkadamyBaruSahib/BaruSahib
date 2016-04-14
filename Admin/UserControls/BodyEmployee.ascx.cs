@@ -9,7 +9,6 @@ using System.Data;
 
 public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
 {
-
     public static int ModuleID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {

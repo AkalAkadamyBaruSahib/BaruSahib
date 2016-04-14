@@ -14,13 +14,9 @@ public partial class Purchase_MaterialSearch : System.Web.UI.Page
     }
     protected void btnSearch_Click(object sender, EventArgs e)
     {
-        getSearchMaterialDetail();
-    }
-
-    private void getSearchMaterialDetail()
-    {
+        string name = Request.Form["txtMaterial"];
         DataSet dsMaterialDetails = new DataSet();
-        dsMaterialDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_PurchaseMaterialSearch '" + txtMatName.Text + "'");
+        dsMaterialDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_PurchaseMaterialItemSearch '" + name.Trim() +"'");
         divMaterialDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";
@@ -36,25 +32,22 @@ public partial class Purchase_MaterialSearch : System.Web.UI.Page
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
-        ZoneInfo += "<th width='10%'>Estimate No</th>";
-        ZoneInfo += "<th width='10%'>Mateial Name</th>";
-        ZoneInfo += "<th width='10%'>Company Rate</th>";
-        ZoneInfo += "<th width='13%'>Vendor Name</th>";
-        ZoneInfo += "<th width='13%'>Date</th>";
+        ZoneInfo += "<th width='10%' style='color:#cc3300;'>Vendor Info</th>";
+        ZoneInfo += "<th width='10%' style='color:#cc3300;'>Purchase Qty</th>";
+        ZoneInfo += "<th width='10%' style='color:#cc3300;'>Rate</th>";
+        ZoneInfo += "<th width='13%' style='color:#cc3300;'>Purcahse Date</th>";
+        ZoneInfo += "<th width='13%' style='color:#cc3300;'>Purcahse Employee Name</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
         for (int i = 0; i < dsMaterialDetails.Tables[0].Rows.Count; i++)
         {
             ZoneInfo += "<tr>";
-            ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["EstId"].ToString() + "</td>";
-            ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["EmployeeName"].ToString() + "</td>";
-            ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
+            ZoneInfo += "<td width='20%'><table><tr><td><b><span style='color:#cc3300;'>&nbsp;&nbsp;&nbsp;Estimate No:</span></b>&nbsp&nbsp" + dsMaterialDetails.Tables[0].Rows[i]["EstId"].ToString() + "</td></tr><tr><td><b><span style='color:#cc3300;'>Vendor Name:</span></b>&nbsp;&nbsp;" + dsMaterialDetails.Tables[0].Rows[i]["VendorName"].ToString() + "</td></tr><tr><td><table><tr><td><b><span style='color:#cc3300;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address:</span></b>&nbsp;&nbsp;" + dsMaterialDetails.Tables[0].Rows[i]["VendorAddress"].ToString() + "</td></tr><tr><td><b><span style='color:#cc3300;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State:</span></b>&nbsp;&nbsp;" + dsMaterialDetails.Tables[0].Rows[i]["VendorState"].ToString() + "</td></tr><tr><td><b><span style='color:#cc3300;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;City:</span></b>&nbsp;&nbsp;" + dsMaterialDetails.Tables[0].Rows[i]["VendorCity"].ToString() + "</td></tr><tr><td><b><span style='color:#cc3300;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zip:</span></b>&nbsp;&nbsp;" + dsMaterialDetails.Tables[0].Rows[i]["VendorZip"].ToString() + "</td></tr></table></td></tr><tr><td><b><span style='color:#cc3300;'>&nbsp;&nbsp;Contact No:</span></b>&nbsp;&nbsp;" + dsMaterialDetails.Tables[0].Rows[i]["VendorContactNo"].ToString() + "</td></tr></table></td>";
+            ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
             ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
             ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
-
-            ZoneInfo += "<td class='center' width='13%' align='center'>";
-            ZoneInfo += "</td>";
+            ZoneInfo += "<td width='10%'>" + dsMaterialDetails.Tables[0].Rows[i]["EmployeeName"].ToString() + "</td>";
             ZoneInfo += "</tr>";
         }
         ZoneInfo += "</tbody>";
@@ -63,4 +56,6 @@ public partial class Purchase_MaterialSearch : System.Web.UI.Page
         ZoneInfo += "</div>";
         divMaterialDetails.InnerHtml = ZoneInfo.ToString();
     }
+
+ 
 }

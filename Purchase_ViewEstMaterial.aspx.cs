@@ -93,6 +93,7 @@ public partial class Purchase_ViewEstMaterial : System.Web.UI.Page
                     DAL.DalAccessUtility.ExecuteNonQuery("INSERT INTO InchargeEmployee values(" + Session["InchargeID"].ToString() + "," + ddlEmployee.SelectedValue + ") ");
                     DAL.DalAccessUtility.ExecuteNonQuery("UPDATE EstimateAndMaterialOthersRelations SET PurchaseEmpID=" + ddlEmployee.SelectedValue + ", EmployeeAssignDateTime=GETDATE() where Sno=" + hdnSno.Value);
                     smsTo = ddlEmployee.SelectedValue;
+                    SendSMSToAssignEmployee(smsTo);
                 }
                 catch (Exception ex)
                 {
@@ -111,7 +112,7 @@ public partial class Purchase_ViewEstMaterial : System.Web.UI.Page
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been assigned to purchase officer');", true);
         }
-        SendSMSToAssignEmployee(smsTo);
+        
 
     }
 
@@ -121,7 +122,10 @@ public partial class Purchase_ViewEstMaterial : System.Web.UI.Page
 
         InchargeController conrtoller = new InchargeController();
         List<Incharge> incharges = conrtoller.GetUsersByUserType(12);
-        smsTo = incharges.Where(p => p.InchargeId == int.Parse(UserID)).Select(i => i.InMobile).FirstOrDefault();
+        if (UserID != null && UserID !="")
+        {
+            smsTo = incharges.Where(p => p.InchargeId == int.Parse(UserID)).Select(i => i.InMobile).FirstOrDefault();
+        }
 
         Utility.SendSMS(smsTo, "New Material has been assigned to you for purchase. Please login to www.akalsewa.org for more details");
     }

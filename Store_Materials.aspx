@@ -21,32 +21,26 @@
             return true;
         }
 
-        function OpenReceivedMaterial(EMRId, qty, rate) {
-            $("input[id*='hdnIsReceived']").val(1);
-            $("input[id*='hdnEMRId']").val(EMRId);
-            $("input[id*='txtReceivedQty']").val(qty);
-            $("input[id*='txtRate']").val(rate);
-            $("#divIsReceived").modal('show');
+        function ValidateDropDown() {
+            var btnvalue = $("input[id*='btnSave']").val();
+            if (btnvalue != 'Dispatch') {
+                var script = document.getElementById('<%= txtLinkBillNo.ClientID %>').value;
+                if (document.getElementById('ddlVendorName').selectedIndex == 0) {
+                    alert("Please select the Vendor");
+                    return false;
+                }
+                else if (script == "") {
+                    alert("Please Enter Purchased Bill No");
+                    return false;
+                }
+                return true;
+            }
         }
-
-        function OpenDispatchMaterial(EMRId) {
-            $("input[id*='hdnIsReceived']").val(0);
-            $("input[id*='hdnEMRId']").val(EMRId);
-            $("input[id*='btnSave']").val('Dispatch');
-            $("#trupload").hide();
-            $("#divIsReceived").modal('show');
-        }
-
-        function OpenUploadbill(EstID) {
-            $("input[id*='hdnEstID']").val(EstID);
-            $("#divUploadBill").modal('show');
-        }
-
-
-
-    </script>
-    <div id="content" class="span10">
+      
+</script>
+       <div id="content" class="span10">
         <asp:HiddenField ID="hdnEstID" runat="server" />
+      
 
         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
         <div class="row-fluid sortable">
@@ -89,29 +83,29 @@
         <div class="modal-body">
             <asp:HiddenField ID="hdnEMRId" runat="server" />
             <asp:HiddenField ID="hdnIsReceived" runat="server" />
+              <asp:HiddenField ID="hdnVendorID" runat="server" />
             <table>
-                <tr>
+                <tr id="trvendorname">
                     <td>Select The Vendor:
-                        <asp:DropDownList ID="ddlVendorName" runat="server" Width="125px"></asp:DropDownList>
-                        <asp:RequiredFieldValidator  InitialValue="0" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator_ddlVendorName"
-                            ControlToValidate="ddlVendorName" ForeColor="Red" ErrorMessage="Please Select The Vendor" />
-
+                        <select id="ddlVendorName" style="width:131px; float:right;">
+                        <option value="0">--Select Vendor--</option>
+                       </select>
                     </td>
                 </tr>
                 <tr>
-                    <td>Enter Received Quantity:
-                        <asp:TextBox ID="txtReceivedQty" Width="100px" runat="server"></asp:TextBox>
-                    </td>
+                    <td>Enter Received Quantity:&nbsp&nbsp
+                        <asp:TextBox ID="txtReceivedQty" Width="111px" float="right" padding-right="1px"  runat="server"></asp:TextBox>
+                     </td>
                 </tr>
                 <tr id="trupload">
-                    <td>Enter Purchased Bill No:
-                        <asp:TextBox ID="txtLinkBillNo" Width="100px" runat="server"></asp:TextBox>
-                    </td>
+                    <td>Enter Purchased Bill No:&nbsp&nbsp&nbsp
+                        <asp:TextBox ID="txtLinkBillNo" Width="113px" float="right" runat="server"></asp:TextBox>
+                      </td>
                 </tr>
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" ValidationGroup="vendor" CssClass="btn btn-primary" />
+            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received"  OnClientClick="javascript:return ValidateDropDown();" CssClass="btn btn-primary" />
             <input id="Text1" value="Close" style="width: 100px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>

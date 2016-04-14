@@ -58,7 +58,8 @@
                 <table width="1000" border="1" align="right" cellspacing="0" bordercolor="#000000" cellpadding="0">
                     <tr>
                         <td style="width: 2px; text-align: center; vertical-align: middle;">
-                            <div style="height: 50px; width: 8px;"><span>VENDOR</span></div>
+                            <div style="height: 50px; width: 12px;">
+                             <select id="drpVendor" style="width:115px;"><option value="0">Select Vendor</option></select></div>
                         </td>
                         <td style="width: 40px;">
                             <div style="height: 50px;"><span>M/S</span></div>

@@ -8,6 +8,11 @@ $(document).ready(function () {
     $("#btncloase").click(function () {
         $("#tblUploadBill").html('');
     });
+    $("input[id*='hdnVendorID']").val();
+
+    $("#ddlVendorName").change(function (e) {
+        $("input[id*='hdnVendorID']").val($(this).val());
+ });
 
 });
 function addNewBill() {
@@ -15,7 +20,31 @@ function addNewBill() {
     cntB++;
 }
 
+function OpenReceivedMaterial(EMRId, qty, MatID) {
+    LoadVendors(MatID);
+    $("input[id*='hdnIsReceived']").val(1);
+    $("input[id*='hdnEMRId']").val(EMRId);
+    $("input[id*='txtReceivedQty']").val(qty);
+    $("input[id*='txtRate']").val("");
+    $("input[id*='txtRate']").val("");
+    $("#divIsReceived").modal('show');
+}
 
+function OpenDispatchMaterial(EMRId) {
+    $("input[id*='hdnIsReceived']").val(0);
+    $("input[id*='txtLinkBillNo']").val(0);
+    $("input[id*='hdnEMRId']").val(EMRId);
+    $("input[id*='btnSave']").val('Dispatch');
+    //$("select[id*='ddlVendorName']").val('NULL').change();
+    $("#trvendorname").hide();
+    $("#trupload").hide();
+    $("#divIsReceived").modal('show');
+}
+
+function OpenUploadbill(EstID) {
+    $("input[id*='hdnEstID']").val(EstID);
+    $("#divUploadBill").modal('show');
+}
 
 function SaveStoreBill() {
     for (var i = 1; i < cntB; i++) {
@@ -142,6 +171,27 @@ function OpenViewbill(estID) {
     });
 
     $("#divViewbill").modal('show');
+}
+
+function LoadVendors(MatID) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/StoreController.asmx/GetVendorsNameList",
+        data: JSON.stringify({ matID: MatID }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $.each(Result, function (key, value) {
+                    $("#ddlVendorName").append($("<option></option>").val(value.ID).html(value.VendorName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
 }
 
 

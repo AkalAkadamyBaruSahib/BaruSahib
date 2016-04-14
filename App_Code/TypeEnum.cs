@@ -15,6 +15,14 @@ public class TypeEnum
 		//
 	}
 
+
+    public enum Module : int
+    {
+        Purchase = 1,
+        Transport = 2,
+        Security = 3
+    }
+
     public enum TransportEmployeeType : int
     {
         FamilyMember = 1,

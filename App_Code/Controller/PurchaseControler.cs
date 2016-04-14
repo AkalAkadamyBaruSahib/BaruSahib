@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -40,5 +41,37 @@ public class PurchaseControler : System.Web.Services.WebService
         repository.DeleteVendorInfo(VID);
     }
 
+    [WebMethod]
+    public List<string> GetActiveMaterials()
+    {
+        List<string> arrMaterials = new List<string>();
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        List<MaterialsDTO> materials = repository.GetActiveMaterials();
+        foreach (MaterialsDTO dto in materials)
+        {
+            arrMaterials.Add(dto.MatName.Trim());
+        }
+        return arrMaterials;
+    }
 
+    [WebMethod]
+    public List<VendorInfo> GetVendorsNameList()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetVendorsNameList();
+    }
+
+    [WebMethod]
+    public List<Estimate> GetEstimateNumberList()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetEstimateNumberList();
+    }
+
+    [WebMethod]
+    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetMaterialList(EstimateID);
+    }
 }

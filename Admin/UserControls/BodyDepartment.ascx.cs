@@ -49,6 +49,19 @@ public partial class Admin_UserControls_BodyDepartment : System.Web.UI.UserContr
     protected void BindDeptDetails()
     {
 
+        string transportPageName = "Transport_Department.aspx";
+        string AdminPageName = "Admin_Department.aspx";
+        string pageName = string.Empty;
+
+        if (ModuleID == (int)TypeEnum.Module.Purchase)
+        {
+            pageName = AdminPageName;
+        }
+        else if (ModuleID == (int)TypeEnum.Module.Transport)
+        {
+            pageName = transportPageName;
+        }
+
         DataSet dsDeptDetails = new DataSet();
         dsDeptDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowDeptDetails_ByUser '" + lblUser.Text + "'," + ModuleID);
         divDeptDetails.InnerHtml = string.Empty;
@@ -77,13 +90,13 @@ public partial class Admin_UserControls_BodyDepartment : System.Web.UI.UserContr
             }
             ZoneInfo += "</td>";
             ZoneInfo += "<td class='center' width='30%'>";
-            ZoneInfo += "<a class='btn btn-success' href='Admin_Department.aspx?DepIdA=" + dsDeptDetails.Tables[0].Rows[i]["DepId"].ToString() + "'>";
+            ZoneInfo += "<a class='btn btn-success' href=" + pageName + "?DepIdA=" + dsDeptDetails.Tables[0].Rows[i]["DepId"].ToString() + ">";
             ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
             ZoneInfo += "</a>&nbsp;";
-            ZoneInfo += "<a class='btn btn-info' href='Admin_Department.aspx?DepId=" + dsDeptDetails.Tables[0].Rows[i]["DepId"].ToString() + "'>";
+            ZoneInfo += "<a class='btn btn-info' href=" + pageName + "?DepId=" + dsDeptDetails.Tables[0].Rows[i]["DepId"].ToString() + ">";
             ZoneInfo += "<i class='icon-edit icon-white'></i> Edit";
             ZoneInfo += "</a>&nbsp;";
-            ZoneInfo += "<a class='btn btn-danger' href='Admin_Department.aspx?DepIdIA=" + dsDeptDetails.Tables[0].Rows[i]["DepId"].ToString() + "'>";
+            ZoneInfo += "<a class='btn btn-danger' href=" + pageName + "?DepIdIA=" + dsDeptDetails.Tables[0].Rows[i]["DepId"].ToString() + ">";
             ZoneInfo += "<i class='icon-trash icon-white'></i> Inactive";
             ZoneInfo += "</a>";
             ZoneInfo += "</td>";

@@ -233,8 +233,7 @@ public class VisitorUserRepository
                           Number = x.Number
                       }).ToList();
 
-
-        return result;
+         return result;
     }
 
     public List<RoomNumbers> GetRoomList(int BuildingID)

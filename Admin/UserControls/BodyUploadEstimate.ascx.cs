@@ -506,6 +506,7 @@ public partial class Admin_UserControls_BodyUploadEstimate : System.Web.UI.UserC
                 estimate.FilePath = fileNameToSave;
                 estimate.IsApproved = isApproved;
                 estimate.IsRejected = false;
+                estimate.IsActive = true;
                 estimate.EstimateAndMaterialOthersRelations = new List<EstimateAndMaterialOthersRelations>();
 
                 string MaterialType, Material, SourceType, Qty, Unit, Rate, Amount, Remark;

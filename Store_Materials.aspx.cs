@@ -34,10 +34,10 @@ public partial class Store_Materials : System.Web.UI.Page
             }
             else
             {
-              
                 BindAcademy();
                 getEstimateDetails(-1);
-            }  BindVendor();
+            } 
+           // BindVendor();
         }
     }
     protected void GetPrint(string id)
@@ -345,22 +345,25 @@ public partial class Store_Materials : System.Web.UI.Page
 
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["ReceivedOn"].ToString() + "</td>";
                 Sno = int.Parse(dsMatDetails.Tables[0].Rows[j]["Sno"].ToString());
+                string MatID = dsMatDetails.Tables[0].Rows[j]["MatID"].ToString();
+
                 if (dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() != string.Empty)
                 {
                     //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a>/<a href='#' onclick='GetDispatchStatus(" + Sno + ")'>Dispatch Status</a><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><b>Scan Bill Copy</b></a></td>";
+                    
                     if (BalanceQty <= 0)
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
                     }
                     else
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
                     }
                 }
                 else
                 {
                     //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></td>";
-                    ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
+                    ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
                 }
 
                 //ZoneInfo += "<td width='30%'></td>";
@@ -427,7 +430,7 @@ public partial class Store_Materials : System.Web.UI.Page
         {
             Int64 i = 0;
             i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
-            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + ddlVendorName.SelectedValue + "' where Sno =" + hdnEMRId.Value + "");
+            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + hdnVendorID.Value + "' where Sno =" + hdnEMRId.Value + "");
             //if (i > 0)
             {
                 //upBillUpload.SaveAs(Server.MapPath(dwgfilepath));
@@ -440,7 +443,7 @@ public partial class Store_Materials : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
         }
         getEstimateDetails(int.Parse(ddlAcademy.SelectedValue));
-        BindVendor();
+      //  BindVendor();
     }
 
 
@@ -461,16 +464,16 @@ public partial class Store_Materials : System.Web.UI.Page
         getEstimateDetails(acaID);
     }
 
-    public void BindVendor()
-    {
-        DataSet dsvendor = new DataSet();
-        dsvendor = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM VendorInfo order by VendorName asc");
-        ddlVendorName.DataSource = dsvendor;
-        ddlVendorName.DataValueField = "ID";
-        ddlVendorName.DataTextField = "VendorName";
-        ddlVendorName.DataBind();
-        ddlVendorName.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Vendor--", "0"));
+    //public void BindVendor()
+    //{
+    //    //DataSet dsvendor = new DataSet();
+    //    //dsvendor = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM VendorInfo order by VendorName asc");
+    //    //ddlVendorName.DataSource = dsvendor;
+    //    //ddlVendorName.DataValueField = "ID";
+    //    //ddlVendorName.DataTextField = "VendorName";
+    //    //ddlVendorName.DataBind();
+    //    //ddlVendorName.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Vendor--", "0"));
 
-    }
+    //}
 }
    

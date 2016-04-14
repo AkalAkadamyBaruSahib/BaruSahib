@@ -16,7 +16,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
     DataRow dr;
     private bool IsApproved = true;
     private bool IsItemRejected = false;
-
+    public string InchargeID=string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -27,6 +27,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            InchargeID=Session["InchargeID"].ToString();
         }
         if (!Page.IsPostBack)
         {
@@ -65,9 +66,12 @@ public partial class Admin_EstimateView : System.Web.UI.Page
 
     private void DeleteEstimate(string p)
     {
-        DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateAndMaterialOthersRelations WHERE Estid=" + p);
-        DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateStatus WHERE Estid=" + p);
-        DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM Estimate WHERE Estid=" + p);
+        //DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateAndMaterialOthersRelations WHERE Estid=" + p);
+        //DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateStatus WHERE Estid=" + p);
+        //DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM Estimate WHERE Estid=" + p);
+
+        DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate SET IsActive=0,ModifyBy=" + InchargeID + ",ModifyOn='" + DateTime.Now + "' WHERE Estid=" + p);
+
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Estimate has been deleted Successfully.');", true);
         getEstimateDetails(false, -1, true);
         //throw new NotImplementedException();

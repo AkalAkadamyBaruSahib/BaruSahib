@@ -47,6 +47,22 @@ public partial class Admin_UserControls_BodyDesignation : System.Web.UI.UserCont
     }
     protected void BindDesigDetails()
     {
+
+
+        string transportPageName = "Transport_Designation.aspx";
+        string AdminPageName = "Admin_Designation.aspx";
+        string pageName = string.Empty;
+
+        if (ModuleID == (int)TypeEnum.Module.Purchase)
+        {
+            pageName = AdminPageName;
+        }
+        else if (ModuleID == (int)TypeEnum.Module.Transport)
+        {
+            pageName = transportPageName;
+        }
+
+
         DataSet dsDegisDetails = new DataSet();
         dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowDegisDetails_ByUser '" + lblUser.Text + "'," + ModuleID);
         divDesigDetails.InnerHtml = string.Empty;
@@ -75,13 +91,14 @@ public partial class Admin_UserControls_BodyDesignation : System.Web.UI.UserCont
             }
             ZoneInfo += "</td>";
             ZoneInfo += "<td class='center' width='30%'>";
-            ZoneInfo += "<a class='btn btn-success' href='Admin_Designation.aspx?DesgIdA=" + dsDegisDetails.Tables[0].Rows[i]["DesgId"].ToString() + "'>";
+
+            ZoneInfo += "<a class='btn btn-success' href='" + pageName + "?DesgIdA=" + dsDegisDetails.Tables[0].Rows[i]["DesgId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
             ZoneInfo += "</a>&nbsp;";
-            ZoneInfo += "<a class='btn btn-info' href='Admin_Designation.aspx?DesgId=" + dsDegisDetails.Tables[0].Rows[i]["DesgId"].ToString() + "'>";
+            ZoneInfo += "<a class='btn btn-info' href='" + pageName + "?DesgId=" + dsDegisDetails.Tables[0].Rows[i]["DesgId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-edit icon-white'></i> Edit";
             ZoneInfo += "</a>&nbsp;";
-            ZoneInfo += "<a class='btn btn-danger' href='Admin_Designation.aspx?DesgIdIA=" + dsDegisDetails.Tables[0].Rows[i]["DesgId"].ToString() + "'>";
+            ZoneInfo += "<a class='btn btn-danger' href='" + pageName + "?DesgIdIA=" + dsDegisDetails.Tables[0].Rows[i]["DesgId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-trash icon-white'></i> Inactive";
             ZoneInfo += "</a>";
             ZoneInfo += "</td>";

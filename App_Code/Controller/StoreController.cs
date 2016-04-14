@@ -36,4 +36,10 @@ public class StoreController : System.Web.Services.WebService
         return storeRepository.GetBillDetails(EstID);
     }
 
+    [WebMethod]
+    public List<VendorInfo> GetVendorsNameList(int matID)
+    {
+        StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
+        return repository.GetVendorsNameList(matID);
+    }
 }
