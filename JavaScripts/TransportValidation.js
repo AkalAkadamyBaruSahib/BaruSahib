@@ -279,11 +279,12 @@ $(document).ready(function () {
 
                         var $newRow = $("#rowTemplate").clone();
                         $newRow.find("#Name").html("<table><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + EmployeeType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].MobileNumber + "</td></tr><tr><td><b>Date Of Joining:</b>" + adminLoanList[i].DateOfJoining + "</td></tr></table>");
-                        //$newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].DLScanCopy + "\",\"" + adminLoanList[i].Name + "\")'>DL Scan Copy</a></td></tr></table>");
-                        $newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].DLScanCopy + "'>DL Scan Copy</a></td></tr></table>");
+                        var DLScanLink = OpenDLCopy(adminLoanList[i].DLScanCopy);
+                        $newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td>" + DLScanLink + "</td></tr></table>");
                         $newRow.find("#CntactNoInCaseOfEmegeny").html(adminLoanList[i].ContactNoInCaseOfEmergency);
-                        //$newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].Qualification + "'>Qualification</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].ApplicationForm + "\",\"" + adminLoanList[i].Name + "\")'>ApplicationForm</a></td></tr></table>");
-                        $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].Qualification + "'>Qualification</a></td></tr><tr><td><a target='_blank'  href='" + adminLoanList[i].ApplicationForm + "'>ApplicationForm</a></td></tr></table>");
+                        var link = OpenImages(adminLoanList[i].Qualification);
+                        var Applicationlink = OpenApplicationForm(adminLoanList[i].ApplicationForm);
+                        $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td>" + link + "</td></tr><tr><td>" + Applicationlink + "</td></tr></table>");
                         $newRow.addClass(className);
                         $newRow.show();
 
@@ -312,6 +313,33 @@ $(document).ready(function () {
                 alert(result.responseText);
             }
         });
+    }
+
+    function OpenImages(quals) {
+        var qualificationPics = quals.split(',');
+        var link = "";
+        for (var i = 0; i < qualificationPics.length; i++) {
+            link += " <a href='" + qualificationPics[i] + "' target='_blank'>Qualification_" + (i + 1) + "</a>";
+        }
+        return link;
+    }
+
+    function OpenApplicationForm(application) {
+        var applicationPics = application.split(',');
+        var applicationlink = "";
+        for (var i = 0; i < applicationPics.length; i++) {
+            applicationlink += " <a href='" + applicationPics[i] + "' target='_blank'>ApplicationForm_" + (i + 1) + "</a>";
+        }
+        return applicationlink;
+    }
+
+    function OpenDLCopy(dlscan) {
+        var dlScanPics = dlscan.split(',');
+        var dllink = "";
+        for (var i = 0; i < dlScanPics.length; i++) {
+            dllink += " <a href='" + dlScanPics[i] + "' target='_blank'>DLScanCopy_" + (i + 1) + "</a>";
+        }
+        return dllink;
     }
 
     function ValidateUploadFile() {
