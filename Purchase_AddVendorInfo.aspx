@@ -37,75 +37,107 @@
                         <fieldset>
                             <legend></legend>
                             <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="vendor" />
-                           <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                 <ContentTemplate>--%>
-                                    <table>
-                                        <tr>
-                                            <td width="50%">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Vendor Name</label>
-                                                    <div class="controls">
-                                                        <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-                                                        <asp:TextBox ID="txtVendorName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"
-                                                            ControlToValidate="txtVendorName" ErrorMessage="Please Enter The  Vendor Name" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td width="50%">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Contact No</label>
-                                                    <div class="controls">
-                                                        <asp:TextBox ID="txtPhone" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                                        <%--         <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtPhone" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid Contact No" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
-                                                        --%>
-                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqPhone" ForeColor="Red"
-                                                            ControlToValidate="txtPhone" ErrorMessage="Please Enter The Contact No" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Address</label>
-                                                    <div class="controls">
-                                                        <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" CssClass="span6 typeahead" Height="60px" Width="300px"></asp:TextBox>
-                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqAddress" ForeColor="Red"
-                                                            ControlToValidate="txtAddress" ErrorMessage="Please Enter The Address" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%" style="vertical-align:top">
-                                                    <div class="controls">
-                                                        Select Material Type
-                                                    <br />
-                                                        <asp:DropDownList ID="drpMaterialTypes" CssClass="list-group" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" runat="server"></asp:DropDownList>
-                                                    </div>
-                                            </td>
-                                            <td width="50%">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead"></label>
-                                                    <div class="controls">
-                                                        Select  Material Items
-                                                    <br />
-                                                        <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <asp:Panel ID="pnlActiveVendor" runat="server" Visible="false">
-                                                    <asp:CheckBox ID="chkInactive" runat="server" />
-                                                    <asp:Label ID="lblChkinActive" runat="server" Text="Is Active"></asp:Label>
-                                                </asp:Panel>
-                                            </td>
-                                        </tr>
-                                    </table>
-                              <%--  </ContentTemplate>
+                            <table>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"><b>Vendor Name:</b></label>
+                                            <div class="controls">
+                                                <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
+                                                <asp:TextBox ID="txtVendorName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"
+                                                    ControlToValidate="txtVendorName" ErrorMessage="Please Enter The  Vendor Name" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"><b>Contact No:</b></label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtPhone" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                               <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtPhone" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid Contact No" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
+                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqPhone" ForeColor="Red"
+                                                    ControlToValidate="txtPhone" ErrorMessage="Please Enter The Contact No" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"><b>Address:</b></label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" CssClass="span6 typeahead" Height="60px" Width="300px"></asp:TextBox>
+                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqAddress" ForeColor="Red"
+                                                    ControlToValidate="txtAddress" ErrorMessage="Please Enter The Address" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"><b>State</b></label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtState" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator1" ForeColor="Red"
+                                                    ControlToValidate="txtState" ErrorMessage="Please Enter The  State" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"><b>City</b></label>
+                                            <div class="controls">
+
+                                                <asp:TextBox ID="txtCity" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator2" ForeColor="Red"
+                                                    ControlToValidate="txtCity" ErrorMessage="Please Enter The City" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"><b>Zip</b></label>
+                                            <div class="controls">
+
+                                                <asp:TextBox ID="txtZip" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
+                                                    ControlToValidate="txtZip" ErrorMessage="Please Enter The Zip" />
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="50%" style="vertical-align: top">
+                                        <div class="controls">
+                                            <b>Select Material Type:</b>
+                                            <br />
+                                           <asp:ListBox ID="drpMaterialTypes" Height="150px" Width="300px" CssClass="list-group" SelectionMode="Multiple" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" runat="server"></asp:ListBox>
+                                        </div>
+                                    </td>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                <b>Select  Material Items:</b>
+                                                <br />
+                                                <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:Panel ID="pnlActiveVendor" runat="server" Visible="false">
+                                            <asp:CheckBox ID="chkInactive" runat="server" />
+                                            <asp:Label ID="lblChkinActive" runat="server" Text="Is Active"></asp:Label>
+                                        </asp:Panel>
+                                    </td>
+                                </tr>
+                            </table>
+                            <%--  </ContentTemplate>
                             </asp:UpdatePanel>--%>
                             <div class="form-actions">
                                 <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnSave_Click" />
