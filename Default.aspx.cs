@@ -11,11 +11,7 @@ public partial class _Default : System.Web.UI.Page
     private static int UserTypeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-         // 
-            
-        }
+       
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)

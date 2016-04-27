@@ -1,6 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" AutoEventWireup="true" CodeFile="Purchase_AddVendorInfo.aspx.cs" Inherits="Purchase_AddVendorInfo" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" EnableEventValidation="false" AutoEventWireup="true" CodeFile="Purchase_AddVendorInfo.aspx.cs" Inherits="Purchase_AddVendorInfo" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script src="JavaScripts/Purchase.js"></script>
     <script type="text/javascript">
         function ClientSideClick(myButton) {
             // Client side validation
@@ -22,6 +23,7 @@
     <div id="content" class="span10">
         <asp:HiddenField ID="hdnMaterialitems" runat="server" />
         <asp:HiddenField ID="hdnVendorID" runat="server" />
+        <asp:HiddenField ID="hdnmaterialid" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -57,7 +59,7 @@
                                             <label class="control-label" for="typeahead"><b>Contact No:</b></label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtPhone" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                               <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtPhone" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid Contact No" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtPhone" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid Contact No" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqPhone" ForeColor="Red"
                                                     ControlToValidate="txtPhone" ErrorMessage="Please Enter The Contact No" />
                                             </div>
@@ -100,7 +102,6 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead"><b>Zip</b></label>
                                             <div class="controls">
-
                                                 <asp:TextBox ID="txtZip" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
                                                     ControlToValidate="txtZip" ErrorMessage="Please Enter The Zip" />
@@ -114,7 +115,7 @@
                                         <div class="controls">
                                             <b>Select Material Type:</b>
                                             <br />
-                                           <asp:ListBox ID="drpMaterialTypes" Height="150px" Width="300px" CssClass="list-group" SelectionMode="Multiple" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" runat="server"></asp:ListBox>
+                                            <asp:ListBox ID="drpMaterialTypes" Height="150px" Width="300px" CssClass="list-group" SelectionMode="Multiple" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" runat="server"></asp:ListBox>
                                         </div>
                                     </td>
                                     <td width="50%">
@@ -127,6 +128,21 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                <b>Select  Material Items:</b>
+                                                <br />
+                                                <input id="txtMaterial" style="width: 135px; height: 23px;" name="txtMaterial" />
+
+                                                <input type="button" id="btnadd" value="Add" class="btn btn-primary" />
+                                                <label id="lblUserId" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <%--  </ContentTemplate>
+                            </asp:UpdatePanel>--%>
                                 </tr>
                                 <tr>
                                     <td>
@@ -137,8 +153,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <%--  </ContentTemplate>
-                            </asp:UpdatePanel>--%>
+
                             <div class="form-actions">
                                 <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnSave_Click" />
                                 <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnEdit_Click" />

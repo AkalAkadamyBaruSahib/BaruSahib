@@ -59,6 +59,8 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
         GridViewRow gv = (GridViewRow)((Button)sender).NamingContainer;
         TextBox txtRate = (TextBox)gv.FindControl("txtRate");
         TextBox txtRemark = (TextBox)gv.FindControl("txtRemark");
+        TextBox txtPurchaseQty = (TextBox)gv.FindControl("txtPurchaseQty");
+        TextBox txtInStore = (TextBox)gv.FindControl("txtInStore");
         HiddenField txtEstID = (HiddenField)gv.FindControl("txtEstID");
         HiddenField txtUnitID = (HiddenField)gv.FindControl("txtUnitID");
         
@@ -70,7 +72,7 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchBy='" + lblUser.Text + "',DispatchDate=GETDATE(),Rate='" + txtRate.Text + "', Remark='" + txtRemark.Text + "',DispatchStatus=1 where EstId='" + txtEstID.Value + "' and MatId='" + txtMatID.Value + "' and UnitId='" + txtUnitID.Value + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchBy='" + lblUser.Text + "',DispatchDate=GETDATE(),Rate='" + txtRate.Text + "', Remark='" + txtRemark.Text + "',DispatchStatus=1 where EstId='" + txtEstID.Value + "' and MatId='" + txtMatID.Value + "' and UnitId='" + txtUnitID.Value + "' and PurchaseQty ='" + txtPurchaseQty.Text + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Dispatch Successfully.');", true);
         }
     }
@@ -80,6 +82,8 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
         {
             if (e.CommandName == "DispatchDate")
             {
+                string Qty;
+                
                 GridViewRow gvRow = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
                 Button DisDate = (Button)e.CommandSource;
                 string Sno = DisDate.CommandArgument;
@@ -89,6 +93,9 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
                 TextBox rmk = (TextBox)gvRow.FindControl("txtRemark");
                 HiddenField txtMatID = (HiddenField)gvRow.FindControl("txtMatID");
                 TextBox txtRate = (TextBox)gvRow.FindControl("txtRate");
+                TextBox txtPurchaseQty = (TextBox)gvRow.FindControl("txtPurchaseQty");
+                TextBox txtInStore = (TextBox)gvRow.FindControl("txtInStore");
+
                 lbl.Attributes.Remove("style");
                 lbl.Attributes.Add("style", "display:blockp;");
                 DisDate.Attributes.Add("style", "display:none;");
@@ -99,8 +106,18 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
                 }
                 else
                 {
-
-                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "' where Sno='" + Sno + "'");
+                    Qty = gvRow.Cells[3].Text;
+                    var purQty = (Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(txtInStore.Text)).ToString();
+                    if (Qty == purQty)
+                    {
+                        var Remainingqty = Convert.ToDecimal(Qty) - Convert.ToDecimal(purQty);
+                        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + txtPurchaseQty.Text + "' where Sno='" + Sno + "'");
+                    }
+                    else
+                    {
+                        var Remainingqty = Convert.ToDecimal(Qty) - Convert.ToDecimal(purQty);
+                        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + txtPurchaseQty.Text + "',Qty ='" + Remainingqty + "' where Sno='" + Sno + "'");
+                    }
                     DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Date Updated Successfully.')", true);
                 }
@@ -125,6 +142,7 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
                 Label lblTat = (Label)row.FindControl("lblTatDate");
                 TextBox tatDate = (TextBox)row.FindControl("txtTatDate");
                 TextBox rmk = (TextBox)row.FindControl("txtRemark");
+              
                 DataSet dsMatid = new DataSet();
                 dsMatid = DAL.DalAccessUtility.GetDataInDataSet("select MatId from Material where MatName='" + Material + "'");
                 DataSet dsUnitid = new DataSet();

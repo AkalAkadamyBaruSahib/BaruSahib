@@ -24,7 +24,7 @@
                                         <input id="txtMaterial" name="txtMaterial" />
                                     </td>
                                     <td>
-                                        <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary"  OnClick="btnSearch_Click" />
+                                        <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
                                     </td>
                                 </tr>
                             </table>

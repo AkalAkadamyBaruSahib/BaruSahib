@@ -45,6 +45,8 @@ namespace AkalAcademy
         public DbSet<MaterialRateApproved> MaterialRateApproved { get; set; }
         public DbSet<SecurityEmployeeInfo> SecurityEmployeeInfo { get; set; }
         public DbSet<MaterialNonApprovedRate> MaterialNonApprovedRate { get; set; }
+        public DbSet<POBillingAddress> POBillingAddress { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

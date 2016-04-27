@@ -45,7 +45,7 @@
 
             // If x is Not a Number or less than one or greater than 10
             if (isNaN(x) || x < 1) {
-                ret= false;
+                ret = false;
             }
             return ret;
         }
@@ -72,21 +72,31 @@
                 <Columns>
                     <asp:TemplateField HeaderText="SNO">
                         <ItemTemplate>
-                            <%# Container.DataItemIndex+1 %> 
+                            <%# Container.DataItemIndex+1 %>
                             <asp:HiddenField runat="server" ID="txtMatID" Value='<%#Eval("MatID") %>' />
                             <asp:HiddenField runat="server" ID="txtUnitID" Value='<%#Eval("UnitID") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="MatName" HeaderText="MatName" />
                     <asp:BoundField DataField="UnitName" HeaderText="UnitName" />
-                    <asp:BoundField DataField="Qty" HeaderText="Qty" />
-                    
+                    <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
+                    <asp:TemplateField HeaderText="PurchaseQty">
+                        <ItemTemplate>
+                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty"></asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                     <asp:TemplateField HeaderText="InStore">
+                        <ItemTemplate>
+                            <asp:TextBox runat="server" Width="100px" ID="txtInStore"></asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                     <asp:TemplateField HeaderText="Rate">
                         <ItemTemplate>
                             <asp:TextBox runat="server" Width="100px" ID="txtRate"></asp:TextBox>
-                            
-                             <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*"
-                            ControlToValidate="txtRate" />
+
+                            <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*"
+                                ControlToValidate="txtRate" />
                             <asp:HiddenField runat="server" ID="txtEstID" Value='<%#Eval("EstID") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
