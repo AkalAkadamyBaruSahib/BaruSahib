@@ -1,7 +1,32 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="Transport_AdminMaster.master" AutoEventWireup="true" CodeFile="Transport_ReportDetails.aspx.cs" Inherits="Transport_ReporteDetails" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script src="JavaScripts/Transport.js"></script>
+<script type="text/javascript" >
+    function ReportOnChange(control) {
+        if (control.value == "2") {
+            $("#divPendingDocumentReport").show();
+            $("#divDailyReport").hide();
+            $("#divSummaryReport").hide();
+
+        }
+        else if (control.value == "1") {
+            $("#divPendingDocumentReport").hide();
+            $("#divDailyReport").show();
+            $("#divSummaryReport").hide();
+        }
+        else if (control.value == "3") {
+            $("#divPendingDocumentReport").hide();
+            $("#divDailyReport").hide();
+            $("#divSummaryReport").show();
+        }
+        else {
+            $("#divPendingDocumentReport").hide();
+            $("#divDailyReport").hide();
+            $("#divSummaryReport").hide();
+        }
+    }
+
+</script>
 
     <div id="content" class="span10">
        
@@ -17,7 +42,7 @@
             <div class="box span12">
                 <div class="box-content">
                     Select Report to Download Data:
-                    <asp:DropDownList ID="ddlReport" runat="server" onchange="test(this);">
+                    <asp:DropDownList ID="ddlReport" runat="server" onchange="ReportOnChange(this);">
                         <asp:ListItem Text="--Choose Report Type--" Selected="True" Value="-1"></asp:ListItem>
                         <asp:ListItem Text="Daily Document Uploaded Report" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Pending Documents" Value="2"></asp:ListItem>

@@ -33,7 +33,6 @@ $(document).ready(function () {
         var $fileUpload = $(this)[0];
         FileUpload($fileUpload, "Written Contract");
     });
-
    
 });
 
