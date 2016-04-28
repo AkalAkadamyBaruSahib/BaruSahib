@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.Services;
 
 /// <summary>
@@ -41,6 +42,7 @@ public class PurchaseControler : System.Web.Services.WebService
         repository.DeleteVendorInfo(VID);
     }
 
+
     [WebMethod]
     public List<string> GetActiveMaterials()
     {
@@ -52,6 +54,23 @@ public class PurchaseControler : System.Web.Services.WebService
             arrMaterials.Add(dto.MatName.Trim());
         }
         return arrMaterials;
+    }
+
+    [WebMethod]
+    public string GetMaterials()
+    {
+        JavaScriptSerializer TheSerializer = new JavaScriptSerializer();
+
+        List<string> arrMaterials = new List<string>();
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        List<MaterialsDTO> materials = repository.GetActiveMaterials();
+        foreach (MaterialsDTO dto in materials)
+        {
+            arrMaterials.Add(dto.MatName.Trim());
+        }
+        var TheJson = TheSerializer.Serialize(arrMaterials);
+
+        return TheJson;
     }
 
     [WebMethod]
@@ -74,4 +93,34 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetMaterialList(EstimateID);
     }
+
+    [WebMethod]
+    public List<VendorInfo> GetVendorAddress(int VendorID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetVendorAddress(VendorID);
+    }
+
+    [WebMethod]
+    public List<POBillingAddress> GetDeliveryAddressList()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetDeliveryAddressList();
+    }
+
+    [WebMethod]
+    public List<POBillingAddress> GetDeliveryAddressInfo(int AddressID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetDeliveryAddressInfo(AddressID);
+    }
+
+    [WebMethod]
+    public List<PurchaseOrder> GetPONumber()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetPONumber();
+    }
+
+   
 }

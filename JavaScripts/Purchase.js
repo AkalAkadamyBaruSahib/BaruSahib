@@ -4,23 +4,28 @@ var tblUploadMaterial;
 var SnoIds;
 var MaterialList;
 var selectedMaterialList = new Array();
+var sum = 0;
+var listVal = "";
 
 $(document).ready(function () {
+    AutofillMaterialSearchBox();
     BindVendors();
     BindEstimate();
-
+    BindCurrentDate();
+    BindDeliveryAddress();
+   
+    $("#rowExcise").hide();
+    $("#lblIndentNo").html($("select[id*='drpEstimate']").val());
+    $("#lblExciseStatus").html('NA');
+    $("#lblVatStatus").html('0%');
     $("#drpEstimate").change(function (e) {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($(this).val());
+        listVal += $(this).val() + ",";
+        $("#lblIndentNo").text(listVal);
     });
 
-
     $("input[id*='btnLoad']").click(function (e) {
-        var SnoIds = "";
-        $('input:checkbox[id^="chkItem_"]:checked').each(function () {
-            SnoIds = ($(this).attr("emrid"));
-            selectedMaterialList.push($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
-        });
         LoadPurchaseOrderInfo(selectedMaterialList);
         $("#divUploadMaterial").modal('hide');
     });
@@ -30,11 +35,66 @@ $(document).ready(function () {
         GetMaterialList($("select[id*='drpEstimate']").val());
     });
 
+    $("#chkExcise").change(function () {
+        if (this.checked) {
+            $("#rowExcise").show();
+        }
+        else {
+            $("#rowExcise").hide();
+        }
+    });
+
+    $("input[id*='btnExcise']").click(function (e) {
+        Calcution();
+    });
+
+    $("#txtvat").change(function () {
+        var vatValue = $("#txtvat").val() + "%";
+        $("#lblVatStatus").html(vatValue);
+    });
+
+    $("#drpVendor").change(function () {
+        GetVendorAddress($(this).val());
+    });
+
+    $("#drpDeliveryAddress").change(function () {
+        GetDeliveryAddressInfo($(this).val());
+    });
+
+    $("#drpBillingAddress").change(function () {
+        GetBillingAddressInfo($(this).val());
+    });
+
+    $("input[id*='btnadd']").click(function (e) {
+        AddItemToList();
+    });
 });
 
+function Calcution() {
+    if ($("#chkExcise").is(":checked")) {
+        var Excisetotal = ($("#subtotal").text()) * ($("#txtExcise").val() / 100);
+        var subtotal = $("#subtotal").text();
+        var ExSum = parseInt(subtotal) + parseInt(Excisetotal);
+        var VatTotal = ExSum * $("#txtvat").val() / 100;
+        var VatSum = VatTotal + ExSum;
+    }
+    else {
+        var VatTotal = $("#subtotal").text() * $("#txtvat").val() / 100;
+        var subtotal = $("#subtotal").text();
+        var VatSum = parseInt(subtotal) + parseInt(VatTotal);
+    }
+    $("#lblGrandTotal").html(VatSum);
+    $("#lblExciseStatus").html('INCLUDED');
 
-function RemoveItem(sno) {
-    alert(sno);
+}
+function RemoveItem(chkbox) {
+    var SnoIds = ($(chkbox).attr("emrid"));
+    if ($(chkbox).is(':checked')) {
+        selectedMaterialList.push($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
+    }
+    else {
+        selectedMaterialList.pop($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
+    }
 }
 
 function IsMaterialAlreadySelected(sno) {
@@ -101,27 +161,48 @@ function RejectMaterialItems() {
     });
 }
 
-function AutofillMaterialSearchBox()
-{
-    var dataSrc = new Array();
+function AutofillMaterialSearchBox() {
+    var topics = [
+    {
+        value: "cooking",
+        label: "Cooking",
+        id: "1"
+    },
+    {
+        value: "C++",
+        label: "C++",
+        id: "2"
+    },
+    {
+        value: "craftsmanship",
+        label: "Software Craftsmanship",
+        id: "3"
+    }
+    ];
 
-    $.ajax({
+    var dataSrc;
+   $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseController.asmx/GetActiveMaterials",
+        url: "Services/PurchaseControler.asmx/GetMaterials",
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                dataSrc = result.d;
+                $("#txtMaterial").autocomplete({
+                    source: JSON.stringify(result.d),
+                    focus: function (event, ui) {
+                        $("#txtMaterial").val(ui.item.MatName);
+                        return false;
+                    },
+                    select: function (event, ui) {
+                        $("input[id*='hdnmaterialid']").val(ui.item.MatId);
+                    }
+                });
             }
         },
         error: function (result, textStatus) {
             alert(result.responseText);
         }
-    });
-
-    $("#txtMaterial").autocomplete({
-        source: dataSrc
     });
 }
 
@@ -176,7 +257,7 @@ function GetMaterialList(selectedValue) {
     for (var i = 0; i < rowCount; i++) {
         $("#rowTemplate1").remove();
     }
-    var rowTemplate = '<tr id="rowTemplate1"><td id="materialname"></td><td id="chkmaterial"></td></tr>';
+    var rowTemplate = '<tr id="rowTemplate1"><td id="srno" style="width:45px;"></td><td id="materialname" style="width:230px;"></td><td id="chkmaterial"></td></tr>';
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -189,17 +270,19 @@ function GetMaterialList(selectedValue) {
                 if (MaterialList.length > 0) {
                     $("#tbody1").append(rowTemplate);
                 }
-
+                var count = 1;
                 for (var i = 0; i < MaterialList.length; i++) {
 
                     var $newRow = $("#rowTemplate1").clone();
+                    $newRow.find("#srno").html(count);
                     $newRow.find("#materialname").html(MaterialList[i].Material.MatName);
                     if (IsMaterialAlreadySelected(MaterialList[i].Sno)) {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange='RemoveItem(" + MaterialList[i].Sno + ")'  checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
+                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange = 'RemoveItem(this)' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
                     }
                     else {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
+                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange='RemoveItem(this)' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
                     }
+                    count++;
                     $newRow.show();
                     if (i == 0) {
                         $("#rowTemplate1").replaceWith($newRow);
@@ -246,11 +329,14 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         var $newRow = $("#rowTemplate").clone();
         $newRow.find("#srno").html(count);
         $newRow.find("#qty").html(adminLoanList[i].Qty);
-        $newRow.find("#description").html("<table><tr><td><input type='textbox' id='txtdescriptipn' name='txtdescriptipn'></td></tr></table>");
+        $newRow.find("#description").html("<table><tr><td><textarea name='txtdescriptipn' id='txtdescriptipn' ></textarea></td></tr></table>");
         $newRow.find("#details").html(adminLoanList[i].Material.MatName);
         $newRow.find("#unitprice").html(adminLoanList[i].Rate);
-        $newRow.find("#linetotal").html(adminLoanList[i].Qty * adminLoanList[i].Rate);
+        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
+        $newRow.find("#linetotal").html(linetotal);
         count++;
+        sum += linetotal;
+        $("#subtotal").html(sum);
         $newRow.addClass(className);
         $newRow.show();
 
@@ -261,9 +347,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
             $newRow.appendTo("#grid > tbody");
         }
         $("#grid").removeAttr("style");
-
     }
-
     grdTicketDiscription = $('#grid').DataTable(
         {
             "bPaginate": true,
@@ -276,6 +360,147 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
 
         });
 }
+
+function GetVendorAddress(selectedValue) {
+    var cityname = "";
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetVendorAddress",
+        data: JSON.stringify({ VendorID: parseInt(selectedValue) }),
+        dataType: "json",
+        success: function (responce) {
+
+            var msg = responce.d;
+
+            for (var i = 0; i < msg.length; i++) {
+                var vendorinfo = msg[i].VendorName + "(" + msg[i].VendorContactNo + ")";
+                $("#lblName").text(vendorinfo);
+                $("#lblVendorAddress").text(msg[i].VendorAddress);
+                cityname = msg[i].VendorCity + "-" + msg[i].VendorZip + "," + msg[i].VendorState;
+                $("#lblCity").text(cityname);
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText)
+        }
+    });
+}
+
+function BindCurrentDate() {
+    var m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    var dNow = new Date();
+    var curr_date = dNow.getDate();
+    var curr_month = dNow.getMonth();
+    var curr_year = dNow.getFullYear();
+    var localdate = m_names[curr_month] + "." + curr_date + "," + curr_year;
+    $('#lblCurrentDate').text(localdate);
+}
+
+function BindDeliveryAddress() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetDeliveryAddressList",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $.each(Result, function (key, value) {
+                    $("#drpDeliveryAddress").append($("<option></option>").val(value.ID).html(value.TrustName));
+                    $("#drpBillingAddress").append($("<option></option>").val(value.ID).html(value.TrustName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function GetDeliveryAddressInfo(selectedValue) {
+    var cityname = "";
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetDeliveryAddressInfo",
+        data: JSON.stringify({ AddressID: parseInt(selectedValue) }),
+        dataType: "json",
+        success: function (responce) {
+
+            var msg = responce.d;
+
+            for (var i = 0; i < msg.length; i++) {
+                $("#lblTrustName").text(msg[i].TrustName);
+                cityname = msg[i].Address + "," + msg[i].City + "-" + "(" + msg[i].State + ")" + "," + msg[i].Zipcode;
+                $("#lblAdress").text(cityname);
+                $("#lblPhoneNo").text(PhoneNumber);
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText)
+        }
+    });
+}
+
+function BindPONumber() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetPONumber",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+               
+               
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function GetBillingAddressInfo(selectedValue) {
+    var cityname = "";
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetDeliveryAddressInfo",
+        data: JSON.stringify({ AddressID: parseInt(selectedValue) }),
+        dataType: "json",
+        success: function (responce) {
+
+            var msg = responce.d;
+
+            for (var i = 0; i < msg.length; i++) {
+                cityname = msg[i].Address;
+                var fulladree = msg[i].City  + "(" + msg[i].State + ")" + "," + msg[i].Zipcode;
+                $("#lblBillingName").text(cityname);
+                $("#lblBillingAddres").text(fulladree);
+                $("#lblBillingPhone").text(PhoneNumber);
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText)
+        }
+    });
+}
+
+function AddItemToList() {
+    var matname = $("input[id*='txtMaterial']").val();
+    var MatlistBox = $("[id*=lstMaterials]");
+    var matval = $("input[id*='hdnmaterialid']").val();
+    var option = $("<option />").val(matval).html(matname);
+    MatlistBox.append(option);
+    $("input[id*='txtMaterial']").val("");
+    return false;
+}
+
+
+
+
 
 
 

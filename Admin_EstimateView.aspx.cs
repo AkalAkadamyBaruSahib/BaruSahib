@@ -19,7 +19,6 @@ public partial class Admin_EstimateView : System.Web.UI.Page
     public string InchargeID=string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if (Session["EmailId"] == null)
         {
             Response.Redirect("Default.aspx");
@@ -27,7 +26,7 @@ public partial class Admin_EstimateView : System.Web.UI.Page
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
-            InchargeID=Session["InchargeID"].ToString();
+            InchargeID = Session["InchargeID"].ToString();
         }
         if (!Page.IsPostBack)
         {

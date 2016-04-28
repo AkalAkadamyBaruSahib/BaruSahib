@@ -34,9 +34,9 @@ public class SecurityController : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public void GetSecurityEmployeeInfoToUpdate(int SecurityEmployeeID)
+    public SecurityEmployeeInfoDTO GetSecurityEmployeeInfoToUpdate(int SecurityEmployeeID)
     {
         SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
-        repository.GetSecurityEmployeeInfoToUpdate(SecurityEmployeeID);
+        return repository.GetSecurityEmployeeInfoToUpdate(SecurityEmployeeID);
     }
 }

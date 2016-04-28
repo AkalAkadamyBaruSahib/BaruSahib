@@ -85,7 +85,7 @@
                             <li><a href="#">Profile</a></li>
                             <li class="divider"></li>
                             <li>
-                                <asp:LinkButton runat="server" ID="lbLogOut" OnClick="lbLogOut_Click">Logout</asp:LinkButton></li>
+                                <asp:LinkButton runat="server" CausesValidation="false" ID="lbLogOut" OnClick="lbLogOut_Click">Logout</asp:LinkButton></li>
                         </ul>
                     </div>
                     <!-- user dropdown ends -->

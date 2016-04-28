@@ -19,7 +19,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         }
         if (!IsPostBack)
         {
-          
+
             if (Session["ModuleID"] != null)
             {
                 ModuleID = int.Parse(Session["ModuleID"].ToString());
@@ -36,6 +36,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
             BindDesignation();
             BindDepartment();
             BindZone();
+
             if (EmployeeID > 0)
             {
                 LoadEmployeeData();
@@ -91,7 +92,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         {
             securityemp.Photo = "";
         }
-       
+
         if (fileUploadExperience.HasFile)
         {
             string ExperienceFileEx = System.IO.Path.GetExtension(fileUploadExperience.FileName);
@@ -241,9 +242,20 @@ public partial class Security_NewEmployee : System.Web.UI.Page
     {
         BindAcademy();
     }
-    private void LoadEmployeeData()
+    public void LoadEmployeeData()
     {
-        SecurityRepository security = new SecurityRepository(new AkalAcademy.DataContext());
-        security.GetSecurityEmployeeInfoToUpdate(EmployeeID);
+        SecurityEmployeeInfoDTO emp = new SecurityEmployeeInfoDTO();
+        SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
+        emp = repository.GetSecurityEmployeeInfoToUpdate(EmployeeID);
+        txtAddress.Text = emp.Address;
+        txtName.Text = emp.Name;
+        txtMobileNo.Text = emp.MobileNo;
+        txtSalary.Text = emp.Salary;
+        txtCutting.Text = emp.Cutting;
+        ddlEducation.SelectedValue = emp.Education.ToString();
+        ddlDesig.SelectedValue = emp.DesigID.ToString();
+        ddlDept.SelectedValue = emp.DeptID.ToString();
+        ddlZone.SelectedValue = emp.ZoneID.ToString();
+        ddlAcademy.SelectedValue = emp.AcaID.ToString();
     }
 }

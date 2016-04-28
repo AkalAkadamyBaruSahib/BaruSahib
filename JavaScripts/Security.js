@@ -43,15 +43,17 @@ function LoadSecurityEmployee() {
                     }
                     var $newRow = $("#rowTemplate").clone();
 
-                    $newRow.find("#Name").html("<table><tr><td><ul class='thumbnails gallery><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].Photo + ")'  href='" + adminLoanList[i].Photo + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].Photo + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "</td></tr></table>");
+                    $newRow.find("#Name").html("<table><tr><td><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].Photo + ")'  href='" + adminLoanList[i].Photo + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].Photo + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "</td></tr></table>");
                     $newRow.find("#Address").html(adminLoanList[i].Address);
                     $newRow.find("#ContactNo").html(adminLoanList[i].MobileNo);
                     $newRow.find("#Education").html("<table><tr><td><b>Qualifiaction :</b> " + adminLoanList[i].Education + "</td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].QualificationLetter + "\",\"" + adminLoanList[i].Name + "\")'>Qualification Scan Copy</a></td></tr></table>");
-                    $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetSecurityEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='SecurityEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].AppointmentLetter + "\",\"" + adminLoanList[i].Name + "\")'>Appointment Letter</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].ExperienceLetter + "\",\"" + adminLoanList[i].Name + "\")'>Experience Letter</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].PCC + "\",\"" + adminLoanList[i].Name + "\")'>PCC Letter</a></td></tr></table>");
+                    $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetSecurityEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='SecurityEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].AppointmentLetter + "\",\"" + adminLoanList[i].Name + "\")'>Appointment Letter</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].ExperienceLetter + "\",\"" + adminLoanList[i].Name + "\")'>Experience Letter</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].PCC + "\",\"" + adminLoanList[i].Name + "\")'>PCC Letter</a></td></tr><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].FamilyRationCard + "\",\"" + adminLoanList[i].Name + "\")'>Family Rashan Card</a></td></tr></table>");
                     $newRow.addClass(className);
                     $newRow.show();
 
                     if (i == 0) {
+
+
                         $("#rowTemplate").replaceWith($newRow);
                     }
                     else {
@@ -123,8 +125,9 @@ function GetSecurityEmployeeInfoToUpdate(securityEmployeeID) {
             if (rdata != undefined) {
                 $("input[id*='hdnsecurityEmployeeID']").val(rdata.ID);
                 $("input[id*='txtName']").val(rdata.Name);
-                $("input[id*='txtMobileNo']").val(rdata.MobileNumber);
+                $("input[id*='txtMobileNo']").val(rdata.MobileNo);
                 $("input[id*='txtSalary']").val(rdata.Salary);
+                $("input[id*='txtCutting']").val(rdata.Cutting);
                 $("textarea[id*='txtAddress']").val(rdata.Address);
                 $("select[id*='ddlZone']").val(rdata.ZoneID);
                 $("select[id*='ddlAcademy']").val(rdata.AcaID);

@@ -59,7 +59,7 @@ public class PurchaseRepository
     {
         _context.Entry(vendorInfo).State = EntityState.Added;
         _context.SaveChanges();
-        
+
     }
 
     public void DeleteVendorInfo(int VID)
@@ -82,6 +82,17 @@ public class PurchaseRepository
 
     }
 
+    public List<MaterialsDTO> GetMaterials()
+    {
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        return mt = _context.Material.Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
+        {
+            MatID = x.MatId,
+            MatName = x.MatName,
+        }).OrderByDescending(m => m.MatName).Reverse().ToList();
+
+    }
+
     public List<VendorInfo> GetVendorsNameList()
     {
         return _context.VendorInfo.ToList();
@@ -100,5 +111,26 @@ public class PurchaseRepository
 
         return Materialsname;
         //return _context.EstimateAndMaterialOthersRelations.Where(r => r.EstId == EstimateID).ToList();
+    }
+
+    public List<VendorInfo> GetVendorAddress(int VendorID)
+    {
+        return _context.VendorInfo.Where(x => x.ID == VendorID).ToList();
+
+    }
+
+    public List<POBillingAddress> GetDeliveryAddressList()
+    {
+        return _context.POBillingAddress.ToList();
+    }
+
+    public List<POBillingAddress> GetDeliveryAddressInfo(int AddressID)
+    {
+        return _context.POBillingAddress.Where(x => x.ID == AddressID).ToList();
+    }
+
+    public List<PurchaseOrder> GetPONumber()
+    {
+        return _context.PurchaseOrder.Where(x => x.CreatedOn == DateTime.Now).ToList();
     }
 }

@@ -80,18 +80,12 @@
                     <asp:BoundField DataField="MatName" HeaderText="MatName" />
                     <asp:BoundField DataField="UnitName" HeaderText="UnitName" />
                     <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
-                    <asp:TemplateField HeaderText="PurchaseQty">
+                    <asp:TemplateField HeaderText="RemainingQty">
                         <ItemTemplate>
-                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty"></asp:TextBox>
+                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty" Text='<%#Eval("RemainingQty") %>'></asp:TextBox>
                         </ItemTemplate>
                     </asp:TemplateField>
-                     <asp:TemplateField HeaderText="InStore">
-                        <ItemTemplate>
-                            <asp:TextBox runat="server" Width="100px" ID="txtInStore"></asp:TextBox>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="Rate">
+                   <asp:TemplateField HeaderText="Rate">
                         <ItemTemplate>
                             <asp:TextBox runat="server" Width="100px" ID="txtRate"></asp:TextBox>
 

@@ -1,4 +1,4 @@
-declare @TableName sysname = 'VechilesDocumentRelation'
+declare @TableName sysname = 'MaterialNonApprovedRate'
 declare @Result varchar(max) = 'public class ' + @TableName + '
 {'
 

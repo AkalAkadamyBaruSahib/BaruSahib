@@ -31,7 +31,7 @@ public class VendorInfo
 
     public string ModifyBy { get; set; }
 
-    public bool Active { get; set; }
+    public bool? Active { get; set; }
 
     public string VendorState { get; set; }
 

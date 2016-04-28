@@ -430,7 +430,7 @@ public partial class Store_Materials : System.Web.UI.Page
         {
             Int64 i = 0;
             i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
-            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + hdnVendorID.Value + "' where Sno =" + hdnEMRId.Value + "");
+            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + 0 + "' where Sno =" + hdnEMRId.Value + "");
             //if (i > 0)
             {
                 //upBillUpload.SaveAs(Server.MapPath(dwgfilepath));

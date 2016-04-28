@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" AutoEventWireup="true" CodeFile="AddPurchaseOrder.aspx.cs" Inherits="AddPurchaseOrder" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
- 
+  <script src="JavaScripts/Purchase.js"></script>
                 <table width="980" border="0" align="right" cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="height: 21px">
@@ -60,9 +60,11 @@
                         <td style="width: 2px; text-align: center; vertical-align: middle;">
                             <div style="height: 50px; width: 12px;">
                              <select id="drpVendor" style="width:115px;"><option value="0">Select Vendor</option></select></div>
+                           
                         </td>
                         <td style="width: 40px;">
                             <div style="height: 50px;"><span>M/S</span></div>
+                            <label id="lblvendor"></label>
                         </td>
                         <td style="width: 2px; text-align: center; vertical-align: middle;">
                             <div style="height: 50px; width: 7px;"><span>SHIP TO</span></div>
@@ -203,7 +205,8 @@
                             <span style="width: 72px; height: 17px;">7.Delivery must be completed by .......</span><br />
                             <span style="width: 72px; height: 17px;"><u>8.please acknowledge the receipt of Purchase Order in person or by mail:</u></span>
                             <ul>
-                                <li><span>Vat/EST:-</span></li>
+                                <li><span>Vat/CST:-</span></li>
+                                <li><span>Sale Tax:-</span></li>
                                 <li><span>Excise Duty:</span></li>
                                 <li><span>Labour Charges:-</span></li>
                                 <li><span>Freight:-</span></li>

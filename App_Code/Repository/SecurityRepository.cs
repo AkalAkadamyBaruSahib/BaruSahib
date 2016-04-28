@@ -56,6 +56,7 @@ public class SecurityRepository
             employeeDTO.PCC = v.PCC;
             employeeDTO.ModifyOn = v.ModifyOn.ToString();
             employeeDTO.IsApproved = Convert.ToBoolean(v.IsApproved);
+            employeeDTO.Photo = v.Photo;
             dto.Add(employeeDTO);
         }
         return dto;
@@ -79,7 +80,10 @@ public class SecurityRepository
         dto.Name = securityemp.Name;
         dto.Address = securityemp.Address;
         dto.ZoneID = securityemp.ZoneID;
-        dto.AcaID = securityemp.AcaID;
+        if (securityemp.AcaID != null && securityemp.AcaID != 0)
+        {
+            dto.AcaID = securityemp.AcaID;
+        }
         dto.DeptID = securityemp.DeptID;
         dto.DesigID = securityemp.DesigID;
         dto.Education = securityemp.Education;
@@ -110,7 +114,7 @@ public class SecurityRepository
         dto.CreatedOn = securityemp.CreatedOn.ToString();
         dto.ModifyOn = securityemp.ModifyOn.ToString();
         return dto;
-       
+
     }
 
     public void UpdateSecurityEmp(SecurityEmployeeInfo securityemp)

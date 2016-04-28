@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Transport_AdminMaster.master" AutoEventWireup="true" CodeFile="AddEditVehicle.aspx.cs" Inherits="AddVehicle" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script src="JavaScripts/Transport.js"></script>
     <style>
         .radio input[type="radio"],
         .radio-inline input[type="radio"],
@@ -46,6 +47,9 @@
 
             $filenumber.val(fileNumber);
         }
+
+
+
     </script>
     <div id="content" class="span10">
         <div class="row-fluid sortable">

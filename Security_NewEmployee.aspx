@@ -155,9 +155,9 @@
                                                         <label class="control-label" for="typeahead">Appointment:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadAppointment" runat="server" />
-                                                            <a id="afileUploadAppointment" style="font-size: 13px;" href="#">Appointment Letter</a>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="fileUploadAppointment" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Appointment"></asp:RequiredFieldValidator>
-                                                        </div>
+                                                            <a id="afileUploadAppointment" style="font-size: 13px;"  target="_blank">Appointment Letter</a>
+                                          <%--                  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="fileUploadAppointment" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Appointment"></asp:RequiredFieldValidator>
+                                         --%>               </div>
                                                     </div>
                                                 </td>
                                                 <td width="50%">
@@ -165,9 +165,9 @@
                                                         <label class="control-label" for="typeahead">Experience:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadExperience" runat="server" />
-                                                            <a id="afileUploadExperience" style="font-size: 13px;" href="#">Experience Letter </a>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="fileUploadExperience" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Experience"></asp:RequiredFieldValidator>
-                                                        </div>
+                                                            <a id="afileUploadExperience" style="font-size: 13px;"  target="_blank">Experience Letter </a>
+                                                 <%--           <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="fileUploadExperience" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Experience"></asp:RequiredFieldValidator>
+                                                --%>        </div>
                                                     </div>
                                                 </td>
                                                 <td width="50%">
@@ -175,9 +175,9 @@
                                                         <label class="control-label" for="typeahead">Family Ration Card:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadFamilyRationCard" runat="server" />
-                                                            <a id="afileUploadFamilyRationCard" style="font-size: 13px;" href="#">Ration Card </a>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="fileUploadFamilyRationCard" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Family Ration Card"></asp:RequiredFieldValidator>
-                                                        </div>
+                                                            <a id="afileUploadFamilyRationCard" style="font-size: 13px;" target="_blank">Ration Card </a>
+                                                 <%--           <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="fileUploadFamilyRationCard" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Family Ration Card"></asp:RequiredFieldValidator>
+                                                --%>        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -187,9 +187,9 @@
                                                         <label class="control-label" for="typeahead">PCC(Verification):</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadPCC" runat="server" />
-                                                            <a id="afileUploadPCC" style="font-size: 13px;" href="#">PCC</a>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="fileUploadPCC" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  PCC"></asp:RequiredFieldValidator>
-                                                        </div>
+                                                            <a id="afileUploadPCC" style="font-size: 13px;"  target="_blank">PCC</a>
+                                                   <%--         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="fileUploadPCC" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  PCC"></asp:RequiredFieldValidator>
+                                               --%>         </div>
                                                     </div>
                                                 </td>
                                                 <td width="50%">
@@ -197,9 +197,9 @@
                                                         <label class="control-label" for="typeahead">Qualification Letter:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadQualification" runat="server" />
-                                                            <a id="afileUploadQualification" style="font-size: 13px;" href="#">Qualification Letter </a>
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="fileUploadQualification" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload Qualification"></asp:RequiredFieldValidator>
-                                                        </div>
+                                                            <a id="afileUploadQualification" style="font-size: 13px;"  target="_blank">Qualification Letter </a>
+                                              <%--              <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="fileUploadQualification" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload Qualification"></asp:RequiredFieldValidator>
+                                              --%>          </div>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -207,8 +207,9 @@
                                                         <label class="control-label" for="typeahead">Upload Photo:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadphoto" runat="server" />
-                                                            <asp:RequiredFieldValidator ID="RequiredFieldValidatorphoto" ControlToValidate="fileUploadphoto" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Photo"></asp:RequiredFieldValidator>
-                                                        </div>
+                                                               <a id="afileUploadphoto" style="font-size: 13px;"  target="_blank">Photo</a>
+                                                <%--            <asp:RequiredFieldValidator ID="RequiredFieldValidatorphoto" ControlToValidate="fileUploadphoto" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Photo"></asp:RequiredFieldValidator>
+                                              --%>          </div>
                                                     </div>
                                                 </td>
                                             </tr>
