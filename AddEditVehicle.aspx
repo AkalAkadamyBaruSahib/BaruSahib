@@ -121,15 +121,15 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td> Driver Name:<br />    
-                                      <asp:DropDownList ID="ddlDriverName" runat="server"></asp:DropDownList>
-                                            <%-- <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlDriverName"
+                                <td>Driver Name:<br />
+                                    <asp:DropDownList ID="ddlDriverName" runat="server"></asp:DropDownList>
+                                    <%-- <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlDriverName"
                                                         ControlToValidate="ddlDriverName" ErrorMessage="Please Select The Driver Name" />--%>
                                           
                                 </td>
-                                <td> Conductor Name:<br />     
+                                <td>Conductor Name:<br />
                                     <asp:DropDownList ID="ddlConductorName" runat="server"></asp:DropDownList>
-                                            <%-- <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlConductorName"
+                                    <%-- <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator_ddlConductorName"
                                                         ControlToValidate="ddlConductorName" ErrorMessage="Please Select The Conductor Name" />--%>
                                           
                                 </td>
@@ -403,14 +403,14 @@
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="400px" />
                                                     </asp:TemplateField>
-                                                          <asp:TemplateField  HeaderText="Action"  ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Action" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="btn_Approved" Visible="false" Text="Delete"  CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-primary" OnClick="btn_Approved_Click" />
+                                                            <asp:Button ID="btn_Approved" Visible="false" Text="Delete" CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-primary" OnClick="btn_Approved_Click" />
                                                         </ItemTemplate>
-                                                              <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                              <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                   </Columns>
+                                                </Columns>
                                                 <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
                                                 <RowStyle BackColor="#EFF3FB" />
                                                 <EditRowStyle BackColor="#2461BF" />
@@ -432,6 +432,19 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div style="display: none" id="progress">
+        <table style="text-align:center">
+            <tr>
+                <td style="text-align:center">
+                    <img src="img/animated.gif" />
+                </td>
+            </tr>
+            <tr>
+                <td>Wait while document is uploading....
+                </td>
+            </tr>
+        </table>
     </div>
 </asp:Content>
 

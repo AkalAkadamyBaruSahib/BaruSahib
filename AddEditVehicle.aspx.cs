@@ -412,12 +412,10 @@ public partial class AddVehicle : System.Web.UI.Page
                 //  DAL.DalAccessUtility.ExecuteNonQuery("EXEC [USP_InsertUpdateVehicleEmployee] " + ddlDriverType.SelectedValue + ",'" + txtDriverName.Text + "','" + txtDriverMobile.Text + "'," + VehicleID + "," + ddlDLType.SelectedValue + ",'" + txtDLValidity.Text + "',null");
                 if (rowaffected > 0)
                 {
-                    //if (SaveDocuments())
-                    //{
+                    if (SaveDocuments())
+                    {
                         Response.Redirect("Transport_VehicleDetails.aspx");
-                        //bindDocumentGrid();
-                        //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle has been saved.');", true);
-                    //}
+                    }
                 }
             }
             //Response.Redirect("Transport_VehicleDetails.aspx");
@@ -433,55 +431,51 @@ public partial class AddVehicle : System.Web.UI.Page
         }
     }
 
-    //private bool SaveDocuments()
-    //{
-    //    foreach (GridViewRow row in gvDocuments.Rows)
-    //    {
-    //        string qryBuilder = string.Empty;
-    //        Label lblDocu = row.FindControl("lblDocu") as Label;
-    //        FileUpload fu = row.FindControl("fiupload") as FileUpload;//here
-    //        Label lblDocumentType = row.FindControl("lblDocumentType") as Label;
-    //        Label lblDocumentTypeID = row.FindControl("lblDocumentTypeID") as Label;
-    //        TextBox txtDate = row.FindControl("txtDate") as TextBox;
-    //        HyperLink hypDoc = row.FindControl("hypDoc") as HyperLink;
-    //        if ((fu.HasFile && txtDate.Text == "(mm/dd/yyyy)") || (!fu.HasFile && txtDate.Text != "(mm/dd/yyyy)" && hypDoc.Text == "No document Uploaded"))
-    //        {
-    //            if (fu.HasFile && txtDate.Text == "(mm/dd/yyyy)")
-    //                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter the date for " + lblDocumentType.Text + " document');", true);
-    //            else
-    //                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload the " + lblDocumentType.Text + " document');", true);
-    //            return false;
-    //        }
-    //        else
-    //        {
-    //            if (fu.HasFile && txtDate.Text != "(mm/dd/yyyy)")
-    //            {
-    //                try
-    //                {
-    //                    string fileName = string.Empty;
-    //                    string VehicleNumber = txtVehicleNo1.Text.Trim() + "-" + txtVehicleNo2.Text.Trim() + "-" + txtVehicleNo3.Text.Trim() + "-" + txtVehicleNo4.Text.Trim();
-    //                    fileName = lblDocumentType.Text + "_" + VehicleNumber + Path.GetExtension(fu.PostedFile.FileName);
-    //                    if (File.Exists(Server.MapPath("~/VehicleDoc/" + fileName)))
-    //                    {
-    //                        File.Delete(Server.MapPath("~/VehicleDoc/" + fileName));
-    //                    }
-    //                    fu.SaveAs(Server.MapPath("~/VehicleDoc/" + fileName));
-    //                    string uploadedFile = ("VehicleDoc/" + fileName);
+    private bool SaveDocuments()
+    {
+        foreach (GridViewRow row in gvDocuments.Rows)
+        {
+            string qryBuilder = string.Empty;
+            Label lblDocu = row.FindControl("lblDocu") as Label;
+            FileUpload fu = row.FindControl("fiupload") as FileUpload;//here
+            Label lblDocumentType = row.FindControl("lblDocumentType") as Label;
+            Label lblDocumentTypeID = row.FindControl("lblDocumentTypeID") as Label;
+            TextBox txtDate = row.FindControl("txtDate") as TextBox;
+            HyperLink hypDoc = row.FindControl("hypDoc") as HyperLink;
 
-    //                    DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + lblDocu.Text + "," + VehicleID + "," + lblDocumentTypeID.Text + ",'" + uploadedFile + "','" + txtDate.Text + "'");
-    //                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('File has been saved');", true);
-    //                }
-    //                catch (Exception ex)
-    //                {
-    //                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert(" + ex.Message + ");", true);
-    //                    return false;
-    //                }
-    //            }
-    //        }
+            if ((fu.HasFile && txtDate.Text == "(mm/dd/yyyy)") || (!fu.HasFile && txtDate.Text != "(mm/dd/yyyy)" && hypDoc.Text == "No document Uploaded"))
+            {
+                if (fu.HasFile && txtDate.Text == "(mm/dd/yyyy)")
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter the date for " + lblDocumentType.Text + " document');", true);
+                else
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload the " + lblDocumentType.Text + " document');", true);
+                return false;
+            }
+            else
+            {
+                if (fu.HasFile && txtDate.Text != "(mm/dd/yyyy)")
+                {
+                    try
+                    {
+                        string fileName = string.Empty;
+                        string VehicleNumber = txtVehicleNo1.Text.Trim() + "-" + txtVehicleNo2.Text.Trim() + "-" + txtVehicleNo3.Text.Trim() + "-" + txtVehicleNo4.Text.Trim();
+                        fileName = lblDocumentType.Text + "_" + VehicleNumber + Path.GetExtension(fu.PostedFile.FileName);
+                        string uploadedFile = ("VehicleDoc/" + fileName);
 
-    //    }
-    //    return true;
-    //}
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + lblDocu.Text + "," + VehicleID + "," + lblDocumentTypeID.Text + ",'" + uploadedFile + "','" + txtDate.Text + "'");
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('File has been saved');", true);
+                    }
+                    catch (Exception ex)
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert(" + ex.Message + ");", true);
+                        return false;
+                    }
+                }
+            }
+
+        }
+        return true;
+    }
 
     private void BindMake()
     {
