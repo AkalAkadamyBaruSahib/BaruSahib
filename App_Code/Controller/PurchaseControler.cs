@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -29,20 +30,14 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository purRepository = new PurchaseRepository(new AkalAcademy.DataContext());
         return purRepository.GetMaterialItemsByEstID(EstID);
     }
+
     [WebMethod]
     public void RejectMaterialItemByID(int EMRID, int EstID)
     {
         PurchaseRepository purRepository = new PurchaseRepository(new AkalAcademy.DataContext());
         purRepository.RejectMaterialItemByID(EMRID, EstID);
     }
-    [WebMethod]
-    public void DeleteVendorInfo(int VID)
-    {
-        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        repository.DeleteVendorInfo(VID);
-    }
-
-
+ 
     [WebMethod]
     public List<string> GetActiveMaterials()
     {
@@ -57,10 +52,8 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string GetMaterials()
+    public List<string> GetMaterials()
     {
-        JavaScriptSerializer TheSerializer = new JavaScriptSerializer();
-
         List<string> arrMaterials = new List<string>();
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         List<MaterialsDTO> materials = repository.GetActiveMaterials();
@@ -68,11 +61,9 @@ public class PurchaseControler : System.Web.Services.WebService
         {
             arrMaterials.Add(dto.MatName.Trim());
         }
-        var TheJson = TheSerializer.Serialize(arrMaterials);
-
-        return TheJson;
+        return arrMaterials;
     }
-
+  
     [WebMethod]
     public List<VendorInfo> GetVendorsNameList()
     {
@@ -122,5 +113,48 @@ public class PurchaseControler : System.Web.Services.WebService
         return repository.GetPONumber();
     }
 
+    [WebMethod]
+    public void AddNewVendorInformation(VendorInfoDTO vendorInfo)
+    {
+        foreach (VendorMaterialRelationDTO item in vendorInfo.VendorMaterialRelationDTO)
+        {
+            DataSet dsmat = new DataSet();
+            dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatID from Material where MatName = '" + item.MatName + "'");
+            item.MatID = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatId"].ToString());
+            item.MatType = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString());
+        }
+
+        //PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        //repository.AddNewVendorInformation(vendorInfo);
+    }
+
+    [WebMethod]
+    public List<VendorInfoDTO> LoadVendorInformation(int VendorID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.LoadVendorInformation(VendorID);
+
+    }
+
+    [WebMethod]
+    public VendorInfoDTO GetVendorInfoToUpdate(int VendorID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetVendorInfoToUpdate(VendorID);
+    }
+
+    [WebMethod]
+    public void UpdateVendorInformation(VendorInfo VendorInfo)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.UpdateVendorInformation(VendorInfo);
+    }
+
+    [WebMethod]
+    public void VendorInfoToDelete(int VendorID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.VendorInfoToDelete(VendorID);
+    }
    
 }

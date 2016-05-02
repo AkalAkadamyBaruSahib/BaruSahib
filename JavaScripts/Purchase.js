@@ -1,134 +1,55 @@
-﻿
-var materialname = new Array();
-var tblUploadMaterial;
-var SnoIds;
-var MaterialList;
-var selectedMaterialList = new Array();
-var sum = 0;
-var listVal = "";
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     AutofillMaterialSearchBox();
-    BindVendors();
-    BindEstimate();
-    BindCurrentDate();
-    BindDeliveryAddress();
-   
-    $("#rowExcise").hide();
-    $("#lblIndentNo").html($("select[id*='drpEstimate']").val());
-    $("#lblExciseStatus").html('NA');
-    $("#lblVatStatus").html('0%');
-    $("#drpEstimate").change(function (e) {
-        $("#divUploadMaterial").modal('show');
-        GetMaterialList($(this).val());
-        listVal += $(this).val() + ",";
-        $("#lblIndentNo").text(listVal);
+    $("input[id*='btnSave']").click(function (e) {
+        SaveVendor();
     });
-
-    $("input[id*='btnLoad']").click(function (e) {
-        LoadPurchaseOrderInfo(selectedMaterialList);
-        $("#divUploadMaterial").modal('hide');
-    });
-
-    $("input[id*='btntest']").click(function (e) {
-        $("#divUploadMaterial").modal('show');
-        GetMaterialList($("select[id*='drpEstimate']").val());
-    });
-
-    $("#chkExcise").change(function () {
-        if (this.checked) {
-            $("#rowExcise").show();
-        }
-        else {
-            $("#rowExcise").hide();
-        }
-    });
-
-    $("input[id*='btnExcise']").click(function (e) {
-        Calcution();
-    });
-
-    $("#txtvat").change(function () {
-        var vatValue = $("#txtvat").val() + "%";
-        $("#lblVatStatus").html(vatValue);
-    });
-
-    $("#drpVendor").change(function () {
-        GetVendorAddress($(this).val());
-    });
-
-    $("#drpDeliveryAddress").change(function () {
-        GetDeliveryAddressInfo($(this).val());
-    });
-
-    $("#drpBillingAddress").change(function () {
-        GetBillingAddressInfo($(this).val());
-    });
-
     $("input[id*='btnadd']").click(function (e) {
         AddItemToList();
     });
+
+    $("input[id*='btnEdit'] ").hide();
+
+    $("input[id$='btnEdit']").click(function () {
+        UpdateVendorInformation();
+     });
+
+    LoadVendorInfo();
 });
 
-function Calcution() {
-    if ($("#chkExcise").is(":checked")) {
-        var Excisetotal = ($("#subtotal").text()) * ($("#txtExcise").val() / 100);
-        var subtotal = $("#subtotal").text();
-        var ExSum = parseInt(subtotal) + parseInt(Excisetotal);
-        var VatTotal = ExSum * $("#txtvat").val() / 100;
-        var VatSum = VatTotal + ExSum;
-    }
-    else {
-        var VatTotal = $("#subtotal").text() * $("#txtvat").val() / 100;
-        var subtotal = $("#subtotal").text();
-        var VatSum = parseInt(subtotal) + parseInt(VatTotal);
-    }
-    $("#lblGrandTotal").html(VatSum);
-    $("#lblExciseStatus").html('INCLUDED');
-
-}
-function RemoveItem(chkbox) {
-    var SnoIds = ($(chkbox).attr("emrid"));
-    if ($(chkbox).is(':checked')) {
-        selectedMaterialList.push($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
-    }
-    else {
-        selectedMaterialList.pop($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
-    }
+function AddItemToList() {
+    var matname = $("input[id*='txtMaterial']").val();
+    var MatlistBox = $("[id*=lstMaterials]");
+    var matval = $("input[id*='hdnmaterialid']").val();
+    var option = $("<option />").val(matval).html(matname);
+    MatlistBox.append(option);
+    $("input[id*='txtMaterial']").val("");
+    return false;
 }
 
-function IsMaterialAlreadySelected(sno) {
-    var flag = false;
+function AutofillMaterialSearchBox() {
+    var dataSrc;
 
-    if (selectedMaterialList != undefined) {
-        var IsItem = $.grep(selectedMaterialList, function (e) { return e.Sno == sno; });
-        if (IsItem.length > 0) {
-            flag = true;
-        }
-    }
-    return flag;
-}
-
-function BindMaterialItems(estID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetMaterialItemsByEstID",
-        data: JSON.stringify({ EstID: estID }),
+        url: "Services/PurchaseControler.asmx/GetActiveMaterials",
         dataType: "json",
         success: function (result, textStatus) {
-            var item = result.d;
             if (textStatus == "success") {
-                $.each(item, function (i, item) {
-                    $('#ddlRejectItems').append($('<option>', {
-                        value: item.MatId,
-                        text: item.MatName
-                    }));
+                $("#txtMaterial").autocomplete({
+                    source: result.d,
+                    focus: function (event, ui) {
+                        $('#txtMaterial').val(ui.item.MatName);
+                        $("input[id*='hdnmaterialid']").val(ui.item.MatId);
+                        return false;
+                    },
+                   
                 });
+
             }
         },
         error: function (result, textStatus) {
-            alert(result.responseText)
+            alert(result.responseText);
         }
     });
 }
@@ -152,7 +73,7 @@ function RejectMaterialItems() {
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                
+
             }
         },
         error: function (result, textStatus) {
@@ -161,254 +82,112 @@ function RejectMaterialItems() {
     });
 }
 
-function AutofillMaterialSearchBox() {
-    var topics = [
-    {
-        value: "cooking",
-        label: "Cooking",
-        id: "1"
-    },
-    {
-        value: "C++",
-        label: "C++",
-        id: "2"
-    },
-    {
-        value: "craftsmanship",
-        label: "Software Craftsmanship",
-        id: "3"
-    }
-    ];
+function SaveVendor() {
+    var params = new Object();
 
-    var dataSrc;
-   $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetMaterials",
-        dataType: "json",
-        success: function (result, textStatus) {
-            if (textStatus == "success") {
-                $("#txtMaterial").autocomplete({
-                    source: JSON.stringify(result.d),
-                    focus: function (event, ui) {
-                        $("#txtMaterial").val(ui.item.MatName);
-                        return false;
-                    },
-                    select: function (event, ui) {
-                        $("input[id*='hdnmaterialid']").val(ui.item.MatId);
-                    }
-                });
-            }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
+    var VendorInfo = new Object();
+
+    VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
+    VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
+    VendorInfo.VendorAddress = $("textarea[id*='txtAddress']").val();
+    VendorInfo.VendorState = $("input[id*='txtState']").val();
+    VendorInfo.VendorCity = $("input[id*='txtCity']").val();
+    VendorInfo.VendorZip = $("input[id*='txtZip']").val();
+    VendorInfo.Active = true;
+    VendorInfo.CreatedOn = "";
+    VendorInfo.ModifyOn = "";
+    VendorInfo.ModifyBy = "";
+
+    var vendorMaterialRelations = new Array();
+    var VendorMaterialRelation = new Object();
+
+    $("#lstMaterials").each(function (index) {
+        VendorMaterialRelation = new Object();
+        VendorMaterialRelation.MatName = $(this).text();
+        vendorMaterialRelations.push(VendorMaterialRelation);
     });
-}
 
-function BindVendors() {
+    VendorInfo.VendorMaterialRelationDTO = vendorMaterialRelations;
+
+
+    params.vendorInfo = VendorInfo;
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetVendorsNameList",
+        url: "Services/PurchaseControler.asmx/AddNewVendorInformation",
+        data: JSON.stringify(params),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                var Result = result.d;
-                $.each(Result, function (key, value) {
-                    $("#drpVendor").append($("<option></option>").val(value.ID).html(value.VendorName));
-                });
+                LoadVendorInfo();
             }
         },
         error: function (result, textStatus) {
-            alert(result.responseText);
+            alert(result.responseText)
         }
     });
 }
 
-function BindEstimate() {
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetEstimateNumberList",
-        dataType: "json",
-        success: function (result, textStatus) {
-            if (textStatus == "success") {
-                var Result = result.d;
-                $.each(Result, function (key, value) {
-                    $("#drpEstimate").append($("<option></option>").val(value.EstId).html(value.EstId));
-                });
-            }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
-    });
-}
-
-function GetMaterialList(selectedValue) {
+function LoadVendorInfo() {
 
     /*create/distroy grid for the new search*/
-    if (typeof tblUploadMaterial != 'undefined') {
-        tblUploadMaterial.fnClearTable();
-    }
-
-    var rowCount = $('#tblUploadMaterial').find("#rowTemplate1").length;
-    for (var i = 0; i < rowCount; i++) {
-        $("#rowTemplate1").remove();
-    }
-    var rowTemplate = '<tr id="rowTemplate1"><td id="srno" style="width:45px;"></td><td id="materialname" style="width:230px;"></td><td id="chkmaterial"></td></tr>';
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetMaterialList",
-        data: JSON.stringify({ EstimateID: parseInt(selectedValue) }),
-        dataType: "json",
-        success: function (result, textStatus) {
-            if (textStatus == "success") {
-                MaterialList = result.d;
-                if (MaterialList.length > 0) {
-                    $("#tbody1").append(rowTemplate);
-                }
-                var count = 1;
-                for (var i = 0; i < MaterialList.length; i++) {
-
-                    var $newRow = $("#rowTemplate1").clone();
-                    $newRow.find("#srno").html(count);
-                    $newRow.find("#materialname").html(MaterialList[i].Material.MatName);
-                    if (IsMaterialAlreadySelected(MaterialList[i].Sno)) {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange = 'RemoveItem(this)' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
-                    }
-                    else {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange='RemoveItem(this)' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
-                    }
-                    count++;
-                    $newRow.show();
-                    if (i == 0) {
-                        $("#rowTemplate1").replaceWith($newRow);
-                    }
-                    else {
-                        $newRow.appendTo("#tblUploadMaterial > tbody");
-                    }
-
-                }
-                tblUploadMaterial = $('#tblUploadMaterial').DataTable();
-            }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
-    });
-}
-
-function LoadPurchaseOrderInfo(selectedMaterialList) {
-
-    /*create/distroy grid for the new search*/
-    if (typeof grdTicketDiscription != 'undefined') {
-        grdTicketDiscription.fnClearTable();
+    if (typeof grdVendorDiscription != 'undefined') {
+        grdVendorDiscription.fnClearTable();
     }
 
     var rowCount = $('#grid').find("#rowTemplate").length;
     for (var i = 0; i < rowCount; i++) {
         $("#rowTemplate").remove();
     }
-    var rowTemplate = '<tr id="rowTemplate"><td id="srno">abc</td><td id="qty">abc</td><td id="description">abc</td><td id="details">cc</td><td id="unitprice"></td><td id="linetotal"></td></tr>';
+    var rowTemplate = '<tr id="rowTemplate"><td id="vendorName">abc</td><td id="vendorAddress">abc</td><td id="contactNo">abc</td><td id="action">cc</td></tr>';
 
-    var adminLoanList = selectedMaterialList;
-    if (adminLoanList.length > 0) {
-
-        $("#tbody").append(rowTemplate);
-    }
-    var visitorType = "";
-    var count = 1;
-    for (var i = 0; i < adminLoanList.length; i++) {
-        var className = "info";
-        if (i % 2 == 0) {
-            className = "warning";
-        }
-        var $newRow = $("#rowTemplate").clone();
-        $newRow.find("#srno").html(count);
-        $newRow.find("#qty").html(adminLoanList[i].Qty);
-        $newRow.find("#description").html("<table><tr><td><textarea name='txtdescriptipn' id='txtdescriptipn' ></textarea></td></tr></table>");
-        $newRow.find("#details").html(adminLoanList[i].Material.MatName);
-        $newRow.find("#unitprice").html(adminLoanList[i].Rate);
-        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
-        $newRow.find("#linetotal").html(linetotal);
-        count++;
-        sum += linetotal;
-        $("#subtotal").html(sum);
-        $newRow.addClass(className);
-        $newRow.show();
-
-        if (i == 0) {
-            $("#rowTemplate").replaceWith($newRow);
-        }
-        else {
-            $newRow.appendTo("#grid > tbody");
-        }
-        $("#grid").removeAttr("style");
-    }
-    grdTicketDiscription = $('#grid').DataTable(
-        {
-            "bPaginate": true,
-            "iDisplayLength": 12,
-            "sPaginationType": "full_numbers",
-            "aaSorting": [[2, 'desc']],
-            "bAutoWidth": false,
-            "bLengthChange": false,
-            "bDestroy": true
-
-        });
-}
-
-function GetVendorAddress(selectedValue) {
-    var cityname = "";
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetVendorAddress",
-        data: JSON.stringify({ VendorID: parseInt(selectedValue) }),
-        dataType: "json",
-        success: function (responce) {
-
-            var msg = responce.d;
-
-            for (var i = 0; i < msg.length; i++) {
-                var vendorinfo = msg[i].VendorName + "(" + msg[i].VendorContactNo + ")";
-                $("#lblName").text(vendorinfo);
-                $("#lblVendorAddress").text(msg[i].VendorAddress);
-                cityname = msg[i].VendorCity + "-" + msg[i].VendorZip + "," + msg[i].VendorState;
-                $("#lblCity").text(cityname);
-            }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText)
-        }
-    });
-}
-
-function BindCurrentDate() {
-    var m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-    var dNow = new Date();
-    var curr_date = dNow.getDate();
-    var curr_month = dNow.getMonth();
-    var curr_year = dNow.getFullYear();
-    var localdate = m_names[curr_month] + "." + curr_date + "," + curr_year;
-    $('#lblCurrentDate').text(localdate);
-}
-
-function BindDeliveryAddress() {
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetDeliveryAddressList",
+        url: "Services/PurchaseControler.asmx/LoadVendorInformation",
+        data: JSON.stringify({ VendorID: 1 }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                var Result = result.d;
-                $.each(Result, function (key, value) {
-                    $("#drpDeliveryAddress").append($("<option></option>").val(value.ID).html(value.TrustName));
-                    $("#drpBillingAddress").append($("<option></option>").val(value.ID).html(value.TrustName));
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbody").append(rowTemplate);
+                }
+              
+                for (var i = 0; i < adminLoanList.length; i++) {
+                    var className = "info";
+                    if (i % 2 == 0) {
+                        className = "warning";
+                    }
+                  
+                    var $newRow = $("#rowTemplate").clone();
+                    $newRow.find("#vendorName").html(adminLoanList[i].VendorName);
+                    $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><tr><td><b>State:</b> " + adminLoanList[i].VendorState + "</td></tr><tr><td><b>City:</b> " + adminLoanList[i].VendorCity + "</td></tr><tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
+                    $newRow.find("#contactNo").html(adminLoanList[i].VendorContactNo);
+                    $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='VendorInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr></table>");
+                    $newRow.addClass(className);
+                    $newRow.show();
+
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grid > tbody");
+                    }
+                    $("#grid").removeAttr("style");
+
+                }
+                grdVendorDiscription = $('#grid').DataTable(
+                {
+                    "bPaginate": true,
+                    "iDisplayLength": 20,
+                    "sPaginationType": "full_numbers",
+                    "bAutoWidth": false,
+                    "bLengthChange": false,
+                    "bDestroy": true
+
                 });
             }
         },
@@ -418,23 +197,64 @@ function BindDeliveryAddress() {
     });
 }
 
-function GetDeliveryAddressInfo(selectedValue) {
-    var cityname = "";
+function GetVendorInfoToUpdate(vendorID) {
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetDeliveryAddressInfo",
-        data: JSON.stringify({ AddressID: parseInt(selectedValue) }),
+        url: "Services/PurchaseControler.asmx/GetVendorInfoToUpdate",
+        data: JSON.stringify({ VendorID: vendorID }),
         dataType: "json",
         success: function (responce) {
 
-            var msg = responce.d;
+            var rdata = responce.d;
 
-            for (var i = 0; i < msg.length; i++) {
-                $("#lblTrustName").text(msg[i].TrustName);
-                cityname = msg[i].Address + "," + msg[i].City + "-" + "(" + msg[i].State + ")" + "," + msg[i].Zipcode;
-                $("#lblAdress").text(cityname);
-                $("#lblPhoneNo").text(PhoneNumber);
+            if (rdata != undefined) {
+                $("input[id*='hdnVendorID']").val(rdata.ID);
+                $("input[id*='txtVendorName']").val(rdata.VendorName);
+                $("input[id*='txtPhone']").val(rdata.VendorContactNo);
+                $("textarea[id*='txtAddress']").val(rdata.VendorAddress);
+                $("input[id*='txtState']").val(rdata.VendorState);
+                $("input[id*='txtCity']").val(rdata.VendorCity);
+                $("input[id*='txtZip']").val(rdata.VendorZip);
+
+                //for (var i = 0; i < rdata.VendorMaterialRelationsDTO.length; i++) {
+                       
+                //}
+                $("input[id*='btnSave'] ").hide();
+                $("input[id*='btnEdit'] ").show();
+            }
+        },
+        error: function (response) {
+            alert(response.status + '' + response.textStatus);
+        }
+    });
+}
+
+function UpdateVendorInformation() {
+
+    var updateParams = new Object();
+    var VendorInfo = new Object();
+
+    VendorInfo.ID = $("input[id*='hdnVendorID']").val();
+    VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
+    VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
+    VendorInfo.VendorAddress = $("textarea[id*='txtAddress']").val();
+    VendorInfo.VendorZip = $("input[id*='txtZip']").val();
+    VendorInfo.VendorState = $("input[id*='txtState']").val();
+    VendorInfo.VendorCity = $("input[id*='txtCity']").val();
+    updateParams.VendorInfo = VendorInfo;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/UpdateVendorInformation",
+        data: JSON.stringify(updateParams),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                LoadVendorInfo();
+                alert("Record has been Upadte successfully");
             }
         },
         error: function (result, textStatus) {
@@ -443,17 +263,17 @@ function GetDeliveryAddressInfo(selectedValue) {
     });
 }
 
-function BindPONumber() {
+function VendorInfoToDelete(vendorID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetPONumber",
+        url: "Services/PurchaseControler.asmx/VendorInfoToDelete",
+        data: JSON.stringify({ VendorID: vendorID }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                var Result = result.d;
-               
-               
+                LoadVendorInfo();
+                alert("Record has been Delete successfully");
             }
         },
         error: function (result, textStatus) {
@@ -461,48 +281,3 @@ function BindPONumber() {
         }
     });
 }
-
-function GetBillingAddressInfo(selectedValue) {
-    var cityname = "";
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetDeliveryAddressInfo",
-        data: JSON.stringify({ AddressID: parseInt(selectedValue) }),
-        dataType: "json",
-        success: function (responce) {
-
-            var msg = responce.d;
-
-            for (var i = 0; i < msg.length; i++) {
-                cityname = msg[i].Address;
-                var fulladree = msg[i].City  + "(" + msg[i].State + ")" + "," + msg[i].Zipcode;
-                $("#lblBillingName").text(cityname);
-                $("#lblBillingAddres").text(fulladree);
-                $("#lblBillingPhone").text(PhoneNumber);
-            }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText)
-        }
-    });
-}
-
-function AddItemToList() {
-    var matname = $("input[id*='txtMaterial']").val();
-    var MatlistBox = $("[id*=lstMaterials]");
-    var matval = $("input[id*='hdnmaterialid']").val();
-    var option = $("<option />").val(matval).html(matname);
-    MatlistBox.append(option);
-    $("input[id*='txtMaterial']").val("");
-    return false;
-}
-
-
-
-
-
-
-
-
-

@@ -111,23 +111,6 @@
 
                                 </tr>
                                 <tr>
-                                    <td width="50%" style="vertical-align: top">
-                                        <div class="controls">
-                                            <b>Select Material Type:</b>
-                                            <br />
-                                            <asp:ListBox ID="drpMaterialTypes" Height="150px" Width="300px" CssClass="list-group" SelectionMode="Multiple" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" runat="server"></asp:ListBox>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                <b>Select  Material Items:</b>
-                                                <br />
-                                                <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
-                                            </div>
-                                        </div>
-                                    </td>
                                     <td>
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead"></label>
@@ -141,6 +124,17 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                <b>Select  Material Items:</b>
+                                                <br />
+                                                <select id="lstMaterials" height="150px" width="400px"></select>
+                                            </div>
+                                        </div>
+                                    </td>
+
                                     <%--  </ContentTemplate>
                             </asp:UpdatePanel>--%>
                                 </tr>
@@ -155,8 +149,8 @@
                             </table>
 
                             <div class="form-actions">
-                                <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnSave_Click" />
-                                <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnEdit_Click" />
+                                <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" />
+                                <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary"/>
                                 <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn" OnClick="btnCl_Click" />
                             </div>
                         </fieldset>
@@ -166,6 +160,7 @@
             </div>
             <!--/span-->
         </div>
+
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -176,12 +171,31 @@
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
                 </div>
+                <div class="box-content">
+                    <div id="divMatDetails" runat="server">
+                        <div id="divVendorDetails" runat="server">
+                            <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                                <thead>
+                                    <tr>
+
+                                        <th style="color: #cc3300; width:300px;">Vendor Name</th>
+                                        <th style="color: #cc3300; width:415px;">Address</th>
+                                        <th style="color: #cc3300; width:391px;">Contact Number
+                                        </th>
+                                        <th style="color: #cc3300; width:368px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="box-content">
-                <asp:CheckBox ID="chkShowAllVendor" runat="server" OnCheckedChanged="chkShowAllVendor_CheckedChanged" AutoPostBack="true" />View All Vendors
-                    <div id="divVendorDetails" runat="server"></div>
-            </div>
+            <!--/span-->
+
         </div>
+
     </div>
 </asp:Content>
 

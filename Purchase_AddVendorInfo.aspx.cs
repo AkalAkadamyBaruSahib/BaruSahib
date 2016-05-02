@@ -21,8 +21,7 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
             {
                 lblUser.Text = Session["EmailId"].ToString();
             }
-            BindActiveVendorsDetails();
-            BindListMaterialTypes();
+            //BindActiveVendorsDetails();
             if (Request.QueryString["VIdEdit"] != null)
             {
                 //GetPurchaseSourceInfoToUpdate(Request.QueryString["PSIdEdit"].ToString());
@@ -41,45 +40,45 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        System.Threading.Thread.Sleep(1000);
-        DataSet dsExist = new DataSet();
+        //System.Threading.Thread.Sleep(1000);
+        //DataSet dsExist = new DataSet();
 
-        VendorInfo vendorinfo = new VendorInfo();
-        vendorinfo.VendorName = txtVendorName.Text;
-        vendorinfo.VendorAddress = txtAddress.Text;
-        vendorinfo.VendorContactNo = txtPhone.Text;
-        vendorinfo.VendorState = txtState.Text;
-        vendorinfo.VendorCity = txtCity.Text;
-        vendorinfo.VendorZip = txtZip.Text;
-        vendorinfo.CreatedOn = DateTime.Now;
-        vendorinfo.ModifyBy = lblUser.Text;
-        vendorinfo.ModifyOn = DateTime.Now;
-        vendorinfo.Active = true;
-        VendorMaterialRelation vendormaterialrelation = null;
-        vendorinfo.VendorMaterialRelation = new List<VendorMaterialRelation>();
+        //VendorInfo vendorinfo = new VendorInfo();
+        //vendorinfo.VendorName = txtVendorName.Text;
+        //vendorinfo.VendorAddress = txtAddress.Text;
+        //vendorinfo.VendorContactNo = txtPhone.Text;
+        //vendorinfo.VendorState = txtState.Text;
+        //vendorinfo.VendorCity = txtCity.Text;
+        //vendorinfo.VendorZip = txtZip.Text;
+        //vendorinfo.CreatedOn = DateTime.Now;
+        //vendorinfo.ModifyBy = lblUser.Text;
+        //vendorinfo.ModifyOn = DateTime.Now;
+        //vendorinfo.Active = true;
+        //VendorMaterialRelation vendormaterialrelation = null;
+        //vendorinfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
         
-        foreach (ListItem item in lstMaterials.Items)
-        {
-            if (item.Selected)
-            {
-                vendormaterialrelation = new VendorMaterialRelation();
-                DataSet dsmat = new DataSet();
-                dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId from Material where MatId = " + item.Value + "");
-                vendormaterialrelation.MatType = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString());
-                vendormaterialrelation.MatID = Convert.ToInt32(item.Value);
-                vendormaterialrelation.CreatedOn = DateTime.Now;
-                vendormaterialrelation.ModifyOn = DateTime.Now;
-                vendorinfo.VendorMaterialRelation.Add(vendormaterialrelation);
-            }
-        }
-        PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
-        if (Request.QueryString["VIdEdit"] == null)
-        {
-            repo.AddNewVendorInformation(vendorinfo);
-        }
-        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vendor Information Create Successfully.');", true);
-        BindActiveVendorsDetails();
-        ClearData();
+        //foreach (ListItem item in lstMaterials.Items)
+        //{
+        //    if (item.Selected)
+        //    {
+        //        vendormaterialrelation = new VendorMaterialRelation();
+        //        DataSet dsmat = new DataSet();
+        //        dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId from Material where MatId = " + item.Value + "");
+        //        vendormaterialrelation.MatType = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString());
+        //        vendormaterialrelation.MatID = Convert.ToInt32(item.Value);
+        //        vendormaterialrelation.CreatedOn = DateTime.Now;
+        //        vendormaterialrelation.ModifyOn = DateTime.Now;
+        //        vendorinfo.VendorMaterialRelations.Add(vendormaterialrelation);
+        //    }
+        //}
+        //PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+        //if (Request.QueryString["VIdEdit"] == null)
+        //{
+        //    repo.AddNewVendorInformation(vendorinfo);
+        //}
+        //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vendor Information Create Successfully.');", true);
+        //BindActiveVendorsDetails();
+        //ClearData();
     }
 
     protected void BindActiveVendorsDetails()
@@ -134,10 +133,10 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
 
     protected void DeleteVendorInfo(string vid)
     {
-        PurchaseControler purchaseController = new PurchaseControler();
-        purchaseController.DeleteVendorInfo(Convert.ToInt32(vid));
-        BindActiveVendorsDetails();
-        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vendor Inforamation  Delete Successfully.');", true);
+        //PurchaseControler purchaseController = new PurchaseControler();
+        //purchaseController.DeleteVendorInfo(Convert.ToInt32(vid));
+        //BindActiveVendorsDetails();
+        //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vendor Inforamation  Delete Successfully.');", true);
     }
 
     private void getVendorDetails(string vid)
@@ -158,25 +157,16 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
 
         DataSet dsGetMaterialDetail = new DataSet();
         dsGetMaterialDetail = DAL.DalAccessUtility.GetDataInDataSet("select VendorID,MatID,MatType from VendorMaterialRelation where VendorID = '" + vid + "'");
-        //drpMaterialTypes.ClearSelection();
-        foreach (ListItem item in drpMaterialTypes.Items)
-        {
-            if (dsGetMaterialDetail.Tables[0].Select("MatType=" + item.Value).Count() > 0)
-            {
-                item.Selected = true;
-            }
-        }
+        
+        //lstMaterials.ClearSelection();
+        //foreach (ListItem item in lstMaterials.Items)
+        //{
+        //    if (dsGetMaterialDetail.Tables[0].Select("MatID=" + item.Value).Count() > 0)
+        //    {
+        //        item.Selected = true;
 
-        BindMaterialName();
-        lstMaterials.ClearSelection();
-        foreach (ListItem item in lstMaterials.Items)
-        {
-            if (dsGetMaterialDetail.Tables[0].Select("MatID=" + item.Value).Count() > 0)
-            {
-                item.Selected = true;
-
-            }
-        }
+        //    }
+        //}
     }
 
     protected void btnEdit_Click(object sender, EventArgs e)
@@ -185,15 +175,15 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
         DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewVendorInfoProc '" + txtVendorName.Text + "','" + txtAddress.Text + "','" + txtPhone.Text + "','" + lblUser.Text + "','2','" + VNameId + "','" + chkInactive.Checked + "','" + txtState.Text + "','" + txtCity.Text + "','" + txtZip.Text + "'");
 
         DAL.DalAccessUtility.ExecuteNonQuery("Delete from VendorMaterialRelation where Vendorid ='" + VNameId + "'");
-        foreach (ListItem item in lstMaterials.Items)
-        {
-            if (item.Selected)
-            {
-                DataSet dsmat = new DataSet();
-                dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId from Material where MatId = " + item.Value + "");
-                DAL.DalAccessUtility.ExecuteNonQuery("insert into VendorMaterialRelation(VendorID,MatID,CreatedOn,ModifyOn,MatType) values('" + VNameId + "','" + Convert.ToInt32(item.Value) + "',GETDATE(),GETDATE(),'" + Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString()) + "')");
-            }
-        }
+        //foreach (ListItem item in lstMaterials.Items)
+        //{
+        //    if (item.Selected)
+        //    {
+        //        DataSet dsmat = new DataSet();
+        //        dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId from Material where MatId = " + item.Value + "");
+        //        DAL.DalAccessUtility.ExecuteNonQuery("insert into VendorMaterialRelation(VendorID,MatID,CreatedOn,ModifyOn,MatType) values('" + VNameId + "','" + Convert.ToInt32(item.Value) + "',GETDATE(),GETDATE(),'" + Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString()) + "')");
+        //    }
+        //}
 
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vendor Infomation Edit Successfully.');", true);
         BindActiveVendorsDetails();
@@ -217,19 +207,19 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
         txtState.Text = "";
         txtCity.Text = "";
         chkInactive.Checked = false;
-        lstMaterials.Items.Clear();
+        //lstMaterials.Items.Clear();
     }
 
     protected void chkShowAllVendor_CheckedChanged(object sender, EventArgs e)
     {
-        if (chkShowAllVendor.Checked == true)
-        {
-            BindAllVendor();
-        }
-        else
-        {
-            BindActiveVendorsDetails();
-        }
+        //if (chkShowAllVendor.Checked == true)
+        //{
+        //    BindAllVendor();
+        //}
+        //else
+        //{
+        //    BindActiveVendorsDetails();
+        //}
     }
 
     private void BindAllVendor()
@@ -282,37 +272,4 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
         divVendorDetails.InnerHtml = ZoneInfo.ToString();
     }
 
-    private void BindListMaterialTypes()
-    {
-        DataSet dsMatType = new DataSet();
-        dsMatType = ViewState["dsMatType"] as DataSet;
-        if (dsMatType == null)
-        {
-            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 and MatTypeName<>'OTHERS' order by MatTypeName");
-            ViewState["dsMatType"] = dsMatType;
-        }
-
-        drpMaterialTypes.DataSource = dsMatType;
-        drpMaterialTypes.DataValueField = "MatTypeId";
-        drpMaterialTypes.DataTextField = "MatTypeName";
-        drpMaterialTypes.DataBind();
-    }
-
-    protected void lstMaterialTypes_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        BindMaterialName();
-    }
-
-    public void BindMaterialName()
-    {
-        string values = String.Join(", ", drpMaterialTypes.Items.Cast<ListItem>()
-                                                     .Where(i => i.Selected)
-                                                     .Select(i => i.Value));
-        DataSet dsMat = new DataSet();
-        dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId IN (" + values + ") order by MatName");
-        lstMaterials.DataSource = dsMat;
-        lstMaterials.DataValueField = "MatId";
-        lstMaterials.DataTextField = "MatName";
-        lstMaterials.DataBind();
-    }
 }

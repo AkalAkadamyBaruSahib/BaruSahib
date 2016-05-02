@@ -56,7 +56,7 @@ namespace AkalAcademy
 
             modelBuilder.Entity<Visitors>().HasMany(r => r.VisitorRoomNumbers).WithOptional().HasForeignKey(r => r.VisitorID);
 
-            modelBuilder.Entity<VendorInfo>().HasMany(v => v.VendorMaterialRelation).WithOptional().HasForeignKey(r => r.VendorID);
+            modelBuilder.Entity<VendorInfo>().HasMany(v => v.VendorMaterialRelations).WithOptional().HasForeignKey(r => r.VendorID);
             modelBuilder.Entity<Material>().HasMany(v => v.VendorMaterialRelation).WithOptional().HasForeignKey(r => r.MatID);
           
 
