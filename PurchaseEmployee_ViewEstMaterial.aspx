@@ -82,7 +82,7 @@
                     <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
                     <asp:TemplateField HeaderText="RemainingQty">
                         <ItemTemplate>
-                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty" Text='<%#Eval("RemainingQty") %>'></asp:TextBox>
+                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty" Text='<%#Eval("PurchaseQty") %>'></asp:TextBox>
                         </ItemTemplate>
                     </asp:TemplateField>
                    <asp:TemplateField HeaderText="Rate">
