@@ -130,7 +130,7 @@
                                             <div class="controls">
                                                 <b>Select  Material Items:</b>
                                                 <br />
-                                                <select id="lstMaterials" height="150px" width="400px"></select>
+                                                <select id="lstMaterials" multiple="multiple" height="150px" width="400px"></select>
                                             </div>
                                         </div>
                                     </td>
@@ -138,21 +138,12 @@
                                     <%--  </ContentTemplate>
                             </asp:UpdatePanel>--%>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <asp:Panel ID="pnlActiveVendor" runat="server" Visible="false">
-                                            <asp:CheckBox ID="chkInactive" runat="server" />
-                                            <asp:Label ID="lblChkinActive" runat="server" Text="Is Active"></asp:Label>
-                                        </asp:Panel>
-                                    </td>
-                                </tr>
                             </table>
 
                             <div class="form-actions">
                                 <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" />
-                                <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary"/>
-                                <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn" OnClick="btnCl_Click" />
-                            </div>
+                                <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary" />
+                              </div>
                         </fieldset>
                     </form>
 
@@ -173,16 +164,24 @@
                 </div>
                 <div class="box-content">
                     <div id="divMatDetails" runat="server">
-                        <div id="divVendorDetails" runat="server">
+                            <div id="divVendorDetails" runat="server">
+                                <table>
+                                    <tr>
+                                        <td style="float: right; margin-left: 1020px; margin-top: -4px;"> 
+                                             <input type="checkbox" id="chkAllVendors" style="width: 10px; height: 10px;" />
+                                            <asp:Label ID="lblchkAllVendors" runat="server" Text="Show all Vendors"></asp:Label>
+                                        </td>
+                                    </tr>
+                                </table>
                             <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
                                 <thead>
                                     <tr>
 
-                                        <th style="color: #cc3300; width:300px;">Vendor Name</th>
-                                        <th style="color: #cc3300; width:415px;">Address</th>
-                                        <th style="color: #cc3300; width:391px;">Contact Number
-                                        </th>
-                                        <th style="color: #cc3300; width:368px;">Action</th>
+                                        <th style="color: #cc3300; width: 215px;">Vendor Name</th>
+                                        <th style="color: #cc3300; width: 298px;">Address</th>
+                                        <th style="color: #cc3300; width: 216px;">Contact Number</th>
+                                        <th style="color: #cc3300; width: 197px;">Status</th>
+                                        <th style="color: #cc3300; width: 263px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody">

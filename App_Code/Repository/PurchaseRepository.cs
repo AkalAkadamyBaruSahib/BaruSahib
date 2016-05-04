@@ -112,8 +112,8 @@ public class PurchaseRepository
     public List<PurchaseOrder> GetPONumber()
     {
         return _context.PurchaseOrder.Where(x => x.CreatedOn == DateTime.Now).ToList();
-    }  
-    
+    }
+
     public void AddNewVendorInformation(VendorInfo vendorInfo)
     {
         _context.Entry(vendorInfo).State = EntityState.Added;
@@ -121,7 +121,7 @@ public class PurchaseRepository
 
     }
 
-    public List<VendorInfoDTO> LoadVendorInformation(int VendorID)
+    public List<VendorInfoDTO> LoadActiveVendorInformation(int VendorID)
     {
         List<VendorInfo> vendorInfo = _context.VendorInfo.Where(v => v.Active == true)
                  .Include(e => e.VendorMaterialRelations).Distinct().OrderByDescending(x => x.CreatedOn).ToList();
@@ -147,24 +147,41 @@ public class PurchaseRepository
             vendorDTO.ModifyOn = v.ModifyOn.ToString();
             vendorDTO.CreatedOn = v.CreatedOn.ToString();
 
-            //vendorDTO.VendorMaterialRelationsDTO = new List<VendorMaterialRelationDTO>();
-            //VendorMaterialRelationDTO vendorMatRel;
-            //foreach (VendorMaterialRelation vmr in v.VendorMaterialRelations)
-            //{
-            //    vendorMatRel = new VendorMaterialRelationDTO();
-            //    vendorMatRel.VendorID = vmr.VendorID;
-            //    vendorMatRel.MatID = vmr.MatID;
-            //    vendorMatRel.MatType = vmr.MatType;
-            //    vendorMatRel.CreatedOn = vmr.CreatedOn.ToString();
-            //    vendorMatRel.ModifyOn = vmr.ModifyOn.ToString();
-               
-            //    vendorDTO.VendorMaterialRelationsDTO.Add(vendorMatRel);
-            //}
+         
+            dto.Add(vendorDTO);
+        }
+         return dto;
+    }
+
+    public List<VendorInfoDTO> LoadInActiveVendorInformation(int VendorID)
+    {
+        List<VendorInfo> vendorInfo = _context.VendorInfo.Include(e => e.VendorMaterialRelations).Distinct().OrderByDescending(x => x.CreatedOn).ToList();
+
+
+        DataSet vendor = new DataSet();
+        List<VendorInfoDTO> dto = new List<VendorInfoDTO>();
+
+        VendorInfoDTO vendorDTO = null;
+        foreach (VendorInfo v in vendorInfo)
+        {
+            vendorDTO = new VendorInfoDTO();
+
+            vendorDTO.ID = v.ID;
+            vendorDTO.VendorName = v.VendorName;
+            vendorDTO.VendorAddress = v.VendorAddress;
+            vendorDTO.VendorContactNo = v.VendorContactNo;
+            vendorDTO.VendorState = v.VendorState;
+            vendorDTO.VendorCity = v.VendorCity;
+            vendorDTO.VendorZip = v.VendorZip;
+            vendorDTO.Active = v.Active;
+            vendorDTO.ModifyBy = v.ModifyBy;
+            vendorDTO.ModifyOn = v.ModifyOn.ToString();
+            vendorDTO.CreatedOn = v.CreatedOn.ToString();
+
             dto.Add(vendorDTO);
         }
 
-        // return dto.OrderByDescending(x => x.CreatedOn).ToList();
-        return dto;
+         return dto;
     }
 
     public VendorInfoDTO GetVendorInfoToUpdate(int VendorID)
@@ -185,30 +202,37 @@ public class PurchaseRepository
 
         dto.Active = vendorInfo.Active;
 
-        List<VendorMaterialRelationDTO> vendorMatRelation = new List<VendorMaterialRelationDTO>();
+        dto.VendorMaterialRelationDTO = new List<VendorMaterialRelationDTO>();
         VendorMaterialRelationDTO vendorMatRel;
+        DataSet dsmat = new DataSet();
         foreach (VendorMaterialRelation rm in vendorInfo.VendorMaterialRelations)
         {
             vendorMatRel = new VendorMaterialRelationDTO();
-            vendorMatRel.ID = rm.ID;
-            vendorMatRel.VendorID = rm.VendorID;
 
-            vendorMatRelation.Add(vendorMatRel);
+            vendorMatRel.ID = rm.ID;
+            dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatName from Material where MatID = '" + rm.MatID + "'");
+            if (dsmat.Tables[0].Rows.Count > 0)
+            {
+                vendorMatRel.MatName = dsmat.Tables[0].Rows[0]["MatName"].ToString();
+            }
+
+            vendorMatRel.VendorID = rm.VendorID;
+            vendorMatRel.MatID = rm.MatID;
+            vendorMatRel.MatType = rm.MatType;
+            vendorMatRel.CreatedOn = rm.CreatedOn.ToString();
+            vendorMatRel.CreatedOn = rm.ModifyOn.ToString();
+            dto.VendorMaterialRelationDTO.Add(vendorMatRel);
         }
 
-        dto.VendorMaterialRelationDTO = vendorMatRelation;
         return dto;
-        //   newVisitor
-
-        //declate all properties
     }
 
-    public void UpdateVendorInformation(VendorInfo vendorInfo)
+    public void UpdateVendorInformation(VendorInfoDTO vendorInfo)
     {
         _context.VendorMaterialRelation.RemoveRange(_context.VendorMaterialRelation.Where(v => v.VendorID == vendorInfo.ID));
 
         VendorInfo newVendorInfo = _context.VendorInfo.Where(v => v.ID == vendorInfo.ID)
-            //.Include(r => r.VendorMaterialRelations)
+           .Include(r => r.VendorMaterialRelations)
             .FirstOrDefault();
 
         newVendorInfo.VendorName = vendorInfo.VendorName;
@@ -222,19 +246,27 @@ public class PurchaseRepository
         newVendorInfo.Active = true;
 
 
-        //newVendorInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
-        //VendorMaterialRelation vendorMatRel;
-        //foreach (VendorMaterialRelation rm in vendorInfo.VendorMaterialRelations)
-        //{
-        //    vendorMatRel = new VendorMaterialRelation();
-        //    vendorMatRel.VendorID = rm.VendorID;
-        //    vendorMatRel.MatType = rm.MatType;
-        //    vendorMatRel.MatID = rm.MatID;
-        //    vendorMatRel.CreatedOn = newVendorInfo.CreatedOn;
-        //    vendorMatRel.ModifyOn = DateTime.Now;
-        //    newVendorInfo.VendorMaterialRelations.Add(vendorMatRel);
-        //}
+        newVendorInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
 
+        VendorMaterialRelation vendorMaterialRelation = new VendorMaterialRelation();
+        DataSet dsmat = new DataSet();
+
+        foreach (VendorMaterialRelationDTO item in vendorInfo.VendorMaterialRelationDTO)
+        {
+            vendorMaterialRelation = new VendorMaterialRelation();
+            dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatID from Material where MatName like '%" + item.MatName + "%'");
+            if (dsmat.Tables[0].Rows.Count > 0)
+            {
+                vendorMaterialRelation.MatID = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatId"].ToString());
+                vendorMaterialRelation.MatType = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString());
+                vendorMaterialRelation.CreatedOn = DateTime.Now;
+                vendorMaterialRelation.ModifyOn = DateTime.Now;
+                vendorMaterialRelation.ID = item.ID;
+                vendorMaterialRelation.VendorID = vendorInfo.ID;
+            }
+
+            newVendorInfo.VendorMaterialRelations.Add(vendorMaterialRelation);
+        }
         _context.Entry(newVendorInfo).State = EntityState.Modified;
         _context.SaveChanges();
     }

@@ -116,23 +116,55 @@ public class PurchaseControler : System.Web.Services.WebService
     [WebMethod]
     public void AddNewVendorInformation(VendorInfoDTO vendorInfo)
     {
+
+        VendorInfo venInfo = new VendorInfo();
+
+        venInfo.VendorAddress = vendorInfo.VendorAddress;
+        venInfo.VendorName = vendorInfo.VendorName;
+        venInfo.VendorContactNo = vendorInfo.VendorContactNo;
+        venInfo.VendorState = vendorInfo.VendorState;
+        venInfo.VendorZip = vendorInfo.VendorZip;
+        venInfo.VendorCity = vendorInfo.VendorCity;
+        venInfo.ModifyOn = DateTime.Now;
+        venInfo.Active = vendorInfo.Active;
+        venInfo.CreatedOn = DateTime.Now;
+        venInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
+
+        VendorMaterialRelation vendorMaterialRelation = new VendorMaterialRelation();
+        DataSet dsmat = new DataSet();
+
         foreach (VendorMaterialRelationDTO item in vendorInfo.VendorMaterialRelationDTO)
         {
-            DataSet dsmat = new DataSet();
-            dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatID from Material where MatName = '" + item.MatName + "'");
-            item.MatID = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatId"].ToString());
-            item.MatType = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString());
+            vendorMaterialRelation = new VendorMaterialRelation();
+            dsmat = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatID from Material where MatName like '%" + item.MatName + "%'");
+            if (dsmat.Tables[0].Rows.Count > 0)
+            {
+                vendorMaterialRelation.MatID = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatId"].ToString());
+                vendorMaterialRelation.MatType = Convert.ToInt32(dsmat.Tables[0].Rows[0]["MatTypeId"].ToString());
+                vendorMaterialRelation.CreatedOn = DateTime.Now;
+                vendorMaterialRelation.ModifyOn = DateTime.Now;
+            }
+
+            venInfo.VendorMaterialRelations.Add(vendorMaterialRelation);
         }
 
-        //PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        //repository.AddNewVendorInformation(vendorInfo);
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.AddNewVendorInformation(venInfo);
     }
 
     [WebMethod]
-    public List<VendorInfoDTO> LoadVendorInformation(int VendorID)
+    public List<VendorInfoDTO> LoadActiveVendorInformation(int VendorID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.LoadVendorInformation(VendorID);
+        return repository.LoadActiveVendorInformation(VendorID);
+
+    }
+
+    [WebMethod]
+    public List<VendorInfoDTO> LoadInActiveVendorInformation(int VendorID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.LoadInActiveVendorInformation(VendorID);
 
     }
 
@@ -144,7 +176,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public void UpdateVendorInformation(VendorInfo VendorInfo)
+    public void UpdateVendorInformation(VendorInfoDTO VendorInfo)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         repository.UpdateVendorInformation(VendorInfo);
@@ -156,5 +188,6 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         repository.VendorInfoToDelete(VendorID);
     }
-   
+
+  
 }
