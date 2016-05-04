@@ -30,6 +30,8 @@ public class VendorInfoDTO
 
     public string VendorZip { get; set; }
 
+
+
     public List<VendorMaterialRelationDTO> VendorMaterialRelationDTO { get; set; }
 }
 

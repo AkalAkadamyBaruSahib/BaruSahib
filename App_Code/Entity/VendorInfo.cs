@@ -40,4 +40,5 @@ public class VendorInfo
     public string VendorZip { get; set; }
 
     public List<VendorMaterialRelation> VendorMaterialRelations { get; set; }
+
 }
