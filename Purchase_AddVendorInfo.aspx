@@ -103,7 +103,7 @@
                                             <label class="control-label" for="typeahead"><b>Zip</b></label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtZip" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
+                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
                                                     ControlToValidate="txtZip" ErrorMessage="Please Enter The Zip" />
                                             </div>
                                         </div>
@@ -117,20 +117,21 @@
                                             <div class="controls">
                                                 <b>Select  Material Items:</b>
                                                 <br />
-                                                <input id="txtMaterial" style="width: 135px; height: 23px;" name="txtMaterial" />
+                                                <input id="txtMaterial" style="width: 340px; height:23px;" name="txtMaterial" />
 
                                                 <input type="button" id="btnadd" value="Add" class="btn btn-primary" />
                                                 <label id="lblUserId" />
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
+                                    <td colspan="2" >
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead"></label>
                                             <div class="controls">
                                                 <b>Select  Material Items:</b>
                                                 <br />
-                                                <select id="lstMaterials" multiple="multiple" height="150px" width="400px"></select>
+                                                <select id="lstMaterials" multiple="multiple" style="width:400px;" ></select>
+                                                 <input type="button" id="btnRemove" value="Remove" style="margin-top: 36px;" class="btn btn-primary" />
                                             </div>
                                         </div>
                                     </td>
@@ -143,7 +144,7 @@
                             <div class="form-actions">
                                 <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" CssClass="btn btn-primary" />
                                 <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary" />
-                              </div>
+                            </div>
                         </fieldset>
                     </form>
 
@@ -164,15 +165,15 @@
                 </div>
                 <div class="box-content">
                     <div id="divMatDetails" runat="server">
-                            <div id="divVendorDetails" runat="server">
-                                <table>
-                                    <tr>
-                                        <td style="float: right; margin-left: 1020px; margin-top: -4px;"> 
-                                             <input type="checkbox" id="chkAllVendors" style="width: 10px; height: 10px;" />
-                                            <asp:Label ID="lblchkAllVendors" runat="server" Text="Show all Vendors"></asp:Label>
-                                        </td>
-                                    </tr>
-                                </table>
+                        <div id="divVendorDetails" runat="server">
+                            <table>
+                                <tr>
+                                    <td style="float: right;  margin-left: 830px; margin-top: -4px;">
+                                        <input type="checkbox" id="chkAllVendors" style="width: 10px; height: 10px;" />
+                                        <asp:Label ID="lblchkAllVendors" runat="server" Text="Show all Vendors"></asp:Label>
+                                    </td>
+                                </tr>
+                            </table>
                             <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
                                 <thead>
                                     <tr>

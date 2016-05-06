@@ -83,19 +83,21 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
         {
             if (e.CommandName == "DispatchDate")
             {
-                string Qty;
-                string RemaingPurQty;
+                decimal Qty;
+                string TotalLeftAndPurQty;
+
                 GridViewRow gvRow = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
                 Button DisDate = (Button)e.CommandSource;
                 string Sno = DisDate.CommandArgument;
-                
+
                 Label lbl = (Label)gvRow.FindControl("txtDispatchDate");
                 lbl.Text = System.DateTime.Now.ToString();
-                TextBox rmk = (TextBox)gvRow.FindControl("txtRemark");
+               // TextBox rmk = (TextBox)gvRow.FindControl("txtRemark");
                 HiddenField txtMatID = (HiddenField)gvRow.FindControl("txtMatID");
                 TextBox txtRate = (TextBox)gvRow.FindControl("txtRate");
                 TextBox txtPurchaseQty = (TextBox)gvRow.FindControl("txtPurchaseQty");
-                
+                HiddenField hdnPurchaseQty = (HiddenField)gvRow.FindControl("hdnPurchaseQty");
+
 
                 lbl.Attributes.Remove("style");
                 lbl.Attributes.Add("style", "display:blockp;");
@@ -107,43 +109,30 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
                 }
                 else
                 {
-                    Qty = gvRow.Cells[3].Text;
-                    var purQty = (txtPurchaseQty.Text).ToString();
-                    DataSet dsPurchaseQty = new DataSet();
-                    dsPurchaseQty = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseQty from EstimateAndMaterialOthersRelations where Sno ='" + Sno + "'");
-                    var PurchaseQty = dsPurchaseQty.Tables[0].Rows[0]["PurchaseQty"].ToString();
-                    if (PurchaseQty != "0.00")
+                    Qty = Convert.ToDecimal(gvRow.Cells[3].Text);  // Est Required Quantity 
+
+                    var PurchaseQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);   // Purchasing Quantity 
+
+                    var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);  // 5% of Est Required Quantity
+
+                    if (PurchaseQty > ExtraQty)
                     {
-                        var LeftQtyAftrPurchase = Convert.ToDecimal(Qty) - Convert.ToDecimal(PurchaseQty);
-                        RemaingPurQty = (Convert.ToDecimal(LeftQtyAftrPurchase) + Convert.ToDecimal(purQty)).ToString();
-                        if (Convert.ToDecimal(Qty) == Convert.ToDecimal(RemaingPurQty))
-                        {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='0' where Sno='" + Sno + "'");
-                        }
-                        else
-                        {
-                            var RemingAftrHalfPurchase = Convert.ToDecimal(Qty) - Convert.ToDecimal(PurchaseQty);
-                            var leftQTy = Convert.ToDecimal(RemingAftrHalfPurchase) + Convert.ToDecimal(purQty);
-                            var reQty = Convert.ToDecimal(Qty) - Convert.ToDecimal(leftQTy);
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + reQty + "' where Sno='" + Sno + "'");
-          
-                        }
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase Qty Can not Greater than 5% Extra');", true);
                     }
+
                     else
                     {
-                        if (Qty == Convert.ToDecimal(purQty).ToString())
+                        if (PurchaseQty == Qty || (PurchaseQty > Qty && PurchaseQty <= ExtraQty))
                         {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='0' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
                         }
                         else
                         {
-                            var Remainingqty = Convert.ToDecimal(Qty) - Convert.ToDecimal(purQty);
-                            txtPurchaseQty.Text = Convert.ToDecimal(Remainingqty).ToString();
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + rmk.Text + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + txtPurchaseQty.Text + "' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
                         }
+                        DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Date Updated Successfully.')", true);
                     }
-                    DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Date Updated Successfully.')", true);
                 }
                 //  Response.Redirect("Purchase_MaterialToBeDispatch.aspx");
                 DataSet dsTatDate = DAL.DalAccessUtility.GetDataInDataSet("select DispatchDate,EstId from EstimateAndMaterialOthersRelations where Sno='" + Sno + "'");
@@ -189,10 +178,5 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
         {
             //  throw;
         }
-    }
-
-    protected void gvMaterailDetailForPurchase_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        
     }
 }

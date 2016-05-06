@@ -6,11 +6,12 @@ $(document).ready(function () {
     $("input[id*='btnSave']").click(function (e) {
         SaveVendor();
     });
+   
     $("input[id*='btnadd']").click(function (e) {
         AddItemToList();
     });
 
-    $("input[id*='btnEdit'] ").hide();
+    $("input[id*='btnEdit']").hide();
 
     $("input[id$='btnEdit']").click(function () {
         UpdateVendorInformation();
@@ -24,7 +25,17 @@ $(document).ready(function () {
             LoadActiveVendorInfo();
         }
     });
+
     LoadActiveVendorInfo();
+
+    $("input[id*='btnRemove']").click(function (e) {
+        if ($("#lstMaterials").val() != null) {
+            $("#lstMaterials option:selected").remove();
+        }
+        else {
+            alert("Please Select any Item to Perform this Action");
+        }
+    });
 });
 
 function AddItemToList() {
@@ -33,26 +44,12 @@ function AddItemToList() {
     var MatlistBox = $("[id*=lstMaterials]")
     var matval = $("input[id*='hdnmaterialid']").val();
     var options = $('#lstMaterials option');
-     
-    
-    var values = [];
-    for (i = 0; i < MatlistBox.length; i++) {
-        var select = MatlistBox[i];
-        if (values.indexOf(select.value) > -1) {
-            alert('duplicate exists' + select.value); break;
-        }
-        else
-            values.push(select.value);
-    }
-
-
-
     var option = $("<option />").val(matval).html(matname);
     MatlistBox.append(option);
     $("input[id*='txtMaterial']").val("");
+  
     return false;
 }
-
 function AutofillMaterialSearchBox() {
     var dataSrc;
 

@@ -4,34 +4,86 @@
 $(document).ready(function () {
 
     $("input[id*='fiupload_0']").change(function (e) {
-        // select the form and submit
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Registration", 0);
-    });
-    $("input[id*='fiupload_1']").change(function () {
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Passing", 1);
-    });
-    $("input[id*='fiupload_2']").change(function () {
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Insurance", 2);
-    });
-    $("input[id*='fiupload_3']").change(function () {
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Tax", 3);
-    });
-    $("input[id*='fiupload_4']").change(function () {
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Permit", 4);
-    });
-    $("input[id*='fiupload_5']").change(function () {
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Pollution", 5);
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Registration", 0);
+        }
     });
 
+
+    $("input[id*='fiupload_1']").change(function () {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Passing", 1);
+        }
+    });
+
+
+    $("input[id*='fiupload_2']").change(function () {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Insurance", 2);
+        }
+    });
+
+
+    $("input[id*='fiupload_3']").change(function () {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Tax", 3);
+        }
+    });
+
+
+    $("input[id*='fiupload_4']").change(function () {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Permit", 4);
+        }
+    });
+
+
+    $("input[id*='fiupload_5']").change(function () {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Pollution", 5);
+        }
+    });
+
+
     $("input[id*='fiupload_6']").change(function () {
-        var $fileUpload = $(this)[0];
-        FileUpload($fileUpload, "Written Contract", 6);
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
+        }
+        else {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Written Contract", 6);
+        }
     });
 
 });
@@ -66,6 +118,7 @@ function FileUpload(control, docName, cnt) {
             $("a[id*='hypDoc_" + cnt + "']")[0].innerHTML = name + "." + ext;
             $("a[id*='hypDoc_" + cnt + "']")[0].href = "VehicleDoc/" + name + "." + ext;
             $("#progress").dialog('close');
+            alert("File has been uploaded successfully");
         },
         error: function (err) {
             alert(err.statusText)

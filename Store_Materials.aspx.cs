@@ -35,7 +35,7 @@ public partial class Store_Materials : System.Web.UI.Page
             else
             {
                 BindAcademy();
-                getEstimateDetails(-1);
+                getStoreDetails(-1);
             } 
            // BindVendor();
         }
@@ -220,7 +220,7 @@ public partial class Store_Materials : System.Web.UI.Page
         Response.End();
     }
 
-    private void getEstimateDetails(int AcaID)
+    private void getStoreDetails(int AcaID)
     {
         string UserTypeID = Session["UserTypeID"].ToString();
         string UserID = Session["InchargeID"].ToString();
@@ -292,7 +292,8 @@ public partial class Store_Materials : System.Web.UI.Page
             ZoneInfo += "<tr style='color:Green;'>";
             ZoneInfo += "<th width='5%'><b>SNo.</b></th>";
             ZoneInfo += "<th width='200px'>Material Name</th>";
-            ZoneInfo += "<th>Received Quantity</th>";
+            ZoneInfo += "<th>Required Quantity</th>";
+            ZoneInfo += "<th>Purchase Quantity</th>";
             ZoneInfo += "<th>In Store Quantity</th>";
             ZoneInfo += "<th>Source Type</th>";
             ZoneInfo += "<th>Received On</th>";
@@ -302,46 +303,21 @@ public partial class Store_Materials : System.Web.UI.Page
             ZoneInfo += "</tr>";
             DataSet dsMatDetails = new DataSet();
             dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockMaterialDetails] '" + dtapproved.Rows[i]["EstId"].ToString() + "','2' ");
-            double BalanceQty = -1;
+            decimal InstoreQuantity = -1;
             for (int j = 0; j < dsMatDetails.Tables[0].Rows.Count; j++)
             {
                 ZoneInfo += "<tr>";
                 ZoneInfo += "<td>" + (j + 1) + "</td>";
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["MatName"].ToString() + "<br/><b>Unit:-</b> " + dsMatDetails.Tables[0].Rows[j]["UnitName"].ToString() + "</td>";
+                // Required Quantity
+                ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "</td>";
+                 
+                ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["PurchaseQty"].ToString() + "</td>";// Purchase Qty 
+                //In Store Quantity
+                ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["InStoreQuantity"].ToString() + "</td>";
 
-                if (dsMatDetails.Tables[0].Rows[j]["ReceivedOn"].ToString() == string.Empty)
-                {
-                    //Received Quantity
-                    ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "</td>";
-                    receivedQty = double.Parse(dsMatDetails.Tables[0].Rows[j]["Qty"].ToString());
-                }
-                else
-                {
-                    ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["TotalQuantity"].ToString() + "</td>";
-                    receivedQty = double.Parse(dsMatDetails.Tables[0].Rows[j]["TotalQuantity"].ToString());
-                }
-
-                //Balance Quantity
-                if (dsMatDetails.Tables[0].Rows[j]["DispatchQuantity"].ToString() != "" && dsMatDetails.Tables[0].Rows[j]["TotalQuantity"].ToString() != "")
-                {
-                    BalanceQty = double.Parse(dsMatDetails.Tables[0].Rows[j]["TotalQuantity"].ToString()) - int.Parse(dsMatDetails.Tables[0].Rows[j]["DispatchQuantity"].ToString());
-                    if (Convert.ToInt32(BalanceQty) < 0)
-                    {
-                        ZoneInfo += "<td>0</td>";
-                    }
-                    else
-                    {
-                        ZoneInfo += "<td>" + BalanceQty + "</td>";
-                    }
-                }
-                else
-                {
-                    BalanceQty = double.Parse(dsMatDetails.Tables[0].Rows[j]["Qty"].ToString());
-                    ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "</td>";
-                }
-
+                InstoreQuantity = Convert.ToDecimal(dsMatDetails.Tables[0].Rows[j]["InStoreQuantity"].ToString());
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["PSName"].ToString() + "</td>";
-
 
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["ReceivedOn"].ToString() + "</td>";
                 Sno = int.Parse(dsMatDetails.Tables[0].Rows[j]["Sno"].ToString());
@@ -350,20 +326,20 @@ public partial class Store_Materials : System.Web.UI.Page
                 if (dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() != string.Empty)
                 {
                     //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a>/<a href='#' onclick='GetDispatchStatus(" + Sno + ")'>Dispatch Status</a><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><b>Scan Bill Copy</b></a></td>";
-                    
-                    if (BalanceQty <= 0)
+
+                    if (InstoreQuantity <= 0)
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
                     }
                     else
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
                     }
                 }
                 else
                 {
                     //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></td>";
-                    ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
+                    ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
                 }
 
                 //ZoneInfo += "<td width='30%'></td>";
@@ -430,7 +406,7 @@ public partial class Store_Materials : System.Web.UI.Page
         {
             Int64 i = 0;
             i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
-            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + 0 + "' where Sno =" + hdnEMRId.Value + "");
+            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + hdnVendorID.Value + "' where Sno =" + hdnEMRId.Value + "");
             //if (i > 0)
             {
                 //upBillUpload.SaveAs(Server.MapPath(dwgfilepath));
@@ -442,7 +418,7 @@ public partial class Store_Materials : System.Web.UI.Page
             DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockDispatchEntry (EMRID,DispatchOn,DispatchQuantity,DispatchBy) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ")");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
         }
-        getEstimateDetails(int.Parse(ddlAcademy.SelectedValue));
+        getStoreDetails(int.Parse(ddlAcademy.SelectedValue));
       //  BindVendor();
     }
 
@@ -453,7 +429,7 @@ public partial class Store_Materials : System.Web.UI.Page
         ddlAcademy.DataSource = dsBillDetails.Tables[0];
         ddlAcademy.DataTextField = "AcaName";
         ddlAcademy.DataValueField = "AcaID";
-        ddlAcademy.Items.Insert(0, "--All Academy--");
+        ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
         ddlAcademy.SelectedIndex = 0;
         ddlAcademy.DataBind();
     }
@@ -461,7 +437,7 @@ public partial class Store_Materials : System.Web.UI.Page
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
         int acaID = int.Parse(ddlAcademy.SelectedValue);
-        getEstimateDetails(acaID);
+        getStoreDetails(acaID);
     }
 
     //public void BindVendor()

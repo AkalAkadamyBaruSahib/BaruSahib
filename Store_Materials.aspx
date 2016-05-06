@@ -20,6 +20,22 @@
             }
             return true;
         }
+
+        function ValidateDropDown() {
+            var btnvalue = $("input[id*='btnSave']").val();
+            if (btnvalue != 'Dispatch') {
+                var script = document.getElementById('<%= txtLinkBillNo.ClientID %>').value;
+                if (document.getElementById('ddlVendorName').selectedIndex == 0) {
+                    alert("Please select the Vendor");
+                    return false;
+                }
+                else if (script == "") {
+                    alert("Please Enter Purchased Bill No");
+                    return false;
+                }
+                return true;
+            }
+        }
       
 </script>
        <div id="content" class="span10">
@@ -89,7 +105,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" CssClass="btn btn-primary" />
+            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" CssClass="btn btn-primary" OnClientClick="javascript:return ValidateDropDown();" />
             <input id="Text1" value="Close" style="width: 100px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>

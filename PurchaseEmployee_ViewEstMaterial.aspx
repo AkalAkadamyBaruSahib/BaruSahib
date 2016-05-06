@@ -68,7 +68,7 @@
         <div class="box-content">
             <asp:GridView runat="server" AutoGenerateColumns="false" DataKeyNames="EstId" ID="gvMaterailDetailForPurchase"
                 class="table table-striped table-bordered bootstrap-datatable datatable"
-                OnRowCommand="gvMaterailDetailForPurchase_RowCommand" OnRowDataBound="gvMaterailDetailForPurchase_RowDataBound">
+                OnRowCommand="gvMaterailDetailForPurchase_RowCommand">
                 <Columns>
                     <asp:TemplateField HeaderText="SNO">
                         <ItemTemplate>
@@ -80,9 +80,10 @@
                     <asp:BoundField DataField="MatName" HeaderText="MatName" />
                     <asp:BoundField DataField="UnitName" HeaderText="UnitName" />
                     <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
-                    <asp:TemplateField HeaderText="RemainingQty">
+                    <asp:BoundField DataField="PurchaseQty" HeaderText="Purchased Qty" />
+                    <asp:TemplateField HeaderText="Purchase">
                         <ItemTemplate>
-                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty" Text='<%#Eval("PurchaseQty") %>'></asp:TextBox>
+                            <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty"></asp:TextBox>
                         </ItemTemplate>
                     </asp:TemplateField>
                    <asp:TemplateField HeaderText="Rate">
@@ -92,13 +93,10 @@
                             <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*"
                                 ControlToValidate="txtRate" />
                             <asp:HiddenField runat="server" ID="txtEstID" Value='<%#Eval("EstID") %>' />
+                            <asp:HiddenField runat="server" ID="hdnPurchaseQty" Value='<%#Eval("PurchaseQty") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Remark">
-                        <ItemTemplate>
-                            <asp:TextBox runat="server" ID="txtRemark"></asp:TextBox>
-                        </ItemTemplate>
-                    </asp:TemplateField>
+                    
                     <asp:TemplateField HeaderText="Purchase Date">
                         <ItemTemplate>
                             <asp:Label runat="server" ID="txtDispatchDate" Text='<%# Eval("DispatchDate") %>' Visible="false" Style="display: none;"></asp:Label>
