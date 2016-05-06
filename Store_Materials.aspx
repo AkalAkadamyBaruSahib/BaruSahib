@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StoreMaster.master" AutoEventWireup="true" CodeFile="Store_Materials.aspx.cs" Inherits="Store_Materials" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/StoreMaster.master" MaintainScrollPositionOnPostback="true"  AutoEventWireup="true" CodeFile="Store_Materials.aspx.cs" Inherits="Store_Materials" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">

@@ -36,8 +36,8 @@ public partial class Store_Materials : System.Web.UI.Page
             {
                 BindAcademy();
                 getStoreDetails(-1);
-            } 
-           // BindVendor();
+            }
+            // BindVendor();
         }
     }
     protected void GetPrint(string id)
@@ -251,7 +251,6 @@ public partial class Store_Materials : System.Web.UI.Page
 
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
-        double receivedQty = 0;
 
         int Sno = -1;
 
@@ -304,6 +303,7 @@ public partial class Store_Materials : System.Web.UI.Page
             DataSet dsMatDetails = new DataSet();
             dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockMaterialDetails] '" + dtapproved.Rows[i]["EstId"].ToString() + "','2' ");
             decimal InstoreQuantity = -1;
+            decimal RemainingQty = -1;
             for (int j = 0; j < dsMatDetails.Tables[0].Rows.Count; j++)
             {
                 ZoneInfo += "<tr>";
@@ -311,10 +311,18 @@ public partial class Store_Materials : System.Web.UI.Page
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["MatName"].ToString() + "<br/><b>Unit:-</b> " + dsMatDetails.Tables[0].Rows[j]["UnitName"].ToString() + "</td>";
                 // Required Quantity
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "</td>";
-                 
+
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["PurchaseQty"].ToString() + "</td>";// Purchase Qty 
                 //In Store Quantity
-                ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["InStoreQuantity"].ToString() + "</td>";
+                if (dsMatDetails.Tables[0].Rows[j]["DispatchQuantity"].ToString() == "")
+                {
+                    ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["InStoreQuantity"].ToString() + "</td>";
+                }
+                else
+                {
+                    RemainingQty = Convert.ToDecimal(dsMatDetails.Tables[0].Rows[j]["InStoreQuantity"].ToString()) - Convert.ToDecimal(dsMatDetails.Tables[0].Rows[j]["DispatchQuantity"].ToString());
+                    ZoneInfo += "<td>" + RemainingQty + "</td>";
+                }
 
                 InstoreQuantity = Convert.ToDecimal(dsMatDetails.Tables[0].Rows[j]["InStoreQuantity"].ToString());
                 ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["PSName"].ToString() + "</td>";
@@ -323,17 +331,26 @@ public partial class Store_Materials : System.Web.UI.Page
                 Sno = int.Parse(dsMatDetails.Tables[0].Rows[j]["Sno"].ToString());
                 string MatID = dsMatDetails.Tables[0].Rows[j]["MatID"].ToString();
 
-                if (dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() != string.Empty)
+                DataSet dsStoreBillDetails = new DataSet();
+                dsStoreBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StoreBillDetails] '" + dtapproved.Rows[i]["EstId"].ToString() + "'," + Sno + " ");
+                if (dsStoreBillDetails.Tables[0].Rows.Count > 0)
                 {
-                    //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a>/<a href='#' onclick='GetDispatchStatus(" + Sno + ")'>Dispatch Status</a><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><b>Scan Bill Copy</b></a></td>";
+                    string innertable = string.Empty;
+                    for (int k = 0; k < dsStoreBillDetails.Tables[0].Rows.Count; k++)
+                    {
+                        if (dsStoreBillDetails.Tables[0].Rows[k]["BillPath"].ToString() != string.Empty)
+                        {
+                            innertable += "<tr><td><a href='" + dsStoreBillDetails.Tables[0].Rows[k]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy_" + (k + 1) + "</span></a></td></tr>";
+                        }
+                    }
 
                     if (InstoreQuantity <= 0)
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><table>" + innertable + "</table></td>";
                     }
                     else
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><a href='" + dsMatDetails.Tables[0].Rows[j]["BillPath"].ToString() + "' target='_blank'><span class='label label-warning'  style='font-size: 15.998px;'>Scan Bill Copy</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><table>" + innertable + "</table></td>";
                     }
                 }
                 else
@@ -341,6 +358,7 @@ public partial class Store_Materials : System.Web.UI.Page
                     //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></td>";
                     ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
                 }
+                
 
                 //ZoneInfo += "<td width='30%'></td>";
                 ZoneInfo += "</tr>";
@@ -402,24 +420,32 @@ public partial class Store_Materials : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        if (hdnIsReceived.Value == "1")
+        DataSet dsPurchaseQty = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseQty from EstimateAndMaterialOthersRelations  where Sno = " + hdnEMRId.Value + "");
+        var PurchaseQuantity = dsPurchaseQty.Tables[0].Rows[0]["PurchaseQty"].ToString();
+        if (PurchaseQuantity != "0.00")
         {
-            Int64 i = 0;
-            i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
-            DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + hdnVendorID.Value + "' where Sno =" + hdnEMRId.Value + "");
-            //if (i > 0)
+            if (hdnIsReceived.Value == "1")
             {
-                //upBillUpload.SaveAs(Server.MapPath(dwgfilepath));
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been received.');", true);
+                Int64 i = 0;
+                i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
+                DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + hdnVendorID.Value + "' where Sno =" + hdnEMRId.Value + "");
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been received.');", true);
+                }
+            }
+            else
+            {
+
+                DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockDispatchEntry (EMRID,DispatchOn,DispatchQuantity,DispatchBy) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ")");
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
             }
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockDispatchEntry (EMRID,DispatchOn,DispatchQuantity,DispatchBy) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ")");
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Received the material without Purchase');", true);
         }
         getStoreDetails(int.Parse(ddlAcademy.SelectedValue));
-      //  BindVendor();
+     
     }
 
 
@@ -429,9 +455,9 @@ public partial class Store_Materials : System.Web.UI.Page
         ddlAcademy.DataSource = dsBillDetails.Tables[0];
         ddlAcademy.DataTextField = "AcaName";
         ddlAcademy.DataValueField = "AcaID";
-        ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
-        ddlAcademy.SelectedIndex = 0;
         ddlAcademy.DataBind();
+        ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
+
     }
 
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
@@ -439,17 +465,5 @@ public partial class Store_Materials : System.Web.UI.Page
         int acaID = int.Parse(ddlAcademy.SelectedValue);
         getStoreDetails(acaID);
     }
-
-    //public void BindVendor()
-    //{
-    //    //DataSet dsvendor = new DataSet();
-    //    //dsvendor = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM VendorInfo order by VendorName asc");
-    //    //ddlVendorName.DataSource = dsvendor;
-    //    //ddlVendorName.DataValueField = "ID";
-    //    //ddlVendorName.DataTextField = "VendorName";
-    //    //ddlVendorName.DataBind();
-    //    //ddlVendorName.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--Select Vendor--", "0"));
-
-    //}
 }
    

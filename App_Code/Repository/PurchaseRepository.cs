@@ -111,7 +111,7 @@ public class PurchaseRepository
 
     public List<PurchaseOrder> GetPONumber()
     {
-        return _context.PurchaseOrder.Where(x => x.CreatedOn == DateTime.Now).ToList();
+        return _context.PurchaseOrder.ToList();
     }
 
     public void AddNewVendorInformation(VendorInfo vendorInfo)
