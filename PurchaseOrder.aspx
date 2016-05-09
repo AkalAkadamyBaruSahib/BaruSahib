@@ -1,12 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" AutoEventWireup="true" CodeFile="PurchaseOrder.aspx.cs" Inherits="PurchaseOrder" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script src="JavaScripts/Purchase.js"></script>
+    <script src="JavaScripts/PurchaseOrder.js"></script>
     <style>
         .headingTable
         {
             float: left;
-            margin-left: -184px;
+            margin-left: -47px;
         }
 
         .heading
@@ -48,17 +48,19 @@
     <div id="content" class="span10">
         <asp:HiddenField ID="hdnEstimateID" runat="server" />
         <asp:HiddenField ID="hdnSelectedItems" runat="server" />
+      
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
 
                     <h2><i class="icon-user"></i>
-                        Add New Driver </h2>
+                        PO </h2>
                     <div class="box-icon">
 
                         <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
+                    <asp:Button ID="btnpdf" runat="server" OnClick="btnpdf_Click" Text="Generate PDF" />
                 </div>
                 <div class="box-content">
                     <fieldset>
@@ -72,18 +74,18 @@
                                             <table style="width:100%;">
                                                 <tr>
                                                     <td style="width: 1000px;"><span>
-                                                        <img src="img/Logo_Small.png" style="float: left; margin-left: -185px;" />
+                                                        <img src="img/Logo_Small.png" style="float: left; margin-left: -53px;" />
                                                     </span></td>
                                                     <td valign="top">
-                                                        <span style="font-weight: bold; font-size: 27px; margin-left: -95px;">PURCHASE ORDER</span>
+                                                        <span style="font-size: 27px; font-weight: bold; margin-left: -148px;">PURCHASE ORDER</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 2451px;">
-                                                        <span style="font-size: 25px; font-weight: bolder; margin-left: -83px;" lang="EN-US" xml:lang="EN-US">THE KALGIDHAR TRUST </span>
+                                                        <span style="font-size: 25px; font-weight: bolder; margin-left: 14px;" lang="EN-US" xml:lang="EN-US">THE KALGIDHAR TRUST </span>
                                                         <br />
                                                         <br />
-                                                        <span style="font-size: 15px; margin-left: -151px;"><i style="margin-left: 131px;">Service to Humanity</i></span><br />
+                                                        <span style="font-size: 15px; margin-left: -151px;"><i style="margin-left: 214px;">Service to Humanity</i></span><br />
                                                         <br />
                                                     </td>
                                                     <td></td>
@@ -102,7 +104,7 @@
                                     </td>
                                     <td>
                                         <span class="HeaderSpan">P.O.</span>
-                                        <label id="lblpo" style="font-weight: bold"></label>
+                                        <input type="text" id="txtPO" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -204,7 +206,7 @@
                             <thead>
                                 <tr class="heading">
                                     <th colspan="3" style="text-align: center;" >SHIPPING METHOD</th>
-                                    <th style="width: 300px; text-align: center;">SHIPPING TERMS</th>
+                                    <th style="width: 250px; text-align: center;">SHIPPING TERMS</th>
                                     <th style="width: 35px; text-align: center;"  colspan="2">DELIVERY DATE</th>
                                 </tr>
                                 <tr class="tableSecondTrHeading">
@@ -217,7 +219,7 @@
                                     <th style="text-align: center; width:115px;">Qty</th>
                                     <th style="text-align: center;">Description</th>
                                     <th style="text-align: center;">Detail</th>
-                                    <th style="text-align: center; width:158px;">Unit Price</th>
+                                    <th style="text-align: center; width:119px;">Unit Price</th>
                                     <th id="linetotal"  style="text-align: center;">Line Total</th>
                                 </tr>
                             </thead>
@@ -278,53 +280,53 @@
                                             <strong><span style="font-size: 12pt; font-weight: bold; font-family: Arial; color: #cc3300;"><u>Please read the instruction carefully</u></span></strong>
                                         </td>
                                     </tr>
-                                    <br />
-                                    <tr>
-                                        <td style="width: 71px; vertical-align: top;" rowspan="2"><span class="style13" style="width: 72px; height: 18px;"></span>
-
-                                            <span style="display: inline-block; height: 13px; width: 816px;">1. Please ensure to sendthe Original Bill to THE KALGIDHAR TRUST C-120, INDUSTRIAL AREA PHASE-8, MOHALI-160071 as per instructions.</span><br />
-                                            <span class="instruction">2. Material should be sent at the destination with Original Bill Only</span><br />
-                                            <span class="instruction">3.Please send two copies of invoice with material</span><br />
-                                            <span class="instruction">4. Please treat this order in accordance with prices,terms,delivery method and specification listed above.</span><br />
-                                            <span style="display: inline-block; height: 13px; width: 816px;">5. Please notify us immediately if you are unable to supply the material beyond your control. A penalty @1% per week will be charged for delayed supply of material at destination.</span><br />
-                                            <span class="instruction">6. Send all correspondence to : MOHALI OFFICE. E-MAIL mohali@barusahib.org
+                                    <caption>
+                                        <br />
+                                        <tr>
+                                            <td rowspan="2" style="width: 71px; vertical-align: top;"><span class="style13" style="width: 72px; height: 18px;"></span><span style="display: inline-block; height: 13px; width: 816px;">1. Please ensure to sendthe Original Bill to THE KALGIDHAR TRUST C-120, INDUSTRIAL AREA PHASE-8, MOHALI-160071 as per instructions.</span><br /> <span class="instruction">2. Material should be sent at the destination with Original Bill Only</span><br /> <span class="instruction">3.Please send two copies of invoice with material</span><br /> <span class="instruction">4. Please treat this order in accordance with prices,terms,delivery method and specification listed above.</span><br /> <span style="display: inline-block; height: 13px; width: 816px;">5. Please notify us immediately if you are unable to supply the material beyond your control. A penalty @1% per week will be charged for delayed supply of material at destination.</span><br /> <span class="instruction">6. Send all correspondence to : MOHALI 
+                                                OFFICE. E-MAIL mohali@barusahib.org
+                                                <br />
+                                                Office Contact No:0172-5094200</span><br /> <span class="instruction">7.Delivery must be completed by .......</span><br /> <span class="instruction"><u>8.please Acknowledge the Receipt of Purchase Order in Person or by Mail:</u></span>
+                                                <ul>
+                                                    <li><span class="footerheading" style="color: #cc3300; font-weight: bold">Vat/CST:-</span><label id="lblVatStatus" style="margin-top: -17px; margin-left: 81px;"></label></li>
+                                                    <li><span class="footerheading">Excise Duty:</span><b><label id="lblExciseStatus" style="margin-top: -17px; margin-left: 81px;"></label></b></li>
+                                                    <li><span class="footerheading">Freight:-</span><select id="drpFreight" style="width: 120px; height: 24px; margin-left: 33px;">
+                                                        <option value="0">--Select One--</option>
+                                                        <option value="1">Free On Road</option>
+                                                        <option value="2">Extra</option>
+                                                        </select></li>
+                                                    <li><span class="footerheading">Payment:-</span><b><input type="text" id="txtpayment" style="width: 111px; height: 15px; margin-left: 22px;" /></b><br /> <span class="footerheading">Against Indent No</span><b><label id="lblIndentNo" style="margin-top: -19px; margin-left: 118px;"></label></b></li>
+                                                    <li><span class="footerheading">Mode Of Dispatch:-</span> By Road</li>
+                                                    <li><span class="footerheading">Out ST Reg no:-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Not Required</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        <caption>
                                             <br />
-                                                Office Contact No:0172-5094200</span><br />
-                                            <span class="instruction">7.Delivery must be completed by .......</span><br />
-                                            <span class="instruction"><u>8.please Acknowledge the Receipt of Purchase Order in Person or by Mail:</u></span>
-                                            <ul>
-                                                <li><span class="footerheading" style="color: #cc3300; font-weight: bold">Vat/CST:-</span><label id="lblVatStatus" style="margin-top: -17px; margin-left: 81px;"></label></li>
-                                                <li><span class="footerheading">Excise Duty:</span><b><label id="lblExciseStatus" style="margin-top: -17px; margin-left: 81px;"></label></b></li>
-                                                <li><span class="footerheading">Freight:-</span><select id="drpFreight" style="width: 120px; height: 24px; margin-left: 33px;">
-                                                    <option value="0">--Select One--</option>
-                                                    <option value="1">Free On Road</option>
-                                                    <option value="2">Extra</option>
-                                                </select></li>
-
-                                                <li><span class="footerheading">Payment:-</span><b><input type="text" id="txtpayment" style="width: 111px; height: 15px; margin-left: 22px;" /></b><br />
-                                                    <span class="footerheading">Against Indent No</span><b><label id="lblIndentNo" style="margin-top: -19px; margin-left: 118px;"></label></b></li>
-                                                <li><span class="footerheading">Mode Of Dispatch:-</span> By Road</li>
-                                                <li><span class="footerheading">Out ST Reg no:-</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Not Required</li>
-
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                    </tr>
-                                    <br />
-                                    <br />
-                                    <tr>
-                                        <td style="font-weight: bolder; font-size: 16px; width: 300px; color: black; font-family: Arial">
-                                            <label id="lblAuthorised" style="color: #cc3300"><u><b>Authorised By:-</b></u></label>
-                                            <input type="text" id="txtAuthorised" style="width: 111px; margin-top: -36px; margin-left: 105px;" /></td>
-                                    </tr>
+                                            <br />
+                                            <tr>
+                                                <td style="font-weight: bolder; font-size: 16px; width: 300px; color: black; font-family: Arial">
+                                                    <label id="lblAuthorised" style="color: #cc3300">
+                                                    <u><b>Authorised By:-</b></u></label>
+                                                    <input type="text" id="txtAuthorised" style="width: 111px; margin-top: -36px; margin-left: 105px;" />
+                                                </td>
+                                            </tr>
+                                        </caption>
+                                    </caption>
                                 </table>
                             </tfoot>
                         </table>
+                       <%-- <div id="editor"></div>
+                        <div>
+                           
+                             <input type="button" style="margin-top: -11px;" id="btnPDF" value="Generate PDF File" class="btn btn-primary" />
+                        </div>--%>
                     </div>
                     <%--  </div>--%>
                 </div>
@@ -332,7 +334,7 @@
             <!--/span-->
 
         </div>
-
+          
         <div id="divUploadMaterial" class="modal hide fade" style="display: none; width: 500px;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
