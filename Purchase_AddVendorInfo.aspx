@@ -103,8 +103,8 @@
                                             <label class="control-label" for="typeahead"><b>Zip</b></label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtZip" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
-                                                    ControlToValidate="txtZip" ErrorMessage="Please Enter The Zip" />
+                                               <%--  <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
+                                                    ControlToValidate="txtZip" ErrorMessage="Please Enter The Zip" />--%>
                                             </div>
                                         </div>
                                     </td>

@@ -14,7 +14,12 @@ $(document).ready(function () {
     $("input[id*='btnEdit']").hide();
 
     $("input[id$='btnEdit']").click(function () {
-        UpdateVendorInformation();
+
+        if (Page_ClientValidate("vendor")) {
+            UpdateVendorInformation();
+            return false;
+        }
+       
      });
   
     $("#chkAllVendors").change(function () {
@@ -107,59 +112,62 @@ function RejectMaterialItems() {
 }
 
 function SaveVendor() {
-    var params = new Object();
+    if (Page_ClientValidate("vendor")) {
+        var params = new Object();
 
-    var VendorInfo = new Object();
+        var VendorInfo = new Object();
 
-    VendorInfo.ID = 0;
-    VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
-    VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
-    VendorInfo.VendorAddress = $("textarea[id*='txtAddress']").val();
-    VendorInfo.VendorState = $("input[id*='txtState']").val();
-    VendorInfo.VendorCity = $("input[id*='txtCity']").val();
-    VendorInfo.VendorZip = $("input[id*='txtZip']").val();
-    VendorInfo.Active = true;
-    VendorInfo.CreatedOn = strDate;
-    VendorInfo.ModifyOn = strDate;
-    VendorInfo.ModifyBy = "";
+        VendorInfo.ID = 0;
+        VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
+        VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
+        VendorInfo.VendorAddress = $("textarea[id*='txtAddress']").val();
+        VendorInfo.VendorState = $("input[id*='txtState']").val();
+        VendorInfo.VendorCity = $("input[id*='txtCity']").val();
+        VendorInfo.VendorZip = $("input[id*='txtZip']").val();
+        VendorInfo.Active = true;
+        VendorInfo.CreatedOn = strDate;
+        VendorInfo.ModifyOn = strDate;
+        VendorInfo.ModifyBy = "";
 
-    var vendorMaterialRelations = new Array();
-    
-
-    $("#lstMaterials  option").each(function (index) {
-        var VendorMaterialRelation = new Object();
-        VendorMaterialRelation.VendorID = 0;
-        VendorMaterialRelation.MatID = 0;
-        VendorMaterialRelation.CreatedOn = strDate;
-        VendorMaterialRelation.ModifyOn = strDate;
-        VendorMaterialRelation.MatType = 0;
-        VendorMaterialRelation.MatName = $(this).text();
-
-        vendorMaterialRelations.push(VendorMaterialRelation);
-    });
-
-    VendorInfo.VendorMaterialRelationDTO = vendorMaterialRelations;
+        var vendorMaterialRelations = new Array();
 
 
-    params.vendorInfo = VendorInfo;
+        $("#lstMaterials  option").each(function (index) {
+            var VendorMaterialRelation = new Object();
+            VendorMaterialRelation.VendorID = 0;
+            VendorMaterialRelation.MatID = 0;
+            VendorMaterialRelation.CreatedOn = strDate;
+            VendorMaterialRelation.ModifyOn = strDate;
+            VendorMaterialRelation.MatType = 0;
+            VendorMaterialRelation.MatName = $(this).text();
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/AddNewVendorInformation",
-        data: JSON.stringify(params),
-        dataType: "json",
-        success: function (result, textStatus) {
-            if (textStatus == "success") {
-                LoadActiveVendorInfo();
-                alert("Record has been Saved successfully");
-                ClearTextBox();
+            vendorMaterialRelations.push(VendorMaterialRelation);
+        });
+
+        VendorInfo.VendorMaterialRelationDTO = vendorMaterialRelations;
+
+
+        params.vendorInfo = VendorInfo;
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "Services/PurchaseControler.asmx/AddNewVendorInformation",
+            data: JSON.stringify(params),
+            dataType: "json",
+            success: function (result, textStatus) {
+                if (textStatus == "success") {
+                    LoadActiveVendorInfo();
+                    alert("Record has been Saved successfully");
+                    ClearTextBox();
+                }
+            },
+            error: function (result, textStatus) {
+                alert(result.responseText)
             }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText)
-        }
-    });
+
+        });
+    }
 }
 
 function LoadActiveVendorInfo() {

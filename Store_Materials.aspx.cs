@@ -422,7 +422,7 @@ public partial class Store_Materials : System.Web.UI.Page
     {
         DataSet dsPurchaseQty = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseQty from EstimateAndMaterialOthersRelations  where Sno = " + hdnEMRId.Value + "");
         var PurchaseQuantity = dsPurchaseQty.Tables[0].Rows[0]["PurchaseQty"].ToString();
-        if (PurchaseQuantity != "0.00")
+        if (PurchaseQuantity != "0.00" && Convert.ToDecimal(txtReceivedQty.Text) <= Convert.ToDecimal(PurchaseQuantity))
         {
             if (hdnIsReceived.Value == "1")
             {
@@ -435,14 +435,14 @@ public partial class Store_Materials : System.Web.UI.Page
             }
             else
             {
-
+               
                 DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockDispatchEntry (EMRID,DispatchOn,DispatchQuantity,DispatchBy) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ")");
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been Dispatch.');", true);
             }
         }
         else
         {
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Received the material without Purchase');", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Received and Dispatch the Material without Purchase the Material');", true);
         }
         getStoreDetails(int.Parse(ddlAcademy.SelectedValue));
      

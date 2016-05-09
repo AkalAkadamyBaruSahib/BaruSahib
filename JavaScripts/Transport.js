@@ -86,6 +86,12 @@ $(document).ready(function () {
         }
     });
 
+    $("input[id*='fiupload_7']").change(function () {
+            var $fileUpload = $(this)[0];
+            FileUpload($fileUpload, "Route Map", 7);
+       
+    });
+
 });
 
 
@@ -96,6 +102,7 @@ function FileUpload(control, docName, cnt) {
     $("#progress").dialog('open');
 
     var VehicleNumber = $("input[id*='txtVehicleNo1']").val() + "-" + $("input[id*='txtVehicleNo2']").val() + "-" + $("input[id*='txtVehicleNo3']").val() + "-" + $("input[id*='txtVehicleNo4']").val();
+    //var VehicleNumber = $("selecct[id*='drpVehicle']").val();
     var name = docName + "_" + VehicleNumber;
 
     var files = control.files;
