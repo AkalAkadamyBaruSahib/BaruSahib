@@ -121,13 +121,13 @@
                         <ul class="nav nav-tabs nav-stacked main-menu">
                             <li class="nav-header hidden-tablet">Main</li>
                             <li><a class="ajax-link" href="Emp_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
-                            <li><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted(<asp:Label ID="lblWorkCount" runat="server" ForeColor="Red" Text="10"></asp:Label>)</span></a></li>
-                            <li><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate(<asp:Label ID="lblEstimate" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <li><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted</span></a></li>
+                            <li><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate</span></a></li>
                             <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status</span></a></li>
                             <%--<li><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet"> Stock</span></a></li>
 						<li><a class="ajax-link" href="Emp_DrawingView.aspx"><i class="icon-font"></i><span class="hidden-tablet"> Drawings</span></a></li>--%>
-                            <li><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="Emp_RejectedBills.aspx"><i class="icon-font"></i><span class="hidden-tablet">Rejected Bills(<asp:Label ID="lblRejBills" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <li><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status</span></a></li>
+                            <li><a class="ajax-link" href="Emp_RejectedBills.aspx"><i class="icon-font"></i><span class="hidden-tablet">Rejected Bills</span></a></li>
                             <li><a class="ajax-link" href="Emp_GalleryView.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
                             <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet"> Tickets</span></a></li>
                             <li><a class="ajax-link" href="Emp_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>

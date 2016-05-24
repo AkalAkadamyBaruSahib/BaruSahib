@@ -16,17 +16,30 @@ $(document).ready(function () {
     BindPONumber();
    
     $("#rowExcise").hide();
-    $("#lblIndentNo").html($("select[id*='drpEstimate']").val());
-    $("#lblExciseStatus").html('NA');
-    $("#lblVatStatus").html('0%');
+    $("[id$='lblIndentNo']").html($("select[id*='drpEstimate']").val());
+    $("[id$='lblExciseStatus']").html('NA');
+    $("[id$='lblVatStatus']").html('0%');
+   
     $("#drpEstimate").change(function (e) {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($(this).val());
         listVal += $(this).val() + ",";
-        $("#lblIndentNo").text(listVal);
+        var EstVal = listVal.substr(0, listVal.length - 1);
+        $("[id$='lblIndentNo']").html(EstVal);
+        $("input[id*='hdnIndentNo']").val(EstVal);
     });
     $("input[id*='btnLoad']").click(function (e) {
         LoadPurchaseOrderInfo(selectedMaterialList);
+        $("input[id*='hdnItemsLength']").val("");
+        var SnoValue = "";
+        for (var i = 0; i < selectedMaterialList.length; i++)
+        {
+            var Material = selectedMaterialList[i];
+            SnoValue += Material.Sno + ",";
+        }
+        SnoValue = SnoValue.substr(0,SnoValue.length - 1);
+        $("input[id*='hdnItemsLength']").val(SnoValue);
+        
         $("#divUploadMaterial").modal('hide');
     });
     $("input[id*='btntest']").click(function (e) {
@@ -41,12 +54,12 @@ $(document).ready(function () {
             $("#rowExcise").hide();
         }
     });
-    $("input[id*='btnExcise']").click(function (e) {
+  
+    $("input[id*='txtvat']").change(function () {
+        var vatValue = $("input[id*='txtvat']").val() + "%";
+        $("[id$='lblVatStatus']").html(vatValue);
+        $("input[id*='hdnVatStatus']").val(vatValue);
         Calcution();
-    });
-    $("#txtvat").change(function () {
-        var vatValue = $("#txtvat").val() + "%";
-        $("#lblVatStatus").html(vatValue);
     });
     $("#drpVendor").change(function () {
         GetVendorAddress($(this).val());
@@ -57,26 +70,33 @@ $(document).ready(function () {
     $("#drpBillingAddress").change(function () {
         GetBillingAddressInfo($(this).val());
     });
-
- 
+    $("#drpFreight").change(function () {
+      var  FreightVal = $(this).val();
+      $("[id$='lblFreight']").html(FreightVal);
+      $("input[id*='hdnFreight']").val(FreightVal);
+    });
    
 });
 
+
 function Calcution() {
     if ($("#chkExcise").is(":checked")) {
-        var Excisetotal = ($("#subtotal").text()) * ($("#txtExcise").val() / 100);
-        var subtotal = $("#subtotal").text();
+     
+        var Excisetotal = ($("[id$='lblSubTotal']").text()) * ($("input[id*='txtExcise']").val() / 100);
+        var subtotal = $("[id$='lblSubTotal']").text();
         var ExSum = parseInt(subtotal) + parseInt(Excisetotal);
-        var VatTotal = ExSum * $("#txtvat").val() / 100;
+        var VatTotal = ExSum * $("input[id*='txtvat']").val() / 100;
         var VatSum = VatTotal + ExSum;
     }
     else {
-        var VatTotal = $("#subtotal").text() * $("#txtvat").val() / 100;
-        var subtotal = $("#subtotal").text();
+        var VatTotal = $("[id$='lblSubTotal']").text() * $("input[id*='txtvat']").val() / 100;
+        var subtotal = $("[id$='lblSubTotal']").text();
         var VatSum = parseInt(subtotal) + parseInt(VatTotal);
     }
-    $("#lblGrandTotal").html(VatSum);
-    $("#lblExciseStatus").html('INCLUDED');
+    $("[id$='lblGrandTotal']").html(VatSum);
+    $("[id$='lblExciseStatus']").html('INCLUDED');
+    $("input[id*='hdnGrandTotal']").val(VatSum);
+    $("input[id*='hdnExciseStatus']").val('INCLUDED');
 
 }
 
@@ -248,15 +268,16 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         }
         var $newRow = $("#rowTemplate").clone();
         $newRow.find("#srno").html(count);
-        $newRow.find("#qty").html(adminLoanList[i].Qty);
-        $newRow.find("#description").html("<table><tr><td><textarea name='txtdescriptipn' id='txtdescriptipn' ></textarea></td></tr></table>");
+        $newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].Qty + "</label></td></tr></table>");
+        $newRow.find("#description").html("<table><tr><td><textarea name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea></td></tr></table>");
         $newRow.find("#details").html(adminLoanList[i].Material.MatName);
         $newRow.find("#unitprice").html(adminLoanList[i].Rate);
         var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
         $newRow.find("#linetotal").html(linetotal);
         count++;
         sum += linetotal;
-        $("#subtotal").html(sum);
+        ($("[id$='lblSubTotal']").html(sum));
+        $("input[id*='hdnSubTotal']").val(sum);
         $newRow.addClass(className);
         $newRow.show();
 
@@ -292,14 +313,15 @@ function GetVendorAddress(selectedValue) {
         success: function (responce) {
 
             var msg = responce.d;
+            var vendorinfo = msg[0].VendorName + "(" + msg[0].VendorContactNo + ")";
+            $("span[id*='lblName']").text(vendorinfo);
+            $("[id$='lblVendorAddress']").html(msg[0].VendorAddress);
+            cityname = msg[0].VendorCity + "-" + msg[0].VendorZip + "," + msg[0].VendorState;
+            $("[id$='lblCity']").html(cityname);
 
-            for (var i = 0; i < msg.length; i++) {
-                var vendorinfo = msg[i].VendorName + "(" + msg[i].VendorContactNo + ")";
-                $("#lblName").text(vendorinfo);
-                $("#lblVendorAddress").text(msg[i].VendorAddress);
-                cityname = msg[i].VendorCity + "-" + msg[i].VendorZip + "," + msg[i].VendorState;
-                $("#lblCity").text(cityname);
-            }
+            $("input[id*='hdnVendorName']").val(vendorinfo);
+            $("input[id*='hdnVendorAddress']").val(msg[0].VendorAddress);
+            $("input[id*='hdnCity']").val(cityname);
         },
         error: function (result, textStatus) {
             alert(result.responseText)
@@ -314,7 +336,8 @@ function BindCurrentDate() {
     var curr_month = dNow.getMonth();
     var curr_year = dNow.getFullYear();
     var localdate = m_names[curr_month] + curr_date + "," + curr_year;
-    $('#lblCurrentDate').text(localdate);
+    $("[id$='lblCurrentDate']").html(localdate);
+    $("input[id*='hdnCurrentDate']").val(localdate);
 }
 
 function BindDeliveryAddress() {
@@ -349,19 +372,22 @@ function GetDeliveryAddressInfo(selectedValue) {
         success: function (responce) {
 
             var msg = responce.d;
+                $("[id$='lblTrustName']").html(msg[0].TrustName);
+                cityname = msg[0].Address + "," + msg[0].City + "-" + "(" + msg[0].State + ")" + "," + msg[0].Zipcode;
+                $("[id$='lblAdress']").html(cityname);
+                $("[id$='lblPhoneNo']").html(msg[0].PhoneNumber);
 
-            for (var i = 0; i < msg.length; i++) {
-                $("#lblTrustName").text(msg[i].TrustName);
-                cityname = msg[i].Address + "," + msg[i].City + "-" + "(" + msg[i].State + ")" + "," + msg[i].Zipcode;
-                $("#lblAdress").text(cityname);
-                $("#lblPhoneNo").text(PhoneNumber);
-            }
+                $("input[id*='hdnTrustName']").val(msg[0].TrustName);
+                $("input[id*='hdnDeliveryAddress']").val(cityname);
+                $("input[id*='hdnDeliveryPhoneNo']").val(msg[0].PhoneNumber);
+            
         },
         error: function (result, textStatus) {
             alert(result.responseText)
         }
     });
 }
+
 function BindPONumber() {
     $.ajax({
         type: "POST",
@@ -392,19 +418,26 @@ function GetBillingAddressInfo(selectedValue) {
 
             var msg = responce.d;
 
-            for (var i = 0; i < msg.length; i++) {
-                cityname = msg[i].Address;
-                var fulladree = msg[i].City  + "(" + msg[i].State + ")" + "," + msg[i].Zipcode;
-                $("#lblBillingName").text(cityname);
-                $("#lblBillingAddres").text(fulladree);
-                $("#lblBillingPhone").text(PhoneNumber);
-            }
+           
+                cityname = msg[0].Address;
+                $("[id$='lblBillingName']").html(cityname);
+                var fulladree = msg[0].City + "(" + msg[0].State + ")" + "," + msg[0].Zipcode;
+                $("[id$='lblBillingAddres']").html(fulladree);
+                $("[id$='lblBillingPhone']").html(msg[0].PhoneNumber);
+
+                $("input[id*='hdnBillingName']").val(cityname);
+                $("input[id*='hdnBillingAddres']").val(fulladree);
+                $("input[id*='hdnBillingPhone']").val(msg[0].PhoneNumber);
+          
         },
         error: function (result, textStatus) {
             alert(result.responseText)
         }
     });
 }
+
+
+
 
 
 

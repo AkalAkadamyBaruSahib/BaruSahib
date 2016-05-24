@@ -46,10 +46,10 @@ public partial class Emp_ParticularEstimateView : System.Web.UI.Page
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
         hdnIsItemRejected.Value = dsEstimate1Details.Tables[0].Rows[0]["IsItemRejected"].ToString();
-        if (hdnIsApproved.Value == "True" && hdnIsItemRejected.Value =="False")
-        {
-            btnPdf.Visible = true;
-        }
+        //if (hdnIsApproved.Value == "True" && hdnIsItemRejected.Value =="False")
+        //{
+        //    btnPdf.Visible = true;
+        //}
 
 
     }

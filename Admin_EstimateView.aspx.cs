@@ -396,11 +396,11 @@ public partial class Admin_EstimateView : System.Web.UI.Page
             {
                 if (dtapproved.Rows[i]["IsItemRejected"].ToString() == "True")
                 {
-                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a></td></tr>";
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                 }
                 else
                 {
-                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a></td></tr>";
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                 }
             }
 
