@@ -25,6 +25,72 @@ $(document).ready(function () {
     BindMaterialType();
 });
 
+function SaveEstimate()
+{
+    var params = new Object();
+    var Estimate = new Object();
+
+    
+    Estimate.ZoneId = $("select[id*='ddlZone']").val();
+    Estimate.AcaId =  $("select[id*='ddlAcademy']").val();
+    Estimate.SubEstimate = $("input[id*='txtSubEstimate']").val(); 
+    Estimate.TypeWorkId = $("select[id*='ddlTypeOfWork']").val();
+    Estimate.Active = 1;
+    Estimate.WAId = $("select[id*='ddlWorkAllot']").val();
+    Estimate.FileNme = $("input[id*='txtFileName']").val();
+    var fileUploadSignedCopy = $("#fileUploadSignedCopy")[0].files;
+
+    if ($("#fileUploadSignedCopy")[0].files != undefined) {
+        Estimate.FilePath = "";
+        for (var i = 0; i < fileUploadSignedCopy.length; i++) {
+
+            Estimate.FilePath += "EstFile/" + $("#fileUploadSignedCopy")[0].files[i].name + ",";
+        }
+        Estimate.FilePath = Estimate.FilePath.substr(0, Estimate.FilePath.length - 1);
+    }
+   
+    Estimate.IsApproved = true;
+    Estimate.IsRejected = false;
+    Estimate.IsActive = true;
+  
+    
+    Estimate.EstimateAndMaterialOthersRelations = new Object();
+    var tablelength = $("#tbody").children('tr').length;
+     for (var i = 0 ; tablelength ; i++) {
+        var EstimateAndMaterialOthersRelation = new Object();
+        EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
+        EstimateAndMaterialOthersRelation.MatId = $tr.find('#materialname').val();
+        //  EstimateAndMaterialOthersRelation.MatTypeId = int.Parse(MaterialType);
+        EstimateAndMaterialOthersRelation.PSId = $("#sourcetype").val();
+        EstimateAndMaterialOthersRelation.Qty = $("#qty").val();
+        //EstimateAndMaterialOthersRelation.UnitId = $("#unit").val();
+        EstimateAndMaterialOthersRelation.Active = 1;
+        EstimateAndMaterialOthersRelation.IsApproved = true;
+        EstimateAndMaterialOthersRelation.VendorID = 0;
+        EstimateAndMaterialOthersRelation.PurchaseQty = 0;
+        Estimate.EstimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
+    }
+
+      params.estimate = Estimate;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/SaveEstimateDetail",
+        data: JSON.stringify(params),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                SignedCopyFileUpload();
+                alert("Estimate Create Successfully");
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText)
+        }
+    });
+}
+
 function LoadMaterials() {
  $("#drpMaterialName option:selected").each(function (i, option) {
         selectedMaterialList.push($(this).val());
@@ -112,72 +178,6 @@ function LoadEstimateInfo(selectedMaterialList) {
    
 }
 
-
-function SaveEstimate()
-{
-    var params = new Object();
-    var Estimate = new Object();
-
-    
-    Estimate.ZoneId = $("select[id*='ddlZone']").val();
-    Estimate.AcaId =  $("select[id*='ddlAcademy']").val();
-    Estimate.SubEstimate = $("input[id*='txtSubEstimate']").val(); 
-    Estimate.TypeWorkId = $("select[id*='ddlTypeOfWork']").val();
-    Estimate.Active = 1;
-    Estimate.WAId = $("select[id*='ddlWorkAllot']").val();
-    Estimate.FileNme = $("input[id*='txtFileName']").val();
-    var fileUploadSignedCopy = $("#fileUploadSignedCopy")[0].files;
-
-    if ($("#fileUploadSignedCopy")[0].files != undefined) {
-        Estimate.FilePath = "";
-        for (var i = 0; i < fileUploadSignedCopy.length; i++) {
-
-            Estimate.FilePath += "EstFile/" + $("#fileUploadSignedCopy")[0].files[i].name + ",";
-        }
-        Estimate.FilePath = Estimate.FilePath.substr(0, Estimate.FilePath.length - 1);
-    }
-   
-    Estimate.IsApproved = true;
-    Estimate.IsRejected = false;
-    Estimate.IsActive = true;
-  
-    
-    Estimate.EstimateAndMaterialOthersRelations = new Object();
-    var tablelength = $("#tbody").children('tr').length;
-     for (var i = 0 ; tablelength ; i++) {
-        var EstimateAndMaterialOthersRelation = new Object();
-        EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
-        EstimateAndMaterialOthersRelation.MatId = $tr.find('#materialname').val();
-        //  EstimateAndMaterialOthersRelation.MatTypeId = int.Parse(MaterialType);
-        EstimateAndMaterialOthersRelation.PSId = $("#sourcetype").val();
-        EstimateAndMaterialOthersRelation.Qty = $("#qty").val();
-        //EstimateAndMaterialOthersRelation.UnitId = $("#unit").val();
-        EstimateAndMaterialOthersRelation.Active = 1;
-        EstimateAndMaterialOthersRelation.IsApproved = true;
-        EstimateAndMaterialOthersRelation.VendorID = 0;
-        EstimateAndMaterialOthersRelation.PurchaseQty = 0;
-        Estimate.EstimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
-    }
-
-      params.estimate = Estimate;
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/SaveEstimateDetail",
-        data: JSON.stringify(params),
-        dataType: "json",
-        success: function (result, textStatus) {
-            if (textStatus == "success") {
-                SignedCopyFileUpload();
-                alert("Estimate Create Successfully");
-            }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText)
-        }
-    });
-}
 
 
 function BindPurchaseSource(length) {
@@ -276,5 +276,5 @@ function SignedCopyFileUpload() {
 }
 
 function MaterialItemToDelete(matID) {
-    
+
 }

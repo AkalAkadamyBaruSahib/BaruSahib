@@ -7,8 +7,6 @@
             if (Page_ClientValidate() == false)
             { return false; }
         }
-
-        //make sure the button is not of type "submit" but "button"
         if (myButton.getAttribute('type') == 'button') {
             // diable the button
             myButton.disabled = true;
@@ -71,17 +69,14 @@
                                     <label class="control-label" for="typeahead"></label>
 
                                     <div class="controls">
-                                        Zone
-                                                    <br />
+                                        Zone   <br />
                                         <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
                                             ControlToValidate="ddlZone" ErrorMessage="Please Select Any Zone" ForeColor="#ff0000"></asp:RequiredFieldValidator><br />
-                                        Zone Code :
-                                                    <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
+                                        Zone Code :   <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
 
                                     </div>
-
-                                </div>
+                          </div>
                             </td>
                             <td width="50%">
                                 <div class="control-group">
@@ -151,9 +146,7 @@
                                     </div>
                                 </div>
                             </td>
-
-
-                        </tr>
+                      </tr>
                     </table>
 
                     <table width="100%">
@@ -194,10 +187,8 @@
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
                                         Upload File
-                                                    <br />
+                                        <br />
                                         <input type="file" id="fileUploadSignedCopy" multiple="multiple" />
-
-
                                     </div>
                                 </div>
                             </td>
