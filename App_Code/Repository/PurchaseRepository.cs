@@ -74,8 +74,28 @@ public class PurchaseRepository
             MatID = x.MatId,
             MatName = x.MatName,
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
-
     }
+
+    public List<MaterialsDTO> GetMaterialsByID(string materialList)
+    {
+        int[] myArray = materialList.Split(',').Select(int.Parse).ToArray();
+
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        mt = _context.Material.Include(x => x.Unit).Where(m => myArray.Contains(m.MatId)).AsEnumerable().Select(x => new MaterialsDTO
+        {
+            MatID = x.MatId,
+            MatName = x.MatName,
+            Unit = x.Unit,
+        }).OrderByDescending(m => m.MatName).Reverse().ToList();
+        return mt;
+    }
+
+
+    public List<PurchaseSource> GetPurchaseSource()
+    {
+        return _context.PurchaseSource.ToList();
+    }
+
 
     public List<VendorInfo> GetVendorsNameList()
     {
@@ -89,14 +109,12 @@ public class PurchaseRepository
 
     public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
     {
-
         return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID).ToList();
     }
 
     public List<VendorInfo> GetVendorAddress(int VendorID)
     {
         return _context.VendorInfo.Where(x => x.ID == VendorID).ToList();
-
     }
 
     public List<POBillingAddress> GetDeliveryAddressList()
@@ -283,4 +301,32 @@ public class PurchaseRepository
         _context.Entry(DelVendorinfo).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public List<MaterialType> GetBindMaterialType()
+    {
+        return _context.MaterialType.ToList();
+    }
+
+    public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
+    {
+        return _context.Material.Where(x => x.MatTypeId == MatTypeID).ToList();
+    }
+
+    public List<Material> GeMaterialInformation(int MaterialID)
+    {
+        return _context.Material.Where(x => x.MatId == MaterialID).ToList();
+    }
+
+    public void SaveEstimateDetail(Estimate estimate)
+    {
+        _context.Entry(estimate).State = EntityState.Added;
+        _context.SaveChanges();
+
+    }
+
+    public void GetDeleteMaterialsItem(int MatID)
+    {
+        Material DelMaterial = _context.Material.Where(v => v.MatId == MatID).FirstOrDefault();
+    }
+
 }

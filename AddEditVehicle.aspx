@@ -360,7 +360,7 @@
                         </table>
                     </fieldset>
                     <br />
-                    <fieldset>
+                   <%-- <fieldset>
                         <legend><span class="labelH labelH-info">Documents</span></legend>
                         <asp:UpdatePanel ID="updpanel2" runat="server">
                             <Triggers>
@@ -389,7 +389,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="View/Download" ItemStyle-Width="300px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblDocumentTypeID" runat="server" Text='<%# Eval("ID") %>' Visible="false" class="control-label"></asp:Label>
+                                                            <asp:Label ID="lblDocumentTypeID" runat="server" Text='<%# Eval("ID") %>' Visible="true" class="control-label"></asp:Label>
                                                             <asp:Label ID="lblDocu" Text="-1" runat="server" Visible="false" class="control-label"></asp:Label>
                                                             <asp:HyperLink ID="hypDoc" Target="_blank" runat="server" Text="No document Uploaded"></asp:HyperLink>
                                                         </ItemTemplate>
@@ -424,7 +424,7 @@
                                 </table>
                             </ContentTemplate>
                         </asp:UpdatePanel>
-                    </fieldset>
+                    </fieldset>--%>
                 </div>
                 <div class="form-actions" style="text-align: center">
                     <%--<asp:Button id="btnExecl" runat="server" Text="Excel Download" CssClass="btn btn-primary" onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" OnClick="btnExecl_Click"  Width="200px" Height="40px" Font-Bold="True" Font-Size="16pt" ForeColor="Black"/>--%>

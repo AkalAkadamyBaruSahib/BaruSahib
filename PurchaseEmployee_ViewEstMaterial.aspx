@@ -74,6 +74,7 @@
                         <ItemTemplate>
                             <%# Container.DataItemIndex+1 %>
                             <asp:HiddenField runat="server" ID="txtMatID" Value='<%#Eval("MatID") %>' />
+                            <asp:HiddenField runat="server" ID="hdnMatTypeID" Value='<%#Eval("MatTypeID") %>' />
                             <asp:HiddenField runat="server" ID="txtUnitID" Value='<%#Eval("UnitID") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>

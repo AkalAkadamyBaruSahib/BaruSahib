@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BodyUploadEstimate.ascx.cs" Inherits="Admin_UserControls_BodyUploadEstimate" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UploadEstimate.ascx.cs" Inherits="Admin_UserControls_UploadEstimate" %>
 
 <script type="text/javascript">
     function ClientSideClick(myButton) {
@@ -34,8 +34,7 @@
             </div>
             <fieldset>
                 <div class="box-content">
-                    <%-- <asp:UpdatePanel ID="updPanel1" runat="server">
-                            <ContentTemplate>--%>
+
                     <table width="100%">
                         <tr>
                             <td width="50%" colspan="2">
@@ -153,20 +152,10 @@
                                 </div>
                             </td>
 
-                            <%-- <td width="50%">
-                                    <div class="control-group">
-                                        <label class="control-label" for="txtSanctionDate"></label>
-                                        <div class="controls">
-                                            Sanction Date
-                                                    <br />
-                                            <asp:TextBox ID="txtSanctionDate" runat="server" CssClass="input-xlarge datepicker"></asp:TextBox><br />
-                                        </div>
-                                    </div>
-                                </td>--%>
+
                         </tr>
                     </table>
-                    <%--    </ContentTemplate>
-                        </asp:UpdatePanel>--%>
+
                     <table width="100%">
                         <tr id="trCost" runat="server" visible="false">
                             <td width="50%">
@@ -206,9 +195,9 @@
                                     <div class="controls">
                                         Upload File
                                                     <br />
-                                        <asp:FileUpload ID="fuFile" runat="server" AllowMultiple="true" />
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="fuFile_RequiredFieldValidator"
-                                            ControlToValidate="fuFile" ForeColor="#ff0000" ErrorMessage="Please Upload The File" />
+                                        <input type="file" id="fileUploadSignedCopy" multiple="multiple" />
+
+
                                     </div>
                                 </div>
                             </td>
@@ -222,9 +211,9 @@
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
-                                        Select Default Material Type
-                                                    <br />
-                                        <asp:ListBox ID="lstMaterialTypes" Height="150px" Width="400px" CssClass="list-group" AutoPostBack="true" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged" SelectionMode="Multiple" runat="server"></asp:ListBox>
+                                        Select  Material Type
+                                        <br />
+                                        <select id="drpMaterialType" multiple="multiple" style="width: 400px; height: 150px;"></select>
                                     </div>
                                 </div>
                             </td>
@@ -232,93 +221,39 @@
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
-                                        Select Default Material
-                                                    <br />
-                                        <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
+                                        Select  Material Names
                                         <br />
-                                        <asp:Button ID="btnloadMaterials" Text="Load" CssClass="btn btn-success" runat="server" OnClick="btnloadMaterials_Click" />
+                                        <select id="drpMaterialName" multiple="multiple" style="width: 400px; height: 150px;"></select>
+                                        <br />
+                                        <asp:Button ID="btnloadMaterials" Text="Load" CssClass="btn btn-success" runat="server" />
                                     </div>
                                 </div>
                             </td>
                         </tr>
+                        <tr id="trEstimateDetail">
+                            <td colspan="2">
 
-                        <tr>
-                            <td colspan="2" width="50%" align="left">
-                                <asp:GridView ID="grvStudentDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False"
-                                    CellPadding="4" Width="100px" ForeColor="#333333" GridLines="None" OnRowDeleting="grvStudentDetails_RowDeleting"
-                                    Style="text-align: left" OnRowDataBound="grvStudentDetails_RowDataBound">
-                                    <Columns>
-                                        <asp:BoundField DataField="RowNumber" HeaderText="SNo" />
-                                        <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:DropDownList runat="server" ID="ddlMatType" Width="97Px" AutoPostBack="true" OnSelectedIndexChanged="ddlMatType_SelectedIndexChanged"></asp:DropDownList>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:DropDownList runat="server" ID="ddlMat" Width="300Px" AutoPostBack="true" OnSelectedIndexChanged="ddlMat_SelectedIndexChanged"></asp:DropDownList>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Source Type" ItemStyle-Width="105px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:DropDownList runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlSourceType_SelectedIndexChanged" ID="ddlSourceType" Width="105Px"></asp:DropDownList>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Quantity" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:TextBox ID="txtQty" runat="server" CssClass="span6 typeahead" Width="70Px"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Unit" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblUnit" runat="server"></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Rate" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:TextBox ID="txtRate" runat="server" CssClass="span6 typeahead" Width="70Px"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Amount" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblAmt" runat="server" class="control-label"></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Remark" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                            <ItemTemplate>
-                                                <asp:TextBox ID="txtRemark" runat="server" CssClass="span6 typeahead" Width="70Px"></asp:TextBox>
-                                            </ItemTemplate>
-                                            <FooterStyle HorizontalAlign="Right" />
-                                            <FooterTemplate>
-                                                <asp:Button ID="ButtonAdd" runat="server" Text="Add New Row" OnClick="ButtonAdd_Click" />
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-                                        <asp:CommandField ShowDeleteButton="True" />
-                                    </Columns>
-                                    <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
-                                    <RowStyle BackColor="#EFF3FB" />
-                                    <EditRowStyle BackColor="#2461BF" />
-                                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                                    <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                                    <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                                    <AlternatingRowStyle BackColor="LightGray" />
-                                </asp:GridView>
+                                <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                                    <thead>
+                                        <tr>
+                                            <th style="color: #cc3300;">Material Name</th>
+                                            <th style="color: #cc3300;">Source Type</th>
+                                            <th style="color: #cc3300;">Quantity</th>
+                                            <th style="color: #cc3300;">Unit</th>
+                                            <th style="color: #cc3300;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+                                    </tbody>
+                                </table>
+
                             </td>
                         </tr>
-                        <tr id="trTotal" runat="server" visible="false">
-                            <td colspan="2" width="50%" align="center" style="margin-right: 80px">
-                                <asp:Button runat="server" ID="btnAmtTotal" Text="Total Amount" CssClass="btn btn-success" OnClick="btnAmtTotal_Click" />
-                                :
-                                            <asp:Label ID="lblTtlAmtAfterGrid" runat="server" ForeColor="Red" Text="00.00"></asp:Label></td>
-                        </tr>
                     </table>
-
                 </div>
 
-
                 <div class="form-actions" style="text-align: center">
-                    <%--<asp:Button id="btnExecl" runat="server" Text="Excel Download" CssClass="btn btn-primary" onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" OnClick="btnExecl_Click"  Width="200px" Height="40px" Font-Bold="True" Font-Size="16pt" ForeColor="Black"/>--%>
-                    <asp:Button ID="btnSubEstimate" Width="200px" Height="40px" Text="Submit Estimate" ValidationGroup="visitor" CssClass="btn btn-success" runat="server" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" BackColor="Green" Font-Bold="True" Font-Size="16pt" ForeColor="Black" OnClick="btnSubEstimate_Click" />
+                    <asp:Button ID="btnSubEstimate" Width="200px" Height="40px" Text="Submit Estimate" ValidationGroup="visitor" CssClass="btn btn-success" runat="server" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" BackColor="Green" Font-Bold="True" Font-Size="16pt" ForeColor="Black" />
                 </div>
             </fieldset>
         </div>

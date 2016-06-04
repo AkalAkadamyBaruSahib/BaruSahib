@@ -6,6 +6,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_0']").change(function (e) {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -18,6 +19,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_1']").change(function () {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -30,6 +32,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_2']").change(function () {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -42,6 +45,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_3']").change(function () {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -54,6 +58,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_4']").change(function () {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -66,6 +71,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_5']").change(function () {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -78,6 +84,7 @@ $(document).ready(function () {
     $("input[id*='fiupload_6']").change(function () {
         var ext = $(this).val().split('.').pop().toLowerCase();
         if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+            $(this).val("");
             alert('Invalid extension! Please Upload the .jpg,jpeg,gif,png,pdf Files');
         }
         else {
@@ -89,7 +96,6 @@ $(document).ready(function () {
     $("input[id*='fiupload_7']").change(function () {
             var $fileUpload = $(this)[0];
             FileUpload($fileUpload, "Route Map", 7);
-       
     });
 
 });
@@ -98,37 +104,79 @@ $(document).ready(function () {
 
 function FileUpload(control, docName, cnt) {
 
-    $("#progress").dialog({ modal: true, width: 400, height: 200, title: "Progress", closeOnEscape: false });
-    $("#progress").dialog('open');
+    if ($("input[id*='txtDate_" + cnt + "']").val() != "(mm/dd/yyyy)")
+    {
+        $("#progress").dialog({ modal: true, width: 400, height: 200, title: "Progress", closeOnEscape: false });
+        $("#progress").dialog('open');
 
-    var VehicleNumber = $("input[id*='txtVehicleNo1']").val() + "-" + $("input[id*='txtVehicleNo2']").val() + "-" + $("input[id*='txtVehicleNo3']").val() + "-" + $("input[id*='txtVehicleNo4']").val();
-    //var VehicleNumber = $("selecct[id*='drpVehicle']").val();
-    var name = docName + "_" + VehicleNumber;
+        //var VehicleNumber = $("input[id*='txtVehicleNo1']").val() + "-" + $("input[id*='txtVehicleNo2']").val() + "-" + $("input[id*='txtVehicleNo3']").val() + "-" + $("input[id*='txtVehicleNo4']").val();
+        var VehicleNumber = $("select[id*='drpVehicle'] :selected").text();
+        var name = docName + "_" + VehicleNumber;
+        var ID = $("span[id*='lblDocu_" + cnt + "']").text();
 
-    var files = control.files;
+        var DocumentTypeID = $("span[id*='lblDocumentTypeID_" + cnt + "']").text();
+        var date = $("input[id*='txtDate_" + cnt + "']").val();
+        var VehicleID = $("select[id*='drpVehicle']").val();
 
-    var data = new FormData();
-    for (var i = 0; i < files.length; i++) {
-        data.append(files[i].name, files[i]);
+        var files = control.files;
+
+        var data = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            data.append(files[i].name, files[i]);
+        }
+
+        var ext = files[0].name.split('.').pop();
+
+        $.ajax({
+            url: "TransportVehicleDocumentUploader.ashx?name=" + name + " &ID=" + ID + " &VehicleID=" + VehicleID + " &DocumentTypeID=" + DocumentTypeID + " &date=" + date,
+            type: "POST",
+            async: false,
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                $("a[id*='hypDoc_" + cnt + "']")[0].innerHTML = name + "." + ext;
+                //var path = "./VehicleDoc/" + name + "." + ext;
+                //$("a[id*='hypDoc_" + cnt + "']")[0].href = "<%=Page.ResolveUrl('" + path + "')%>";
+                $("a[id*='hypDoc_" + cnt + "']")[0].href = "../../VehicleDoc/" + name + "." + ext;
+                $("#progress").dialog('close');
+              
+                alert("File has been uploaded successfully");
+            },
+            error: function (err) {
+                alert(err.statusText)
+            }
+        });
+    }
+    else {
+        $("input[id*='fiupload_" + cnt + "']").val("");
+        alert("Please enter document expiry date");
     }
 
-    var ext = files[0].name.split('.').pop();
+}
+
+
+
+function AutofillMaterialSearchBox() {
+    var dataSrc;
 
     $.ajax({
-        url: "TransportVehicleDocumentUploader.ashx?name=" + name,
         type: "POST",
-        async: false,
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function (result) {
-            $("a[id*='hypDoc_" + cnt + "']")[0].innerHTML = name + "." + ext;
-            $("a[id*='hypDoc_" + cnt + "']")[0].href = "VehicleDoc/" + name + "." + ext;
-            $("#progress").dialog('close');
-            alert("File has been uploaded successfully");
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetActiveMaterials",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                $("#txtMaterial").autocomplete({
+                    source: result.d
+                });
+
+            }
         },
-        error: function (err) {
-            alert(err.statusText)
+        error: function (result, textStatus) {
+            alert(result.responseText);
         }
     });
+
+
 }

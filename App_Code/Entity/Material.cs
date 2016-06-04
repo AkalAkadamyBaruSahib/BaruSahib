@@ -9,12 +9,12 @@ using System.Web;
 /// </summary>
 public class Material
 {
-	public Material()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public Material()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
     [Key()]
     public int MatId { get; set; }
 
@@ -47,4 +47,6 @@ public class Material
     public bool? IsRateApproved { get; set; }
 
     public List<VendorMaterialRelation> VendorMaterialRelation { get; set; }
+
+    public Unit Unit { get; set; }
 }

@@ -281,11 +281,17 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
     {
         int UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         DataSet dsVehicleDetails = new DataSet();
-         // dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]");
-         dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
+        if (UserTypeID == 13)
+        {
+            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
+        }
+        else
+        {
+            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetailsByInchargeID] 1," + InchargeID);
+        }
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
         DataTable dtapproved = new DataTable();
-        int InchargeID = int.Parse(Session["InchargeID"].ToString());
+        
 
         if (UserTypeID == 13)
         {
@@ -311,15 +317,15 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             if (AcaID > 0)
             {
                 dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<int>("AcademyID") == AcaID &&
-                              mytable.Field<int>("InchargeID") == InchargeID
+                              where mytable.Field<int>("AcademyID") == AcaID 
+                              //&& mytable.Field<int>("InchargeID") == InchargeID
                               select mytable);
             }
             else
             {
                 dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<bool>("IsApproved") == isApproved &&
-                              mytable.Field<int>("InchargeID") == InchargeID
+                              where mytable.Field<bool>("IsApproved") == isApproved 
+                              //&& mytable.Field<int>("InchargeID") == InchargeID
                               select mytable);
 
             }

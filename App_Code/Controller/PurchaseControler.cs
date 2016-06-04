@@ -189,5 +189,77 @@ public class PurchaseControler : System.Web.Services.WebService
         repository.VendorInfoToDelete(VendorID);
     }
 
-  
+    [WebMethod]
+    public List<MaterialType> GetBindMaterialType()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBindMaterialType();
+    }
+
+    [WebMethod]
+    public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBindMaterialNameByMaterialType(MatTypeID);
+    }
+
+    [WebMethod]
+    public List<Material> GeMaterialInformation(int MaterialID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GeMaterialInformation(MaterialID);
+    }
+
+    [WebMethod]
+    public List<MaterialsDTO> GetMaterialsByID(string materialList)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetMaterialsByID(materialList);
+    }
+
+    [WebMethod]
+    public List<PurchaseSource> GetPurchaseSource()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetPurchaseSource();
+    }
+
+    [WebMethod]
+    public void SaveEstimateDetail(Estimate estimate)
+    {
+        Estimate estimateInfo = new Estimate();
+
+        estimateInfo.ZoneId = estimate.ZoneId;
+        estimateInfo.AcaId = estimate.AcaId;
+        estimateInfo.SubEstimate = estimate.SubEstimate;
+        estimateInfo.TypeWorkId = estimate.TypeWorkId;
+        estimateInfo.Active = estimate.Active;
+        estimateInfo.WAId = estimate.WAId;
+        estimateInfo.ModifyOn = DateTime.Now;
+        estimateInfo.Active = estimate.Active;
+        estimateInfo.CreatedOn = DateTime.Now;
+        estimateInfo.FilePath = estimate.FilePath;
+        estimateInfo.IsApproved = estimate.IsApproved;
+        estimateInfo.IsRejected = estimate.IsRejected;
+        estimateInfo.IsActive = estimate.IsActive;
+      
+        estimateInfo.EstimateAndMaterialOthersRelations = new List<EstimateAndMaterialOthersRelations>();
+
+        EstimateAndMaterialOthersRelations estimateandmaterialothersrelations = new EstimateAndMaterialOthersRelations();
+       
+        foreach (EstimateAndMaterialOthersRelations item in estimate.EstimateAndMaterialOthersRelations)
+        {
+           
+        }
+
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.SaveEstimateDetail(estimateInfo);
+    }
+
+    [WebMethod]
+    public void GetDeleteMaterialsItem(int MatID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.GetDeleteMaterialsItem(MatID);
+    }
 }

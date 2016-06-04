@@ -150,6 +150,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
+                //GetDataInDataSet(StoredProc);
                 //string error = ex.Message.Replace("'", "");
                 //ExecuteNonQuery("INSERT INTO ERRORLOG VALUES (NULL,'" + ex.StackTrace + "',GETDATE())");
                 

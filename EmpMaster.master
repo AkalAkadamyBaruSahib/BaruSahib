@@ -132,7 +132,7 @@
                             <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet"> Tickets</span></a></li>
                             <li><a class="ajax-link" href="Emp_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>
                             <li><a class="ajax-link" href="Emp_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
-
+                              <li><a class="ajax-link" href="AddEstimate.aspx"><i class="icon-edit"></i><span class="hidden-tablet">New Estimate Page</span></a></li>
                         </ul>
 
                     </div>
@@ -153,7 +153,7 @@
     </form>
     <hr>
     <footer>
-        <p class="pull-left">&copy; <a href="http://akalacademy.org/AA/" target="_blank">Akal Academy</a> 2015</p>
+        <p class="pull-left">&copy; <a href="http://akalacademy.org/AA/" target="_blank">Akal Academy</a> 2016</p>
         <p class="pull-right">Powered by: <a href="http://akalacademy.org/AA/">AkalSoftwares</a></p>
     </footer>
     <!-- jQuery -->

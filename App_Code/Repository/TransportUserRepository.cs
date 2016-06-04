@@ -34,16 +34,13 @@ public class TransportUserRepository
 
     public List<Vehicles> GetAllVehiclesByAcademyID(int AcaID)
     {
-        return _context.Vehicles.Where(v => v.AcademyID == AcaID)
+        return _context.Vehicles.Where(v => v.AcademyID == AcaID && v.IsApproved == true)
             .Include(a => a.Academy)
             .Include(z => z.Zone).ToList();
     }
 
     public List<Vehicles> GetVehiclesByZoneID(int ZoneID)
     {
-
-
-
         return _context.Vehicles.Where(v => v.ZoneID == ZoneID)
             .Include(a => a.Academy)
             .Include(z => z.Zone).ToList();
@@ -53,7 +50,7 @@ public class TransportUserRepository
     {
         return _context.Vehicles.Where(v => v.ZoneID == ZoneID && v.IsApproved == IsApproved)
             .Include(a => a.Academy)
-            .Include(z => z.Zone).ToList();
+            .Include(z => z.Zone).OrderByDescending(v => v.AcademyID).ToList();
     }
 
     public List<Vehicles> GetAllVehiclesByZoneID(int ZoneID)

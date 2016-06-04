@@ -10,4 +10,5 @@ public class MaterialsDTO
 {
     public int MatID { get; set; }
     public String MatName { get; set; }
+    public Unit Unit { get; set; }
 }

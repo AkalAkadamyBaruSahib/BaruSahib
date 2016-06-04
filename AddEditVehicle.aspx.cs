@@ -43,7 +43,7 @@ public partial class AddVehicle : System.Web.UI.Page
             {
                 LoadVehicleData();
             }
-            bindDocumentGrid();
+            //bindDocumentGrid();
         }
     }
 
@@ -322,47 +322,47 @@ public partial class AddVehicle : System.Web.UI.Page
         txtKm.Text = dtapproved.Rows[0]["KMPerDay"].ToString();
     }
 
-    private void bindDocumentGrid()
-    {
-        DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
-        gvDocuments.DataSource = TransportDocuments.Tables[0];
-        gvDocuments.DataBind();
+    //private void bindDocumentGrid()
+    //{
+    //    DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
+    //    gvDocuments.DataSource = TransportDocuments.Tables[0];
+    //    gvDocuments.DataBind();
         
        
-    }
-    protected void gvDocuments_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            DataSet ds = new DataSet();
+    //}
+    //protected void gvDocuments_RowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+    //    if (e.Row.RowType == DataControlRowType.DataRow)
+    //    {
+    //        DataSet ds = new DataSet();
 
-            FileUpload fiupload = e.Row.FindControl("fiupload") as FileUpload;
-            Button bt_upload = e.Row.FindControl("bt_upload") as Button;
+    //        FileUpload fiupload = e.Row.FindControl("fiupload") as FileUpload;
+    //        Button bt_upload = e.Row.FindControl("bt_upload") as Button;
 
-            Label lblDocumentTypeID = e.Row.FindControl("lblDocumentTypeID") as Label;
-            HyperLink hypDoc = e.Row.FindControl("hypDoc") as HyperLink;
-            Label lblDocu = e.Row.FindControl("lblDocu") as Label;
-            TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
-            Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
+    //        Label lblDocumentTypeID = e.Row.FindControl("lblDocumentTypeID") as Label;
+    //        HyperLink hypDoc = e.Row.FindControl("hypDoc") as HyperLink;
+    //        Label lblDocu = e.Row.FindControl("lblDocu") as Label;
+    //        TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
+    //        Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
             
-            string path = string.Empty;
-            ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + VehicleID);
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                lblDocu.Text = ds.Tables[0].Rows[0]["ID"].ToString(); ;
-                hypDoc.NavigateUrl = ds.Tables[0].Rows[0]["Path"].ToString();
-                path = ds.Tables[0].Rows[0]["Path"].ToString();
-                path = path.Substring(path.IndexOf('/') + 1);
-                hypDoc.Text = path;
-                if (ds.Tables[0].Rows[0]["DocumentEndDate"].ToString() != "")
-                {
-                    txtDate.Text = Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()).ToShortDateString();
-                }
-                btn_Approved.Visible = true;
-            }
+    //        string path = string.Empty;
+    //        ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + VehicleID);
+    //        if (ds.Tables[0].Rows.Count > 0)
+    //        {
+    //            lblDocu.Text = ds.Tables[0].Rows[0]["ID"].ToString(); ;
+    //            hypDoc.NavigateUrl = ds.Tables[0].Rows[0]["Path"].ToString();
+    //            path = ds.Tables[0].Rows[0]["Path"].ToString();
+    //            path = path.Substring(path.IndexOf('/') + 1);
+    //            hypDoc.Text = path;
+    //            if (ds.Tables[0].Rows[0]["DocumentEndDate"].ToString() != "")
+    //            {
+    //                txtDate.Text = Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()).ToShortDateString();
+    //            }
+    //            btn_Approved.Visible = true;
+    //        }
             
-        }
-    }
+    //    }
+    //}
 
     protected void btnSaveChanges_Click(object sender, EventArgs e)
     {
@@ -409,14 +409,13 @@ public partial class AddVehicle : System.Web.UI.Page
                     VehicleID = int.Parse(ds.Tables[0].Rows[0]["ID"].ToString());
                 }
 
-                //  DAL.DalAccessUtility.ExecuteNonQuery("EXEC [USP_InsertUpdateVehicleEmployee] " + ddlDriverType.SelectedValue + ",'" + txtDriverName.Text + "','" + txtDriverMobile.Text + "'," + VehicleID + "," + ddlDLType.SelectedValue + ",'" + txtDLValidity.Text + "',null");
-                if (rowaffected > 0)
-                {
-                    if (SaveDocuments())
-                    {
+                //if (rowaffected > 0)
+                //{
+                //    if (SaveDocuments())
+                //    {
                         Response.Redirect("Transport_VehicleDetails.aspx");
-                    }
-                }
+                //    }
+                //}
             }
             //Response.Redirect("Transport_VehicleDetails.aspx");
             else
@@ -431,51 +430,51 @@ public partial class AddVehicle : System.Web.UI.Page
         }
     }
 
-    private bool SaveDocuments()
-    {
-        foreach (GridViewRow row in gvDocuments.Rows)
-        {
-            string qryBuilder = string.Empty;
-            Label lblDocu = row.FindControl("lblDocu") as Label;
-            FileUpload fu = row.FindControl("fiupload") as FileUpload;//here
-            Label lblDocumentType = row.FindControl("lblDocumentType") as Label;
-            Label lblDocumentTypeID = row.FindControl("lblDocumentTypeID") as Label;
-            TextBox txtDate = row.FindControl("txtDate") as TextBox;
-            HyperLink hypDoc = row.FindControl("hypDoc") as HyperLink;
+    //private bool SaveDocuments()
+    //{
+    //    foreach (GridViewRow row in gvDocuments.Rows)
+    //    {
+    //        string qryBuilder = string.Empty;
+    //        Label lblDocu = row.FindControl("lblDocu") as Label;
+    //        FileUpload fu = row.FindControl("fiupload") as FileUpload;//here
+    //        Label lblDocumentType = row.FindControl("lblDocumentType") as Label;
+    //        Label lblDocumentTypeID = row.FindControl("lblDocumentTypeID") as Label;
+    //        TextBox txtDate = row.FindControl("txtDate") as TextBox;
+    //        HyperLink hypDoc = row.FindControl("hypDoc") as HyperLink;
 
-            if ((fu.HasFile && txtDate.Text == "(mm/dd/yyyy)") || (!fu.HasFile && txtDate.Text != "(mm/dd/yyyy)" && hypDoc.Text == "No document Uploaded"))
-            {
-                if (fu.HasFile && txtDate.Text == "(mm/dd/yyyy)")
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter the date for " + lblDocumentType.Text + " document');", true);
-                else
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload the " + lblDocumentType.Text + " document');", true);
-                return false;
-            }
-            else
-            {
-                if (fu.HasFile && txtDate.Text != "(mm/dd/yyyy)")
-                {
-                    try
-                    {
-                        string fileName = string.Empty;
-                        string VehicleNumber = txtVehicleNo1.Text.Trim() + "-" + txtVehicleNo2.Text.Trim() + "-" + txtVehicleNo3.Text.Trim() + "-" + txtVehicleNo4.Text.Trim();
-                        fileName = lblDocumentType.Text + "_" + VehicleNumber + Path.GetExtension(fu.PostedFile.FileName);
-                        string uploadedFile = ("VehicleDoc/" + fileName);
+    //        if ((fu.HasFile && txtDate.Text == "(mm/dd/yyyy)") || (!fu.HasFile && txtDate.Text != "(mm/dd/yyyy)" && hypDoc.Text == "No document Uploaded"))
+    //        {
+    //            if (fu.HasFile && txtDate.Text == "(mm/dd/yyyy)")
+    //                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter the date for " + lblDocumentType.Text + " document');", true);
+    //            else
+    //                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload the " + lblDocumentType.Text + " document');", true);
+    //            return false;
+    //        }
+    //        else
+    //        {
+    //            if (fu.HasFile && txtDate.Text != "(mm/dd/yyyy)")
+    //            {
+    //                try
+    //                {
+    //                    string fileName = string.Empty;
+    //                    string VehicleNumber = txtVehicleNo1.Text.Trim() + "-" + txtVehicleNo2.Text.Trim() + "-" + txtVehicleNo3.Text.Trim() + "-" + txtVehicleNo4.Text.Trim();
+    //                    fileName = lblDocumentType.Text + "_" + VehicleNumber + Path.GetExtension(fu.PostedFile.FileName);
+    //                    string uploadedFile = ("VehicleDoc/" + fileName);
 
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + lblDocu.Text + "," + VehicleID + "," + lblDocumentTypeID.Text + ",'" + uploadedFile + "','" + txtDate.Text + "'");
-                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('File has been saved');", true);
-                    }
-                    catch (Exception ex)
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert(" + ex.Message + ");", true);
-                        return false;
-                    }
-                }
-            }
+    //                    DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + lblDocu.Text + "," + VehicleID + "," + lblDocumentTypeID.Text + ",'" + uploadedFile + "','" + txtDate.Text + "'");
+    //                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('File has been saved');", true);
+    //                }
+    //                catch (Exception ex)
+    //                {
+    //                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert(" + ex.Message + ");", true);
+    //                    return false;
+    //                }
+    //            }
+    //        }
 
-        }
-        return true;
-    }
+    //    }
+    //    return true;
+    //}
 
     private void BindMake()
     {
@@ -574,23 +573,5 @@ public partial class AddVehicle : System.Web.UI.Page
         }
     }
 
-    protected void btn_Approved_Click(object sender, EventArgs e)
-    {
-        GridViewRow gr = (GridViewRow)((DataControlFieldCell)((Button)sender).Parent).Parent;
-        Button btnapproved = (Button)gr.FindControl("btn_Approved");
-        string approvedid = btnapproved.CommandArgument.ToString();
-        DataSet dsMat = new DataSet();
-        dsMat = DAL.DalAccessUtility.GetDataInDataSet("SELECT ID,TransportDocumentID FROM VechilesDocumentRelation WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + VehicleID);
-        if (dsMat != null && dsMat.Tables[0] != null && dsMat.Tables[0].Rows.Count > 0)
-        {
-            DAL.DalAccessUtility.ExecuteNonQuery("Delete FROM VechilesDocumentRelation WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + VehicleID);
-            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Vehicle Document Delete Successfully');</script>", false);
-
-        }
-        else
-        {
-            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('File does not exit!!!!! Please select the correct File');</script>", false);
-        }
-         bindDocumentGrid();
-       }
+    
 }

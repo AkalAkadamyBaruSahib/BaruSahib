@@ -84,7 +84,6 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
             if (e.CommandName == "DispatchDate")
             {
                 decimal Qty;
-                string TotalLeftAndPurQty;
 
                 GridViewRow gvRow = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
                 Button DisDate = (Button)e.CommandSource;
@@ -92,8 +91,9 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
 
                 Label lbl = (Label)gvRow.FindControl("txtDispatchDate");
                 lbl.Text = System.DateTime.Now.ToString();
-               // TextBox rmk = (TextBox)gvRow.FindControl("txtRemark");
+                // TextBox rmk = (TextBox)gvRow.FindControl("txtRemark");
                 HiddenField txtMatID = (HiddenField)gvRow.FindControl("txtMatID");
+                HiddenField hdnMatTypeID = (HiddenField)gvRow.FindControl("hdnMatTypeID");
                 TextBox txtRate = (TextBox)gvRow.FindControl("txtRate");
                 TextBox txtPurchaseQty = (TextBox)gvRow.FindControl("txtPurchaseQty");
                 HiddenField hdnPurchaseQty = (HiddenField)gvRow.FindControl("hdnPurchaseQty");
@@ -114,32 +114,55 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
                     var PurchaseQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);   // Purchasing Quantity 
 
                     var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);  // 5% of Est Required Quantity
+                    var TotalVegiAcceptableQuantity = (Convert.ToDecimal(Qty) * 10 / 100) + Convert.ToDecimal(Qty);  // 10% of Est Required Quantity
+                    var TotalLessVegiAcceptableQuantity = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 10 / 100);
 
-                    if (PurchaseQty > ExtraQty)
-                    {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase Qty Can not Greater than 5% Extra');", true);
-                    }
 
-                    else
+                    DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
+                    if (Convert.ToInt16(hdnMatTypeID.Value) == 53) // vegitable
                     {
-                        if (PurchaseQty == Qty || (PurchaseQty > Qty && PurchaseQty <= ExtraQty))
+                        if (PurchaseQty > TotalVegiAcceptableQuantity)
                         {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase Qty can not greater than 10% extra.');", true);
                         }
                         else
                         {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
+                            if ((PurchaseQty >= Qty && PurchaseQty <= TotalVegiAcceptableQuantity) || (PurchaseQty <= Qty && PurchaseQty >= TotalLessVegiAcceptableQuantity))
+                            {
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
+                            }
+                            else
+                            {
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
+                            }
                         }
-                        DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
-                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Date Updated Successfully.')", true);
+                    }
+                    else
+                    {
+                        if (PurchaseQty > ExtraQty)
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase Qty can not greater than 5% extra.');", true);
+                        }
+                        else
+                        {
+                            if (PurchaseQty == Qty || (PurchaseQty > Qty && PurchaseQty <= ExtraQty))
+                            {
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
+                            }
+                            else
+                            {
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
+                            }
+                        }
                     }
                 }
-                //  Response.Redirect("Purchase_MaterialToBeDispatch.aspx");
-                DataSet dsTatDate = DAL.DalAccessUtility.GetDataInDataSet("select DispatchDate,EstId from EstimateAndMaterialOthersRelations where Sno='" + Sno + "'");
-                lbl.Text = dsTatDate.Tables[0].Rows[0]["DispatchDate"].ToString();
-                getMaterialDetails(dsTatDate.Tables[0].Rows[0]["EstId"].ToString());
-                //DisDate.Visible = false;
-                //lbl.Visible = true;
+                //DataSet dsTatDate = DAL.DalAccessUtility.GetDataInDataSet("select DispatchDate,EstId from EstimateAndMaterialOthersRelations where Sno='" + Sno + "'");
+                //lbl.Text = dsTatDate.Tables[0].Rows[0]["DispatchDate"].ToString();
+                getMaterialDetails(Request.QueryString["EstId"].ToString());
             }
 
             if (e.CommandName == "Tatitive")

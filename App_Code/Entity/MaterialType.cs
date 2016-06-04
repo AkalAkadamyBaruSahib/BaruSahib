@@ -4,22 +4,24 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-
 /// <summary>
-/// Summary description for PurchaseSource
+/// Summary description for MaterialType
 /// </summary>
-public class PurchaseSource
+public class MaterialType
 {
-    public PurchaseSource()
+    public MaterialType()
     {
-
+        //
+        // TODO: Add constructor logic here
+        //
     }
-    [Key()]
-    public int PSId { get; set; }
+     [Key()]
 
-    public string PSName { get; set; }
+    public int MatTypeId { get; set; }
 
-    public int Active { get; set; }
+    public string MatTypeName { get; set; }
+
+    public int? Active { get; set; }
 
     public DateTime? CreatedOn { get; set; }
 
@@ -28,7 +30,5 @@ public class PurchaseSource
     public DateTime? ModifyOn { get; set; }
 
     public string ModifyBy { get; set; }
-
-    public int? AssignToEmp { get; set; }
 
 }

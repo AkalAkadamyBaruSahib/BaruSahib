@@ -47,6 +47,8 @@ namespace AkalAcademy
         public DbSet<MaterialNonApprovedRate> MaterialNonApprovedRate { get; set; }
         public DbSet<POBillingAddress> POBillingAddress { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
+        public DbSet<MaterialType> MaterialType { get; set; }
+        public DbSet<Unit> Unit { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

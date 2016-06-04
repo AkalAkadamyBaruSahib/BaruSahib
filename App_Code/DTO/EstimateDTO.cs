@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Estimate
+/// Summary description for EstimateDTO
 /// </summary>
-public class Estimate
+public class EstimateDTO
 {
-    public Estimate()
-    {
-
-    }
-
-    [Key()]
-
     public int EstId { get; set; }
 
     public int ZoneId { get; set; }
@@ -26,23 +18,23 @@ public class Estimate
 
     public int TypeWorkId { get; set; }
 
-    public DateTime? SanctionDate { get; set; }
+    public string SanctionDate { get; set; }
 
     public int? Active { get; set; }
 
-    public int? CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
 
-    public DateTime? CreatedOn { get; set; }
+    public string CreatedOn { get; set; }
 
     public int ModifyBy { get; set; }
 
-    public DateTime? ModifyOn { get; set; }
+    public string ModifyOn { get; set; }
 
     public decimal EstmateCost { get; set; }
 
     public int WAId { get; set; }
 
-    public int? ShiftedStatus { get; set; }
+    public string ShiftedStatus { get; set; }
 
     public string FileNme { get; set; }
 
@@ -56,6 +48,6 @@ public class Estimate
 
     public bool IsActive { get; set; }
 
-    public List<EstimateAndMaterialOthersRelations> EstimateAndMaterialOthersRelations { get; set; }
-
+    public List<EstimateAndMaterialOthersRelationsDTO> EstimateAndMaterialOthersRelationsDTO { get; set; }
 }
+
