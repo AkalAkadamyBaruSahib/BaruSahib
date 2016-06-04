@@ -2,13 +2,12 @@
 
 <script type="text/javascript">
     function ClientSideClick(myButton) {
-        // Client side validation
+
         if (typeof (Page_ClientValidate) == 'function') {
             if (Page_ClientValidate() == false)
             { return false; }
         }
         if (myButton.getAttribute('type') == 'button') {
-            // diable the button
             myButton.disabled = true;
             myButton.className = "btn btn-success";
             myButton.value = "Please Wait...";
@@ -25,7 +24,6 @@
             <div class="box-header well" data-original-title>
                 <h2><i class="icon-edit"></i>Create Estimate</h2>
                 <div class="box-icon">
-                    <%--<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>--%>
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
                     <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                 </div>
@@ -69,14 +67,16 @@
                                     <label class="control-label" for="typeahead"></label>
 
                                     <div class="controls">
-                                        Zone   <br />
+                                        Zone  
+                                        <br />
                                         <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
                                             ControlToValidate="ddlZone" ErrorMessage="Please Select Any Zone" ForeColor="#ff0000"></asp:RequiredFieldValidator><br />
-                                        Zone Code :   <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
+                                        Zone Code :  
+                                        <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
 
                                     </div>
-                          </div>
+                                </div>
                             </td>
                             <td width="50%">
                                 <div class="control-group">
@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
                             </td>
-                      </tr>
+                        </tr>
                     </table>
 
                     <table width="100%">
