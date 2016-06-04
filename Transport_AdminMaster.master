@@ -144,6 +144,11 @@
                                     <li><a class="ajax-link" href="Transport_PertrolDieselPrice.aspx"><i></i><span class="hidden-tablet">Diesel/Petrol Price</span></a></li>
                                 </ul>
                             </li>
+                            <li id="li3" runat="server"><a class="dropmenu" href="#"><i><img src="img/pump.jpg" /></i><span class="hidden-tablet"><b> Documents</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="TransportDocumentUpload.aspx"><i></i><span class="hidden-tablet">Documents Upload</span></a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <!--/.well -->
