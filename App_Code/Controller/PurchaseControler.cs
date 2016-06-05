@@ -227,33 +227,19 @@ public class PurchaseControler : System.Web.Services.WebService
     [WebMethod]
     public void SaveEstimateDetail(Estimate estimate)
     {
-        Estimate estimateInfo = new Estimate();
 
-        estimateInfo.ZoneId = estimate.ZoneId;
-        estimateInfo.AcaId = estimate.AcaId;
-        estimateInfo.SubEstimate = estimate.SubEstimate;
-        estimateInfo.TypeWorkId = estimate.TypeWorkId;
-        estimateInfo.Active = estimate.Active;
-        estimateInfo.WAId = estimate.WAId;
-        estimateInfo.ModifyOn = DateTime.Now;
-        estimateInfo.Active = estimate.Active;
-        estimateInfo.CreatedOn = DateTime.Now;
-        estimateInfo.FilePath = estimate.FilePath;
-        estimateInfo.IsApproved = estimate.IsApproved;
-        estimateInfo.IsRejected = estimate.IsRejected;
-        estimateInfo.IsActive = estimate.IsActive;
-      
-        estimateInfo.EstimateAndMaterialOthersRelations = new List<EstimateAndMaterialOthersRelations>();
+        estimate.ModifyOn = DateTime.UtcNow;
+        estimate.CreatedOn = DateTime.UtcNow;
 
-        EstimateAndMaterialOthersRelations estimateandmaterialothersrelations = new EstimateAndMaterialOthersRelations();
-       
-        foreach (EstimateAndMaterialOthersRelations item in estimate.EstimateAndMaterialOthersRelations)
+
+        foreach (EstimateAndMaterialOthersRelations relation in estimate.EstimateAndMaterialOthersRelations)
         {
-           
+            relation.CreatedOn = DateTime.UtcNow;
+            relation.ModifyOn = DateTime.UtcNow;
         }
 
-        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        repository.SaveEstimateDetail(estimateInfo);
+        ConstructionUserRepository repository = new ConstructionUserRepository(new AkalAcademy.DataContext());
+        repository.SaveEstimate(estimate);
     }
 
     [WebMethod]

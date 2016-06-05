@@ -25,15 +25,14 @@ $(document).ready(function () {
     BindMaterialType();
 });
 
-function SaveEstimate()
-{
+function SaveEstimate() {
     var params = new Object();
     var Estimate = new Object();
 
-    
+
     Estimate.ZoneId = $("select[id*='ddlZone']").val();
-    Estimate.AcaId =  $("select[id*='ddlAcademy']").val();
-    Estimate.SubEstimate = $("input[id*='txtSubEstimate']").val(); 
+    Estimate.AcaId = $("select[id*='ddlAcademy']").val();
+    Estimate.SubEstimate = $("input[id*='txtSubEstimate']").val();
     Estimate.TypeWorkId = $("select[id*='ddlTypeOfWork']").val();
     Estimate.Active = 1;
     Estimate.WAId = $("select[id*='ddlWorkAllot']").val();
@@ -48,30 +47,34 @@ function SaveEstimate()
         }
         Estimate.FilePath = Estimate.FilePath.substr(0, Estimate.FilePath.length - 1);
     }
-   
+
     Estimate.IsApproved = true;
     Estimate.IsRejected = false;
     Estimate.IsActive = true;
-  
-    
     Estimate.EstimateAndMaterialOthersRelations = new Object();
+
+    var estimateAndMaterialOthersRelations = new Array();
+
     var tablelength = $("#tbody").children('tr').length;
-     for (var i = 0 ; tablelength ; i++) {
+
+    for (var i = 0 ; tablelength ; i++) {
+
         var EstimateAndMaterialOthersRelation = new Object();
         EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
-        EstimateAndMaterialOthersRelation.MatId = $tr.find('#materialname').val();
-        //  EstimateAndMaterialOthersRelation.MatTypeId = int.Parse(MaterialType);
-        EstimateAndMaterialOthersRelation.PSId = $("#sourcetype").val();
-        EstimateAndMaterialOthersRelation.Qty = $("#qty").val();
-        //EstimateAndMaterialOthersRelation.UnitId = $("#unit").val();
+        EstimateAndMaterialOthersRelation.MatId = $("#txtMatID" + i).val();
+        EstimateAndMaterialOthersRelation.MatTypeId = $("#txtMatTypeID").val();
+        EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
+        EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
+        EstimateAndMaterialOthersRelation.UnitId = $("#txtUnitID" + i).val();
         EstimateAndMaterialOthersRelation.Active = 1;
         EstimateAndMaterialOthersRelation.IsApproved = true;
         EstimateAndMaterialOthersRelation.VendorID = 0;
         EstimateAndMaterialOthersRelation.PurchaseQty = 0;
-        Estimate.EstimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
+        estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
     }
 
-      params.estimate = Estimate;
+    Estimate.EstimateAndMaterialOthersRelations = estimateAndMaterialOthersRelations;
+    params.estimate = Estimate;
 
     $.ajax({
         type: "POST",
@@ -140,11 +143,11 @@ function LoadEstimateInfo(selectedMaterialList) {
                         className = "warning";
                     }
                     var $newRow = $("#rowTemplate").clone();
-                    $newRow.find("#materialname").html("<span id='spnMatName" + i + "'>" + adminLoanList[i].MatName + "</span>");
-                    $newRow.find("#sourcetype").html("<table><tr><td><select id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select></td></tr></table>");
-                    $newRow.find("#qty").html("<table><tr><td><input type='text' id='txtQty' name='txtQty'></td></tr></table>");
-                    $newRow.find("#unit").html("<input type='hidden' value='" + adminLoanList[i].Unit.UnitID + "' id='txtUnitID" + i + "' />" + adminLoanList[i].Unit.UnitName);
-                    $newRow.find("#action").html("<table><tr><td><a href='#' onclick='MaterialItemToDelete(" + adminLoanList[i].MatID + ")'>Delete</a></td></tr></table>");
+                    $newRow.find("#materialname").html("<input type='hidden' value='" + adminLoanList[i].MatID + "' id='txtMatID" + i + "' />" + adminLoanList[i].MatName);
+                    $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeId + "' id='txtMatTypeID" + i + "' /><select id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
+                    $newRow.find("#qty").html("<input type='text' id='txtQty" + i + "' name='txtQty'>");
+                    $newRow.find("#unit").html("<input type='hidden' value='" + adminLoanList[i].Unit.UnitId + "' id='txtUnitID" + i + "' />" + adminLoanList[i].Unit.UnitName);
+                    $newRow.find("#action").html("<a href='#' onclick='MaterialItemToDelete(" + adminLoanList[i].MatID + ")'>Delete</a>");
                     $newRow.addClass(className);
                     $newRow.show();
 
@@ -159,12 +162,13 @@ function LoadEstimateInfo(selectedMaterialList) {
                 }
                 grdEstimateDiscription = $('#grid').DataTable(
                 {
-                    "bPaginate": true,
+                    "bPaginate": false,
                     "iDisplayLength": 20,
                     "sPaginationType": "full_numbers",
                     "bAutoWidth": false,
                     "bLengthChange": false,
-                    "bDestroy": true
+                    "bDestroy": true,
+                    "bSearchable": false
 
                 });
             }
