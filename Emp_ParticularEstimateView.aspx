@@ -151,7 +151,7 @@
                                     <td colspan="2" width="50%">
                                         <div id="pnlPdf" runat="server"></div>
                                         <%--<asp:GridView ID="GridView1" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" OnRowDataBound="GridView1_RowDataBound" Visible="false"></asp:GridView>--%>
-                                        <asp:Button ID="btnPdf" runat="server" Text="Estimate Download" CssClass="btn btn-primary" Width="320px" Height="40px" Font-Bold="True" Font-Size="16pt" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details in PDF" data-rel="tooltip" OnClick="btnPdf_Click" />
+                                        <asp:Button ID="btnPdf" runat="server" Text="Estimate Download" CssClass="btn btn-primary" Width="160px" Height="40px" Font-Bold="True" Font-Size="12pt" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details in PDF" data-rel="tooltip" OnClick="btnPdf_Click" />
                                         <%--  onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" --%>
                                     </td>
                                 </tr>

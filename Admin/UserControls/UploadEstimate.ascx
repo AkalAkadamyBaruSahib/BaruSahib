@@ -1,4 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UploadEstimate.ascx.cs" Inherits="Admin_UserControls_UploadEstimate" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UploadEstimate.ascx.cs"
+    Inherits="Admin_UserControls_UploadEstimate" %>
 
 <script type="text/javascript">
     function ClientSideClick(myButton) {
@@ -14,11 +15,15 @@
         }
         return true;
     }
+  
+
 </script>
 <div id="content" class="span10">
     <asp:HiddenField ID="hdnEstimateID" runat="server" />
     <asp:HiddenField ID="hdnSelectedItems" runat="server" />
     <asp:HiddenField ID="hdnItemsLength" runat="server" />
+    <asp:HiddenField ID="hdnIsAdmin" runat="server" />
+    <asp:HiddenField ID="hdnInchargeID" runat="server" />
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
@@ -29,25 +34,26 @@
                 </div>
             </div>
             <fieldset>
+                <legend></legend>
+                <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="visitor" />
                 <div class="box-content">
-
                     <table width="100%">
                         <tr>
                             <td width="50%" colspan="2">
                                 <div class="control-group">
                                     <h2>
-                                        <asp:Label runat="server" ID="lblWorkNameReflect" Visible="false"></asp:Label></h2>
+                                        <label id="lblWorkNameReflect"></label>
                                 </div>
                             </td>
 
                         </tr>
-                        <tr id="trEstimateNo" runat="server">
+                        <tr id="trEstimateNo" runat="server" visible="false">
                             <td width="50%">
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
                                         Estimate No.
-								                <asp:Label ID="lblEstimateNo" runat="server"></asp:Label>
+								                <asp:Label ID="lblEstimateNo" runat="server" Visible="false"></asp:Label>
                                         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
                                     </div>
                                 </div>
@@ -61,20 +67,17 @@
                             </td>
                         </tr>
                         <tr id="trZone" runat="server">
-
                             <td width="50%">
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead"></label>
-
                                     <div class="controls">
-                                        Zone  
+                                        Zone 
                                         <br />
-                                        <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
+                                        <asp:DropDownList ID="ddlZone" runat="server">
+                                            <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator runat="server" InitialValue="0" Display="None" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
                                             ControlToValidate="ddlZone" ErrorMessage="Please Select Any Zone" ForeColor="#ff0000"></asp:RequiredFieldValidator><br />
-                                        Zone Code :  
-                                        <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
-
                                     </div>
                                 </div>
                             </td>
@@ -84,31 +87,29 @@
                                     <div class="controls">
                                         Academy
                                                     <br />
-                                        <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList>
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ForeColor="#ff0000" ID="ddlAcademy_RequiredFieldValidator"
+                                        <asp:DropDownList ID="ddlAcademy" runat="server">
+                                            <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" InitialValue="0" ForeColor="#ff0000" ID="ddlAcademy_RequiredFieldValidator"
                                             ControlToValidate="ddlAcademy" ErrorMessage="Please Select Any Academy" /><br />
-                                        Academy Code :
-                                                    <asp:Label runat="server" ID="lblAcaCode"></asp:Label>
                                     </div>
-
                                 </div>
                             </td>
-
                         </tr>
                         <tr>
-                            <td colspan="2" runat="server" visible="false" id="tdWorkAllot">
+                            <td colspan="2" id="tdWorkAllot">
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
                                         Select Work Allot
-                                                    <br />
-                                        <asp:DropDownList ID="ddlWorkAllot" runat="server" Width="500px" AutoPostBack="true" OnSelectedIndexChanged="ddlWorkAllot_SelectedIndexChanged"></asp:DropDownList>
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="ddlWorkAllot_RequiredFieldValidator"
+                                        <br />
+                                        <asp:DropDownList ID="ddlWorkAllot" runat="server" Width="500px">
+                                            <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" InitialValue="0" ID="ddlWorkAllot_RequiredFieldValidator"
                                             ControlToValidate="ddlWorkAllot" ForeColor="#ff0000" ErrorMessage="Please Select Any Work" />
                                         <br />
-
                                     </div>
-
                                 </div>
                             </td>
                         </tr>
@@ -119,9 +120,8 @@
                                     <div class="controls">
                                         Sub Estimate
 								                <asp:TextBox ID="txtSubEstimate" runat="server" CssClass="span6 typeahead" Width="910px"></asp:TextBox>
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="txtSubEstimate_RequiredFieldValidator"
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" ID="txtSubEstimate_RequiredFieldValidator"
                                             ControlToValidate="txtSubEstimate" ForeColor="#ff0000" ErrorMessage="Please Enter The Sub Estimate" />
-
                                     </div>
                                 </div>
                             </td>
@@ -141,7 +141,7 @@
                                         Type Of work
                                                     <br />
                                         <asp:DropDownList ID="ddlTypeOfWork" runat="server"></asp:DropDownList>
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="ddlTypeOfWork_RequiredFieldValidator"
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" ID="ddlTypeOfWork_RequiredFieldValidator"
                                             ControlToValidate="ddlTypeOfWork" ForeColor="#ff0000" ErrorMessage="Please Select Any Type Of Work" />
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                         File Name
                                                     <br />
                                         <asp:TextBox runat="server" ID="txtFileName"></asp:TextBox>
-                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" ID="txtFileName_RequiredFieldValidator"
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" ID="txtFileName_RequiredFieldValidator"
                                             ControlToValidate="txtFileName" Visible="false" ForeColor="#ff0000" ErrorMessage="Please Enter The File Name" />
                                     </div>
                                 </div>
@@ -196,7 +196,8 @@
 
                     </table>
 
-                    <table style="width: 100%" border="1">
+                    <table style="width: 100%" border="0">
+
                         <tr>
                             <td width="50%">
                                 <div class="control-group">
@@ -204,7 +205,9 @@
                                     <div class="controls">
                                         Select  Material Type
                                         <br />
-                                        <select id="drpMaterialType" multiple="multiple" style="width: 400px; height: 150px;"></select>
+                                        <%--<input type="text" name="txtMaterial" id="txtMaterial" />--%>
+                                        <select id="drpMaterialType" multiple="multiple" style="width: 400px; height: 150px;">
+                                        </select>
                                     </div>
                                 </div>
                             </td>
@@ -216,37 +219,60 @@
                                         <br />
                                         <select id="drpMaterialName" multiple="multiple" style="width: 400px; height: 150px;"></select>
                                         <br />
-                                        <asp:Button ID="btnloadMaterials" Text="Load" CssClass="btn btn-success" runat="server" />
+                                        <asp:Button ID="btnloadMaterials" Text="Load Material" CssClass="btn btn-success" runat="server" />
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr id="trEstimateDetail">
-                            <td colspan="2">
 
-                                <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                    </table>
+                </div>
+                <div class="row-fluid sortable">
+                    <div class="box span12">
+                        <div class="box-content">
+                            <div id="trEstimateDetail">
+
+                                <table id="grid" style="width: 1000px;" class='table table-striped table-bordered bootstrap-datatable datatable'>
                                     <thead>
                                         <tr>
-                                            <th style="color: #cc3300;">Material Name</th>
-                                            <th style="color: #cc3300;">Source Type</th>
-                                            <th style="color: #cc3300;">Quantity</th>
-                                            <th style="color: #cc3300;">Unit</th>
-                                            <th style="color: #cc3300;">Action</th>
+                                            <th style="color: #cc3300; width:344px;">MaterialName</th>
+                                            <th style="color: #cc3300; width: 239px;">Source Type</th>
+                                            <th style="color: #cc3300; width: 120px;">Quantity</th>
+                                            <th style="color: #cc3300; width: 28px;">Unit</th>
+                                            <th style="color: #cc3300; width: 121px">Rate</th>
+                                            <th style="color: #cc3300; width: 45px;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody">
                                     </tbody>
                                 </table>
-
-                            </td>
-                        </tr>
-                    </table>
+                               
+                                  <input type="button" id="btnTotalCost" value="Toatl Amount" title="Toatl Amount" style="margin-right: 590px;float: right;" class="btn btn-success" />
+                                  <asp:Label ID="lblAmt" runat="server" ForeColor="Red" style="margin-right: 490px;float: right; margin-top: -23px;" Text="00.00"></asp:Label>
+                                 <%--  <label id="lblAmt"></label>--%>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-actions" style="text-align: center">
-                    <asp:Button ID="btnSubEstimate" Width="200px" Height="40px" Text="Submit Estimate" ValidationGroup="visitor" CssClass="btn btn-success" runat="server" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" BackColor="Green" Font-Bold="True" Font-Size="16pt" ForeColor="Black" />
+                    <%--<asp:Button ID="btnSubEstimate" Width="200px" Height="40px" Text="Submit Estimate" CssClass="btn btn-success" runat="server" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" BackColor="Green" Font-Bold="True" Font-Size="16pt" ForeColor="Black" />--%>
+                    <input type="button" id="btnSubEstimate" value="Submit Estimate" title="Submit Estimate" class="btn btn-success" />
                 </div>
             </fieldset>
         </div>
     </div>
 </div>
+<div style="display: none" id="progress">
+        <table style="text-align:center">
+            <tr>
+                <td style="text-align:center">
+                    <img src="img/animated.gif" />
+                </td>
+            </tr>
+            <tr>
+                <td>Wait while estimate is uploading....
+                </td>
+            </tr>
+        </table>
+    </div>

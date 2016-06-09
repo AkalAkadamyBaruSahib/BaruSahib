@@ -132,7 +132,6 @@
                             <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet"> Tickets</span></a></li>
                             <li><a class="ajax-link" href="Emp_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>
                             <li><a class="ajax-link" href="Emp_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
-                              <li><a class="ajax-link" href="AddEstimate.aspx"><i class="icon-edit"></i><span class="hidden-tablet">New Estimate Page</span></a></li>
                         </ul>
 
                     </div>

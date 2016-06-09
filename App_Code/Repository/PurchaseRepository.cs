@@ -85,7 +85,9 @@ public class PurchaseRepository
         {
             MatID = x.MatId,
             MatName = x.MatName,
+            MatTypeID = x.MatTypeId,
             Unit = x.Unit,
+          
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
         return mt;
     }
@@ -304,12 +306,12 @@ public class PurchaseRepository
 
     public List<MaterialType> GetBindMaterialType()
     {
-        return _context.MaterialType.ToList();
+        return _context.MaterialType.OrderBy(x=>x.MatTypeName).ToList();
     }
 
     public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
     {
-        return _context.Material.Where(x => x.MatTypeId == MatTypeID).ToList();
+        return _context.Material.Where(x => x.MatTypeId == MatTypeID).OrderBy(x=>x.MatName).ToList();
     }
 
     public List<Material> GeMaterialInformation(int MaterialID)
@@ -317,16 +319,49 @@ public class PurchaseRepository
         return _context.Material.Where(x => x.MatId == MaterialID).ToList();
     }
 
-    public void SaveEstimateDetail(Estimate estimate)
+    public int SaveEstimateDetail(Estimate estimate)
     {
-        _context.Entry(estimate).State = EntityState.Added;
+        _context.Estimate.Add(estimate);
         _context.SaveChanges();
 
+        return estimate.EstId;
     }
 
-    public void GetDeleteMaterialsItem(int MatID)
+    public List<Zone> GetZone()
     {
-        Material DelMaterial = _context.Material.Where(v => v.MatId == MatID).FirstOrDefault();
+        return _context.Zone.ToList();
+    }
+
+    public List<Academy> GetAcademybyZoneID(int ZoneID)
+    {
+        return _context.Academy.Where(x => x.ZoneId == ZoneID).ToList();
+    }
+
+    public List<WorkAllot> GetWorkAllotByAcademyID(int AcademyID)
+    {
+        return _context.WorkAllot.Where(x => x.AcaId == AcademyID).ToList();
+    }
+
+    public List<Zone> GetZoneByInchargeID(int InchargeID)
+    {
+        var Zones = (from z in _context.Zone
+                     join AAE in _context.AcademyAssignToEmployee on z.ZoneId equals AAE.ZoneId
+                     where AAE.EmpId == InchargeID
+                     select new
+                     {
+                         ZoneId = z.ZoneId,
+                         ZoneName = z.ZoneName,
+
+                     }).AsEnumerable().Select(x => new Zone
+                 {
+                     ZoneId = x.ZoneId,
+                     ZoneName = x.ZoneName,
+                 }).OrderBy(m => m.ZoneName).ToList();
+
+        Zones = Zones.GroupBy(test => test.ZoneId)
+                   .Select(grp => grp.First())
+                   .ToList();
+        return Zones;
     }
 
 }

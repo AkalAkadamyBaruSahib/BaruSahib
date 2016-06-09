@@ -224,42 +224,49 @@ public class PurchaseControler : System.Web.Services.WebService
         return repository.GetPurchaseSource();
     }
 
+
     [WebMethod]
-    public void SaveEstimateDetail(Estimate estimate)
+    public int SaveEstimateDetail(Estimate estimate)
     {
-        Estimate estimateInfo = new Estimate();
+        estimate.ModifyOn = DateTime.UtcNow;
+        estimate.CreatedOn = DateTime.UtcNow;
 
-        estimateInfo.ZoneId = estimate.ZoneId;
-        estimateInfo.AcaId = estimate.AcaId;
-        estimateInfo.SubEstimate = estimate.SubEstimate;
-        estimateInfo.TypeWorkId = estimate.TypeWorkId;
-        estimateInfo.Active = estimate.Active;
-        estimateInfo.WAId = estimate.WAId;
-        estimateInfo.ModifyOn = DateTime.Now;
-        estimateInfo.Active = estimate.Active;
-        estimateInfo.CreatedOn = DateTime.Now;
-        estimateInfo.FilePath = estimate.FilePath;
-        estimateInfo.IsApproved = estimate.IsApproved;
-        estimateInfo.IsRejected = estimate.IsRejected;
-        estimateInfo.IsActive = estimate.IsActive;
-      
-        estimateInfo.EstimateAndMaterialOthersRelations = new List<EstimateAndMaterialOthersRelations>();
-
-        EstimateAndMaterialOthersRelations estimateandmaterialothersrelations = new EstimateAndMaterialOthersRelations();
-       
-        foreach (EstimateAndMaterialOthersRelations item in estimate.EstimateAndMaterialOthersRelations)
+        foreach (EstimateAndMaterialOthersRelations relation in estimate.EstimateAndMaterialOthersRelations)
         {
-           
+            relation.CreatedOn = DateTime.UtcNow;
+            relation.ModifyOn = DateTime.UtcNow;
         }
 
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        repository.SaveEstimateDetail(estimateInfo);
+        return repository.SaveEstimateDetail(estimate);
     }
 
     [WebMethod]
-    public void GetDeleteMaterialsItem(int MatID)
+    public List<Zone> GetZone()
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        repository.GetDeleteMaterialsItem(MatID);
+        return repository.GetZone();
+    }
+
+    [WebMethod]
+    public List<Academy> GetAcademybyZoneID(int ZoneID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetAcademybyZoneID(ZoneID);
+    }
+
+
+    [WebMethod]
+    public List<WorkAllot> GetWorkAllotByAcademyID(int AcademyID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetWorkAllotByAcademyID(AcademyID);
+    }
+
+    [WebMethod]
+    public List<Zone> GetZoneByInchargeID(int InchargeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetZoneByInchargeID(InchargeID);
     }
 }

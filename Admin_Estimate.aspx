@@ -1,10 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin_Estimate.aspx.cs" Inherits="Admin_Estimate" %>
 
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
-<%@ Register Src="~/Admin/UserControls/BodyUploadEstimate.ascx" TagPrefix="uc1" TagName="BodyUploadEstimate" %>
-
+<%@ Register Src="~/Admin/UserControls/UploadEstimate.ascx" TagPrefix="uc1" TagName="UploadEstimate" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <uc1:BodyUploadEstimate runat="server" ID="BodyUploadEstimate" />
+    <script src="JavaScripts/EstimateUpload.js"></script>
+    <uc1:UploadEstimate runat="server" ID="UploadEstimate" />
 </asp:Content>
 
