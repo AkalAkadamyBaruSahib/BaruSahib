@@ -33,7 +33,7 @@ public class StoreRepository
     {
         return (from ven in _context.VendorInfo
                 join vm in _context.VendorMaterialRelation on ven.ID equals vm.VendorID
-                where vm.MatID == matID
+                //where vm.MatID == matID
                 select new
                 {
                     ID = ven.ID,

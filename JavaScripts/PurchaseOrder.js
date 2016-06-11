@@ -75,6 +75,7 @@ $(document).ready(function () {
       $("[id$='lblFreight']").html(FreightVal);
       $("input[id*='hdnFreight']").val(FreightVal);
     });
+  
    
 });
 
@@ -273,11 +274,10 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         $newRow.find("#details").html(adminLoanList[i].Material.MatName);
         $newRow.find("#unitprice").html(adminLoanList[i].Rate);
         var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
-        $newRow.find("#linetotal").html(linetotal);
+        $newRow.find("#linetotal").html("<input type='hidden' value='" + linetotal + "' id='txtlineTotal" + i + "' />" + linetotal);
         count++;
         sum += linetotal;
-        ($("[id$='lblSubTotal']").html(sum));
-        $("input[id*='hdnSubTotal']").val(sum);
+
         $newRow.addClass(className);
         $newRow.show();
 
@@ -289,6 +289,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         }
         $("#grid").removeAttr("style");
     }
+
     grdTicketDiscription = $('#grid').DataTable(
         {
             "bPaginate": true,
@@ -300,6 +301,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
             "bDestroy": true
 
         });
+    TotalAmt();
 }
 
 function GetVendorAddress(selectedValue) {
@@ -436,6 +438,17 @@ function GetBillingAddressInfo(selectedValue) {
     });
 }
 
+function TotalAmt() {
+    var tablelength = $("#tbody").children('tr').length;
+    var Amt = 0;
+    var rate = 0;
+    for (var i = 0 ; i < tablelength ; i++) {
+        var qty = $("#txtlineTotal" + i).val();
+        Amt += parseInt(qty);
+    }
+    $("[id$='lblSubTotal']").html(Amt);
+    $("input[id*='hdnSubTotal']").val(Amt);
+}
 
 
 

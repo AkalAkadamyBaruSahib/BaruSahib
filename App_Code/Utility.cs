@@ -8,6 +8,10 @@ using System.Configuration;
 using System.Text;
 using System.IO;
 using System.Data;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
 
 /// <summary>
 /// Summary description for Utility
@@ -429,10 +433,48 @@ public static class Utility
 
     }
 
-    public static void GeneratePONumber()
+    public static void GeneratePDF(string html, string fileName)
     {
- 
+        HttpContext.Current.Response.ContentType = "application/pdf";
+        HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+        var pdfBytes = (new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(html);
+        HttpContext.Current.Response.BinaryWrite(pdfBytes);
+        HttpContext.Current.Response.End();
     }
+
+
+    //public byte[] GetPDF(string pHTML)
+    //{
+    //    byte[] bPDF = null;
+
+    //    MemoryStream ms = new MemoryStream();
+    //    TextReader txtReader = new StringReader(pHTML);
+
+    //    // 1: create object of a itextsharp document class
+    //    Document doc = new Document(PageSize.A4, 25, 25, 25, 25);
+
+    //    // 2: we create a itextsharp pdfwriter that listens to the document and directs a XML-stream to a file
+    //    PdfWriter oPdfWriter = PdfWriter.GetInstance(doc, ms);
+
+    //    // 3: we create a worker parse the document
+    //    HTMLWorker htmlWorker = new HTMLWorker(doc);
+
+    //    // 4: we open document and start the worker on the document
+    //    doc.Open();
+    //    htmlWorker.StartDocument();
+
+    //    // 5: parse the html into the document
+    //    htmlWorker.Parse(txtReader);
+
+    //    // 6: close the document and the worker
+    //    htmlWorker.EndDocument();
+    //    htmlWorker.Close();
+    //    doc.Close();
+
+    //    bPDF = ms.ToArray();
+
+    //    return bPDF;
+    //}
 
 
 }

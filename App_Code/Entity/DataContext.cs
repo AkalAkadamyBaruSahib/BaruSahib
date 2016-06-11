@@ -49,6 +49,7 @@ namespace AkalAcademy
         public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
         public DbSet<MaterialType> MaterialType { get; set; }
         public DbSet<Unit> Unit { get; set; }
+        public DbSet<WorkAllot> WorkAllot { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

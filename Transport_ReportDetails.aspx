@@ -70,7 +70,7 @@
             </div>
 
         </div>
-        <asp:Button ID="Button1" runat="server" Text="Click To Download Execl" OnClientClick="test();" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
+        <asp:Button ID="Button1" runat="server" Text="Click To Download Excel" OnClientClick="test();" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
     </div>
 </asp:Content>
 

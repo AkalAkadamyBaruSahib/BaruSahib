@@ -13,27 +13,25 @@ public class EstimateSignedCopyHandler : IHttpHandler {
             if (!System.IO.Directory.Exists(path))
                 System.IO.Directory.CreateDirectory(path);
 
+            string fileName = string.Empty;
+            string databasePath = string.Empty;
             var file = context.Request.Files;
-
+            var estID = context.Request.QueryString["EstId"];
             for (int i = 0; i < file.Count; i++)
             {
-                string fileName;
 
-                if (HttpContext.Current.Request.Browser.Browser.ToUpper() == "IE")
-                {
-                    string[] files = file[i].FileName.Split(new char[] { '\\' });
-                    fileName = files[files.Length - 1];
-                }
-                else
-                {
-                    fileName = file[i].FileName;
-                }
-                string strFileName = fileName;
-                fileName = System.IO.Path.Combine(path, fileName);
+                string ext = System.IO.Path.GetExtension(file[i].FileName).Trim();
+
+                string strFileName = estID + "_Signcopy_" + (i + 1) + ext;
+                fileName = System.IO.Path.Combine(path, strFileName);
 
                 file[i].SaveAs(fileName);
+
+                databasePath += "EstFile/" + strFileName + ",";
             }
 
+            databasePath = databasePath.Substring(0, databasePath.Length - 1);
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set FilePath='" + databasePath + "' where estid=" + estID);
         }
     }
 

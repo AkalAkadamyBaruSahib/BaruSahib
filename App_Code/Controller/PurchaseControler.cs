@@ -224,13 +224,12 @@ public class PurchaseControler : System.Web.Services.WebService
         return repository.GetPurchaseSource();
     }
 
-    [WebMethod]
-    public void SaveEstimateDetail(Estimate estimate)
-    {
 
+    [WebMethod]
+    public int SaveEstimateDetail(Estimate estimate)
+    {
         estimate.ModifyOn = DateTime.UtcNow;
         estimate.CreatedOn = DateTime.UtcNow;
-
 
         foreach (EstimateAndMaterialOthersRelations relation in estimate.EstimateAndMaterialOthersRelations)
         {
@@ -238,14 +237,36 @@ public class PurchaseControler : System.Web.Services.WebService
             relation.ModifyOn = DateTime.UtcNow;
         }
 
-        ConstructionUserRepository repository = new ConstructionUserRepository(new AkalAcademy.DataContext());
-        repository.SaveEstimate(estimate);
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.SaveEstimateDetail(estimate);
     }
 
     [WebMethod]
-    public void GetDeleteMaterialsItem(int MatID)
+    public List<Zone> GetZone()
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        repository.GetDeleteMaterialsItem(MatID);
+        return repository.GetZone();
+    }
+
+    [WebMethod]
+    public List<Academy> GetAcademybyZoneID(int ZoneID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetAcademybyZoneID(ZoneID);
+    }
+
+
+    [WebMethod]
+    public List<WorkAllot> GetWorkAllotByAcademyID(int AcademyID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetWorkAllotByAcademyID(AcademyID);
+    }
+
+    [WebMethod]
+    public List<Zone> GetZoneByInchargeID(int InchargeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetZoneByInchargeID(InchargeID);
     }
 }
