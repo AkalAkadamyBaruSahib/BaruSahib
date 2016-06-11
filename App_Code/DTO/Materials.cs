@@ -12,5 +12,6 @@ public class MaterialsDTO
     public String MatName { get; set; }
     public int? MatTypeID { get; set; }
     public Unit Unit { get; set; }
+    public decimal? MatCost { get; set; }
     public MaterialType MaterialType { get; set; }
 }

@@ -10,11 +10,13 @@ $(document).ready(function () {
     AutofillMaterialSearchBox();
 
     $("input[id*='btnloadMaterials']").click(function (e) {
+        
         LoadMaterials();
         LoadEstimateInfo(selectedMaterialList);
         return false;
+       
     });
-
+ 
     $("input[id*='hdnEstimateID']").val();
 
     $("#drpMaterialType").change(function () {
@@ -22,10 +24,14 @@ $(document).ready(function () {
     });
 
     $("#btnSubEstimate").click(function (e) {
+        
         if (Page_ClientValidate("visitor")) {
-            SaveEstimate();
+            if (Validation()) {
+                ClientSideClick(this);
+                SaveEstimate();
+            }
         }
-     });
+    });
 
     $("#trEstimateDetail").hide();
 
@@ -61,9 +67,35 @@ $(document).ready(function () {
     }
 });
 
+function Validation() {
+    if ($("#fileUploadSignedCopy")[0].files.length == 0) {
+        alert("Please Upload the File");
+        return false;
+    }
+    else {
+        var fileSize = $("#fileUploadSignedCopy")[0].files[0].size;
+        if (fileSize > 1048576) {
+            alert("File Size Greater than 1 mb");
+            return false;
+        }
+    }
+
+    var tablelength = $("#tbody").children('tr').length;
+    for (var i = 0 ; i < tablelength ; i++) {
+        if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
+            alert("Please Select the Source Type");
+            return false;
+        }
+        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
+            alert("Please Enter the Qty");
+            return false;
+        }
+    }
+}
+
 function SaveEstimate() {
-    $("#progress").dialog({ modal: true, width: 300, height: 200, title: "Progress", closeOnEscape: false });
-    $("#progress").dialog('open');
+    //$("#progress").dialog({ modal: true, width: 300, height: 200, title: "Progress", closeOnEscape: false });
+    //$("#progress").dialog('open');
 
     var params = new Object();
     var Estimate = new Object();
@@ -76,18 +108,9 @@ function SaveEstimate() {
     Estimate.Active = 1;
     Estimate.WAId = $("select[id*='ddlWorkAllot']").val();
     Estimate.FileNme = $("input[id*='txtFileName']").val();
-    var fileUploadSignedCopy = $("#fileUploadSignedCopy")[0].files;
     Estimate.CreatedBy = $("input[id*='hdnInchargeID']").val();
     Estimate.ModifyBy = $("input[id*='hdnInchargeID']").val();
-    if ($("#fileUploadSignedCopy")[0].files.length == 0) {
-        alert("Please Upload the File");
-        $("#progress").dialog('close');
-        return false;
-    }
-    else {
-        Estimate.FilePath = "";
-
-    }
+    Estimate.FilePath = "";
     if ($("input[id*='hdnIsAdmin']").val() == 1) {
         Estimate.IsApproved = true;
     }
@@ -108,24 +131,17 @@ function SaveEstimate() {
         EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
         EstimateAndMaterialOthersRelation.MatId = $("#txtMatID" + i).val();
         EstimateAndMaterialOthersRelation.MatTypeId = $("#txtMatTypeID" + i).val();
-        if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
-            alert("Please Select the Source Type");
-            $("#progress").dialog('close');
-            return false;
-        }
-        else {
-            EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
-        }
+        EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
+      
         if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
-            alert("Please Enter the Qty");
-            $("#progress").dialog('close');
-            return false;
+             EstimateAndMaterialOthersRelation.Qty = 0;
         }
         else {
-            EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
+           EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
         }
+
         if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0") {
-            EstimateAndMaterialOthersRelation.Rate = "0";
+            EstimateAndMaterialOthersRelation.Rate = 0;
         }
         else {
             EstimateAndMaterialOthersRelation.Rate = $("#txtRate" + i).val();
@@ -218,11 +234,11 @@ function LoadEstimateInfo(selectedMaterialList) {
                         }
                         var $newRow = $("#rowTemplate").clone();
                         $newRow.find("#materialname").html("<input type='hidden' value='" + adminLoanList[i].MatID + "' id='txtMatID" + i + "' />" + adminLoanList[i].MatName);
-                        $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeID + "' id='txtMatTypeID" + i + "' /><select id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
+                        $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeID + "' id='txtMatTypeID" + i + "' /><select onchange='BindRateBySourceType(" + adminLoanList[i].MatTypeID + ")' id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
                         $newRow.find("#qty").html("<input style='width:100px;' type='text' id='txtQty" + i + "' name='txtQty'>");
                         $newRow.find("#unit").html("<input type='hidden' value='" + adminLoanList[i].Unit.UnitId + "' id='txtUnitID" + i + "' />" + adminLoanList[i].Unit.UnitName);
-                        $newRow.find("#rate").html("<input style='width:100px;' value='0.00' type='text' id='txtRate" + i + "' name='txtRate'>");
-                        $newRow.find("#action").html("<a  href='#' onclick='MaterialRowToDelete($(this))'>Delete</a>");
+                        $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].MatCost + "' id='txtMatCost" + i + "' /><input style='width:100px;' value='0.00' type='text' id='txtRate" + i + "' name='txtRate'>");
+                        $newRow.find("#action").html("<a  href='#' onclick='return MaterialRowToDelete($(this))'>Delete</a>");
                         $newRow.addClass(className);
                         $newRow.show();
 
@@ -324,8 +340,7 @@ function BindMaterialName(selctMaterialType) {
 }
 
 function SignedCopyFileUpload(estid) {
-
-    var files = $("#fileUploadSignedCopy")[0].files;
+   var files = $("input[id*='fileUploadSignedCopy']")[0].files;
 
     var data = new FormData();
     for (var i = 0; i < files.length; i++) {
@@ -340,6 +355,8 @@ function SignedCopyFileUpload(estid) {
         contentType: false,
         processData: false,
         success: function (result) {
+            //$("#progress").dialog('close');
+            alert("Estimate Create Successfuly");
             window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
         },
         error: function (err) {
@@ -471,14 +488,18 @@ function TotalAmt() {
     var tablelength = $("#tbody").children('tr').length;
     var Amt = 0;
     var rate = 0;
+    var qty = 0;
     for (var i = 0 ; i < tablelength ; i++) {
-
+        if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
+            alert("Please Select the Source Type");
+            return false;
+        }
         if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
             alert("Please Enter the Qty");
             return false;
         }
         else {
-            var qty = $("#txtQty" + i).val();
+            qty = $("#txtQty" + i).val();
         }
 
         if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0") {
@@ -487,18 +508,52 @@ function TotalAmt() {
         else {
             rate = $("#txtRate" + i).val();
         }
+
         Amt += parseInt(qty) * parseInt(rate);
     }
     $("[id$='lblAmt']").html(Amt);
 }
 
-//function BindRateBySourceType()
-//{
-//    $("#drpSourceType").change(function (e)
-//    {
-//        if ($("#drpSourceType" + i).val() == "2")
-//        { }
-//        else
-//        { }
-//    });
-//}
+function BindRateBySourceType()
+{
+    var matcost = 0;
+    var tablelength = $("#tbody").children('tr').length;
+    for (var i = 0 ; i < tablelength ; i++) {
+        if ($("#drpSourceType" + i).val() == "2") {
+          matcost =  $("#txtMatCost" + i).val();
+          $("#txtRate" + i).val(matcost);
+        }
+        else {
+            $("#txtRate" + i).val('0.00');
+        }
+    }
+}
+
+
+function Validation() {
+    if ($("#drpMaterialType").length == "0")
+    {
+        alert("Please Select the Material Type");
+        return false;
+    }
+    else if ($("#drpMaterialName").length == "0") {
+        alert("Please Select the Material Names");
+        return false;
+    }
+    else {
+        return true;
+    }
+
+    var tablelength = $("#tbody").children('tr').length;
+    for (var i = 0 ; i < tablelength ; i++) {
+        if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
+            alert("Please Select the Source Type");
+            return false;
+        }
+        else if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
+            alert("Please Enter the Qty");
+            return false;
+        }
+    }
+    return true;
+}

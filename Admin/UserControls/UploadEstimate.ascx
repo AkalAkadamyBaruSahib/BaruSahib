@@ -15,6 +15,18 @@
         }
         return true;
     }
+
+    function validateFileSize() {
+        var uploadControl = document.getElementById('<%= fileUploadSignedCopy.ClientID%>').files[0].size;
+          if (uploadControl > 1048576) {
+              document.getElementById('dvMsg').style.display = "block";
+              return false;
+          }
+          else {
+              document.getElementById('dvMsg').style.display = "none";
+              return true;
+          }
+      }
   
 
 </script>
@@ -177,7 +189,8 @@
                                                     <br />
                                         <asp:TextBox runat="server" ID="txtFileName"></asp:TextBox>
                                         <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" ID="txtFileName_RequiredFieldValidator"
-                                            ControlToValidate="txtFileName" Visible="false" ForeColor="#ff0000" ErrorMessage="Please Enter The File Name" />
+                                            ControlToValidate="txtFileName" ForeColor="#ff0000" ErrorMessage="Please Enter The File Name" />
+                                        <div id="dvMsg" style="color:Red; width:190px;float: right; margin-right: -395px; padding:3px; display:none;" >Maximum size allowed Less than is 1 MB                                   
                                     </div>
                                 </div>
                             </td>
@@ -188,8 +201,9 @@
                                     <div class="controls">
                                         Upload File
                                         <br />
-                                        <input type="file" id="fileUploadSignedCopy" multiple="multiple" />
-                                    </div>
+                                        <asp:FileUpload ID="fileUploadSignedCopy" runat="server" AllowMultiple="true" onchange="validateFileSize();" />
+                                             <asp:RequiredFieldValidator ID="RequiredFieldValidatorphoto" ControlToValidate="fileUploadSignedCopy" runat="server" ValidationGroup="visitor" Display="None" ErrorMessage="Please Upload the File" ></asp:RequiredFieldValidator>
+                                       </div>
                                 </div>
                             </td>
                         </tr>
@@ -247,8 +261,9 @@
                                     </tbody>
                                 </table>
                                
-                                  <input type="button" id="btnTotalCost" value="Toatl Amount" title="Toatl Amount" style="margin-right: 590px;float: right;" class="btn btn-success" />
-                                  <asp:Label ID="lblAmt" runat="server" ForeColor="Red" style="margin-right: 490px;float: right; margin-top: -23px;" Text="00.00"></asp:Label>
+                                  <input type="button" id="btnTotalCost" value="Toatl Amount"  title="Toatl Amount" style="margin-right: 180px;float: right;" class="btn btn-success" />
+                                 <asp:Label ID="Label1" runat="server" ForeColor="Red" style="margin-right: 125px;float: right; margin-top: -23px;">Estimate Cost:</asp:Label>
+                                  <asp:Label ID="lblAmt" runat="server" ForeColor="Red" style="margin-right: 22px; margin-top: -23px; float: right;" Text="00.00"></asp:Label>
                                  <%--  <label id="lblAmt"></label>--%>
                             </div>
                         </div>

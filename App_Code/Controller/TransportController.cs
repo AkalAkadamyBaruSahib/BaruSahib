@@ -72,4 +72,11 @@ public class TransportController : System.Web.Services.WebService
         repository.DeleteVechicleInfo(VID);
     }
 
+    [WebMethod]
+    public void ActiveVechicleInfo(int VID)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        repository.ActiveVechicleInfo(VID);
+    }
+
 }

@@ -19,10 +19,10 @@ public class TransportUserRepository
         _context = context;
     }
 
-    public DataSet GetVehiclesByInchargeID(int InchargeID)
+    public DataSet GetVehiclesByInchargeID(int InchargeID, bool isApproved)
     {
         //  return DAL.DalAccessUtility.GetDataInDataSet("exec GetVehiclesByInchargeID " + InchargeID );
-      return DAL.DalAccessUtility.GetDataInDataSet("exec GetVehiclesByInchargeID " + InchargeID + ", 1");
+        return DAL.DalAccessUtility.GetDataInDataSet("exec GetVehiclesByInchargeID " + InchargeID + "," + isApproved);
     }
 
     public List<Vehicles> GetAllVehicles()
@@ -331,5 +331,15 @@ public class TransportUserRepository
         _context.Entry(vehicles).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public void ActiveVechicleInfo(int VID)
+    {
+        Vehicles vehicles = _context.Vehicles.Where(v => v.ID == VID)
+                             .FirstOrDefault();
+        vehicles.IsApproved = true;
+        _context.Entry(vehicles).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+  
   
 }

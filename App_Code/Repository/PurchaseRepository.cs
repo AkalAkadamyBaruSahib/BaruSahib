@@ -87,6 +87,7 @@ public class PurchaseRepository
             MatName = x.MatName,
             MatTypeID = x.MatTypeId,
             Unit = x.Unit,
+            MatCost = x.MatCost,
           
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
         return mt;

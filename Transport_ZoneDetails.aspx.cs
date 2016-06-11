@@ -78,7 +78,7 @@ public partial class Transport_ZoneDetails : System.Web.UI.Page
                 //}
                 //ZoneInfo += " </table></td></tr>";
                 DataSet dsCount = new DataSet();
-                dsCount = DAL.DalAccessUtility.GetDataInDataSet("SELECT Count(*) AS Count FROM Vehicles WHERE AcademyID= '" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'");
+                dsCount = DAL.DalAccessUtility.GetDataInDataSet("SELECT Count(*) AS Count FROM Vehicles WHERE IsApproved=1 and  AcademyID= '" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'");
                 for (int j = 0; j < dsCount.Tables[0].Rows.Count; j++)
                 {
                     ZoneInfo += "<tr><td><b><a href='Transport_VehicleDetails.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>Vehicals(" + dsCount.Tables[0].Rows[j]["Count"].ToString() + ")</a></b></td></tr>";

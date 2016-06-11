@@ -25,8 +25,7 @@ public partial class Admin_UserControls_UploadEstimate : System.Web.UI.UserContr
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
                 hdnIsAdmin.Value = Session["UserTypeID"].ToString();
             }
-
-            BindTypeOfWork();
+             BindTypeOfWork();
         }
     }
 
@@ -42,4 +41,5 @@ public partial class Admin_UserControls_UploadEstimate : System.Web.UI.UserContr
         ddlTypeOfWork.Items.Insert(0, "Select Type Of Work");
         ddlTypeOfWork.SelectedIndex = 0;
     }
+   
 }

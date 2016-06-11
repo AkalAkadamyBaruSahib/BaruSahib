@@ -41,6 +41,11 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             {
                 InActiveVechicle(Request.QueryString["ActiveVehicleID"].ToString());
             }
+
+            if (Request.QueryString["DeActiveVehicleID"] != null)
+            {
+                ActiveVechicleDetail(Request.QueryString["DeActiveVehicleID"].ToString());
+            }
         }
         if (Request.QueryString["AcaId"] != null)
         {
@@ -283,11 +288,11 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         DataSet dsVehicleDetails = new DataSet();
         if (UserTypeID == 13)
         {
-            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
+            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]" + isApproved);
         }
         else
         {
-            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetailsByInchargeID] 1," + InchargeID);
+            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetailsByInchargeID]" + isApproved +"," + InchargeID);
         }
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
         DataTable dtapproved = new DataTable();
@@ -337,7 +342,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         else
         {
             TransportUserRepository transport = new TransportUserRepository(new AkalAcademy.DataContext());
-            dtapproved = transport.GetVehiclesByInchargeID(InchargeID).Tables[0];
+            dtapproved = transport.GetVehiclesByInchargeID(InchargeID, isApproved).Tables[0];
         }
 
         divEstimateDetails.InnerHtml = string.Empty;
@@ -373,7 +378,14 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
             ZoneInfo += "<td style='display:none;'>1</td>";
             var msg = dtapproved.Rows[i]["Number"].ToString();
             var vehileno = msg.Replace("-", "");
-            ZoneInfo += "<td width='30%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td><td><a href='javascript: openModelPopUp(\"" + vehileno + "\");'><span class='label label-warning'  style='font-size: 15.998px;'>GPS</span></a></td><td><a href='Transport_VehicleDetails.aspx?ActiveVehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span class='label label-success' style='font-size: 15.998px;' title='Vehicle Active'>IsActive</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
+            if (isApproved == true)
+            {
+                ZoneInfo += "<td width='30%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td><td><a href='javascript: openModelPopUp(\"" + vehileno + "\");'><span class='label label-warning'  style='font-size: 15.998px;'>GPS</span></a></td><td><a href='Transport_VehicleDetails.aspx?ActiveVehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span class='label label-success' style='font-size: 15.998px;' title='Vehicle Active'>Deactivate</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
+            }
+            else
+            {
+                ZoneInfo += "<td width='30%'><table><tr><td><a class='btn btn-danger' href='AddEditVehicle.aspx?VehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + dtapproved.Rows[i]["Number"].ToString() + "</span></a></td><td><a href='javascript: openModelPopUp(\"" + vehileno + "\");'><span class='label label-warning'  style='font-size: 15.998px;'>GPS</span></a></td><td><a href='Transport_VehicleDetails.aspx?DeActiveVehicleID=" + dtapproved.Rows[i]["ID"].ToString() + "'><span class='label label-success' style='font-size: 15.998px;' title='Vehicle Active'>Activate</span></a></td></tr><tr><td><b>Driver Name:</b> " + dtapproved.Rows[i]["DriverName"].ToString() + "</td></tr><tr><td><b>Conductor Name:</b> " + dtapproved.Rows[i]["ConducterName"].ToString() + "</td></tr><tr><td><b>Driver Number:</b> " + dtapproved.Rows[i]["DriverNumber"].ToString() + "</td></tr><tr><td><b>Conductor Number:</b> " + dtapproved.Rows[i]["ConducterNumber"].ToString() + "</td></tr></table></td>";
+            }
             ZoneInfo += "<td width='30%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Transport Manager</b>: " + dtapproved.Rows[i]["InName"].ToString() + "</td></tr><tr><td><b>Transport Manager Number</b>: " + dtapproved.Rows[i]["TransportManagerNumber"].ToString() + "</td></tr></table>";
             //ZoneInfo += "<td class='center' width='15%'>" + dtapproved.Rows[i]["dt"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='20%'><table>";
@@ -501,4 +513,14 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         getVehicleDetails(true, -1);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle Information  Delete Successfully.');", true);
     }
+
+    protected void ActiveVechicleDetail(string vid)
+    {
+        TransportController transportcontroller = new TransportController();
+        transportcontroller.ActiveVechicleInfo(Convert.ToInt32(vid));
+        getVehicleDetails(true, -1);
+        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle Information  Active Successfully.');", true);
+    }
+
+
 }
