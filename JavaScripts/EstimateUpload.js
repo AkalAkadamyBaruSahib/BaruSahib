@@ -531,19 +531,6 @@ function BindRateBySourceType()
 
 
 function Validation() {
-    if ($("#drpMaterialType").length == "0")
-    {
-        alert("Please Select the Material Type");
-        return false;
-    }
-    else if ($("#drpMaterialName").length == "0") {
-        alert("Please Select the Material Names");
-        return false;
-    }
-    else {
-        return true;
-    }
-
     var tablelength = $("#tbody").children('tr').length;
     for (var i = 0 ; i < tablelength ; i++) {
         if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
