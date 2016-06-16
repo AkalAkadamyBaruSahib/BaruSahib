@@ -33,6 +33,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         txtDrwName.Text = "";
         txtDrwNo.Text = "";
         txtRevisionNo.Text = "";
+        ddlSubDrawingType.SelectedIndex=0;
         ddlAcademy.SelectedIndex = 0;
         ddlZone.SelectedIndex = 0;
         ddlDwgType.SelectedIndex = 0;
@@ -47,7 +48,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         ddlDwgType.DataValueField = "DwTypeId";
         ddlDwgType.DataTextField = "DwTypeName";
         ddlDwgType.DataBind();
-        ddlDwgType.Items.Insert(0, "SELECT DRAWING TYPE");
+        ddlDwgType.Items.Insert(0, new ListItem("--Select Drawing Type--", "0"));
         ddlDwgType.SelectedIndex = 0;
     }
     protected void BindZone()
@@ -58,7 +59,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         ddlZone.DataValueField = "ZoneId";
         ddlZone.DataTextField = "ZoneName";
         ddlZone.DataBind();
-        ddlZone.Items.Insert(0, "Select Zone");
+        ddlZone.Items.Insert(0, new ListItem("--Select Zone--", "0"));
         ddlZone.SelectedIndex = 0;
     }
     protected void BindAcademy()
@@ -69,7 +70,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         ddlAcademy.DataValueField = "AcaId";
         ddlAcademy.DataTextField = "AcaName";
         ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, "Select Academy");
+        ddlAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
         ddlAcademy.SelectedIndex = 0;
     }
     protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
@@ -85,81 +86,45 @@ public partial class Admin_Drawing : System.Web.UI.Page
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Same Drawing Name already inserted to selected Zone and Academy');", true);
         }
-
         else
         {
-            if (txtDrwName.Text == "")
+            string fileDwgname = System.IO.Path.GetFileName(fuDwgFile.FileName);
+            string fileDwgPath = System.IO.Path.GetFileName(fuDwgFile.FileName);
+            string FileDwgEx = System.IO.Path.GetExtension(fuDwgFile.FileName);
+            String FDwgNam = System.IO.Path.GetFileNameWithoutExtension(fuDwgFile.FileName);
+            string filePdfname = System.IO.Path.GetFileName(fuPdf.FileName).Replace("'", "");
+            string filePdfPath = System.IO.Path.GetFileName(fuPdf.FileName).Replace("'", "");
+            string FilePdfEx = System.IO.Path.GetExtension(fuPdf.FileName);
+            String FPdfNam = System.IO.Path.GetFileNameWithoutExtension(fuPdf.FileName);
+            Int64 i = 0;
+            //<OnServerCode>
+            fileDwgPath = "~/AutoCad/" + fileDwgname;
+            filePdfPath = "~/PDF/" + filePdfname;
+            //<OnLocalHost>
+            //fileDwgPath = "../AkalAcademy/AutoCad/" + fileDwgname;
+            //filePdfPath = "../AkalAcademy/PDF/" + filePdfname;
+            //if (fileDwgPath == ".dwg" & fuDwgFile.HasFile == true && filePdfPath == ".pdf" & fuPdf.HasFile == true)
+            //{
+            string dwgfilepath = "AutoCad/" + Regex.Replace(FDwgNam + "-" + System.DateTime.Now.ToString(), @"[^0-9a-zA-Z]+", "-").Replace(' ', '-').ToString() + FileDwgEx;
+            string pdffilepath = "PDF/" + Regex.Replace(FPdfNam + "-" + System.DateTime.Now.ToString(), @"[^0-9a-zA-Z]+", "-").Replace(' ', '-').ToString() + FilePdfEx;
+            i = DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewDrawingProc '','" + ddlZone.SelectedValue + "','" + ddlAcademy.SelectedValue + "','" + ddlDwgType.SelectedValue + "','" + txtDrwNo.Text + "','" + txtRevisionNo.Text + "','" + txtDrwName.Text + "','" + fileDwgname + "','" + dwgfilepath + "','" + filePdfname + "','" + pdffilepath + "','" + int.Parse(Session["InchargeID"].ToString()) + "','1','1',1," + ddlSubDrawingType.SelectedValue);
+            if (i > 0)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Name Of Drawing.');", true);
-            }
-            else if (ddlZone.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Zone.');", true);
-            }
-            else if (ddlAcademy.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Academy .');", true);
-            }
-            else if (txtDrwNo.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Drawing No.');", true);
-            }
-            else if (txtRevisionNo.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Drawing's Revision No.');", true);
+                fuDwgFile.SaveAs(Server.MapPath(dwgfilepath));
+                fuPdf.SaveAs(Server.MapPath(pdffilepath));
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing submit Successfully!!.');", true);
             }
 
-            else if (ddlDwgType.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Drawing Type .');", true);
-            }
-            else if (string.IsNullOrEmpty(fuDwgFile.FileName))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload Auto Cad drawing file .');", true);
-            }
-            else if (string.IsNullOrEmpty(fuPdf.FileName))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload .PDF drawing file .');", true);
-            }
-            else
-            {
-                string fileDwgname = System.IO.Path.GetFileName(fuDwgFile.FileName);
-                string fileDwgPath = System.IO.Path.GetFileName(fuDwgFile.FileName);
-                string FileDwgEx = System.IO.Path.GetExtension(fuDwgFile.FileName);
-                String FDwgNam = System.IO.Path.GetFileNameWithoutExtension(fuDwgFile.FileName);
-                string filePdfname = System.IO.Path.GetFileName(fuPdf.FileName).Replace("'", "");
-                string filePdfPath = System.IO.Path.GetFileName(fuPdf.FileName).Replace("'", "");
-                string FilePdfEx = System.IO.Path.GetExtension(fuPdf.FileName);
-                String FPdfNam = System.IO.Path.GetFileNameWithoutExtension(fuPdf.FileName);
-                Int64 i = 0;
-                //<OnServerCode>
-                fileDwgPath = "~/AutoCad/" + fileDwgname;
-                filePdfPath = "~/PDF/" + filePdfname;
-                //<OnLocalHost>
-                //fileDwgPath = "../AkalAcademy/AutoCad/" + fileDwgname;
-                //filePdfPath = "../AkalAcademy/PDF/" + filePdfname;
-                //if (fileDwgPath == ".dwg" & fuDwgFile.HasFile == true && filePdfPath == ".pdf" & fuPdf.HasFile == true)
-                //{
-                string dwgfilepath = "AutoCad/" + Regex.Replace(FDwgNam + "-" + System.DateTime.Now.ToString(), @"[^0-9a-zA-Z]+", "-").Replace(' ', '-').ToString() + FileDwgEx;
-                string pdffilepath = "PDF/" + Regex.Replace(FPdfNam + "-" + System.DateTime.Now.ToString(), @"[^0-9a-zA-Z]+", "-").Replace(' ', '-').ToString() + FilePdfEx;
-                i = DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewDrawingProc '','" + ddlZone.SelectedValue + "','" + ddlAcademy.SelectedValue + "','" + ddlDwgType.SelectedValue + "','" + txtDrwNo.Text + "','" + txtRevisionNo.Text + "','" + txtDrwName.Text + "','" + fileDwgname + "','" + dwgfilepath + "','" + filePdfname + "','" + pdffilepath + "','" + int.Parse(Session["InchargeID"].ToString()) + "','1','1',1," + ddlSubDrawingType.SelectedValue);
-                if (i > 0)
-                {
-                    fuDwgFile.SaveAs(Server.MapPath(dwgfilepath));
-                    fuPdf.SaveAs(Server.MapPath(pdffilepath));
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing submit Successfully!!.');", true);
-                }
-                //}
-                //else
-                //{
-                //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Upload Only .dwg,.pdf');", true);
-                //}
-                
-               // SendNotificationToEmp();
-                SendSMSToConstructionUsers(int.Parse(ddlAcademy.SelectedItem.Value), txtDrwName.Text);
-                BindAllDrawing();
-                Clr();
-            }
+            //}
+            //else
+            //{
+            //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Upload Only .dwg,.pdf');", true);
+            //}
+
+            // SendNotificationToEmp();
+            SendSMSToConstructionUsers(int.Parse(ddlAcademy.SelectedItem.Value), txtDrwName.Text);
+            BindAllDrawing();
+            Clr();
         }
     }
 
@@ -210,7 +175,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         {
             //string DwgId = e.CommandArgument.ToString();
             Session["DwgId"] = e.CommandArgument.ToString();
-            DataSet dsDwg = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,AcaId,DwTypeId,DwgNo,RevisionNo,DrawingName from Drawing where DwgId='" + Session["DwgId"].ToString() + "' order by DwTypeId desc");
+            DataSet dsDwg = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,AcaId,DwTypeId,DwgNo,RevisionNo,DrawingName,SubDwgTypeID from Drawing where DwgId='" + Session["DwgId"].ToString() + "' order by DwTypeId desc");
             BindZone();
             ddlZone.SelectedIndex = ddlZone.Items.IndexOf(ddlZone.Items.FindByValue(dsDwg.Tables[0].Rows[0]["ZoneId"].ToString().Trim()));
             ddlZone.Enabled = false;
@@ -223,6 +188,12 @@ public partial class Admin_Drawing : System.Web.UI.Page
             txtDrwNo.Enabled = false;
             txtRevisionNo.Text = dsDwg.Tables[0].Rows[0]["RevisionNo"].ToString();
             txtRevisionNo.Enabled = false;
+            ddlDwgType.ClearSelection();
+            ddlDwgType.Items.FindByValue(dsDwg.Tables[0].Rows[0]["DwTypeId"].ToString().Trim()).Selected = true;
+            ddlDwgType_SelectedIndexChanged(ddlDwgType, new EventArgs());
+            ddlSubDrawingType.ClearSelection();
+            //ddlSubDrawingType.Items.FindByValue(dsDwg.Tables[0].Rows[0]["SubDwgTypeID"].ToString().Trim()).Selected = true;
+            ddlSubDrawingType.SelectedIndex = ddlSubDrawingType.Items.IndexOf(ddlSubDrawingType.Items.FindByValue(dsDwg.Tables[0].Rows[0]["SubDwgTypeID"].ToString().Trim()));
             btnEdit.Visible = true;
             btnSave.Visible = false;
 
@@ -249,6 +220,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         //filePdfPath = "../AkalAcademy/PDF/" + filePdfname;
         //if (fileDwgPath == ".dwg" & fuDwgFile.HasFile == true && filePdfPath == ".pdf" & fuPdf.HasFile == true)
         //{
+
         i = DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewDrawingProc '" + Session["DwgId"].ToString() + "','','','','','','','" + fileDwgname + "','" + fileDwgPath + "','" + filePdfname + "','" + filePdfPath + "','" + int.Parse(Session["InchargeID"].ToString()) + "','2','1',1," + ddlSubDrawingType.SelectedValue);
         if (i > 0)
         {
@@ -257,12 +229,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
             BindAllDrawing();
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing Updated Successfully!!.');", true);
         }
-        //}
-        //else
-        //{
-        //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Upload Only .dwg,.pdf');", true);
-        //}
-        //BindAllDrawing();
+
         SendSMSToConstructionUsers(int.Parse(ddlAcademy.SelectedItem.Value), txtDrwName.Text);
         BindAllDrawing();
         Clr();
@@ -321,7 +288,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
         ddlSubDrawingType.DataValueField = "ID";
         ddlSubDrawingType.DataTextField = "Description";
         ddlSubDrawingType.DataBind();
-        ddlSubDrawingType.Items.Insert(0, new ListItem("SELECT SUB DRAWING TYPE", "0"));
+        ddlSubDrawingType.Items.Insert(0, new ListItem("--Select Sub Drawing Type--", "0"));
         ddlSubDrawingType.SelectedIndex = 0;
     }
     protected void ddlDwgType_SelectedIndexChanged(object sender, EventArgs e)

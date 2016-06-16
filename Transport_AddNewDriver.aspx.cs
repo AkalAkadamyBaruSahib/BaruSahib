@@ -17,6 +17,7 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
             BindYear();
             Fillmonth();
             BindDLType();
+            BindTransportType();
         }
     }
 
@@ -48,7 +49,18 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
         drpDlType.Items.Insert(0, new ListItem("--Select One--", "0"));
     }
 
-    public void ClearTextBox()
+    private void BindTransportType()
+    {
+        DataSet TranspotType = new DataSet();
+        TranspotType = DAL.DalAccessUtility.GetDataInDataSet("select * from TransportTypes");
+        drpTransportType.DataSource = TranspotType;
+        drpTransportType.DataValueField = "ID";
+        drpTransportType.DataTextField = "Type";
+        drpTransportType.DataBind();
+        drpTransportType.Items.Insert(0, new ListItem("--Select One--", "0"));
+    }
+
+     public void ClearTextBox()
     {
         txtName.Text = "";
         txtFatherName.Text = "";
@@ -63,6 +75,7 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
         ddlmonth.ClearSelection();
         ddlyear.ClearSelection();
         drpEmployeeType.ClearSelection();
+        drpTransportType.ClearSelection();
         //=== Hide update button and show save button.
         //$("#btnSave").show();
         //$("#btnUpdate").hide();

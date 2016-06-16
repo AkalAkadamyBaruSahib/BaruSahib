@@ -67,32 +67,6 @@ $(document).ready(function () {
     }
 });
 
-function Validation() {
-    if ($("#fileUploadSignedCopy")[0].files.length == 0) {
-        alert("Please Upload the File");
-        return false;
-    }
-    else {
-        var fileSize = $("#fileUploadSignedCopy")[0].files[0].size;
-        if (fileSize > 1048576) {
-            alert("File Size Greater than 1 mb");
-            return false;
-        }
-    }
-
-    var tablelength = $("#tbody").children('tr').length;
-    for (var i = 0 ; i < tablelength ; i++) {
-        if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
-            alert("Please Select the Source Type");
-            return false;
-        }
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
-            alert("Please Enter the Qty");
-            return false;
-        }
-    }
-}
-
 function SaveEstimate() {
     //$("#progress").dialog({ modal: true, width: 300, height: 200, title: "Progress", closeOnEscape: false });
     //$("#progress").dialog('open');
@@ -146,6 +120,7 @@ function SaveEstimate() {
         else {
             EstimateAndMaterialOthersRelation.Rate = $("#txtRate" + i).val();
         }
+        EstimateAndMaterialOthersRelation.Remark = $("#txtRemarks" + i).val();
         EstimateAndMaterialOthersRelation.UnitId = $("#txtUnitID" + i).val();
         EstimateAndMaterialOthersRelation.CreatedBy = $("input[id*='hdnInchargeID']").val();
         EstimateAndMaterialOthersRelation.ModifyBy = $("input[id*='hdnInchargeID']").val();
@@ -153,7 +128,7 @@ function SaveEstimate() {
         EstimateAndMaterialOthersRelation.IsApproved = true;
         EstimateAndMaterialOthersRelation.VendorID = 0;
         EstimateAndMaterialOthersRelation.PurchaseQty = 0;
-        Amt += parseInt(EstimateAndMaterialOthersRelation.Qty) * parseInt(EstimateAndMaterialOthersRelation.Rate);
+        Amt += parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
         estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
     }
     $("#lblAmt").val(Amt);
@@ -210,7 +185,7 @@ function LoadEstimateInfo(selectedMaterialList) {
         for (var i = 0; i < rowCount; i++) {
             $("#rowTemplate").remove();
         }
-        var rowTemplate = '<tr id="rowTemplate"><td id="materialname">abc</td><td id="sourcetype">abc</td><td id="qty">abc</td><td id="unit">cc</td><td id="rate">cc</td><td id="action">cc</td></tr>';
+        var rowTemplate = '<tr id="rowTemplate"><td id="srno">1</td><td id="materialname">abc</td><td id="sourcetype">abc</td><td id="qty">abc</td><td id="unit">cc</td><td id="rate">cc</td><td id="remarks">cc</td><td id="action">cc</td></tr>';
 
         var adminLoanList = 0;
         $.ajax({
@@ -226,22 +201,24 @@ function LoadEstimateInfo(selectedMaterialList) {
 
                         $("#tbody").append(rowTemplate);
                     }
-                    var EmployeeType = "";
+                 
                     for (var i = 0; i < adminLoanList.length; i++) {
                         var className = "info";
                         if (i % 2 == 0) {
                             className = "warning";
                         }
                         var $newRow = $("#rowTemplate").clone();
+                        $newRow.find("#srno").html(i+1);
                         $newRow.find("#materialname").html("<input type='hidden' value='" + adminLoanList[i].MatID + "' id='txtMatID" + i + "' />" + adminLoanList[i].MatName);
-                        $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeID + "' id='txtMatTypeID" + i + "' /><select onchange='BindRateBySourceType(" + adminLoanList[i].MatTypeID + ")' id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
+                        $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeID + "' id='txtMatTypeID" + i + "' /><select style='width:159px;' onchange='BindRateBySourceType(" + adminLoanList[i].MatTypeID + ")' id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
                         $newRow.find("#qty").html("<input style='width:100px;' type='text' id='txtQty" + i + "' name='txtQty'>");
                         $newRow.find("#unit").html("<input type='hidden' value='" + adminLoanList[i].Unit.UnitId + "' id='txtUnitID" + i + "' />" + adminLoanList[i].Unit.UnitName);
                         $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].MatCost + "' id='txtMatCost" + i + "' /><input style='width:100px;' value='0.00' type='text' id='txtRate" + i + "' name='txtRate'>");
+                        $newRow.find("#remarks").html("<input style='width:260px;' type='text' id='txtRemarks" + i + "' name='txtRemarks'>");
                         $newRow.find("#action").html("<a  href='#' onclick='return MaterialRowToDelete($(this))'>Delete</a>");
                         $newRow.addClass(className);
                         $newRow.show();
-
+                       
                         if (i == 0) {
                             $("#rowTemplate").replaceWith($newRow);
                         }
@@ -390,6 +367,10 @@ function BindZone()
 
 function BindAcademybyZoneID(selctZoneID) {
     
+    $("select[id*='ddlAcademy'] option").each(function (index, option) {
+        $(option).remove();
+    });
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -399,6 +380,7 @@ function BindAcademybyZoneID(selctZoneID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
+                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
                 $.each(Result, function (key, value) {
                     $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                 });
@@ -411,8 +393,11 @@ function BindAcademybyZoneID(selctZoneID) {
 }
 
 function BindWorkAllotByAcademyID(selctAcademyID) {
-   
-    $.ajax({
+    $("select[id*='ddlWorkAllot'] option").each(function (index, option) {
+        $(option).remove();
+    });
+
+   $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetWorkAllotByAcademyID",
@@ -421,6 +406,7 @@ function BindWorkAllotByAcademyID(selctAcademyID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
+                $("select[id*='ddlWorkAllot']").append($("<option></option>").val("0").html("--Select Work Allot--"));
                 $.each(Result, function (key, value) {
                     $("select[id*='ddlWorkAllot']").append($("<option></option>").val(value.WAId).html(value.WorkAllotName));
                 });
@@ -509,7 +495,7 @@ function TotalAmt() {
             rate = $("#txtRate" + i).val();
         }
 
-        Amt += parseInt(qty) * parseInt(rate);
+        Amt += parseInt(qty) * parseFloat(rate);
     }
     $("[id$='lblAmt']").html(Amt);
 }
@@ -531,6 +517,17 @@ function BindRateBySourceType()
 
 
 function Validation() {
+
+    if ($("#drpMaterialType").val() == undefined || $("#drpMaterialType").val() == null) {
+        alert("Please Select the Material Type");
+        return false;
+    }
+    else if ($("#drpMaterialName").val() == undefined || $("#drpMaterialName").val() == null) {
+        alert("Please Select the Material Name");
+        return false;
+    }
+
+
     var tablelength = $("#tbody").children('tr').length;
     for (var i = 0 ; i < tablelength ; i++) {
         if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {

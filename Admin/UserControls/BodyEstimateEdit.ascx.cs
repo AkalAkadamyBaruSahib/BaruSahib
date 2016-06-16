@@ -74,7 +74,12 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
         BindWork(dsEstimate1Details.Tables[0].Rows[0]["AcaID"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["ZoneID"].ToString());
         ddlWorkType.ClearSelection();
-        ddlWorkType.Items.FindByText(lblWorkName.Text).Selected = true;
+        try
+        {
+            ddlWorkType.Items.FindByText(lblWorkName.Text).Selected = true;
+        }
+        catch (Exception ex)
+        { }
         lblWorkName.Visible = false;
         tdWorkAllot.Visible = true;
         // divbtnupload.Visible = false;

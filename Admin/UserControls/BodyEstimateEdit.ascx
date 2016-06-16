@@ -80,6 +80,7 @@
                                             <div class="controls">
                                                 Work Allot Name:
                                                     <asp:DropDownList ID="ddlWorkType" Width="300px" runat="server"></asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="reqddlWorkType" runat="server" ValidationGroup="Sub" ControlToValidate="ddlWorkType" ForeColor="Red" ErrorMessage="Please Select the Work Allot Name"></asp:RequiredFieldValidator>
                                                 <asp:Label ID="lblWorkName" runat="server"></asp:Label>
 
                                             </div>
@@ -323,8 +324,8 @@
                                                 <asp:TextBox ID="txtRemark" runat="server" TextMode="MultiLine" Width="755Px" Height="50Px"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <asp:Button ID="btnRejectEdit" runat="server" Text="Reject Bill" CssClass="btn btn-primary" OnClick="btnUpload_Click" />
-                                                <asp:Button ID="btnUpload" CssClass="btn btn-primary" Text="Save/Approved Changes" runat="server" OnClick="btnUpload_Click" />
+                                        <asp:Button ID="btnRejectEdit" runat="server" Text="Reject Bill" CssClass="btn btn-primary" ValidationGroup="Sub" OnClick="btnUpload_Click" />
+                                                <asp:Button ID="btnUpload" CssClass="btn btn-primary" Text="Save/Approved Changes" ValidationGroup="Sub" runat="server" OnClick="btnUpload_Click" />
                                         </div>
                                     </td>
                                 </tr>

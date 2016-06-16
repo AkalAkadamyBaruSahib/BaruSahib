@@ -38,7 +38,19 @@
                         <div class="box-content">
 
                             <table id="tabledata" width="100%">
-                                <tr>
+                                <tr>  
+                                    <td>
+                                        <div class="control-group" id="div2">
+                                            <label class="control-label" for="typeahead">Transport Type:</label>
+                                            <div class="controls">
+                                                <asp:DropDownList ID="drpTransportType" runat="server" Style="width: 200px; height: 25px;">
+                                                </asp:DropDownList>
+                                            </div>
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator1"
+                                                ControlToValidate="drpTransportType" InitialValue="0" ErrorMessage="Please Select The  Transport Type" ForeColor="Red">*</asp:RequiredFieldValidator>
+                                        </div>
+                                    </td>
+
                                     <td>
                                         <div class="control-group" id="divemptype">
                                             <label class="control-label" for="typeahead">Employee Type:</label>
@@ -53,6 +65,7 @@
                                                 ControlToValidate="drpEmpLoyeeType" InitialValue="0" ErrorMessage="Please Select The  Employee Type" ForeColor="Red">*</asp:RequiredFieldValidator>
                                         </div>
                                     </td>
+                                    
 
                                 </tr>
 
@@ -107,9 +120,9 @@
                                             <label class="control-label" for="typeahead">Date Of Joining:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDateOfJoin" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox>
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver"
+                                              <%--  <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver"
                                                     ID="RequiredFieldValidator_txtDateOfJoin" ControlToValidate="txtDateOfJoin"
-                                                    ErrorMessage="Please Enter The Date Of Joining" />
+                                                    ErrorMessage="Please Enter The Date Of Joining" />--%>
                                             </div>
                                         </div>
                                     </td>
@@ -184,8 +197,8 @@
                                             <label class="control-label" for="typeahead">Address:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" CssClass="span6 typeahead" Style="width: 200px;"></asp:TextBox>
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_txtAddress" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
-                                            </div>
+                                 <%--               <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_txtAddress" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
+                                --%>            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -202,7 +215,8 @@
 
 
                             </table>
-                            <fieldset>
+                           
+                            <fieldset id="fCompanyDetail">
                                 <legend><span class="labelH labelH-info">Previous Company Detail</span></legend>
                                 <asp:UpdatePanel ID="updatepanel2" runat="server">
                                     <ContentTemplate>
@@ -236,7 +250,7 @@
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </fieldset>
-                            <fieldset>
+                            <fieldset  id="fFamilyDetail">
                                 <legend><span class="labelH labelH-info">Family Members Detail</span></legend>
                                 <asp:UpdatePanel ID="updatepanel" runat="server">
                                     <ContentTemplate>
@@ -293,7 +307,7 @@
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </fieldset>
-                            <fieldset>
+                            <fieldset  id="fRefenceDetail">
                                 <legend><span class="labelH labelH-info">Reference Detail</span></legend>
                                 <asp:UpdatePanel ID="updatepanel1" runat="server">
                                     <ContentTemplate>

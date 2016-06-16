@@ -286,63 +286,32 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
     {
         int UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         DataSet dsVehicleDetails = new DataSet();
-        if (UserTypeID == 13)
+        if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTADMIN))
         {
             dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]" + isApproved);
         }
         else
         {
-            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetailsByInchargeID]" + isApproved +"," + InchargeID);
+            dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetailsByInchargeID]" + isApproved + "," + InchargeID);
         }
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
         DataTable dtapproved = new DataTable();
-        
 
-        if (UserTypeID == 13)
+        if (AcaID > 0)
         {
-            if (AcaID > 0)
-            {
-                dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<int>("AcademyID") == AcaID
-                              select mytable);
-            }
-            else
-            {
-                dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<bool>("IsApproved") == isApproved
-                              select mytable);
-            }
-            if (dtApproved.Count() > 0)
-            {
-                dtapproved = dtApproved.CopyToDataTable();
-            }
-        }
-        else if (UserTypeID == 14)
-        {
-            if (AcaID > 0)
-            {
-                dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<int>("AcademyID") == AcaID 
-                              //&& mytable.Field<int>("InchargeID") == InchargeID
-                              select mytable);
-            }
-            else
-            {
-                dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                              where mytable.Field<bool>("IsApproved") == isApproved 
-                              //&& mytable.Field<int>("InchargeID") == InchargeID
-                              select mytable);
-
-            }
-            if (dtApproved.Count() > 0)
-            {
-                dtapproved = dtApproved.CopyToDataTable();
-            }
+            dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
+                          where mytable.Field<int>("AcademyID") == AcaID
+                          select mytable);
         }
         else
         {
-            TransportUserRepository transport = new TransportUserRepository(new AkalAcademy.DataContext());
-            dtapproved = transport.GetVehiclesByInchargeID(InchargeID, isApproved).Tables[0];
+            dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
+                          where mytable.Field<bool>("IsApproved") == isApproved
+                          select mytable);
+        }
+        if (dtApproved.Count() > 0)
+        {
+            dtapproved = dtApproved.CopyToDataTable();
         }
 
         divEstimateDetails.InnerHtml = string.Empty;
@@ -368,7 +337,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         ZoneInfo += "<th width='5%'>Norms Completed (out of 16)</th>";
 
         //ZoneInfo += "<th width='40%'><table width='100%'><tr><th colspan='3' align='center'Vehicle Documents</th></tr><tr><th width='17%'>Insurance</th><th width='50%'>Polution</th><th width='33%'>Permit</th></tr></table></th>";
-        ZoneInfo += "<th width='5%'>Document Completed (out of 6)</th>";
+        ZoneInfo += "<th width='5%'>Document Completed (out of 8)</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";

@@ -69,6 +69,7 @@ public class TransportUserRepository
     {
         Hashtable param = new Hashtable();
         param.Add("EmployeeType", VehicleEmp.EmployeeType);
+        param.Add("TransportTypeID", VehicleEmp.TransportTypeID);
         param.Add("Name", VehicleEmp.Name);
         param.Add("MobileNumber", VehicleEmp.MobileNumber);
         param.Add("VehicleID", VehicleEmp.VehicleID);
@@ -138,7 +139,10 @@ public class TransportUserRepository
             employeeDTO.Qualification = v.Qualification;
             employeeDTO.DLNumber = v.DLNumber;
             employeeDTO.DLScanCopy = v.DLScanCopy;
-            employeeDTO.DateOfJoining = v.DateOfJoining.Value.ToShortDateString();
+            if (v.DateOfJoining != null)
+            {
+                employeeDTO.DateOfJoining = v.DateOfJoining.Value.ToShortDateString();
+            }
             employeeDTO.ApplicationForm = v.ApplicationForm;
             employeeDTO.ContactNoInCaseOfEmergency = v.ContactNoInCaseOfEmergency;
             employeeDTO.PreviousCompanyName = v.PreviousCompanyName;
@@ -146,7 +150,7 @@ public class TransportUserRepository
             employeeDTO.ExperienceInMonth = v.ExperienceInMonth;
             employeeDTO.ModifyOn = v.ModifyOn.ToString();
             employeeDTO.IsActive = v.IsActive;
-          
+            employeeDTO.TransportTypeID = v.TransportTypeID;
 
             employeeDTO.TransportEmployeeRelationDTO = new List<TransportEmployeeRelationDTO>();
             TransportEmployeeRelationDTO tranemprelatn;
@@ -183,6 +187,7 @@ public class TransportUserRepository
         dto.ID = vehicleEmployee.ID;
         dto.Name = vehicleEmployee.Name;
         dto.EmployeeType = vehicleEmployee.EmployeeType;
+        dto.TransportTypeID = vehicleEmployee.TransportTypeID;
         dto.MobileNumber = vehicleEmployee.MobileNumber;
         dto.DLType = vehicleEmployee.DLType;
         dto.DLValidity = vehicleEmployee.DLValidity;
@@ -190,7 +195,10 @@ public class TransportUserRepository
         dto.FatherName = vehicleEmployee.FatherName;
         dto.DateOfBirth = vehicleEmployee.DateOfBirth.Value.ToShortDateString();
         dto.DLNumber = vehicleEmployee.DLNumber;
-        dto.DateOfJoining = vehicleEmployee.DateOfJoining.Value.ToShortDateString();
+        if (vehicleEmployee.DateOfJoining != null)
+        {
+            dto.DateOfJoining = vehicleEmployee.DateOfJoining.Value.ToShortDateString();
+        }
         dto.ContactNoInCaseOfEmergency = vehicleEmployee.ContactNoInCaseOfEmergency;
         dto.PreviousCompanyName = vehicleEmployee.PreviousCompanyName;
         dto.ExperienceInYear = vehicleEmployee.ExperienceInYear;
@@ -274,6 +282,7 @@ public class TransportUserRepository
         newVehicleEmployee.CreatedOn = newVehicleEmployee.CreatedOn;
         newVehicleEmployee.ModifyOn = DateTime.Now;
         newVehicleEmployee.IsActive = true;
+        newVehicleEmployee.TransportTypeID = VehicleEmp.TransportTypeID;
 
 
         newVehicleEmployee.TransportEmployeeRelation = new List<TransportEmployeeRelation>();

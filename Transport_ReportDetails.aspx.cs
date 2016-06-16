@@ -33,11 +33,11 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         }
         else if (ddlReport.SelectedValue == "2")
         {
-            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PendingDocumentsReport.xls"));
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PendingDocumentsReport(" + ddlZone.SelectedItem + ").xls"));
         }
         else
         {
-            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "SummaryReport.xls"));
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "SummaryReport(" + ddlALLZone.SelectedItem + ").xls"));
         }
         Response.ContentType = "application/ms-excel";
         DataTable dt = BindDatatable();
@@ -76,7 +76,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         //dtVehicleSummary.Columns.Add("DLType");
         dtVehicleSummary.Columns.Add("WrittenContract", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("Pollution", typeof(System.Int32));
-        dtVehicleSummary.Columns.Add("Total", typeof(System.Int32));
+         dtVehicleSummary.Columns.Add("Total", typeof(System.Int32));
         //dtVehicleSummary.Columns.Add("Norms");
         dtVehicleSummary.Columns.Add("TransportManager", typeof(System.String));
         //dtVehicleSummary.Columns.Add("VehicleDetails");
@@ -117,6 +117,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
             foreach (Vehicles v in vehicles)
             {
+
                 getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
 
                 DataRow[] drrow = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration));
@@ -148,33 +149,42 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                DataRow[] drrowPa = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing));
-                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing)).Count() == 0)
+
+                if (v.TypeID == 1 || v.TypeID == 2 || v.TypeID == 3 || v.TypeID == 4 || v.TypeID == 7 || v.TypeID == 9)
                 {
-                    Passing += 1;
-                }
-                else
-                {
-                    expiryDate = Convert.ToDateTime(drrowPa[0]["DocumentEndDate"]);
-                    if (expiryDate <= DateTime.Now)
+                    DataRow[] drrowPa = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing));
+                    if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing)).Count() == 0)
                     {
                         Passing += 1;
                     }
+                    else
+                    {
+                        expiryDate = Convert.ToDateTime(drrowPa[0]["DocumentEndDate"]);
+                        if (expiryDate <= DateTime.Now)
+                        {
+                            Passing += 1;
+                        }
+                    }
                 }
 
-                DataRow[] drrowPer = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit));
-                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit)).Count() == 0)
+
+                if (v.TypeID == 1 || v.TypeID == 2 || v.TypeID == 3 || v.TypeID == 4 || v.TypeID == 7 || v.TypeID == 9)
                 {
-                    Permit += 1;
-                }
-                else
-                {
-                    expiryDate = Convert.ToDateTime(drrowPer[0]["DocumentEndDate"]);
-                    if (expiryDate <= DateTime.Now)
+                    DataRow[] drrowPer = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit));
+                    if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit)).Count() == 0)
                     {
                         Permit += 1;
                     }
+                    else
+                    {
+                        expiryDate = Convert.ToDateTime(drrowPer[0]["DocumentEndDate"]);
+                        if (expiryDate <= DateTime.Now)
+                        {
+                            Permit += 1;
+                        }
+                    }
                 }
+
 
                 DataRow[] drrowPol = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Pollution));
                 if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Pollution)).Count() == 0)
@@ -190,36 +200,41 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                DataRow[] drrowTax = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax));
-                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax)).Count() == 0)
+                if (v.TypeID == 1 || v.TypeID == 2 || v.TypeID == 3 || v.TypeID == 4 || v.TypeID == 7 || v.TypeID == 9)
                 {
-                    Tax += 1;
-                }
-                else
-                {
-                    expiryDate = Convert.ToDateTime(drrowTax[0]["DocumentEndDate"]);
-                    if (expiryDate <= DateTime.Now)
+                    DataRow[] drrowTax = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax));
+                    if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax)).Count() == 0)
                     {
                         Tax += 1;
                     }
-                }
-
-                DataRow[] drrowWritte = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract));
-                if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract)).Count() == 0)
-                {
-                    WrittenContract += 1;
-                }
-                else
-                {
-                    expiryDate = Convert.ToDateTime(drrowWritte[0]["DocumentEndDate"]);
-                    if (expiryDate <= DateTime.Now)
+                    else
                     {
-                        WrittenContract += 1;
+                        expiryDate = Convert.ToDateTime(drrowTax[0]["DocumentEndDate"]);
+                        if (expiryDate <= DateTime.Now)
+                        {
+                            Tax += 1;
+                        }
                     }
                 }
 
-            }
 
+                if (v.TypeID == 1 || v.TypeID == 2 || v.TypeID == 3 || v.TypeID == 4 || v.TypeID == 7 || v.TypeID == 9)
+                {
+                    DataRow[] drrowWritte = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract));
+                    if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract)).Count() == 0)
+                    {
+                        WrittenContract += 1;
+                    }
+                    else
+                    {
+                        expiryDate = Convert.ToDateTime(drrowWritte[0]["DocumentEndDate"]);
+                        if (expiryDate <= DateTime.Now)
+                        {
+                            WrittenContract += 1;
+                        }
+                    }
+                }
+            }
                        
 
 
@@ -262,7 +277,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
             dr["WrittenContract"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(WrittenContract)", string.Empty));
             dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
-            dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
+          dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
             dtVehicleSummary.Rows.Add(dr);
         }
         return dtVehicleSummary;
@@ -290,8 +305,6 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             incharge = user.GetUsersByAcademyID(vehicle.AcademyID, 14).FirstOrDefault();
             if (getDocuments.Count != 0)
             {
-                
-                
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 1))
                 {
                     dr = dataTable.NewRow();
@@ -307,9 +320,9 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     dataTable.Rows.Add(dr);
                 }
 
-                var row = getDocuments.Where(document => document.TransportDocumentID == 1).FirstOrDefault();
 
-                if (row!=null && row.DocumentEndDate <= DateTime.Now)
+                var row = getDocuments.Where(document => document.TransportDocumentID == 1).FirstOrDefault();
+                if (row != null && row.DocumentEndDate <= DateTime.Now)
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
@@ -323,6 +336,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                     dataTable.Rows.Add(dr);
                 }
+
 
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 2))
                 {
@@ -338,6 +352,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                     dataTable.Rows.Add(dr);
                 }
+
 
                 var row2 = getDocuments.Where(document => document.TransportDocumentID == 2).FirstOrDefault();
                 if (row2 != null && row2.DocumentEndDate <= DateTime.Now)
@@ -355,52 +370,62 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     dataTable.Rows.Add(dr);
                 }
 
-
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 3))
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Permit";
-                    if (incharge != null)
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == 3))
                     {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
+                        dr = dataTable.NewRow();
+                        dr["VehicleNumber"] = vehicle.Number;
+                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["AcademyName"] = vehicle.Academy.AcaName;
+                        dr["DocumentName"] = "Permit";
+                        if (incharge != null)
+                        {
+                            dr["TransportManager"] = incharge.InName;
+                            dr["MobileNumber"] = incharge.InMobile;
+                        }
+                        dataTable.Rows.Add(dr);
                     }
-                    dataTable.Rows.Add(dr);
                 }
+
 
                 var row3 = getDocuments.Where(document => document.TransportDocumentID == 3).FirstOrDefault();
-                if (row3 != null && row3.DocumentEndDate <= DateTime.Now)
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Permit";
-                    if (incharge != null)
+                    if (row3 != null && row3.DocumentEndDate <= DateTime.Now)
                     {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
+                        dr = dataTable.NewRow();
+                        dr["VehicleNumber"] = vehicle.Number;
+                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["AcademyName"] = vehicle.Academy.AcaName;
+                        dr["DocumentName"] = "Permit";
+                        if (incharge != null)
+                        {
+                            dr["TransportManager"] = incharge.InName;
+                            dr["MobileNumber"] = incharge.InMobile;
+                        }
+                        dataTable.Rows.Add(dr);
                     }
-                    dataTable.Rows.Add(dr);
                 }
 
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 4))
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Tax";
-                    if (incharge != null)
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == 4))
                     {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
+                        dr = dataTable.NewRow();
+                        dr["VehicleNumber"] = vehicle.Number;
+                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["AcademyName"] = vehicle.Academy.AcaName;
+                        dr["DocumentName"] = "Tax";
+                        if (incharge != null)
+                        {
+                            dr["TransportManager"] = incharge.InName;
+                            dr["MobileNumber"] = incharge.InMobile;
+                        }
+                        dataTable.Rows.Add(dr);
                     }
-                    dataTable.Rows.Add(dr);
                 }
+
 
                 var row4 = getDocuments.Where(document => document.TransportDocumentID == 4).FirstOrDefault();
                 if (row4 != null && row4.DocumentEndDate <= DateTime.Now)
@@ -418,36 +443,45 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     dataTable.Rows.Add(dr);
                 }
 
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 5))
+
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Passing";
-                    if (incharge != null)
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == 5))
                     {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
+                        dr = dataTable.NewRow();
+                        dr["VehicleNumber"] = vehicle.Number;
+                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["AcademyName"] = vehicle.Academy.AcaName;
+                        dr["DocumentName"] = "Passing";
+                        if (incharge != null)
+                        {
+                            dr["TransportManager"] = incharge.InName;
+                            dr["MobileNumber"] = incharge.InMobile;
+                        }
+                        dataTable.Rows.Add(dr);
                     }
-                    dataTable.Rows.Add(dr);
                 }
 
+
                 var row5 = getDocuments.Where(document => document.TransportDocumentID == 5).FirstOrDefault();
-                if (row5 != null && row5.DocumentEndDate <= DateTime.Now)
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Passing";
-                    if (incharge != null)
+                    if (row5 != null && row5.DocumentEndDate <= DateTime.Now)
                     {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
+                        dr = dataTable.NewRow();
+                        dr["VehicleNumber"] = vehicle.Number;
+                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["AcademyName"] = vehicle.Academy.AcaName;
+                        dr["DocumentName"] = "Passing";
+                        if (incharge != null)
+                        {
+                            dr["TransportManager"] = incharge.InName;
+                            dr["MobileNumber"] = incharge.InMobile;
+                        }
+                        dataTable.Rows.Add(dr);
                     }
-                    dataTable.Rows.Add(dr);
                 }
+
 
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 6))
                 {
@@ -464,6 +498,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     dataTable.Rows.Add(dr);
                 }
 
+
                 var row6 = getDocuments.Where(document => document.TransportDocumentID == 6).FirstOrDefault();
                 if (row6 != null && row6.DocumentEndDate <= DateTime.Now)
                 {
@@ -479,6 +514,22 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                     dataTable.Rows.Add(dr);
                 }
+
+                if (!getDocuments.Exists(document => document.TransportDocumentID == 9))
+                {
+                    dr = dataTable.NewRow();
+                    dr["VehicleNumber"] = vehicle.Number;
+                    dr["ZoneName"] = vehicle.Zone.ZoneName;
+                    dr["AcademyName"] = vehicle.Academy.AcaName;
+                    dr["DocumentName"] = "Route Map";
+                    if (incharge != null)
+                    {
+                        dr["TransportManager"] = incharge.InName;
+                        dr["MobileNumber"] = incharge.InMobile;
+                    }
+                    dataTable.Rows.Add(dr);
+                }
+
             }
             else
             {
@@ -505,18 +556,20 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     dr["MobileNumber"] = incharge.InMobile;
                 }
                 dataTable.Rows.Add(dr);
-
-                dr = dataTable.NewRow();
-                dr["VehicleNumber"] = vehicle.Number;
-                dr["ZoneName"] = vehicle.Zone.ZoneName;
-                dr["AcademyName"] = vehicle.Academy.AcaName;
-                dr["DocumentName"] = "Permit";
-                if (incharge != null)
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr["TransportManager"] = incharge.InName;
-                    dr["MobileNumber"] = incharge.InMobile;
+                    dr = dataTable.NewRow();
+                    dr["VehicleNumber"] = vehicle.Number;
+                    dr["ZoneName"] = vehicle.Zone.ZoneName;
+                    dr["AcademyName"] = vehicle.Academy.AcaName;
+                    dr["DocumentName"] = "Permit";
+                    if (incharge != null)
+                    {
+                        dr["TransportManager"] = incharge.InName;
+                        dr["MobileNumber"] = incharge.InMobile;
+                    }
+                    dataTable.Rows.Add(dr);
                 }
-                dataTable.Rows.Add(dr);
 
                 dr = dataTable.NewRow();
                 dr["VehicleNumber"] = vehicle.Number;
@@ -530,11 +583,28 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
                 dataTable.Rows.Add(dr);
 
+
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
+                {
+                    dr = dataTable.NewRow();
+                    dr["VehicleNumber"] = vehicle.Number;
+                    dr["ZoneName"] = vehicle.Zone.ZoneName;
+                    dr["AcademyName"] = vehicle.Academy.AcaName;
+                    dr["DocumentName"] = "Passing";
+                    if (incharge != null)
+                    {
+                        dr["TransportManager"] = incharge.InName;
+                        dr["MobileNumber"] = incharge.InMobile;
+                    }
+                    dataTable.Rows.Add(dr);
+                }
+
+
                 dr = dataTable.NewRow();
                 dr["VehicleNumber"] = vehicle.Number;
                 dr["ZoneName"] = vehicle.Zone.ZoneName;
                 dr["AcademyName"] = vehicle.Academy.AcaName;
-                dr["DocumentName"] = "Passing";
+                dr["DocumentName"] = "Insurance";
                 if (incharge != null)
                 {
                     dr["TransportManager"] = incharge.InName;
@@ -546,7 +616,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 dr["VehicleNumber"] = vehicle.Number;
                 dr["ZoneName"] = vehicle.Zone.ZoneName;
                 dr["AcademyName"] = vehicle.Academy.AcaName;
-                dr["DocumentName"] = "Insurance";
+                dr["DocumentName"] = "Route Map";
                 if (incharge != null)
                 {
                     dr["TransportManager"] = incharge.InName;

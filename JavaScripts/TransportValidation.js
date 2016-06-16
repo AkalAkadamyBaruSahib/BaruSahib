@@ -4,7 +4,11 @@ var cntR = 2;
 $(document).ready(function () {
     $("select[id*='drpEmployeeType']").change(function () {
         DisableDLControl();
-   });
+    });
+
+    $("select[id*='drpTransportType']").change(function () {
+        DisableControl();
+    });
     $("input[id*='txtDateOfBirth']").datepicker({
         maxDate: 0
     });
@@ -98,6 +102,7 @@ $(document).ready(function () {
             VehicleEmployee.PreviousCompanyName = $("input[id*='txtNameOfTheComp']").val();
             VehicleEmployee.ExperienceInYear = $("select[id*='ddlyear']").val();
             VehicleEmployee.ExperienceInMonth = $("select[id*='ddlmonth']").val();
+            VehicleEmployee.TransportTypeID = $("select[id*='drpTransportType']").val();
 
             params.VehicleEmployee = VehicleEmployee;
 
@@ -435,6 +440,7 @@ $(document).ready(function () {
                     $("input[id*='txtNameOfTheComp']").val(rdata.PreviousCompanyName);
                     $("select[id*='ddlyear']").val(rdata.ExperienceInYear);
                     $("select[id*='ddlmonth']").val(rdata.ExperienceInMonth);
+                    $("select[id*='drpTransportType']").val(rdata.TransportTypeID);
                     if (rdata.Qualification != null) {
                         $("#aQualification").show();
                         var qualificationPics = rdata.Qualification.split(',');
@@ -492,6 +498,7 @@ $(document).ready(function () {
                     }
                     $("input[id*='btnEdit'] ").show();
                     DisableDLControl();
+                    DisableControl();
                 }
             },
             error: function (response) {
@@ -619,6 +626,7 @@ $(document).ready(function () {
         vehicleEmployee.PreviousCompanyName = $("input[id*='txtNameOfTheComp']").val();
         vehicleEmployee.ExperienceInYear = $("select[id*='ddlyear']").val();
         vehicleEmployee.ExperienceInMonth = $("select[id*='ddlmonth']").val();
+        vehicleEmployee.TransportTypeID = $("select[id*='drpTransportType']").val();
 
         var transportEmployeeRelation = null;
         var arr = [];
@@ -703,6 +711,7 @@ $(document).ready(function () {
         $("input[id*='txtNameOfTheComp']").val("");
         $("select[id*='drpDlType']").empty();
         $("select[id*='drpEmployeeType']").empty();
+        $("select[id*='drpTransportType']").empty();
         $("select[id*='ddlyear']").empty()
         $("select[id*='ddlmonth']").empty();
         $("input[id*='txtFamilyName']").val("");
@@ -716,6 +725,32 @@ $(document).ready(function () {
         cnt = 2;
         cntR = 2;
     }
+
+    function DisableControl() {
+        //Get DropDownList selected value
+        var selectedValue = $("select[id*='drpTransportType']").val();
+
+        //Enable Controls
+        if (selectedValue == "2") {
+            $("#fileUploadQualification").prop('disabled', true);
+            $("input[id*='txtDateOfJoin']").prop('disabled', true);
+            $("#fileUploadApplicationForm").prop('disabled', true);
+            $("textarea[id*='txtAddress']").prop('disabled', true);
+            $("#fRefenceDetail").hide();
+            $("#fFamilyDetail").hide();
+            $("#fCompanyDetail").hide();
+        }   //Disable Controls
+        else {
+            $("#fileUploadQualification").prop('disabled', false);
+            $("input[id*='txtDateOfJoin']").prop('disabled', false);
+            $("#fileUploadApplicationForm").prop('disabled', false);
+            $("textarea[id*='txtAddress']").prop('disabled', false);
+            $("#fRefenceDetail").show();
+            $("#fFamilyDetail").show();
+            $("#fCompanyDetail").show();
+        }
+    }
+
 
    
 

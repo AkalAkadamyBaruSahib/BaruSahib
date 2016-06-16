@@ -10,7 +10,7 @@ using System.Web;
 public class VehicleEmployeeDTO
 {
     public int ID { get; set; }
-    public int? EmployeeType { get; set; }
+    public string EmployeeType { get; set; }
     public string Name { get; set; }
     public string MobileNumber { get; set; }
     public int? VehicleID { get; set; }
@@ -30,7 +30,8 @@ public class VehicleEmployeeDTO
     public string ExperienceInYear { get; set; }
     public string ExperienceInMonth { get; set; }
     public string ModifyOn { get; set; }
-    public bool IsActive { get; set; }
+    public bool? IsActive { get; set; }
+    public int? TransportTypeID { get; set; }
 
     public List<TransportEmployeeRelationDTO> TransportEmployeeRelationDTO { get; set; }
 }

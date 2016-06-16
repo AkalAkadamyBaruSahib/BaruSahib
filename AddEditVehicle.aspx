@@ -207,7 +207,7 @@
                                         <label class="control-label" for="typeahead">Diesel Rate: Rs.</label>
                                         <div class="controls">
                                             <asp:TextBox ID="txtContractDieselRate" Width="50px" runat="server"></asp:TextBox>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator9" ControlToValidate="txtContractDieselRate" ErrorMessage="Please enter Diesel Rate." />
+                                        <%--    <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vehicle" ID="RequiredFieldValidator9" ControlToValidate="txtContractDieselRate" ErrorMessage="Please enter Diesel Rate." />--%>
                                             <asp:Label ID="lblCurrentOilRate" runat="server"></asp:Label>
                                             <br />
                                         </div>

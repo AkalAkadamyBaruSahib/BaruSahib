@@ -14,7 +14,9 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
         if (!Page.IsPostBack)
         {
             BindAcademy();
+           
         }
+        
     }
     private void bindDocumentGrid()
     {
@@ -42,8 +44,9 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
             ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + drpVehicle.SelectedValue);
             if (ds.Tables[0].Rows.Count > 0)
             {
-                lblDocu.Text = ds.Tables[0].Rows[0]["ID"].ToString(); ;
-                hypDoc.NavigateUrl ="../../"+ ds.Tables[0].Rows[0]["Path"].ToString();
+
+                lblDocu.Text = ds.Tables[0].Rows[0]["ID"].ToString();
+                hypDoc.NavigateUrl = "../../" + ds.Tables[0].Rows[0]["Path"].ToString();
                 path = ds.Tables[0].Rows[0]["Path"].ToString();
                 path = path.Substring(path.IndexOf('/') + 1);
                 hypDoc.Text = path;
@@ -51,9 +54,8 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
                 {
                     txtDate.Text = Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()).ToShortDateString();
                 }
-                  btn_Approved.Visible = true;
+                btn_Approved.Visible = true;
             }
-
         }
     }
 
@@ -101,8 +103,10 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
 
     protected void drpVehicle_SelectedIndexChanged(object sender, EventArgs e)
     {
-        bindDocumentGrid();
+       bindDocumentGrid();
+       
     }
+
     protected void ddrAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindVehicle();

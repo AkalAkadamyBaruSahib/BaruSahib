@@ -56,7 +56,7 @@ public partial class AddVehicle : System.Web.UI.Page
         ddlDriverName.DataTextField = "Name";
         ddlDriverName.DataBind();
         ddlDriverName.Items.Insert(0, new ListItem("--Select One--", "0"));
-      
+
     }
     public void BindConductor()
     {
@@ -67,7 +67,7 @@ public partial class AddVehicle : System.Web.UI.Page
         ddlConductorName.DataTextField = "Name";
         ddlConductorName.DataBind();
         ddlConductorName.Items.Insert(0, new ListItem("--Select One--", "0"));
-       
+
     }
 
     protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
@@ -186,8 +186,8 @@ public partial class AddVehicle : System.Web.UI.Page
     {
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-       //   dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]");
-      dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
+        //   dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]");
+        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
 
         if (VehicleID > 0)
@@ -275,8 +275,8 @@ public partial class AddVehicle : System.Web.UI.Page
 
         txtContractDieselRate.Text = dtapproved.Rows[0]["ContractDieselRate"].ToString();
         GetCurrentOilPrice();
-        
-        
+
+
         ddlOilSlab.ClearSelection();
         ddlOilSlab.SelectedValue = dtapproved.Rows[0]["OilSlab"].ToString();
 
@@ -290,7 +290,7 @@ public partial class AddVehicle : System.Web.UI.Page
         ddlNumberOfTyres.ClearSelection();
         ddlNumberOfTyres.SelectedValue = dtapproved.Rows[0]["NumberOfTypres"].ToString();
 
-      
+
 
         if (dtapproved.Rows[0]["NumberOfTypres"].ToString() == "4")
         {
@@ -320,6 +320,7 @@ public partial class AddVehicle : System.Web.UI.Page
         }
 
         txtKm.Text = dtapproved.Rows[0]["KMPerDay"].ToString();
+        DisableControl();
     }
 
     //private void bindDocumentGrid()
@@ -327,8 +328,8 @@ public partial class AddVehicle : System.Web.UI.Page
     //    DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
     //    gvDocuments.DataSource = TransportDocuments.Tables[0];
     //    gvDocuments.DataBind();
-        
-       
+
+
     //}
     //protected void gvDocuments_RowDataBound(object sender, GridViewRowEventArgs e)
     //{
@@ -344,7 +345,7 @@ public partial class AddVehicle : System.Web.UI.Page
     //        Label lblDocu = e.Row.FindControl("lblDocu") as Label;
     //        TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
     //        Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
-            
+
     //        string path = string.Empty;
     //        ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + VehicleID);
     //        if (ds.Tables[0].Rows.Count > 0)
@@ -360,7 +361,7 @@ public partial class AddVehicle : System.Web.UI.Page
     //            }
     //            btn_Approved.Visible = true;
     //        }
-            
+
     //    }
     //}
 
@@ -374,7 +375,7 @@ public partial class AddVehicle : System.Web.UI.Page
         { VehicleNumber = txtVehicleNo1.Text.Trim().ToUpper() + "-" + txtVehicleNo2.Text.Trim().ToUpper() + "-" + txtVehicleNo4.Text.Trim().ToUpper(); }
 
         string rearL = null;
-         string rearR= null; string rearL2= null; string rearR2= null;
+        string rearR = null; string rearL2 = null; string rearR2 = null;
 
         if (ddlNumberOfTyres.SelectedValue == "4")
         {
@@ -389,7 +390,10 @@ public partial class AddVehicle : System.Web.UI.Page
             rearR2 = ddlRearRight2.SelectedValue;
         }
 
-
+        if (txtContractDieselRate.Text == "")
+        {
+            txtContractDieselRate.Text = "0.00";
+        }
         //if (VehicleNumber.ToUpper().Contains('T') && !chkTemp.Checked)
         //{
         //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Is vehicle on temporary registration.?');", true);
@@ -401,6 +405,7 @@ public partial class AddVehicle : System.Web.UI.Page
 
             if (isVehicleExists.Tables[0].Rows.Count == 0 || VehicleID > -1)
             {
+                
                 long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + ddlConductorName.SelectedValue + "," + ddlDriverName.SelectedValue);
 
                 if (VehicleID == -1)
@@ -413,7 +418,7 @@ public partial class AddVehicle : System.Web.UI.Page
                 //{
                 //    if (SaveDocuments())
                 //    {
-                        Response.Redirect("Transport_VehicleDetails.aspx");
+                Response.Redirect("Transport_VehicleDetails.aspx");
                 //    }
                 //}
             }
@@ -528,28 +533,7 @@ public partial class AddVehicle : System.Web.UI.Page
     }
     protected void ddlTransportType_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (ddlTransportType.SelectedValue == "1")
-        {
-            chkWrittenContract.Enabled = false;
-            ddlPeriodOfContract.Enabled = false;
-            ddlOilSlab.Enabled = false;
-            txtKm.Enabled = false;
-            dNorms.Visible = true;
-
-        }
-        else if (ddlTransportType.SelectedValue == "5" || ddlTransportType.SelectedValue == "3" || ddlTransportType.SelectedValue == "6"
-            || ddlTransportType.SelectedValue == "7" || ddlTransportType.SelectedValue == "8" || ddlTransportType.SelectedValue == "9")
-        {
-            dNorms.Visible = false;
-        }
-        else
-        {
-            chkWrittenContract.Enabled = true;
-            ddlPeriodOfContract.Enabled = true;
-            ddlOilSlab.Enabled = true;
-            txtKm.Enabled = true;
-            dNorms.Visible = true;
-        }
+        DisableControl();
     }
     protected void ddlNumberOfTyres_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -573,5 +557,56 @@ public partial class AddVehicle : System.Web.UI.Page
         }
     }
 
+    public void DisableControl()
+    {
+        if (ddlTransportType.SelectedValue == "1")
+        {
+            chkWrittenContract.Enabled = false;
+            ddlPeriodOfContract.Enabled = false;
+            ddlOilSlab.Enabled = false;
+            txtKm.Enabled = false;
+            dNorms.Visible = true;
+
+        }
+        else if (ddlTransportType.SelectedValue == "6" || ddlTransportType.SelectedValue == "7" || ddlTransportType.SelectedValue == "8" || ddlTransportType.SelectedValue == "9")
+        {
+            dNorms.Visible = false;
+        }
+        else if (ddlTransportType.SelectedValue == "5")
+        {
+            chkWrittenContract.Enabled = false;
+            ddlPeriodOfContract.Enabled = false;
+            txtContractDieselRate.Enabled = false;
+            ddlOilSlab.Enabled = false;
+            txtKm.Enabled = false;
+            dNorms.Visible = false;
+            ddlDriverName.Enabled = false;
+            ddlConductorName.Enabled = false;
+            txtOwnerNo.Enabled = false;
+            OwnerName.Enabled = false;
+            OwnerName.Text = "Trust";
+            txtSitting.Text = "2";
+            txtSitting.Enabled = false;
+        }
+        else if (ddlTransportType.SelectedValue == "3")
+        {
+            chkWrittenContract.Enabled = false;
+            ddlPeriodOfContract.Enabled = false;
+            txtContractDieselRate.Enabled = false;
+            ddlOilSlab.Enabled = false;
+            txtKm.Enabled = false;
+            dNorms.Visible = false;
+
+        }
+        else
+        {
+            chkWrittenContract.Enabled = true;
+            ddlPeriodOfContract.Enabled = true;
+            ddlOilSlab.Enabled = true;
+            txtKm.Enabled = true;
+            dNorms.Visible = true;
+        }
     
+    }
+
 }

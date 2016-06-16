@@ -246,14 +246,16 @@
                         <div class="box-content">
                             <div id="trEstimateDetail">
 
-                                <table id="grid" style="width: 1000px;" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                                <table id="grid" style="width: 1062px;" class='table table-striped table-bordered bootstrap-datatable datatable'>
                                     <thead>
                                         <tr>
-                                            <th style="color: #cc3300; width:344px;">MaterialName</th>
+                                            <th style="color: #cc3300; width:50px;">Sr No</th>
+                                            <th style="color: #cc3300; width:400px;">MaterialName</th>
                                             <th style="color: #cc3300; width: 239px;">Source Type</th>
                                             <th style="color: #cc3300; width: 120px;">Quantity</th>
                                             <th style="color: #cc3300; width: 28px;">Unit</th>
                                             <th style="color: #cc3300; width: 121px">Rate</th>
+                                             <th style="color: #cc3300; width: 344px">Remarks</th>
                                             <th style="color: #cc3300; width: 45px;">Action</th>
                                         </tr>
                                     </thead>
@@ -261,9 +263,9 @@
                                     </tbody>
                                 </table>
                                
-                                  <input type="button" id="btnTotalCost" value="Toatl Amount"  title="Toatl Amount" style="margin-right: 180px;float: right;" class="btn btn-success" />
-                                 <asp:Label ID="Label1" runat="server" ForeColor="Red" style="margin-right: 125px;float: right; margin-top: -23px;">Estimate Cost:</asp:Label>
-                                  <asp:Label ID="lblAmt" runat="server" ForeColor="Red" style="margin-right: 22px; margin-top: -23px; float: right;" Text="00.00"></asp:Label>
+                                  <input type="button" id="btnTotalCost" value="Toatl Amount"  title="Toatl Amount" style="float: right;" class="btn btn-success" />
+                                 <asp:Label ID="Label1" runat="server" ForeColor="Red" style="color: Red;margin-right: 402px; float: right; margin-top: -23px;">Estimate Cost:</asp:Label>
+                                  <asp:Label ID="lblAmt" runat="server" ForeColor="Red" Text="00.00" style="color: Red; margin-right: 324px; margin-top: -23px;float: right;"></asp:Label>
                                  <%--  <label id="lblAmt"></label>--%>
                             </div>
                         </div>
