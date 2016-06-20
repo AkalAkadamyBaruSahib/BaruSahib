@@ -37,8 +37,9 @@ $(document).ready(function () {
         }
 
     });
-    $("input[id$='btnEdit']").click(function () {
+    $("#btnEdit").click(function (e) {
         if (Page_ClientValidate("driver")) {
+            ClientSideClick(this);
             UpdateTansportEmployeeInfo();
             return false;
         }
@@ -51,9 +52,9 @@ $(document).ready(function () {
     $("#anc_rem").click(function () {
         $('#tbl1 tr:last-child').remove();
     });
-    $("input[id*='btnSave']").click(function () {
-  
+    $("#btnSave").click(function (e) {
         if (Page_ClientValidate("driver")) {
+            ClientSideClick(this);
             var params = new Object();
             var VehicleEmployee = new Object();
             VehicleEmployee.EmployeeType = $("select[id*='drpEmployeeType']").val();
@@ -69,31 +70,31 @@ $(document).ready(function () {
             if ($("#fileUploadQualification")[0].files != undefined) {
                 VehicleEmployee.Qualification = "";
                 for (var i = 0; i < fileUploadQualification.length; i++) {
-                  
+
                     VehicleEmployee.Qualification += "TransportEmployeeQualification/" + $("#fileUploadQualification")[0].files[i].name + ",";
                 }
                 VehicleEmployee.Qualification = VehicleEmployee.Qualification.substr(0, VehicleEmployee.Qualification.length - 1);
             }
-            
+
             VehicleEmployee.DLNumber = $("input[id*='txtDlNumber']").val();
 
             var fileUploadDlValidity = $("#fileUploadDlValidity")[0].files;
             if ($("#fileUploadDlValidity")[0].files != undefined) {
                 VehicleEmployee.DLScanCopy = "";
                 for (var i = 0; i < fileUploadDlValidity.length; i++) {
-                  
+
                     VehicleEmployee.DLScanCopy += "TransportDLScanCopy/" + $("#fileUploadDlValidity")[0].files[i].name + ",";
                 }
                 VehicleEmployee.DLScanCopy = VehicleEmployee.DLScanCopy.substr(0, VehicleEmployee.DLScanCopy.length - 1);
             }
-           
+
             VehicleEmployee.DateOfJoining = $("input[id*='txtDateOfJoin']").val();
 
             var fileUploadApplicationForm = $("#fileUploadApplicationForm")[0].files;
             if ($("#fileUploadApplicationForm")[0].files != undefined) {
                 VehicleEmployee.ApplicationForm = "";
                 for (var i = 0; i < fileUploadApplicationForm.length; i++) {
-                  
+
                     VehicleEmployee.ApplicationForm += "TransportApplicationForm/" + $("#fileUploadApplicationForm")[0].files[i].name + ",";
                 }
                 VehicleEmployee.ApplicationForm = VehicleEmployee.ApplicationForm.substr(0, VehicleEmployee.ApplicationForm.length - 1);
@@ -123,7 +124,7 @@ $(document).ready(function () {
                         LoadTransportEmployeeInfo();
                         alert("Record has been Saved successfully");
                         ClearTextBox();
-                        
+
                     }
                 },
                 error: function (result, textStatus) {
@@ -406,7 +407,6 @@ $(document).ready(function () {
         $('#myModal').modal('show');
     }
    
-
     function GetTranportEmployeeInfoToUpdate(vehicleEmployeeID) {
         
         $("#divemptype").hide();
@@ -748,6 +748,35 @@ $(document).ready(function () {
             $("#fRefenceDetail").show();
             $("#fFamilyDetail").show();
             $("#fCompanyDetail").show();
+        }
+    }
+
+    function Validation() {
+        if ($("select[id*='drpDlType']").val() == "undefined" || $("select[id*='drpDlType']").val() == "0") {
+            alert("Please Select the DL Type");
+            return false;
+        }
+        else if ($("input[id*='txtdlvalidity']").val() == "" || $("input[id*='txtdlvalidity']").val() == "0") {
+            alert("Please Enter the DL Validity");
+            return false;
+        }
+        else if ($("input[id*='txtDlNumber']").val() == "" || $("input[id*='txtDlNumber']").val() == "0") {
+            alert("Please Enter the DL Number");
+            return false;
+        }
+        return true;
+
+        var ddlst = document.getElementById("<%=ddlState.ClientID%>");
+        var Text = ddlst.options[ddlst.selectedIndex].text;
+        alert(Text);
+
+        if (Text == 'Brazil') {
+            ValidatorEnable(document.getElementById("RequiredFieldValidator9"), false);
+            alert('validator false');
+        }
+        else {
+            ValidatorEnable(document.getElementById("RequiredFieldValidator9"), true);
+            alert('validator true');
         }
     }
 

@@ -3,7 +3,25 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+       
+    <script type="text/javascript">
+        function ClientSideClick(myButton) {
+            // Client side validation
+            if (typeof (Page_ClientValidate) == 'function') {
+                if (Page_ClientValidate() == false)
+                { return false; }
+            }
 
+            //make sure the button is not of type "submit" but "button"
+            if (myButton.getAttribute('type') == 'button') {
+                // diable the button
+                myButton.disabled = true;
+                myButton.className = "btn btn-primary";
+                myButton.value = "Please Wait...";
+            }
+            return true;
+        }
+    </script>
     <style>
         #holder
         {
@@ -400,7 +418,7 @@
                         </div>
                         <div class="form-actions">
                             <%--<input id="btnSave" value="Save" class="btn btn-primary" />--%>
-                            <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary" ValidationGroup="visitor" OnClick="btnSave_Click" />
+                            <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary"  OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" ValidationGroup="visitor" OnClick="btnSave_Click" />
                         </div>
                     </fieldset>
                 </div>

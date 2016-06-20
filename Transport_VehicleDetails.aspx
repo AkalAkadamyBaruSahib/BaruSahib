@@ -32,8 +32,10 @@
         <asp:Button id="btnExcel2" runat="server" Text="Estimate Material Statement" CssClass="btn btn-primary" onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details Execl" data-rel="tooltip" OnClick="btnExcel2_Click" Width="207px"/>--%>
         <div id="divbtnapprved">
         <asp:Button ID="btnNonApproved" runat="server" Text="View Non Approved Vehicle(s)" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate which are uploaded by user" data-rel="tooltip" OnClick="btnNonApproved_Click" Width="235px" />
-        Select Academy:
+         Select Academy:
         <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList>
+        Select Transport Type:
+        <asp:DropDownList ID="ddlTransportType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlTransportType_SelectedIndexChanged"></asp:DropDownList>
         </div>
         <div id="divTransportGps" style="width: 1100px; height: 520px; display: none;">
             <div class="box-header well" data-original-title>

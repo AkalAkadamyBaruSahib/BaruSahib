@@ -309,6 +309,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Registration";
@@ -326,6 +327,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Registration";
@@ -342,6 +344,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Pollution";
@@ -359,6 +362,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Pollution";
@@ -376,7 +380,8 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     {
                         dr = dataTable.NewRow();
                         dr["VehicleNumber"] = vehicle.Number;
-                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["VehicleType"] = vehicle.TransportTypes.Type;
+                         dr["ZoneName"] = vehicle.Zone.ZoneName;
                         dr["AcademyName"] = vehicle.Academy.AcaName;
                         dr["DocumentName"] = "Permit";
                         if (incharge != null)
@@ -396,6 +401,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     {
                         dr = dataTable.NewRow();
                         dr["VehicleNumber"] = vehicle.Number;
+                        dr["VehicleType"] = vehicle.TransportTypes.Type;
                         dr["ZoneName"] = vehicle.Zone.ZoneName;
                         dr["AcademyName"] = vehicle.Academy.AcaName;
                         dr["DocumentName"] = "Permit";
@@ -414,6 +420,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     {
                         dr = dataTable.NewRow();
                         dr["VehicleNumber"] = vehicle.Number;
+                        dr["VehicleType"] = vehicle.TransportTypes.Type;
                         dr["ZoneName"] = vehicle.Zone.ZoneName;
                         dr["AcademyName"] = vehicle.Academy.AcaName;
                         dr["DocumentName"] = "Tax";
@@ -428,19 +435,23 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
 
                 var row4 = getDocuments.Where(document => document.TransportDocumentID == 4).FirstOrDefault();
-                if (row4 != null && row4.DocumentEndDate <= DateTime.Now)
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Tax";
-                    if (incharge != null)
+                    if (row4 != null && row4.DocumentEndDate <= DateTime.Now)
                     {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
+                        dr = dataTable.NewRow();
+                        dr["VehicleNumber"] = vehicle.Number;
+                        dr["VehicleType"] = vehicle.TransportTypes.Type;
+                        dr["ZoneName"] = vehicle.Zone.ZoneName;
+                        dr["AcademyName"] = vehicle.Academy.AcaName;
+                        dr["DocumentName"] = "Tax";
+                        if (incharge != null)
+                        {
+                            dr["TransportManager"] = incharge.InName;
+                            dr["MobileNumber"] = incharge.InMobile;
+                        }
+                        dataTable.Rows.Add(dr);
                     }
-                    dataTable.Rows.Add(dr);
                 }
 
 
@@ -450,6 +461,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     {
                         dr = dataTable.NewRow();
                         dr["VehicleNumber"] = vehicle.Number;
+                        dr["VehicleType"] = vehicle.TransportTypes.Type;
                         dr["ZoneName"] = vehicle.Zone.ZoneName;
                         dr["AcademyName"] = vehicle.Academy.AcaName;
                         dr["DocumentName"] = "Passing";
@@ -470,6 +482,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     {
                         dr = dataTable.NewRow();
                         dr["VehicleNumber"] = vehicle.Number;
+                        dr["VehicleType"] = vehicle.TransportTypes.Type;
                         dr["ZoneName"] = vehicle.Zone.ZoneName;
                         dr["AcademyName"] = vehicle.Academy.AcaName;
                         dr["DocumentName"] = "Passing";
@@ -487,6 +500,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Insurance";
@@ -504,6 +518,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Insurance";
@@ -514,27 +529,12 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                     dataTable.Rows.Add(dr);
                 }
-
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 9))
-                {
-                    dr = dataTable.NewRow();
-                    dr["VehicleNumber"] = vehicle.Number;
-                    dr["ZoneName"] = vehicle.Zone.ZoneName;
-                    dr["AcademyName"] = vehicle.Academy.AcaName;
-                    dr["DocumentName"] = "Route Map";
-                    if (incharge != null)
-                    {
-                        dr["TransportManager"] = incharge.InName;
-                        dr["MobileNumber"] = incharge.InMobile;
-                    }
-                    dataTable.Rows.Add(dr);
-                }
-
             }
             else
             {
                 dr = dataTable.NewRow();
                 dr["VehicleNumber"] = vehicle.Number;
+                dr["VehicleType"] = vehicle.TransportTypes.Type;
                 dr["ZoneName"] = vehicle.Zone.ZoneName;
                 dr["AcademyName"] = vehicle.Academy.AcaName;
                 dr["DocumentName"] = "Registration";
@@ -547,6 +547,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
                 dr = dataTable.NewRow();
                 dr["VehicleNumber"] = vehicle.Number;
+                dr["VehicleType"] = vehicle.TransportTypes.Type;
                 dr["ZoneName"] = vehicle.Zone.ZoneName;
                 dr["AcademyName"] = vehicle.Academy.AcaName;
                 dr["DocumentName"] = "Pollution";
@@ -560,6 +561,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Permit";
@@ -570,24 +572,28 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                     dataTable.Rows.Add(dr);
                 }
-
-                dr = dataTable.NewRow();
-                dr["VehicleNumber"] = vehicle.Number;
-                dr["ZoneName"] = vehicle.Zone.ZoneName;
-                dr["AcademyName"] = vehicle.Academy.AcaName;
-                dr["DocumentName"] = "Tax";
-                if (incharge != null)
+                if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
-                    dr["TransportManager"] = incharge.InName;
-                    dr["MobileNumber"] = incharge.InMobile;
+                    dr = dataTable.NewRow();
+                    dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
+                    dr["ZoneName"] = vehicle.Zone.ZoneName;
+                    dr["AcademyName"] = vehicle.Academy.AcaName;
+                    dr["DocumentName"] = "Tax";
+                    if (incharge != null)
+                    {
+                        dr["TransportManager"] = incharge.InName;
+                        dr["MobileNumber"] = incharge.InMobile;
+                    }
+                    dataTable.Rows.Add(dr);
                 }
-                dataTable.Rows.Add(dr);
 
 
                 if (vehicle.TypeID == 1 || vehicle.TypeID == 2 || vehicle.TypeID == 3 || vehicle.TypeID == 4 || vehicle.TypeID == 7 || vehicle.TypeID == 9)
                 {
                     dr = dataTable.NewRow();
                     dr["VehicleNumber"] = vehicle.Number;
+                    dr["VehicleType"] = vehicle.TransportTypes.Type;
                     dr["ZoneName"] = vehicle.Zone.ZoneName;
                     dr["AcademyName"] = vehicle.Academy.AcaName;
                     dr["DocumentName"] = "Passing";
@@ -602,21 +608,10 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
                 dr = dataTable.NewRow();
                 dr["VehicleNumber"] = vehicle.Number;
+                dr["VehicleType"] = vehicle.TransportTypes.Type;
                 dr["ZoneName"] = vehicle.Zone.ZoneName;
                 dr["AcademyName"] = vehicle.Academy.AcaName;
                 dr["DocumentName"] = "Insurance";
-                if (incharge != null)
-                {
-                    dr["TransportManager"] = incharge.InName;
-                    dr["MobileNumber"] = incharge.InMobile;
-                }
-                dataTable.Rows.Add(dr);
-
-                dr = dataTable.NewRow();
-                dr["VehicleNumber"] = vehicle.Number;
-                dr["ZoneName"] = vehicle.Zone.ZoneName;
-                dr["AcademyName"] = vehicle.Academy.AcaName;
-                dr["DocumentName"] = "Route Map";
                 if (incharge != null)
                 {
                     dr["TransportManager"] = incharge.InName;
@@ -632,6 +627,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
     {
         DataTable dt = new DataTable();
         dt.Columns.Add(new DataColumn("VehicleNumber", typeof(string)));
+        dt.Columns.Add(new DataColumn("VehicleType", typeof(string)));
         dt.Columns.Add(new DataColumn("ZoneName", typeof(string)));
         dt.Columns.Add(new DataColumn("AcademyName", typeof(string)));
         dt.Columns.Add(new DataColumn("DocumentName", typeof(string)));

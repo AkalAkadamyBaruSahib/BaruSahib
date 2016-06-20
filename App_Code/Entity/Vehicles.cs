@@ -54,4 +54,7 @@ public class Vehicles
     [ForeignKey("AcademyID")]
     public Academy Academy { get; set; }
 
+    [ForeignKey("TypeID")]
+    public TransportTypes TransportTypes { get; set; }
+
 }

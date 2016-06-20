@@ -3,6 +3,21 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+      <script type="text/javascript">
+          function ClientSideClick(myButton) {
+
+              if (typeof (Page_ClientValidate) == 'function') {
+                  if (Page_ClientValidate() == false)
+                  { return false; }
+              }
+              if (myButton.getAttribute('type') == 'button') {
+                  myButton.disabled = true;
+                  myButton.className = "btn btn-success";
+                  myButton.value = "Please Wait...";
+              }
+              return true;
+          }
+    </script>
     <script src="JavaScripts/TransportValidation.js"></script>
     <style>
         .headingTable
@@ -144,6 +159,7 @@
                                             <label class="control-label" for="typeahead">DL Number:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDlNumber" runat="server" CssClass="span6 typeahead" Style="width: 200px; height: 25px;"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="RequiredtxtDlNumber" ControlToValidate="txtDlNumber" runat="server" ValidationGroup="driver" Display="None" ErrorMessage="Please Enter The DL Number"></asp:RequiredFieldValidator>
 
                                             </div>
                                         </div>
@@ -155,7 +171,7 @@
                                                 <div class="controls">
                                                     <asp:DropDownList ID="drpDlType" runat="server" Style="width: 200px; height: 25px;">
                                                     </asp:DropDownList>
-
+                                                        <asp:RequiredFieldValidator ID="RequireddrpDlType" ControlToValidate="drpDlType" runat="server" InitialValue="0" ValidationGroup="driver" Display="None" ErrorMessage="Please Select the DL Type"></asp:RequiredFieldValidator>
                                                 </div>
                                             </div>
                                     </td>
@@ -164,9 +180,8 @@
                                             <label class="control-label" for="typeahead">DL Validity:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtdlvalidity" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox><br />
-
-
-                                            </div>
+                                                               <asp:RequiredFieldValidator ID="Requiredtxtdlvalidity" ControlToValidate="txtdlvalidity" runat="server" ValidationGroup="driver" Display="None" ErrorMessage="Please Enter The DL Validity"></asp:RequiredFieldValidator>
+                                          </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -358,8 +373,10 @@
                         </div>
                         <div class="form-actions">
                             <%--<input id="btnSave" value="Save" class="btn btn-primary" />--%>
-                            <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary" />
-                            <asp:Button ID="btnEdit" Text="Update" runat="server" CssClass="btn btn-primary" />
+                                   <input type="button" id="btnSave" value="Save" title="Save" class="btn btn-success" />
+                          <%--  <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary"  />--%>
+                              <input type="button" id="btnEdit" value="Update" title="Save" class="btn btn-success" />
+                           <%-- <asp:Button ID="btnEdit" Text="Update" runat="server" CssClass="btn btn-primary"/>--%>
                         </div>
                     </fieldset>
 

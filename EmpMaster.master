@@ -123,7 +123,7 @@
                             <li><a class="ajax-link" href="Emp_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
                             <li><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted</span></a></li>
                             <li><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate</span></a></li>
-                            <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status</span></a></li>
+                            <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status For Mohali</span></a></li>
                             <%--<li><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet"> Stock</span></a></li>
 						<li><a class="ajax-link" href="Emp_DrawingView.aspx"><i class="icon-font"></i><span class="hidden-tablet"> Drawings</span></a></li>--%>
                             <li><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status</span></a></li>
@@ -132,6 +132,7 @@
                             <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet"> Tickets</span></a></li>
                             <li><a class="ajax-link" href="Emp_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>
                             <li><a class="ajax-link" href="Emp_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
+                            <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx?IsLocal=1"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                         </ul>
 
                     </div>

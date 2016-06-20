@@ -67,7 +67,7 @@ public partial class Admin_UserControls_BodySendMessage : System.Web.UI.UserCont
     protected void btnSave_Click(object sender, EventArgs e)
     {
         string mobileNumber = txtRecipientNumber.Text;
-        string senderId = "AKALCO";
+        string senderId = "AKAL SECURITY";
         string userid = "AKALSEVA";
         string password = "c@120";
         string message = HttpUtility.UrlEncode(txtMessage.Text);

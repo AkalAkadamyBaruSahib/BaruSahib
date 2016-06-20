@@ -46,6 +46,7 @@
                                                     <div class="controls">
                                                         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
                                                         <asp:TextBox ID="txtName" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
+                                                       <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="reqName" ForeColor="Red"  ControlToValidate="txtName" ErrorMessage="Please Enter the  Name" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -55,6 +56,7 @@
                                                     <div class="controls">
                                                         <asp:TextBox ID="txtMobileNo" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtMobileNo" ErrorMessage="Invalid Mobile No" ValidationExpression="[0-9]{10}" ForeColor="Red"></asp:RegularExpressionValidator>
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator1" ForeColor="Red"  ControlToValidate="txtMobileNo" ErrorMessage="Please Enter the Mobile No" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -64,6 +66,7 @@
                                                     <div class="controls">
                                                         <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
                                                         <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
+                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator2" ForeColor="Red" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -74,6 +77,7 @@
                                                     <label class="control-label" for="typeahead">Salary:</label>
                                                     <div class="controls">
                                                         <asp:TextBox ID="txtSalary" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
+                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator3" ForeColor="Red" ControlToValidate="txtSalary" ErrorMessage="Please Enter the  Salary" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -82,6 +86,7 @@
                                                     <label class="control-label" for="typeahead">Cutting:</label>
                                                     <div class="controls">
                                                         <asp:TextBox ID="txtCutting" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
+                                                         <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator4" ForeColor="Red"  ControlToValidate="txtCutting" ErrorMessage="Please Enter the Cutting" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -91,7 +96,7 @@
                                                     <label class="control-label" for="typeahead">Education:</label>
                                                     <div class="controls">
                                                         <asp:DropDownList ID="ddlEducation" Width="200px" runat="server">
-                                                            <asp:ListItem Text="" Value="NULL">--Select One--</asp:ListItem>
+                                                            <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
                                                             <asp:ListItem Text="Below Matrix" Value="Below Matrix"></asp:ListItem>
                                                             <asp:ListItem Text="Matrix" Value="Matrix"></asp:ListItem>
                                                             <asp:ListItem Text="+2" Value="+2"></asp:ListItem>
@@ -99,6 +104,7 @@
                                                             <asp:ListItem Text="Graduation" Value="Graduation"></asp:ListItem>
                                                             <asp:ListItem Text="Post Graduation" Value="Post Graduation"></asp:ListItem>
                                                         </asp:DropDownList>
+                                                       <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" InitialValue="0" ID="RequiredFieldValidator5" ForeColor="Red" ControlToValidate="ddlEducation" ErrorMessage="Please Select the Education" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -109,6 +115,7 @@
                                                     <label class="control-label" for="typeahead">Designation:</label>
                                                     <div class="controls">
                                                         <asp:DropDownList ID="ddlDesig" Width="200px" runat="server"></asp:DropDownList>
+                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator6" ForeColor="Red" ControlToValidate="ddlDesig" ErrorMessage="Please Select the Designation" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -117,6 +124,7 @@
                                                     <label class="control-label" for="typeahead">Department:</label>
                                                     <div class="controls">
                                                         <asp:DropDownList ID="ddlDept" Width="200px" runat="server"></asp:DropDownList>
+                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator7" ForeColor="Red" ControlToValidate="ddlDept" ErrorMessage="Please Select the Department" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -124,7 +132,8 @@
                                                 <div class="control-group">
                                                     <label class="control-label" for="typeahead">Zone:</label>
                                                     <div class="controls">
-                                                        <asp:DropDownList ID="ddlZone" Width="200px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList><br />
+                                                        <asp:DropDownList ID="ddlZone" Width="200px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList><br />   
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="ddlZone" ErrorMessage="Please Select the Zone" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -135,7 +144,8 @@
                                                 <div class="control-group">
                                                     <label class="control-label" for="typeahead">Academy:</label>
                                                     <div class="controls">
-                                                        <asp:DropDownList ID="ddlAcademy" Width="200px" AutoPostBack="true" runat="server"></asp:DropDownList><br />
+                                                        <asp:DropDownList ID="ddlAcademy" Width="200px" runat="server"></asp:DropDownList><br />
+                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator8" ForeColor="Red" ControlToValidate="ddlAcademy" ErrorMessage="Please Select the Academy" />
                                                     </div>
                                                 </div>
                                             </td>

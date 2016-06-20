@@ -35,8 +35,8 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             BindAcademy();
-
-            getVehicleDetails(true, -1);
+            BindTransportType();
+            getVehicleDetails(true, -1,-1);
             if (Request.QueryString["ActiveVehicleID"] != null)
             {
                 InActiveVechicle(Request.QueryString["ActiveVehicleID"].ToString());
@@ -49,7 +49,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         }
         if (Request.QueryString["AcaId"] != null)
         {
-            getVehicleDetails(true, int.Parse(Request.QueryString["AcaId"].ToString()));
+            getVehicleDetails(true, int.Parse(Request.QueryString["AcaId"].ToString()),-1);
             //btnExcel2.Visible = false;
             //btnExecl.Visible = false;
         }
@@ -282,7 +282,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         Response.End();
     }
 
-    private void getVehicleDetails(bool isApproved, int AcaID)
+    private void getVehicleDetails(bool isApproved, int AcaID,int typeID)
     {
         int UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         DataSet dsVehicleDetails = new DataSet();
@@ -297,10 +297,22 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
         DataTable dtapproved = new DataTable();
 
-        if (AcaID > 0)
+        if (AcaID > 0 && typeID > 0)
         {
             dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
-                          where mytable.Field<int>("AcademyID") == AcaID
+                          where mytable.Field<int>("AcademyID") == AcaID && mytable.Field<int>("TypeID") == typeID
+                          select mytable);
+        }
+        else if (AcaID > 0)
+        {
+            dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
+                          where mytable.Field<int>("AcademyID") == AcaID 
+                          select mytable);
+        }
+        else if (typeID > 0)
+        {
+            dtApproved = (from mytable in dsVehicleDetails.Tables[0].AsEnumerable()
+                          where mytable.Field<int>("TypeID") == typeID
                           select mytable);
         }
         else
@@ -432,24 +444,26 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
     protected void btnNonApproved_Click(object sender, EventArgs e)
     {
         string acaID = ddlAcademy.SelectedIndex == -1 ? "-1" : ddlAcademy.SelectedValue;
+        string typeID = ddlTransportType.SelectedIndex == -1 ? "-1" : ddlTransportType.SelectedValue;
         if (((Button)sender).Text == "View Non Approved Vehicle(s)")
         {
             IsApproved = false;
-            getVehicleDetails(false, int.Parse(acaID));
+            getVehicleDetails(false, int.Parse(acaID), int.Parse(typeID));
             ((Button)sender).Text = "View Approved Vehicle(s)";
         }
         else
         {
             IsApproved = true;
             ((Button)sender).Text = "View Non Approved Vehicle(s)";
-            getVehicleDetails(true, int.Parse(acaID));
+            getVehicleDetails(true, int.Parse(acaID), int.Parse(typeID));
         }
     }
 
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
-        int acaID = int.Parse(ddlAcademy.SelectedValue);
-        getVehicleDetails(IsApproved, acaID);
+        string acaID = ddlAcademy.SelectedIndex == -1 ? "-1" : ddlAcademy.SelectedValue;
+        string typeID = ddlTransportType.SelectedIndex == -1 ? "-1" : ddlTransportType.SelectedValue;
+        getVehicleDetails(IsApproved, int.Parse(acaID), int.Parse(typeID));
 
     }
 
@@ -479,7 +493,7 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
     {
         TransportController transportcontroller = new TransportController();
         transportcontroller.DeleteVechicleInfo(Convert.ToInt32(vid));
-        getVehicleDetails(true, -1);
+        getVehicleDetails(true, -1,-1);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle Information  Delete Successfully.');", true);
     }
 
@@ -487,9 +501,27 @@ public partial class Transport_VehicleDetails : System.Web.UI.Page
     {
         TransportController transportcontroller = new TransportController();
         transportcontroller.ActiveVechicleInfo(Convert.ToInt32(vid));
-        getVehicleDetails(true, -1);
+        getVehicleDetails(true, -1,-1);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle Information  Active Successfully.');", true);
     }
 
+    public void BindTransportType()
+    {
+        DataSet TranspotType = new DataSet();
+        TranspotType = DAL.DalAccessUtility.GetDataInDataSet("select * from TransportTypes");
+        ddlTransportType.DataSource = TranspotType;
+        ddlTransportType.DataValueField = "ID";
+        ddlTransportType.DataTextField = "Type";
+        ddlTransportType.DataBind();
+        ddlTransportType.Items.Insert(0, (new System.Web.UI.WebControls.ListItem("-- All Transport Type--", "0")));
+        ddlTransportType.SelectedIndex = 0;
+    
+    }
 
+    protected void ddlTransportType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string acaID = ddlAcademy.SelectedIndex == -1 ? "-1" : ddlAcademy.SelectedValue;
+        string typeID = ddlTransportType.SelectedIndex == -1 ? "-1" : ddlTransportType.SelectedValue;
+        getVehicleDetails(IsApproved, int.Parse(acaID), int.Parse(typeID));
+    }
 }

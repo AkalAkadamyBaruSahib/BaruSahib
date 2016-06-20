@@ -55,7 +55,7 @@
                     <form class="form-horizontal">
                         <fieldset>
                             <legend></legend>
-                            <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="vendor" />
+                            <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="security" />
 
                             <table>
                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -66,6 +66,8 @@
                                                     <label class="control-label" for="typeahead">Zone:</label>
                                                     <div class="controls">
                                                         <asp:DropDownList ID="ddlZone" Width="200px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="ddlZone" ErrorMessage="Please Select the Zone" />
+                          
                                                     </div>
                                                 </div>
                                             </td>
@@ -75,6 +77,8 @@
                                                     <label class="control-label" for="typeahead">Academy:</label>
                                                     <div class="controls">
                                                         <asp:DropDownList ID="ddlAcademy" Width="200px" AutoPostBack="true" runat="server" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList><br />
+                                                       <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator1" ForeColor="Red" ControlToValidate="ddlAcademy" ErrorMessage="Please Select the Academy" />
+                          
                                                     </div>
                                                 </div>
                                             </td>
@@ -100,6 +104,8 @@
                                                     <div class="control-group">
                                                         <label class="control-label" for="typeahead">Compose Message:</label>
                                                         <asp:TextBox ID="txtMessage" runat="server" TextMode="MultiLine" Width="300px" Height="100px"></asp:TextBox>
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator2" ForeColor="Red" ControlToValidate="txtMessage" ErrorMessage="Please Enter the Message" />
+                          
                                                         <%-- <cc1:Editor ID="txtMessage" runat="server" />--%>
                                                         <div class="controls">
                                                         </div>
@@ -118,7 +124,7 @@
                             </table>
 
                             <div class="form-actions">
-                                <asp:Button ID="btnSave" runat="server" Text="Send" Height="30px" Width="90px" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnSave_Click" />
+                                <asp:Button ID="btnSave" runat="server" Text="Send" Height="30px" Width="90px" ValidationGroup="security" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnSave_Click" />
                             </div>
                         </fieldset>
                     </form>

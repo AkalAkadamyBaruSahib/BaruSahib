@@ -50,6 +50,10 @@ namespace AkalAcademy
         public DbSet<MaterialType> MaterialType { get; set; }
         public DbSet<Unit> Unit { get; set; }
         public DbSet<WorkAllot> WorkAllot { get; set; }
+        public DbSet<DrawingType> DrawingType { get; set; }
+        public DbSet<SubDrawingTypes> SubDrawingTypes { get; set; }
+        public DbSet<TransportTypes> TransportTypes { get; set; }
+        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
