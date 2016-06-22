@@ -6,10 +6,10 @@
     <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
   </configSections>
   <connectionStrings>
-    <!--<add name="ConnectionString" connectionString="Data Source=barusahibdb1.db.6837930.hostedresource.com; Initial Catalog=barusahibdb1; User ID=barusahibdb1; Password='b7T@qV#5r';Integrated Security=False;Max Pool Size = 10000;Pooling = True;MultipleActiveResultSets=True" providerName="System.Data.SqlClient"/>-->
+    <add name="ConnectionString" connectionString="Data Source=barusahibdb1.db.6837930.hostedresource.com; Initial Catalog=barusahibdb1; User ID=barusahibdb1; Password='b7T@qV#5r';Integrated Security=False;Max Pool Size = 10000;Pooling = True;MultipleActiveResultSets=True;Connection Timeout=30" providerName="System.Data.SqlClient"/>
     <!--<add name="ConnectionString" connectionString="Data Source=YOGI-PC;Initial Catalog=Akal;Integrated Security=True" providerName="System.Data.SqlClient" />-->
-    <add name="ConnectionString" connectionString="Data Source=122.160.78.189; Initial Catalog=Akal; User ID=akal; Password='Akal@2015';Integrated Security=False;Max Pool Size = 10000;Pooling = True;MultipleActiveResultSets=True" providerName="System.Data.SqlClient"/>
-    <!--<add name="ConnectionString" connectionString="Data Source=intex\SQLEXPRESS; Initial Catalog=Akal;Integrated Security=False;Max Pool Size = 10000;Pooling = True" providerName="System.Data.SqlClient"/>-->
+    <!--<add name="ConnectionString" connectionString="Data Source=122.160.78.189; Initial Catalog=Akal; User ID=akal; Password='Akal@2015';Integrated Security=False;Max Pool Size = 10000;Pooling = True;MultipleActiveResultSets=True" providerName="System.Data.SqlClient"/>-->
+    <!--<add name="ConnectionString" connectionString="Data Source=intex\SQLEXPRESS; Initial Catalog=Akal;Integrated Security=False;Max Pool Size = 10000;Pooling = True;Connection Timeout=30" providerName="System.Data.SqlClient"/>-->
   </connectionStrings>
   <appSettings>
     <add key="FromEmailAddress" value="akaldrawings@gmail.com" />
@@ -22,11 +22,25 @@
     <add key="AdminToSendDrawingSMS" value="8894164611"></add>
     <add key="AdminTransportSMS" value="9816313263"></add>
   </appSettings>
-    <system.web>
-      <httpRuntime executionTimeout="440" maxRequestLength="50480" requestPathInvalidCharacters="" />
-      <customErrors mode="Off"/>
-      <trust level="Full" />
-      <compilation debug="false" targetFramework="4.5" />
-      
-    </system.web>
+  <system.web>
+    <httpRuntime executionTimeout="440" maxRequestLength="50480" requestPathInvalidCharacters="" />
+    <customErrors mode="Off"/>
+    <trust level="Full" />
+    <compilation debug="false" targetFramework="4.5" />
+    <pages enableViewStateMac="false"  />
+    <machineKey validationKey="2EEA416CEFC6D6BE856ED57B97FB9CA7DFACE17C073125949A1D682C80A44BB2AD887DDDC13DBFB0954F1000FEE5757E99693F222F8E28CAA2E6DAB8C4F99E0C" decryptionKey="877478B2F33A74226ABEF55FDCC1A76E43F1BBEA6241A592" validation="SHA1" />
+    <sessionState   mode="InProc"  stateConnectionString="tcpip=127.0.0.1:42424"  sqlConnectionString="data source=127.0.0.1;Trusted_Connection=yes"  cookieless="false"   timeout="20" />
+    <!--<sessionState mode="InProc" customProvider="DefaultSessionProvider" timeout="90000">
+      <providers>
+        <add name="DefaultSessionProvider" type="System.Web.Providers.DefaultSessionStateProvider, System.Web.Providers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" connectionStringName="DefaultConnection" />
+      </providers>
+    </sessionState>-->
+  </system.web>
+  <system.web.extensions>
+    <scripting>
+      <webServices>
+        <jsonSerialization maxJsonLength="50000000"/>
+      </webServices>
+    </scripting>
+  </system.web.extensions>
 </configuration>

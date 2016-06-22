@@ -365,4 +365,125 @@ public class PurchaseRepository
         return Zones;
     }
 
+    public List<DrawingType> GetDrawingType()
+    {
+        return _context.DrawingType.ToList();
+    }
+
+    public List<SubDrawingTypes> GetSubDrawingByDrawingID(int DrawingID)
+    {
+        return _context.SubDrawingTypes.Where(x => x.DwgTypeId == DrawingID).ToList();
+    }
+
+
+    public void SaveDrawingDetail(Drawing drawing)
+    {
+        _context.Drawing.Add(drawing);
+        _context.SaveChanges();
+    }
+
+    public List<Zone> GetDrawingZone()
+    {
+        return _context.Zone.ToList();
+    }
+
+    public List<DrawingDTO> GeTDrawingInformation(int DrawingID)
+    {
+        DateTime dt = DateTime.Now.AddDays(-30);
+        List<Drawing> drawingInfo = _context.Drawing.Include(x => x.Zone).Include(a => a.Academy).Where(d => d.CreatedOn >= dt).OrderByDescending(x => x.CreatedOn).ToList();
+        List<DrawingDTO> dto = new List<DrawingDTO>();
+
+        DrawingDTO drawingDTO = null;
+        foreach (Drawing v in drawingInfo)
+        { 
+            drawingDTO = new DrawingDTO();
+
+            drawingDTO.DwgId = v.DwgId;
+
+            drawingDTO.ZoneId = v.ZoneId;
+            drawingDTO.AcaId = v.AcaId;
+            drawingDTO.DwTypeId = v.DwTypeId;
+            drawingDTO.DwgNo = v.DwgNo;
+            drawingDTO.RevisionNo = v.RevisionNo;
+            drawingDTO.DwgFileName = v.DwgFileName;
+            drawingDTO.DwgFilePath = v.DwgFilePath;
+            drawingDTO.PdfFileName = v.PdfFileName;
+            drawingDTO.PdfFilePath = v.PdfFilePath;
+            drawingDTO.Active = v.Active;
+            drawingDTO.CreatedBy = v.CreatedBy;
+            drawingDTO.DrawingName = v.DrawingName;
+            drawingDTO.ShiftedStatus = v.ShiftedStatus;
+            drawingDTO.SubDwgTypeID = v.SubDwgTypeID;
+            drawingDTO.IsApproved = v.IsApproved;
+            drawingDTO.ModifyBy = v.ModifyBy;
+            drawingDTO.ModifyOn = v.ModifyOn.ToString();
+            drawingDTO.ZoneName = v.Zone.ZoneName;
+            drawingDTO.AcaName = v.Academy.AcaName;
+            if (v.CreatedOn != null)
+            {
+                drawingDTO.CreatedOn = v.CreatedOn.Value.ToShortDateString();
+            }
+
+            dto.Add(drawingDTO);
+        }
+
+        return dto;
+    }
+
+    public DrawingDTO GetDrawingInfoToUpdate(int DrawingID)
+    {
+        Drawing v = _context.Drawing.Where(d => d.DwgId == DrawingID)
+                    .FirstOrDefault();
+      DrawingDTO drawingDTO = new DrawingDTO();
+        drawingDTO.DwgId = v.DwgId;
+        drawingDTO.ZoneId = v.ZoneId;
+        drawingDTO.AcaId = v.AcaId;
+        drawingDTO.DwTypeId = v.DwTypeId;
+        drawingDTO.DwgNo = v.DwgNo;
+        drawingDTO.RevisionNo = v.RevisionNo;
+        drawingDTO.DwgFileName = v.DwgFileName;
+        drawingDTO.DwgFilePath = v.DwgFilePath;
+        drawingDTO.PdfFileName = v.PdfFileName;
+        drawingDTO.PdfFilePath = v.PdfFilePath;
+        drawingDTO.Active = v.Active;
+        drawingDTO.CreatedBy = v.CreatedBy;
+        drawingDTO.DrawingName = v.DrawingName;
+        drawingDTO.ShiftedStatus = v.ShiftedStatus;
+        drawingDTO.SubDwgTypeID = v.SubDwgTypeID;
+        drawingDTO.IsApproved = v.IsApproved;
+        drawingDTO.ModifyBy = v.ModifyBy;
+        drawingDTO.ModifyOn = v.ModifyOn.ToString();
+        drawingDTO.CreatedOn = v.CreatedOn.ToString();
+
+        return drawingDTO;
+    }
+
+    public void UpdateDrawingInformation(Drawing drawingInfo)
+    {
+        Drawing drawingDTO = _context.Drawing.Where(v => v.DwgId == drawingInfo.DwgId)
+              .FirstOrDefault();
+        drawingDTO.DwgId = drawingInfo.DwgId;
+        drawingDTO.ZoneId = drawingInfo.ZoneId;
+        drawingDTO.AcaId = drawingInfo.AcaId;
+        drawingDTO.DwTypeId = drawingInfo.DwTypeId;
+        drawingDTO.DwgNo = drawingInfo.DwgNo;
+        drawingDTO.RevisionNo = drawingInfo.RevisionNo;
+        drawingDTO.DwgFileName = drawingInfo.DwgFileName;
+        drawingDTO.DwgFilePath = drawingInfo.DwgFilePath;
+        drawingDTO.PdfFileName = drawingInfo.PdfFileName;
+        drawingDTO.PdfFilePath = drawingInfo.PdfFilePath;
+        drawingDTO.Active = drawingInfo.Active;
+        drawingDTO.CreatedBy = drawingInfo.CreatedBy;
+        drawingDTO.DrawingName = drawingInfo.DrawingName;
+        drawingDTO.ShiftedStatus = drawingInfo.ShiftedStatus;
+        drawingDTO.SubDwgTypeID = drawingInfo.SubDwgTypeID;
+        drawingDTO.IsApproved = drawingInfo.IsApproved;
+        drawingDTO.ModifyBy = drawingInfo.ModifyBy;
+        drawingDTO.ModifyOn = DateTime.Now;
+        drawingDTO.CreatedOn = drawingDTO.CreatedOn;
+
+        _context.Entry(drawingDTO).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
 }

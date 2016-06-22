@@ -117,7 +117,6 @@ function removeRow(removeNum) {
     cntB--;
 }
 
-
 function OpenViewbill(estID) {
 
 
@@ -174,6 +173,7 @@ function OpenViewbill(estID) {
 }
 
 function LoadVendors(MatID) {
+    
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -183,6 +183,11 @@ function LoadVendors(MatID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
+                if (Result.length > 0) {
+                    $("#ddlVendorName  option").each(function (index, option) {
+                        $(option).remove();
+                    });
+                }
                 $.each(Result, function (key, value) {
                     $("#ddlVendorName").append($("<option></option>").val(value.ID).html(value.VendorName));
                 });

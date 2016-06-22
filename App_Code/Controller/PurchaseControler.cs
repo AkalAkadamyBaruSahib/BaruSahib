@@ -269,4 +269,60 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetZoneByInchargeID(InchargeID);
     }
+
+    [WebMethod]
+    public List<Zone> GetDrawingZone()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetDrawingZone();
+    }
+
+
+    [WebMethod]
+    public List<DrawingType> GetDrawingType()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetDrawingType();
+    }
+
+    [WebMethod]
+    public List<SubDrawingTypes> GetSubDrawingByDrawingID(int DrawingID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetSubDrawingByDrawingID(DrawingID);
+    }
+
+
+    [WebMethod]
+    public void SaveDrawingDetail(Drawing drawing)
+    {
+        drawing.ModifyOn = DateTime.UtcNow;
+        drawing.CreatedOn = DateTime.UtcNow;
+
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.SaveDrawingDetail(drawing);
+    }
+
+
+    [WebMethod]
+    public List<DrawingDTO> GeTDrawingInformation(int DrawingID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GeTDrawingInformation(DrawingID);
+
+    }
+
+    [WebMethod]
+    public DrawingDTO GetDrawingInfoToUpdate(int DrawingID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetDrawingInfoToUpdate(DrawingID);
+    }
+
+    [WebMethod]
+    public void UpdateDrawingInformation(Drawing Drawing)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.UpdateDrawingInformation(Drawing);
+    }
 }

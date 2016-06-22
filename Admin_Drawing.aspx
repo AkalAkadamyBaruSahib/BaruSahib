@@ -3,6 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <script src="JavaScripts/AdminDrawingView.js"></script>
     <script type="text/javascript">
         function ClientSideClick(myButton) {
             // Client side validation
@@ -21,7 +22,10 @@
             return true;
         }
     </script>
+      <asp:HiddenField ID="hdnDrawingID" runat="server" />
+       <asp:HiddenField ID="hdnAcademyID" runat="server" />
     <div id="content" class="span10">
+          <asp:HiddenField ID="hdnInchargeID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -47,7 +51,9 @@
                                             <label class="control-label" for="typeahead">Zone</label>
                                             <div class="controls">
                                                 <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-                                                <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlZone" runat="server">
+                                                    <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator runat="server" ID="reqddlZone" InitialValue="0" ValidationGroup="drawing" ControlToValidate="ddlZone" ForeColor="Red" ErrorMessage="Please Select the Zone" Display="None"></asp:RequiredFieldValidator>
                                             </div>
                                         </div>
@@ -58,7 +64,9 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Academy</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="ddlAcademy" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlAcademy" runat="server">
+                                                       <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredddlAcademy" InitialValue="0" ValidationGroup="drawing" ControlToValidate="ddlAcademy" ForeColor="Red" ErrorMessage="Please Select the Academy" Display="None"></asp:RequiredFieldValidator>
                                             </div>
                                         </div>
@@ -70,7 +78,9 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Drawing Type</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="ddlDwgType" OnSelectedIndexChanged="ddlDwgType_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlDwgType" runat="server">
+                                                       <asp:ListItem Value="0">--Select Drawing Type--</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredddlDwgType" InitialValue="0" ValidationGroup="drawing" ControlToValidate="ddlDwgType" ForeColor="Red" ErrorMessage="Please Select the Drawing Type" Display="None"></asp:RequiredFieldValidator>
 
                                             </div>
@@ -80,7 +90,9 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Sub Drawing Type</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="ddlSubDrawingType" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlSubDrawingType" runat="server">
+                                                       <asp:ListItem Value="0">--Select Sub Drawing Type--</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredddlSubDrawingType" InitialValue="0" ValidationGroup="drawing" ControlToValidate="ddlSubDrawingType" ForeColor="Red" ErrorMessage="Please Select the Sub Drawing Type" Display="None"></asp:RequiredFieldValidator>
 
                                             </div>
@@ -155,9 +167,9 @@
 
 
                             <div class="form-actions">
-                                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary" ValidationGroup="drawing" OnClick="btnSave_Click" />
-                                <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" ValidationGroup="drawing" Visible="false"  OnClick="btnEdit_Click" />
-                                <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn" />
+                                <input type="button" id="btnSave" value="Save" class="btn btn-primary" />
+                                 <input type="button" id="btnEdit" value="Edit" class="btn btn-primary" />
+                                 <asp:Button ID="btnCl" Visible="false" runat="server" Text="Cancel" CssClass="btn" />
                             </div>
                         </fieldset>
                     </form>
@@ -178,70 +190,16 @@
                     </div>
                 </div>
                 <div class="box-content">
-                    <table class='table table-striped table-bordered bootstrap-datatable datatable'>
+                    <table  id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
                         <thead>
                             <tr>
-                                <th style="display: none;"></th>
                                 <th width='40%'>Drawing Details</th>
                                 <th width='35%'>Download File</th>
                                 <th width='25%'>Uploaded Date</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <asp:Repeater runat="server" ID="rptDrawings" OnItemCommand="rptDrawings_ItemCommand">
-                                <ItemTemplate>
-                                    <tr>
-                                        <td style="display: none;">1</td>
-                                        <td width='40%'>
-                                            <table>
-                                                <tr>
-                                                    <td>Zone:
-                                                        <asp:Label ID="lblZone" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "ZoneName")%>'></asp:Label></td>
-                                                    <td>Drawing No:
-                                                        <asp:Label ID="lblLocation" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "DwgNo")%>'></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Academy:
-                                                        <asp:Label ID="lblAca" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "AcaName")%>'></asp:Label></td>
-                                                    <td>Revision No:
-                                                        <asp:Label ID="Label1" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "RevisionNo")%>'></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">Drawing Name:
-                                                        <asp:Label ID="Label2" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "DrawingName")%>'></asp:Label></td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <%--<td width='35%'><table><tr><td>.pdf File: <asp:LinkButton ID="LinkButton10" runat="server" CommandName="pdf" CommandArgument='<%#Bind("PdfFilePath") %>' ><asp:Label ID="Label4" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "PdfFileName")%>'></asp:Label> </asp:LinkButton></td></tr>
-                                        <tr><td> .dwg File: <asp:LinkButton ID="LinkButton1" runat="server" CommandName="dwg" CommandArgument='<%#Bind("DwgFilePath") %>' ><asp:Label ID="Label5" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "DwgFileName")%>'></asp:Label> </asp:LinkButton></td></tr></table></td>--%>
-                                        <td width='35%'>
-                                            <table>
-                                                <tr>
-                                                    <td>.PDF File:
-                                                        <asp:Label ID="Label4" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "PdfFileName")%>'></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>.DWG File:
-                                                        <asp:Label ID="Label5" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "DwgFileName")%>'></asp:Label></td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <td width='25%'>
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <asp:Label ID="Label3" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "CreatedOn")%>'></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <asp:Button runat="server" ID="btnDwgEdit" Text="Edit Drawing" CssClass="btn btn-info" CommandName="EditDwg" CommandArgument='<%#DataBinder.Eval(Container.DataItem,"DwgId") %>' /></td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </tbody>
+                         <tbody id="tbody">
+                                </tbody>
                     </table>
                     <%--<div id="divAcademyDetails" runat="server"></div>--%>
                 </div>
