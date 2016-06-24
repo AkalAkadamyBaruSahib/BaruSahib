@@ -325,4 +325,11 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         repository.UpdateDrawingInformation(Drawing);
     }
+
+    [WebMethod]
+    public List<DrawingDTO> GeTDrawingInformationByInchargeID(int InchargeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GeTDrawingInformationByInchargeID(InchargeID);
+    }
 }

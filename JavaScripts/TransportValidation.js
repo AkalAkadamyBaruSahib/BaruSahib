@@ -765,22 +765,7 @@ $(document).ready(function () {
             return false;
         }
         return true;
-
-        var ddlst = document.getElementById("<%=ddlState.ClientID%>");
-        var Text = ddlst.options[ddlst.selectedIndex].text;
-        alert(Text);
-
-        if (Text == 'Brazil') {
-            ValidatorEnable(document.getElementById("RequiredFieldValidator9"), false);
-            alert('validator false');
-        }
-        else {
-            ValidatorEnable(document.getElementById("RequiredFieldValidator9"), true);
-            alert('validator true');
-        }
     }
-
-
    
 
    

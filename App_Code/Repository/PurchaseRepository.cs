@@ -486,4 +486,47 @@ public class PurchaseRepository
         _context.SaveChanges();
     }
 
+    public List<DrawingDTO> GeTDrawingInformationByInchargeID(int InchargeID)
+    {
+        //DateTime dt = DateTime.Now.AddDays(-30);
+        List<Drawing> drawingInfo = _context.Drawing.Include(x => x.Zone).Include(a => a.Academy).Where(d => d.CreatedBy == InchargeID).OrderByDescending(x => x.CreatedOn).ToList();
+        List<DrawingDTO> dto = new List<DrawingDTO>();
+
+        DrawingDTO drawingDTO = null;
+        foreach (Drawing v in drawingInfo)
+        {
+            drawingDTO = new DrawingDTO();
+
+            drawingDTO.DwgId = v.DwgId;
+
+            drawingDTO.ZoneId = v.ZoneId;
+            drawingDTO.AcaId = v.AcaId;
+            drawingDTO.DwTypeId = v.DwTypeId;
+            drawingDTO.DwgNo = v.DwgNo;
+            drawingDTO.RevisionNo = v.RevisionNo;
+            drawingDTO.DwgFileName = v.DwgFileName;
+            drawingDTO.DwgFilePath = v.DwgFilePath;
+            drawingDTO.PdfFileName = v.PdfFileName;
+            drawingDTO.PdfFilePath = v.PdfFilePath;
+            drawingDTO.Active = v.Active;
+            drawingDTO.CreatedBy = v.CreatedBy;
+            drawingDTO.DrawingName = v.DrawingName;
+            drawingDTO.ShiftedStatus = v.ShiftedStatus;
+            drawingDTO.SubDwgTypeID = v.SubDwgTypeID;
+            drawingDTO.IsApproved = v.IsApproved;
+            drawingDTO.ModifyBy = v.ModifyBy;
+            drawingDTO.ModifyOn = v.ModifyOn.ToString();
+            drawingDTO.ZoneName = v.Zone.ZoneName;
+            drawingDTO.AcaName = v.Academy.AcaName;
+            if (v.CreatedOn != null)
+            {
+                drawingDTO.CreatedOn = v.CreatedOn.Value.ToShortDateString();
+            }
+
+            dto.Add(drawingDTO);
+        }
+
+        return dto;
+    }
+
 }

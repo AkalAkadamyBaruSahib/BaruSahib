@@ -39,4 +39,18 @@ public class SecurityController : System.Web.Services.WebService {
         SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
         return repository.GetSecurityEmployeeInfoToUpdate(SecurityEmployeeID);
     }
+
+    [WebMethod]
+    public List<Zone> GetZone()
+    {
+        SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
+        return repository.GetZone();
+    }
+
+    [WebMethod]
+    public List<Academy> GetAcademybyZoneID(int ZoneID)
+    {
+        SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
+        return repository.GetAcademybyZoneID(ZoneID);
+    }
 }

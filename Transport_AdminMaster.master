@@ -134,6 +134,11 @@
                                     <li><a class="ajax-link" href="Transport_ReportDetails.aspx"><i></i><span class="hidden-tablet">Reports</span></a></li>
                                 </ul>
                             </li>
+                             <li id="li4" runat="server"><a class="dropmenu" href="#"><i><img src="img/report.png" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="TranspportGenerateBill.aspx"><i></i><span class="hidden-tablet">Generate Bill</span></a></li>
+                                </ul>
+                            </li>
                             <li id="li1" runat="server"><a class="dropmenu" href="#"><i><img src="img/maintenance.jpg" /></i><span class="hidden-tablet"><b> MAINTENANCE SCHEDULE</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_ReportDetails.aspx?report=2"><i></i><span class="hidden-tablet">Maintenance Schedule</span></a></li>

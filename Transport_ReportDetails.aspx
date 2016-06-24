@@ -1,35 +1,50 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="Transport_AdminMaster.master" AutoEventWireup="true" CodeFile="Transport_ReportDetails.aspx.cs" Inherits="Transport_ReporteDetails" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-<script type="text/javascript" >
-    function ReportOnChange(control) {
-        if (control.value == "2") {
-            $("#divPendingDocumentReport").show();
-            $("#divDailyReport").hide();
-            $("#divSummaryReport").hide();
+    <script type="text/javascript">
+        function ReportOnChange(control) {
+            if (control.value == "2") {
+                $("#divPendingDocumentReport").show();
+                $("#divDailyReport").hide();
+                $("#divSummaryReport").hide();
+                $("#divExpireDocumentInFuture").hide();
+                $("#divradiobutton").hide();
 
+            }
+            else if (control.value == "1") {
+                $("#divPendingDocumentReport").hide();
+                $("#divDailyReport").show();
+                $("#divSummaryReport").hide();
+                $("#divExpireDocumentInFuture").hide();
+                $("#divradiobutton").hide();
+            }
+            else if (control.value == "3") {
+                $("#divPendingDocumentReport").hide();
+                $("#divDailyReport").hide();
+                $("#divSummaryReport").show();
+                $("#divExpireDocumentInFuture").hide();
+                $("#divradiobutton").hide();
+            }
+            else if (control.value == "4") {
+                $("#divExpireDocumentInFuture").show();
+                $("#divPendingDocumentReport").hide();
+                $("#divDailyReport").hide();
+                $("#divSummaryReport").hide();
+                $("#divradiobutton").show();
+            }
+            else {
+                $("#divPendingDocumentReport").hide();
+                $("#divDailyReport").hide();
+                $("#divSummaryReport").hide();
+                $("#divradiobutton").hide();
+                $("#divExpireDocumentInFuture").hide();
+            }
         }
-        else if (control.value == "1") {
-            $("#divPendingDocumentReport").hide();
-            $("#divDailyReport").show();
-            $("#divSummaryReport").hide();
-        }
-        else if (control.value == "3") {
-            $("#divPendingDocumentReport").hide();
-            $("#divDailyReport").hide();
-            $("#divSummaryReport").show();
-        }
-        else {
-            $("#divPendingDocumentReport").hide();
-            $("#divDailyReport").hide();
-            $("#divSummaryReport").hide();
-        }
-    }
 
-</script>
+    </script>
 
     <div id="content" class="span10">
-       
+
         <div class="box-header well">
             <h2><i class="icon-user"></i>Download Transport Reports</h2>
             <div class="box-icon">
@@ -47,6 +62,7 @@
                         <asp:ListItem Text="Daily Document Uploaded Report" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Pending Documents" Value="2"></asp:ListItem>
                         <asp:ListItem Text="Summary Report" Value="3"></asp:ListItem>
+                        <asp:ListItem Text="Expire Document In Future" Value="4"></asp:ListItem>
                     </asp:DropDownList><br />
                 </div>
                 <div class="box-content" id="divPendingDocumentReport" style="display: none">
@@ -65,7 +81,23 @@
                     Select Zone to Summary Report:
                     <asp:DropDownList ID="ddlALLZone" runat="server">
                     </asp:DropDownList><br />
-                    
+
+                </div>
+                <div class="box-content" id="divExpireDocumentInFuture" style="display: none">
+                    Select Zone to Download Data:
+                    <asp:DropDownList ID="ddlZoneForExpire" runat="server">
+                    </asp:DropDownList><br />
+               </div>
+
+                <div class="box-content" id="divradiobutton" style="display: none">
+                    <asp:RadioButton ID="rb15days" runat="server" Checked="true" GroupName="ExpireReprt"/>
+                    <asp:Label ID="lblrb15days" runat="server">15 days</asp:Label>
+                    <asp:RadioButton ID="rb30days" runat="server" GroupName="ExpireReprt"/>
+                    <asp:Label ID="lblrb30days" runat="server">30 Days</asp:Label>
+                    <asp:RadioButton ID="rb45days" runat="server" GroupName="ExpireReprt"/>
+                    <asp:Label ID="lblrb45days" runat="server">45 Days</asp:Label>
+                    <asp:RadioButton ID="rb60days" runat="server" GroupName="ExpireReprt"/>
+                    <asp:Label ID="lblrb60days" runat="server">60 Days</asp:Label>
                 </div>
             </div>
 

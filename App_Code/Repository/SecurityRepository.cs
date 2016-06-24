@@ -161,4 +161,14 @@ public class SecurityRepository
         _context.Entry(newSecurity).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public List<Zone> GetZone()
+    {
+        return _context.Zone.ToList();
+    }
+
+    public List<Academy> GetAcademybyZoneID(int ZoneID)
+    {
+        return _context.Academy.Where(x => x.ZoneId == ZoneID).ToList();
+    }
 }

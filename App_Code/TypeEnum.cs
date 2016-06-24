@@ -66,4 +66,23 @@ public class TypeEnum
         CONSTRUCTIONSUBADMIN = 21,
         FrontDesk = 22
     }
+
+    public enum TransportNormsType : int
+    {
+        YellowColor = 1,
+        Grill = 2,
+        Fire = 3,
+        FirstAidBox = 4,
+        SchoolNamebothside = 5,
+        Incaseofrashdriving = 6,
+        Uniform = 7,
+        SpeedGoverner = 8,
+        QualityLock = 9,
+        EmergencyWindows = 10,
+        ToolsStemney = 11,
+        GPS = 12,
+        FemaleConductor = 13,
+        Camera = 14,
+        HydraulicAutomaticDoor = 15
+    }
 }

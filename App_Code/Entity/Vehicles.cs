@@ -57,4 +57,8 @@ public class Vehicles
     [ForeignKey("TypeID")]
     public TransportTypes TransportTypes { get; set; }
 
+    public VechilesDocumentRelation VechilesDocumentRelation { get; set; }
+
+    public VechilesNormsRelation VechilesNormsRelation { get; set; }
+
 }

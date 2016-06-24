@@ -8,6 +8,13 @@
     $("input[id*='btnEdit'] ").hide();
    
     LoadSecurityEmployee(-1);
+
+
+    BindZone();
+
+    $("select[id*='ddlZone']").change(function () {
+        BindAcademybyZoneID($(this).val());
+    });
 });
 function LoadSecurityEmployee() {
 
@@ -130,6 +137,7 @@ function GetSecurityEmployeeInfoToUpdate(securityEmployeeID) {
                 $("input[id*='txtCutting']").val(rdata.Cutting);
                 $("textarea[id*='txtAddress']").val(rdata.Address);
                 $("select[id*='ddlZone']").val(rdata.ZoneID);
+                BindAcademybyZoneID(rdata.ZoneID);
                 $("select[id*='ddlAcademy']").val(rdata.AcaID);
                 $("select[id*='ddlDesig']").val(rdata.DesigID);
                 $("select[id*='ddlDept']").val(rdata.DeptID);
@@ -152,6 +160,54 @@ function GetSecurityEmployeeInfoToUpdate(securityEmployeeID) {
         },
         error: function (response) {
             alert(response.status + '' + response.textStatus);
+        }
+    });
+}
+
+function BindZone() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/SecurityController.asmx/GetDrawingZone",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $.each(Result, function (key, value) {
+                    $("select[id*='ddlZone']").append($("<option></option>").val(value.ZoneId).html(value.ZoneName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function BindAcademybyZoneID(selctZoneID) {
+
+    $("select[id*='ddlAcademy'] option").each(function (index, option) {
+        $(option).remove();
+    });
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/SecurityController.asmx/GetAcademybyZoneID",
+        data: JSON.stringify({ ZoneID: parseInt(selctZoneID) }),
+        dataType: "json",
+        async: false,
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+                $.each(Result, function (key, value) {
+                    $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
         }
     });
 }

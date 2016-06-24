@@ -3,7 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script src="JavaScripts/AdminDrawingView.js"></script>
+    <script src="JavaScripts/DrawingUpload.js"></script>
     <script type="text/javascript">
         function ClientSideClick(myButton) {
             // Client side validation
@@ -23,8 +23,9 @@
         }
     </script>
       <asp:HiddenField ID="hdnDrawingID" runat="server" />
-       <asp:HiddenField ID="hdnAcademyID" runat="server" />
-    <div id="content" class="span10">
+     <asp:HiddenField ID="hdnIsAdmin" runat="server" />
+      <asp:HiddenField ID="hdnAcademyID" runat="server" />
+     <div id="content" class="span10">
           <asp:HiddenField ID="hdnInchargeID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -139,7 +140,7 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Upload Auto Cad File(for record) Ex:.dwg</label>
                                             <div class="controls">
-                                                <asp:FileUpload ID="fuDwgFile" runat="server" />
+                                                <asp:FileUpload ID="fuDwgFile" runat="server" AllowMultiple="true" />
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredfuDwgFile" ValidationGroup="drawing" ControlToValidate="fuDwgFile" ForeColor="Red" ErrorMessage="Please Upload Auto Cad File" Display="None"></asp:RequiredFieldValidator>
 
                                             </div>
@@ -153,7 +154,7 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Upload PDF File. Ex:.pdf</label>
                                             <div class="controls">
-                                                <asp:FileUpload ID="fuPdf" runat="server" />
+                                                <asp:FileUpload ID="fuPdf" runat="server" AllowMultiple="true" />
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredfuPdf" ValidationGroup="drawing" ControlToValidate="fuPdf" ForeColor="Red" ErrorMessage="Please Upload PDF File" Display="None"></asp:RequiredFieldValidator>
 
                                             </div>

@@ -35,7 +35,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
 
             BindDesignation();
             BindDepartment();
-            BindZone();
+            //BindZone();
 
             if (EmployeeID > 0)
             {
@@ -43,28 +43,28 @@ public partial class Security_NewEmployee : System.Web.UI.Page
             }
         }
     }
-    protected void BindAcademy()
-    {
-        DataSet AcaList = new DataSet();
-        AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId='" + ddlZone.SelectedValue + "'");
-        ddlAcademy.DataSource = AcaList;
-        ddlAcademy.DataValueField = "AcaId";
-        ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
-        ddlAcademy.SelectedIndex = 0;
-    }
-    protected void BindZone()
-    {
-        DataSet ZoneList = new DataSet();
-        ZoneList = DAL.DalAccessUtility.GetDataInDataSet("select * from Zone where Active=1");
-        ddlZone.DataSource = ZoneList;
-        ddlZone.DataValueField = "ZoneId";
-        ddlZone.DataTextField = "ZoneName";
-        ddlZone.DataBind();
-        ddlZone.Items.Insert(0, "Select Zone");
-        ddlZone.SelectedIndex = 0;
-    }
+    //protected void BindAcademy()
+    //{
+    //    DataSet AcaList = new DataSet();
+    //    AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId='" + ddlZone.SelectedValue + "'");
+    //    ddlAcademy.DataSource = AcaList;
+    //    ddlAcademy.DataValueField = "AcaId";
+    //    ddlAcademy.DataTextField = "AcaName";
+    //    ddlAcademy.DataBind();
+    //    ddlAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
+    //    ddlAcademy.SelectedIndex = 0;
+    //}
+    //protected void BindZone()
+    //{
+    //    DataSet ZoneList = new DataSet();
+    //    ZoneList = DAL.DalAccessUtility.GetDataInDataSet("select * from Zone where Active=1");
+    //    ddlZone.DataSource = ZoneList;
+    //    ddlZone.DataValueField = "ZoneId";
+    //    ddlZone.DataTextField = "ZoneName";
+    //    ddlZone.DataBind();
+    //    ddlZone.Items.Insert(0, "Select Zone");
+    //    ddlZone.SelectedIndex = 0;
+    //}
     protected void btnSave_Click(object sender, EventArgs e)
     {
         string fileNameToSave = string.Empty;
@@ -238,10 +238,10 @@ public partial class Security_NewEmployee : System.Web.UI.Page
     {
         Clr();
     }
-    protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        BindAcademy();
-    }
+    //protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    BindAcademy();
+    //}
     public void LoadEmployeeData()
     {
         SecurityEmployeeInfoDTO emp = new SecurityEmployeeInfoDTO();

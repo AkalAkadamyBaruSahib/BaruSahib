@@ -349,6 +349,13 @@ public class TransportUserRepository
         _context.Entry(vehicles).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public List<Vehicles> GetVehiclesForGenerateBill(int VechileID)
+    {
+        return _context.Vehicles.Where(v => v.ID == VechileID)
+            .Include(a => a.VechilesDocumentRelation)
+            .Include(z => z.VechilesNormsRelation).ToList();
+    }
   
   
 }

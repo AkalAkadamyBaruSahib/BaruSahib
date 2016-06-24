@@ -22,12 +22,13 @@ public partial class Admin_Drawing : System.Web.UI.Page
             else
             {
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
+                hdnIsAdmin.Value = Session["UserTypeID"].ToString();
                 lblUser.Text = Session["EmailId"].ToString();
             }
            
         }
     }
-     
+
     //private void SendNotificationToEmp()
     //{
     //    DataSet dsdrawingID = DAL.DalAccessUtility.GetDataInDataSet("select top 1 * from Drawing order by DwgId desc");
@@ -54,7 +55,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
     //    }
 
     //    string adminNumber = System.Configuration.ConfigurationManager.AppSettings["AdminToSendDrawingSMS"].ToString();
-    //    if (btnSave.Visible==true)
+    //    if (btnSave.Visible == true)
     //    {
 
     //        {
@@ -63,7 +64,7 @@ public partial class Admin_Drawing : System.Web.UI.Page
     //        smsTo = smsTo.Substring(0, smsTo.Length - 1);
     //        Utility.SendSMS(smsTo, "Drawing of " + ddlAcademy.SelectedItem.Text + " has been uploaded to www.Akalsewa.org.");
     //    }
-    //    else if(btnEdit.Visible == true)
+    //    else if (btnEdit.Visible == true)
     //    {
     //        {
     //            smsTo += adminNumber + ",";

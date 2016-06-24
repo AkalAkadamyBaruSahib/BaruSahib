@@ -132,7 +132,9 @@
                                                 <div class="control-group">
                                                     <label class="control-label" for="typeahead">Zone:</label>
                                                     <div class="controls">
-                                                        <asp:DropDownList ID="ddlZone" Width="200px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList><br />   
+                                                        <asp:DropDownList ID="ddlZone" Width="200px" runat="server">
+                                                            <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                                        </asp:DropDownList><br />   
                                                         <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="ddlZone" ErrorMessage="Please Select the Zone" />
                                                     </div>
                                                 </div>
@@ -144,7 +146,9 @@
                                                 <div class="control-group">
                                                     <label class="control-label" for="typeahead">Academy:</label>
                                                     <div class="controls">
-                                                        <asp:DropDownList ID="ddlAcademy" Width="200px" runat="server"></asp:DropDownList><br />
+                                                        <asp:DropDownList ID="ddlAcademy" Width="200px" runat="server">
+                                                                <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
+                                                        </asp:DropDownList><br />
                                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator8" ForeColor="Red" ControlToValidate="ddlAcademy" ErrorMessage="Please Select the Academy" />
                                                     </div>
                                                 </div>
