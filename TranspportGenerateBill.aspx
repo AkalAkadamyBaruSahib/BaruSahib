@@ -1,24 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Transport_AdminMaster.master" AutoEventWireup="true" CodeFile="TranspportGenerateBill.aspx.cs" Inherits="TranspportGenerateBill" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script type="text/javascript">
-        function selectAll() {
-            checkboxes = document.getElementById('chkboxSelectAll');
-            chk = document.getElementById('chkVehicle');
-            if (checkboxes.checked == true) {
-                for (i = 0; i < chk.length; i++)
-                    chk[i].checked = true;
-            }
-            else {
-                for (i = 0; i < chk.length; i++)
-                    chk[i].checked = false;
-            }
-        }
-
-
-    </script>
     <div id="content" class="span10">
-
         <div class="box-header well">
             <h2><i class="icon-user"></i>Generate Transport Bills</h2>
             <div class="box-icon">
@@ -55,9 +38,7 @@
                             <asp:TemplateField HeaderText="Check Vehicle">
                                 <HeaderTemplate>
                                     <asp:CheckBox ID="chkboxSelectAll" Text="Select All" Font-Bold="true" CssClass="chkFontStyle" TextAlign="Left" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxSelectAll_CheckedChanged" />
-
                                 </HeaderTemplate>
-
                                 <ItemTemplate>
                                     <asp:CheckBox ID="chkvehicle" runat="server" />
                                     <asp:HiddenField ID="hdnVechileId" runat="server" Value='<%# Eval("ID") %>' />
@@ -68,11 +49,10 @@
                     </asp:GridView>
 
                 </div>
-
-                <!--/span-->
             </div>
             <asp:Button ID="btnGenerateBil" runat="server" Text="Generate Bill" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" Width="235px" OnClick="btnGenerateBil_Click" />
-             <asp:Button ID="btnDownload" runat="server" Text="Click To Download Excel" OnClientClick="test();" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
+            <asp:Button ID="btnDownload" runat="server" Text="Click To Download Excel" OnClientClick="test();" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
         </div>
+    </div>
 </asp:Content>
 
