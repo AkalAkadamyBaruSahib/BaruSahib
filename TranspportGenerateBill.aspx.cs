@@ -145,6 +145,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
             CheckBox chkBok = row.FindControl("chkvehicle") as CheckBox;
             HiddenField hdnVechileId = row.FindControl("hdnVechileId") as HiddenField;
             Label lblvechile = (Label)row.FindControl("lblvechile");
+            DateTime expiryDocumentDate;
             if (chkBok.Checked)
             {
                 
@@ -156,29 +157,88 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                     getDocument = DAL.DalAccessUtility.GetDataInDataSet("Select * from  VechilesDocumentRelation V  where V.VehicleID =" + getVehicles.Rows[0]["ID"].ToString() + "").Tables[0];
                     if (getDocument.Rows.Count > 0)
                     {
+                        DataRow[] drRegistration = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration)).Count() == 0)
                         {
                             MisingDocumentName += "Registration" + ",";
                         }
+                        else
+                        {
+                            expiryDocumentDate = Convert.ToDateTime(drRegistration[0]["DocumentEndDate"]);
+                            if (expiryDocumentDate <= DateTime.Now)
+                            {
+                                MisingDocumentName += "Registration" + ",";
+                            }
+                        }
+
+                        DataRow[] drInsurance = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Insurance));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Insurance)).Count() == 0)
                         {
                             MisingDocumentName += "Insurance" + ",";
                         }
+                        else
+                        {
+                            expiryDocumentDate = Convert.ToDateTime(drInsurance[0]["DocumentEndDate"]);
+                            if (expiryDocumentDate <= DateTime.Now)
+                            {
+                                MisingDocumentName += "Insurance" + ",";
+                            }
+                        }
+
+                        DataRow[] drTax = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax)).Count() == 0)
                         {
                             MisingDocumentName += "Tax" + ",";
                         }
+                        else
+                        {
+                            expiryDocumentDate = Convert.ToDateTime(drTax[0]["DocumentEndDate"]);
+                            if (expiryDocumentDate <= DateTime.Now)
+                            {
+                                MisingDocumentName += "Tax" + ",";
+                            }
+                        }
+
+                        DataRow[] drPermit = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit)).Count() == 0)
                         {
                             MisingDocumentName += "Permit" + ",";
                         }
+                        else
+                        {
+                            expiryDocumentDate = Convert.ToDateTime(drPermit[0]["DocumentEndDate"]);
+                            if (expiryDocumentDate <= DateTime.Now)
+                            {
+                                MisingDocumentName += "Permit" + ",";
+                            }
+                        }
+
+                        DataRow[] drPassing = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing)).Count() == 0)
                         {
                             MisingDocumentName += "Passing" + ",";
                         }
+                        else
+                        {
+                            expiryDocumentDate = Convert.ToDateTime(drPassing[0]["DocumentEndDate"]);
+                            if (expiryDocumentDate <= DateTime.Now)
+                            {
+                                MisingDocumentName += "Passing" + ",";
+                            }
+                        }
+
+                        DataRow[] drPollution = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Pollution));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Pollution)).Count() == 0)
                         {
                             MisingDocumentName += "Pollution" + ",";
+                        }
+                        else
+                        {
+                            expiryDocumentDate = Convert.ToDateTime(drPollution[0]["DocumentEndDate"]);
+                            if (expiryDocumentDate <= DateTime.Now)
+                            {
+                                MisingDocumentName += "Pollution" + ",";
+                            }
                         }
                     }
                     else
