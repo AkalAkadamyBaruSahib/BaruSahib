@@ -113,10 +113,10 @@ public class TransportUserRepository
 
     public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int VehicleEmployeeID)
     {
-       
+
         List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true)
          .Include(e => e.TransportEmployeeRelation).Distinct().OrderByDescending(x => x.CreatedOn).ToList();
-         
+
 
         DataSet employeetype = new DataSet();
         List<VehicleEmployeeDTO> dto = new List<VehicleEmployeeDTO>();
@@ -171,8 +171,8 @@ public class TransportUserRepository
             }
             dto.Add(employeeDTO);
         }
-           
-    // return dto.OrderByDescending(x => x.CreatedOn).ToList();
+
+        // return dto.OrderByDescending(x => x.CreatedOn).ToList();
         return dto;
     }
 
@@ -349,13 +349,4 @@ public class TransportUserRepository
         _context.Entry(vehicles).State = EntityState.Modified;
         _context.SaveChanges();
     }
-
-    public List<Vehicles> GetVehiclesForGenerateBill(int VechileID)
-    {
-        return _context.Vehicles.Where(v => v.ID == VechileID)
-            .Include(a => a.VechilesDocumentRelation)
-            .Include(z => z.VechilesNormsRelation).ToList();
-    }
-  
-  
 }
