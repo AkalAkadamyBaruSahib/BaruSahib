@@ -11,18 +11,12 @@ using System.IO;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
 
-public partial class Emp_EstimateAcademyWise : System.Web.UI.Page
+public partial class Transport_ParticularEstimateView : System.Web.UI.Page
 {
-    DataTable dt = new DataTable();
-    DataRow dr;
+  
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-          
-        }
+    
     }
-
-}
-
  
+}

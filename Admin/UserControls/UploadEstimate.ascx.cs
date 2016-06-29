@@ -24,6 +24,7 @@ public partial class Admin_UserControls_UploadEstimate : System.Web.UI.UserContr
                 lblUser.Text = Session["EmailId"].ToString();
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
                 hdnIsAdmin.Value = Session["UserTypeID"].ToString();
+                hdnModule.Value = Session["ModuleID"].ToString();
             }
              BindTypeOfWork();
         }

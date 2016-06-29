@@ -32,10 +32,8 @@ public partial class PurchaseEmployee_ViewEstMaterial : System.Web.UI.Page
     private void getMaterialDetails(string id)
     {
         string UserID = Session["InchargeID"].ToString();
-        DataSet PurSourceID = new DataSet();
-        PurSourceID = DAL.DalAccessUtility.GetDataInDataSet("select PSId from EstimateAndMaterialOthersRelations where estid = '" + id + "'");
         DataSet dsAcaDetails = new DataSet();
-        dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_ByEmployeeID] '" + id + "','" + PurSourceID.Tables[0].Rows[0]["PSId"].ToString() + "', " + UserID);
+        dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_ByEmployeeID] '" + id + "','2', " + UserID);
         if (dsAcaDetails.Tables[0].Rows.Count == 0)
         {
             Response.Redirect("Purchase_MaterialToBeDispatch.aspx");

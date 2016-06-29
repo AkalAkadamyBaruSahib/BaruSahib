@@ -8,8 +8,7 @@ using System.Data;
 
 public partial class Purchase_ViewEstMaterial : System.Web.UI.Page
 {
-
-    protected void Page_Load(object sender, EventArgs e)
+   protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
         {
@@ -44,10 +43,8 @@ public partial class Purchase_ViewEstMaterial : System.Web.UI.Page
 
     private void getMaterialDetails(string id)
     {
-        DataSet PurSourceID = new DataSet();
-        PurSourceID = DAL.DalAccessUtility.GetDataInDataSet("select PSId from EstimateAndMaterialOthersRelations where estid = '" + id + "'");
-        DataSet dsAcaDetails = new DataSet();
-        dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase '" + id + "','" + PurSourceID.Tables[0].Rows[0]["PSId"].ToString() + "' ");
+       DataSet dsAcaDetails = new DataSet();
+        dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase '" + id + "','2' ");
         string Material, Qty, Unit;
         int rowindex = 0;
         foreach (GridViewRow gvrow in gvMaterailDetailForPurchase.Rows)

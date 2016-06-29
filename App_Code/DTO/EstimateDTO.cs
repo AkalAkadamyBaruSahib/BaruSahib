@@ -48,6 +48,8 @@ public class EstimateDTO
 
     public bool IsActive { get; set; }
 
+    public int ModuleID { get; set; }
+
     public List<EstimateAndMaterialOthersRelationsDTO> EstimateAndMaterialOthersRelationsDTO { get; set; }
 }
 

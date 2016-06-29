@@ -36,6 +36,7 @@
     <asp:HiddenField ID="hdnItemsLength" runat="server" />
     <asp:HiddenField ID="hdnIsAdmin" runat="server" />
     <asp:HiddenField ID="hdnInchargeID" runat="server" />
+     <asp:HiddenField ID="hdnModule" runat="server" />
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>

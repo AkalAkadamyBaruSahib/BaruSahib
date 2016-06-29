@@ -15,20 +15,17 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     DataTable dt = new DataTable();
     DataRow dr;
 
+    private int _islocal = -1;
+
     public int PurchaseSource
     {
         get
         {
-            string url = Request.QueryString["IsLocal"] != null ? Request.QueryString["IsLocal"].ToString() : "2";
-            if (url == "1")
-            {
-                return 1;
-            }
-            else
-            {
-                return 2;
-            }
-
+            return _islocal;
+        }
+        set
+        {
+            _islocal = value;
         }
     }
     protected void Page_Load(object sender, EventArgs e)
@@ -36,7 +33,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
 
         if (!Page.IsPostBack)
         {
-
+            PurchaseSource = Request.QueryString["IsLocal"] != null ? 1 : 2;
+            
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -121,19 +119,17 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "</thead>";
         EstInfo += "<tbody>";
         DataSet dsMatDetails = new DataSet();
-        DataSet PurSourceID = new DataSet();
-        PurSourceID = DAL.DalAccessUtility.GetDataInDataSet("select PSId from EstimateAndMaterialOthersRelations where estid = '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "'");
         if (UserTypeID == "4")
         {
-            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurSourceID.Tables[0].Rows[0]["PSId"].ToString() + "' ");
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "' ");
         }
         else if (UserTypeID == "12")
         {
-            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurSourceID.Tables[0].Rows[0]["PSId"].ToString() + "', " + UserID);
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "', " + UserID);
         }
         else if (UserTypeID == "2" || UserTypeID == "1")
         {
-            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForAdminUser '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurSourceID.Tables[0].Rows[0]["PSId"].ToString() + "'");
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForAdminUser '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "'");
         }
         for (int i = 0; i < dsMatDetails.Tables[0].Rows.Count; i++)
         {
@@ -163,32 +159,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 EstInfo += "</td>";
             }
 
-            //EstInfo += "<td style='width:152px;'>" + dsMatDetails.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
-            //if (dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() == null)
-            //{
-            //    EstInfo += "<td width='15%'  style='color:darkred;text-align:left;font-size:10px'>Not Mantioned</td>";
-            //}
-            //else
-            //{
-            //    EstInfo += "<td width='15%' style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() + "</td>";
-            //}
-            //if (dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() == null)
-            //{
-            //    EstInfo += "<td width='15%'  style='color:darkred;text-align:left;font-size:10px'>Not Mantioned</td>";
-            //}
-            //else
-            //{
-            //    EstInfo += "<td width='15%' style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
-            //}
-            //if (dsMatDetails.Tables[0].Rows[i]["remarkByPurchase"].ToString() == null)
-            //{
-            //    EstInfo += "<td width='30%' style='color:darkred;text-align:left;font-size:10px'>Not Mantioned</td>";
-            //}
-            //else
-            //{
-            //    EstInfo += "<td width='30%' style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["remarkByPurchase"].ToString() + "</td>";
-            //}
-
             if (dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() != string.Empty && dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() == "")
             {
                 HeaderText = "Tantative Date";
@@ -208,14 +178,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["remarkByPurchase"].ToString() + "</td>";
             }
             EstInfo += "</tr>";
-            //}
-            //else
-            //{
-            //    //EstInfo += "<tr>";
-            //    //EstInfo += "<td></td><td></td><td></td><td></td><td><b>Total</b></td>";
-            //    //EstInfo += "<td style='width:152px; font-weight:bold;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
-            //    //EstInfo += "</tr>";
-            //}
         }
         EstInfo += "</tbody>";
         EstInfo += "<tr>";
@@ -344,7 +306,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + dsAcaDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td>";
                     if (UserTypeID == "4")
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() +"'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                            ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else if (UserTypeID == "12")
                     {
@@ -352,7 +314,14 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     }
                     else
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                        if (PurchaseSource == 1)
+                        {
+                            ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?IsLocal=1&EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                        }
+                        else
+                        {
+                            ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                        }
                     }
                     ZoneInfo += "</tr>";
                     ZoneInfo += "</table>";

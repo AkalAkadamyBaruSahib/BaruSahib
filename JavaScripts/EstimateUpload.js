@@ -59,7 +59,7 @@ $(document).ready(function () {
         TotalAmt();
     });
 
-    if ($("input[id*='hdnIsAdmin']").val() == 1) {
+    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnIsAdmin']").val() == 13) {
         BindZone();
     }
     else {
@@ -93,6 +93,13 @@ function SaveEstimate() {
     }
     Estimate.IsRejected = false;
     Estimate.IsActive = true;
+    if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 13 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 15) {
+        Estimate.ModuleID = 2;
+    }
+    else {
+        Estimate.ModuleID = 1;
+    }
+
     Estimate.EstimateAndMaterialOthersRelations = new Object();
 
     var estimateAndMaterialOthersRelations = new Array();
@@ -334,7 +341,14 @@ function SignedCopyFileUpload(estid) {
         success: function (result) {
             //$("#progress").dialog('close');
             alert("Estimate Create Successfuly");
-            window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
+            if($("input[id*='hdnModule']").val() == 1)
+            {
+                window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
+            }
+            else
+            {
+                window.location.replace("Transport_ParticularEstimateView.aspx?EstId=" + estid);
+            }
         },
         error: function (err) {
             alert(err.statusText)

@@ -208,7 +208,11 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         {
             Response.Redirect("Admin_EstimateView.aspx");
         }
-        else
+        else if (UserTypeID == 13)
+        {
+            Response.Redirect("Transport_EstimateView.aspx");
+        }
+        else 
         {
             Response.Redirect("Emp_EstimateAcademyWise.aspx");
         }
@@ -407,7 +411,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     {
         bool IsApproved = false;
         bool IsItemRejected = true;
-        if (UserTypeID == 1 || UserTypeID == 21 || UserTypeID == 2)
+        if (UserTypeID == 1 || UserTypeID == 21 || UserTypeID == 2 || UserTypeID == 13)
         {
             IsApproved = ((Button)sender).ID == "btnRejectEdit" ? false : true;
             IsItemRejected = ((Button)sender).ID == "btnRejectEdit" ? true : false;

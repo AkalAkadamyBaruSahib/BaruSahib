@@ -4,28 +4,30 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-   
+
     <title>Akal Academy | Transport</title>
 
     <!-- The styles -->
     <link id="bs-css" href="css/bootstrap-united.css" rel="stylesheet" />
     <style type="text/css">
-        body {
+        body
+        {
             padding-bottom: 40px;
         }
 
-        .sidebar-nav {
+        .sidebar-nav
+        {
             padding: 9px 0;
         }
     </style>
-   <%-- <link href="css/bootstrap-responsive.css" rel="stylesheet" />--%>
+    <%-- <link href="css/bootstrap-responsive.css" rel="stylesheet" />--%>
     <link href="css/charisma-app.css" rel="stylesheet" />
     <link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
     <link href='css/fullcalendar.css' rel='stylesheet' />
     <link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
-   <%-- <link href='css/chosen.css' rel='stylesheet' />--%>
+    <%-- <link href='css/chosen.css' rel='stylesheet' />--%>
     <link href='css/uniform.default.css' rel='stylesheet' />
-   <%-- <link href='css/colorbox.css' rel='stylesheet' />
+    <%-- <link href='css/colorbox.css' rel='stylesheet' />
     <link href='css/jquery.cleditor.css' rel='stylesheet' />
     <link href='css/jquery.noty.css' rel='stylesheet' />
     <link href='css/noty_theme_default.css' rel='stylesheet' />
@@ -112,7 +114,7 @@
                         <ul class="nav nav-tabs nav-stacked main-menu">
                             <li class="nav-header hidden-tablet">Main</li>
                             <li><a class="ajax-link" href="TransportHome.aspx"><i class="icon-home"></i><span class="hidden-tablet">HOME</span></a></li>
-                            <li id="liEmployee" runat="server"><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet"><b> EMPLOYEE</b></span></a>
+                            <li id="liEmployee" runat="server"><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet"><b>EMPLOYEE</b></span></a>
                                 <ul>
                                     <li id="liDesignation" runat="server"><a class="ajax-link" href="Transport_Designation.aspx"><i></i><span class="hidden-tablet">Designation</span></a></li>
                                     <li id="liDepartment" runat="server"><a class="ajax-link" href="Transport_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
@@ -122,38 +124,54 @@
 
                                 </ul>
                             </li>
-                            <li><a class="dropmenu" href="#"><i><img src="img/abc.jpg" /></i><span class="hidden-tablet"><b> VEHICLES</b></span></a>
+                            <li><a class="dropmenu" href="#"><i>
+                                <img src="img/abc.jpg" /></i><span class="hidden-tablet"><b> VEHICLES</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_VehicleDetails.aspx"><i></i><span class="hidden-tablet">Vehicle Info</span></a></li>
                                     <li><a class="ajax-link" href="AddEditVehicle.aspx"><i></i><span class="hidden-tablet">Add New Vehicle</span></a></li>
                                     <li><a class="ajax-link" href="Transport_VechicleRouteMap.aspx"><i></i><span class="hidden-tablet">Vehicle Route Map</span></a></li>
                                 </ul>
                             </li>
-                            <li id="lireport" runat="server"><a class="dropmenu" href="#"><i><img src="img/report.png" /></i><span class="hidden-tablet"><b> REPORTS</b></span></a>
+                            <li id="lireport" runat="server"><a class="dropmenu" href="#"><i>
+                                <img src="img/report.png" /></i><span class="hidden-tablet"><b> REPORTS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_ReportDetails.aspx"><i></i><span class="hidden-tablet">Reports</span></a></li>
                                 </ul>
                             </li>
-                             <li id="li4" runat="server"><a class="dropmenu" href="#"><i><img src="img/report.png" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
+                            <li id="li4" runat="server"><a class="dropmenu" href="#"><i>
+                                <img src="img/report.png" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="TranspportGenerateBill.aspx"><i></i><span class="hidden-tablet">Generate Bill</span></a></li>
                                 </ul>
                             </li>
-                            <li id="li1" runat="server"><a class="dropmenu" href="#"><i><img src="img/maintenance.jpg" /></i><span class="hidden-tablet"><b> MAINTENANCE SCHEDULE</b></span></a>
+                            <li id="li1" runat="server"><a class="dropmenu" href="#"><i>
+                                <img src="img/maintenance.jpg" /></i><span class="hidden-tablet"><b> MAINTENANCE SCHEDULE</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_ReportDetails.aspx?report=2"><i></i><span class="hidden-tablet">Maintenance Schedule</span></a></li>
                                 </ul>
                             </li>
-                            <li id="li2" runat="server"><a class="dropmenu" href="#"><i><img src="img/pump.jpg" /></i><span class="hidden-tablet"><b> DIESEL/PETROL</b></span></a>
+                            <li id="li2" runat="server"><a class="dropmenu" href="#"><i>
+                                <img src="img/pump.jpg" /></i><span class="hidden-tablet"><b> DIESEL/PETROL</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_PertrolDieselPrice.aspx"><i></i><span class="hidden-tablet">Diesel/Petrol Price</span></a></li>
                                 </ul>
                             </li>
-                            <li id="li3" runat="server"><a class="dropmenu" href="#"><i><img src="img/pump.jpg" /></i><span class="hidden-tablet"><b> Documents</b></span></a>
+                            <li id="li3" runat="server"><a class="dropmenu" href="#"><i>
+                                <img src="img/pump.jpg" /></i><span class="hidden-tablet"><b> Documents</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="TransportDocumentUpload.aspx"><i></i><span class="hidden-tablet">Documents Upload</span></a></li>
                                 </ul>
                             </li>
+                            <li id="liEstimate" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet">Estimate</span></a>
+                                <ul>
+                                    <li runat="server"><a class="ajax-link" href="Transport_UploadEstimate.aspx"><i></i><span class="hidden-tablet">Upload Estimate</span></a></li>
+                                    <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="Transport_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate</span></a></li>
+
+                                </ul> 
+                            </li>
+                          <li id="liEstimateiewForEmp" runat="server"><a href="Transport_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate</span></a></li>
+                                
+                           
                         </ul>
                     </div>
                     <!--/.well -->
@@ -175,7 +193,7 @@
 	================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
-   
+
     <script src="js/jquery-1.7.2.min.js"></script>
     <script src="js/jquery-ui-1.8.21.custom.min.js"></script>
     <script src="js/bootstrap-dropdown.js"></script>
@@ -198,4 +216,5 @@
     <script src="js/charisma.js"></script>
 
 
-</body></html>
+</body>
+</html>
