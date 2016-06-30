@@ -109,22 +109,36 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
             else
                 if (dtapproved.Rows[i]["IsApproved"].ToString() == "True" && dtapproved.Rows[i]["IsItemRejected"].ToString() == "True")
                 {
-                    ZoneInfo += "<td width='20%'><table><tr><td><a class='btn btn-primary' href='Emp_EditEstimate.aspx?IsRejected=1&EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a></td></tr><tr><td style='color:red'><b>Rejected</b></td></tr></table></td>";
+                    if (ModuleID == 2)
+                    {
+                        ZoneInfo += "<td width='20%'><table><tr><td><a class='btn btn-primary' href='Transport_EstimateEdit.aspx?IsRejected=1&EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a></td></tr><tr><td style='color:red'><b>Rejected</b></td></tr></table></td>";
+                    }
+                    else
+                    {
+                        ZoneInfo += "<td width='20%'><table><tr><td><a class='btn btn-primary' href='Emp_EditEstimate.aspx?IsRejected=1&EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a></td></tr><tr><td style='color:red'><b>Rejected</b></td></tr></table></td>";
+                    }
                 }
                 else
                 {
-                    ZoneInfo += "<td width='20%'><a class='btn btn-primary' href='Emp_EditEstimate.aspx?EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a> </td>";
+                    if (ModuleID == 2)
+                    {
+                        ZoneInfo += "<td width='20%'><a class='btn btn-primary' href='Transport_EstimateEdit.aspx?EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a> </td>";
+                    }
+                    else
+                    {
+                        ZoneInfo += "<td width='20%'><a class='btn btn-primary' href='Emp_EditEstimate.aspx?EstID=" + dtapproved.Rows[i]["EstId"].ToString() + "'>Edit Estimate No. " + dtapproved.Rows[i]["EstId"].ToString() + "</a> </td>";
+                    }
                 }
 
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
             ZoneInfo += "<td class='center'width='25%'><table>";
-            if (ModuleID == 1)
+            if (ModuleID == 2)
             {
-                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Emp_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             else
             {
-                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Emp_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dtapproved.Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Sanction Date:</b>" + dtapproved.Rows[i]["SanctionDate"].ToString() + "</td></tr>";
@@ -343,7 +357,14 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
             ZoneInfo += "<td width='10%'>" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "</td>";
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dsEstimateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dsEstimateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
             ZoneInfo += "<td class='center'width='25%'><table>";
-            ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Emp_ParticularEstimateView.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'>" + dsEstimateDetails.Tables[0].Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            if (ModuleID == 2)
+            {
+                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Transport_ParticularEstimateView.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'>" + dsEstimateDetails.Tables[0].Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            }
+            else
+            {
+                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Emp_ParticularEstimateView.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'>" + dsEstimateDetails.Tables[0].Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            }
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dsEstimateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Sanction Date:</b>" + dsEstimateDetails.Tables[0].Rows[i]["SanctionDate"].ToString() + "</td></tr>";
             ZoneInfo += "</table></td>";

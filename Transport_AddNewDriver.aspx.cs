@@ -9,8 +9,19 @@ using System.Web.UI.WebControls;
 
 public partial class Transport_AddNewDriver : System.Web.UI.Page
 {
+    private int InchargeID = -1;
+    private int UserTypeID = -1;
+         
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["InchargeID"] != null)
+        {
+            InchargeID = int.Parse(Session["InchargeID"].ToString());
+        }
+        if (Session["UserTypeID"] != null)
+        {
+            UserTypeID = int.Parse(Session["UserTypeID"].ToString());
+        }
         if (!Page.IsPostBack)
         {
             Page.Form.Attributes.Add("enctype", "multipart/form-data");
@@ -18,6 +29,7 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
             Fillmonth();
             BindDLType();
             BindTransportType();
+            BindVehicleNumber();
         }
     }
 
@@ -58,6 +70,25 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
         drpTransportType.DataTextField = "Type";
         drpTransportType.DataBind();
         drpTransportType.Items.Insert(0, new ListItem("--Select One--", "0"));
+    }
+
+    private void BindVehicleNumber()
+    {
+        DataSet TranspotVehicles = new DataSet();
+        if (UserTypeID == 13)
+        {
+            TranspotVehicles = DAL.DalAccessUtility.GetDataInDataSet("select ID,Number from Vehicles Where IsApproved=1");
+        }
+        else
+        {
+            TranspotVehicles = DAL.DalAccessUtility.GetDataInDataSet("select V.ID, V.Number,AAE.EmpId,A.AcaName from Vehicles V INNER JOIN Academy A on V.AcademyID = A.AcaId INNER JOIN AcademyAssignToEmployee AAE on AAE.AcaID = A.AcaId  Where V.IsApproved=1 and AAE.EmpId='" + InchargeID + "'");  
+        }
+       
+        ddlVehicleNumber.DataSource = TranspotVehicles;
+        ddlVehicleNumber.DataValueField = "ID";
+        ddlVehicleNumber.DataTextField = "Number";
+        ddlVehicleNumber.DataBind();
+        ddlVehicleNumber.Items.Insert(0, new ListItem("--Select One--", "0"));
     }
 
      public void ClearTextBox()

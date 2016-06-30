@@ -332,4 +332,11 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GeTDrawingInformationByInchargeID(InchargeID);
     }
+
+    [WebMethod]
+    public List<MaterialType> GetBindMaterialTypeInTransport()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBindMaterialTypeInTransport();
+    }
 }

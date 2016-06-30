@@ -91,6 +91,20 @@ public class TransportUserRepository
         param.Add("ModifyOn", DateTime.Now);
         param.Add("IsActive", true);
         int VehicleEmployeeID = DAL.DalAccessUtility.GetDataInScaler("procSaveTransportEmployee", param);
+
+        Vehicles newVehicles = _context.Vehicles.Where(v => v.ID == VehicleEmp.VehicleID)
+           .FirstOrDefault();
+        if (VehicleEmp.EmployeeType == "1")
+        {
+            newVehicles.DriverID = VehicleEmployeeID;
+        }
+        else
+        {
+            newVehicles.ConductorID = VehicleEmployeeID;
+        }
+        _context.Entry(newVehicles).State = EntityState.Modified;
+        _context.SaveChanges();
+
         return VehicleEmployeeID;
     }
 

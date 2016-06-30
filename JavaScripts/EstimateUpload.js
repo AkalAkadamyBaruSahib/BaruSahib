@@ -38,8 +38,13 @@ $(document).ready(function () {
     $("#lblWorkNameReflect").hide();
 
     $("#tdWorkAllot").hide();
-    
-    BindMaterialType();
+
+    if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 13 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 15) {
+        BindMaterialTypeInTransport();
+    }
+    else {
+        BindMaterialType();
+    }
 
     $("select[id*='ddlZone']").change(function () {
         BindAcademybyZoneID($(this).val());
@@ -85,7 +90,7 @@ function SaveEstimate() {
     Estimate.CreatedBy = $("input[id*='hdnInchargeID']").val();
     Estimate.ModifyBy = $("input[id*='hdnInchargeID']").val();
     Estimate.FilePath = "";
-    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnInchargeID']").val() == 78) {
+    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnInchargeID']").val() == 78 || $("input[id*='hdnIsAdmin']").val() == 13) {
         Estimate.IsApproved = true;
     }
     else {
@@ -554,4 +559,24 @@ function Validation() {
         }
     }
     return true;
+}
+
+function BindMaterialTypeInTransport() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetBindMaterialTypeInTransport",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $.each(Result, function (key, value) {
+                    $("#drpMaterialType").append($("<option></option>").val(value.MatTypeId).html(value.MatTypeName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
 }

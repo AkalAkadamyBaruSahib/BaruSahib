@@ -65,7 +65,17 @@
                                                 ControlToValidate="drpTransportType" InitialValue="0" ErrorMessage="Please Select The  Transport Type" ForeColor="Red">*</asp:RequiredFieldValidator>
                                         </div>
                                     </td>
-
+                                      <td>
+                                        <div class="control-group" id="div3">
+                                            <label class="control-label" for="typeahead">Vehicle Number:</label>
+                                            <div class="controls">
+                                                <asp:DropDownList ID="ddlVehicleNumber" runat="server" Style="width: 200px; height: 25px;">
+                                                </asp:DropDownList>
+                                            </div>
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator2"
+                                                ControlToValidate="ddlVehicleNumber" InitialValue="0" ErrorMessage="Please Select The Vehicle Number " ForeColor="Red">*</asp:RequiredFieldValidator>
+                                        </div>
+                                    </td>
                                     <td>
                                         <div class="control-group" id="divemptype">
                                             <label class="control-label" for="typeahead">Employee Type:</label>
@@ -159,8 +169,7 @@
                                             <label class="control-label" for="typeahead">DL Number:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDlNumber" runat="server" CssClass="span6 typeahead" Style="width: 200px; height: 25px;"></asp:TextBox>
-                                                <asp:RequiredFieldValidator ID="RequiredtxtDlNumber" ControlToValidate="txtDlNumber" runat="server" ValidationGroup="driver" Display="None" ErrorMessage="Please Enter The DL Number"></asp:RequiredFieldValidator>
-
+                         
                                             </div>
                                         </div>
                                     </td>
@@ -171,8 +180,7 @@
                                                 <div class="controls">
                                                     <asp:DropDownList ID="drpDlType" runat="server" Style="width: 200px; height: 25px;">
                                                     </asp:DropDownList>
-                                                        <asp:RequiredFieldValidator ID="RequireddrpDlType" ControlToValidate="drpDlType" runat="server" InitialValue="0" ValidationGroup="driver" Display="None" ErrorMessage="Please Select the DL Type"></asp:RequiredFieldValidator>
-                                                </div>
+                                                  </div>
                                             </div>
                                     </td>
                                     <td>
@@ -180,8 +188,7 @@
                                             <label class="control-label" for="typeahead">DL Validity:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtdlvalidity" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox><br />
-                                                               <asp:RequiredFieldValidator ID="Requiredtxtdlvalidity" ControlToValidate="txtdlvalidity" runat="server" ValidationGroup="driver" Display="None" ErrorMessage="Please Enter The DL Validity"></asp:RequiredFieldValidator>
-                                          </div>
+                                             </div>
                                         </div>
                                     </td>
                                 </tr>

@@ -212,7 +212,11 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         {
             Response.Redirect("Transport_EstimateView.aspx");
         }
-        else 
+        else if (UserTypeID == 14 || UserTypeID == 15 || UserTypeID == 17)
+        {
+            Response.Redirect("Transport_EstimateAcademyWise.aspx");
+        }
+        else
         {
             Response.Redirect("Emp_EstimateAcademyWise.aspx");
         }

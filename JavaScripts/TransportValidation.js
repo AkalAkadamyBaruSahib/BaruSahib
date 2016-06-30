@@ -20,8 +20,11 @@ $(document).ready(function () {
     });
 
     $("#aQualification").hide();
+
     $("#afileUploadDlValidity").hide();
+
     $("#afileUploadApplicationForm").hide();
+
     $("input[id*='btnEdit'] ").hide();
 
 
@@ -104,8 +107,10 @@ $(document).ready(function () {
             VehicleEmployee.ExperienceInYear = $("select[id*='ddlyear']").val();
             VehicleEmployee.ExperienceInMonth = $("select[id*='ddlmonth']").val();
             VehicleEmployee.TransportTypeID = $("select[id*='drpTransportType']").val();
-
+            VehicleEmployee.VehicleID = $("select[id*='ddlVehicleNumber']").val();
             params.VehicleEmployee = VehicleEmployee;
+
+
 
             $.ajax({
                 type: "POST",
@@ -123,6 +128,8 @@ $(document).ready(function () {
                         QualificationFileUpload();
                         LoadTransportEmployeeInfo();
                         alert("Record has been Saved successfully");
+                        $("#btnSave").val("Save");
+                        $("#btnSave").prop('disabled', false);
                         ClearTextBox();
 
                     }
@@ -441,6 +448,7 @@ $(document).ready(function () {
                     $("select[id*='ddlyear']").val(rdata.ExperienceInYear);
                     $("select[id*='ddlmonth']").val(rdata.ExperienceInMonth);
                     $("select[id*='drpTransportType']").val(rdata.TransportTypeID);
+                    $("select[id*='ddlVehicleNumber']").val(rdata.VehicleID);
                     if (rdata.Qualification != null) {
                         $("#aQualification").show();
                         var qualificationPics = rdata.Qualification.split(',');
@@ -627,6 +635,7 @@ $(document).ready(function () {
         vehicleEmployee.ExperienceInYear = $("select[id*='ddlyear']").val();
         vehicleEmployee.ExperienceInMonth = $("select[id*='ddlmonth']").val();
         vehicleEmployee.TransportTypeID = $("select[id*='drpTransportType']").val();
+        vehicleEmployee.VehicleID = $("select[id*='ddlVehicleNumber']").val();
 
         var transportEmployeeRelation = null;
         var arr = [];
@@ -649,6 +658,7 @@ $(document).ready(function () {
             transportEmployeeRelation.Relation = $("input[id*='txtRefRelation" + i + "']").val();
             transportEmployeeRelation.PhoneNo = $("input[id*='txtRefPhoneNo" + i + "']").val();
             transportEmployeeRelation.Address = $("input[id*='txtRefAddress" + i + "']").val();
+
             arr.push(transportEmployeeRelation);
 
         }
@@ -722,6 +732,7 @@ $(document).ready(function () {
         $("input[id*='txtRefRelation']").val("");
         $("input[id*='txtRefPhoneNo']").val("");
         $("input[id*='txtRefAddress']").val("");
+        $("select[id*='ddlVehicleNumber']").empty();
         cnt = 2;
         cntR = 2;
     }

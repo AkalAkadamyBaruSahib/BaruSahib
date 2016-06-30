@@ -529,4 +529,9 @@ public class PurchaseRepository
         return dto;
     }
 
+    public List<MaterialType> GetBindMaterialTypeInTransport()
+    {
+        return _context.MaterialType.Where(x => x.MatTypeId == 49).OrderBy(x => x.MatTypeName).ToList();
+    }
+
 }
