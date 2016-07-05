@@ -9,6 +9,14 @@ $(document).ready(function () {
         BindAcademybyZoneID($(this).val());
     });
 
+    $("input[id*='fuPdf']").change(function () {
+        PDFFileFileUpload();
+    });
+
+    $("input[id*='fuDwgFile']").change(function () {
+        AutoCadFileFileUpload();
+    });
+
     $("select[id*='ddlDwgType']").change(function () {
         BindSubDrawingByDrawingID($(this).val());
     });
@@ -186,8 +194,8 @@ function SaveDrawing() {
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                AutoCadFileFileUpload();
-                PDFFileFileUpload();
+                //AutoCadFileFileUpload();
+                //PDFFileFileUpload();
                 LoadDrawingInfo();
                 alert("Drawing Created Successfully");
                 $("input[id*='fuDwgFile']")[0].files[0].name = "";
@@ -202,6 +210,58 @@ function SaveDrawing() {
 }
 
 function AutoCadFileFileUpload() {
+
+    var files = $("input[id*='fuDwgFile']")[0].files;
+
+    //var data = new FormData();
+    //for (var i = 0; i < files.length; i++) {
+    //    data.append(files[i].name, files[i]);
+    //}
+    var blob = files[0];
+    var BYTES_PER_CHUNK = 77570; // sample chunk sizes.
+    var SIZE = blob.size;
+
+    //upload content
+    var start = 0;
+    var end = BYTES_PER_CHUNK;
+    var completed = 0;
+    var count = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
+
+    while (start < SIZE) {
+        var chunk = blob.slice(start, end);
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            completed = completed + 1;
+            if (completed === count) {
+                uploadComplete(files[0].name);
+            }
+        };
+        xhr.open("POST", "Services/AdminController.asmx/MultiUpload", true);
+        xhr.send(chunk);
+
+        start = end;
+        end = start + BYTES_PER_CHUNK;
+    }
+}
+
+function uploadComplete(name) {
+    $.ajax({
+        url: "Services/AdminController.asmx/UploadComplete",
+        type: "POST",
+        async: false,
+        data: { fileName: name },
+        success: function (result) {
+            alert("Drawing Autocad file uploaded successfully");
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+
+
+function AutoCadFileFileUpload2() {
     var files = $("input[id*='fuDwgFile']")[0].files;
 
     var data = new FormData();
@@ -226,7 +286,57 @@ function AutoCadFileFileUpload() {
     });
 }
 
+
 function PDFFileFileUpload() {
+
+    var files = $("input[id*='fuPdf']")[0].files;
+
+    //var data = new FormData();
+    //for (var i = 0; i < files.length; i++) {
+    //    data.append(files[i].name, files[i]);
+    //}
+    var blob = files[0];
+    var BYTES_PER_CHUNK = 77570; // sample chunk sizes.
+    var SIZE = blob.size;
+
+    //upload content
+    var start = 0;
+    var end = BYTES_PER_CHUNK;
+    var completed = 0;
+    var count = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
+
+    while (start < SIZE) {
+        var chunk = blob.slice(start, end);
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            completed = completed + 1;
+            if (completed === count) {
+                uploadCompletepdf(files[0].name);
+            }
+        };
+        xhr.open("POST", "Services/AdminController.asmx/MultiUploadPdf", true);
+        xhr.send(chunk);
+
+        start = end;
+        end = start + BYTES_PER_CHUNK;
+    }
+}
+
+function uploadCompletepdf(name) {
+    $.ajax({
+        url: "Services/AdminController.asmx/UploadCompletePdf",
+        type: "POST",
+        async: false,
+        data: { fileName: name },
+        success: function (result) {
+            alert("Pdf file uploaded successfully");
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+function PDFFileFileUpload2() {
     var files = $("input[id*='fuPdf']")[0].files;
  
     var data = new FormData();
