@@ -30,11 +30,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     }
     protected void Page_Load(object sender, EventArgs e)
     {
+       PurchaseSource = Request.QueryString["IsLocal"] != null ? 1 : 2;
 
         if (!Page.IsPostBack)
         {
-            PurchaseSource = Request.QueryString["IsLocal"] != null ? 1 : 2;
-            
+                    
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -210,7 +210,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         Response.End();
     }
 
-    private void getPurchaseMaterialsDetailsDetails(int AcaID,int PSID)
+    private void getPurchaseMaterialsDetailsDetails(int AcaID, int PSID)
     {
         string UserTypeID = Session["UserTypeID"].ToString();
         string UserID = Session["InchargeID"].ToString();
@@ -306,7 +306,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + dsAcaDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td>";
                     if (UserTypeID == "4")
                     {
-                            ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + dsAcaDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else if (UserTypeID == "12")
                     {

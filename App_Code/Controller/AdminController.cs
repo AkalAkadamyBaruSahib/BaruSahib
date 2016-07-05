@@ -37,6 +37,7 @@ public class AdminController : System.Web.Services.WebService {
     [WebMethod]
     public string MultiUpload()
     {
+        count++;
         var filename = count.ToString();
         var chunks = HttpContext.Current.Request.InputStream;
         string path = Server.MapPath("~/AutoCad/temp");
@@ -48,7 +49,7 @@ public class AdminController : System.Web.Services.WebService {
             int bytesRead;
             while ((bytesRead = HttpContext.Current.Request.InputStream.Read(bytes, 0, bytes.Length)) > 0)
             {
-                count++;
+                
                 fs.Write(bytes, 0, bytesRead);
             }
         }
@@ -109,6 +110,7 @@ public class AdminController : System.Web.Services.WebService {
     [WebMethod]
     public string MultiUploadPdf()
     {
+        count2++;
         var filename = count2.ToString();
         var chunks = HttpContext.Current.Request.InputStream;
         string path = Server.MapPath("~/PDF/temp");
@@ -120,7 +122,7 @@ public class AdminController : System.Web.Services.WebService {
             int bytesRead;
             while ((bytesRead = HttpContext.Current.Request.InputStream.Read(bytes, 0, bytes.Length)) > 0)
             {
-                count2++;
+                
                 fs.Write(bytes, 0, bytesRead);
             }
         }

@@ -211,6 +211,9 @@ function SaveDrawing() {
 
 function AutoCadFileFileUpload() {
 
+    $("#progress").dialog({ modal: true, width: 400, height: 200, title: "Progress", closeOnEscape: false });
+    $("#progress").dialog('open');
+
     var files = $("input[id*='fuDwgFile']")[0].files;
 
     //var data = new FormData();
@@ -251,6 +254,7 @@ function uploadComplete(name) {
         async: false,
         data: { fileName: name },
         success: function (result) {
+            $("#progress").dialog('close');
             alert("Drawing Autocad file uploaded successfully");
         },
         error: function (result, textStatus) {
@@ -259,35 +263,10 @@ function uploadComplete(name) {
     });
 }
 
-
-
-function AutoCadFileFileUpload2() {
-    var files = $("input[id*='fuDwgFile']")[0].files;
-
-    var data = new FormData();
-    for (var i = 0; i < files.length; i++) {
-        data.append(files[i].name, files[i]);
-    }
-
-    $.ajax({
-        url: "AutoCadFileFileUploadHandler.ashx",
-        type: "POST",
-        async: false,
-        maxChunkSize: 10000000,
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function (result) {
-            //$("#progress").dialog('close');
-        },
-        error: function (err) {
-            alert(err.statusText)
-        }
-    });
-}
-
-
 function PDFFileFileUpload() {
+
+    $("#progress").dialog({ modal: true, width: 400, height: 200, title: "Progress", closeOnEscape: false });
+    $("#progress").dialog('open');
 
     var files = $("input[id*='fuPdf']")[0].files;
 
@@ -329,33 +308,11 @@ function uploadCompletepdf(name) {
         async: false,
         data: { fileName: name },
         success: function (result) {
+            $("#progress").dialog('close');
             alert("Pdf file uploaded successfully");
         },
         error: function (result, textStatus) {
             alert(result.responseText);
-        }
-    });
-}
-function PDFFileFileUpload2() {
-    var files = $("input[id*='fuPdf']")[0].files;
- 
-    var data = new FormData();
-    for (var i = 0; i < files.length; i++) {
-        data.append(files[i].name, files[i]);
-    }
-
-    $.ajax({
-        url: "PDFFileFileUploadHandler.ashx",
-        type: "POST",
-        async: false,
-        data: data,  
-        maxChunkSize: 10000000,
-        contentType: false,
-        processData: false,
-        success: function (result) {
-        },
-        error: function (err) {
-            alert(err.statusText)
         }
     });
 }
@@ -526,18 +483,6 @@ function UpdateDrawingInformation() {
     });
 }
 
-//function ClearTextBox() {
-//    $("input[id*='txtDrwNo']").val("");
-//    $("input[id*='txtRevisionNo']").val("");
-//    $("input[id*='txtDrwName']").val("");
-//    $("input[id*='fuDwgFile']").empty();
-//    $("input[id*='fuPdf']").empty();
-//    $("select[id*='ddlZone']").val("");
-//    $("select[id*='ddlAcademy']").val("");
-//    $("select[id*='ddlDwgType']").val("");
-//    $("select[id*='ddlSubDrawingType']").val("");
-//}
-
 function LoadDrawingInfoByInchargeID(inchargeId) {
 
     /*create/distroy grid for the new search*/
@@ -604,3 +549,64 @@ function LoadDrawingInfoByInchargeID(inchargeId) {
         }
     });
 }
+
+//function ClearTextBox() {
+//    $("input[id*='txtDrwNo']").val("");
+//    $("input[id*='txtRevisionNo']").val("");
+//    $("input[id*='txtDrwName']").val("");
+//    $("input[id*='fuDwgFile']").empty();
+//    $("input[id*='fuPdf']").empty();
+//    $("select[id*='ddlZone']").val("");
+//    $("select[id*='ddlAcademy']").val("");
+//    $("select[id*='ddlDwgType']").val("");
+//    $("select[id*='ddlSubDrawingType']").val("");
+//}
+
+//function AutoCadFileFileUpload2() {
+//    var files = $("input[id*='fuDwgFile']")[0].files;
+
+//    var data = new FormData();
+//    for (var i = 0; i < files.length; i++) {
+//        data.append(files[i].name, files[i]);
+//    }
+
+//    $.ajax({
+//        url: "AutoCadFileFileUploadHandler.ashx",
+//        type: "POST",
+//        async: false,
+//        maxChunkSize: 10000000,
+//        data: data,
+//        contentType: false,
+//        processData: false,
+//        success: function (result) {
+//            //$("#progress").dialog('close');
+//        },
+//        error: function (err) {
+//            alert(err.statusText)
+//        }
+//    });
+//}
+
+//function PDFFileFileUpload2() {
+//    var files = $("input[id*='fuPdf']")[0].files;
+ 
+//    var data = new FormData();
+//    for (var i = 0; i < files.length; i++) {
+//        data.append(files[i].name, files[i]);
+//    }
+
+//    $.ajax({
+//        url: "PDFFileFileUploadHandler.ashx",
+//        type: "POST",
+//        async: false,
+//        data: data,  
+//        maxChunkSize: 10000000,
+//        contentType: false,
+//        processData: false,
+//        success: function (result) {
+//        },
+//        error: function (err) {
+//            alert(err.statusText)
+//        }
+//    });
+//}

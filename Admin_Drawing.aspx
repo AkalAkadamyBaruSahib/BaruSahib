@@ -209,5 +209,18 @@
 
         </div>
     </div>
+    <div style="display: none" id="progress">
+        <table style="text-align:center">
+            <tr>
+                <td style="text-align:center">
+                    <img src="img/animated.gif" />
+                </td>
+            </tr>
+            <tr>
+                <td>Wait while Drawing is Processing....
+                </td>
+            </tr>
+        </table>
+    </div>
 </asp:Content>
 
