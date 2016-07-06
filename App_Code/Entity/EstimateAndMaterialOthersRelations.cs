@@ -10,6 +10,11 @@ using System.Web;
 /// </summary>
 public class EstimateAndMaterialOthersRelations
 {
+    public EstimateAndMaterialOthersRelations()
+    {
+
+    }
+
 
     [Key()]
     public int Sno { get; set; }
@@ -38,9 +43,10 @@ public class EstimateAndMaterialOthersRelations
     public bool IsApproved { get; set; }
     public int VendorID { get; set; }
     public decimal PurchaseQty { get; set; }
-    
 
-    public Material Material { get; set; } 
+
+    public Material Material { get; set; }
+    public Unit Unit { get; set; }
 }
 
 
