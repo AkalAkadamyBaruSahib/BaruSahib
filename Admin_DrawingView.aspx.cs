@@ -150,44 +150,19 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         else
             btnNonApproved.Text = "View Approved Drawing";
 
-        DataSet dsZoneDetailsAll = new DataSet();
-        //dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet(" exec USP_DrwaingShowByAcaIdAndDwgTypeForAllDwg '" + lblUser.Text + "'");
-
-        dsZoneDetailsAll = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForAdmin");
-
+       
         DataTable dtZoneDetails = null;
-        System.Data.EnumerableRowCollection<System.Data.DataRow> datarows = null;
-
-        if (IsApproved)
+        
+        if (acaID > 0)
         {
-            if (acaID > 0)
-            {
-                datarows = (from mytable in dsZoneDetailsAll.Tables[0].AsEnumerable()
-                            where mytable.Field<bool>("IsApproved") == IsApproved &&
-                            mytable.Field<int>("AcaID") == acaID
-                            select mytable);
-            }
-            else
-            {
-                datarows = (from mytable in dsZoneDetailsAll.Tables[0].AsEnumerable()
-                            where mytable.Field<bool>("IsApproved") == IsApproved &&
-                            mytable.Field<DateTime>("CreatedOnDate") >= DateTime.Now.AddDays(-30)
-                            select mytable);
-            }
+
+            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForAdminByAcaID'" + acaID + "','" + IsApproved + "'").Tables[0];
         }
         else
         {
-            datarows = (from mytable in dsZoneDetailsAll.Tables[0].AsEnumerable()
-                        where mytable.Field<bool>("IsApproved") == IsApproved
-                        select mytable);
+            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForAdmin'" + IsApproved + "'").Tables[0]; ;
         }
-
-        if (datarows == null || datarows.Count() == 0)
-        {
-            divAllDrawingView.InnerHtml = "No Record Found.";
-            return;
-        }
-        dtZoneDetails = datarows.CopyToDataTable();
+     
         divAllDrawingView.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -230,26 +205,11 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             ZoneInfo += "</tr>";
             ZoneInfo += "</table>";
             ZoneInfo += "</td>";
-            var pdffiles = dtZoneDetails.Rows[i]["PdfFilePath"].ToString().Split(',');
-            var pdflink = "";
-            for (int j = 0; j < pdffiles.Length; j++)
-            {
-                pdflink += "<a href='" + pdffiles[j] + "' target='_blank'>PdfFile_" + (j + 1) + "</a>"+",";
-            }
-            pdflink = pdflink.Substring(0, pdflink.Length - 1);
-            ZoneInfo += "<td width='25%'><table><tr><td>PDF: " + pdflink + "</td></tr>";
-            var dwgfiles = dtZoneDetails.Rows[i]["DwgFilePath"].ToString().Split(',');
-            var dwglink = "";
-            for (int k = 0; k < dwgfiles.Length; k++)
-            {
-                dwglink += "<a href='" + dwgfiles[k] + "' target='_blank'>DwgFile_" + (k + 1) + "</a>" + ",";
-            }
-            dwglink = dwglink.Substring(0, dwglink.Length - 1);
-            ZoneInfo += "<tr><td>DWG: " + dwglink + "</td></tr>";
-            //ZoneInfo += "<td width='25%'><table><tr><td>PDF: <a href='" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["PdfFileName"].ToString() + "</a></td></tr>";
-            //ZoneInfo += "<tr><td>DWG: <a href='" + dtZoneDetails.Rows[i]["DwgFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["DwgFileName"].ToString() + "</a></td></tr>";
+         
+            ZoneInfo += "<td width='25%'><table><tr><td>PDF: <a href='" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["PdfFileName"].ToString() + "</a></td></tr>";
+            ZoneInfo += "<tr><td>DWG: <a href='" + dtZoneDetails.Rows[i]["DwgFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["DwgFileName"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>Uploaded Date: " + dtZoneDetails.Rows[i]["CreatedOn"].ToString() + "</a></td></tr>";
-            ZoneInfo += "<tr><td>Uploaded By: " + dtZoneDetails.Rows[i]["CreatedBy"].ToString() + "</a></td></tr></table></td>";
+            ZoneInfo += "<tr><td>Uploaded By: " + dtZoneDetails.Rows[i]["InName"].ToString() + "</a></td></tr></table></td>";
             ZoneInfo += "</td>";
             ZoneInfo += "<td class='center' width='20%'>";
             if (IsApproved)

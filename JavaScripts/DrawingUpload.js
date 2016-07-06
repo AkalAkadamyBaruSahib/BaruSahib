@@ -1,4 +1,5 @@
-﻿
+﻿/// <reference path="../Admin_DrawingView.aspx" />
+
 $(document).ready(function () {
 
     BindZone();
@@ -10,10 +11,14 @@ $(document).ready(function () {
     });
 
     $("input[id*='fuPdf']").change(function () {
+        $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
+        $("#progress").dialog('open');
         PDFFileFileUpload();
     });
 
     $("input[id*='fuDwgFile']").change(function () {
+        $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
+        $("#progress").dialog('open');
         AutoCadFileFileUpload();
     });
 
@@ -38,10 +43,10 @@ $(document).ready(function () {
     });
 
     if ($("input[id*='hdnIsAdmin']").val() == 1) {
-        LoadDrawingInfo();
+      //  LoadDrawingInfo();
     }
     else {
-        LoadDrawingInfoByInchargeID($("input[id*='hdnInchargeID']").val());
+       // LoadDrawingInfoByInchargeID($("input[id*='hdnInchargeID']").val());
     }
 
     $("#btnEdit").hide();
@@ -182,7 +187,13 @@ function SaveDrawing() {
     Drawing.SubDwgTypeID = $("select[id*='ddlSubDrawingType']").val();
     Drawing.CreatedBy = $("input[id*='hdnInchargeID']").val();
     Drawing.ModifyBy = $("input[id*='hdnInchargeID']").val();
-    Drawing.IsApproved = true;
+    if ($("input[id*='hdnIsAdmin']").val() == 1) {
+          Drawing.IsApproved = true;
+    }
+    else {
+        Drawing.IsApproved = false;
+    }
+  
     Drawing.Active = 1;
     params.drawing = Drawing;
 
@@ -194,13 +205,16 @@ function SaveDrawing() {
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                //AutoCadFileFileUpload();
-                //PDFFileFileUpload();
-                LoadDrawingInfo();
+               // AutoCadFileFileUpload();
+               // PDFFileFileUpload();
+                //LoadDrawingInfo();
                 alert("Drawing Created Successfully");
-                $("input[id*='fuDwgFile']")[0].files[0].name = "";
-                $("#btnSave").val("Save");
-                $("#btnSave").prop('disabled', false);
+                if ($("input[id*='hdnIsAdmin']").val() == 1) {
+                    window.location.replace("Admin_DrawingView.aspx");
+                }
+                else { window.location.replace("Arch_DrawingView.aspx"); }
+                //$("#btnSave").val("Save");
+                //$("#btnSave").prop('disabled', false);
             }
         },
         error: function (result, textStatus) {
@@ -209,7 +223,7 @@ function SaveDrawing() {
     });
 }
 
-function AutoCadFileFileUpload() {
+function AutoCadFileFileUpload2() {
 
     $("#progress").dialog({ modal: true, width: 400, height: 200, title: "Progress", closeOnEscape: false });
     $("#progress").dialog('open');
@@ -263,7 +277,7 @@ function uploadComplete(name) {
     });
 }
 
-function PDFFileFileUpload() {
+function PDFFileFileUpload2() {
 
     $("#progress").dialog({ modal: true, width: 400, height: 200, title: "Progress", closeOnEscape: false });
     $("#progress").dialog('open');
@@ -562,51 +576,57 @@ function LoadDrawingInfoByInchargeID(inchargeId) {
 //    $("select[id*='ddlSubDrawingType']").val("");
 //}
 
-//function AutoCadFileFileUpload2() {
-//    var files = $("input[id*='fuDwgFile']")[0].files;
+function AutoCadFileFileUpload() {
+    
+    var files = $("input[id*='fuDwgFile']")[0].files;
 
-//    var data = new FormData();
-//    for (var i = 0; i < files.length; i++) {
-//        data.append(files[i].name, files[i]);
-//    }
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        data.append(files[i].name, files[i]);
+    }
 
-//    $.ajax({
-//        url: "AutoCadFileFileUploadHandler.ashx",
-//        type: "POST",
-//        async: false,
-//        maxChunkSize: 10000000,
-//        data: data,
-//        contentType: false,
-//        processData: false,
-//        success: function (result) {
-//            //$("#progress").dialog('close');
-//        },
-//        error: function (err) {
-//            alert(err.statusText)
-//        }
-//    });
-//}
+    $.ajax({
+        url: "AutoCadFileFileUploadHandler.ashx",
+        type: "POST",
+        async: false,
+        maxChunkSize: 10000000,
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            $("#progress").dialog('close');
+            alert("file has been uploaded successfully");
+        },
+        error: function (err) {
+            alert(err.statusText)
+        }
+    });
+}
 
-//function PDFFileFileUpload2() {
-//    var files = $("input[id*='fuPdf']")[0].files;
+function PDFFileFileUpload() {
+    
+
+    var files = $("input[id*='fuPdf']")[0].files;
  
-//    var data = new FormData();
-//    for (var i = 0; i < files.length; i++) {
-//        data.append(files[i].name, files[i]);
-//    }
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        data.append(files[i].name, files[i]);
+    }
 
-//    $.ajax({
-//        url: "PDFFileFileUploadHandler.ashx",
-//        type: "POST",
-//        async: false,
-//        data: data,  
-//        maxChunkSize: 10000000,
-//        contentType: false,
-//        processData: false,
-//        success: function (result) {
-//        },
-//        error: function (err) {
-//            alert(err.statusText)
-//        }
-//    });
-//}
+    $.ajax({
+        url: "PDFFileFileUploadHandler.ashx",
+        type: "POST",
+        async: false,
+        data: data,  
+        maxChunkSize: 10000000,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            $("#progress").dialog('close');
+            alert("file has been uploaded successfully");
+        },
+        error: function (err) {
+            alert(err.statusText)
+        }
+    });
+}
