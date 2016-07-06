@@ -25,7 +25,7 @@
             var btnvalue = $("input[id*='btnSave']").val();
             if (btnvalue != 'Dispatch') {
                 var script = document.getElementById('<%= txtLinkBillNo.ClientID %>').value;
-                if (document.getElementById('ddlVendorName').selectedIndex == 0) {
+                if (document.getElementById('ddlVendorName').value == 0) {
                     alert("Please select the Vendor");
                     return false;
                 }
@@ -40,8 +40,7 @@
 </script>
        <div id="content" class="span10">
         <asp:HiddenField ID="hdnEstID" runat="server" />
-      
-
+        
         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
         <div class="row-fluid sortable">
             <div class="box span12">

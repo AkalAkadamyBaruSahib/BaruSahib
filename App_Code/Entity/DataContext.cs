@@ -55,6 +55,9 @@ namespace AkalAcademy
         public DbSet<TransportTypes> TransportTypes { get; set; }
         public DbSet<Drawing> Drawing { get; set; }
         public DbSet<VechilesNormsRelation> VechilesNormsRelation { get; set; }
+        public DbSet<StockEntry> StockEntry { get; set; }
+        public DbSet<StockDispatchEntry> StockDispatchEntry { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
