@@ -19,9 +19,19 @@ public class EstimateViewForPurchaser
     public DateTime ModifyOn { get; set; }
     public bool IsApproved { get; set; }
     public string LoginId { get; set; }
+    public string UnitName { get; set; }
+    public string MatName { get; set; }
+    public int Sno { get; set; }
+    public decimal Qty { get; set; }
+    public DateTime? TantiveDate { get; set; }
+    public DateTime? DispatchDate { get; set; }
+    public string remarkByPurchase { get; set; }
+    public int DispatchStatus { get; set; }
+    public DateTime? EmployeeAssignDateTime { get; set; }
+    public string PSName { get; set; }
+    public string InName { get; set; }
 
 
     public List<EstimateAndMaterialOthersRelations> EstimateAndMaterialOthersRelationsPurchaser { get; set; }
-    public Zone Zone { get; set; }
-    public Academy Academy { get; set; }
+ 
 }
