@@ -150,11 +150,8 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                //GetDataInDataSet(StoredProc);
-                //string error = ex.Message.Replace("'", "");
-                //ExecuteNonQuery("INSERT INTO ERRORLOG VALUES (NULL,'" + ex.StackTrace + "',GETDATE())");
-                
-                //string mess = ex.Message;
+                DAL.DalAccessUtility.ExecuteNonQuery("INSERT INTO ERRORLOG VALUES (" + ex.InnerException + ",'" + ex.StackTrace + "',GETDATE())");
+                string mess = ex.Message;
             }
             finally
             {
