@@ -17,6 +17,8 @@
         return true;
     }
     </script>
+ <input id="hndIsDrwgUploaded" type="hidden" />
+ <input id="hdnIsAutocadUploaded" type="hidden" />
  <asp:HiddenField ID="hdnDrawingID" runat="server" />
     <asp:HiddenField ID="hdnIsAdmin" runat="server" />
       <asp:HiddenField ID="hdnAcademyID" runat="server" />
@@ -135,8 +137,8 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Upload Auto Cad File(for record) Ex:.dwg</label>
                                             <div class="controls">
-                                                <asp:FileUpload ID="fuDwgFile" runat="server" AllowMultiple="true" />
-                                                <asp:RequiredFieldValidator runat="server" ID="RequiredfuDwgFile" ValidationGroup="drawing" ControlToValidate="fuDwgFile" ForeColor="Red" ErrorMessage="Please Upload Auto Cad File" Display="None"></asp:RequiredFieldValidator>
+                                                <asp:FileUpload ID="fuDwgFile" runat="server" AllowMultiple="true" /> <input type="button" id="btnAutoCadFile" value="Upload AutoCad File" />
+                                                <asp:RequiredFieldValidator runat="server" ID="RequiredfuDwgFile" ValidationGroup="uploaddrawing" ControlToValidate="fuDwgFile" ForeColor="Red" ErrorMessage="Please Upload Auto Cad File" Display="None"></asp:RequiredFieldValidator>
 
                                             </div>
                                         </div>
@@ -149,8 +151,8 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Upload PDF File. Ex:.pdf</label>
                                             <div class="controls">
-                                                <asp:FileUpload ID="fuPdf" runat="server" AllowMultiple="true" />
-                                                <asp:RequiredFieldValidator runat="server" ID="RequiredfuPdf" ValidationGroup="drawing" ControlToValidate="fuPdf" ForeColor="Red" ErrorMessage="Please Upload PDF File" Display="None"></asp:RequiredFieldValidator>
+                                                <asp:FileUpload ID="fuPdf" runat="server" AllowMultiple="true" /> <input type="button" id="btnDwgFile" value="Upload PDF File" />
+                                                <asp:RequiredFieldValidator runat="server" ID="RequiredfuPdf" ValidationGroup="uploaddrawing" ControlToValidate="fuPdf" ForeColor="Red" ErrorMessage="Please Upload PDF File" Display="None"></asp:RequiredFieldValidator>
 
                                             </div>
                                         </div>

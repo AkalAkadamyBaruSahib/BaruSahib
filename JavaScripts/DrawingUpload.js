@@ -10,16 +10,22 @@ $(document).ready(function () {
         BindAcademybyZoneID($(this).val());
     });
 
-    $("input[id*='fuPdf']").change(function () {
-        $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
-        $("#progress").dialog('open');
-        PDFFileFileUpload();
+    $("input[id*='btnDwgFile']").click(function () {
+        if (Page_ClientValidate("uploaddrawing")) {
+            $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
+            $("#progress").dialog('open');
+            PDFFileFileUpload();
+            $("#hndIsDrwgUploaded").val(1);
+        }
     });
 
-    $("input[id*='fuDwgFile']").change(function () {
-        $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
-        $("#progress").dialog('open');
-        AutoCadFileFileUpload();
+    $("input[id*='btnAutoCadFile']").click(function () {
+        if (Page_ClientValidate("uploaddrawing")) {
+            $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
+            $("#progress").dialog('open');
+            AutoCadFileFileUpload();
+            $("#hdnIsAutocadUploaded").val(1);
+        }
     });
 
     $("select[id*='ddlDwgType']").change(function () {
@@ -27,11 +33,18 @@ $(document).ready(function () {
     });
 
     $("#btnSave").click(function (e) {
-        if (Page_ClientValidate("drawing")) {
-            ClientSideClick(this);
-            SaveDrawing();
-            return false;
+        if ($("#hndIsDrwgUploaded").val() != "1" && $("#hdnIsAutocadUploaded").val() != "1") {
+                alert("Please click on 'Upload AutoCad Fil' AND 'Upload PDF File' button first and then click on save.");
         }
+        else {
+            if (Page_ClientValidate("drawing")) {
+
+                ClientSideClick(this);
+                SaveDrawing();
+                return false;
+            }
+        }
+        
     });
 
     $("#btnEdit").click(function () {
