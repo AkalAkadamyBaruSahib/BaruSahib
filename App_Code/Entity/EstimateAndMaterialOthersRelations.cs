@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Linq;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,6 @@ public class EstimateAndMaterialOthersRelations
 {
     public EstimateAndMaterialOthersRelations()
     {
-
     }
 
 
@@ -45,8 +45,12 @@ public class EstimateAndMaterialOthersRelations
     public decimal PurchaseQty { get; set; }
 
 
-    public Material Material { get; set; }
-    public Unit Unit { get; set; }
+    public virtual Material Material { get; set; }
+    public virtual Unit Unit { get; set; }
+    public virtual PurchaseSource PurchaseSource { get; set; }
+
+    //public virtual Incharge Incharge { get; set; }
+
 }
 
 

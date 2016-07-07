@@ -237,7 +237,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 if (PSID == 1)
                 {
-                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminForLocalByAcaID(PSID,AcaID);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID,AcaID);
                 }
                 else
                 {
@@ -267,7 +267,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 if (PSID == 1)
                 {
-                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdmin(PSID);
                     // dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusForAdmin'" + PSID + "'");
                 }
                 else
@@ -284,6 +284,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             }
         }
 
+       
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         if (PurchaseEstimateView.Count > 0)
