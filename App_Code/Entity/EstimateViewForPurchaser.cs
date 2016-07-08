@@ -30,7 +30,7 @@ public class EstimateViewForPurchaser
     public DateTime? EmployeeAssignDateTime { get; set; }
     public string PSName { get; set; }
     public string InName { get; set; }
-
+    public int? PurchaseEmpID { get; set; }
 
     public List<EstimateAndMaterialOthersRelations> EstimateAndMaterialOthersRelationsPurchaser { get; set; }
  
