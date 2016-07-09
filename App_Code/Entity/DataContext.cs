@@ -57,6 +57,7 @@ namespace AkalAcademy
         public DbSet<VechilesNormsRelation> VechilesNormsRelation { get; set; }
         public DbSet<StockEntry> StockEntry { get; set; }
         public DbSet<StockDispatchEntry> StockDispatchEntry { get; set; }
+        public DbSet<Login> Login { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

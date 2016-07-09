@@ -236,4 +236,10 @@ public class UsersRepository
      {
          return DAL.DalAccessUtility.GetDataInDataSet("exec USP_AcademayWithZone '" + UserName + "','" + ZoneID + "'," + ModuleID);
      }
+
+     public Incharge GetLoginUserDetail(string UserName, string password)
+     {
+         return _context.Incharge.Where(v => v.LoginId == UserName && v.UserPwd == password && v.Active == 1).FirstOrDefault();
+     }
+     
 }

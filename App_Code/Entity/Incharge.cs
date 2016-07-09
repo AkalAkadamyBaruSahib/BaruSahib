@@ -26,6 +26,5 @@ public class Incharge
     public string UserPwd { get; set; }
     public int UserTypeId { get; set; }
     public DateTime? ChangePwdOn { get; set; }
-
-
+    public int? ModuleID { get; set; }
 }
