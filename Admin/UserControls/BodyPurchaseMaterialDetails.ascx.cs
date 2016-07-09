@@ -227,27 +227,27 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
 
             if (UserTypeID == "4")
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID,AcaID);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, AcaID);
             }
             else if (UserTypeID == "12")
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID(Convert.ToInt32(UserID), PSID,AcaID);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID(Convert.ToInt32(UserID), PSID, AcaID);
             }
             else if (UserTypeID == "1")
             {
                 if (PSID == 1)
                 {
-                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminForLocalByAcaID(PSID,AcaID);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID, AcaID);
                 }
                 else
                 {
-                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID,AcaID);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID, AcaID);
                 }
             }
             else if (UserTypeID == "2")
             {
                 var UserId = lblUser.Text;
-                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusByAcaID(Convert.ToInt32(UserId), PSID,AcaID);
+                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusByAcaID(Convert.ToInt32(UserId), PSID, AcaID);
             }
         }
         else
@@ -255,35 +255,35 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             if (UserTypeID == "4")
             {
                 //dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateViewForPurchase'" + PSID + "' ");
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchase(PSID);
-
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchase(PSID,Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
             }
             else if (UserTypeID == "12")
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(Convert.ToInt32(UserID), PSID);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(Convert.ToInt32(UserID), PSID, Convert.ToInt32(UserTypeID));
                 //dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateViewForPurchaseByEmployeeID] " + UserID + ",'" + PSID + "',1");
             }
             else if (UserTypeID == "1")
             {
                 if (PSID == 1)
                 {
-                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
                     // dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusForAdmin'" + PSID + "'");
                 }
                 else
                 {
-                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdmin(PSID);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdmin(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
                     //dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusForAdmin'" + PSID + ",3' ");
                 }
             }
             else if (UserTypeID == "2")
             {
                 var UserId = lblUser.Text;
-                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatus(Convert.ToInt32(UserId), PSID);
+                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatus(Convert.ToInt32(UserId), PSID, Convert.ToInt32(UserTypeID));
                 //  dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatus '" + lblUser.Text + "','" + PSID + "'");
             }
         }
 
+       
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         if (PurchaseEstimateView.Count > 0)
@@ -359,60 +359,67 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                         ZoneInfo += "<th width='0%'>Action</th>";
                     }
                     ZoneInfo += "</tr>";
-                    DataSet dsMatDetails = new DataSet();
-                    if (UserTypeID == "4")
+                    //DataSet dsMatDetails = new DataSet();
+                    //if (UserTypeID == "4")
+                    //{
+                    //     dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + Est.EstId + "','" + PSID + "'");
+                    //}
+                    //else if (UserTypeID == "12")
+                    //{
+                    //    dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + Est.EstId + "','" + PSID + "', " + UserID);
+                    //}
+                    //else if (UserTypeID == "2" || UserTypeID == "1")
+                    //{
+                    //    dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForAdminUser '" + Est.EstId + "', '" + PSID + "'");
+                    //}
+                    int count = 0;
+                    foreach (EstimateAndMaterialOthersRelations material in Est.EstimateAndMaterialOthersRelationsPurchaser)
                     {
-                        dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + Est.EstId + "','" + PSID + "'");
-                    }
-                    else if (UserTypeID == "12")
-                    {
-                        dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + Est.EstId + "','" + PSID + "', " + UserID);
-                    }
-                    else if (UserTypeID == "2" || UserTypeID == "1")
-                    {
-                        dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForAdminUser '" + Est.EstId + "', '" + PSID + "'");
-                    }
-
-                    for (int j = 0; j < dsMatDetails.Tables[0].Rows.Count; j++)
-                    {
-                        ZoneInfo += "<tr>";
-                        ZoneInfo += "<td>" + (j + 1) + "</td>";
-                        ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["MatName"].ToString() + "</td>";
-                        ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["UnitName"].ToString() + "</td>";
-                        ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["Qty"].ToString() + "</td>";
-                        ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["PSName"].ToString() + "</td>";
-                        if (UserTypeID != "12")
+                        if (material.EstId > 0)
                         {
-                            ZoneInfo += "<td class='left'>";
-                            ZoneInfo += "<table>";
-                            ZoneInfo += "<tr><td> <b>Name:</b> " + dsMatDetails.Tables[0].Rows[j]["EmployeeName"].ToString() + " </td></tr>";
-                            if (dsMatDetails.Tables[0].Rows[j]["EmployeeAssignDateTime"].ToString() == "1/1/1900 12:00:00 AM")
+
+                            ZoneInfo += "<tr>";
+                            ZoneInfo += "<td>" + (count + 1) + "</td>";
+                            ZoneInfo += "<td>" + material.Material.MatName + "</td>";
+                            ZoneInfo += "<td>" + material.Unit.UnitName + "</td>";
+                            ZoneInfo += "<td>" + material.Qty + "</td>";
+                            ZoneInfo += "<td>" + material.PurchaseSource.PSName + "</td>";
+                            if (UserTypeID != "12")
                             {
-                                ZoneInfo += "<tr><td><b>Assigned Date:</b> </td></tr>";
+                                ZoneInfo += "<td class='left'>";
+                                ZoneInfo += "<table>";
+                                ZoneInfo += "<tr><td> <b>Name:</b> " + material.Incharge.InName + " </td></tr>";
+                                if (material.EmployeeAssignDateTime == Convert.ToDateTime("1/1/1900 12:00:00 AM"))
+                                {
+                                    ZoneInfo += "<tr><td><b>Assigned Date:</b> </td></tr>";
+                                }
+                                else
+                                {
+                                    ZoneInfo += "<tr><td style='color:darkred;'><b>Assigned Date:</b> " + material.EmployeeAssignDateTime + "</td></tr>";
+                                }
+                                ZoneInfo += "</table>";
+                                ZoneInfo += "</td>";
                             }
-                            else
+
+
+                            ZoneInfo += "<td>" + material.DispatchDate + "</td>";
+
+
+                            ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
+
+                            if (UserTypeID == "4")
                             {
-                                ZoneInfo += "<tr><td style='color:darkred;'><b>Assigned Date:</b> " + dsMatDetails.Tables[0].Rows[j]["EmployeeAssignDateTime"].ToString() + "</td></tr>";
+                                ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
                             }
+
+                            ZoneInfo += "</tr>";
+                            count++;
+                        }
+                    }
+                            ZoneInfo += "</tr>";
+                    
                             ZoneInfo += "</table>";
                             ZoneInfo += "</td>";
-                        }
-
-
-                        ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["DispatchDate"].ToString() + "</td>";
-
-
-                        ZoneInfo += "<td>" + dsMatDetails.Tables[0].Rows[j]["remarkByPurchase"].ToString() + "</td>";
-
-                        if (UserTypeID == "4")
-                        {
-                            ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + dsMatDetails.Tables[0].Rows[j]["Sno"].ToString() + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
-                        }
-                        ZoneInfo += "</tr>";
-                    }
-                    ZoneInfo += "</table>";
-                    ZoneInfo += "</td>";
-                    ZoneInfo += "</tr>";
                 }
                 ZoneInfo += "</tbody>";
                 ZoneInfo += "</table>";
