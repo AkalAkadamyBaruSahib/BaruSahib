@@ -88,7 +88,7 @@ public class PurchaseRepository
             MatTypeID = x.MatTypeId,
             Unit = x.Unit,
             MatCost = x.MatCost,
-          
+
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
         return mt;
     }
@@ -168,10 +168,10 @@ public class PurchaseRepository
             vendorDTO.ModifyOn = v.ModifyOn.ToString();
             vendorDTO.CreatedOn = v.CreatedOn.ToString();
 
-         
+
             dto.Add(vendorDTO);
         }
-         return dto;
+        return dto;
     }
 
     public List<VendorInfoDTO> LoadInActiveVendorInformation(int VendorID)
@@ -202,7 +202,7 @@ public class PurchaseRepository
             dto.Add(vendorDTO);
         }
 
-         return dto;
+        return dto;
     }
 
     public VendorInfoDTO GetVendorInfoToUpdate(int VendorID)
@@ -307,12 +307,12 @@ public class PurchaseRepository
 
     public List<MaterialType> GetBindMaterialType()
     {
-        return _context.MaterialType.OrderBy(x=>x.MatTypeName).ToList();
+        return _context.MaterialType.OrderBy(x => x.MatTypeName).ToList();
     }
 
     public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
     {
-        return _context.Material.Where(x => x.MatTypeId == MatTypeID).OrderBy(x=>x.MatName).ToList();
+        return _context.Material.Where(x => x.MatTypeId == MatTypeID).OrderBy(x => x.MatName).ToList();
     }
 
     public List<Material> GeMaterialInformation(int MaterialID)
@@ -395,7 +395,7 @@ public class PurchaseRepository
 
         DrawingDTO drawingDTO = null;
         foreach (Drawing v in drawingInfo)
-        { 
+        {
             drawingDTO = new DrawingDTO();
 
             drawingDTO.DwgId = v.DwgId;
@@ -434,7 +434,7 @@ public class PurchaseRepository
     {
         Drawing v = _context.Drawing.Where(d => d.DwgId == DrawingID)
                     .FirstOrDefault();
-      DrawingDTO drawingDTO = new DrawingDTO();
+        DrawingDTO drawingDTO = new DrawingDTO();
         drawingDTO.DwgId = v.DwgId;
         drawingDTO.ZoneId = v.ZoneId;
         drawingDTO.AcaId = v.AcaId;
@@ -534,9 +534,121 @@ public class PurchaseRepository
         return _context.MaterialType.Where(x => x.MatTypeId == 49).OrderBy(x => x.MatTypeName).ToList();
     }
 
-    public List<EstimateViewForPurchaser> EstimateViewForPurchase(int PSID, int UserTypeID, int InchargeID)
+    //public List<EstimateViewForPurchaser> EstimateViewForPurchase(int PSID, int UserTypeID, int InchargeID)
+    //{
+    //    DateTime dt1 = DateTime.Now.AddDays(-7);
+
+    //    var EstViewPur = (from E in _context.Estimate
+    //                      .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
+    //                      .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
+    //                      .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
+    //                      .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
+
+
+    //                      join Z in _context.Zone on E.ZoneId equals Z.ZoneId
+    //                      join A in _context.Academy on E.AcaId equals A.AcaID
+    //                      join ER in _context.EstimateAndMaterialOthersRelations on E.EstId equals ER.EstId
+    //                      where ER.IsApproved == true
+
+    //                      where E.IsApproved == true && E.CreatedOn >= dt1 && ER.PSId == PSID
+    //                      orderby E.ModifyOn descending
+    //                      select new
+    //                      {
+    //                          SubEstimate = E.SubEstimate,
+    //                          SanctionDate = E.ModifyOn,
+    //                          ZoneName = Z.ZoneName,
+    //                          AcaID = A.AcaID,
+    //                          AcaName = A.AcaName,
+    //                          EstId = E.EstId,
+    //                          CreatedOn = E.CreatedOn,
+    //                          ModifyOn = E.ModifyOn,
+    //                          EstimateAndMaterialOthersRelationsPurchaser = E.EstimateAndMaterialOthersRelations
+    //                      }).AsEnumerable().Select(x => new EstimateViewForPurchaser
+    //                    {
+    //                        SubEstimate = x.SubEstimate,
+    //                        SanctionDate = Convert.ToDateTime(x.ModifyOn),
+    //                        ZoneName = x.ZoneName,
+    //                        AcaID = x.AcaID,
+    //                        AcaName = x.AcaName,
+    //                        EstId = x.EstId,
+    //                        CreatedOn = Convert.ToDateTime(x.CreatedOn),
+    //                        ModifyOn = Convert.ToDateTime(x.ModifyOn),
+    //                        EstimateAndMaterialOthersRelationsPurchaser = x.EstimateAndMaterialOthersRelationsPurchaser
+    //                    }).ToList();
+
+    //    EstViewPur = EstViewPur.GroupBy(test => test.EstId).Select(grp => grp.First()).ToList();
+    //    EstViewPur = EstimateViewByPsId(PSID, UserTypeID, InchargeID, EstViewPur);
+        
+
+    //    return EstViewPur;
+
+    //}
+
+
+    public List<Estimate> EstimateViewForPurchase(int PSID, int UserTypeID, int InchargeID)
     {
-        DateTime dt1 = DateTime.Now.AddDays(-30).Date;
+        DateTime dt1 = DateTime.Now.AddDays(-30);
+
+
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+            .Include(z=>z.Zone)
+            .Include(a=>a.Academy).ToList();
+
+        List<Estimate> estimates = new List<Estimate>();
+
+        foreach (Estimate e in ests)
+        {
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                .Include(m => m.Material)
+                .Include(u => u.Unit)
+                .Include(i => i.Incharge)
+                .Include(p => p.PurchaseSource).ToList();
+
+
+            if (estimateRelation.Count > 0)
+            {
+                e.EstimateAndMaterialOthersRelations = estimateRelation;
+                estimates.Add(e);
+            }
+        }
+        ests = null;
+        return estimates;
+    }
+
+    public List<Estimate> EstimateViewForPurchaseByEmployeeID(int InchargeID, int PSID, int UserTypeID)
+    {
+
+        DateTime dt1 = DateTime.Now.AddDays(-30);
+
+        List<Estimate> estimates = new List<Estimate>();
+
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+            .Include(z => z.Zone)
+            .Include(a => a.Academy).ToList();
+
+        foreach (Estimate e in ests)
+        {
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.DispatchStatus != 1 && er.PurchaseEmpID != InchargeID)
+                .Include(m => m.Material)
+                .Include(u => u.Unit)
+                .Include(i => i.Incharge)
+                .Include(p => p.PurchaseSource).ToList();
+
+
+            if (estimateRelation.Count > 0)
+            {
+                e.EstimateAndMaterialOthersRelations = estimateRelation;
+                estimates.Add(e);
+            }
+        }
+        ests = null;
+        return estimates;
+        
+    }
+
+    public List<EstimateViewForPurchaser> MaterialDepatchStatusForAdmin(int PSID, int UserTypeID, int inchargeID)
+    {
+        DateTime dt1 = DateTime.Now.AddDays(-30);
 
         var EstViewPur = (from E in _context.Estimate
                           .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
@@ -564,133 +676,6 @@ public class PurchaseRepository
                               ModifyOn = E.ModifyOn,
                               EstimateAndMaterialOthersRelationsPurchaser = E.EstimateAndMaterialOthersRelations
                           }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                        {
-                            SubEstimate = x.SubEstimate,
-                            SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                            ZoneName = x.ZoneName,
-                            AcaID = x.AcaID,
-                            AcaName = x.AcaName,
-                            EstId = x.EstId,
-                            CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                            ModifyOn = Convert.ToDateTime(x.ModifyOn),
-                            EstimateAndMaterialOthersRelationsPurchaser = x.EstimateAndMaterialOthersRelationsPurchaser
-                        }).ToList();
-
-       EstViewPur = EstimateViewByPsId(PSID, UserTypeID, InchargeID, EstViewPur);
-       EstViewPur = EstViewPur.GroupBy(test => test.EstId).Select(grp => grp.First()).ToList();
-
-        return EstViewPur;
-
-    }
-
-    public List<EstimateViewForPurchaser> EstimateViewForPurchaseByEmployeeID(int InchargeID, int PSID, int UserTypeID)
-    {
-        DateTime dt1 = DateTime.Now.AddDays(-30).Date;
-        var EstViewPur = (from E in _context.Estimate
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
-
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          where E.IsApproved == true && E.CreatedOn >= dt1 orderby E.CreatedOn descending   
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                              CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                          {
-                              SubEstimate = x.SubEstimate,
-                              SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                              ZoneName = x.ZoneName,
-                              AcaID = x.AcaID,
-                              AcaName = x.AcaName,
-                              EstId = x.EstId,
-                              CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                              ModifyOn = Convert.ToDateTime(x.ModifyOn)
-                          }).ToList();
-
-        EstViewPur = EstimateViewByPsId(PSID, UserTypeID, InchargeID, EstViewPur);
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId).Select(grp => grp.First()).ToList();
-        return EstViewPur;
-    }
-
-    public List<EstimateViewForPurchaser> MaterialDepatchStatusForAdmin(int PSID, int UserTypeID, int inchargeID)
-    {
-        DateTime dt1 = DateTime.Now.AddDays(-30).Date;
-
-        var EstViewPur = (from E in _context.Estimate
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
-                         
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          join AAE in _context.AcademyAssignToEmployee on E.ZoneId equals AAE.ZoneId
-                          where E.IsApproved == true && E.CreatedOn >= dt1 orderby E.CreatedOn descending   
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                              CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                          {
-                              SubEstimate = x.SubEstimate,
-                              SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                              ZoneName = x.ZoneName,
-                              AcaID = x.AcaID,
-                              AcaName = x.AcaName,
-                              EstId = x.EstId,
-                              CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                              ModifyOn = Convert.ToDateTime(x.ModifyOn)
-                          }).ToList();
-
-        EstViewPur = EstimateViewByPsId(PSID, UserTypeID, inchargeID, EstViewPur);
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId).Select(grp => grp.First()).ToList();
-        return EstViewPur;
-    }
-
-    public List<EstimateViewForPurchaser> MaterialDepatchStatusForAdminLocal(int PSID,int UserTypeID,int inchargeID)
-    {
-        DateTime dt1 = DateTime.Now.AddDays(-30).Date;
-
-        var EstViewPur = (from E in _context.Estimate
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
-                          
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          join AAE in _context.AcademyAssignToEmployee on E.ZoneId equals AAE.ZoneId
-                          where E.IsApproved == true && E.CreatedOn >= dt1
-                          orderby E.CreatedOn descending
-
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                              CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn,
-                              EstimateAndMaterialOthersRelationsPurchaser = E.EstimateAndMaterialOthersRelations
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
                           {
                               SubEstimate = x.SubEstimate,
                               SanctionDate = Convert.ToDateTime(x.ModifyOn),
@@ -703,159 +688,136 @@ public class PurchaseRepository
                               EstimateAndMaterialOthersRelationsPurchaser = x.EstimateAndMaterialOthersRelationsPurchaser
                           }).ToList();
 
+        EstViewPur = EstViewPur.GroupBy(test => test.EstId).Select(grp => grp.First()).ToList();
         EstViewPur = EstimateViewByPsId(PSID, UserTypeID, inchargeID, EstViewPur);
 
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId)
-                  .Select(grp => grp.First())
-                  .ToList();
+
         return EstViewPur;
     }
 
     public List<EstimateViewForPurchaser> EstimateViewByPsId(int PSID, int UserTypeID, int inchargeID, List<EstimateViewForPurchaser> EstViewPur)
     {
+        List<EstimateViewForPurchaser> estimates = new List<EstimateViewForPurchaser>();
+        EstimateViewForPurchaser estimate = new EstimateViewForPurchaser();
+
         List<EstimateAndMaterialOthersRelations> estRels = new List<EstimateAndMaterialOthersRelations>();
 
         EstimateAndMaterialOthersRelations estRel = null;
         foreach (EstimateViewForPurchaser est in EstViewPur)
         {
             estRels = new List<EstimateAndMaterialOthersRelations>();
-            foreach (EstimateAndMaterialOthersRelations rel in est.EstimateAndMaterialOthersRelationsPurchaser)
+            if (est.EstimateAndMaterialOthersRelationsPurchaser != null)
             {
-                estRel = new EstimateAndMaterialOthersRelations();
-                if (UserTypeID == 4)
+                estimate = est;
+                foreach (EstimateAndMaterialOthersRelations rel in est.EstimateAndMaterialOthersRelationsPurchaser)
                 {
-                    if (rel.PSId == PSID && rel.IsApproved==true)
+                    estRel = new EstimateAndMaterialOthersRelations();
+                    if (UserTypeID == 4)
                     {
-                        estRel = rel;
-                    }
-                }
-                else if (UserTypeID == 12)
-                {
-                    if (rel.PurchaseEmpID == inchargeID && rel.PSId == PSID && rel.DispatchStatus != 1 && rel.IsApproved == true)
-                    {
-                        estRel = rel;
-                    }
-                }
-                else if (UserTypeID == 2)
-                {
-                    if (rel.Incharge.InchargeId == inchargeID && rel.PSId == PSID)
-                    {
-                        estRel = rel;
-                    }
-                }
-                else
-                {
-                    if (PSID == 2)
-                    {
-                        if (rel.PSId == PSID || rel.PSId == 3)
+                        if (rel.PSId == PSID && rel.IsApproved == true)
                         {
                             estRel = rel;
+                            estRels.Add(estRel);
                         }
+                    }
+                    else if (UserTypeID == 12)
+                    {
+                        if (rel.PurchaseEmpID == inchargeID && rel.PSId == PSID && rel.DispatchStatus != 1 && rel.IsApproved == true)
+                        {
+                            estRel = rel;
+                            estRels.Add(estRel);
+                        }
+                    }
+                    else if (UserTypeID == 2 && rel.PSId == PSID)
+                    {
+                            estRel = rel;
+                            estRels.Add(estRel);
                     }
                     else
                     {
-                        estRel = rel;
+                        if (PSID == 2)
+                        {
+                            if (rel.PSId == PSID || rel.PSId == 3)
+                            {
+                                estRel = rel;
+                                estRels.Add(estRel);
+                            }
+                        }
+                        else
+                        {
+                            estRel = rel;
+                            estRels.Add(estRel);
+                        }
                     }
-                
-                
+                    
                 }
-                estRels.Add(estRel);
+                if (estRels.Count > 0)
+                {
+                    estimate.EstimateAndMaterialOthersRelationsPurchaser = estRels;
+                    estimates.Add(estimate);
+                }
             }
-            est.EstimateAndMaterialOthersRelationsPurchaser = estRels;
         }
-        return EstViewPur;
+        return estimates;
     }
 
-
-    public List<EstimateViewForPurchaser> MaterialDepatchStatus(int InchargeID, int PSID, int UserTypeID)
+    public List<Estimate> MaterialDepatchStatus(int InchargeID, int PSID, int UserTypeID)
     {
-        DateTime dt1 = DateTime.Now.AddDays(-30).Date;
-        var EstViewPur = (from E in _context.Estimate
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
+        DateTime dt1 = DateTime.Now.AddDays(-30);
 
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          join AAE in _context.AcademyAssignToEmployee on E.AcaId equals AAE.AcaId
-                          join Inc in _context.Incharge on AAE.EmpId equals Inc.InchargeId
-                          where E.IsApproved == true  && E.CreatedOn >= dt1
-                          orderby E.CreatedOn descending
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                              CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn,
-                              LoginId = Inc.LoginId,
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                          {
-                              SubEstimate = x.SubEstimate,
-                              SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                              ZoneName = x.ZoneName,
-                              AcaID = x.AcaID,
-                              AcaName = x.AcaName,
-                              EstId = x.EstId,
-                              CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                              ModifyOn = Convert.ToDateTime(x.ModifyOn),
-                              LoginId = x.LoginId
-                          }).ToList();
-        EstViewPur = EstimateViewByPsId(PSID, UserTypeID, InchargeID, EstViewPur);
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId).Select(grp => grp.First()).ToList();
-        return EstViewPur;
+        List<Estimate> estimates = new List<Estimate>();
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1 && e.CreatedBy == InchargeID)
+            .Include(z => z.Zone)
+            .Include(a => a.Academy).ToList();
+
+        foreach (Estimate e in ests)
+        {
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                .Include(m => m.Material)
+                .Include(u => u.Unit)
+                .Include(i => i.Incharge)
+                .Include(p => p.PurchaseSource).ToList();
+
+            if (estimateRelation.Count > 0)
+            {
+                e.EstimateAndMaterialOthersRelations = estimateRelation;
+                estimates.Add(e);
+            }
+        }
+        ests = null;
+        return estimates;
     }
 
-    public List<EstimateViewForPurchaser> EstimateViewForPurchaseByAcaID(int PSID,int AcaID)
+    public List<Estimate> EstimateViewForPurchaseByAcaID(int PSID, int AcaID,int UserTypeID, int InchargeID)
     {
-        var EstViewPur = (from E in _context.Estimate
 
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID)
+            .Include(z => z.Zone)
+            .Include(a => a.Academy).ToList();
 
-                          join ER in _context.EstimateAndMaterialOthersRelations on E.EstId equals ER.EstId where ER.IsApproved == true
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          where E.IsApproved == true && ER.PSId == PSID && E.AcaId == AcaID
-                          orderby E.ModifyOn descending
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                               CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn,
-                              EstimateAndMaterialOthersRelationsPurchaser = E.EstimateAndMaterialOthersRelations
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                          {
-                              SubEstimate = x.SubEstimate,
-                              SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                              ZoneName = x.ZoneName,
-                              AcaID = x.AcaID,
-                              AcaName = x.AcaName,
-                              EstId = x.EstId,
-                              CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                              ModifyOn = Convert.ToDateTime(x.ModifyOn),
-                              EstimateAndMaterialOthersRelationsPurchaser = x.EstimateAndMaterialOthersRelationsPurchaser
-                          }).ToList();
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId)
-                  .Select(grp => grp.First())
-                  .ToList();
-        return EstViewPur;
+        List<Estimate> estimates = new List<Estimate>();
+
+        foreach (Estimate e in ests)
+        {
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                .Include(m => m.Material)
+                .Include(u => u.Unit)
+                .Include(i => i.Incharge)
+                .Include(p => p.PurchaseSource).ToList();
+
+            if (estimateRelation.Count > 0)
+            {
+                e.EstimateAndMaterialOthersRelations = estimateRelation;
+                estimates.Add(e);
+            }
+        }
+        ests = null;
+        return estimates;
     }
 
     public List<EstimateViewForPurchaser> EstimateViewForPurchaseByEmployeeIDByAcaID(int UserID, int PSID, int AcaID)
     {
-      
+
         var EstViewPur = (from E in _context.Estimate
                           .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
                           .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
@@ -894,91 +856,14 @@ public class PurchaseRepository
         return EstViewPur;
     }
 
-    public List<EstimateViewForPurchaser> MaterialDepatchStatusForAdminByAcaID(int PSID, int AcaID)
+    //public List<EstimateViewForPurchaser> MaterialDepatchStatusForAdminByAcaID(int PSID, int AcaID,int UserTypeID, int InchargeID)
+    //{
+        
+    //}
+
+    public List<EstimateViewForPurchaser> MaterialDepatchStatusByAcaID(int UserID, int PSID, int AcaID)
     {
-        var EstViewPur = (from E in _context.Estimate
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
 
-                          join ER in _context.EstimateAndMaterialOthersRelations on E.EstId equals ER.EstId
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          join AAE in _context.AcademyAssignToEmployee on E.ZoneId equals AAE.ZoneId
-                          where E.IsApproved == true && (ER.PSId == PSID || ER.PSId == 3) && E.AcaId == AcaID 
-                          orderby E.CreatedOn descending
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                              CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                          {
-                              SubEstimate = x.SubEstimate,
-                              SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                              ZoneName = x.ZoneName,
-                              AcaID = x.AcaID,
-                              AcaName = x.AcaName,
-                              EstId = x.EstId,
-                              CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                              ModifyOn = Convert.ToDateTime(x.ModifyOn)
-                          }).ToList();
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId)
-                  .Select(grp => grp.First())
-                  .ToList();
-        return EstViewPur;
-    }
-
-    public List<EstimateViewForPurchaser> MaterialDepatchStatusForAdminForLocalByAcaID(int PSID, int AcaID)
-    {
-        var EstViewPur = (from E in _context.Estimate
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(p => p.PurchaseSource))
-                          .Include(e => e.EstimateAndMaterialOthersRelations.Select(inc => inc.Incharge))
-
-                          join ER in _context.EstimateAndMaterialOthersRelations on E.EstId equals ER.EstId
-                          join Z in _context.Zone on E.ZoneId equals Z.ZoneId
-                          join A in _context.Academy on E.AcaId equals A.AcaID
-                          join AAE in _context.AcademyAssignToEmployee on E.ZoneId equals AAE.ZoneId
-                          where E.IsApproved == true && ER.PSId == PSID && E.AcaId == AcaID
-                          orderby E.CreatedOn descending
-                          select new
-                          {
-                              SubEstimate = E.SubEstimate,
-                              SanctionDate = E.ModifyOn,
-                              ZoneName = Z.ZoneName,
-                              AcaID = A.AcaID,
-                              AcaName = A.AcaName,
-                              EstId = E.EstId,
-                              CreatedOn = E.CreatedOn,
-                              ModifyOn = E.ModifyOn
-                          }).AsEnumerable().Select(x => new EstimateViewForPurchaser
-                          {
-                              SubEstimate = x.SubEstimate,
-                              SanctionDate = Convert.ToDateTime(x.ModifyOn),
-                              ZoneName = x.ZoneName,
-                              AcaID = x.AcaID,
-                              AcaName = x.AcaName,
-                              EstId = x.EstId,
-                              CreatedOn = Convert.ToDateTime(x.CreatedOn),
-                              ModifyOn = Convert.ToDateTime(x.ModifyOn)
-                          }).ToList();
-        EstViewPur = EstViewPur.GroupBy(test => test.EstId)
-                  .Select(grp => grp.First())
-                  .ToList();
-        return EstViewPur;
-    }
-
-    public List<EstimateViewForPurchaser> MaterialDepatchStatusByAcaID(int UserID, int PSID ,int AcaID)
-    {
-     
         var EstViewPur = (from E in _context.Estimate
                           .Include(e => e.EstimateAndMaterialOthersRelations.Select(m => m.Material))
                           .Include(e => e.EstimateAndMaterialOthersRelations.Select(u => u.Unit))
@@ -1020,5 +905,4 @@ public class PurchaseRepository
                   .ToList();
         return EstViewPur;
     }
-
 }

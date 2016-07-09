@@ -9,7 +9,7 @@ using System.Web;
 /// </summary>
 public class Academy
 {
-     [Key()]
+    [Key()]
     public int AcaID { get; set; }
     public string AcaName { get; set; }
     public int ZoneId { get; set; }
