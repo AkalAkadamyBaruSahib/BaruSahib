@@ -140,6 +140,8 @@ function SaveEstimate() {
         EstimateAndMaterialOthersRelation.IsApproved = true;
         EstimateAndMaterialOthersRelation.VendorID = 0;
         EstimateAndMaterialOthersRelation.PurchaseQty = 0;
+        EstimateAndMaterialOthersRelation.PurchaseEmpID = 0;
+        EstimateAndMaterialOthersRelation.DispatchStatus = 0;
         Amt += parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
         estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
     }
