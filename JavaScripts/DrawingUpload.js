@@ -10,21 +10,52 @@ $(document).ready(function () {
         BindAcademybyZoneID($(this).val());
     });
 
+    $("input[id*='fuDwgFile']").change(function (e) {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['dwg']) == -1) {
+            $(this).val("");
+            alert('Invalid extension! Please Upload the .dwg Files');
+        }
+    });
+
+
+    $("input[id*='fuPdf']").change(function () {
+        var ext = $(this).val().split('.').pop().toLowerCase();
+        if ($.inArray(ext, ['pdf']) == -1) {
+            $(this).val("");
+            alert('Invalid extension! Please Upload the .pdf Files');
+        }
+    });
+
     $("input[id*='btnDwgFile']").click(function () {
         if (Page_ClientValidate("uploaddrawing")) {
-            $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
-            $("#progress").dialog('open');
-            PDFFileFileUpload();
-            $("#hndIsDrwgUploaded").val(1);
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['pdf']) == -1) {
+                $(this).val("");
+                alert('Invalid extension! Please Upload the .pdf Files');
+            }
+            else {
+                $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
+                $("#progress").dialog('open');
+                PDFFileFileUpload();
+                $("#hndIsDrwgUploaded").val(1);
+            }
         }
     });
 
     $("input[id*='btnAutoCadFile']").click(function () {
         if (Page_ClientValidate("uploaddrawing")) {
-            $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
-            $("#progress").dialog('open');
-            AutoCadFileFileUpload();
-            $("#hdnIsAutocadUploaded").val(1);
+            var ext = $(this).val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['dwg']) == -1) {
+                $(this).val("");
+                alert('Invalid extension! Please Upload the .dwg Files');
+            }
+            else {
+                $("#progress").dialog({ modal: true, width: 350, height: 120, title: "Progress", closeOnEscape: false });
+                $("#progress").dialog('open');
+                AutoCadFileFileUpload();
+                $("#hdnIsAutocadUploaded").val(1);
+            }
         }
     });
 

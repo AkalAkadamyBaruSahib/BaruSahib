@@ -56,7 +56,7 @@ public class Estimate
 
     public bool IsActive { get; set; }
 
-    //public int? ModuleID { get; set; }
+    public int? ModuleID { get; set; }
 
     public List<EstimateAndMaterialOthersRelations> EstimateAndMaterialOthersRelations { get; set; }
 

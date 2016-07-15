@@ -97,7 +97,7 @@ public class StoreRepository
                                  ZoneName = x.ZoneName,
                                  AcaName = x.AcaName,
                                  EstId = x.EstId,
-                                 PSId = x.PSId,
+                               //  PSId = x.PSId,
                                }).ToList();
         StockRgs = StockRgs.GroupBy(test => test.EstId)
                   .Select(grp => grp.First())
@@ -131,7 +131,7 @@ public class StoreRepository
                             ZoneName = x.ZoneName,
                             AcaName = x.AcaName,
                             EstId = x.EstId,
-                            PSId = x.PSId,
+                           // PSId = x.PSId,
                         }).ToList();
         StockRgs = StockRgs.GroupBy(test => test.EstId)
                   .Select(grp => grp.First())

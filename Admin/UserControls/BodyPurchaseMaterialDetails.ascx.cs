@@ -47,7 +47,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
 
             if (Request.QueryString["EstId"] != null)
             {
-                //GetPrint(Request.QueryString["EstId"].ToString());
+                GetPrint(Request.QueryString["EstId"].ToString());
             }
             else
             {
@@ -225,18 +225,18 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
 
             if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) )
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, AcaID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, Convert.ToInt32(UserTypeID),Convert.ToInt32(UserID),AcaID);
             }
             else if(UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
             {
-                // PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, AcaID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
             }
 
             else if (UserTypeID == (int)(TypeEnum.UserType.ADMIN))
             {
                 if (PSID == 1)
                 {
-                 //   PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID, AcaID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                 //   PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID,Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID),AcaID,);
                 }
                 else
                 {
@@ -246,7 +246,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             else if (UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION))
             {
                 var UserId = lblUser.Text;
-              //  PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusByAcaID(Convert.ToInt32(UserId), PSID, AcaID);
+              PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusByAcaID(PSID,Convert.ToInt32(UserId),AcaID);
             }
         }
         else
@@ -276,7 +276,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             else if (UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION))
             {
                 var UserId = lblUser.Text;
-                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatus(Convert.ToInt32(UserID), PSID, Convert.ToInt32(UserTypeID));
+                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatus( PSID, Convert.ToInt32(UserTypeID),Convert.ToInt32(UserID));
                 //  dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatus '" + lblUser.Text + "','" + PSID + "'");
             }
         }
