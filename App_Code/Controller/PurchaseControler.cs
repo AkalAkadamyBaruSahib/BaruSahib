@@ -387,4 +387,11 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.MaterialDepatchStatusByAcaID(PSID, InchrgID, AcaID);
     }
+
+    [WebMethod]
+    public List<Academy> GetAcademybyZoneIDByEmpID(int ZoneID, int InchargeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetAcademybyZoneIDByEmpID(ZoneID, InchargeID);
+    }
 }

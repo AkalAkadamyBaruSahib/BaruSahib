@@ -47,7 +47,13 @@ $(document).ready(function () {
     }
 
     $("select[id*='ddlZone']").change(function () {
-        BindAcademybyZoneID($(this).val());
+        if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 15) {
+            BindAcademybyZoneIDByEmpID($(this).val(), $("input[id*='hdnInchargeID']").val());
+        }
+        else {
+            BindAcademybyZoneID($(this).val());
+        }
+       
     });
 
     $("select[id*='ddlAcademy']").change(function () {
@@ -575,6 +581,33 @@ function BindMaterialTypeInTransport() {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("#drpMaterialType").append($("<option></option>").val(value.MatTypeId).html(value.MatTypeName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function BindAcademybyZoneIDByEmpID(selctZoneID, inchargeId) {
+
+    $("select[id*='ddlAcademy'] option").each(function (index, option) {
+        $(option).remove();
+    });
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetAcademybyZoneIDByEmpID",
+        data: JSON.stringify({ ZoneID: parseInt(selctZoneID), InchargeID: parseInt(inchargeId) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+                $.each(Result, function (key, value) {
+                    $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                 });
             }
         },

@@ -862,4 +862,27 @@ public class PurchaseRepository
     {
         return _context.Academy.OrderBy(x => x.AcaName).ToList();
     }
+
+    public List<Academy> GetAcademybyZoneIDByEmpID(int ZoneID, int InchargeID)
+    {
+         var Academy = (from z in _context.Academy
+                     join AAE in _context.AcademyAssignToEmployee on z.AcaID equals AAE.AcaId
+                        where AAE.EmpId == InchargeID && AAE.ZoneId == ZoneID
+                     select new
+                     {
+                         AcaID = z.AcaID,
+                         AcaName = z.AcaName,
+
+                     }).AsEnumerable().Select(x => new Academy
+                 {
+                     AcaID = x.AcaID,
+                     AcaName = x.AcaName,
+                 }).OrderBy(m => m.AcaName).ToList();
+
+         Academy = Academy.GroupBy(test => test.AcaID)
+                   .Select(grp => grp.First())
+                   .ToList();
+         return Academy;
+      
+    }
 }
