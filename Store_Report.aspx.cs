@@ -39,28 +39,28 @@ public partial class Store_Report : System.Web.UI.Page
         }
         Response.End();
     }
-     protected DataTable BindDatatable()
+    protected DataTable BindDatatable()
     {
         string UserTypeID = Session["UserTypeID"].ToString();
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
+        dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_NewStockReport] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2'").Tables[0];
+        return dt;
+       // ds = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockReport] 2");
+        //dt = ds.Tables[0];
+        //System.Data.EnumerableRowCollection<System.Data.DataRow> dtapproved = null;
+        //if (dt.Rows.Count > 0)
+        //{
+        //    dtapproved = (from mystoretbl in ds.Tables[0].AsEnumerable()
+        //                  where Convert.ToDateTime(mystoretbl.Field<DateTime>("CreatedOn")) >= Convert.ToDateTime(txtfirstDate.Text)
+        //                  && Convert.ToDateTime(mystoretbl.Field<DateTime>("CreatedOn")) <= Convert.ToDateTime(txtlastDate.Text)
+        //                  select mystoretbl);
 
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockReport] 2");
-        dt = ds.Tables[0];
-        System.Data.EnumerableRowCollection<System.Data.DataRow> dtapproved = null;
-        if (dt.Rows.Count > 0)
-        {
-            dtapproved = (from mystoretbl in ds.Tables[0].AsEnumerable()
-                          where Convert.ToDateTime(mystoretbl.Field<DateTime>("CreatedOn")) >= Convert.ToDateTime(txtfirstDate.Text)
-                          && Convert.ToDateTime(mystoretbl.Field<DateTime>("CreatedOn")) <= Convert.ToDateTime(txtlastDate.Text)
-                          select mystoretbl);
-
-        }
-        else
-        {
-            return dt;
-        }
-        return dtapproved.CopyToDataTable();
-
+        //}
+        //else
+        //{
+        //    return dt;
+        //}
+        //return dtapproved.CopyToDataTable();
     }
 }

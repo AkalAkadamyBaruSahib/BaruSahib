@@ -216,7 +216,7 @@ public class VisitorUserRepository
         return roomnumbers;
     }
 
-    public IList<RoomNumbers> GetBookedRoomsByVisitorID(int VisitorID)
+    public List<RoomNumbers> GetBookedRoomsByVisitorID(int VisitorID)
     {
         string roomnumbers = string.Empty;
 

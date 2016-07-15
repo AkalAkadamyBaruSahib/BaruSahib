@@ -139,6 +139,7 @@
                         <ul class="nav nav-tabs nav-stacked main-menu">
                             <li class="nav-header hidden-tablet">Main</li>
                             <%--<li><a class="ajax-link" href="Purchase_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>--%>
+                            <li><a class="ajax-link" href="StoreHome.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
                             <li><a href="Store_Materials.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Store Register</span></a></li>
                             <li><a href="Store_Report.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Store Report</span></a></li>
                             <%--<li><a class="ajax-link" href="Purchase_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">Estimates(<asp:Label ID="lblEst" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>--%>
