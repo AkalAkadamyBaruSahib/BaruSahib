@@ -236,11 +236,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 if (PSID == 1)
                 {
-                 //   PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID,Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID),AcaID,);
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocalByAcaID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
                 }
                 else
                 {
-                 //   PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID, AcaID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminByAcaID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
                 }
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION))
@@ -264,12 +264,12 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 if (PSID == 1)
                 {
-                    //  PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdmin(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                     PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
                     // dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusForAdmin'" + PSID + "'");
                 }
                 else
                 {
-                    // PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdmin(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdmin(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
                     //dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusForAdmin'" + PSID + ",3' ");
                 }
             }
@@ -346,7 +346,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<th width='2%'>Unit</th>";
                     ZoneInfo += "<th width='2%'>Quantity</th>";
                     ZoneInfo += "<th width='5%'>Source Type</th>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
                     {
                         ZoneInfo += "<th width='27%'>Purchase Officer</th>";
                     }

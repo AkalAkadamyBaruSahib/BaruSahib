@@ -25,11 +25,12 @@
             var btnvalue = $("input[id*='btnSave']").val();
             if (btnvalue != 'Dispatch') {
                 var script = document.getElementById('<%= txtLinkBillNo.ClientID %>').value;
-                if (document.getElementById('ddlVendorName').value == 0) {
-                    alert("Please select the Vendor");
-                    return false;
-                }
-                else if (script == "") {
+                //if (document.getElementById('ddlVendorName').value == 0) {
+                //    alert("Please select the Vendor");
+                //    return false;
+                //}
+           // else 
+                if (script == "") {
                     alert("Please Enter Purchased Bill No");
                     return false;
                 }
@@ -84,13 +85,13 @@
             <asp:HiddenField ID="hdnIsReceived" runat="server" />
               <asp:HiddenField ID="hdnVendorID" runat="server" />
             <table>
-                <tr id="trvendorname">
+                <%--<tr id="trvendorname">
                     <td>Select The Vendor:
                         <select id="ddlVendorName" style="width:131px; float:right;">
                         <option value="0">--Select Vendor--</option>
                        </select>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <td>Enter Received Quantity:&nbsp&nbsp
                         <asp:TextBox ID="txtReceivedQty" Width="111px" float="right" padding-right="1px"  runat="server"></asp:TextBox>

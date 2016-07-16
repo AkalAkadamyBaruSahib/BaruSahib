@@ -16,8 +16,13 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
         }
     }
     public static int UserTypeID = -1;
+    public int ModuleID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["ModuleID"] != null)
+        {
+            ModuleID = int.Parse(Session["ModuleID"].ToString());
+        }
         if (!IsPostBack)
         {
             if (Session["EmailId"] == null)
@@ -113,14 +118,21 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     protected void BindMatType()
     {
         DataSet dsMatType = new DataSet();
-        if (Session["dsMatType"] == null)
+        if (ModuleID == 2)
         {
-            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowMatTypeDetails '" + lblUser.Text + "'");
-            Session["dsMatType"] = dsMatType;
+            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("Select MatTypeId,MatTypeName from MaterialType Where MatTypeId = 49");
         }
         else
         {
-            dsMatType = Session["dsMatType"] as DataSet;
+            if (Session["dsMatType"] == null)
+            {
+                dsMatType = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowMatTypeDetails '" + lblUser.Text + "'");
+                Session["dsMatType"] = dsMatType;
+            }
+            else
+            {
+                dsMatType = Session["dsMatType"] as DataSet;
+            }
         }
         
         ddlMatType.DataSource = dsMatType;

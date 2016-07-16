@@ -225,10 +225,8 @@ public partial class Store_Materials : System.Web.UI.Page
         string UserTypeID = Session["UserTypeID"].ToString();
         string UserID = Session["InchargeID"].ToString();
         DataTable dtapproved = new DataTable();
-        //DataSet dsAcaDetails = new DataSet();
-
-
-        List<StockRegister> storeRegister = new List<StockRegister>();
+       
+        List<Estimate> storeRegister = new List<Estimate>();
         StoreRepository storeRepository = new StoreRepository(new AkalAcademy.DataContext());
         
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
@@ -236,20 +234,12 @@ public partial class Store_Materials : System.Web.UI.Page
         if (AcaID > 0)
         {
             storeRegister = storeRepository.GetStockRegisterInfoByAcaID(AcaID);
-            //dtApproved = (from mytable in dtapproved.AsEnumerable()
-            //              where mytable.Field<int>("AcaID") == AcaID
-            //              select mytable);
+          
         }
         else
         {
             storeRegister = storeRepository.GetStockRegisterInfo();
         }
-
-       
-        //if (dtApproved.Count() > 0)
-        //{
-        //    dtapproved = dtApproved.CopyToDataTable();
-        //}
 
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
@@ -275,7 +265,7 @@ public partial class Store_Materials : System.Web.UI.Page
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
-        foreach(StockRegister register in storeRegister)
+        foreach(Estimate register in storeRegister)
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td style='display:none;'>1</td>";
@@ -285,7 +275,7 @@ public partial class Store_Materials : System.Web.UI.Page
             ZoneInfo += "<td><b style='color:red;'>Estimate No:</b> " + register.EstId + "</td>";
             ZoneInfo += "<td class='center'><b style='color:red;'>Sanction Date:</b> " + register.SanctionDate + "</td>";
             ZoneInfo += "<td class='center'><b style='color:red;'>Sub Estimate:</b> " + register.SubEstimate + "</td>";
-            ZoneInfo += "<td class='center'><b style='color:red;'>Academy:</b> " + register.AcaName + "</td>";
+            ZoneInfo += "<td class='center'><b style='color:red;'>Academy:</b> " + register.Academy.AcaName + "</td>";
 
             ZoneInfo += "<td class='center'><table><tr><td class='center'><b style='color:red;'>Upload Bill:</b><br/><a onclick='OpenUploadbill(" + register.EstId + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Upload Bill</span></a></td><td class='center'><b style='color:red;'>View Bill:</b><br/><a onclick='OpenViewbill(" + register.EstId + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>View Bill</span></a></td></tr></table><td>";
             ZoneInfo += "</tr>";
@@ -483,7 +473,7 @@ public partial class Store_Materials : System.Web.UI.Page
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Received the Material Greater Then In Store the Material');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Dispatch the Material Greater Then In Store the Material');", true);
             
             }
 
