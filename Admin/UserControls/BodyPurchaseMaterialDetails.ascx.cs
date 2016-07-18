@@ -320,7 +320,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
                     if(UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a><br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath,Est.FileNme) + "</td>";
                     }
                     else if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                     {
@@ -508,6 +508,21 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         getPurchaseMaterialsDetailsDetails(-1,-1);
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set remarkByPurchase = '" + txtRemarks.Text + "' where estid = '" + hidEstID.Value + "' and sno ='" + hidEMRID.Value + "'");
         txtRemarks.Text = "";
+    }
+
+    private string GetFileName(string filepaths, string fileName)
+    {
+        string anchorLink = string.Empty;
+        string[] filePath = filepaths.Split(',');
+        int count = 0;
+        foreach (string path in filePath)
+        {
+            count++;
+            anchorLink += "<a href='" + path + "' target='_blank'>" + fileName + "_" + count + "</a> , ";
+        }
+
+        return anchorLink.Substring(0, anchorLink.Length - 3);
+
     }
 
   
