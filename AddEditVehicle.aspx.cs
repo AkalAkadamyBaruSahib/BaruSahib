@@ -184,55 +184,39 @@ public partial class AddVehicle : System.Web.UI.Page
 
     private void LoadVehicleData()
     {
-        DataSet dsEstimateDetails = new DataSet();
-        //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        //   dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails]");
-        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetVehiclesDetails] 1");
-        System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
+        TransportUserRepository repo = new TransportUserRepository(new DataContext());
+        Vehicles vehicle = repo.GetVehicleByVehicleID(VehicleID);
 
-        if (VehicleID > 0)
+        if (!String.IsNullOrEmpty(vehicle.ZoneID.ToString()))
         {
-
-            dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                          where mytable.Field<int>("ID") == VehicleID
-                          select mytable);
+            ddlZone.ClearSelection();
+            ddlZone.Items.FindByValue(vehicle.ZoneID.ToString()).Selected = true;
         }
-        else
-        {
-            dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
-                          select mytable);
-        }
-
-        DataTable dtapproved = new DataTable();
-        if (dtApproved.Count() > 0)
-        {
-            dtapproved = dtApproved.CopyToDataTable();
-        }
-
-        ddlZone.ClearSelection();
-        ddlZone.Items.FindByValue(dtapproved.Rows[0]["ZoneID"].ToString()).Selected = true;
 
         BindAcademy();
-        ddlAcademy.ClearSelection();
-        ddlAcademy.Items.FindByValue(dtapproved.Rows[0]["AcademyID"].ToString()).Selected = true;
-
-        ddlTransportType.ClearSelection();
-        ddlTransportType.Items.FindByValue(dtapproved.Rows[0]["TypeID"].ToString()).Selected = true;
-
-        if (dtapproved.Rows[0]["DriverID"].ToString() != "")
+        if (!String.IsNullOrEmpty(vehicle.AcademyID.ToString()))
         {
-            ddlDriverName.ClearSelection();
-            ddlDriverName.Items.FindByValue(dtapproved.Rows[0]["DriverID"].ToString()).Selected = true;
+            ddlAcademy.ClearSelection();
+            ddlAcademy.Items.FindByValue(vehicle.AcademyID.ToString()).Selected = true;
         }
 
-        if (dtapproved.Rows[0]["ConductorID"].ToString() != "")
+        ddlTransportType.ClearSelection();
+        ddlTransportType.Items.FindByValue(vehicle.TypeID.ToString()).Selected = true;
+
+        if (!String.IsNullOrEmpty(vehicle.DriverID.ToString()))
+        {
+            ddlDriverName.ClearSelection();
+            ddlDriverName.Items.FindByValue(vehicle.DriverID.ToString()).Selected = true;
+        }
+
+        if (!String.IsNullOrEmpty(vehicle.ConductorID.ToString()))
         {
             ddlConductorName.ClearSelection();
-            ddlConductorName.Items.FindByValue(dtapproved.Rows[0]["ConductorID"].ToString()).Selected = true;
+            ddlConductorName.Items.FindByValue(vehicle.ConductorID.ToString()).Selected = true;
         }
 
         //string VehicleNumber = txtVehicleNo1.Text + "-" + txtVehicleNo2.Text + "-" + txtVehicleNo3.Text + "-" + txtVehicleNo4.Text;
-        string[] VehicleNumber = dtapproved.Rows[0]["Number"].ToString().Split('-');
+        string[] VehicleNumber = vehicle.Number.Split('-');
         if (VehicleNumber.Length == 4)
         {
             txtVehicleNo1.Text = VehicleNumber[0];
@@ -255,115 +239,89 @@ public partial class AddVehicle : System.Web.UI.Page
         ddlAcademy.Enabled = true;
         ddlZone.Enabled = true;
 
-        OwnerName.Text = dtapproved.Rows[0]["OwnerName"].ToString();
-        txtOwnerNo.Text = dtapproved.Rows[0]["OwnerNumber"].ToString();
-        txtSitting.Text = dtapproved.Rows[0]["Sitter"].ToString();
-        lblHeading.Text = dtapproved.Rows[0]["Number"].ToString();
-        chkTemp.Checked = Convert.ToBoolean(dtapproved.Rows[0]["IsTemporary"].ToString());
-
-        txtFileNumber.Text = dtapproved.Rows[0]["FileNumber"].ToString() == string.Empty ? "Contract-" + dtapproved.Rows[0]["Number"].ToString() : dtapproved.Rows[0]["FileNumber"].ToString();
-        txtEngineNumber.Text = dtapproved.Rows[0]["EngineNumber"].ToString();
-        txtChassisNumber.Text = dtapproved.Rows[0]["ChassisNumber"].ToString();
+        OwnerName.Text = vehicle.OwnerName;
+        txtOwnerNo.Text = vehicle.OwnerNumber;
+        txtSitting.Text = vehicle.Sitter.ToString();
+        lblHeading.Text = vehicle.Number;
+        chkTemp.Checked = Convert.ToBoolean(vehicle.IsTemporary);
+        if (chkTemp.Checked == true)
+        {
+            txtVehicleNo1.Enabled = true;
+            txtVehicleNo2.Enabled = true;
+            txtVehicleNo3.Enabled = true;
+            txtVehicleNo4.Enabled = true;
+        }
+        else
+        {
+            txtVehicleNo1.Enabled = false;
+            txtVehicleNo2.Enabled = false;
+            txtVehicleNo3.Enabled = false;
+            txtVehicleNo4.Enabled = false;
+        }
+        txtFileNumber.Text = vehicle.FileNumber == string.Empty ? "Contract-" + vehicle.Number : vehicle.FileNumber;
+        txtEngineNumber.Text = vehicle.EngineNumber;
+        txtChassisNumber.Text = vehicle.ChassisNumber;
         ddlMake.ClearSelection();
-        ddlMake.SelectedValue = dtapproved.Rows[0]["Make"].ToString();
+        ddlMake.SelectedValue = vehicle.Make;
         ddlModel.ClearSelection();
-        ddlModel.SelectedValue = dtapproved.Rows[0]["Model"].ToString();
-        chkWrittenContract.Checked = dtapproved.Rows[0]["WrittenContract"].ToString() != string.Empty ? Convert.ToBoolean(dtapproved.Rows[0]["WrittenContract"].ToString()) : false;
+        ddlModel.SelectedValue = vehicle.Model;
+        chkWrittenContract.Checked = vehicle.WrittenContract.ToString() != string.Empty ? Convert.ToBoolean(vehicle.WrittenContract.ToString()) : false;
 
         ddlPeriodOfContract.ClearSelection();
-        ddlPeriodOfContract.SelectedValue = dtapproved.Rows[0]["PeriodOfContract"].ToString();
+        ddlPeriodOfContract.SelectedValue = vehicle.PeriodOfContract.ToString();
 
-        txtContractDieselRate.Text = dtapproved.Rows[0]["ContractDieselRate"].ToString();
+        txtContractDieselRate.Text = vehicle.ContractDieselRate.ToString();
         GetCurrentOilPrice();
 
-
-        ddlOilSlab.ClearSelection();
-        ddlOilSlab.SelectedValue = dtapproved.Rows[0]["OilSlab"].ToString();
-
+        if (!String.IsNullOrEmpty(vehicle.OilSlab.ToString()))
+        {
+            ddlOilSlab.ClearSelection();
+            ddlOilSlab.SelectedValue = vehicle.OilSlab.ToString();
+        }
 
         ddlFrontLeft.ClearSelection();
-        ddlFrontLeft.SelectedValue = dtapproved.Rows[0]["FrontLeftTyreCondition"].ToString();
+        ddlFrontLeft.SelectedValue = vehicle.FrontLeftTyreCondition;
 
         ddlFrontRight.ClearSelection();
-        ddlFrontRight.SelectedValue = dtapproved.Rows[0]["FrontRightTyreCondition"].ToString();
+        ddlFrontRight.SelectedValue = vehicle.FrontRightTyreCondition;
 
         ddlNumberOfTyres.ClearSelection();
-        ddlNumberOfTyres.SelectedValue = dtapproved.Rows[0]["NumberOfTypres"].ToString();
+        ddlNumberOfTyres.SelectedValue = vehicle.NumberOfTypres.ToString();
 
 
 
-        if (dtapproved.Rows[0]["NumberOfTypres"].ToString() == "4")
+        if (vehicle.NumberOfTypres.ToString() == "4")
         {
             trRear.Visible = true;
             ddlRearLeft.ClearSelection();
-            ddlRearLeft.SelectedValue = dtapproved.Rows[0]["RearLeftTyreCondition"].ToString();
+            ddlRearLeft.SelectedValue = vehicle.RearLeftTyreCondition.ToString();
 
             ddlRearRight.ClearSelection();
-            ddlRearRight.SelectedValue = dtapproved.Rows[0]["RearRightTyreCondition"].ToString();
+            ddlRearRight.SelectedValue = vehicle.RearRightTyreCondition.ToString();
         }
-        else if (dtapproved.Rows[0]["NumberOfTypres"].ToString() == "6")
+        else if (vehicle.NumberOfTypres.ToString() == "6")
         {
             trRear.Visible = true;
             trRear2.Visible = true;
 
             ddlRearLeft.ClearSelection();
-            ddlRearLeft.SelectedValue = dtapproved.Rows[0]["RearLeftTyreCondition"].ToString();
+            ddlRearLeft.SelectedValue = vehicle.RearLeftTyreCondition.ToString();
 
             ddlRearRight.ClearSelection();
-            ddlRearRight.SelectedValue = dtapproved.Rows[0]["RearRightTyreCondition"].ToString();
+            ddlRearRight.SelectedValue = vehicle.RearRightTyreCondition.ToString();
 
             ddlRearLeft2.ClearSelection();
-            ddlRearLeft2.SelectedValue = dtapproved.Rows[0]["RearLeftTyre2Condition"].ToString();
+            ddlRearLeft2.SelectedValue = vehicle.RearLeftTyre2Condition.ToString();
 
             ddlRearRight2.ClearSelection();
-            ddlRearRight2.SelectedValue = dtapproved.Rows[0]["RearRightTyre2Condition"].ToString();
+            ddlRearRight2.SelectedValue = vehicle.RearRightTyre2Condition.ToString();
         }
 
-        txtKm.Text = dtapproved.Rows[0]["KMPerDay"].ToString();
+        txtKm.Text = vehicle.KMPerDay.ToString();
         DisableControl();
     }
 
-    //private void bindDocumentGrid()
-    //{
-    //    DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
-    //    gvDocuments.DataSource = TransportDocuments.Tables[0];
-    //    gvDocuments.DataBind();
-
-
-    //}
-    //protected void gvDocuments_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    if (e.Row.RowType == DataControlRowType.DataRow)
-    //    {
-    //        DataSet ds = new DataSet();
-
-    //        FileUpload fiupload = e.Row.FindControl("fiupload") as FileUpload;
-    //        Button bt_upload = e.Row.FindControl("bt_upload") as Button;
-
-    //        Label lblDocumentTypeID = e.Row.FindControl("lblDocumentTypeID") as Label;
-    //        HyperLink hypDoc = e.Row.FindControl("hypDoc") as HyperLink;
-    //        Label lblDocu = e.Row.FindControl("lblDocu") as Label;
-    //        TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
-    //        Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
-
-    //        string path = string.Empty;
-    //        ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + VehicleID);
-    //        if (ds.Tables[0].Rows.Count > 0)
-    //        {
-    //            lblDocu.Text = ds.Tables[0].Rows[0]["ID"].ToString(); ;
-    //            hypDoc.NavigateUrl = ds.Tables[0].Rows[0]["Path"].ToString();
-    //            path = ds.Tables[0].Rows[0]["Path"].ToString();
-    //            path = path.Substring(path.IndexOf('/') + 1);
-    //            hypDoc.Text = path;
-    //            if (ds.Tables[0].Rows[0]["DocumentEndDate"].ToString() != "")
-    //            {
-    //                txtDate.Text = Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()).ToShortDateString();
-    //            }
-    //            btn_Approved.Visible = true;
-    //        }
-
-    //    }
-    //}
+    
 
     protected void btnSaveChanges_Click(object sender, EventArgs e)
     {
@@ -434,52 +392,6 @@ public partial class AddVehicle : System.Web.UI.Page
             return;
         }
     }
-
-    //private bool SaveDocuments()
-    //{
-    //    foreach (GridViewRow row in gvDocuments.Rows)
-    //    {
-    //        string qryBuilder = string.Empty;
-    //        Label lblDocu = row.FindControl("lblDocu") as Label;
-    //        FileUpload fu = row.FindControl("fiupload") as FileUpload;//here
-    //        Label lblDocumentType = row.FindControl("lblDocumentType") as Label;
-    //        Label lblDocumentTypeID = row.FindControl("lblDocumentTypeID") as Label;
-    //        TextBox txtDate = row.FindControl("txtDate") as TextBox;
-    //        HyperLink hypDoc = row.FindControl("hypDoc") as HyperLink;
-
-    //        if ((fu.HasFile && txtDate.Text == "(mm/dd/yyyy)") || (!fu.HasFile && txtDate.Text != "(mm/dd/yyyy)" && hypDoc.Text == "No document Uploaded"))
-    //        {
-    //            if (fu.HasFile && txtDate.Text == "(mm/dd/yyyy)")
-    //                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter the date for " + lblDocumentType.Text + " document');", true);
-    //            else
-    //                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please upload the " + lblDocumentType.Text + " document');", true);
-    //            return false;
-    //        }
-    //        else
-    //        {
-    //            if (fu.HasFile && txtDate.Text != "(mm/dd/yyyy)")
-    //            {
-    //                try
-    //                {
-    //                    string fileName = string.Empty;
-    //                    string VehicleNumber = txtVehicleNo1.Text.Trim() + "-" + txtVehicleNo2.Text.Trim() + "-" + txtVehicleNo3.Text.Trim() + "-" + txtVehicleNo4.Text.Trim();
-    //                    fileName = lblDocumentType.Text + "_" + VehicleNumber + Path.GetExtension(fu.PostedFile.FileName);
-    //                    string uploadedFile = ("VehicleDoc/" + fileName);
-
-    //                    DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + lblDocu.Text + "," + VehicleID + "," + lblDocumentTypeID.Text + ",'" + uploadedFile + "','" + txtDate.Text + "'");
-    //                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('File has been saved');", true);
-    //                }
-    //                catch (Exception ex)
-    //                {
-    //                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert(" + ex.Message + ");", true);
-    //                    return false;
-    //                }
-    //            }
-    //        }
-
-    //    }
-    //    return true;
-    //}
 
     private void BindMake()
     {

@@ -79,4 +79,29 @@ public class TransportController : System.Web.Services.WebService
         repository.ActiveVechicleInfo(VID);
     }
 
+    [WebMethod]
+    public List<string> GetActiveVehicles()
+    {
+        List<string> arrVehicles = new List<string>();
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        List<VehiclesDTO> vehicles = repository.GetActiveVehicles();
+        foreach (VehiclesDTO dto in vehicles)
+        {
+            arrVehicles.Add(dto.Number.Trim());
+        }
+        return arrVehicles;
+    }
+
+    [WebMethod]
+    public List<string> GetActiveVehiclesByInchargeID(int InchargeID)
+    {
+        List<string> arrVehicles = new List<string>();
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        List<VehiclesDTO> vehicles = repository.GetActiveVehiclesByInchargeID(InchargeID);
+        foreach (VehiclesDTO dto in vehicles)
+        {
+            arrVehicles.Add(dto.Number.Trim());
+        }
+        return arrVehicles;
+    }
 }

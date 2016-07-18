@@ -9,8 +9,14 @@ using System.Web.UI.WebControls;
 public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserControl
 {
     private int VehicleID = -1;
+    private int InchargeID = -1;
+
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["InchargeID"] != null)
+        {
+            InchargeID = int.Parse(Session["InchargeID"].ToString());
+        }
         if (!Page.IsPostBack)
         {
             BindAcademy();
@@ -92,13 +98,23 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
 
     public void BindAcademy()
     {
-        UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
-        drpAcademy.DataSource = repo.GetAllAcademy(2);
-        drpAcademy.DataValueField = "AcaID";
+
+        UsersRepository users = new UsersRepository(new AkalAcademy.DataContext());
+        List<Academy> acaList = new List<Academy>();
+        if (Session["UserTypeID"].ToString() == "13")
+        {
+            acaList = users.GetAllAcademy(2);
+        }
+        else
+        {
+            acaList = users.GetAcademyByInchargeID(InchargeID);
+        }
+
+        drpAcademy.DataSource = acaList;
         drpAcademy.DataTextField = "AcaName";
+        drpAcademy.DataValueField = "AcaID";
         drpAcademy.DataBind();
         drpAcademy.Items.Insert(0, new ListItem("--Select One--", "0"));
-
     }
 
     protected void drpVehicle_SelectedIndexChanged(object sender, EventArgs e)

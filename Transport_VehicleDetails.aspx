@@ -28,8 +28,7 @@
     </script>
 
     <div id="content" class="span10">
-        <%--<asp:Button id="btnExecl" runat="server" Text="Estimate Statement" CssClass="btn btn-primary" onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" OnClick="btnExecl_Click" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate Statement Execl." data-rel="tooltip" Width="165px"/>
-        <asp:Button id="btnExcel2" runat="server" Text="Estimate Material Statement" CssClass="btn btn-primary" onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details Execl" data-rel="tooltip" OnClick="btnExcel2_Click" Width="207px"/>--%>
+       
         <div id="divbtnapprved">
         <asp:Button ID="btnNonApproved" runat="server" Text="View Non Approved Vehicle(s)" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate which are uploaded by user" data-rel="tooltip" OnClick="btnNonApproved_Click" Width="235px" />
          Select Academy:

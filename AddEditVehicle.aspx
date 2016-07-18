@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Transport_AdminMaster.master" AutoEventWireup="true" CodeFile="AddEditVehicle.aspx.cs" Inherits="AddVehicle" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script src="JavaScripts/Transport.js"></script>
+   
     <style>
         .radio input[type="radio"],
         .radio-inline input[type="radio"],
@@ -29,8 +29,7 @@
             }
             return true;
         }
-
-        function FileNumber() {
+       function FileNumber() {
             var fileNumber = "Contract_";
             var No1 = $("input[id$='txtVehicleNo1']").val();
             var No2 = $("input[id$='txtVehicleNo2']").val();

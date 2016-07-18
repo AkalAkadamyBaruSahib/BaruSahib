@@ -39,6 +39,13 @@ public class TransportUserRepository
             .Include(z => z.Zone).ToList();
     }
 
+    public Vehicles GetVehicleByVehicleID(int VehicleID)
+    {
+        return _context.Vehicles.Where(v => v.ID == VehicleID)
+            .Include(a => a.Academy)
+            .Include(z => z.Zone).FirstOrDefault();
+    }
+
     public List<Vehicles> GetVehiclesByZoneID(int ZoneID)
     {
         return _context.Vehicles.Where(v => v.ZoneID == ZoneID)
@@ -362,5 +369,37 @@ public class TransportUserRepository
         vehicles.IsApproved = true;
         _context.Entry(vehicles).State = EntityState.Modified;
         _context.SaveChanges();
+    }
+
+    public List<VehiclesDTO> GetActiveVehicles()
+    {
+        List<VehiclesDTO> mt = new List<VehiclesDTO>();
+        return mt = _context.Vehicles.AsEnumerable().Select(x => new VehiclesDTO
+        {
+            ID = x.ID,
+            Number = x.Number,
+        }).OrderByDescending(m => m.Number).Reverse().ToList();
+
+    }
+
+    public List<VehiclesDTO> GetActiveVehiclesByInchargeID(int InchargeID)
+    {
+        var vehicle = (from V in _context.Vehicles
+                       join A in _context.Academy on V.AcademyID equals A.AcaID
+                       join AAE in _context.AcademyAssignToEmployee on A.AcaID equals AAE.AcaId
+                       where AAE.EmpId == InchargeID 
+                       select new
+                       {
+                           ID = V.ID,
+                           Number = V.Number,
+                       }).AsEnumerable().Select(x => new VehiclesDTO
+                      {
+                          ID = x.ID,
+                          Number = x.Number,
+                      }).OrderByDescending(m => m.Number).Reverse().ToList();
+
+        vehicle = vehicle.GroupBy(v => v.ID).Select(s => s.First()).ToList();
+
+        return vehicle;
     }
 }
