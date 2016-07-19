@@ -231,11 +231,11 @@ public partial class AddVehicle : System.Web.UI.Page
             txtVehicleNo2.Text = VehicleNumber[1];
             txtVehicleNo4.Text = VehicleNumber[2];
         }
- 
-        txtVehicleNo1.Enabled = true;
-        txtVehicleNo2.Enabled = true;
-        txtVehicleNo3.Enabled = true;
-        txtVehicleNo4.Enabled = true;
+
+        txtVehicleNo1.Enabled = false;
+        txtVehicleNo2.Enabled = false;
+        txtVehicleNo3.Enabled = false;
+        txtVehicleNo4.Enabled = false;
       
         ddlAcademy.Enabled = true;
         ddlZone.Enabled = true;

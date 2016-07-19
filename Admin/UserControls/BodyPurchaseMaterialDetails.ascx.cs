@@ -313,14 +313,21 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td>";
                     ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
-                    ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "</td>";
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                    {
+                        ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "<br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath, Est.FileNme) + "</td>";
+                    }
+                    else
+                    {
+                        ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "</td>";
+                    }
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Sanction Date:</b> " + Est.SanctionDate + "</td>";
                     ZoneInfo += "<td class='center' width='25%'><b style='color:red;'>Sub Estimate:</b> " + Est.SubEstimate + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Academy:</b> " + Est.Academy.AcaName + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
                     if(UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a><br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath,Est.FileNme) + "</td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                     {
