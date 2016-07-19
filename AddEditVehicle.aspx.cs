@@ -23,6 +23,7 @@ public partial class AddVehicle : System.Web.UI.Page
         if (Session["InchargeID"] != null)
         {
             InchargeID = int.Parse(Session["InchargeID"].ToString());
+           
         }
         if (Request.QueryString["VehicleID"] != null)
         {
@@ -231,11 +232,7 @@ public partial class AddVehicle : System.Web.UI.Page
             txtVehicleNo4.Text = VehicleNumber[2];
         }
 
-        txtVehicleNo1.Enabled = false;
-        txtVehicleNo2.Enabled = false;
-        txtVehicleNo3.Enabled = false;
-        txtVehicleNo4.Enabled = false;
-
+      
         ddlAcademy.Enabled = true;
         ddlZone.Enabled = true;
 
@@ -244,6 +241,7 @@ public partial class AddVehicle : System.Web.UI.Page
         txtSitting.Text = vehicle.Sitter.ToString();
         lblHeading.Text = vehicle.Number;
         chkTemp.Checked = Convert.ToBoolean(vehicle.IsTemporary);
+
         if (chkTemp.Checked == true)
         {
             txtVehicleNo1.Enabled = true;
