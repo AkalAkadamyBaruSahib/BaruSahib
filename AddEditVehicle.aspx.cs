@@ -231,7 +231,11 @@ public partial class AddVehicle : System.Web.UI.Page
             txtVehicleNo2.Text = VehicleNumber[1];
             txtVehicleNo4.Text = VehicleNumber[2];
         }
-
+ 
+        txtVehicleNo1.Enabled = true;
+        txtVehicleNo2.Enabled = true;
+        txtVehicleNo3.Enabled = true;
+        txtVehicleNo4.Enabled = true;
       
         ddlAcademy.Enabled = true;
         ddlZone.Enabled = true;
@@ -241,21 +245,7 @@ public partial class AddVehicle : System.Web.UI.Page
         txtSitting.Text = vehicle.Sitter.ToString();
         lblHeading.Text = vehicle.Number;
         chkTemp.Checked = Convert.ToBoolean(vehicle.IsTemporary);
-
-        if (chkTemp.Checked == true)
-        {
-            txtVehicleNo1.Enabled = true;
-            txtVehicleNo2.Enabled = true;
-            txtVehicleNo3.Enabled = true;
-            txtVehicleNo4.Enabled = true;
-        }
-        else
-        {
-            txtVehicleNo1.Enabled = false;
-            txtVehicleNo2.Enabled = false;
-            txtVehicleNo3.Enabled = false;
-            txtVehicleNo4.Enabled = false;
-        }
+       
         txtFileNumber.Text = vehicle.FileNumber == string.Empty ? "Contract-" + vehicle.Number : vehicle.FileNumber;
         txtEngineNumber.Text = vehicle.EngineNumber;
         txtChassisNumber.Text = vehicle.ChassisNumber;
@@ -271,7 +261,7 @@ public partial class AddVehicle : System.Web.UI.Page
         txtContractDieselRate.Text = vehicle.ContractDieselRate.ToString();
         GetCurrentOilPrice();
 
-        if (!String.IsNullOrEmpty(vehicle.OilSlab.ToString()))
+        if (vehicle.OilSlab!=null)
         {
             ddlOilSlab.ClearSelection();
             ddlOilSlab.SelectedValue = vehicle.OilSlab.ToString();
