@@ -146,21 +146,23 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
             HiddenField hdnVechileId = row.FindControl("hdnVechileId") as HiddenField;
             Label lblvechile = (Label)row.FindControl("lblvechile");
             DateTime expiryDocumentDate;
+            bool flag = false;
             if (chkBok.Checked)
             {
                 
                 DataTable getVehicles = new DataTable();
                 int Fine = 0;
-                getVehicles = DAL.DalAccessUtility.GetDataInDataSet("Select V.*,A.AcaName from Vehicles V   INNER JOIN Academy A on V.AcademyID = A.AcaId  where V.ID =" + hdnVechileId.Value + "").Tables[0];
+                getVehicles = DAL.DalAccessUtility.GetDataInDataSet("Select ID,AcademyID from Vehicles where ID =" + hdnVechileId.Value + "").Tables[0];
                 if (getVehicles.Rows.Count > 0)
                 {
-                    getDocument = DAL.DalAccessUtility.GetDataInDataSet("Select * from  VechilesDocumentRelation V  where V.VehicleID =" + getVehicles.Rows[0]["ID"].ToString() + "").Tables[0];
+                    getDocument = DAL.DalAccessUtility.GetDataInDataSet("Select TransportDocumentID from VechilesDocumentRelation V where V.VehicleID =" + getVehicles.Rows[0]["ID"].ToString() + "").Tables[0];
                     if (getDocument.Rows.Count > 0)
                     {
                         DataRow[] drRegistration = getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration));
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration)).Count() == 0)
                         {
                             MisingDocumentName += "Registration" + ",";
+                            flag = true;
                         }
                         else
                         {
@@ -168,6 +170,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                             if (expiryDocumentDate <= DateTime.Now)
                             {
                                 MisingDocumentName += "Registration" + ",";
+                                flag = true;
                             }
                         }
 
@@ -175,6 +178,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Insurance)).Count() == 0)
                         {
                             MisingDocumentName += "Insurance" + ",";
+                            flag = true;
                         }
                         else
                         {
@@ -182,6 +186,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                             if (expiryDocumentDate <= DateTime.Now)
                             {
                                 MisingDocumentName += "Insurance" + ",";
+                                flag = true;
                             }
                         }
 
@@ -189,6 +194,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Tax)).Count() == 0)
                         {
                             MisingDocumentName += "Tax" + ",";
+                            flag = true;
                         }
                         else
                         {
@@ -196,6 +202,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                             if (expiryDocumentDate <= DateTime.Now)
                             {
                                 MisingDocumentName += "Tax" + ",";
+                                flag = true;
                             }
                         }
 
@@ -203,6 +210,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Permit)).Count() == 0)
                         {
                             MisingDocumentName += "Permit" + ",";
+                            flag = true;
                         }
                         else
                         {
@@ -210,6 +218,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                             if (expiryDocumentDate <= DateTime.Now)
                             {
                                 MisingDocumentName += "Permit" + ",";
+                                flag = true;
                             }
                         }
 
@@ -217,6 +226,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Passing)).Count() == 0)
                         {
                             MisingDocumentName += "Passing" + ",";
+                            flag = true;
                         }
                         else
                         {
@@ -224,6 +234,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                             if (expiryDocumentDate <= DateTime.Now)
                             {
                                 MisingDocumentName += "Passing" + ",";
+                                flag = true;
                             }
                         }
 
@@ -231,6 +242,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                         if (getDocument.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Pollution)).Count() == 0)
                         {
                             MisingDocumentName += "Pollution" + ",";
+                            flag = true;
                         }
                         else
                         {
@@ -238,61 +250,72 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                             if (expiryDocumentDate <= DateTime.Now)
                             {
                                 MisingDocumentName += "Pollution" + ",";
+                                flag = true;
                             }
                         }
                     }
                     else
                     {
                         MisingDocumentName = "Registration,Insurance,Tax,Permit,Passing,Pollution,";
+                        flag = true;
                     }
-                    getNorms = DAL.DalAccessUtility.GetDataInDataSet("Select VNR.* from  VechilesNormsRelation VNR INNER JOIN Vehicles V  on VNR.VehicleID = V.ID  where V.ID =" + hdnVechileId.Value + "").Tables[0];
+                    getNorms = DAL.DalAccessUtility.GetDataInDataSet("Select NormID from VechilesNormsRelation where VehicleID =" + hdnVechileId.Value + "").Tables[0];
                     if (getNorms.Rows.Count > 0)
                     {
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Camera)).Count() == 0)
                         {
                             MisingNormsName += "Camera" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.SpeedGoverner)).Count() == 0)
                         {
                             MisingNormsName += "SpeedGoverner" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.YellowColor)).Count() == 0)
                         {
                             MisingNormsName += "YellowColor" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.SchoolNamebothside)).Count() == 0)
                         {
                             MisingNormsName += "SchoolNamebothside" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Uniform)).Count() == 0)
                         {
                             MisingNormsName += "Uniform" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Fire)).Count() == 0)
                         {
                             MisingNormsName += "Fire" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Grill)).Count() == 0)
                         {
                             MisingNormsName += "Grill" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                         if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.EmergencyWindows)).Count() == 0)
                         {
                             MisingNormsName += "EmergencyWindows" + ",";
                             Fine += 100;
+                            flag = true;
                         }
                     }
                     else
                     {
                         MisingNormsName = "Camera,SpeedGoverner,YellowColor,SchoolNamebothside,Uniform,Fire,Grill,EmergencyWindows,";
                         Fine = 800;
+                        flag = true;
                     }
                     if (MisingDocumentName.Length > 0)
                     {
@@ -313,16 +336,32 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                     dr["DocumentName"] = MisingDocumentName;
                     dr["NormsName"] = MisingNormsName;
                     dr["Fine"] = TotalFine;
-                    getIncharge = DAL.DalAccessUtility.GetDataInDataSet("select Inc.InchargeId,Inc.InName,Inc.InMobile from  AcademyAssignToEmployee AAE INNER JOIN Incharge Inc on Inc.InchargeId = AAE.EmpID where AAE.AcaId='" + getVehicles.Rows[0]["AcademyID"].ToString() + "' and Inc.UserTypeId =14").Tables[0];
+                    getIncharge = DAL.DalAccessUtility.GetDataInDataSet("select Inc.InName,Inc.InMobile from  AcademyAssignToEmployee AAE INNER JOIN Incharge Inc on Inc.InchargeId = AAE.EmpID where AAE.AcaId='" + getVehicles.Rows[0]["AcademyID"].ToString() + "' and Inc.UserTypeId = 14").Tables[0];
                     if (getIncharge.Rows.Count > 0)
                     {
                         dr["TransportManager"] = getIncharge.Rows[0]["InName"].ToString();
                         dr["MobileNumber"] = getIncharge.Rows[0]["InMobile"].ToString();
                     }
                     dataTable.Rows.Add(dr);
+
+                    generateBill(flag, getVehicles);
                 }
             }
         }
         return dataTable;
+    }
+
+    private void generateBill(bool flag, DataTable vehicle)
+    {
+        int totalRunningKMOnSchoolRoute=1000;
+        int totalRunningKMOnOther = 200;
+
+        if (flag)
+        {
+
+            // Add generate bill logic 
+            // create pdf with "vehiclenumber_Bill_datefrom_dateto.pdf"
+        }
+ 
     }
 }

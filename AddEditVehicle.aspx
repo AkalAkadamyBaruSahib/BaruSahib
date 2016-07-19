@@ -32,16 +32,16 @@
 
         function enableTextBox() {
             if (document.getElementById('<%= chkTemp.ClientID %>').checked == true) {
-                document.getElementById('<%= txtVehicleNo1.ClientID %>').disabled = false;
-                document.getElementById('<%= txtVehicleNo2.ClientID %>').disabled = false;
-                document.getElementById('<%= txtVehicleNo3.ClientID %>').disabled = false;
-                document.getElementById('<%= txtVehicleNo4.ClientID %>').disabled = false;
-            }
-            else {
                 document.getElementById('<%= txtVehicleNo1.ClientID %>').disabled = true;
                 document.getElementById('<%= txtVehicleNo2.ClientID %>').disabled = true;
                 document.getElementById('<%= txtVehicleNo3.ClientID %>').disabled = true;
                 document.getElementById('<%= txtVehicleNo4.ClientID %>').disabled = true;
+            }
+            else {
+                document.getElementById('<%= txtVehicleNo1.ClientID %>').disabled = false;
+                document.getElementById('<%= txtVehicleNo2.ClientID %>').disabled = false;
+                document.getElementById('<%= txtVehicleNo3.ClientID %>').disabled = false;
+                document.getElementById('<%= txtVehicleNo4.ClientID %>').disabled = false;
             }
         }
 
