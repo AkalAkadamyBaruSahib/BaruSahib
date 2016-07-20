@@ -377,7 +377,7 @@ public partial class Store_Materials : System.Web.UI.Page
                         //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></td>";
                         ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + "," + estID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
                     }
-                }
+               }
 
                 //ZoneInfo += "<td width='30%'></td>";
                 ZoneInfo += "</tr>";

@@ -14,8 +14,12 @@ $(document).ready(function () {
         $("input[id*='hdnVendorID']").val($(this).val());
     });
 
+    $("input[id*='hdnBillNo']").val();
+
     $("#ddlLinkBillNo").change(function (e) {
-        $("input[id*='hdnBillNo']").val($(this).val());
+        var option = $("#ddlLinkBillNo :selected").text();
+       $("input[id*='hdnBillNo']").val(option);
+  
     });
 
 });
@@ -228,6 +232,10 @@ function MaterialBillToDelete(billID) {
 
 function LoadBill(EstID) {
 
+    $("#ddlLinkBillNo  option").each(function (index, option) {
+        $(option).remove();
+    });
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -237,11 +245,7 @@ function LoadBill(EstID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
-                if (Result.length > 0) {
-                    $("#ddlLinkBillNo  option").each(function (index, option) {
-                        $(option).remove();
-                    });
-                }
+                $("#ddlLinkBillNo").append($("<option></option>").val("0").html("--Select Bill No--"));
                 $.each(Result, function (key, value) {
                     $("#ddlLinkBillNo").append($("<option></option>").val(value.ID).html(value.BillNo));
                 });
