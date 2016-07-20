@@ -155,6 +155,21 @@
                                                 Upload File
                                                     <br />
                                                 <asp:FileUpload ID="fuFile" runat="server" AllowMultiple="true" />
+                                          
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td width="50%">
+                                        <div class="control-group" id="div1" runat="server">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                View Estimate File:
+                                                
+                                                <asp:Label ID="signedcopyView" runat="server" ForeColor="Red"></asp:Label>
                                             </div>
                                         </div>
                                     </td>

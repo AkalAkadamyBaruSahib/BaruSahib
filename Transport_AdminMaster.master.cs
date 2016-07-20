@@ -29,6 +29,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liLocationAssign.Visible = false;
             liEstimateNewEstimate.Visible = false;
             liCreateMaterial.Visible = false;
+            liContractRate.Visible = false;
         }
         else
         {

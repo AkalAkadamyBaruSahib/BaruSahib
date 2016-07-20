@@ -58,6 +58,8 @@ namespace AkalAcademy
         public DbSet<StockEntry> StockEntry { get; set; }
         public DbSet<StockDispatchEntry> StockDispatchEntry { get; set; }
         public DbSet<Login> Login { get; set; }
+        public DbSet<VehicleContractRate> VehicleContractRate { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -12,13 +12,17 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     public static int UserTypeID = -1;
     private string lbEstId;
     public static int InchargeID = -1;
-
+    public int ModuleID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["ModuleID"] != null)
+        {
+            ModuleID = int.Parse(Session["ModuleID"].ToString());
+        }
         if (!IsPostBack)
         {
             Page.Form.Attributes.Add("enctype", "multipart/form-data");
-
+           
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -33,7 +37,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             if (UserTypeID != 1)
             {
                 //trReivew.Visible = false;
-                btnUpload.Text = "Save Changes";
+                btnUpload.Text = "Approved";
                 btnRejectEdit.Text = "Re-Send Estimate";
             }
             GetEstimateDetails();
@@ -60,7 +64,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         string id = Request.QueryString["EstId"].ToString();
         DataSet dsEstimate1Details = new DataSet();
         //dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetails  '" + ID + "'");
-        dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.ModifyOn,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
+        dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.ModifyOn,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved,Estimate.FilePath,Estimate.FileNme  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
         lblEstimateNo.Text = dsEstimate1Details.Tables[0].Rows[0]["EstId"].ToString();
         lblZoneCode.Text = dsEstimate1Details.Tables[0].Rows[0]["ZoneName"].ToString();
         //lblZoneCode.Text = dsEstimate1Details.Tables[0].Rows[0]["ZoId"].ToString();
@@ -72,6 +76,8 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
         lblWorkName.Text = dsEstimate1Details.Tables[0].Rows[0]["WorkAllotName"].ToString();
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
+        signedcopyView.Text = GetFileName(dsEstimate1Details.Tables[0].Rows[0]["FilePath"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["FileNme"].ToString());
+        //+ dsEstimate1Details.Tables[0].Rows[0]["FileNme"].ToString();
         BindWork(dsEstimate1Details.Tables[0].Rows[0]["AcaID"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["ZoneID"].ToString());
         ddlWorkType.ClearSelection();
         try
@@ -139,32 +145,41 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         string ddlPs = ((Label)gvDetails.Rows[e.NewEditIndex].FindControl("lblPs")).Text;
 
         BindGrid();
-
         DropDownList ddlMateType = ((DropDownList)gvDetails.Rows[e.NewEditIndex].Cells[3].FindControl("ddlMatTId"));
         DataSet dsMatType = new DataSet();
-        dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
-        ddlMateType.DataSource = dsMatType;
-        ddlMateType.DataValueField = "MatTypeId";
-        ddlMateType.DataTextField = "MatTypeName";
-        ddlMateType.DataBind();
-        ddlMateType.Items.Insert(0, "Material Type");
-        ddlMateType.ClearSelection();
-        ddlMateType.Items.FindByText(ddlMatTId).Selected = true;
-        ddlMatTId_SelectedIndexChanged(ddlMateType, new EventArgs());
+        if (ModuleID == 2)
+        {
+            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 and MatTypeId = 49");
+        }
+        else
+        {
+            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
+        }
+            ddlMateType.DataSource = dsMatType;
+            ddlMateType.DataValueField = "MatTypeId";
+            ddlMateType.DataTextField = "MatTypeName";
+            ddlMateType.DataBind();
+            ddlMateType.Items.Insert(0, "Material Type");
+            ddlMateType.ClearSelection();
+       
+            ddlMateType.Items.FindByText(ddlMatTId).Selected = true;
+       
+            ddlMatTId_SelectedIndexChanged(ddlMateType, new EventArgs());
 
-        DropDownList ddlMaterail = (DropDownList)gvDetails.Rows[e.NewEditIndex].FindControl("ddlMatId");
-        ddlMaterail.ClearSelection();
-        ddlMaterail.Items.FindByText(lblMat).Selected = true;
+            DropDownList ddlMaterail = (DropDownList)gvDetails.Rows[e.NewEditIndex].FindControl("ddlMatId");
+            ddlMaterail.ClearSelection();
+            ddlMaterail.Items.FindByText(lblMat).Selected = true;
 
-        DropDownList ddlSourceType = ((DropDownList)gvDetails.Rows[e.NewEditIndex].Cells[8].FindControl("ddlPs"));
-        DataSet dsSourcType = new DataSet();
-        dsSourcType = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
-        ddlSourceType.DataSource = dsSourcType;
-        ddlSourceType.DataValueField = "PSId";
-        ddlSourceType.DataTextField = "PSName";
-        ddlSourceType.DataBind();
-        ddlSourceType.Items.Insert(0, "Source Type");
-        ddlSourceType.Items.FindByText(ddlPs).Selected = true;
+            DropDownList ddlSourceType = ((DropDownList)gvDetails.Rows[e.NewEditIndex].Cells[8].FindControl("ddlPs"));
+            DataSet dsSourcType = new DataSet();
+            dsSourcType = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
+            ddlSourceType.DataSource = dsSourcType;
+            ddlSourceType.DataValueField = "PSId";
+            ddlSourceType.DataTextField = "PSName";
+            ddlSourceType.DataBind();
+            ddlSourceType.Items.Insert(0, "Source Type");
+            ddlSourceType.Items.FindByText(ddlPs).Selected = true;
+       
     }
 
     private void SaveFiles(bool IsApproved, bool IsItemRejected)
@@ -368,7 +383,14 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     protected void gvDetails_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         DataSet dsMatTypef = new DataSet();
-        dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
+        if (ModuleID == 2)
+        {
+            dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 and MatTypeId = 49");
+        }
+        else
+        {
+            dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
+        }
         DataSet dsSourcTypef = new DataSet();
         dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
         DataSet dsremarks = new DataSet();
@@ -477,6 +499,21 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlWorkType.DataBind();
         ddlWorkType.Items.Insert(0, "Select Work Allot");
         ddlWorkType.SelectedIndex = 0;
+    }
+
+    private string GetFileName(string filepaths, string fileName)
+    {
+        string anchorLink = string.Empty;
+        string[] filePath = filepaths.Split(',');
+        int count = 0;
+        foreach (string path in filePath)
+        {
+            count++;
+            anchorLink += "<a href='" + path + "' target='_blank'>" + fileName + "_" + count + "</a> , ";
+        }
+
+        return anchorLink.Substring(0, anchorLink.Length - 3);
+
     }
 
 }

@@ -176,6 +176,11 @@
                                     <li id="liVSearch" runat="server"><a class="ajax-link" href="Transport_VehicleSearch.aspx"><i></i><span class="hidden-tablet">Search</span></a></li>
                                 </ul> 
                             </li>
+                           <li id="liContractRate" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet">Contract Rate</span></a>
+                                <ul>
+                                    <li id="liContractRateChange" runat="server"><a class="ajax-link" href="Transport_ContractRate.aspx"><i></i><span class="hidden-tablet">Rate Changes</span></a></li>
+                                </ul> 
+                            </li>
                                 
                            
                         </ul>
