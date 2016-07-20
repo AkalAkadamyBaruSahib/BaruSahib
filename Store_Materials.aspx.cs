@@ -306,6 +306,7 @@ public partial class Store_Materials : System.Web.UI.Page
             decimal InstoreQuantity = -1;
             decimal RemainingQty = -1;
             decimal PendingQty = -1;
+            decimal TotalPurchaseQty = -1;
             for (int j = 0; j < dsMatDetails.Rows.Count; j++)
             {
                 ZoneInfo += "<tr>";
@@ -314,7 +315,9 @@ public partial class Store_Materials : System.Web.UI.Page
                 // Required Quantity
                 ZoneInfo += "<td>" + dsMatDetails.Rows[j]["Qty"].ToString() + "</td>";
 
-                ZoneInfo += "<td>" + dsMatDetails.Rows[j]["PurchaseQty"].ToString() + "</td>";// Purchase Qty 
+                ZoneInfo += "<td>" + dsMatDetails.Rows[j]["PurchaseQty"].ToString() + "</td>";// Purchase Qty
+                TotalPurchaseQty = Convert.ToDecimal(dsMatDetails.Rows[j]["PurchaseQty"].ToString());
+
                 //In Store Quantity
                 if (dsMatDetails.Rows[j]["DispatchQuantity"].ToString() == "")
                 {
@@ -360,19 +363,21 @@ public partial class Store_Materials : System.Web.UI.Page
 
                     if (InstoreQuantity <= 0)
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><table>" + innertable + "</table></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + "," + estID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><table>" + innertable + "</table></td>";
                     }
                     else
                     {
-                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><table>" + innertable + "</table></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + "," + estID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></br><a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></br><table>" + innertable + "</table></td>";
                     }
                 }
                 else
                 {
-                    //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></td>";
-                    ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
+                    if (TotalPurchaseQty > 0)
+                    {
+                        //ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + receivedQty + "," + Rate + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a>/<a onclick='OpenDispatchMaterial(" + Sno + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Dispatch Material</span></a></td>";
+                        ZoneInfo += "<td><a onclick='OpenReceivedMaterial(" + Sno + "," + dsMatDetails.Rows[j]["Qty"].ToString() + "," + MatID + "," + estID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Received Material</span></a></td>";
+                    }
                 }
-                
 
                 //ZoneInfo += "<td width='30%'></td>";
                 ZoneInfo += "</tr>";
@@ -437,15 +442,17 @@ public partial class Store_Materials : System.Web.UI.Page
         DataSet dsRecevedQty = DAL.DalAccessUtility.GetDataInDataSet("SELECT ISNULL(SUM(Quantity),'0') as RecevedQty FROM StockEntry Where EMRID = " + hdnEMRId.Value + "");
         decimal RecevedQty = Convert.ToDecimal(dsRecevedQty.Tables[0].Rows[0]["RecevedQty"].ToString());
         decimal TotalRecevedQty = Convert.ToDecimal(txtReceivedQty.Text) + RecevedQty;
+
         DataSet dsPurchaseQty = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseQty from EstimateAndMaterialOthersRelations  where Sno = " + hdnEMRId.Value + "");
         var PurchaseQuantity = dsPurchaseQty.Tables[0].Rows[0]["PurchaseQty"].ToString();
-
+     
+    
         if (hdnIsReceived.Value == "1")
         {
             if (PurchaseQuantity != "0.00" && Convert.ToDecimal(TotalRecevedQty) <= Convert.ToDecimal(PurchaseQuantity) && Convert.ToDecimal(txtReceivedQty.Text) <= Convert.ToDecimal(PurchaseQuantity))
             {
                 Int64 i = 0;
-                i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + txtLinkBillNo.Text + "')");
+                i = DAL.DalAccessUtility.ExecuteNonQuery("Insert Into StockEntry (EMRID,ReceivedOn,Quantity,ReceivedBy,BillPath) VALUES (" + hdnEMRId.Value + ",GETDATE()," + txtReceivedQty.Text + "," + Session["InchargeID"].ToString() + ",'" + hdnBillNo.Value + "')");
                 DAL.DalAccessUtility.ExecuteNonQuery("Update  EstimateAndMaterialOthersRelations set VendorId = '" + hdnVendorID.Value + "' where Sno =" + hdnEMRId.Value + "");
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been received.');", true);
@@ -455,6 +462,7 @@ public partial class Store_Materials : System.Web.UI.Page
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Received the Material without Purchase the Material');", true);
             }
+           
             else
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Can not Received the Material Greater Then Purchase the Material');", true);

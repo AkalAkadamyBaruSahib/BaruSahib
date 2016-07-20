@@ -41,37 +41,37 @@
                                             <asp:GridView ID="grvNonApprovedRateDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" Width="100px" ForeColor="#333333" GridLines="None" Style="text-align: left">
                                                 <Columns>
                                                     <%--  <asp:BoundField DataField="RowNumber" HeaderText="SNo" />--%>
-                                                    <asp:TemplateField HeaderText="Seat Capacity" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Vehicle Seating Capacity" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtSeatCapacity" Width="200px" runat="server" Text='<%# Eval("SeatCapacity") %>'></asp:Label>
+                                                            <asp:Label ID="txtSeatCapacity" Width="200px" runat="server" Text='<%# Eval("SeatCapacity")+ " " +"Seater"%>' ></asp:Label>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Current Year" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                              <asp:TextBox ID="txtCurrentYear" runat="server" Text='<%# Eval("CurrentYear") %>' CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
+                                                              <asp:TextBox ID="txtCurrentYear" runat="server" Text='<%# Eval("CurrentYear") %>' CssClass="span6 typeahead" Width="150px"></asp:TextBox>
                                                          </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="315px" />
                                                     </asp:TemplateField>
                                                      <asp:TemplateField HeaderText="5 Years" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:TextBox ID="txt5Years" runat="server" Text='<%# Eval("FiveYears") %>' CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
+                                                            <asp:TextBox ID="txt5Years" runat="server" Text='<%# Eval("FiveYears") %>' CssClass="span6 typeahead" Width="150px"></asp:TextBox>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
                                                      <asp:TemplateField HeaderText="10 Years" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:TextBox ID="txt10Years" runat="server" Text='<%# Eval("TenYears") %>' CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
+                                                            <asp:TextBox ID="txt10Years" runat="server" Text='<%# Eval("TenYears") %>' CssClass="span6 typeahead" Width="150px"></asp:TextBox>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
                                                      <asp:TemplateField HeaderText="Vehicle Average" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:TextBox ID="txtAverage" runat="server" Text='<%# Eval("Average") %>' CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
+                                                            <asp:TextBox ID="txtAverage" runat="server" Text='<%# Eval("Average") %>' CssClass="span6 typeahead" Width="150px"></asp:TextBox>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />

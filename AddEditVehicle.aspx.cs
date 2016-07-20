@@ -352,10 +352,6 @@ public partial class AddVehicle : System.Web.UI.Page
         {
             txtContractDieselRate.Text = "0.00";
         }
-        //if (VehicleNumber.ToUpper().Contains('T') && !chkTemp.Checked)
-        //{
-        //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Is vehicle on temporary registration.?');", true);
-        //}
         string fileName = "Contract_" + VehicleNumber;
         try
         {
@@ -372,15 +368,8 @@ public partial class AddVehicle : System.Web.UI.Page
                     VehicleID = int.Parse(ds.Tables[0].Rows[0]["ID"].ToString());
                 }
 
-                //if (rowaffected > 0)
-                //{
-                //    if (SaveDocuments())
-                //    {
-                Response.Redirect("Transport_VehicleDetails.aspx");
-                //    }
-                //}
+                Response.Redirect("Transport_VehicleSearch.aspx");
             }
-            //Response.Redirect("Transport_VehicleDetails.aspx");
             else
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Vehicle Number Already Exists');", true);
