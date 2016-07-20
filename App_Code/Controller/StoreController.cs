@@ -42,4 +42,18 @@ public class StoreController : System.Web.Services.WebService
         StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
         return repository.GetVendorsNameList(matID);
     }
+
+    [WebMethod]
+    public List<StoreMaterialBill> GetMaterialBillList(int estID)
+    {
+        StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
+        return repository.GetMaterialBillList(estID);
+    }
+
+    [WebMethod]
+    public int StoreBillToDelete(int BillID)
+    {
+        StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
+        return repository.StoreBillToDelete(BillID);
+    }
 }

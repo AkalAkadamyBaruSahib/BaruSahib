@@ -122,4 +122,17 @@ public class StoreRepository
         ests = null;
         return estimates;
     }
+
+    public int StoreBillToDelete(int BillID)
+    {
+        StoreMaterialBill DelStoreMaterialBill = _context.StoreMaterialBill.Where(v => v.ID == BillID).FirstOrDefault();
+        _context.Entry(DelStoreMaterialBill).State = EntityState.Deleted;
+        _context.SaveChanges();
+        return DelStoreMaterialBill.EstID;
+    }
+
+    public List<StoreMaterialBill> GetMaterialBillList(int estID)
+    {
+        return _context.StoreMaterialBill.Where(x => x.EstID == estID).ToList();
+    }
 }

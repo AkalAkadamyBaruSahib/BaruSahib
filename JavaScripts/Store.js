@@ -12,7 +12,11 @@ $(document).ready(function () {
 
     $("#ddlVendorName").change(function (e) {
         $("input[id*='hdnVendorID']").val($(this).val());
- });
+    });
+
+    $("#ddlLinkBillNo").change(function (e) {
+        $("input[id*='hdnBillNo']").val($(this).val());
+    });
 
 });
 function addNewBill() {
@@ -20,7 +24,7 @@ function addNewBill() {
     cntB++;
 }
 
-function OpenReceivedMaterial(EMRId, qty, MatID) {
+function OpenReceivedMaterial(EMRId, qty, MatID, EstID) {
     LoadVendors(MatID);
     $("input[id*='hdnIsReceived']").val(1);
     $("input[id*='hdnEMRId']").val(EMRId);
@@ -28,6 +32,8 @@ function OpenReceivedMaterial(EMRId, qty, MatID) {
     $("input[id*='txtRate']").val("");
     $("input[id*='txtRate']").val("");
     $("#divIsReceived").modal('show');
+    $("input[id*='hdnEstID']").val(EstID);
+    LoadBill(EstID);
 }
 
 function OpenDispatchMaterial(EMRId) {
@@ -131,7 +137,7 @@ function OpenViewbill(estID) {
         $("#rowTemplate").remove();
     }
 
-    var rowTemplate = '<tr id="rowTemplate"><td id="billName"></td><td id="view"></td></tr>';
+    var rowTemplate = '<tr id="rowTemplate"><td id="billName"></td><td id="view"></td><td id="delete"></td></tr>';
 
     $.ajax({
         type: "POST",
@@ -152,6 +158,7 @@ function OpenViewbill(estID) {
                     var $newRow = $("#rowTemplate").clone();
                     $newRow.find("#billName").html("<a target='_blank' href='" + adminLoanList[i].BillPath + "' >" + adminLoanList[i].BillName + "</a>");
                     $newRow.find("#view").html("<a target='_blank' href='" + adminLoanList[i].BillPath + "' >View</a>");
+                    $newRow.find("#delete").html("<a href='#' onclick='MaterialBillToDelete(" + adminLoanList[i].ID + ")'>Delete</a>");
                     $newRow.show();
                     if (i == 0) {
                         $("#rowTemplate").replaceWith($newRow);
@@ -190,6 +197,53 @@ function LoadVendors(MatID) {
                 }
                 $.each(Result, function (key, value) {
                     $("#ddlVendorName").append($("<option></option>").val(value.ID).html(value.VendorName));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function MaterialBillToDelete(billID) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/StoreController.asmx/StoreBillToDelete",
+        data: JSON.stringify({ BillID: billID }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                $("input[id*='hdnEstID']").val(result.d);
+                OpenViewbill(result.d);
+                alert("Bill Delete Successfully");
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function LoadBill(EstID) {
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/StoreController.asmx/GetMaterialBillList",
+        data: JSON.stringify({ estID: EstID }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                if (Result.length > 0) {
+                    $("#ddlLinkBillNo  option").each(function (index, option) {
+                        $(option).remove();
+                    });
+                }
+                $.each(Result, function (key, value) {
+                    $("#ddlLinkBillNo").append($("<option></option>").val(value.ID).html(value.BillNo));
                 });
             }
         },

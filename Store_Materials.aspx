@@ -21,23 +21,7 @@
             return true;
         }
 
-        function ValidateDropDown() {
-            var btnvalue = $("input[id*='btnSave']").val();
-            if (btnvalue != 'Dispatch') {
-                var script = document.getElementById('<%= txtLinkBillNo.ClientID %>').value;
-                //if (document.getElementById('ddlVendorName').value == 0) {
-                //    alert("Please select the Vendor");
-                //    return false;
-                //}
-           // else 
-                if (script == "") {
-                    alert("Please Enter Purchased Bill No");
-                    return false;
-                }
-                return true;
-            }
-        }
-      
+             
 </script>
        <div id="content" class="span10">
         <asp:HiddenField ID="hdnEstID" runat="server" />
@@ -84,6 +68,7 @@
             <asp:HiddenField ID="hdnEMRId" runat="server" />
             <asp:HiddenField ID="hdnIsReceived" runat="server" />
               <asp:HiddenField ID="hdnVendorID" runat="server" />
+             <asp:HiddenField ID="hdnBillNo" runat="server" />
             <table>
                 <%--<tr id="trvendorname">
                     <td>Select The Vendor:
@@ -99,13 +84,16 @@
                 </tr>
                 <tr id="trupload">
                     <td>Enter Purchased Bill No:&nbsp&nbsp&nbsp
-                        <asp:TextBox ID="txtLinkBillNo" Width="113px" float="right" runat="server"></asp:TextBox>
-                      </td>
+                     <%--   <asp:TextBox ID="txtLinkBillNo" Width="113px" float="right" runat="server"></asp:TextBox>--%>
+                             <select id="ddlLinkBillNo" style="width:131px; float:right;">
+                           <option value="0">--Select Bill No--</option>
+                          </select>
+                       </td>
                 </tr>
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" CssClass="btn btn-primary" OnClientClick="javascript:return ValidateDropDown();" />
+            <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Received" CssClass="btn btn-primary"  />
             <input id="Text1" value="Close" style="width: 100px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>
