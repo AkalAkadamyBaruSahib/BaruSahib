@@ -49,4 +49,6 @@ public class Material
     public List<VendorMaterialRelation> VendorMaterialRelation { get; set; }
 
     public Unit Unit { get; set; }
+
+    public decimal? LocalRate { get; set; }
 }
