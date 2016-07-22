@@ -6,7 +6,7 @@ ALTER procedure [dbo].[USP_EmpLocalEstimateMaterial]
 )         
 AS
 BEGIN
-SELECT distinct A.AcaName As AcademyName,MT.MatTypeName As MaterialType,M.MatName As MaterialName,
+SELECT distinct E.Estid As EstimateNo,Z.ZoneName,A.AcaName As AcademyName,MT.MatTypeName As MaterialType,M.MatName As MaterialName,
 EMR.Rate,EMR.PurchaseQty,EMR.Qty As QuantityInEstimate,EMR.ModifyOn As PurchaseDate
 FROM  Estimate E 
      INNER JOIN  EstimateAndMaterialOthersRelations EMR on E.EstId = EMR.EstId
