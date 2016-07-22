@@ -4,6 +4,7 @@ var SnoIds;
 var MaterialList;
 var selectedMaterialList = new Array();
 var cnt = 1;
+var delItems = 0;
 
 $(document).ready(function () {
 
@@ -119,19 +120,19 @@ function SaveEstimate() {
 
     var tablelength = $("#tbody").children('tr').length;
     var Amt = 0;
-    for (var i = 0 ; i < tablelength ; i++) {
+    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
 
         var EstimateAndMaterialOthersRelation = new Object();
         EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
         EstimateAndMaterialOthersRelation.MatId = $("#txtMatID" + i).val();
         EstimateAndMaterialOthersRelation.MatTypeId = $("#txtMatTypeID" + i).val();
         EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
-      
+
         if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || $("#txtQty" + i).val() == undefined) {
-             EstimateAndMaterialOthersRelation.Qty = 0;
+            EstimateAndMaterialOthersRelation.Qty = 0;
         }
         else {
-           EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
+            EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
         }
 
         if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0" || $("#txtRate" + i).val() == undefined) {
@@ -208,7 +209,7 @@ function LoadEstimateInfo(selectedMaterialList) {
         for (var i = 0; i < rowCount; i++) {
             $("#rowTemplate").remove();
         }
-        var rowTemplate = '<tr id="rowTemplate"><td id="srno">1</td><td id="materialname">abc</td><td id="sourcetype">abc</td><td id="qty">abc</td><td id="unit">cc</td><td id="rate">cc</td><td id="remarks">cc</td><td id="action">cc</td></tr>';
+        var rowTemplate = '<tr id="rowTemplate"><td id="srno"></td><td id="materialname">abc</td><td id="sourcetype">abc</td><td id="qty">abc</td><td id="unit">cc</td><td id="rate">cc</td><td id="remarks">cc</td><td id="action">cc</td></tr>';
 
         var adminLoanList = 0;
         $.ajax({
@@ -220,6 +221,7 @@ function LoadEstimateInfo(selectedMaterialList) {
             success: function (result, textStatus) {
                 if (textStatus == "success") {
                     adminLoanList = result.d;
+                    
                     if (adminLoanList.length > 0) {
 
                         $("#tbody").append(rowTemplate);
@@ -231,14 +233,14 @@ function LoadEstimateInfo(selectedMaterialList) {
                             className = "warning";
                         }
                         var $newRow = $("#rowTemplate").clone();
-                        $newRow.find("#srno").html(i+1);
+                        $newRow.find("#srno").html("<span id=spn" + i + ">" + (i + 1) + "</span>");
                         $newRow.find("#materialname").html("<input type='hidden' value='" + adminLoanList[i].MatID + "' id='txtMatID" + i + "' />" + adminLoanList[i].MatName);
                         $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeID + "' id='txtMatTypeID" + i + "' /><select style='width:159px;' onchange='BindRateBySourceType(" + adminLoanList[i].MatTypeID + ")' id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
                         $newRow.find("#qty").html("<input style='width:100px;' type='text' id='txtQty" + i + "' name='txtQty'>");
                         $newRow.find("#unit").html("<input type='hidden' value='" + adminLoanList[i].Unit.UnitId + "' id='txtUnitID" + i + "' />" + adminLoanList[i].Unit.UnitName);
                         $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].MatCost + "' id='txtMatCost" + i + "' /><input style='width:100px;' value='0.00' type='text' id='txtRate" + i + "' name='txtRate'>");
                         $newRow.find("#remarks").html("<input style='width:260px;' type='text' id='txtRemarks" + i + "' name='txtRemarks'>");
-                        $newRow.find("#action").html("<a  href='#' onclick='return MaterialRowToDelete($(this))'>Delete</a>");
+                        $newRow.find("#action").html("<a  href='#' onclick='return MaterialRowToDelete($(this)," + adminLoanList[i].MatID + ")'>Delete</a>");
                         $newRow.addClass(className);
                         $newRow.show();
                        
@@ -255,8 +257,8 @@ function LoadEstimateInfo(selectedMaterialList) {
                     {
                         "bPaginate": false,
                         "bDestroy": true,
-                        "bFilter": false
-
+                        "bFilter": false,
+                        "aaSorting": []
                     });
                 }
                 BindPurchaseSource(adminLoanList.length);
@@ -278,8 +280,7 @@ function BindPurchaseSource(length) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
-                for (var i = 0 ; i < length; i++)
-                {
+                for (var i = 0 ; i < length; i++) {
                     $.each(Result, function (key, value) {
                         $("#drpSourceType" + i).append($("<option></option>").val(value.PSId).html(value.PSName));
                     });
@@ -450,9 +451,11 @@ function BindWorkAllotByAcademyID(selctAcademyID) {
     });
 }
 
-function MaterialRowToDelete(selector) {
+function MaterialRowToDelete(selector, matID) {
     selector.closest('tr').remove();
     selectedMaterialList.pop(selector);
+    delItems = delItems + 1;
+    fixSerialNumber();
     return false;
 }
 
@@ -497,17 +500,25 @@ function BindZoneByInchargeID(inchargeId) {
             alert(result.responseText);
         }
     });
+}
 
-
+function fixSerialNumber() {
+    var tablelength = $("#tbody").children('tr').length;
+    var sno = 0;
+    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
+        if ($("#spn" + i).text() != "") {
+            $("#spn" + i).html(parseInt(sno + 1));
+            sno = sno + 1;
+        }
+    }
 }
 
 function TotalAmt() {
-
     var tablelength = $("#tbody").children('tr').length;
     var Amt = 0;
     var rate = 0;
     var qty = 0;
-    for (var i = 0 ; i < tablelength ; i++) {
+    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
         if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
             alert("Please Select the Source Type");
             return false;
@@ -535,10 +546,10 @@ function BindRateBySourceType()
 {
     var matcost = 0;
     var tablelength = $("#tbody").children('tr').length;
-    for (var i = 0 ; i < tablelength ; i++) {
+    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
         if ($("#drpSourceType" + i).val() == "2") {
-          matcost =  $("#txtMatCost" + i).val();
-          $("#txtRate" + i).val(matcost);
+            matcost = $("#txtMatCost" + i).val();
+            $("#txtRate" + i).val(matcost);
         }
         else {
             $("#txtRate" + i).val('0.00');
@@ -560,7 +571,7 @@ function Validation() {
 
 
     var tablelength = $("#tbody").children('tr').length;
-    for (var i = 0 ; i < tablelength ; i++) {
+    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
         if ($("#drpSourceType" + i).val() == "undefined" || $("#drpSourceType" + i).val() == "0") {
             alert("Please Select the Source Type");
             return false;
