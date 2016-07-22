@@ -1,4 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BodyConstructionLocalEstimateMaterialReport.ascx.cs" Inherits="Admin_BodyConstructionLocalEstimateMaterialReport" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BodyLocalMaterialsReport.ascx.cs" Inherits="Admin_UserControls_BodyLocalMaterialsReport" %>
+
 <div id="content" class="span10">
     <div class="row-fluid sortable">
         <div class="box span12">

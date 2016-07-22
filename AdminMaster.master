@@ -174,7 +174,7 @@
                             </li>
                              <li id="li1" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet">Reports</span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Admin_ViewEmpLocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
+                                    <li><a class="ajax-link" href="Admin_LocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
 
                                 </ul>
                             </li>
