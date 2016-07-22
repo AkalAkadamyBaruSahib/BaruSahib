@@ -172,6 +172,12 @@
                                        <li><a class="ajax-link" href="Admin_MatDispatchStatus.aspx?IsLocal=1"><i></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                                 </ul>
                             </li>
+                             <li id="li1" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet">Reports</span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="Admin_ViewEmpLocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Employee Local Material Report</span></a></li>
+
+                                </ul>
+                            </li>
                             <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Complaints</span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Admin_ComplaintTickets.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Compalaint Tickets(<asp:Label ID="lblTicketCount" runat="server" ForeColor="Red" Text="10"></asp:Label>)</span></a></li>

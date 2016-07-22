@@ -290,8 +290,9 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 }
 
                 double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
+                double LocalCost = 0.00;
                 string ddl = ddlMatType.SelectedValue;
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "'");
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material create successfully.');", true);
                 Session["dsMatDetails"] = null;
                 BindMatDetails(true, int.Parse(ddlMatType.SelectedValue));

@@ -14,4 +14,5 @@ public class MaterialsDTO
     public Unit Unit { get; set; }
     public decimal? MatCost { get; set; }
     public MaterialType MaterialType { get; set; }
+    public decimal? LocalRate { get; set; }
 }
