@@ -238,7 +238,7 @@ function LoadEstimateInfo(selectedMaterialList) {
                         $newRow.find("#sourcetype").html("<input type='hidden' value='" + adminLoanList[i].MatTypeID + "' id='txtMatTypeID" + i + "' /><select style='width:159px;' onchange='BindRateBySourceType(" + adminLoanList[i].MatTypeID + ")' id='drpSourceType" + i + "'><option value='0'>-Select Source--</option></select>");
                         $newRow.find("#qty").html("<input style='width:100px;' type='text' id='txtQty" + i + "' name='txtQty'>");
                         $newRow.find("#unit").html("<input type='hidden' value='" + adminLoanList[i].Unit.UnitId + "' id='txtUnitID" + i + "' />" + adminLoanList[i].Unit.UnitName);
-                        $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].MatCost + "' id='txtMatCost" + i + "' /><input style='width:100px;' value='0.00' type='text' id='txtRate" + i + "' name='txtRate'>");
+                        $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].MatCost + "' id='txtMatCost" + i + "' /><input type='hidden' value='" + adminLoanList[i].LocalRate + "' id='txtLocalCost" + i + "' /><input style='width:100px;' value='0.00' type='text' id='txtRate" + i + "' name='txtRate'>");
                         $newRow.find("#remarks").html("<input style='width:260px;' type='text' id='txtRemarks" + i + "' name='txtRemarks'>");
                         $newRow.find("#action").html("<a  href='#' onclick='return MaterialRowToDelete($(this)," + adminLoanList[i].MatID + ")'>Delete</a>");
                         $newRow.addClass(className);
@@ -542,13 +542,16 @@ function TotalAmt() {
     $("[id$='lblAmt']").html(Amt);
 }
 
-function BindRateBySourceType()
-{
+function BindRateBySourceType() {
     var matcost = 0;
     var tablelength = $("#tbody").children('tr').length;
     for (var i = 0 ; i < (tablelength + delItems) ; i++) {
         if ($("#drpSourceType" + i).val() == "2") {
             matcost = $("#txtMatCost" + i).val();
+            $("#txtRate" + i).val(matcost);
+        }
+        else if ($("#drpSourceType" + i).val() == "1") {
+            matcost = $("#txtLocalCost" + i).val();
             $("#txtRate" + i).val(matcost);
         }
         else {
