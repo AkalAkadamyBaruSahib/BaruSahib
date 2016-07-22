@@ -19,6 +19,8 @@ $(document).ready(function () {
  
     $("input[id*='hdnEstimateID']").val();
 
+    $("input[id*='hdnIsAdmin']").val();
+
     $("#drpMaterialType").change(function () {
         BindMaterialName($(this).val());
     });
@@ -125,14 +127,14 @@ function SaveEstimate() {
         EstimateAndMaterialOthersRelation.MatTypeId = $("#txtMatTypeID" + i).val();
         EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
       
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
+        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || $("#txtQty" + i).val() == undefined) {
              EstimateAndMaterialOthersRelation.Qty = 0;
         }
         else {
            EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
         }
 
-        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0") {
+        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0" || $("#txtRate" + i).val() == undefined) {
             EstimateAndMaterialOthersRelation.Rate = 0;
         }
         else {
@@ -355,12 +357,14 @@ function SignedCopyFileUpload(estid) {
         success: function (result) {
             //$("#progress").dialog('close');
             alert("Estimate Create Successfuly");
-            if($("input[id*='hdnModule']").val() == 1)
+            if ($("input[id*='hdnIsAdmin']").val() == 1)
             {
+                window.location.replace("Admin_EstimateView.aspx?EstId=" + estid);
+            }
+            else if ($("input[id*='hdnIsAdmin']").val() == 2) {
                 window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
             }
-            else
-            {
+            else {
                 window.location.replace("Transport_ParticularEstimateView.aspx?EstId=" + estid);
             }
         },
@@ -508,15 +512,14 @@ function TotalAmt() {
             alert("Please Select the Source Type");
             return false;
         }
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
-            alert("Please Enter the Qty");
-            return false;
+        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || $("#txtQty" + i).val() == undefined) {
+            qty = 0;
         }
         else {
             qty = $("#txtQty" + i).val();
         }
 
-        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0") {
+        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0" || $("#txtRate" + i).val() == undefined) {
             rate = 0;
         }
         else {
