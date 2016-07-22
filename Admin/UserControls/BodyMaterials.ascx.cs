@@ -35,7 +35,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 UserTypeID = int.Parse(Session["UserTypeID"].ToString());
             }
 
-            if (UserTypeID == 2 || UserTypeID == 10)
+            if (UserTypeID == 10)
             {
                 divAddNew.Visible = false;
             }
