@@ -11,28 +11,29 @@
                 </div>
             </div>
             <div class="box-content">
-                <div class="control-group">
-                    <label class="control-label" for="typeahead">Material Name</label>
-                    <div class="controls">
-                        <table>
+                <div id="divDesigDetails" runat="server">
+
+                    <table border="0" width="100%">
+                        <%--class="table table-striped table-bordered bootstrap-datatable datatable"--%>
+                        <tbody>
                             <tr>
-                                <td>
-                                    <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-                                    <input id="txtMaterial" name="txtMaterial" />
+                                <td colspan="23">Select First Date:                
+                            <asp:TextBox runat="server" ID="txtfirstDate" CssClass="input-xlarge datepicker" Width="85px"></asp:TextBox>
                                 </td>
-                                <td>
-                                    <asp:Button ID="btnSearch" runat="server" Text="Download" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                                <td>Select Last Date:
+                                   <asp:TextBox runat="server" ID="txtlastDate" CssClass="input-xlarge datepicker" Width="85px"></asp:TextBox>
                                 </td>
                             </tr>
-                        </table>
-
-
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <asp:Button ID="btnSearch" runat="server" Text="Click To Download Report in Excel Sheet" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
                 </div>
             </div>
         </div>
         <!--/span-->
 
     </div>
-    
+
 </div>

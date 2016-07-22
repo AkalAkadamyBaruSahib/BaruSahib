@@ -16,8 +16,7 @@ public partial class Admin_BodyConstructionLocalEstimateMaterialReport : System.
     {
         Response.ClearContent();
         Response.Buffer = true;
-        string name = Request.Form["txtMaterial"];
-        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Local Rate Report(" + name + ").xls"));
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Local Rate Report.xls"));
         Response.ContentType = "application/ms-excel";
         DataTable dt = BindDatatable();
         string str = string.Empty;
@@ -46,14 +45,13 @@ public partial class Admin_BodyConstructionLocalEstimateMaterialReport : System.
         int UserTypeID = Convert.ToInt16(Session["UserTypeID"].ToString());
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        string name = Request.Form["txtMaterial"];
         if (UserTypeID == (int)(TypeEnum.UserType.ADMIN))
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EmpLocalEstimateMaterialReortForAdmin]  '" + name.Trim() + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EmpLocalEstimateMaterialReortForAdmin]  '" + txtfirstDate.Text + "','" + txtlastDate.Text + "'").Tables[0];
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EmpLocalEstimateMaterial]  '" + name.Trim() + "','" + UserID + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EmpLocalEstimateMaterial]  '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "'").Tables[0];
         }
         return dt;
     }

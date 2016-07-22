@@ -133,7 +133,7 @@
                             <li><a class="ajax-link" href="Emp_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>
                             <li><a class="ajax-link" href="Emp_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
                             <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx?IsLocal=1"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
-                            <li><a class="ajax-link" href="Emp_ViewLocalEstimateMaterialReort.aspx"><i></i><span class="hidden-tablet">Local Material Report</span></a></li>
+                            <li><a class="ajax-link" href="Emp_ViewLocalEstimateMaterialReort.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
                         </ul>
 
                     </div>
