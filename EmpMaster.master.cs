@@ -18,11 +18,7 @@ public partial class EmpMaster : System.Web.UI.MasterPage
         {
             lblUser.Text = Session["EmailId"].ToString();
         }
-        string UserID = Session["InchargeID"].ToString();
-        if (UserID != "78")
-        {
-            liEmpCreateMat.Visible = false;
-        }
+       
        
     }
     protected void lbLogOut_Click(object sender, EventArgs e)
