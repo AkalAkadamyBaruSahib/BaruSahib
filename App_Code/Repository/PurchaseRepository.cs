@@ -313,7 +313,7 @@ public class PurchaseRepository
 
     public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
     {
-        return _context.Material.Where(x => x.MatTypeId == MatTypeID).OrderBy(x => x.MatName).ToList();
+        return _context.Material.Where(x => x.MatTypeId == MatTypeID && x.Active == 1).OrderBy(x => x.MatName).ToList();
     }
 
     public List<Material> GeMaterialInformation(int MaterialID)

@@ -57,7 +57,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             {
                 ActiveMat(Request.QueryString["MatIdA"].ToString());
             }
-            
+
         }
     }
     
@@ -346,7 +346,8 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             string MatId = Request.QueryString["MatId"];
             double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
             string ddl = ddlMatType.SelectedValue;
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "'");
+            double LocalCost = 0.00;
+            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','"+ LocalCost +"'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material edit successfully.');", true);
             Session["dsMatDetails"] = null;
             BindMatDetails(true, int.Parse(ddlMatType.SelectedValue));
@@ -403,13 +404,13 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     }
     protected void DeactiveMat(string ID)
     {
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','0','',''");
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','0','','','00.00'");
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material deactive successfully.');", true);
 
     }
     protected void ActiveMat(string ID)
     {
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','1','',''");
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','1','','','00.00'");
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material active successfully.');", true);
 
     }
