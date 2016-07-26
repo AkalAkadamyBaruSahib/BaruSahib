@@ -54,7 +54,9 @@ public class StoreRepository
 
     public DataSet GetStockMaterialInfo(int EstID, int PSID)
     {
-        return DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockMaterialDetails]'" + EstID + "','2'");
+        //return DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockMaterialDetails]'" + EstID + "','2'");
+
+        return DAL.DalAccessUtility.GetDataInDataSet("select * from [view_StockMaterialDetails] where estID=" + EstID + " AND PSID=" + PSID);
     }
 
     public DataSet GetStoreMaterialBillInfo(int EstID, int EMRID)
@@ -68,27 +70,7 @@ public class StoreRepository
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
-
-        List<Estimate> estimates = new List<Estimate>();
-
-        foreach (Estimate e in ests)
-        {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == 2 && er.EstId == e.EstId)
-                .Include(m => m.Material)
-                .Include(u => u.Unit)
-                .Include(i => i.Incharge)
-                .Include(p => p.PurchaseSource).ToList();
-
-            e.SanctionDate = e.ModifyOn;
-
-            if (estimateRelation.Count > 0)
-            {
-                e.EstimateAndMaterialOthersRelations = estimateRelation;
-                estimates.Add(e);
-            }
-        }
-        ests = null;
-        return estimates;
+        return ests;
     }
 
     public List<Estimate> GetStockRegisterInfo()
@@ -101,26 +83,7 @@ public class StoreRepository
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
 
-        List<Estimate> estimates = new List<Estimate>();
-
-        foreach (Estimate e in ests)
-        {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == 2 && er.EstId == e.EstId)
-                .Include(m => m.Material)
-                .Include(u => u.Unit)
-                .Include(i => i.Incharge)
-                .Include(p => p.PurchaseSource).ToList();
-
-            e.SanctionDate = e.ModifyOn;
-
-            if (estimateRelation.Count > 0)
-            {
-                e.EstimateAndMaterialOthersRelations = estimateRelation;
-                estimates.Add(e);
-            }
-        }
-        ests = null;
-        return estimates;
+        return ests;
     }
 
     public int StoreBillToDelete(int BillID)
