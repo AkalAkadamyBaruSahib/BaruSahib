@@ -56,4 +56,20 @@ public class StoreController : System.Web.Services.WebService
         StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
         return repository.StoreBillToDelete(BillID);
     }
+
+    [WebMethod]
+    public decimal? SaveStroeMaterialDetail(StockEntry stockentry)
+    {
+        stockentry.ReceivedOn = DateTime.UtcNow;
+        StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
+        return repository.SaveStroeMaterialDetail(stockentry);
+    }
+
+    [WebMethod]
+    public decimal? SaveDisatchMaterialDetail(StockDispatchEntry stockdispatchentry)
+    {
+        stockdispatchentry.DispatchOn = DateTime.UtcNow;
+        StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
+        return repository.SaveDisatchMaterialDetail(stockdispatchentry);
+    }
 }

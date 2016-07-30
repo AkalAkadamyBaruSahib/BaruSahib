@@ -55,15 +55,29 @@
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well">
-                    <h2></h2>
+                    <h2><i class="icon-user"></i>Store Material Detail</h2>
                     <div class="box-icon">
-                        <%--<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>--%>
+                        <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
                         <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
                 </div>
                 <div class="box-content">
-                    <div id="divZone" runat="server"></div>
+                    <div id="divMaterial" runat="server">
+                        <table class='table table-bordered table-striped table-condensed'>
+                            <tr>
+                                <td>
+                                    <a class="ajax-link" href="Store_ReceivedMaterialDetail.aspx?Material=1"><span class="hidden-tablet">Received Material</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a class="ajax-link" href="Store_DispatchMaterial.aspx?Material=2"><span class="hidden-tablet">Dispatch Material</span></a>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </div>

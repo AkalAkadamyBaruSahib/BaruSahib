@@ -73,7 +73,8 @@ public partial class _Default : System.Web.UI.Page
                 }
                 else if (inchrge.UserTypeId == 9)
                 {
-                    Response.Redirect("Store_Materials.aspx");
+                    Response.Redirect("StoreHome.aspx");
+                    //Response.Redirect("Store_Materials.aspx");
                 }
                 else if (inchrge.UserTypeId == 13)
                 {

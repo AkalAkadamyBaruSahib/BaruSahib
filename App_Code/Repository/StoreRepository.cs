@@ -54,9 +54,9 @@ public class StoreRepository
 
     public DataSet GetStockMaterialInfo(int EstID, int PSID)
     {
-        //return DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockMaterialDetails]'" + EstID + "','2'");
+        return DAL.DalAccessUtility.GetDataInDataSet("exec [USP_StockMaterialDetails]'" + EstID + "','2'");
 
-        return DAL.DalAccessUtility.GetDataInDataSet("select * from [view_StockMaterialDetails] where estID=" + EstID + " AND PSID=" + PSID);
+        // return DAL.DalAccessUtility.GetDataInDataSet("select * from [view_StockMaterialDetails] where estID=" + EstID + " AND PSID=" + PSID);
     }
 
     public DataSet GetStoreMaterialBillInfo(int EstID, int EMRID)
@@ -97,5 +97,52 @@ public class StoreRepository
     public List<StoreMaterialBill> GetMaterialBillList(int estID)
     {
         return _context.StoreMaterialBill.Where(x => x.EstID == estID).ToList();
+    }
+
+    public List<Estimate> GetStockMaterialInfo(int EstID)
+    {
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.EstId == EstID)
+            .Include(z => z.Zone)
+            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+
+        return ests;
+    }
+
+    public decimal? SaveStroeMaterialDetail(StockEntry stockentry)
+    {
+        _context.StockEntry.Add(stockentry);
+        _context.SaveChanges();
+        return GetReceivedQuantity(stockentry.EMRID);
+    }
+
+    public decimal? SaveDisatchMaterialDetail(StockDispatchEntry stockdispatchentry)
+    {
+        _context.StockDispatchEntry.Add(stockdispatchentry);
+        _context.SaveChanges();
+
+        return GetReceivedQuantity(stockdispatchentry.EMRID);
+    }
+
+   
+    private decimal? GetReceivedQuantity(int? emrID)
+    {
+        decimal? receivedQty = (from qty in _context.StockEntry
+                                     where qty.EMRID == emrID
+                                     select (decimal?)qty.Quantity).Sum();
+
+        decimal? disatchQty = (from qty in _context.StockDispatchEntry
+                               where qty.EMRID == emrID
+                               select (decimal?)qty.DispatchQuantity).Sum();
+        if (disatchQty == null)
+        {
+            disatchQty = 0;
+        }
+        if (receivedQty == null)
+        {
+            receivedQty = 0;
+        }
+
+        decimal? remainQty = receivedQty - disatchQty;
+        return remainQty;
     }
 }
