@@ -38,7 +38,6 @@ public partial class _Default : System.Web.UI.Page
                 Session["InName"] = inchrge.InName;
                 Session["ModuleID"] = inchrge.ModuleID;
 
-
                 if (inchrge.UserTypeId == 1 || inchrge.UserTypeId == 21)
                 {
                     Response.Redirect("AdminHome.aspx");
@@ -76,16 +75,7 @@ public partial class _Default : System.Web.UI.Page
                     Response.Redirect("StoreHome.aspx");
                     //Response.Redirect("Store_Materials.aspx");
                 }
-                else if (inchrge.UserTypeId == 13)
-                {
-                    Response.Redirect("TransportHome.aspx");
-                }
-                else if (inchrge.UserTypeId == 14)
-                {
-                    Response.Redirect("TransportHome.aspx");
-                }
-                else if (inchrge.UserTypeId == 15 || inchrge.UserTypeId == 16 || inchrge.UserTypeId == 17
-                    || inchrge.UserTypeId == 18 || inchrge.UserTypeId == 19 || inchrge.UserTypeId == 20)
+                else if (inchrge.UserTypeId >= 13 && inchrge.UserTypeId <= 20)
                 {
                     Response.Redirect("TransportHome.aspx");
                 }
