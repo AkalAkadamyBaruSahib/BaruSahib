@@ -131,9 +131,8 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
 
                     var PurchaseQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);   // Purchasing Quantity 
 
-                    var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);  // 5% of Est Required Quantity
-                    var TotalVegiAcceptableQuantity = (Convert.ToDecimal(Qty) * 30 / 100) + Convert.ToDecimal(Qty);  // 30% of Est Required Quantity(Vegetable)
-                    var TotalLessVegiAcceptableQuantity = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 30 / 100);
+                    var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);
+                    var LessExtraQty = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 5 / 100);// 5% of Est Required Less Quantity
                     var TotalSteelWoodTileQuantity = (Convert.ToDecimal(Qty) * 10 / 100) + Convert.ToDecimal(Qty);  // 10% of Est Required Quantity(Steel,Wood,Tiles)
                     var TotalLessSteelWoodTileQuantit = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 10 / 100);
 
@@ -150,23 +149,8 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                     {
                         if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                         {
-                            if (PurchaseQty > TotalVegiAcceptableQuantity)
-                            {
-                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase Qty can not greater than 30% extra.');", true);
-                            }
-                            else
-                            {
-                                if ((PurchaseQty >= Qty && PurchaseQty <= TotalVegiAcceptableQuantity) || (PurchaseQty <= Qty && PurchaseQty >= TotalLessVegiAcceptableQuantity))
-                                {
-                                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
-                                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
-                                }
-                                else
-                                {
-                                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
-                                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
-                                }
-                            }
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         }
                     }
                     else if (Convert.ToInt16(hdnMatTypeID.Value) == 29 || Convert.ToInt16(hdnMatTypeID.Value) == 65 || Convert.ToInt16(hdnMatTypeID.Value) == 24) // Tiles,Wood,Steel
@@ -197,7 +181,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         }
                         else
                         {
-                            if (PurchaseQty == Qty || (PurchaseQty > Qty && PurchaseQty <= ExtraQty))
+                            if ((PurchaseQty >= Qty && PurchaseQty <= ExtraQty) || (PurchaseQty <= Qty && PurchaseQty >= LessExtraQty))
                             {
                                 DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
@@ -210,8 +194,6 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         }
                     }
                 }
-                 
-               
                 //DataSet dsTatDate = DAL.DalAccessUtility.GetDataInDataSet("select DispatchDate,EstId from EstimateAndMaterialOthersRelations where Sno='" + Sno + "'");
                 //lbl.Text = dsTatDate.Tables[0].Rows[0]["DispatchDate"].ToString();
                 getMaterialDetails(Request.QueryString["IsLocal"].ToString(), Request.QueryString["EstId"].ToString());
