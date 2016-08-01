@@ -1,4 +1,5 @@
-ALTER PROCEDURE [dbo].[USP_StockMaterialDetails] 
+CREATE PROCEDURE [dbo].[USP_StockMaterialDetails] 
+
 (                      
 
 @ESID INT,            
@@ -13,39 +14,38 @@ BEGIN
 
 SELECT distinct    Estimate.EstId,ER.Sno, Material.MatName, Unit.UnitName, ER.Qty,PurchaseSource.PSName,               
 
-                      ER.Rate, 
+                   ER.Rate, (SELECT ISNULL(SUM(SE.Quantity),'0') FROM StockEntry  SE where SE.EMRID=ER.Sno) AS InStoreQuantity,
 
-					  (SELECT ISNULL(SUM(SE.Quantity),'0') FROM StockEntry  SE where SE.EMRID=ER.Sno) AS InStoreQuantity,
+                   (SELECT SUM(sd.DispatchQuantity) FROM StockDispatchEntry  SD where SD.EMRID=ER.Sno) AS DispatchQuantity,            
 
-                      (SELECT SUM(sd.DispatchQuantity) FROM StockDispatchEntry  SD where SD.EMRID=ER.Sno) AS DispatchQuantity,            
+                   ER.Rate AS ReceivedRate,     
 
-                      ER.Rate AS ReceivedRate,     
+                   ER.ModifyOn AS [ReceivedOn],     
 
-                      ER.ModifyOn AS [ReceivedOn],     
+                  -- SMB.BillPath,  
 
-                     -- SMB.BillPath,  
-					 --SE.ID,
+  			      SE.BillPath,
 
-                      ER.Qty,
+                   ER.Qty,
 
-					  ER.MatId,
+				  ER.MatId,
 
-					  ER.PurchaseQty           
+			  ER.PurchaseQty           
 
 FROM         Estimate       
 
-       INNER JOIN EstimateAndMaterialOthersRelations ER ON Estimate.EstId = ER.EstId       
+      INNER JOIN EstimateAndMaterialOthersRelations ER ON Estimate.EstId = ER.EstId       
 
                       INNER JOIN Material ON ER.MatId = Material.MatId       
 
                       INNER JOIN Unit ON ER.UnitId = Unit.UnitId       
 
-                      INNER JOIN PurchaseSource ON ER.PSId = PurchaseSource.PSId      
+                     INNER JOIN PurchaseSource ON ER.PSId = PurchaseSource.PSId      
 
-                      LEFT OUTER JOIN StockEntry SE ON SE.EMRID=ER.Sno   
+                  LEFT OUTER JOIN StockEntry SE ON SE.EMRID=ER.Sno   
 
-                      LEFT OUTER JOIN StoreMaterialBill SMB ON SMB.EstID=Estimate.EstID AND SMB.BillNo=SE.BillPath      
+                   LEFT OUTER JOIN StoreMaterialBill SMB ON SMB.EstID=Estimate.EstID AND SMB.BillNo=SE.BillPath      
 
-                      WHERE Estimate.EstId=@ESID AND ER.PSId=@PSID  
+                     WHERE Estimate.EstId=@ESID AND ER.PSId=@PSID  
 
 END
