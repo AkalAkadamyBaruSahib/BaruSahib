@@ -122,39 +122,41 @@ function SaveEstimate() {
     var Amt = 0;
     for (var i = 0 ; i < (tablelength + delItems) ; i++) {
 
-        var EstimateAndMaterialOthersRelation = new Object();
-        EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
-        EstimateAndMaterialOthersRelation.MatId = $("#txtMatID" + i).val();
-        EstimateAndMaterialOthersRelation.MatTypeId = $("#txtMatTypeID" + i).val();
-        EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
+        if ($("#txtMatID" + i).val() != undefined) {
+            var EstimateAndMaterialOthersRelation = new Object();
+            EstimateAndMaterialOthersRelation.EstId = Estimate.EstId;
+            EstimateAndMaterialOthersRelation.MatId = $("#txtMatID" + i).val();
+            EstimateAndMaterialOthersRelation.MatTypeId = $("#txtMatTypeID" + i).val();
+            EstimateAndMaterialOthersRelation.PSId = $("#drpSourceType" + i).val();
 
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || $("#txtQty" + i).val() == undefined) {
-            EstimateAndMaterialOthersRelation.Qty = 0;
-        }
-        else {
-            EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
-        }
+            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || $("#txtQty" + i).val() == undefined) {
+                EstimateAndMaterialOthersRelation.Qty = 0;
+            }
+            else {
+                EstimateAndMaterialOthersRelation.Qty = $("#txtQty" + i).val();
+            }
 
-        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0" || $("#txtRate" + i).val() == undefined) {
-            EstimateAndMaterialOthersRelation.Rate = 0;
+            if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0" || $("#txtRate" + i).val() == undefined) {
+                EstimateAndMaterialOthersRelation.Rate = 0;
+            }
+            else {
+                EstimateAndMaterialOthersRelation.Rate = $("#txtRate" + i).val();
+            }
+            EstimateAndMaterialOthersRelation.Remark = $("#txtRemarks" + i).val();
+            EstimateAndMaterialOthersRelation.UnitId = $("#txtUnitID" + i).val();
+            EstimateAndMaterialOthersRelation.CreatedBy = $("input[id*='hdnInchargeID']").val();
+            EstimateAndMaterialOthersRelation.ModifyBy = $("input[id*='hdnInchargeID']").val();
+            EstimateAndMaterialOthersRelation.Active = 1;
+            EstimateAndMaterialOthersRelation.IsApproved = true;
+            EstimateAndMaterialOthersRelation.VendorID = 0;
+            EstimateAndMaterialOthersRelation.PurchaseQty = 0;
+            EstimateAndMaterialOthersRelation.PurchaseEmpID = 0;
+            EstimateAndMaterialOthersRelation.DispatchStatus = 0;
+            EstimateAndMaterialOthersRelation.DirectPurchase = false;
+            Amt += parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
+            EstimateAndMaterialOthersRelation.Amount = parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
+            estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
         }
-        else {
-            EstimateAndMaterialOthersRelation.Rate = $("#txtRate" + i).val();
-        }
-        EstimateAndMaterialOthersRelation.Remark = $("#txtRemarks" + i).val();
-        EstimateAndMaterialOthersRelation.UnitId = $("#txtUnitID" + i).val();
-        EstimateAndMaterialOthersRelation.CreatedBy = $("input[id*='hdnInchargeID']").val();
-        EstimateAndMaterialOthersRelation.ModifyBy = $("input[id*='hdnInchargeID']").val();
-        EstimateAndMaterialOthersRelation.Active = 1;
-        EstimateAndMaterialOthersRelation.IsApproved = true;
-        EstimateAndMaterialOthersRelation.VendorID = 0;
-        EstimateAndMaterialOthersRelation.PurchaseQty = 0;
-        EstimateAndMaterialOthersRelation.PurchaseEmpID = 0;
-        EstimateAndMaterialOthersRelation.DispatchStatus = 0;
-        EstimateAndMaterialOthersRelation.DirectPurchase = false;
-        Amt += parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
-        EstimateAndMaterialOthersRelation.Amount = parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
-        estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
     }
     $("#lblAmt").val(Amt);
     Estimate.EstmateCost = Amt;

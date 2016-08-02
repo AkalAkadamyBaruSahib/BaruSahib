@@ -178,7 +178,8 @@ public partial class Admin_UserControls_BodyStoreMaterialDetail : System.Web.UI.
                 }
                 if (hdnIsReceived.Value == "1")
                 {
-                      ZoneInfo += "<td><input type='hidden' value='" + dsMatDetails.Rows[j]["BillPath"].ToString() + "' id='hdnBillNo" + j + "' /><select style='width:120px;' id='drpBillNo" + j + "'><option value='0'>-Select Bill No--</option></select></td>";
+                    //  ZoneInfo += "<td><input type='hidden' value='" + dsMatDetails.Rows[j]["BillPath"].ToString() + "' id='hdnBillNo" + j + "' /><select style='width:120px;' id='drpBillNo" + j + "'><option value='0'>-Select Bill No--</option></select></td>";
+                    ZoneInfo += "<td><input type='hidden' value='0' id='hdnBillNo" + j + "' /><select style='width:120px;' id='drpBillNo" + j + "'><option value='0'>-Select Bill No--</option></select></td>";
                 }
               
 

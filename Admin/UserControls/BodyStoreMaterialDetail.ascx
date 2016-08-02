@@ -105,8 +105,8 @@
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>Bill(s) for Estimate ID:- <span id="spnEstID"></span></h3>
     </div>
-    <div class="modal-body" style="width: 300px;">
-        <table id="grdBills" class='table table-striped table-bordered bootstrap-datatable datatable'>
+    <div class="modal-body" style="width: 500px;">
+        <table id="grdBills" style="width:100%" class='table table-striped table-bordered bootstrap-datatable datatable'>
             <thead>
                 <tr>
                     <th>Bills</th>
