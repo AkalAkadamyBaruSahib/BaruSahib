@@ -161,10 +161,16 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
     protected void btnSave_Click(object sender, EventArgs e)
     {
         DataSet dsExistMo = new DataSet();
+        DataSet dsExitUser = new DataSet();
         dsExistMo = DAL.DalAccessUtility.GetDataInDataSet("select distinct InMobile from Incharge where InMobile='" + txtMob.Text + "'");
+        dsExitUser = DAL.DalAccessUtility.GetDataInDataSet("select distinct LoginId from Incharge where LoginId='" + txtLoginId.Text + "'");
         if (dsExistMo.Tables[0].Rows.Count > 0)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Mobile Already Exist.');", true);
+        }
+        else if (dsExitUser.Tables[0].Rows.Count > 0)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Login Id Already Exist.');", true);
         }
         else
         {
