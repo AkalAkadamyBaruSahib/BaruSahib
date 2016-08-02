@@ -77,6 +77,8 @@ public class EstimateAndMaterialOthersRelations
     [ForeignKey("PurchaseEmpID")]
     public virtual Incharge Incharge { get; set; }
 
+    public bool? DirectPurchase { get; set; }
+
 }
 
 

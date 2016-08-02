@@ -34,6 +34,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         int UserTypeID = Convert.ToInt16(Session["UserTypeID"].ToString());
         string UserID = Session["InchargeID"].ToString();
         DataSet dsAcaDetails = new DataSet();
+
         if (UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION))
         {
             dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForEmp_ByEmployeeID] '" + id + "'," + psid + ", " + UserID);
@@ -55,6 +56,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 return;
             }
         }
+
         gvMaterailDetailForPurchase.DataSource = dsAcaDetails;
         gvMaterailDetailForPurchase.DataBind();
 
@@ -114,6 +116,15 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 TextBox txtRate = (TextBox)gvRow.FindControl("txtRate");
                 TextBox txtPurchaseQty = (TextBox)gvRow.FindControl("txtPurchaseQty");
                 HiddenField hdnPurchaseQty = (HiddenField)gvRow.FindControl("hdnPurchaseQty");
+                CheckBox chkDirectPurchase = (CheckBox)gvRow.FindControl("chkDirectPurchase");
+                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
+                {
+                    chkDirectPurchase.Visible = true;
+                }
+                else
+                {
+                    chkDirectPurchase.Visible = false;
+                }
 
 
                 lbl.Attributes.Remove("style");
@@ -149,7 +160,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                     {
                         if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                         {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "' where Sno='" + Sno + "'");
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         }
                     }
@@ -163,12 +174,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             if ((PurchaseQty >= Qty && PurchaseQty <= TotalSteelWoodTileQuantity) || (PurchaseQty <= Qty && PurchaseQty >= TotalLessSteelWoodTileQuantit))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
@@ -183,12 +194,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             if ((PurchaseQty >= Qty && PurchaseQty <= ExtraQty) || (PurchaseQty <= Qty && PurchaseQty >= LessExtraQty))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "' where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
@@ -234,6 +245,18 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         catch (Exception)
         {
             //  throw;
+        }
+    }
+    protected void gvMaterailDetailForPurchase_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        int UserTypeID = Convert.ToInt16(Session["UserTypeID"].ToString());
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            CheckBox chkDirectPurchase = e.Row.FindControl("chkDirectPurchase") as CheckBox;
+            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
+            {
+                chkDirectPurchase.Visible = true;
+            }
         }
     }
 }
