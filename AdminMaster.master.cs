@@ -10,6 +10,8 @@ using System.Data;
 public partial class AdminMaster : System.Web.UI.MasterPage
 {
     private static int UserType = -1;
+    private int AdminType = -1;
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -24,6 +26,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             {
                 lblUser.Text = Session["EmailId"].ToString();
                 UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
+                AdminType = Convert.ToInt16(Session["AdminType"].ToString());
             }
 
             DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '" + lblUser.Text + "'");
@@ -53,22 +56,44 @@ public partial class AdminMaster : System.Web.UI.MasterPage
     }
     private void SetControls()
     {
-        if (UserType == 21)
+        if (AdminType == (int)TypeEnum.SubAdminName.Electrical)
         {
             liAcademy.Visible = false;
             liBills.Visible = false;
             liComplaints.Visible = false;
             liEmployee.Visible = false;
             liEstimateWorkAllot.Visible = false;
-            liEstimateNewEstimate.Visible = false;
             liDrawingUploadDrawing.Visible = false;
             liFAQs.Visible = false;
             liFeedback.Visible = false;
             liFinancial.Visible = false;
             liGallery.Visible = false;
             liGeography.Visible = false;
-            liMaterial.Visible = false;
+            liMaterial.Visible = true;
             liZone.Visible = false;
+            liPurchaseSource.Visible = false;
+            liDrawing.Visible = false;
+            liReort.Visible = false;
+        }
+        else if (AdminType == (int)TypeEnum.SubAdminName.Barusahib)
+        {
+            liAcademy.Visible = false;
+            liBills.Visible = false;
+            liComplaints.Visible = false;
+            liEmployee.Visible = false;
+            liEstimateWorkAllot.Visible = false;
+            liDrawingUploadDrawing.Visible = false;
+            liFAQs.Visible = false;
+            liFeedback.Visible = false;
+            liFinancial.Visible = false;
+            liGallery.Visible = false;
+            liGeography.Visible = false;
+            liMaterial.Visible = true;
+            liZone.Visible = false;
+            liPurchaseSource.Visible = false;
+            liDrawing.Visible = false;
+            liReort.Visible = false;
+
         }
     }
 }

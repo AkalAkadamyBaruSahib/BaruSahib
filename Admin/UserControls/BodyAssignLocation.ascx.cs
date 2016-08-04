@@ -164,7 +164,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             pnlAllZone.Visible = false;
             pnlSingleSelect.Visible = false;
         }
-        else if (userTypeID == ((int)TypeEnum.UserType.WORKSHOP).ToString() || userTypeID == ((int)TypeEnum.UserType.ARCHITECTURAL).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASE).ToString())
+        else if (userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.ADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.WORKSHOP).ToString() || userTypeID == ((int)TypeEnum.UserType.ARCHITECTURAL).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASE).ToString())
         {
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = false;

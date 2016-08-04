@@ -11,13 +11,13 @@ $(document).ready(function () {
     AutofillMaterialSearchBox();
 
     $("input[id*='btnloadMaterials']").click(function (e) {
-        
+
         LoadMaterials();
         LoadEstimateInfo(selectedMaterialList);
         return false;
-       
+
     });
- 
+
     $("input[id*='hdnEstimateID']").val();
 
     $("input[id*='hdnIsAdmin']").val();
@@ -27,7 +27,7 @@ $(document).ready(function () {
     });
 
     $("#btnSubEstimate").click(function (e) {
-        
+
         if (Page_ClientValidate("visitor")) {
             if (Validation()) {
                 ClientSideClick(this);
@@ -56,7 +56,7 @@ $(document).ready(function () {
         else {
             BindAcademybyZoneID($(this).val());
         }
-       
+
     });
 
     $("select[id*='ddlAcademy']").change(function () {
@@ -73,12 +73,9 @@ $(document).ready(function () {
         TotalAmt();
     });
 
-    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnIsAdmin']").val() == 13) {
-        BindZone();
-    }
-    else {
-        BindZoneByInchargeID($("input[id*='hdnInchargeID']").val())
-    }
+
+    BindZoneByInchargeID($("input[id*='hdnInchargeID']").val())
+
 });
 
 function SaveEstimate() {
@@ -99,7 +96,7 @@ function SaveEstimate() {
     Estimate.CreatedBy = $("input[id*='hdnInchargeID']").val();
     Estimate.ModifyBy = $("input[id*='hdnInchargeID']").val();
     Estimate.FilePath = "";
-    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnInchargeID']").val() == 78 || $("input[id*='hdnIsAdmin']").val() == 13) {
+    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnIsAdmin']").val() == 13) {
         Estimate.IsApproved = true;
     }
     else {

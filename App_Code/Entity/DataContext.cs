@@ -59,6 +59,7 @@ namespace AkalAcademy
         public DbSet<StockDispatchEntry> StockDispatchEntry { get; set; }
         public DbSet<Login> Login { get; set; }
         public DbSet<VehicleContractRate> VehicleContractRate { get; set; }
+        public DbSet<AdminTypeRelation> AdminTypeRelation { get; set; }
 
 
 

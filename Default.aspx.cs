@@ -27,17 +27,45 @@ public partial class _Default : System.Web.UI.Page
         {
             UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
             Incharge inchrge = new Incharge();
+           
             inchrge = repo.GetLoginUserDetail(txtUserName.Text.Trim(), txtPwd.Text.Trim());
-            //DataSet dsExit = DAL.DalAccessUtility.GetDataInDataSet("select EmailId,Pwd from Login where Active=1 AND EmailId='" + txtUserName.Text + "'");
+           
+            // DataSet dsExit = DAL.DalAccessUtility.GetDataInDataSet("select EmailId,Pwd from Login where Active=1 AND EmailId='" + txtUserName.Text + "'");
             if (inchrge != null && inchrge.InchargeId > 0)
             {
+
+
+                AdminTypeRelation subadmin = repo.GetAdminType(inchrge.InchargeId);
+
                 Session["InchargeID"] = inchrge.InchargeId;
                 Session["UserTypeID"] = inchrge.UserTypeId;
                 Session["UserName"] = inchrge.InName;
                 Session["EmailId"] = inchrge.LoginId;
                 Session["InName"] = inchrge.InName;
                 Session["ModuleID"] = inchrge.ModuleID;
+                
 
+                if (subadmin != null)
+                {
+                    switch ((int)subadmin.SubAdminTypeID)
+                    {
+                        case (int)TypeEnum.SubAdminName.Barusahib:
+                            Session["AdminType"] = (int)TypeEnum.SubAdminName.Barusahib;
+                            break;
+                        case (int)TypeEnum.SubAdminName.Electrical:
+                            Session["AdminType"] = (int)TypeEnum.SubAdminName.Electrical;
+                            break;
+                        case (int)TypeEnum.SubAdminName.Transport:
+                            Session["AdminType"] = (int)TypeEnum.SubAdminName.Transport;
+                            break;
+                        case (int)TypeEnum.SubAdminName.Construction:
+                            Session["AdminType"] = (int)TypeEnum.SubAdminName.Construction;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
                 if (inchrge.UserTypeId == 1 || inchrge.UserTypeId == 21)
                 {
                     Response.Redirect("AdminHome.aspx");
@@ -73,7 +101,7 @@ public partial class _Default : System.Web.UI.Page
                 else if (inchrge.UserTypeId == 9)
                 {
                     Response.Redirect("StoreHome.aspx");
-                    //Response.Redirect("Store_Materials.aspx");
+                    Response.Redirect("Store_Materials.aspx");
                 }
                 else if (inchrge.UserTypeId >= 13 && inchrge.UserTypeId <= 20)
                 {
@@ -92,6 +120,7 @@ public partial class _Default : System.Web.UI.Page
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Enter Valid Login Details');", true);
                 }
             }
+
             else
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Enter Valid Login Details');", true);

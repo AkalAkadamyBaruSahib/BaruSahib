@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 /// <summary>
 /// Summary description for Incharge
@@ -27,4 +28,7 @@ public class Incharge
     public int? UserTypeId { get; set; }
     public DateTime? ChangePwdOn { get; set; }
     public int? ModuleID { get; set; }
+
+    [ForeignKey("InchargeId")]
+    public AdminTypeRelation AdminTypeRelation { get; set; }
 }

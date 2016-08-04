@@ -85,4 +85,12 @@ public class TypeEnum
         Camera = 14,
         HydraulicAutomaticDoor = 15
     }
+
+    public enum SubAdminName : int
+    {
+        Electrical = 1,
+        Barusahib = 2,
+        Transport = 3,
+        Construction = 4
+    }
 }
