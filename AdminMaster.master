@@ -90,7 +90,7 @@
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="icon-user"></i>
                             <span class="hidden-phone">
-                                <asp:Label ID="lblUserName" runat="server" Text="Admin"></asp:Label></span>
+                                <asp:Label ID="lblUserName" runat="server"></asp:Label></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -163,13 +163,13 @@
 
                                 </ul>
                             </li>
-                            <li id="liBills" runat="server"><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill</span></a>
+                            <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill</span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval(<asp:Label ID="lblBillCount" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                                    <li><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_AllBillDetails.aspx"><i></i><span class="hidden-tablet">Bill Details</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material Dispatch Status For Mohali</span></a></li>
-                                       <li><a class="ajax-link" href="Admin_MatDispatchStatus.aspx?IsLocal=1"><i></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
+                                    <li id="liBill" runat="server"><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval(<asp:Label ID="lblBillCount" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                                    <li id="liBillStatus" runat="server"><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
+                                    <li id="liBillDetail" runat="server"><a class="ajax-link" href="Admin_AllBillDetails.aspx"><i></i><span class="hidden-tablet">Bill Details</span></a></li>
+                                    <li id="liMaterialDisatch" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material Dispatch Status For Mohali</span></a></li>
+                                       <li id="liMaterialDisatchLocal" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx?IsLocal=1"><i></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                                 </ul>
                             </li>
                              <li id="liReort" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet">Reports</span></a>

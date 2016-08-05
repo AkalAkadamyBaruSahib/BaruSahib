@@ -321,7 +321,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     {
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateViewForAdmin '" + ModuleID + "'");
+        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateViewForAdmin '" + ModuleID + "','" + InchargeID + "'");
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
 
         if (AcaID > 0)

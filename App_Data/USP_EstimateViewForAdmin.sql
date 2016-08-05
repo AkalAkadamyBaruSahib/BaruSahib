@@ -1,56 +1,41 @@
-CREATE procedure [dbo].[USP_ExcelEstimate]  
+
+
+CREATE procedure [dbo].[USP_EstimateViewForAdmin]                    
 
 (
 
-@ModuleID as int                   
+@ModuleID as int,
 
-) 
+@InchargeID as int                    
 
-AS  
+)                    
 
+AS
 
+begin                    
 
-BEGIN  
+SELECT     Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.EstmateCost,ISNULL(Estimate.IsItemRejected,0) AS IsItemRejected,
 
+ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.ModifyOn, 107) AS dt, 
 
+Estimate.SubEstimate, Zone.ZoneName, Academy.AcaName, WorkAllot.WorkAllotName, Estimate.FileNme, Estimate.FilePath,Estimate.ModifyOn
 
-SELECT     Estimate.EstId AS ESTIMATE_ID, Zone.ZoneName AS ZONE_NAME, Academy.AcaName AS ACADEMY_NAME,Estimate.SubEstimate AS ESTIMATE_DESCRIPTION,CONVERT( NVARCHAR(20), Estimate.SanctionDate,107) AS SANCTION_DATE, Estimate.EstmateCost AS ESTIMATED_COST, 
+FROM       Estimate INNER JOIN              
 
+Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN              
 
+Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN              
 
+WorkAllot ON Estimate.WAId = WorkAllot.WAId INNER JOIN  
 
+AcademyAssignToEmployee AAE ON AAE.AcaId = Academy.AcaId INNER JOIN
 
+Incharge Inc ON Inc.InchargeId = AAE.EmpId
 
- TypeOfWork.TypeWorkName AS WORKTYPE, WorkAllot.WorkAllotName AS WORKALLOT_NAME  
+WHERE Estimate.IsActive =1 and  Estimate.ModuleID = @ModuleID and inc.InchargeId=@InchargeID
 
+order by  Estimate.ModifyOn desc    
 
+-- order by  Estimate.IsItemRejected desc            
 
-FROM         Estimate INNER JOIN  
-
-
-
-                      Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  
-
-
-
-                      Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN  
-
-
-
-                      TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  
-
-
-
-                      WorkAllot ON Estimate.WAId = WorkAllot.WAId
-
-					  
-
-					  WHERE  Estimate.ModuleID = @ModuleID 
-
-					  
-
-					    order by Estimate.EstId desc
-
-
-
-END
+END 

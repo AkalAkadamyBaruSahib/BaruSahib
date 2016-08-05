@@ -265,7 +265,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 if (PSID == 1)
                 {
                      PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
-                    // dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusForAdmin'" + PSID + "'");
                 }
                 else
                 {
@@ -499,7 +498,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     {
         UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
         int inchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
-        List<Academy> acaList = repo.GetAllAcademy(1);
+        List<Academy> acaList = repo.GetAcademyByInchargeID(inchargeID);
         //List<Academy> acaList = repo.GetAcademyByInchargeID(inchargeID);
         ddlAcademy.DataSource = acaList;
         ddlAcademy.DataTextField = "AcaName";

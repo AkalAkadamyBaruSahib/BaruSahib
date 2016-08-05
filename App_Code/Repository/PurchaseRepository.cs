@@ -604,7 +604,9 @@ public class PurchaseRepository
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+        var assignAcademies = _context.AcademyAssignToEmployee.Where(a => a.EmpId == inchargeID).Select(s => s.AcaId).ToList();
+
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1 && assignAcademies.Contains(e.AcaId))
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -612,7 +614,7 @@ public class PurchaseRepository
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er =>er.EstId == e.EstId  && er.PSId == 2 || er.PSId == 3)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er =>er.EstId == e.EstId  && (er.PSId == 2 || er.PSId == 3))
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)

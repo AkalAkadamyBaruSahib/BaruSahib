@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class Admin_WorkAllot : System.Web.UI.Page
 {
+    public string InchargeID = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -18,6 +19,7 @@ public partial class Admin_WorkAllot : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                InchargeID = Session["InchargeID"].ToString();
             }
             
             BindZone();
@@ -141,7 +143,7 @@ public partial class Admin_WorkAllot : System.Web.UI.Page
     protected void BindZone()
     {
         DataSet dsZone = new DataSet();
-        dsZone = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,ZoneName  from Zone where Active=1");
+        dsZone = DAL.DalAccessUtility.GetDataInDataSet("select distinct Z.ZoneId,Z.ZoneName  from Zone Z INNER JOIN AcademyAssignToEmployee AE on AE.ZoneId=Z.ZoneId where Z.Active=1 and AE.EmpId='" + InchargeID + "'");
         ddlZone.DataSource = dsZone;
         ddlZone.DataValueField = "ZoneId";
         ddlZone.DataTextField = "ZoneName";

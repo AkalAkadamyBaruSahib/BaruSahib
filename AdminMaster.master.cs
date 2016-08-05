@@ -25,6 +25,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                lblUserName.Text = Session["EmailId"].ToString();
                 UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
                 AdminType = Convert.ToInt16(Session["AdminType"].ToString());
             }
@@ -59,7 +60,6 @@ public partial class AdminMaster : System.Web.UI.MasterPage
         if (AdminType == (int)TypeEnum.SubAdminName.Electrical)
         {
             liAcademy.Visible = false;
-            liBills.Visible = false;
             liComplaints.Visible = false;
             liEmployee.Visible = false;
             liEstimateWorkAllot.Visible = false;
@@ -74,14 +74,17 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liPurchaseSource.Visible = false;
             liDrawing.Visible = false;
             liReort.Visible = false;
+            liMaterialDisatch.Visible = false;
+            liBill.Visible = false;
+            liBillStatus.Visible = false;
+            liBillDetail.Visible = false;
+            liMaterialDisatchLocal.Visible = false;
         }
         else if (AdminType == (int)TypeEnum.SubAdminName.Barusahib)
         {
             liAcademy.Visible = false;
-            liBills.Visible = false;
             liComplaints.Visible = false;
             liEmployee.Visible = false;
-            liEstimateWorkAllot.Visible = false;
             liDrawingUploadDrawing.Visible = false;
             liFAQs.Visible = false;
             liFeedback.Visible = false;
@@ -93,6 +96,11 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liPurchaseSource.Visible = false;
             liDrawing.Visible = false;
             liReort.Visible = false;
+            liMaterialDisatch.Visible = true;
+            liBill.Visible = false;
+            liBillStatus.Visible = false;
+            liBillDetail.Visible = false;
+            liMaterialDisatchLocal.Visible = false;
 
         }
     }
