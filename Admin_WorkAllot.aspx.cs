@@ -204,7 +204,10 @@ public partial class Admin_WorkAllot : System.Web.UI.Page
                  i = DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewWorkAllot '','" + ddlZone.SelectedValue + "','" + ddlAcademy.SelectedValue + "','" + txtWorkAllot.Text + "','" + fileImgName + "','" + fileImgPath + "','1','" + lblUser.Text + "','1'");
                  if (i > 0)
                  {
-                     fuImgeFile.SaveAs(Server.MapPath("AllotedWorkImage/") + fileImgName);
+                     if (fileImgName != "")
+                     {
+                         fuImgeFile.SaveAs(Server.MapPath("AllotedWorkImage/") + fileImgName);
+                     }
                      ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Name of Work Create Successfully!!.');", true);
                  }
                  //}
@@ -235,8 +238,10 @@ public partial class Admin_WorkAllot : System.Web.UI.Page
         {
             smsTo += inchargeNumber + ",";
         }
-
-        smsTo = smsTo.Substring(0, smsTo.Length - 1);
+        if (smsTo != "")
+        {
+            smsTo = smsTo.Substring(0, smsTo.Length - 1);
+        }
         Utility.SendSMS(smsTo, "New Work for " + ddlAcademy.SelectedItem.Text + " has been uploaded to www.Akalsewa.org.");
     }
     
