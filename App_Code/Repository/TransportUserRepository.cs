@@ -402,4 +402,14 @@ public class TransportUserRepository
 
         return vehicle;
     }
+
+    public List<VehicleEmployee> GetDLByVehicleID(int VehicleID)
+    {
+        return _context.VehicleEmployee.Where(x => x.VehicleID == VehicleID).ToList();
+    }
+
+    public List<VechilesNormsRelation> GetVechilesNormsRelationByVehicleID(int VehicleID)
+    {
+        return _context.VechilesNormsRelation.Where(x => x.VehicleID == VehicleID).ToList();
+    }
 }

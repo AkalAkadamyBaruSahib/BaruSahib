@@ -7,22 +7,36 @@
                 $("#divPendingDocumentReport").show();
                 $("#divDailyReport").hide();
                 $("#divSummaryReport").hide();
+                $("#divFutureExire").hide();
             }
             else if (control.value == "1") {
                 $("#divPendingDocumentReport").hide();
                 $("#divDailyReport").show();
                 $("#divSummaryReport").hide();
+                $("#divFutureExire").hide();
             }
             else if (control.value == "3") {
                 $("#divPendingDocumentReport").hide();
                 $("#divDailyReport").hide();
                 $("#divSummaryReport").show();
+                $("#divFutureExire").hide();
+            }
+            else if (control.value == "4") {
+                $("#divPendingDocumentReport").hide();
+                $("#divDailyReport").hide();
+                $("#divSummaryReport").hide();
+                $("#divFutureExire").show();
             }
             else {
                 $("#divPendingDocumentReport").hide();
                 $("#divDailyReport").hide();
                 $("#divSummaryReport").hide();
+                $("#divFutureExire").hide();
             }
+        }
+        function RadioButtonOnChange()
+        {
+            $("#divRadioButton").show();
         }
 
     </script>
@@ -46,27 +60,14 @@
                         <asp:ListItem Text="Daily Document Uploaded Report" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Pending Documents" Value="2"></asp:ListItem>
                         <asp:ListItem Text="Summary Report" Value="3"></asp:ListItem>
+                        <asp:ListItem Text="Future Expire Report" Value="4"></asp:ListItem>
                     </asp:DropDownList><br />
                 </div>
                 <div class="box-content" id="divPendingDocumentReport" style="display: none">
                     Select Zone to Download Data:
                     <asp:DropDownList ID="ddlZone" runat="server">
                     </asp:DropDownList><br />
-                    <div>
-                        <div class="box-content">
-                            Select Button To Download Future Expire Document Report:<br />
-                            <div class="box-content">
-                                <asp:RadioButton ID="rb15Days" runat="server" GroupName="ExpireReprt" />
-                                <asp:Label ID="lblrb15days" runat="server">15 days</asp:Label>
-                                <asp:RadioButton ID="rb30Days" runat="server" GroupName="ExpireReprt" />
-                                <asp:Label ID="lblrb30days" runat="server">30 Days</asp:Label>
-                                <asp:RadioButton ID="rb45Days" runat="server" GroupName="ExpireReprt" />
-                                <asp:Label ID="lblrb45days" runat="server">45 Days</asp:Label>
-                                <asp:RadioButton ID="rb60Days" runat="server" GroupName="ExpireReprt" />
-                                <asp:Label ID="lblrb60days" runat="server">60 Days</asp:Label>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="box-content" id="divDailyReport" style="display: none">
                     Date From:                
@@ -80,6 +81,25 @@
                     <asp:DropDownList ID="ddlALLZone" runat="server">
                     </asp:DropDownList><br />
 
+
+                </div>
+
+                <div class="box-content" id="divFutureExire" style="display: none">
+                    Select Zone to Future Expire Report:
+                    <asp:DropDownList ID="ddlFutureZone" runat="server" onchange="RadioButtonOnChange();">
+                    </asp:DropDownList><br />
+
+                    <div class="box-content" id="divRadioButton" style="display: none">
+                        Select Button To Download Future Expire Document Report:<br />
+                        <div class="box-content">
+                            <asp:RadioButtonList ID="rbFutureExpire" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Value="15" Text="15 days"></asp:ListItem>
+                                <asp:ListItem Value="30" Text="30 days"></asp:ListItem>
+                                <asp:ListItem Value="45" Text="45 days"></asp:ListItem>
+                                <asp:ListItem Value="60" Text="60 days"></asp:ListItem>
+                            </asp:RadioButtonList>
+                         </div>
+                    </div>
 
                 </div>
             </div>

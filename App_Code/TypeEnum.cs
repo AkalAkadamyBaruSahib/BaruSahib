@@ -80,10 +80,10 @@ public class TypeEnum
         QualityLock = 9,
         EmergencyWindows = 10,
         ToolsStemney = 11,
-        GPS = 12,
-        FemaleConductor = 13,
-        Camera = 14,
-        HydraulicAutomaticDoor = 15
+        GPS = 13,
+        FemaleConductor = 14,
+        Camera = 15,
+        HydraulicAutomaticDoor = 16
     }
 
     public enum SubAdminName : int
@@ -92,5 +92,29 @@ public class TypeEnum
         Barusahib = 2,
         Transport = 3,
         Construction = 4
+    }
+
+    public enum TransportType : int
+    {
+        Trust = 1,
+        Contractual = 2,
+        MaterialMovementVehicle = 3,
+        DailyWages = 4,
+        Twowheeler = 5,
+        Passengervehicle = 6,
+        Ambulance = 7,
+        SewaDarVehicle = 8,
+        CivilEquipmentVehicle = 9
+    }
+    public enum TransportDLType : int
+    {
+        LMV = 1,
+        LMVGV = 2,
+        LPV = 3,
+        HMV = 4,
+        HTV = 5,
+        PSVBUS = 6,
+        TRANS = 7,
+        CHASSIS=8
     }
 }
