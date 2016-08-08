@@ -273,7 +273,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
 
                 getNorms = DAL.DalAccessUtility.GetDataInDataSet("select NormID,VehicleID from [dbo].[VechilesNormsRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
-                if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages) || v.TypeID == (int)(TypeEnum.TransportType.Ambulance) || v.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages) || v.TypeID == (int)(TypeEnum.TransportType.Ambulance))
                 {
                     if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Camera)).Count() == 0)
                     {
@@ -299,7 +299,9 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     {
                         YellowColor += 1;
                     }
-
+                }
+                if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages))
+                {
                     if ((v.ConductorID == null) || (v.ConductorID == 0))
                     {
                         MaleConductor += 1;
@@ -397,10 +399,22 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             var PendingNormsName = string.Empty;
             var PendingDL = string.Empty;
             var PendingConductor = string.Empty;
-            if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
+            if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance))
             {
-                PendingConductor = "Pending";
+                if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
+                {
+                    PendingConductor = "Pending";
+                }
+                else
+                {
+                    PendingConductor = "";
+                }
             }
+            else
+            {
+                PendingConductor = "";
+            }
+
             if (getDocuments.Count != 0)
             {
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 1))
@@ -531,12 +545,20 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             }
             else
             {
-                PendingDL = "Pending";
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || vehicle.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
+                {
+                    PendingDL = "";
+                }
+                else
+                {
+                    PendingDL = "Pending";
+                }
+
             }
 
             if (getNorms.Count != 0)
             {
-                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages))
                 {
                     if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.Camera))))
                     {
@@ -562,7 +584,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             }
             else
             {
-                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages))
                 {
                     PendingNormsName = "Camera,Female Conductor,GPS,Speed Governer,Yellow Color,";
                 }
