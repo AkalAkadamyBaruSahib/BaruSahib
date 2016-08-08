@@ -256,8 +256,8 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                getDL = DAL.DalAccessUtility.GetDataInDataSet("select DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
-                if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 || getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 || getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 || getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 || getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0)
+                getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
+                if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0)
                 {
                     DL += 1;
                 }
@@ -493,13 +493,27 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
             if (getDL.Count != 0)
             {
-                if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString()))|| (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())))
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || vehicle.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
                 {
-                    PendingDL = "";
+                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMVGV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LPV).ToString())))
+                    {
+                        PendingDL = "";
+                    }
+                    else
+                    {
+                        PendingDL = "Pending";
+                    }
                 }
                 else
                 {
-                    PendingDL = "Pending";
+                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())))
+                    {
+                        PendingDL = "";
+                    }
+                    else
+                    {
+                        PendingDL = "Pending";
+                    }
                 }
             }
             else
@@ -509,25 +523,28 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
             if (getNorms.Count != 0)
             {
-                if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.Camera))))
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
-                    PendingNormsName += "Camera" + ",";
-                }
-                if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.FemaleConductor))))
-                {
-                    PendingNormsName += "Female Conductor" + ",";
-                }
-                if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.GPS))))
-                {
-                    PendingNormsName += "GPS" + ",";
-                }
-                if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.SpeedGoverner))))
-                {
-                    PendingNormsName += "Speed Governer" + ",";
-                }
-                if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.YellowColor))))
-                {
-                    PendingNormsName += "Yellow Color" + ",";
+                    if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.Camera))))
+                    {
+                        PendingNormsName += "Camera" + ",";
+                    }
+                    if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.FemaleConductor))))
+                    {
+                        PendingNormsName += "Female Conductor" + ",";
+                    }
+                    if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.GPS))))
+                    {
+                        PendingNormsName += "GPS" + ",";
+                    }
+                    if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.SpeedGoverner))))
+                    {
+                        PendingNormsName += "Speed Governer" + ",";
+                    }
+                    if ((!getNorms.Exists(norm => norm.NormID == (int)(TypeEnum.TransportNormsType.YellowColor))))
+                    {
+                        PendingNormsName += "Yellow Color" + ",";
+                    }
                 }
             }
             else
