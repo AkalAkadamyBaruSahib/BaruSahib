@@ -261,15 +261,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     DL += 1;
                 }
-                else
-                {
-                    if ((getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMV)).Count() == 0 || getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMVGV)).Count() == 0) || (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LPV)).Count() == 0) || (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMV)).Count() != 0 || getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMVGV)).Count() != 0) || (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LPV)).Count() != 0))
-                    {
-                        DL += 1;
-                    }
-                }
-
-
+              
                 getNorms = DAL.DalAccessUtility.GetDataInDataSet("select NormID,VehicleID from [dbo].[VechilesNormsRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
                 if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Camera)).Count() == 0)
                 {
@@ -350,6 +342,13 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
             dr["WrittenContract"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(WrittenContract)", string.Empty));
             dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
+            dr["DL"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(DL)", string.Empty));
+            dr["Camera"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Camera)", string.Empty));
+            dr["FemaleConductor"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(FemaleConductor)", string.Empty));
+            dr["SpeedGoverner"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(SpeedGoverner)", string.Empty));
+            dr["GPS"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(GPS)", string.Empty));
+            dr["YellowColor"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(YellowColor)", string.Empty));
+            dr["MaleConductor"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(MaleConductor)", string.Empty));
             dr["Total"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Total)", string.Empty));
             dtVehicleSummary.Rows.Add(dr);
         }
@@ -494,7 +493,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
             if (getDL.Count != 0)
             {
-                if ((!getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (!getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())) || (!getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString())) || (!getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (!getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())))
+                if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString()))|| (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())))
                 {
                     PendingDL = "";
                 }
