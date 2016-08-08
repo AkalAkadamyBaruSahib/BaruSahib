@@ -257,40 +257,53 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
 
                 getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
-                if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0)
+                if (v.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || v.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
                 {
-                    DL += 1;
+                    if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMVGV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LPV)).Count() == 0)
+                    {
+                        DL += 1;
+                    }
                 }
-              
+                else
+                {
+                    if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0)
+                    {
+                        DL += 1;
+                    }
+                }
+
                 getNorms = DAL.DalAccessUtility.GetDataInDataSet("select NormID,VehicleID from [dbo].[VechilesNormsRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
-                if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Camera)).Count() == 0)
+                if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages) || v.TypeID == (int)(TypeEnum.TransportType.Ambulance) || v.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
-                    Camera += 1;
-                }
+                    if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Camera)).Count() == 0)
+                    {
+                        Camera += 1;
+                    }
 
-                if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.FemaleConductor)).Count() == 0)
-                {
-                    FemaleConductor += 1;
-                }
+                    if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.FemaleConductor)).Count() == 0)
+                    {
+                        FemaleConductor += 1;
+                    }
 
-                if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.SpeedGoverner)).Count() == 0)
-                {
-                    SpeedGoverner += 1;
-                }
+                    if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.SpeedGoverner)).Count() == 0)
+                    {
+                        SpeedGoverner += 1;
+                    }
 
-                if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.GPS)).Count() == 0)
-                {
-                    GPS += 1;
-                }
+                    if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.GPS)).Count() == 0)
+                    {
+                        GPS += 1;
+                    }
 
-                if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.YellowColor)).Count() == 0)
-                {
-                    YellowColor += 1;
-                }
+                    if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.YellowColor)).Count() == 0)
+                    {
+                        YellowColor += 1;
+                    }
 
-                if ((v.ConductorID == null) || (v.ConductorID == 0))
-                {
-                    MaleConductor += 1;
+                    if ((v.ConductorID == null) || (v.ConductorID == 0))
+                    {
+                        MaleConductor += 1;
+                    }
                 }
             }
 
@@ -549,7 +562,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             }
             else
             {
-                PendingNormsName = "Camera,Female Conductor,GPS,Speed Governer,Yellow Color,";
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                {
+                    PendingNormsName = "Camera,Female Conductor,GPS,Speed Governer,Yellow Color,";
+                }
+                else
+                {
+                    PendingNormsName = "";
+                }
             }
 
             if (PendingDocumentName.Length > 0)
