@@ -52,22 +52,8 @@ public partial class Purchase_Reports : System.Web.UI.Page
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
 
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop 2");
-        dt = ds.Tables[0];
-        System.Data.EnumerableRowCollection<System.Data.DataRow> dtapproved = null;
-        if (dt.Rows.Count > 0)
-        {
-            dtapproved = (from mytable in ds.Tables[0].AsEnumerable()
-                          where Convert.ToDateTime(mytable.Field<DateTime>("CreatedOnDate")) >= Convert.ToDateTime(txtfirstDate.Text)
-                          && Convert.ToDateTime(mytable.Field<DateTime>("CreatedOnDate")) <= Convert.ToDateTime(txtlastDate.Text)
-                          select mytable);
-
-        }
-        else
-        {
-            return dt;
-        }
-        return dtapproved.CopyToDataTable();
-
+        dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_NewDispatchExcelForPurchaserAndStore] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2'").Tables[0];
+        return dt;
+        //ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop 2");
     }
 }
