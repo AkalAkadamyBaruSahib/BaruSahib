@@ -46,5 +46,4 @@ public class AcademyAssignToEmployee
 
     [ForeignKey("EmpId")]
     public Incharge Incharge { get; set; }
-
 }
