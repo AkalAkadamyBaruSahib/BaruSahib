@@ -139,7 +139,9 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             foreach (Vehicles v in vehicles)
             {
 
-                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
+                //getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
+
+                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID = " + v.ID).Tables[0];
 
                 DataRow[] drrow = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration));
 
@@ -256,7 +258,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
+                getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID =" + v.ID).Tables[0];
                 if (v.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || v.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
                 {
                     if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMVGV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LPV)).Count() == 0)
@@ -272,7 +274,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                getNorms = DAL.DalAccessUtility.GetDataInDataSet("select NormID,VehicleID from [dbo].[VechilesNormsRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
+                getNorms = DAL.DalAccessUtility.GetDataInDataSet("select NormID,VehicleID from [dbo].[VechilesNormsRelation] where VehicleID =" + v.ID).Tables[0];
                 if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages) || v.TypeID == (int)(TypeEnum.TransportType.Ambulance))
                 {
                     if (getNorms.Select("NormID = " + (int)(TypeEnum.TransportNormsType.Camera)).Count() == 0)
@@ -399,11 +401,13 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             var PendingNormsName = string.Empty;
             var PendingDL = string.Empty;
             var PendingConductor = string.Empty;
+            int count = 0;
             if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance))
             {
                 if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
                 {
                     PendingConductor = "Pending";
+                    
                 }
                 else
                 {
@@ -420,6 +424,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 1))
                 {
                     PendingDocumentName += "Registration" + ",";
+                    count += 1;
                 }
                 else
                 {
@@ -427,12 +432,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     if (row != null && row.DocumentEndDate <= DateTime.Now)
                     {
                         PendingDocumentName += "Registration" + ",";
+                        count += 1;
                     }
                 }
 
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 2))
                 {
                     PendingDocumentName += "Pollution" + ",";
+                    count += 1;
                 }
                 else
                 {
@@ -440,6 +447,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     if (row2 != null && row2.DocumentEndDate <= DateTime.Now)
                     {
                         PendingDocumentName += "Pollution" + ",";
+                        count += 1;
                     }
                 }
 
@@ -448,6 +456,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     if (!getDocuments.Exists(document => document.TransportDocumentID == 3))
                     {
                         PendingDocumentName += "Permit" + ",";
+                        count += 1;
                     }
                     else
                     {
@@ -455,6 +464,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         if (row3 != null && row3.DocumentEndDate <= DateTime.Now)
                         {
                             PendingDocumentName += "Permit" + ",";
+                            count += 1;
                         }
                     }
                 }
@@ -464,6 +474,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     if (!getDocuments.Exists(document => document.TransportDocumentID == 4))
                     {
                         PendingDocumentName += "Tax" + ",";
+                        count += 1;
                     }
                     else
                     {
@@ -471,6 +482,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         if (row4 != null && row4.DocumentEndDate <= DateTime.Now)
                         {
                             PendingDocumentName += "Tax" + ",";
+                            count += 1;
                         }
                     }
                 }
@@ -480,6 +492,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     if (!getDocuments.Exists(document => document.TransportDocumentID == 5))
                     {
                         PendingDocumentName += "Passing" + ",";
+                        count += 1;
                     }
                     else
                     {
@@ -487,6 +500,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         if (row5 != null && row5.DocumentEndDate <= DateTime.Now)
                         {
                             PendingDocumentName += "Passing" + ",";
+                            count += 1;
                         }
                     }
                 }
@@ -495,6 +509,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 if (!getDocuments.Exists(document => document.TransportDocumentID == 6))
                 {
                     PendingDocumentName += "Insurance" + ",";
+                    count += 1;
                 }
                 else
                 {
@@ -502,6 +517,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     if (row6 != null && row6.DocumentEndDate <= DateTime.Now)
                     {
                         PendingDocumentName += "Insurance" + ",";
+                        count += 1;
                     }
                 }
             }
@@ -510,10 +526,12 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
                     PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,";
+                    count = 6;
                 }
                 else
                 {
                     PendingDocumentName = "Registration,Pollution,Insurance,";
+                    count = 3;
                 }
                
             }
@@ -555,7 +573,6 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
 
             }
-
             if (getNorms.Count != 0)
             {
                 if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages))
@@ -608,6 +625,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["ZoneName"] = vehicle.Zone.ZoneName;
             dr["AcademyName"] = vehicle.Academy.AcaName;
             dr["DocumentName"] = PendingDocumentName;
+            dr["TotalPendingDocument"] = count;
             dr["HeavyDrivingLicence"] = PendingDL;
             dr["NormsName"] = PendingNormsName;
             dr["Conductor"] = PendingConductor;
@@ -629,6 +647,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         dt.Columns.Add(new DataColumn("ZoneName", typeof(string)));
         dt.Columns.Add(new DataColumn("AcademyName", typeof(string)));
         dt.Columns.Add(new DataColumn("DocumentName", typeof(string)));
+        dt.Columns.Add(new DataColumn("TotalPendingDocument", typeof(string)));
         dt.Columns.Add(new DataColumn("HeavyDrivingLicence", typeof(string)));
         dt.Columns.Add(new DataColumn("NormsName", typeof(string)));
         dt.Columns.Add(new DataColumn("Conductor", typeof(string)));

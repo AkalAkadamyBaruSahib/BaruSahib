@@ -348,7 +348,7 @@ function ReceivedMaterialAndValidation() {
         var storebal = parseInt(lblstoreQty) + parseInt(txtstoreQty);
     
 
-        if (txtstoreQty > 0) {
+        if ($("#txtInStoreQuantity" + i).val() > 0) {
 
             if ($("#hdnPurchaseQty" + i).val() == "0.00") {
                 alert("Can Not Received the Material Without Purchase");
