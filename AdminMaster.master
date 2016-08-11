@@ -163,7 +163,7 @@
 
                                 </ul>
                             </li>
-                            <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill</span></a>
+                            <li id="liBilldata" runat="server"><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill</span></a>
                                 <ul>
                                     <li id="liBill" runat="server"><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval(<asp:Label ID="lblBillCount" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                                     <li id="liBillStatus" runat="server"><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
@@ -174,7 +174,8 @@
                             </li>
                              <li id="liReort" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet">Reports</span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Admin_LocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
+                                    <li id="liLocalReort" runat="server"><a class="ajax-link" href="Admin_LocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
+                                    <li id="liMohaliReort" runat="server"><a class="ajax-link" href="Admin_EstimatePendencyReport.aspx"><i></i><span class="hidden-tablet">Estimate Pendency Report</span></a></li>
 
                                 </ul>
                             </li>

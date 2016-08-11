@@ -73,12 +73,13 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liZone.Visible = false;
             liPurchaseSource.Visible = false;
             liDrawing.Visible = false;
-            liReort.Visible = false;
+            liMohaliReort.Visible = false;
             liMaterialDisatch.Visible = false;
             liBill.Visible = false;
             liBillStatus.Visible = false;
             liBillDetail.Visible = false;
             liMaterialDisatchLocal.Visible = false;
+            liBilldata.Visible = false;
         }
         else if (AdminType == (int)TypeEnum.SubAdminName.Barusahib)
         {
@@ -95,7 +96,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liZone.Visible = false;
             liPurchaseSource.Visible = false;
             liDrawing.Visible = false;
-            liReort.Visible = false;
+            liMohaliReort.Visible = false;
             liMaterialDisatch.Visible = true;
             liBill.Visible = false;
             liBillStatus.Visible = false;
