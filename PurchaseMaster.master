@@ -148,7 +148,13 @@
                             <li><a class="ajax-link" href="Purchase_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">Estimates</span></a></li>
                             <!-- <li><a class="ajax-link" href="Purchase_BillStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li><a href="Purchase_RejectBills.aspx"><i class="icon-ban-circle"></i><span class="hidden-tablet">Reject Bills(<asp:Label ID="lblRejectBill" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>-->
-                            <li id="liReport" visible="false" runat="server"><a href="Purchase_Reports.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Reports</span></a></li>
+                             <li id="liReport" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet">Reports</span></a>
+                                <ul> 
+                                    <li id="liStatusReport" runat="server"><a class="ajax-link" href="Purchase_Reports.aspx"><span class="hidden-tablet">Status Reports</span></a></li>
+                                    <li id="liPendingReort" runat="server"><a class="ajax-link" href="PurchasePendingReport.aspx"><i></i><span class="hidden-tablet">Pending Report</span></a></li>
+                                </ul>
+                            </li>
+                           
                             <li><a class="ajax-link" href="Purchase_Gallery.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
                             <li><a class="ajax-link" href="Purchase_MaterialSearch.aspx"><i class="icon-search"></i><span class="hidden-tablet">Material Search</span></a></li>
                             <li><a class="ajax-link" href="Purchase_AddVendorInfo.aspx"><i class="icon-edit"></i><span class="hidden-tablet">Vendor Information</span></a></li>

@@ -23,9 +23,14 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         {
             liReport.Visible = true;
         }
-        if (Session["UserTypeID"].ToString() == "23")
+        else if (Session["UserTypeID"].ToString() == "23")
         {
             liRateApproved.Visible = true;
+            liStatusReport.Visible = false;
+        }
+        else
+        {
+            liStatusReport.Visible = false;
         }
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

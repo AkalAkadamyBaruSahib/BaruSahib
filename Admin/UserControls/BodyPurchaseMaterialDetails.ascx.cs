@@ -30,11 +30,17 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     }
     protected void Page_Load(object sender, EventArgs e)
     {
-       PurchaseSource = Request.QueryString["IsLocal"] != null ? 1 : 2;
+        PurchaseSource = Request.QueryString["IsLocal"] != null ? 1 : 2;
+
+        string UserTypeID = Session["UserTypeID"].ToString();
+        if (UserTypeID == "1" || UserTypeID == "2")
+        {
+            btnExecl.Visible = true;
+        }
 
         if (!Page.IsPostBack)
         {
-                    
+
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -53,7 +59,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 BindAcademy();
                 getPurchaseMaterialsDetailsDetails(-1, PurchaseSource);
-
             }
         }
     }
@@ -444,7 +449,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         DataSet ds = new DataSet();
         if (UserTypeID == "4")
         {
-            ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop '2'");
+            //ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop '2'");
         }
         else if (UserTypeID == "1")
         {

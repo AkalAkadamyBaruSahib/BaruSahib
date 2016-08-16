@@ -62,7 +62,6 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liAcademy.Visible = false;
             liComplaints.Visible = false;
             liEmployee.Visible = false;
-            liEstimateWorkAllot.Visible = false;
             liDrawingUploadDrawing.Visible = false;
             liFAQs.Visible = false;
             liFeedback.Visible = false;

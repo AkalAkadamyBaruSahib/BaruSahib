@@ -99,9 +99,10 @@
                                                 <div class="controls">
                                                     Login Id:
                                                     <br />
-                                                    <asp:TextBox ID="txtLoginId" runat="server"></asp:TextBox><br />
-                                                    Password:
-                                                    <br />
+                                                    <asp:TextBox ID="txtLoginId" runat="server"></asp:TextBox>
+                                                    <asp:RegularExpressionValidator ID="regexEmailValid" runat="server" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="txtLoginId" ForeColor="Red" ErrorMessage="Invalid Login Id Format!!!! Use The Email Format"></asp:RegularExpressionValidator>
+                                                    <br /> 
+                                                     Password:<br />
                                                     <asp:TextBox ID="txtUserPwd" runat="server"></asp:TextBox>
                                                 </div>
                                             </div>

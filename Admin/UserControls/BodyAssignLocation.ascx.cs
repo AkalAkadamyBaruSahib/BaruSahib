@@ -819,4 +819,15 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 
     }
     #endregion
+    protected void btnCreateIncharge_Click(object sender, EventArgs e)
+    {
+        if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString())
+        {
+            Response.Redirect("Transport_NewEmployee.aspx");
+        }
+        else
+        {
+            Response.Redirect("Admin_Incharge.aspx");
+        }
+    }
 }

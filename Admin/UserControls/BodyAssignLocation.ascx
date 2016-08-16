@@ -149,7 +149,8 @@
                         <div class="form-actions">
                             <asp:Button ID="btnSave" Text="Save" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                             <asp:Button ID="btnEdit" Text="Edit" CssClass="btn btn-primary" runat="server" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" Visible="false" />
-                            <a href="Admin_Incharge.aspx" class="btn">Create Incharge</a>
+                            <asp:Button ID="btnCreateIncharge" Text="Create Incharge"  runat="server" OnClick="btnCreateIncharge_Click"  />
+                            <%--<a href="Admin_Incharge.aspx" class="btn">Create Incharge</a>--%>
                             <a href="Default.aspx" class="btn">Cancel</a>
                         </div>
                     </fieldset>

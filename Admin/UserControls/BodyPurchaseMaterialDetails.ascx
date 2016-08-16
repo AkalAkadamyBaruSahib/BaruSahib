@@ -46,7 +46,7 @@
                         <tbody>
                             <tr>
                                 <td class="auto-style1">
-                                    <asp:Button ID="btnExecl" runat="server" Text="Dispatch Excel Download" CssClass="btn btn-primary" OnClick="btnExecl_Click" />
+                                    <asp:Button ID="btnExecl" Visible="false" runat="server" Text="Dispatch Excel Download" CssClass="btn btn-primary" OnClick="btnExecl_Click" />
                                 </td>
                                 <td>Select Academy:
                                         <asp:DropDownList ID="ddlAcademy" runat="server" Height="36px" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged" Width="164px" AutoPostBack="true"></asp:DropDownList>

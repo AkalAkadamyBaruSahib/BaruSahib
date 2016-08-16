@@ -153,7 +153,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         }
         else
         {
-            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
+            dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 order by MatTypeName");
         }
             ddlMateType.DataSource = dsMatType;
             ddlMateType.DataValueField = "MatTypeId";
@@ -243,7 +243,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DropDownList ddlMateType = (DropDownList)row.FindControl("ddlMatTId");
         DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMatId");
         DataSet dsMat = new DataSet();
-        dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId='" + ddlMateType.SelectedValue + "'");
+        dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId='" + ddlMateType.SelectedValue + "' order by MatName asc");
         ddlMaterail.DataSource = dsMat;
         ddlMaterail.DataValueField = "MatId";
         ddlMaterail.DataTextField = "MatName";
@@ -389,7 +389,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         }
         else
         {
-            dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1");
+            dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 order by MatTypeName asc");
         }
         DataSet dsSourcTypef = new DataSet();
         dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
