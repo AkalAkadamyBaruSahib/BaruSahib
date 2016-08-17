@@ -10,11 +10,11 @@ using System.Web;
 public class VehicleEmployeeDTO
 {
     public int ID { get; set; }
-    public string EmployeeType { get; set; }
+    public int? EmployeeType { get; set; }
     public string Name { get; set; }
     public string MobileNumber { get; set; }
     public int? VehicleID { get; set; }
-    public string DLType { get; set; }
+    public int? DLType { get; set; }
     public string DLValidity { get; set; }
     public string CreatedOn { get; set; }
     public string Address { get; set; }

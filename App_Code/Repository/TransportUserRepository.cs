@@ -101,7 +101,7 @@ public class TransportUserRepository
 
         Vehicles newVehicles = _context.Vehicles.Where(v => v.ID == VehicleEmp.VehicleID)
            .FirstOrDefault();
-        if (VehicleEmp.EmployeeType == "1")
+        if (VehicleEmp.EmployeeType == 1)
         {
             newVehicles.DriverID = VehicleEmployeeID;
         }

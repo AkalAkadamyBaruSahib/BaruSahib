@@ -17,7 +17,7 @@ public class VehicleEmployee
 
     public int ID { get; set; }
 
-    public string EmployeeType { get; set; }
+    public int? EmployeeType { get; set; }
 
     public string Name { get; set; }
 
@@ -25,7 +25,7 @@ public class VehicleEmployee
 
     public int? VehicleID { get; set; }
 
-    public string DLType { get; set; }
+    public int? DLType { get; set; }
 
     public string DLValidity { get; set; }
 

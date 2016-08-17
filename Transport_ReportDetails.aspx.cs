@@ -540,7 +540,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             {
                 if (vehicle.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || vehicle.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
                 {
-                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMVGV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LPV).ToString())))
+                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMVGV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LPV))))
                     {
                         PendingDL = "";
                     }
@@ -551,7 +551,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
                 else
                 {
-                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS).ToString())) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV).ToString())))
+                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))))
                     {
                         PendingDL = "";
                     }
