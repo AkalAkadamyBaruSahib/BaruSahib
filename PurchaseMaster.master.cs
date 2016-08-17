@@ -19,18 +19,20 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
             lblUser.Text = Session["EmailId"].ToString();
             UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         }
-        if (Session["UserTypeID"].ToString() == "4")
+        if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASE).ToString())
         {
             liReport.Visible = true;
         }
-        else if (Session["UserTypeID"].ToString() == "23")
+        else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASECOMMITTEE).ToString())
         {
             liRateApproved.Visible = true;
             liStatusReport.Visible = false;
+            liestimatesearch.Visible = false;
         }
         else
         {
             liStatusReport.Visible = false;
+            liestimatesearch.Visible = false;
         }
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

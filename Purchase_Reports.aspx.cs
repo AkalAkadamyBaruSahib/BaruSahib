@@ -23,7 +23,7 @@ public partial class Purchase_Reports : System.Web.UI.Page
     {
         Response.ClearContent();
         Response.Buffer = true;
-        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Dispatch.xls"));
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DispatchStatusReport.xls"));
         Response.ContentType = "application/ms-excel";
         DataTable dt = BindDatatable();
         string str = string.Empty;

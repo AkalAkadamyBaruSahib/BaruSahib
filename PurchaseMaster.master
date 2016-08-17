@@ -162,6 +162,7 @@
                        --%>     <li><a class="ajax-link" href="PurchaseOrder.aspx"><i class="icon-edit"></i><span class="hidden-tablet">Add Info Purchase Order</span></a></li>
                             <li><a class="ajax-link" href="RateUpload.aspx"><i class="icon-edit"></i><span class="hidden-tablet">Material Rate Upload</span></a></li>
                             <li id="liRateApproved" visible="false" runat="server"><a class="ajax-link" href="RateApproved.aspx"><i class="icon-edit"></i><span class="hidden-tablet">Material Rate Approved</span></a></li>
+                             <li id="liestimatesearch" runat="server"><a href="EstimateSearch.aspx"><i class="icon-search"></i><span class="hidden-tablet">Estimate Search</span></a></li>
                           
                            
                            

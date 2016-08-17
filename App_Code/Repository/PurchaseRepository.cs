@@ -541,10 +541,10 @@ public class PurchaseRepository
 
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
-            .Include(z=>z.Zone)
-            .Include(a=>a.Academy).OrderByDescending(e=>e.ModifyOn).ToList();
+            .Include(z => z.Zone)
+            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
-        
+
         List<Estimate> estimates = new List<Estimate>();
 
         foreach (Estimate e in ests)
@@ -567,7 +567,7 @@ public class PurchaseRepository
         return estimates;
     }
 
-    public List<Estimate> EstimateViewForPurchaseByEmployeeID(int PSID,int UserTypeID ,int InchargeID)
+    public List<Estimate> EstimateViewForPurchaseByEmployeeID(int PSID, int UserTypeID, int InchargeID)
     {
 
         DateTime dt1 = DateTime.Now.AddDays(-30);
@@ -576,8 +576,8 @@ public class PurchaseRepository
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e=>e.ModifyOn).ToList();
-     
+            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+
 
         foreach (Estimate e in ests)
         {
@@ -587,7 +587,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-                e.SanctionDate = e.ModifyOn;
+            e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -595,9 +595,9 @@ public class PurchaseRepository
                 estimates.Add(e);
             }
         }
-       ests = null;
+        ests = null;
         return estimates;
-        
+
     }
 
     public List<Estimate> MaterialDepatchStatusForAdmin(int PSID, int UserTypeID, int inchargeID)
@@ -614,7 +614,7 @@ public class PurchaseRepository
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er =>er.EstId == e.EstId  && (er.PSId == 2 || er.PSId == 3))
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.EstId == e.EstId && (er.PSId == 2 || er.PSId == 3))
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
@@ -662,7 +662,7 @@ public class PurchaseRepository
         return estimates;
     }
 
-    public List<Estimate> MaterialDepatchStatus(int PSID, int UserTypeID,int InchargeID)
+    public List<Estimate> MaterialDepatchStatus(int PSID, int UserTypeID, int InchargeID)
     {
         DateTime dt1 = DateTime.Now.AddDays(-30);
 
@@ -678,7 +678,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-               e.SanctionDate = e.ModifyOn;
+            e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -690,7 +690,7 @@ public class PurchaseRepository
         return estimates;
     }
 
-    public List<Estimate> EstimateViewForPurchaseByAcaID(int PSID,int UserTypeID,int InchargeID,int AcaID)
+    public List<Estimate> EstimateViewForPurchaseByAcaID(int PSID, int UserTypeID, int InchargeID, int AcaID)
     {
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID)
@@ -706,7 +706,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-                e.SanctionDate = e.ModifyOn;
+            e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -720,11 +720,11 @@ public class PurchaseRepository
 
     public List<Estimate> EstimateViewForPurchaseByEmployeeIDByAcaID(int PSID, int UserTypeID, int UserID, int AcaID)
     {
-      List<Estimate> estimates = new List<Estimate>();
+        List<Estimate> estimates = new List<Estimate>();
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e=>e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
         foreach (Estimate e in ests)
         {
@@ -733,7 +733,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-                e.SanctionDate = e.ModifyOn;
+            e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -743,7 +743,7 @@ public class PurchaseRepository
         }
         ests = null;
         return estimates;
-        
+
     }
 
     public List<Estimate> MaterialDepatchStatusForAdminLocalByAcaID(int PSID, int UserTypeID, int inchargeID, int AcaID)
@@ -781,16 +781,16 @@ public class PurchaseRepository
         List<Estimate> estimates = new List<Estimate>();
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedBy == UserID && e.AcaId == AcaID)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e=>e.CreatedOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.CreatedOn).ToList();
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId  && er.DispatchStatus != 1)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.DispatchStatus != 1)
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-               e.SanctionDate = e.ModifyOn;
+            e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -812,7 +812,7 @@ public class PurchaseRepository
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er =>er.EstId == e.EstId && er.PSId == 2 || er.PSId == 3)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.EstId == e.EstId && er.PSId == 2 || er.PSId == 3)
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
@@ -837,24 +837,51 @@ public class PurchaseRepository
 
     public List<Academy> GetAcademybyZoneIDByEmpID(int ZoneID, int InchargeID)
     {
-         var Academy = (from z in _context.Academy
-                     join AAE in _context.AcademyAssignToEmployee on z.AcaID equals AAE.AcaId
-                        where AAE.EmpId == InchargeID && AAE.ZoneId == ZoneID
-                     select new
-                     {
-                         AcaID = z.AcaID,
-                         AcaName = z.AcaName,
+        var Academy = (from z in _context.Academy
+                       join AAE in _context.AcademyAssignToEmployee on z.AcaID equals AAE.AcaId
+                       where AAE.EmpId == InchargeID && AAE.ZoneId == ZoneID
+                       select new
+                       {
+                           AcaID = z.AcaID,
+                           AcaName = z.AcaName,
 
-                     }).AsEnumerable().Select(x => new Academy
-                 {
-                     AcaID = x.AcaID,
-                     AcaName = x.AcaName,
-                 }).OrderBy(m => m.AcaName).ToList();
+                       }).AsEnumerable().Select(x => new Academy
+                {
+                    AcaID = x.AcaID,
+                    AcaName = x.AcaName,
+                }).OrderBy(m => m.AcaName).ToList();
 
-         Academy = Academy.GroupBy(test => test.AcaID)
-                   .Select(grp => grp.First())
-                   .ToList();
-         return Academy;
-      
+        Academy = Academy.GroupBy(test => test.AcaID)
+                  .Select(grp => grp.First())
+                  .ToList();
+        return Academy;
+
+    }
+
+    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID)
+    {
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.EstId == EstID)
+            .Include(z => z.Zone)
+            .Include(a => a.Academy).ToList();
+
+        List<Estimate> estimates = new List<Estimate>();
+        foreach (Estimate e in ests)
+        {
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                .Include(m => m.Material)
+                .Include(u => u.Unit)
+                .Include(i => i.Incharge)
+                .Include(p => p.PurchaseSource).ToList();
+
+            e.SanctionDate = e.ModifyOn;
+
+            if (estimateRelation.Count > 0)
+            {
+                e.EstimateAndMaterialOthersRelations = estimateRelation;
+                estimates.Add(e);
+            }
+        }
+        ests = null;
+        return estimates;
     }
 }
