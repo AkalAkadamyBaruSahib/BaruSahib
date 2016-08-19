@@ -340,7 +340,7 @@ function ReceivedMaterialAndValidation() {
 
         var txtRemainstoreQty = parseInt($("#txtRemainingQty" + i).val());
         var hdnRemainingQty = parseInt($("#hdnRemainingQty" + i).val());
-        var lblstoreQty = $("#lblInStoreQty" + i).val();
+        var lblstoreQty = $("#lblInStoreQty" + i).html();
 
         var totalstoreQty = parseInt(hdnStoreQuantity) + parseInt(txtstoreQty);
         var totalRemaingQty = parseInt(hdnStoreQuantity) + parseInt(txtRemainstoreQty);
