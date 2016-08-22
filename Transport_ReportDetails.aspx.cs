@@ -563,15 +563,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             }
             else
             {
-                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || vehicle.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
-                {
-                    PendingDL = "";
-                }
-                else
-                {
-                    PendingDL = "Pending";
-                }
-
+                PendingDL = "Pending";
             }
             if (getNorms.Count != 0)
             {
