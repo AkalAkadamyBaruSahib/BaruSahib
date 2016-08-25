@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" AutoEventWireup="true" CodeFile="Purchase_ViewEstMaterial.aspx.cs" EnableEventValidation="false" Inherits="Purchase_ViewEstMaterial" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin_ViewEstMaterial.aspx.cs" Inherits="Admin_ViewEstMaterial" %>
 
 <%@ Register Src="~/Admin/UserControls/BodyAssignPurchaseOffice.ascx" TagPrefix="uc1" TagName="BodyAssignPurchaseOffice" %>
 

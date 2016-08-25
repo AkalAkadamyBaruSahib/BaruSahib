@@ -141,24 +141,34 @@
                 <div class="span2 main-menu-span">
                     <div class="well nav-collapse sidebar-nav">
                         <ul class="nav nav-tabs nav-stacked main-menu">
-                            <%--<li class="nav-header hidden-tablet">Main</li>
-						<li><a class="ajax-link" href="Workshop_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet"> Home</span></a></li>
-                        <li><a href="Worksho_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet"> Material to be dispatch</span></a></li>
-                        <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet"> Stock</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet"> Submit Bills</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet"> Estimates</span></a></li>
-                        <li><a class="ajax-link" href="WorkShop_Gallery.aspx"><i class="icon-picture"></i><span class="hidden-tablet"> Gallery</span></a></li>--%>
                             <li class="nav-header hidden-tablet">Main</li>
                             <li><a class="ajax-link" href="Workshop_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
-                            <li><a href="Worksho_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Material to be dispatch</span></a></li>
-                            <%--<li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet"> Stock</span></a></li>--%>
-                            <li><a class="ajax-link" href="Workshop_SubmitBills.aspx"><i class="icon-eye-open"></i><span class="hidden-tablet">Submit Bills</span></a></li>
-                            <li><a class="ajax-link" href="Workshop_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">Estimates(<asp:Label ID="lblEst" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="Workshop_BillStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a href="Workshop_RejectBills.aspx"><i class="icon-ban-circle"></i><span class="hidden-tablet">Reject Bills(<asp:Label ID="lblRejectBill" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="WorkShop_Gallery.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
-                            <li><a class="ajax-link" href="WorkShop_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>
+                            <li id="liEmployee" runat="server"><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet">Employee</span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="AkalWorkshop_Designation.aspx"><i></i><span class="hidden-tablet">Designation</span></a></li>
+                                    <li><a class="ajax-link" href="AkalWorkshop_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
+                                    <li><a class="ajax-link" href="AkalWorkshop_Incharge.aspx"><i></i><span class="hidden-tablet">Create Employee</span></a></li>
+                                    <li id="liLocation" runat="server"><a class="ajax-link" href="AkalWorkshop_LocationAssign.aspx"><i></i><span class="hidden-tablet">Location Assign<%-- To Employee--%></span></a></li>
 
+                                </ul>
+                            </li>
+                            <li id="liMaterial" runat="server"><a class="dropmenu" href="#"><i class="icon-star"></i><span class="hidden-tablet">Materails</span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="AkalWorkshop_CreateMaterial.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
+                                    <li id="liWorkshop" runat="server"><a class="ajax-link" href="WorkshopMaterial.aspx"><i></i><span class="hidden-tablet">Workshop Material</span></a></li>
+                                </ul>
+                            </li>
+                            <li id="liEstimate" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet">Estimate</span></a>
+                                <ul>
+                                    <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="WorkShop_AddEstimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>
+                                    <li id="liViewNewEstimate" runat="server"><a class="ajax-link" href="WorkshopAdmin_EstimateView.aspx?IsApproved=Approve"><i></i><span class="hidden-tablet">View Approved Estimate</span></a></li>
+                                    <li id="liViewNonAEstimate" runat="server"><a class="ajax-link" href="WorkshopAdmin_EstimateView.aspx?IsApproved=NonApprove"><i></i><span class="hidden-tablet">View Non Approved Estimate</span></a></li>
+                                    <li id="liMaterialAssign" runat="server"><a class="ajax-link" href="AkalWorkshop_MaterialToBeDispatch.aspx"><i></i><span class="hidden-tablet">Material Assign Workshop</span></a></li>
+                                </ul>
+                            </li>
+
+                            <li id="liMaterialDispatch" runat="server"><a href="Worksho_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Material to be dispatch</span></a></li>
+                           <li id="liEstimateView" runat="server"><a class="ajax-link" href="Workshop_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">View Estimates</span></a></li>
 
                         </ul>
 

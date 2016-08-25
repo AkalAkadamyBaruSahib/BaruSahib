@@ -44,7 +44,13 @@
                         <div class="control-group">
                             <label class="control-label" for="typeahead">Select Material Type</label>
                             <div class="controls">
-                                <asp:DropDownList ID="ddlMatType" runat="server"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlMatType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlMatType_SelectedIndexChanged1"></asp:DropDownList>
+                            </div>
+                        </div>
+                         <div id="divworkshop" runat="server" class="control-group" visible="false">
+                            <label class="control-label" for="typeahead">Select Workshop Type</label>
+                            <div class="controls">
+                                <asp:DropDownList ID="ddlWorkshop" runat="server"></asp:DropDownList>
                             </div>
                         </div>
                         <div class="control-group">

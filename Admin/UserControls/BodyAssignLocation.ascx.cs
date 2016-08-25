@@ -144,8 +144,8 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         ddlZone.Enabled = true;
         DataSet dsval = new DataSet();
         dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InName='" + ddlEmpl.SelectedItem.Text + "'");
-        string userTypeID = dsval.Tables[0].Rows[0]["UserTypeId"].ToString();
-        if (userTypeID == ((int)TypeEnum.UserType.CONSTRUCTION).ToString() || userTypeID == ((int)TypeEnum.UserType.FrontDesk).ToString() || userTypeID == ((int)TypeEnum.UserType.CONSTRUCTIONSUBADMIN).ToString())
+        int userTypeID = Convert.ToInt32(dsval.Tables[0].Rows[0]["UserTypeId"].ToString());
+        if (userTypeID == ((int)TypeEnum.UserType.CONSTRUCTION) || userTypeID == ((int)TypeEnum.UserType.FrontDesk) || userTypeID == ((int)TypeEnum.UserType.CONSTRUCTIONSUBADMIN))
         {
             pnlSingleSelect.Visible = true;
             lblDesignation.Visible = true;
@@ -154,7 +154,9 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             pnlAcademy.Visible = false;
         }
 
-        else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC).ToString() || userTypeID == ((int)TypeEnum.UserType.AUDIT).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE).ToString() || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO).ToString() || userTypeID == ((int)TypeEnum.UserType.TRANSPORTTRAINEE).ToString() || userTypeID == ((int)TypeEnum.UserType.BACKOFFICETRAINEE).ToString())
+        else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC) || userTypeID == ((int)TypeEnum.UserType.AUDIT) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE) || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE)
+            || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO) 
+            || userTypeID == ((int)TypeEnum.UserType.TRANSPORTTRAINEE) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICETRAINEE) || userTypeID == ((int)TypeEnum.UserType.WORKSHOPADMIN) || userTypeID == ((int)TypeEnum.UserType.WORKSHOPEMPLOYEE))
         {
             BindZoneGridOnSelectedEmp();
             BindBtnAcademyClickGrid();
@@ -164,7 +166,8 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             pnlAllZone.Visible = false;
             pnlSingleSelect.Visible = false;
         }
-        else if (userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.ADMIN).ToString() || userTypeID == ((int)TypeEnum.UserType.WORKSHOP).ToString() || userTypeID == ((int)TypeEnum.UserType.ARCHITECTURAL).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || userTypeID == ((int)TypeEnum.UserType.PURCHASE).ToString())
+        else if (userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN) || userTypeID == ((int)TypeEnum.UserType.ADMIN) || userTypeID == ((int)TypeEnum.UserType.ARCHITECTURAL) 
+            || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE)|| userTypeID == ((int)TypeEnum.UserType.PURCHASE))
         {
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = false;
@@ -824,6 +827,10 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.TRANSPORTADMIN).ToString())
         {
             Response.Redirect("Transport_NewEmployee.aspx");
+        }
+        else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.WORKSHOPADMIN).ToString())
+        {
+            Response.Redirect("AkalWorkshop_Incharge.aspx");
         }
         else
         {

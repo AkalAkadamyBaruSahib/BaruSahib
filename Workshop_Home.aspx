@@ -39,7 +39,7 @@
                     <tr>
                         <th width="20%" class="breadcrumb"><h1>Summary<br />
                             Of<br />
-                            Project Construction Management Details
+                            Project Workshop Management Details
                                                            </h1>
                         </th>
                     </tr>
