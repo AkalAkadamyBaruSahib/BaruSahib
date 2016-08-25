@@ -137,9 +137,13 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             ZoneInfo += "</td>";
             ZoneInfo += "<td class='center' width='20%'>";
 
-            if (ModuleID == 1)
+            if (ModuleID == (int)TypeEnum.Module.Purchase)
             {
                 ZoneInfo += "<a class='btn btn-info' href='Admin_Incharge.aspx?InchargeId=" + dsDegisDetails.Tables[0].Rows[i]["InchargeId"].ToString() + "'>";
+            }
+            else if (ModuleID == (int)TypeEnum.Module.Workshop)
+            {
+                ZoneInfo += "<a class='btn btn-info' href='AkalWorkshop_Incharge.aspx?InchargeId=" + dsDegisDetails.Tables[0].Rows[i]["InchargeId"].ToString() + "'>";
             }
             else
             {

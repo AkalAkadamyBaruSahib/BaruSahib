@@ -31,16 +31,10 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             }
 
             DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '" + lblUser.Text + "'");
-            lblEstCount.Text = dsAdminCount.Tables[0].Rows[0]["Estco"].ToString();
             lblZoneCo.Text = dsAdminCount.Tables[1].Rows[0]["Zoco"].ToString();
             lblAcaCo.Text = dsAdminCount.Tables[2].Rows[0]["Acaco"].ToString();
-            lblDesgCo.Text = dsAdminCount.Tables[3].Rows[0]["Desgco"].ToString();
-            lblDepCo.Text = dsAdminCount.Tables[4].Rows[0]["Depco"].ToString();
-            lblEmpCo.Text = dsAdminCount.Tables[5].Rows[0]["Empco"].ToString();
             lblUnitCo.Text = dsAdminCount.Tables[6].Rows[0]["Unitco"].ToString();
             lblMatTCo.Text = dsAdminCount.Tables[7].Rows[0]["MatTco"].ToString();
-            lblMatCO.Text = dsAdminCount.Tables[8].Rows[0]["Matco"].ToString();
-            lblWorkCo.Text = dsAdminCount.Tables[9].Rows[0]["WAco"].ToString();
             lblBillCount.Text = dsAdminCount.Tables[10].Rows[0]["StatusCount"].ToString();
             lblMsg.Text = dsAdminCount.Tables[11].Rows[0]["Msgco"].ToString();
             lblDrwCo.Text = dsAdminCount.Tables[12].Rows[0]["Dwgco"].ToString();
@@ -68,7 +62,6 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liFinancial.Visible = false;
             liGallery.Visible = false;
             liGeography.Visible = false;
-            liMaterial.Visible = true;
             liZone.Visible = false;
             liPurchaseSource.Visible = false;
             liDrawing.Visible = false;
@@ -91,7 +84,6 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liFinancial.Visible = false;
             liGallery.Visible = false;
             liGeography.Visible = false;
-            liMaterial.Visible = true;
             liZone.Visible = false;
             liPurchaseSource.Visible = false;
             liDrawing.Visible = false;

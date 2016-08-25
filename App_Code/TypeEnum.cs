@@ -20,7 +20,8 @@ public class TypeEnum
     {
         Purchase = 1,
         Transport = 2,
-        Security = 3
+        Security = 3,
+        Workshop = 4
     }
 
     public enum TransportEmployeeType : int
@@ -48,7 +49,7 @@ public class TypeEnum
         AUDIT = 3,
         PURCHASE = 4,
         ACCOUNT = 5,
-        WORKSHOP = 6,
+        WORKSHOPADMIN = 6,
         ARCHITECTURAL = 7,
         MAINTANENCE = 8,
         STORE = 9,
@@ -64,9 +65,13 @@ public class TypeEnum
         TRANSPORTTRAINEE = 19,
         BACKOFFICETRAINEE = 20,
         CONSTRUCTIONSUBADMIN = 21,
-        FrontDesk = 22
+        FrontDesk = 22,
+        PURCHASECOMMITTEE = 23,
+        SECURITY = 24,
+        EMPLOYEESUBADMIN = 28,
+        TRANSPORTSUBADMIN = 29,
+        WORKSHOPEMPLOYEE = 30
     }
-
     public enum TransportNormsType : int
     {
         YellowColor = 1,
@@ -91,7 +96,7 @@ public class TypeEnum
         Electrical = 1,
         Barusahib = 2,
         Transport = 3,
-        Construction = 4
+        Construction = 4,
     }
 
     public enum TransportType : int

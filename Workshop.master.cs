@@ -21,10 +21,21 @@ public partial class Workshop : System.Web.UI.MasterPage
         DataSet dsCount = new DataSet();
         dsCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_PurchaseCount '" + lblUser.Text + "'");
         lblUserName.Text = dsCount.Tables[0].Rows[0]["InName"].ToString();
-        lblBillStatus.Text = dsCount.Tables[1].Rows[0]["co"].ToString();
-        lblRejectBill.Text = dsCount.Tables[2].Rows[0]["co"].ToString();
-        lblEst.Text = dsCount.Tables[3].Rows[0]["EstCo"].ToString();
         lblMsg.Text = dsCount.Tables[4].Rows[0]["MsgCo"].ToString();
+
+        if (Session["UserTypeID"].ToString() == "6")
+        {
+            liMaterialDispatch.Visible = false;
+            liEstimateView.Visible = false;
+        }
+        else
+        {
+            liEmployee.Visible = false;
+            liMaterial.Visible = false;
+            liViewNewEstimate.Visible = false;
+            liMaterialAssign.Visible = false;
+            liViewNonAEstimate.Visible = false;
+        } 
     }
     protected void lbLogOut_Click(object sender, EventArgs e)
     {

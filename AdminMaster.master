@@ -133,27 +133,29 @@
 						<li><a class="ajax-link" href="Admin_Designation.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet"> Create Designation</span></a></li>--%>
                             <li id="liEmployee" runat="server"><a class="ajax-link" href="#"><i class="icon-font"></i><span class="hidden-tablet">Employee</span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Admin_Designation.aspx"><i></i><span class="hidden-tablet">Designation(<asp:Label ID="lblDesgCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_Department.aspx"><i></i><span class="hidden-tablet">Department(<asp:Label ID="lblDepCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                                    <li id="liDsignation" runat="server"><a class="ajax-link" href="Admin_Designation.aspx"><i></i><span class="hidden-tablet">Designation</span></a></li>
+                                    <li id="liDepartment" runat="server"><a class="ajax-link" href="Admin_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
                                     <%--<li><a class="ajax-link" href="Admin_EmployementType.aspx"><i ></i><span class="hidden-tablet"> Employment Type</span></a></li>
                                 <li><a class="ajax-link" href="Admin_IdentityType.aspx"><i ></i><span class="hidden-tablet"> Identification Type</span></a></li>--%>
-                                    <li><a class="ajax-link" href="Admin_Incharge.aspx"><i></i><span class="hidden-tablet">Create Employee(<asp:Label ID="lblEmpCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_LocationAssignToEmployee.aspx"><i></i><span class="hidden-tablet">Location Assign<%-- To Employee--%></span></a></li>
+                                    <li id="liCreateEmployee" runat="server"><a class="ajax-link" href="Admin_Incharge.aspx"><i></i><span class="hidden-tablet">Create Employee</span></a></li>
+                                    <li id="liLocation" runat="server"><a class="ajax-link" href="Admin_LocationAssignToEmployee.aspx"><i></i><span class="hidden-tablet">Location Assign<%-- To Employee--%></span></a></li>
 
                                 </ul>
                             </li>
                             <li  id="liMaterial" runat="server"><a class="dropmenu" href="#"><i class="icon-star"></i><span class="hidden-tablet">Materails</span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Admin_Unit.aspx"><i></i><span class="hidden-tablet">Unit(<asp:Label ID="lblUnitCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_MaterialType.aspx"><i></i><span class="hidden-tablet">Material Type(<asp:Label ID="lblMatTCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_Material.aspx"><i></i><span class="hidden-tablet">Create Material(<asp:Label ID="lblMatCO" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                                </ul>
+                                    <li id="liUnit" runat="server"><a class="ajax-link" href="Admin_Unit.aspx"><i></i><span class="hidden-tablet">Unit(<asp:Label ID="lblUnitCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                                    <li id="liMaterialType" runat="server"><a class="ajax-link" href="Admin_MaterialType.aspx"><i></i><span class="hidden-tablet">Material Type(<asp:Label ID="lblMatTCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                                    <li id="liCreateMaterial" runat="server"><a class="ajax-link" href="Admin_Material.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
+                                  </ul>
                             </li>
                             <li id="liEstimate" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet">Estimate</span></a>
                                 <ul>
-                                    <li id="liEstimateWorkAllot" runat="server"> <a class="ajax-link" href="Admin_WorkAllot.aspx"><i></i><span class="hidden-tablet">Allot Work(<asp:Label ID="lblWorkCo" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                                    <li id="liEstimateWorkAllot" runat="server"> <a class="ajax-link" href="Admin_WorkAllot.aspx"><i></i><span class="hidden-tablet">Allot Work</span></a></li>
                                     <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="Admin_Estimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate(<asp:Label ID="lblEstCount" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                                    <li><a class="ajax-link" href="Admin_EstimateView.aspx?IsApproved=Approve"><i></i><span class="hidden-tablet">View Approved Estimate</span></a></li>
+                                    <li><a class="ajax-link" href="Admin_EstimateView.aspx?IsApproved=NonApprove"><i></i><span class="hidden-tablet">View Non Approved Estimate</span></a></li>
+
                                 </ul>
                             </li>
                             <li id="liDrawing" runat="server"><a class="ajax-link" href="#"><i class="icon-picture"></i><span class="hidden-tablet">Drawings(<asp:Label ID="lblDrwCo" runat="server" ForeColor="Red"></asp:Label>)</span></a>
@@ -168,7 +170,7 @@
                                     <li id="liBill" runat="server"><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval(<asp:Label ID="lblBillCount" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                                     <li id="liBillStatus" runat="server"><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
                                     <li id="liBillDetail" runat="server"><a class="ajax-link" href="Admin_AllBillDetails.aspx"><i></i><span class="hidden-tablet">Bill Details</span></a></li>
-                                    <li id="liMaterialDisatch" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material Dispatch Status For Mohali</span></a></li>
+                                    <li id="liMaterialDisatch" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material To Dispatch</span></a></li>
                                        <li id="liMaterialDisatchLocal" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx?IsLocal=1"><i></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                                 </ul>
                             </li>

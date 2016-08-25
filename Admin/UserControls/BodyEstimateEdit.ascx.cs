@@ -219,13 +219,19 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1,remarkByPurchase='' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
 
 
-        if (UserTypeID == 1 || UserTypeID == 21)
+        if (UserTypeID == 1)
         {
-            Response.Redirect("Admin_EstimateView.aspx");
+            Response.Redirect("Admin_EstimateView.aspx?IsApproved=" + Request.QueryString["IsApproved"].ToString() + "");
         }
         else if (UserTypeID == 13)
         {
-            Response.Redirect("Transport_EstimateView.aspx");
+            Response.Redirect("Transport_EstimateView.aspx?IsApproved="+Request.QueryString["IsApproved"].ToString()+"");
+        }
+        else if (UserTypeID == 6)
+        {
+          
+           Response.Redirect("WorkshopAdmin_EstimateView.aspx?IsApproved="+Request.QueryString["IsApproved"].ToString()+"");
+          
         }
         else if (UserTypeID == 14 || UserTypeID == 15 || UserTypeID == 17)
         {
@@ -437,7 +443,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     {
         bool IsApproved = false;
         bool IsItemRejected = true;
-        if (UserTypeID == 1 || UserTypeID == 21 || UserTypeID == 2 || UserTypeID == 13)
+        if (UserTypeID == 1 || UserTypeID == 2 || UserTypeID == 13 || UserTypeID == 6)
         {
             IsApproved = ((Button)sender).ID == "btnRejectEdit" ? false : true;
             IsItemRejected = ((Button)sender).ID == "btnRejectEdit" ? true : false;

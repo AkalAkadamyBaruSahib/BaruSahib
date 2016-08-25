@@ -124,17 +124,25 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "</thead>";
         EstInfo += "<tbody>";
         DataSet dsMatDetails = new DataSet();
-        if (UserTypeID == "4")
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASE)
         {
             dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "' ");
         }
-        else if (UserTypeID == "12")
+        else if (UserTypeID == (int)TypeEnum.UserType.PURCHASEEMPLOYEE)
         {
             dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "', " + UserID);
         }
-        else if (UserTypeID == "2" || UserTypeID == "1")
+        else if (UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION || UserTypeID == (int)TypeEnum.UserType.ADMIN)
         {
             dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForAdminUser '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "'");
+        }
+        else if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
+        {
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "',3");
+        }
+        else if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
+        {
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "',3, " + UserID);
         }
         for (int i = 0; i < dsMatDetails.Tables[0].Rows.Count; i++)
         {
@@ -147,7 +155,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
-            if (UserTypeID != "12")
+            if (UserTypeID != "12" && UserTypeID != "30")
             {
                 EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>";
                 EstInfo += "<table>";
@@ -223,16 +231,16 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         DataSet dsAcaDetails = new DataSet();
         List<Estimate> PurchaseEstimateView = new List<Estimate>();
         PurchaseRepository purchaseRepo = new PurchaseRepository(new AkalAcademy.DataContext());
-        
+
 
         if (AcaID > 0)
         {
 
-            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) )
+            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, Convert.ToInt32(UserTypeID),Convert.ToInt32(UserID),AcaID);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
             }
-            else if(UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
+            else if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
             {
                 PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
             }
@@ -251,7 +259,15 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             else if (UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION))
             {
                 var UserId = lblUser.Text;
-              PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusByAcaID(PSID,Convert.ToInt32(UserId),AcaID);
+                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusByAcaID(PSID, Convert.ToInt32(UserId), AcaID);
+            }
+            else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
+            {
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
+            }
+            else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+            {
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
             }
         }
         else
@@ -269,7 +285,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 if (PSID == 1)
                 {
-                     PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                    PurchaseEstimateView = purchaseRepo.MaterialDepatchStatusForAdminLocal(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
                 }
                 else
                 {
@@ -280,8 +296,16 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             else if (UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION))
             {
                 var UserId = lblUser.Text;
-                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatus( PSID, Convert.ToInt32(UserTypeID),Convert.ToInt32(UserID));
+                PurchaseEstimateView = purchaseRepo.MaterialDepatchStatus(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
                 //  dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatus '" + lblUser.Text + "','" + PSID + "'");
+            }
+            else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
+            {
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchase(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+            }
+            else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+            {
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
             }
         }
 
@@ -317,7 +341,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td>";
                     ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "<br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath, Est.FileNme) + "</td>";
                     }
@@ -329,13 +353,21 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td class='center' width='25%'><b style='color:red;'>Sub Estimate:</b> " + Est.SubEstimate + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Academy:</b> " + Est.Academy.AcaName + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
-                    if(UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
                     {
                         ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                     {
                         ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='PurchaseEmployee_ViewEstMaterial.aspx?IsLocal=2&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                    }
+                    else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
+                    {
+                        ZoneInfo += "<td class='center' width='20%'><a href='AkalWorkshop_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Workshop_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                    }
+                    else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                    {
+                        ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else
                     {
@@ -361,7 +393,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         ZoneInfo += "<th width='27%'>Purchase Officer</th>";
                     }
-                    ZoneInfo += "<th width='15%'>Purchase Date</th>";
+                    if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPADMIN))
+                    {
+                        ZoneInfo += "<th width='15%'>Purchase Date</th>";
+                    }
+                 
                     ZoneInfo += "<th width='20%'>Remark</th>";
                     if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
                     {
@@ -412,8 +448,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                     ZoneInfo += "</td>";
                                 }
 
-
-                                ZoneInfo += "<td>" + material.DispatchDate + "</td>";
+                                if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPADMIN))
+                                {
+                                    ZoneInfo += "<td>" + material.DispatchDate + "</td>";
+                                }
 
 
                                 ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";

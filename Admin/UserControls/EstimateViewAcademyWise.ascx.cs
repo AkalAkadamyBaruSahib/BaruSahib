@@ -132,9 +132,13 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
 
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
             ZoneInfo += "<td class='center'width='25%'><table>";
-            if (ModuleID == 2)
+            if (ModuleID == (int)TypeEnum.Module.Transport)
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            }
+            else if (ModuleID == (int)TypeEnum.Module.Workshop)
+            {
+                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             else
             {
@@ -360,6 +364,10 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
             if (ModuleID == 2)
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Transport_ParticularEstimateView.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'>" + dsEstimateDetails.Tables[0].Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            }
+            else if (ModuleID == 4)
+            {
+                ZoneInfo += "<tr><td><b>Sub Head:</b><a href='WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'>" + dsEstimateDetails.Tables[0].Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             else
             {

@@ -82,12 +82,9 @@
                         <tr id="trZone" runat="server">
                             <td width="50%">
                                 <div class="control-group">
-                                    <label class="control-label" for="typeahead"></label>
-                                    <div class="controls">
-                                        Zone 
-                                        <br />
-                                        <asp:DropDownList ID="ddlZone" runat="server">
-                                            <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                    <label id="lblzone" style="display:none;" class="control-label" for="typeahead">Zone</label>
+                                   <div class="controls">
+                                       <asp:DropDownList ID="ddlZone" runat="server">
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" InitialValue="0" Display="None" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
                                             ControlToValidate="ddlZone" ErrorMessage="Please Select Any Zone" ForeColor="#ff0000"></asp:RequiredFieldValidator><br />
@@ -96,12 +93,10 @@
                             </td>
                             <td width="50%">
                                 <div class="control-group">
-                                    <label class="control-label" for="typeahead"></label>
+                                      <label id="lblAcademy" style="display:none;" class="control-label" for="typeahead">Academy</label>
+                                     <label id="lblSourceType" style="display:none;" class="control-label" for="typeahead">Select Workshop</label>
                                     <div class="controls">
-                                        Academy
-                                                    <br />
                                         <asp:DropDownList ID="ddlAcademy" runat="server">
-                                            <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" InitialValue="0" ForeColor="#ff0000" ID="ddlAcademy_RequiredFieldValidator"
                                             ControlToValidate="ddlAcademy" ErrorMessage="Please Select Any Academy" /><br />
@@ -186,7 +181,7 @@
                                 <div class="control-group">
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
-                                        File Name
+                                        Signed Copy Name
                                                     <br />
                                         <asp:TextBox runat="server" ID="txtFileName"></asp:TextBox>
                                         <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" ID="txtFileName_RequiredFieldValidator"

@@ -247,7 +247,8 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        //string zoId = Session["ZoneId"].ToString();
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
+        int matid = 0;
         DataSet dsExist = new DataSet();
         dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct MatTypeId,MatName from Material where MatTypeId='" + ddlMatType.SelectedValue + "' and MatName='" + txtMat.Text + "'");
         if (dsExist.Tables[0].Rows.Count > 0)
@@ -292,7 +293,28 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
                 double LocalCost = 0.00;
                 string ddl = ddlMatType.SelectedValue;
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + ddlWorkshop.SelectedValue + "'");
+                dsExist = DAL.DalAccessUtility.GetDataInDataSet("select Matid from Material where MatName='" + txtMat.Text + "'");
+                if (dsExist.Tables[0].Rows.Count > 0)
+                {
+                   matid = Convert.ToInt32(dsExist.Tables[0].Rows[0]["Matid"].ToString());
+                }
+                if (ddlMatType.SelectedValue == "75")
+                {
+                    WorkshopStoreMaterial workshopStoreMaterial = new WorkshopStoreMaterial();
+                    workshopStoreMaterial.InStoreQty = 0;
+                    workshopStoreMaterial.MatID = matid;
+                    workshopStoreMaterial.AcaID = Convert.ToInt32(ddlWorkshop.SelectedValue);
+                    workshopStoreMaterial.CreatedOn = DateTime.Now;
+                    workshopStoreMaterial.ModifyBy = UserID;
+                    workshopStoreMaterial.ModifyOn = DateTime.Now;
+                    WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
+                    if (workshopStoreMaterial.ID == 0)
+                    {
+                        repo.AddNewWorkshopMaterial(workshopStoreMaterial);
+                    }
+                }
+
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material create successfully.');", true);
                 Session["dsMatDetails"] = null;
                 BindMatDetails(true, int.Parse(ddlMatType.SelectedValue));
@@ -347,7 +369,8 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
             string ddl = ddlMatType.SelectedValue;
             double LocalCost = 0.00;
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','"+ LocalCost +"'");
+            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "',,'" + ddlWorkshop.SelectedValue + "'");
+     
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material edit successfully.');", true);
             Session["dsMatDetails"] = null;
             BindMatDetails(true, int.Parse(ddlMatType.SelectedValue));
@@ -419,5 +442,35 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     protected void ddlMatType_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindMatDetails(true, int.Parse(ddlMatTypegrid.SelectedValue));
+    }
+
+    public void BindWorkshop()
+    {
+        DataSet dsWorkshop = new DataSet();
+        dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("Select AcaId,AcaName from Academy where ZoneId=21 and Active=1");
+        ddlWorkshop.DataSource = dsWorkshop;
+        ddlWorkshop.DataValueField = "AcaId";
+        ddlWorkshop.DataTextField = "AcaName";
+        ddlWorkshop.DataBind();
+        ddlWorkshop.Items.Insert(0, "Select Workshop");
+        ddlWorkshop.SelectedIndex = 0;
+    }
+    protected void ddlMatType_SelectedIndexChanged1(object sender, EventArgs e)
+    {
+        DataSet dsMatType = new DataSet();
+        dsMatType = DAL.DalAccessUtility.GetDataInDataSet("Select MatTypeId from MaterialType where MatTypeId ='" + ddlMatType.SelectedValue + "'");
+        if (dsMatType.Tables[0].Rows.Count > 0)
+        {
+            if (dsMatType.Tables[0].Rows[0]["MatTypeId"].ToString() == "75")
+            {
+                divworkshop.Visible = true;
+                BindWorkshop();
+            }
+            else
+            {
+                divworkshop.Visible = false;
+            }
+        }
+      
     }
 }

@@ -76,6 +76,23 @@ $(document).ready(function () {
 
     BindZoneByInchargeID($("input[id*='hdnInchargeID']").val())
 
+    if ($("input[id*='hdnIsAdmin']").val() == 6) {
+        $("#lblSourceType").show();
+        $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop--"));
+        BindAcademybyZoneIDByEmpID(21, $("input[id*='hdnInchargeID']").val());
+    }
+    else if ($("input[id*='hdnIsAdmin']").val() == 30)
+    {
+        $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop--"));
+     BindAcademybyZoneIDByEmpID(21, $("input[id*='hdnInchargeID']").val());
+    }
+    else {
+        $("#lblzone").show();
+        $("#lblAcademy").show();
+        $("select[id*='ddlZone']").append($("<option></option>").val("0").html("--Select Zone--"));
+        $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+    }
+
 });
 
 function SaveEstimate() {
@@ -96,7 +113,7 @@ function SaveEstimate() {
     Estimate.CreatedBy = $("input[id*='hdnInchargeID']").val();
     Estimate.ModifyBy = $("input[id*='hdnInchargeID']").val();
     Estimate.FilePath = "";
-    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnIsAdmin']").val() == 13) {
+    if ($("input[id*='hdnIsAdmin']").val() == 1 || $("input[id*='hdnIsAdmin']").val() == 13 || $("input[id*='hdnIsAdmin']").val() == 6) {
         Estimate.IsApproved = true;
     }
     else {
@@ -106,6 +123,9 @@ function SaveEstimate() {
     Estimate.IsActive = true;
     if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 13 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 15) {
         Estimate.ModuleID = 2;
+    }
+    else if ($("input[id*='hdnIsAdmin']").val() == 6 || $("input[id*='hdnIsAdmin']").val() == 30) {
+        Estimate.ModuleID = 4;
     }
     else {
         Estimate.ModuleID = 1;
@@ -360,6 +380,9 @@ function SignedCopyFileUpload(estid) {
             {
                 window.location.replace("Admin_EstimateView.aspx?EstId=" + estid);
             }
+            else if ($("input[id*='hdnIsAdmin']").val() == 30 || $("input[id*='hdnIsAdmin']").val() == 6) {
+                window.location.replace("WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + estid);
+            }
             else if ($("input[id*='hdnIsAdmin']").val() == 2) {
                 window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
             }
@@ -411,7 +434,12 @@ function BindAcademybyZoneID(selctZoneID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
-                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+                if ($("input[id*='hdnModule']").val() == 4) {
+                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop Type--"));
+                }
+                else {
+                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+                }
                 $.each(Result, function (key, value) {
                     $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                 });
@@ -620,7 +648,12 @@ function BindAcademybyZoneIDByEmpID(selctZoneID, inchargeId) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
-                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+                if ($("input[id*='hdnModule']").val() == 4) {
+                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop--"));
+                }
+                else {
+                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
+                }
                 $.each(Result, function (key, value) {
                     $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                 });
