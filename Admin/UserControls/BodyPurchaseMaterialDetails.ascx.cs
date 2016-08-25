@@ -66,7 +66,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     protected void GetPrint(string id)
     {
         string HeaderText = "Tantative Date";
-        string UserTypeID = Session["UserTypeID"].ToString();
+        int UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         string UserID = Session["InchargeID"].ToString();
         DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MaterialDepatchStatusBill '" + id + "'");
         string EstInfo = string.Empty;
@@ -114,7 +114,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<th><b>Qty</b></th>";
         EstInfo += "<th><b>Unit</b></th>";
         EstInfo += "<th><b>Rate</b></th>";
-        if (UserTypeID != "12")
+        if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE)
         {
             EstInfo += "<th width='20%'><b>Purchase Officer</b></th>";
         }
@@ -155,7 +155,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
-            if (UserTypeID != "12" && UserTypeID != "30")
+            if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
             {
                 EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>";
                 EstInfo += "<table>";
