@@ -38,21 +38,10 @@ public partial class Arch_DrawingView : System.Web.UI.Page
             }
             else
             {
-                if (Session["UserTypeID"].ToString() == "21")
-                {
-                    BindAllDrawing(false, -1);
-                    btnNonApproved.Visible = false;
-                }
-                else
-                {
-                    BindAllDrawing(true, -1);
-                }
+                BindAllDrawing(true, -1);
             }
 
-            //BindDrawing();
             BinddWGtYPE();
-
-
         }
         var js = new HtmlGenericControl("script");
         js.Attributes["type"] = "text/javascript";
@@ -145,6 +134,7 @@ public partial class Arch_DrawingView : System.Web.UI.Page
     }
     protected void BindAllDrawing(bool IsApproved, int acaID)
     {
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         if (IsApproved)
             btnNonApproved.Text = "View Non Approved Drawing";
         else
@@ -152,33 +142,33 @@ public partial class Arch_DrawingView : System.Web.UI.Page
 
        DataTable dtZoneDetails = null;
         System.Data.EnumerableRowCollection<System.Data.DataRow> datarows = null;
-
-
         if (acaID > 0)
         {
-            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForAdminByAcaID'" + acaID + "','" + IsApproved + "'").Tables[0];
+
+            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForArchByAcaID'" + acaID + "','" + IsApproved + "','" + UserID + "'").Tables[0];
         }
         else
         {
-            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForAdmin'" + IsApproved + "'").Tables[0]; ;
+            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForArchByID'" + IsApproved + "','" + UserID + "'").Tables[0]; ;
         }
+
+       
     
         divAllDrawingView.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
-        ZoneInfo += "<th width='5%'></th>";
+        ZoneInfo += "<th width='5%'>SrNo</th>";
         ZoneInfo += "<th width='50%'>Drawing Details</th>";
-        ZoneInfo += "<th width='25%'>Drawing File</th>";
-        ZoneInfo += "<th width='25%'>Action</th>";
+        ZoneInfo += "<th width='45%'>Drawing File</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
         for (int i = 0; i < dtZoneDetails.Rows.Count; i++)
         {
             ZoneInfo += "<tr>";
-            ZoneInfo += "<td><input type='checkbox' id='chkdrwing" + i + "' drwingPath='../" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' /></td>";
+            ZoneInfo += "<td width='5%'>" + (i + 1) + "</td>";
             ZoneInfo += "<td width='50%'>";
             ZoneInfo += "<table>";
             ZoneInfo += "<tr>";
@@ -206,26 +196,10 @@ public partial class Arch_DrawingView : System.Web.UI.Page
             ZoneInfo += "</table>";
             ZoneInfo += "</td>";
            
-            ZoneInfo += "<td width='25%'><table><tr><td>PDF: <a href='" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["PdfFileName"].ToString() + "</a></td></tr>";
+            ZoneInfo += "<td width='45%'><table><tr><td>PDF: <a href='" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["PdfFileName"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>DWG: <a href='" + dtZoneDetails.Rows[i]["DwgFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["DwgFileName"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>Uploaded Date: " + dtZoneDetails.Rows[i]["CreatedOn"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>Uploaded By: " + dtZoneDetails.Rows[i]["InName"].ToString() + "</a></td></tr></table></td>";
-            ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
-            //if (IsApproved)
-            //{
-            //    ZoneInfo += "<a class='btn btn-success' href='Admin_DrawingView.aspx?DwgIdA=" + dtZoneDetails.Rows[i]["DwgId"].ToString() + "'>";
-            //    ZoneInfo += "<i class='icon-zoom-in icon-white'></i>Active ";
-            //    ZoneInfo += "<a class='btn btn-danger' href='Admin_DrawingView.aspx?DwgIdIA=" + dtZoneDetails.Rows[i]["DwgId"].ToString() + "'>";
-            //    ZoneInfo += "<i class='icon-trash icon-white'></i> Inactive";
-            //    ZoneInfo += "</a>";
-            //}
-            //else
-            //{
-            //    ZoneInfo += "<a class='btn btn-danger' href='Admin_DrawingView.aspx?DwgIdIA=" + dtZoneDetails.Rows[i]["DwgId"].ToString() + "&IsApproved=1'>";
-            //    //ZoneInfo += "<i class='icon-trash icon-white'></i> Approved";
-            //    ZoneInfo += "</a>";
-            //}
             ZoneInfo += "</td>";
             ZoneInfo += "</tr>";
         }
