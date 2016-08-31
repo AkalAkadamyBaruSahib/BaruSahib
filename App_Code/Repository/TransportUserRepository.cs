@@ -135,7 +135,7 @@ public class TransportUserRepository
     public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int VehicleEmployeeID)
     {
 
-        List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true)
+        List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true).Include(a=>a.Vehicle)
          .Include(e => e.TransportEmployeeRelation).Distinct().OrderByDescending(x => x.CreatedOn).ToList();
 
 
@@ -172,6 +172,15 @@ public class TransportUserRepository
             employeeDTO.ModifyOn = v.ModifyOn.ToString();
             employeeDTO.IsActive = v.IsActive;
             employeeDTO.TransportTypeID = v.TransportTypeID;
+            employeeDTO.VehicleID = v.VehicleID;
+            if (v.Vehicle != null)
+            {
+                employeeDTO.VehicleNumber = v.Vehicle.Number;
+            }
+            else
+            {
+                employeeDTO.VehicleNumber = string.Empty;
+            }
 
             employeeDTO.TransportEmployeeRelationDTO = new List<TransportEmployeeRelationDTO>();
             TransportEmployeeRelationDTO tranemprelatn;
@@ -240,6 +249,7 @@ public class TransportUserRepository
         {
             dto.DLScanCopy = vehicleEmployee.DLScanCopy;
         }
+        dto.VehicleID = vehicleEmployee.VehicleID;
 
         List<TransportEmployeeRelationDTO> TransEmpRelations = new List<TransportEmployeeRelationDTO>();
         TransportEmployeeRelationDTO TransEmpRelation;
@@ -304,6 +314,7 @@ public class TransportUserRepository
         newVehicleEmployee.ModifyOn = DateTime.Now;
         newVehicleEmployee.IsActive = true;
         newVehicleEmployee.TransportTypeID = VehicleEmp.TransportTypeID;
+        newVehicleEmployee.VehicleID = VehicleEmp.VehicleID;
 
 
         newVehicleEmployee.TransportEmployeeRelation = new List<TransportEmployeeRelation>();

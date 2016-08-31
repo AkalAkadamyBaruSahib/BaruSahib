@@ -32,6 +32,7 @@ public class VehicleEmployeeDTO
     public string ModifyOn { get; set; }
     public bool? IsActive { get; set; }
     public int? TransportTypeID { get; set; }
+    public string VehicleNumber { get; set; }
 
     public List<TransportEmployeeRelationDTO> TransportEmployeeRelationDTO { get; set; }
 }
