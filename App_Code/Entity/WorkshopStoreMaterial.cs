@@ -32,4 +32,7 @@ public class WorkshopStoreMaterial
 
     [ForeignKey("MatID")]
     public Material Material { get; set; }
+
+    [ForeignKey("AcaID")]
+    public Academy Academy { get; set; }
 }

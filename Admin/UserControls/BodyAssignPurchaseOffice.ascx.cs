@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-public partial class Workshop_ViewEstMaterial : System.Web.UI.Page
+
+
+public partial class Admin_UserControls_BodyAssignPurchaseOffice : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {

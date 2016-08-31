@@ -142,6 +142,10 @@ public partial class EstimateSearch : System.Web.UI.Page
             ZoneInfo += "</div>";
             ZoneInfo += "</div>";
         }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Estimate Number Not Exit.');", true);
+        }
 
         divMaterialDetails.InnerHtml = ZoneInfo.ToString();
     }

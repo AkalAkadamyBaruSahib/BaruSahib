@@ -153,8 +153,8 @@
                                 <ul>
                                     <li id="liEstimateWorkAllot" runat="server"> <a class="ajax-link" href="Admin_WorkAllot.aspx"><i></i><span class="hidden-tablet">Allot Work</span></a></li>
                                     <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="Admin_Estimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_EstimateView.aspx?IsApproved=Approve"><i></i><span class="hidden-tablet">View Approved Estimate</span></a></li>
-                                    <li><a class="ajax-link" href="Admin_EstimateView.aspx?IsApproved=NonApprove"><i></i><span class="hidden-tablet">View Non Approved Estimate</span></a></li>
+                                    <li><a class="ajax-link" href="Admin_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate</span></a></li>
+
 
                                 </ul>
                             </li>

@@ -1,23 +1,21 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Workshop.master" AutoEventWireup="true" CodeFile="Workshop_ViewEstMaterial.aspx.cs" Inherits="Workshop_ViewEstMaterial" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BodyAssignPurchaseOffice.ascx.cs" Inherits="Admin_UserControls_BodyAssignPurchaseOffice" %>
+<script type="text/javascript">
+    function ClientSideClick(myButton) {
+        if (typeof (Page_ClientValidate) == 'function') {
+            if (Page_ClientValidate() == false)
+            { return false; }
+        }
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-  <script type="text/javascript">
-      function ClientSideClick(myButton) {
-          if (typeof (Page_ClientValidate) == 'function') {
-              if (Page_ClientValidate() == false)
-              { return false; }
-          }
-
-          if (myButton.getAttribute('type') == 'button') {
-              myButton.disabled = true;
-              myButton.className = "btn btn-warning";
-              myButton.value = "Please Wait...";
-          }
-          return true;
-      }
-      function openModelPopUp() {
-          $("#divAssignEmployee").modal('show');
-      }
+        if (myButton.getAttribute('type') == 'button') {
+            myButton.disabled = true;
+            myButton.className = "btn btn-warning";
+            myButton.value = "Please Wait...";
+        }
+        return true;
+    }
+    function openModelPopUp() {
+        $("#divAssignEmployee").modal('show');
+    }
 </script>
 <script type="text/javascript">
     function ClientSideClick2(myButton) {
@@ -47,7 +45,7 @@
             |
                 <asp:Label ID="lblEstId" runat="server"></asp:Label></h2>
         <div class="box-icon">
-            <input type="button" class="btn-primary" onclick="javascript: openModelPopUp();" value="Assign Workshop" />
+            <input type="button" class="btn-primary" onclick="javascript: openModelPopUp();" value="Assign Purchase Officer" />
         </div>
     </div>
     <div class="box-content">
@@ -65,7 +63,7 @@
                 <asp:BoundField DataField="MatName" HeaderText="MatName" />
                 <asp:BoundField DataField="UnitName" HeaderText="UnitName" />
                 <asp:BoundField DataField="Qty" HeaderText="Qty" />
-                <asp:BoundField DataField="EmployeeName" HeaderText="WorkshopName" />
+                <asp:BoundField DataField="EmployeeName" HeaderText="Purchaser Name" />
             </Columns>
         </asp:GridView>
 
@@ -74,12 +72,12 @@
     <div id="divAssignEmployee" class="modal hide fade">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h3>Select Workshop Name</h3>
+            <h3>Select Purchase Employee</h3>
         </div>
         <div class="modal-body">
             <table>
                 <tr>
-                    <td>Select Workshop</td>
+                    <td>Select Employee</td>
                     <td>
                         <asp:DropDownList ID="ddlEmployee" runat="server"></asp:DropDownList></td>
                 </tr>
@@ -94,7 +92,3 @@
         </div>
     </div>
 </div>
-
-</asp:Content>
-
-

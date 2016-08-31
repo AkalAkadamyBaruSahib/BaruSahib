@@ -8,8 +8,13 @@ using System.Web.UI.WebControls;
 
 public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI.UserControl
 {
+    public int ModuleID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["ModuleID"] != null)
+        {
+            ModuleID = int.Parse(Session["ModuleID"].ToString());
+        }
         if (Session["EmailId"] == null)
         {
             Response.Redirect("Default.aspx");
@@ -26,6 +31,14 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
             {
                 getZoneAcaName(Request.QueryString["EstId"].ToString());
                 getMaterialDetails(Request.QueryString["IsLocal"].ToString(), Request.QueryString["EstId"].ToString());
+                if (ModuleID == 4)
+                {
+                    gvWorkShopMaterial.Visible = true;
+                }
+                else
+                {
+                    gvMaterailDetailForPurchase.Visible = true;
+                }
             }
         }
     }
@@ -39,6 +52,10 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         {
             dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForEmp_ByEmployeeID] '" + id + "'," + psid + ", " + UserID);
         }
+        else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+        {
+            dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForWorkshopEmployeeID] '" + id + "'," + psid + ", " + UserID);
+        }
         else
         {
             dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_ByEmployeeID] '" + id + "'," + psid + ", " + UserID);
@@ -50,16 +67,27 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 Response.Redirect("Emp_MaterialDepatchStatus.aspx");
                 return;
             }
+            else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+            {
+                Response.Redirect("Worksho_MaterialToBeDispatch.aspx");
+                return;
+            }
             else
             {
                 Response.Redirect("Purchase_MaterialToBeDispatch.aspx");
                 return;
             }
         }
-
-        gvMaterailDetailForPurchase.DataSource = dsAcaDetails;
-        gvMaterailDetailForPurchase.DataBind();
-
+        if (ModuleID == 4)
+        {
+            gvWorkShopMaterial.DataSource = dsAcaDetails;
+            gvWorkShopMaterial.DataBind();
+        }
+        else
+        {
+            gvMaterailDetailForPurchase.DataSource = dsAcaDetails;
+            gvMaterailDetailForPurchase.DataBind();
+        }
     }
     private void getZoneAcaName(string id)
     {
@@ -257,6 +285,85 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
             {
                 chkDirectPurchase.Visible = true;
             }
+        }
+    }
+    protected void btnDispatchWorkshop_Click(object sender, EventArgs e)
+    {
+        decimal Qty;
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
+        GridViewRow gv = (GridViewRow)((Button)sender).NamingContainer;
+        TextBox txtDispatchQty = (TextBox)gv.FindControl("txtDispatchQty");
+        HiddenField hdnEstID = (HiddenField)gv.FindControl("hdnEstID");
+        HiddenField hdnSno = (HiddenField)gv.FindControl("hdnSno");
+        HiddenField hdnMatID = (HiddenField)gv.FindControl("hdnMatID");
+        HiddenField hdnDispatchQty = (HiddenField)gv.FindControl("hdnDispatchQty");
+        HiddenField hdnInStoreQty = (HiddenField)gv.FindControl("hdnInStoreQty");
+        HiddenField hdnQty = (HiddenField)gv.FindControl("hdnQty");
+        if (txtDispatchQty.Text == "")
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please insert the Qty before dispatch.');", true);
+        }
+        else
+        {
+            var DispatchQty = Convert.ToDecimal(txtDispatchQty.Text);
+            var LeftStoreQty = Convert.ToDecimal(hdnInStoreQty.Value) - Convert.ToDecimal(txtDispatchQty.Text);
+            var TotalDispatchQty = Convert.ToDecimal(txtDispatchQty.Text) + Convert.ToDecimal(hdnDispatchQty.Value);
+
+
+            if (hdnInStoreQty.Value == "0" || hdnInStoreQty.Value == "0.00")
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Updtae the InStoreQty before dispatch.');", true);
+            }
+            else if ((Convert.ToDecimal(TotalDispatchQty) > Convert.ToDecimal(hdnInStoreQty.Value)))
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Qty can not greater than InStoreQty Qty.');", true);
+            }
+            else if ((Convert.ToDecimal(TotalDispatchQty) > Convert.ToDecimal(hdnQty.Value)))
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Qty can not greater than Required Qty.');", true);
+            }
+            else
+            {
+                WorkshopDispatchMaterial workshopDispatchMaterial = new WorkshopDispatchMaterial();
+                workshopDispatchMaterial.DispatchQty = Convert.ToInt32(txtDispatchQty.Text);
+                workshopDispatchMaterial.EstID = Convert.ToInt32(hdnEstID.Value);
+                workshopDispatchMaterial.EMRID = Convert.ToInt32(hdnSno.Value);
+                workshopDispatchMaterial.DispatchOn = DateTime.Now;
+                workshopDispatchMaterial.DispatchBy = UserID;
+                WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
+                if (workshopDispatchMaterial.ID == 0)
+                {
+                    repo.AddDispatchWorkshopMaterial(workshopDispatchMaterial);
+                }
+                if ((Convert.ToDecimal(TotalDispatchQty) == Convert.ToDecimal(hdnQty.Value)))
+                {
+                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "' where Sno='" + hdnSno.Value + "'");
+                }
+                else
+                {
+                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "' where Sno='" + hdnSno.Value + "'");
+
+                }
+
+                DAL.DalAccessUtility.ExecuteNonQuery("Update WorkshopStoreMaterial set InStoreQty='" + LeftStoreQty + "' where MatID='" + hdnMatID.Value + "'");
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Dispatch Successfully.')", true);
+                getMaterialDetails(Request.QueryString["IsLocal"].ToString(), Request.QueryString["EstId"].ToString());
+            }
+        }
+    }
+
+    protected void gvWorkShopMaterial_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        int groupName=0;
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            //RequiredFieldValidator reqtxtDispatchQty = e.Row.FindControl("reqtxtDispatchQty") as RequiredFieldValidator;
+            //reqtxtDispatchQty.ValidationGroup = groupName.ToString();
+            //Button objAdd = e.Row.FindControl("btnDispatchWorkshop") as Button;
+            //objAdd.ValidationGroup = groupName.ToString();
+            //TextBox objtxtAddress = e.Row.FindControl("txtDispatchQty") as TextBox;
+            //objtxtAddress.ValidationGroup = groupName.ToString();
+            //groupName++;
         }
     }
 }

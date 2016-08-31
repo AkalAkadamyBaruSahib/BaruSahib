@@ -31,10 +31,10 @@ public partial class Workshop : System.Web.UI.MasterPage
         else
         {
             liEmployee.Visible = false;
-            liMaterial.Visible = false;
+            liWorkshop.Visible = false;
             liViewNewEstimate.Visible = false;
             liMaterialAssign.Visible = false;
-            liViewNonAEstimate.Visible = false;
+          
         } 
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

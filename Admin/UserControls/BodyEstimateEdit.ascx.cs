@@ -219,21 +219,21 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1,remarkByPurchase='' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
 
 
-        if (UserTypeID == 1)
+        if (UserTypeID == (int)(TypeEnum.UserType.ADMIN))
         {
-            Response.Redirect("Admin_EstimateView.aspx?IsApproved=" + Request.QueryString["IsApproved"].ToString() + "");
+            Response.Redirect("Admin_EstimateView.aspx");
         }
-        else if (UserTypeID == 13)
+        else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTADMIN))
         {
-            Response.Redirect("Transport_EstimateView.aspx?IsApproved="+Request.QueryString["IsApproved"].ToString()+"");
+            Response.Redirect("Transport_EstimateView.aspx");
         }
-        else if (UserTypeID == 6)
+        else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
         {
           
-           Response.Redirect("WorkshopAdmin_EstimateView.aspx?IsApproved="+Request.QueryString["IsApproved"].ToString()+"");
+           Response.Redirect("WorkshopAdmin_EstimateView.aspx");
           
         }
-        else if (UserTypeID == 14 || UserTypeID == 15 || UserTypeID == 17)
+        else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTMANAGER) || UserTypeID == (int)(TypeEnum.UserType.BACKOFFICE) || UserTypeID == (int)(TypeEnum.UserType.TRANSPORTINCHARGE))
         {
             Response.Redirect("Transport_EstimateAcademyWise.aspx");
         }
@@ -443,7 +443,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     {
         bool IsApproved = false;
         bool IsItemRejected = true;
-        if (UserTypeID == 1 || UserTypeID == 2 || UserTypeID == 13 || UserTypeID == 6)
+        if (UserTypeID == (int)(TypeEnum.UserType.ADMIN) || UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION) || UserTypeID == (int)(TypeEnum.UserType.TRANSPORTADMIN) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
         {
             IsApproved = ((Button)sender).ID == "btnRejectEdit" ? false : true;
             IsItemRejected = ((Button)sender).ID == "btnRejectEdit" ? true : false;

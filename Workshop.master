@@ -154,22 +154,24 @@
                             </li>
                             <li id="liMaterial" runat="server"><a class="dropmenu" href="#"><i class="icon-star"></i><span class="hidden-tablet">Materails</span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="AkalWorkshop_CreateMaterial.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
-                                    <li id="liWorkshop" runat="server"><a class="ajax-link" href="WorkshopMaterial.aspx"><i></i><span class="hidden-tablet">Workshop Material</span></a></li>
+                                    <li id="liWorkshop" runat="server"><a class="ajax-link" href="AkalWorkshop_CreateMaterial.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
+                                    <li><a class="ajax-link" href="WorkshopMaterial.aspx"><i></i><span class="hidden-tablet">In Store Material</span></a></li>
                                 </ul>
                             </li>
                             <li id="liEstimate" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet">Estimate</span></a>
                                 <ul>
                                     <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="WorkShop_AddEstimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>
-                                    <li id="liViewNewEstimate" runat="server"><a class="ajax-link" href="WorkshopAdmin_EstimateView.aspx?IsApproved=Approve"><i></i><span class="hidden-tablet">View Approved Estimate</span></a></li>
-                                    <li id="liViewNonAEstimate" runat="server"><a class="ajax-link" href="WorkshopAdmin_EstimateView.aspx?IsApproved=NonApprove"><i></i><span class="hidden-tablet">View Non Approved Estimate</span></a></li>
-                                    <li id="liMaterialAssign" runat="server"><a class="ajax-link" href="AkalWorkshop_MaterialToBeDispatch.aspx"><i></i><span class="hidden-tablet">Material Assign Workshop</span></a></li>
+                                    <li id="liViewNewEstimate" runat="server"><a class="ajax-link" href="WorkshopAdmin_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate</span></a></li>
                                 </ul>
                             </li>
-
-                            <li id="liMaterialDispatch" runat="server"><a href="Worksho_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Material to be dispatch</span></a></li>
-                           <li id="liEstimateView" runat="server"><a class="ajax-link" href="Workshop_EstimateView.aspx"><i class="icon-font"></i><span class="hidden-tablet">View Estimates</span></a></li>
-
+                            <li id="liBilldata" runat="server"><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Bill</span></a>
+                                <ul>
+                                    <li id="liMaterialAssign" runat="server"><a class="ajax-link" href="AkalWorkshop_MaterialToBeDispatch.aspx"><i></i><span class="hidden-tablet">Material To Assign Workshop</span></a></li>
+                                    <li id="liMaterialDispatch" runat="server"><a href="Worksho_MaterialToBeDispatch.aspx?DispatchStatus=0"><span class="hidden-tablet">Workshop Pending Estimate</span></a></li>
+                                    <li id="li1" runat="server"><a href="Worksho_MaterialToBeDispatch.aspx?DispatchStatus=1"><span class="hidden-tablet">Workshop Dispatch Estimate</span></a></li>
+                                    <li id="liEstimateView" runat="server"><a class="ajax-link" href="Workshop_EstimateView.aspx"><span class="hidden-tablet">View Estimates</span></a></li>
+                                </ul>
+                            </li>
                         </ul>
 
                     </div>

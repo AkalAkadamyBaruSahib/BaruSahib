@@ -360,19 +360,19 @@ public class PurchaseControler : System.Web.Services.WebService
         return repository.EstimateViewForPurchaseByAcaID(PSID, UserTypeID, InchrgID, AcaID);
     }
 
-    [WebMethod]
-    public List<Estimate> EstimateViewForPurchaseByEmployeeID(int PSID, int UserTypeID, int InchrgID)
-    {
-        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.EstimateViewForPurchaseByEmployeeID(PSID, UserTypeID,InchrgID);
-    }
+    //[WebMethod]
+    //public List<Estimate> EstimateViewForPurchaseByEmployeeID(int PSID, int UserTypeID, int InchrgID)
+    //{
+    //    PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+    //    return repository.EstimateViewForPurchaseByEmployeeID(PSID, UserTypeID,InchrgID);
+    //}
 
-    [WebMethod]
-    public List<Estimate> EstimateViewForPurchaseByEmployeeIDByAcaID(int PSID, int UserTypeID, int InchrgID, int AcaID)
-    {
-        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.EstimateViewForPurchaseByEmployeeIDByAcaID(PSID, UserTypeID, InchrgID, AcaID);
-    }
+    //[WebMethod]
+    //public List<Estimate> EstimateViewForPurchaseByEmployeeIDByAcaID(int PSID, int UserTypeID, int InchrgID, int AcaID)
+    //{
+    //    PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+    //    return repository.EstimateViewForPurchaseByEmployeeIDByAcaID(PSID, UserTypeID, InchrgID, AcaID);
+    //}
 
     [WebMethod]
     public List<Estimate> MaterialDepatchStatus(int PSID, int UserTypeID, int InchrgID)

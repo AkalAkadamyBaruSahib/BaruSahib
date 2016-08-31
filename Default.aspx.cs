@@ -65,8 +65,8 @@ public partial class _Default : System.Web.UI.Page
                             break;
                     }
                 }
-                
-                if (inchrge.UserTypeId == 1 || inchrge.UserTypeId == 21)
+
+                if (inchrge.UserTypeId == 1)
                 {
                     Response.Redirect("AdminHome.aspx");
                 }
@@ -74,9 +74,9 @@ public partial class _Default : System.Web.UI.Page
                 {
                     Response.Redirect("Emp_Home.aspx");
                 }
-                else if (inchrge.UserTypeId == 6)
+                else if (inchrge.UserTypeId == 30 || inchrge.UserTypeId == 6 )
                 {
-                    Response.Redirect("Workshop_Home.aspx");
+                   Response.Redirect("Workshop_Home.aspx");
                 }
                 else if (inchrge.UserTypeId == 4 || inchrge.UserTypeId == 12 || inchrge.UserTypeId == 23)
                 {

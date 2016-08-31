@@ -227,9 +227,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Estimate File</b>: <a href='" + dtapproved.Rows[i]["FilePath"].ToString() + "' target='_blank'>" + dtapproved.Rows[i]["FileNme"].ToString() + "</a></td></tr></table></td>";
             //ZoneInfo += "<td class='center' width='15%'>" + dtapproved.Rows[i]["dt"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='30%'><table>";
-            if (ModuleID == 2)
+            if (ModuleID == (int)(TypeEnum.Module.Transport))
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            }
+            else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+            {
+                ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             else
             {
@@ -237,9 +241,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             }
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dtapproved.Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Sanction Date:</b> " + dtapproved.Rows[i]["dt"].ToString() + "</td></tr>";
-            if (ModuleID == 2)
+            if (ModuleID == (int)(TypeEnum.Module.Transport))
             {
                 ZoneInfo += "<tr><td><a class='btn btn-danger' href='Transport_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+            }
+            else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+            {
+                ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
             }
             else
             {
@@ -403,9 +411,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Estimate File</b>:" + GetFileName(dtapproved.Rows[i]["FilePath"].ToString(), dtapproved.Rows[i]["FileNme"].ToString()) + "</td></tr></table></td>";
             //ZoneInfo += "<td class='center' width='15%'>" + dtapproved.Rows[i]["dt"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='30%'><table>";
-            if (ModuleID == 2)
+            if (ModuleID == (int)(TypeEnum.Module.Transport))
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
+            }
+            else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+            {
+                ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             else
             {
@@ -417,9 +429,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             //{
             if (isApproved)
             {
-                if (ModuleID == 2)
+                if (ModuleID == (int)(TypeEnum.Module.Transport))
                 {
                     ZoneInfo += "<tr><td><a class='btn btn-danger' href='Transport_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Transport_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                }
+                else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+                {
+                   ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                 }
                 else
                 {
@@ -430,9 +446,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             {
                 if (dtapproved.Rows[i]["IsItemRejected"].ToString() == "True")
                 {
-                    if (ModuleID == 2)
+                    if (ModuleID == (int)(TypeEnum.Module.Transport))
                     {
                         ZoneInfo += "<tr><td><a class='btn btn-danger' href='Transport_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Transport_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                    }
+                    else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+                    {
+                       ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                     }
                     else
                     {
@@ -441,9 +461,15 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                 }
                 else
                 {
-                    if (ModuleID == 2)
+                    if (ModuleID == (int)(TypeEnum.Module.Transport))
                     {
                         ZoneInfo += "<tr><td><a class='btn btn-danger' href='Transport_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Transport_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                    }
+                    else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+                    {
+                       ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                  
+                    
                     }
                     else
                     {
@@ -454,9 +480,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
 
             if (!isApproved)
             {
-                if (ModuleID == 2)
+                if (ModuleID == (int)(TypeEnum.Module.Transport))
                 {
                     ZoneInfo += "<tr><td><a class='btn btn-danger' href='Transport_EstimateView.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Del=1'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Delete Estimate</span></a></td></tr>";
+                }
+                else if (ModuleID == (int)(TypeEnum.Module.Workshop))
+                {
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateView.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Del=1'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Delete Estimate</span></a></td></tr>";
                 }
                 else
                 {
@@ -585,9 +615,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             IsApproved = true;
             IsItemRejected = false;
             ((Button)sender).Text = "View Non Approved Estimates";
-            if (ModuleID == 2)
+            if (ModuleID == ((int)(TypeEnum.Module.Transport)))
             {
                 Response.Redirect("Transport_EstimateView.aspx");
+            }
+            else if (ModuleID == ((int)(TypeEnum.Module.Workshop)))
+            {
+                Response.Redirect("WorkshopAdmin_EstimateView.aspx");
             }
             else
             {
