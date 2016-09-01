@@ -195,6 +195,7 @@
 
                                 </ul>
                             </li>
+                            <li id="liestimatesearch" runat="server"><a href="AdminEstimateSearch.aspx"><i class="icon-search"></i><span class="hidden-tablet">Estimate Search</span></a></li>
                             <%--<li class="nav-header hidden-tablet">Sample Section</li>
 						<li><a class="ajax-link" href="table.html"><i class="icon-align-justify"></i><span class="hidden-tablet"> Tables</span></a></li>
 						<li><a class="ajax-link" href="calendar.html"><i class="icon-calendar"></i><span class="hidden-tablet"> Calendar</span></a></li>
