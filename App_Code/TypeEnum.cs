@@ -38,8 +38,8 @@ public class TypeEnum
         Tax = 4,
         Passing = 5,
         Insurance = 6,
-        WrittenContract = 7,
-        RouteMap =8
+        WrittenContract = 8,
+        RouteMap = 9
     }
 
     public enum UserType : int

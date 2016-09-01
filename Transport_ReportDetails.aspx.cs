@@ -241,7 +241,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
 
 
-                if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages) || v.TypeID == (int)(TypeEnum.TransportType.Ambulance) || v.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                if (v.TypeID == (int)(TypeEnum.TransportType.Contractual))
                 {
                     DataRow[] drrowWritte = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract));
                     if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.WrittenContract)).Count() == 0)
@@ -259,14 +259,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
 
                 getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID =" + v.ID).Tables[0];
-                if (v.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || v.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
-                {
-                    if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMVGV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.LPV)).Count() == 0)
-                    {
-                        DL += 1;
-                    }
-                }
-                else
+                if (v.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
                     if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0)
                     {
@@ -304,10 +297,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
                 if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages))
                 {
-                    if ((v.ConductorID == null) || (v.ConductorID == 0))
+                    if (v.Sitter >= 17)
                     {
-                        MaleConductor += 1;
+                        if ((v.ConductorID == null) || (v.ConductorID == 0))
+                        {
+                            MaleConductor += 1;
+                        }
                     }
+                   
                 }
             }
 
@@ -404,10 +401,17 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             int count = 0;
             if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance))
             {
-                if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
+                if (vehicle.Sitter >= 17)
                 {
-                    PendingConductor = "Pending";
-                    
+                    if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
+                    {
+                        PendingConductor = "Pending";
+
+                    }
+                    else
+                    {
+                        PendingConductor = "";
+                    }
                 }
                 else
                 {
@@ -421,14 +425,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
             if (getDocuments.Count != 0)
             {
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 1))
+                if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Registration))
                 {
                     PendingDocumentName += "Registration" + ",";
                     count += 1;
                 }
                 else
                 {
-                    var row = getDocuments.Where(document => document.TransportDocumentID == 1).FirstOrDefault();
+                    var row = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Registration).FirstOrDefault();
                     if (row != null && row.DocumentEndDate <= DateTime.Now)
                     {
                         PendingDocumentName += "Registration" + ",";
@@ -436,14 +440,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 2))
+                if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Pollution))
                 {
                     PendingDocumentName += "Pollution" + ",";
                     count += 1;
                 }
                 else
                 {
-                    var row2 = getDocuments.Where(document => document.TransportDocumentID == 2).FirstOrDefault();
+                    var row2 = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Pollution).FirstOrDefault();
                     if (row2 != null && row2.DocumentEndDate <= DateTime.Now)
                     {
                         PendingDocumentName += "Pollution" + ",";
@@ -453,14 +457,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
                 if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
-                    if (!getDocuments.Exists(document => document.TransportDocumentID == 3))
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Permit))
                     {
                         PendingDocumentName += "Permit" + ",";
                         count += 1;
                     }
                     else
                     {
-                        var row3 = getDocuments.Where(document => document.TransportDocumentID == 3).FirstOrDefault();
+                        var row3 = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Permit).FirstOrDefault();
                         if (row3 != null && row3.DocumentEndDate <= DateTime.Now)
                         {
                             PendingDocumentName += "Permit" + ",";
@@ -471,14 +475,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
                 if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
-                    if (!getDocuments.Exists(document => document.TransportDocumentID == 4))
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Tax))
                     {
                         PendingDocumentName += "Tax" + ",";
                         count += 1;
                     }
                     else
                     {
-                        var row4 = getDocuments.Where(document => document.TransportDocumentID == 4).FirstOrDefault();
+                        var row4 = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Tax).FirstOrDefault();
                         if (row4 != null && row4.DocumentEndDate <= DateTime.Now)
                         {
                             PendingDocumentName += "Tax" + ",";
@@ -489,14 +493,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
                 if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
-                    if (!getDocuments.Exists(document => document.TransportDocumentID == 5))
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Passing))
                     {
                         PendingDocumentName += "Passing" + ",";
                         count += 1;
                     }
                     else
                     {
-                        var row5 = getDocuments.Where(document => document.TransportDocumentID == 5).FirstOrDefault();
+                        var row5 = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Passing).FirstOrDefault();
                         if (row5 != null && row5.DocumentEndDate <= DateTime.Now)
                         {
                             PendingDocumentName += "Passing" + ",";
@@ -506,27 +510,50 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
 
 
-                if (!getDocuments.Exists(document => document.TransportDocumentID == 6))
+                if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Insurance))
                 {
                     PendingDocumentName += "Insurance" + ",";
                     count += 1;
                 }
                 else
                 {
-                    var row6 = getDocuments.Where(document => document.TransportDocumentID == 6).FirstOrDefault();
+                    var row6 = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.Insurance).FirstOrDefault();
                     if (row6 != null && row6.DocumentEndDate <= DateTime.Now)
                     {
                         PendingDocumentName += "Insurance" + ",";
                         count += 1;
                     }
                 }
+
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual))
+                {
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.WrittenContract))
+                    {
+                        PendingDocumentName += "WrittenContract" + ",";
+                        count += 1;
+                    }
+                    else
+                    {
+                        var row7 = getDocuments.Where(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.WrittenContract).FirstOrDefault();
+                        if (row7 != null && row7.DocumentEndDate <= DateTime.Now)
+                        {
+                            PendingDocumentName += "WrittenContract" + ",";
+                            count += 1;
+                        }
+                    }
+                }
             }
             else
             {
-                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
                     PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,";
                     count = 6;
+                }
+                else if (vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual))
+                {
+                    PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,WrittenContract,";
+                    count = 7;
                 }
                 else
                 {
@@ -538,18 +565,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
             if (getDL.Count != 0)
             {
-                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Twowheeler) || vehicle.TypeID == (int)(TypeEnum.TransportType.SewaDarVehicle))
-                {
-                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LMVGV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.LPV))))
-                    {
-                        PendingDL = "";
-                    }
-                    else
-                    {
-                        PendingDL = "Pending";
-                    }
-                }
-                else
+                if (vehicle.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
                     if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))))
                     {
@@ -560,10 +576,21 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         PendingDL = "Pending";
                     }
                 }
+                else
+                {
+                    PendingDL = "";
+                }
             }
             else
             {
-                PendingDL = "Pending";
+                if (vehicle.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
+                {
+                    PendingDL = "Pending";
+                }
+                else
+                {
+                    PendingDL = "";
+                }
             }
             if (getNorms.Count != 0)
             {
