@@ -27,6 +27,7 @@ public partial class Workshop : System.Web.UI.MasterPage
         {
             liMaterialDispatch.Visible = false;
             liEstimateView.Visible = false;
+            liMaterialPending.Visible = false;
         }
         else
         {
@@ -34,6 +35,7 @@ public partial class Workshop : System.Web.UI.MasterPage
             liWorkshop.Visible = false;
             liViewNewEstimate.Visible = false;
             liMaterialAssign.Visible = false;
+            liEstimateWorkAllot.Visible = false;
           
         } 
     }

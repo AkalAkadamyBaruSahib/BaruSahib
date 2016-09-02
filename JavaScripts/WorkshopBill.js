@@ -197,8 +197,8 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
         $newRow.find("#nameofItem").html(adminLoanList[i].Material.MatName);
         $newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].Qty + "</label></td></tr></table>");
         $newRow.find("#pcs").html(adminLoanList[i].Unit.UnitName);
-        $newRow.find("#rate").html(adminLoanList[i].Rate);
-        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
+        $newRow.find("#rate").html(adminLoanList[i].Material.MatCost);
+        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Material.MatCost;
         $newRow.find("#amount").html("<input type='hidden' value='" + linetotal + "' id='txtTotalAmount" + i + "' />" + linetotal);
         count++;
         sum += linetotal;

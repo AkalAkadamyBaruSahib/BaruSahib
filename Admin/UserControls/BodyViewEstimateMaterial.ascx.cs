@@ -314,9 +314,9 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Updtae the InStoreQty before dispatch.');", true);
             }
-            else if ((Convert.ToDecimal(TotalDispatchQty) > Convert.ToDecimal(hdnInStoreQty.Value)))
+            else if ((Convert.ToDecimal(DispatchQty) > Convert.ToDecimal(hdnInStoreQty.Value)))
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Qty can not greater than InStoreQty Qty.');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Qty can not greater than InStore Qty .');", true);
             }
             else if ((Convert.ToDecimal(TotalDispatchQty) > Convert.ToDecimal(hdnQty.Value)))
             {

@@ -580,6 +580,10 @@ function BindRateBySourceType() {
             matcost = $("#hdnLocalCost" + i).val();
             $("#txtRate" + i).val(matcost);
         }
+        else if ($("#drpSourceType" + i).val() == "3") {
+            matcost = $("#txtMatCost" + i).val();
+            $("#txtRate" + i).val(matcost);
+        }
         else {
             $("#txtRate" + i).val('0.00');
         }

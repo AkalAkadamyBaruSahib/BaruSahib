@@ -65,19 +65,20 @@
         <div class="modal-header">
             <label id="lblestid"></label>
         </div>
+        
         <div class="modal-body">
             <table>
                 <tr>
-                    <td colspan="2" style="color: red;">
-                        <b>Please provide the valid comment below:</b>
-                    </td>
+                    <td></td>
+                    <td style="color:red;">
+                        <b>Are You Sure You Want To Reject This Item? Please Provide The Valid Comment Below:</b>
+                        </td>
                 </tr>
                 <tr>
-                    <td>Comments:<asp:RequiredFieldValidator runat="server" ID="divRequiredtxtRemarks" 
-                            ValidationGroup="rejectitem" ControlToValidate="txtRemarks" ErrorMessage="*" ForeColor="Red"></asp:RequiredFieldValidator></td>
-                    <td style="text-align: center">
-                        <asp:TextBox ID="txtRemarks" TextMode="MultiLine" Rows="5" Width="400px" runat="server"></asp:TextBox>
-                        
+                    <td>Comment</td>
+                    <td colspan="2" style="text-align: center">
+                       <asp:TextBox ID="txtRemarks" TextMode="MultiLine" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator runat="server" ID="divRequiredtxtRemarks" ValidationGroup="rejectitem" ControlToValidate="txtRemarks" ErrorMessage="Please Enter The Comment" ForeColor="Red"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
             </table>

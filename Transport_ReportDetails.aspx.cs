@@ -297,7 +297,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
                 if (v.TypeID == (int)(TypeEnum.TransportType.Trust) || v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.DailyWages))
                 {
-                    if (v.Sitter >= 17)
+                    if (v.Sitter > 17)
                     {
                         if ((v.ConductorID == null) || (v.ConductorID == 0))
                         {
@@ -401,7 +401,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             int count = 0;
             if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance))
             {
-                if (vehicle.Sitter >= 17)
+                if (vehicle.Sitter > 17)
                 {
                     if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
                     {

@@ -421,12 +421,22 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         ZoneInfo += "<th width='27%'>Workshop Name</th>";
                     }
-                    ZoneInfo += "<th width='15%'>Purchase Date</th>";
-
-                    ZoneInfo += "<th width='20%'>Remark</th>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                     {
-                        ZoneInfo += "<th width='0%'>Action</th>";
+                        ZoneInfo += "<th width='15%'>Dispatch Date</th>";
+                    }
+                    else
+                    {
+                        ZoneInfo += "<th width='15%'> Purchase Date</th>";
+                    }
+                     ZoneInfo += "<th width='20%'>Remark</th>";
+                    
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                    {
+                        if (DispatchStatus == 0)
+                        {
+                            ZoneInfo += "<th width='0%'>Action</th>";
+                        }
                     }
                     ZoneInfo += "</tr>";
                     //DataSet dsMatDetails = new DataSet();
@@ -474,10 +484,14 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                 }
                                 ZoneInfo += "<td>" + material.DispatchDate + "</td>";
                                 ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
+                             
 
-                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {
-                                    ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
+                                    if (DispatchStatus == 0)
+                                    {
+                                        ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
+                                    }
                                 }
 
                                 ZoneInfo += "</tr>";

@@ -125,4 +125,11 @@ function UpdateWorkshpMaterial(rowid) {
   }
 }
 
+function openModelPopUp(EstID, EMRID) {
+
+    $("#divRejectItem").modal('show');
+    $("input[id*='hidEstID']").val(EstID);
+    $("input[id*='hidEMRID']").val(EMRID);
+    $('#lblEstimate').html("<strong>Reject Item for Estimate No: " + EstID + "</strong>");
+}
 

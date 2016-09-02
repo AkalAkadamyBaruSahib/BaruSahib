@@ -57,7 +57,6 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             {
                 ActiveMat(Request.QueryString["MatIdA"].ToString());
             }
-
         }
     }
     
@@ -293,26 +292,35 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
                 double LocalCost = 0.00;
                 string ddl = ddlMatType.SelectedValue;
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + ddlWorkshop.SelectedValue + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "'");
                 dsExist = DAL.DalAccessUtility.GetDataInDataSet("select Matid from Material where MatName='" + txtMat.Text + "'");
                 if (dsExist.Tables[0].Rows.Count > 0)
                 {
                    matid = Convert.ToInt32(dsExist.Tables[0].Rows[0]["Matid"].ToString());
                 }
+
                 if (ddlMatType.SelectedValue == "75")
                 {
-                    WorkshopStoreMaterial workshopStoreMaterial = new WorkshopStoreMaterial();
-                    workshopStoreMaterial.InStoreQty = 0;
-                    workshopStoreMaterial.MatID = matid;
-                    workshopStoreMaterial.AcaID = Convert.ToInt32(ddlWorkshop.SelectedValue);
-                    workshopStoreMaterial.CreatedOn = DateTime.Now;
-                    workshopStoreMaterial.ModifyBy = UserID;
-                    workshopStoreMaterial.ModifyOn = DateTime.Now;
-                    WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
-                    if (workshopStoreMaterial.ID == 0)
+                    WorkshopStoreMaterial workshopStoreMaterial = null;
+                    foreach (ListItem chk in chkWorkshop.Items)
                     {
-                        repo.AddNewWorkshopMaterial(workshopStoreMaterial);
+                        if (chk.Selected == true)
+                        {
+                            workshopStoreMaterial = new WorkshopStoreMaterial();
+                            workshopStoreMaterial.InStoreQty = 0;
+                            workshopStoreMaterial.MatID = matid;
+                            workshopStoreMaterial.AcaID = Convert.ToInt32(chk.Value);
+                            workshopStoreMaterial.CreatedOn = DateTime.Now;
+                            workshopStoreMaterial.ModifyBy = UserID;
+                            workshopStoreMaterial.ModifyOn = DateTime.Now;
+                            WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
+                            if (workshopStoreMaterial.ID == 0)
+                            {
+                                repo.AddNewWorkshopMaterial(workshopStoreMaterial);
+                            }
+                        }
                     }
+                   
                 }
 
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material create successfully.');", true);
@@ -369,7 +377,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
             string ddl = ddlMatType.SelectedValue;
             double LocalCost = 0.00;
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "',,'" + ddlWorkshop.SelectedValue + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "'");
      
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material edit successfully.');", true);
             Session["dsMatDetails"] = null;
@@ -446,14 +454,14 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
 
     public void BindWorkshop()
     {
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
+        int UserType = Convert.ToInt32(Session["UserTypeID"].ToString());
         DataSet dsWorkshop = new DataSet();
-        dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("Select AcaId,AcaName from Academy where ZoneId=21 and Active=1");
-        ddlWorkshop.DataSource = dsWorkshop;
-        ddlWorkshop.DataValueField = "AcaId";
-        ddlWorkshop.DataTextField = "AcaName";
-        ddlWorkshop.DataBind();
-        ddlWorkshop.Items.Insert(0, "Select Workshop");
-        ddlWorkshop.SelectedIndex = 0;
+        dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("Select A.AcaId,A.AcaName from Academy A INNER JOIN AcademyAssignToEmployee AAE on A.AcaId=AAE.AcaId Where  AAE.EmpId='" + UserID + "'");
+        chkWorkshop.DataSource = dsWorkshop;
+        chkWorkshop.DataValueField = "AcaId";
+        chkWorkshop.DataTextField = "AcaName";
+        chkWorkshop.DataBind();
     }
     protected void ddlMatType_SelectedIndexChanged1(object sender, EventArgs e)
     {
@@ -465,12 +473,17 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             {
                 divworkshop.Visible = true;
                 BindWorkshop();
+                foreach (ListItem chk in chkWorkshop.Items)
+                {
+                    chk.Selected = true;
+                }
             }
             else
             {
                 divworkshop.Visible = false;
             }
         }
+     
       
     }
 }

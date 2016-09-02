@@ -50,7 +50,7 @@
                          <div id="divworkshop" runat="server" class="control-group" visible="false">
                             <label class="control-label" for="typeahead">Select Workshop Type</label>
                             <div class="controls">
-                                <asp:DropDownList ID="ddlWorkshop" runat="server"></asp:DropDownList>
+                                 <asp:CheckBoxList ID="chkWorkshop" runat="server" RepeatDirection="Horizontal"></asp:CheckBoxList>
                             </div>
                         </div>
                         <div class="control-group">

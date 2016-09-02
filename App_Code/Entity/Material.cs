@@ -52,6 +52,4 @@ public class Material
 
     public decimal? LocalRate { get; set; }
 
-    public int? AcaID { get; set; }
-    
 }
