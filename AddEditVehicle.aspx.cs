@@ -204,7 +204,7 @@ public partial class AddVehicle : System.Web.UI.Page
         ddlTransportType.ClearSelection();
         ddlTransportType.Items.FindByValue(vehicle.TypeID.ToString()).Selected = true;
 
-        if (!String.IsNullOrEmpty(vehicle.DriverID.ToString()))
+        if (!String.IsNullOrEmpty(vehicle.DriverID.ToString()) && vehicle.DriverID != -1)
         {
             ddlDriverName.ClearSelection();
             ddlDriverName.Items.FindByValue(vehicle.DriverID.ToString()).Selected = true;
