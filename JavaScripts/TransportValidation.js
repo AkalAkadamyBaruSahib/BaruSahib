@@ -1,7 +1,12 @@
 ﻿var cnt = 2;
 var cntR = 2;
+//$(document).ready(function () {
+
+//    $("select").searchable();
+//});
 
 $(document).ready(function () {
+
     $("select[id*='drpEmployeeType']").change(function () {
         DisableDLControl();
     });
