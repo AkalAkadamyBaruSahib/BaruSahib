@@ -631,10 +631,13 @@ select,
 textarea {
   font-family: 'Ubuntu', Tahoma, sans-serif;
 }
-label {
+
+ /*Checkbox Css*/
+/*label {
   display: block;
   margin-bottom: 5px;
-}
+}*/
+
 select,
 textarea,
 input[type="text"],
