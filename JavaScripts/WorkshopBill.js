@@ -11,7 +11,7 @@ var listVal = "";
 $(document).ready(function () {
     BindEstimate($("input[id*='hdnInchargeID']").val());
     BindCurrentDate();
-  
+
     $("#drpEstimate").change(function (e) {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($(this).val());
@@ -20,7 +20,7 @@ $(document).ready(function () {
         $("input[id*='hdnEstNo']").val(EstVal);
         GetAcademyName($(this).val());
     });
-    
+
     $("input[id*='btnLoad']").click(function (e) {
         LoadWorkshopBillInfo(selectedMaterialList);
         $("input[id*='hdnItemsLength']").val("");
@@ -34,9 +34,7 @@ $(document).ready(function () {
 
         $("#divUploadMaterial").modal('hide');
     });
-
-    
- });
+});
 
 
 function RemoveItem(chkbox) {
@@ -138,10 +136,10 @@ function GetMaterialList(selectedValue) {
                     $newRow.find("#srno").html(count);
                     $newRow.find("#materialname").html(MaterialList[i].Material.MatName);
                     if (IsMaterialAlreadySelected(MaterialList[i].Sno)) {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange = 'RemoveItem(this)' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
+                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange = 'RemoveItem(this)' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
                     }
                     else {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange='RemoveItem(this)' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
+                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange='RemoveItem(this)' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
                     }
                     count++;
                     $newRow.show();
@@ -253,21 +251,8 @@ function TotalAmt() {
             Amt += parseInt(qty);
         }
     }
-     $("[id$='lblTotal']").html(Amt);
-     $("input[id*='hdnTotal']").val(Amt);
-
-
-    var scrap = $("[id$='lblTotal']").text() * 2 / 100;
-    var Total = $("[id$='lblTotal']").text();
-    var grandTotal = parseInt(Total) - parseInt(scrap);
-
-   
-    $("input[id*='hdnScrap']").val(scrap);
-    $("[id$='lblScrap']").html(scrap);
-   
-    $("[id$='lblGrandTotal']").html(grandTotal);
-    $("input[id*='hdnGrandTotal']").val(grandTotal);
-
+    $("[id$='lblTotal']").html(Amt);
+    $("input[id*='hdnTotal']").val(Amt);
 }
 
 function GetAcademyName(selectedValue) {

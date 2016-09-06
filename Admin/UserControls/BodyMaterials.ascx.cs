@@ -354,6 +354,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     }
     protected void btnEdit_Click(object sender, EventArgs e)
     {
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         DataSet dsExist = new DataSet();
         if (txtMat.Text == "")
         {
@@ -381,7 +382,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             }
 
 
-            string MatId = Request.QueryString["MatId"];
+            int MatId = !String.IsNullOrEmpty(Request.QueryString["MatId"]) ? Convert.ToInt32(Request.QueryString["MatId"]) : 0;
             double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
             double AkalWorkshopCost = 0.00;
             string ddl = ddlMatType.SelectedValue;
@@ -389,6 +390,28 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             if (ddlMatType.SelectedValue == "75")
             {
                 DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + AkalWorkshopCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + MaterialCost + "'");
+                WorkshopStoreMaterial workshopStoreMaterial = null;
+                WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
+                foreach (ListItem chk in chkWorkshop.Items)
+                {
+                    workshopStoreMaterial = repo.GetWorkshopInStoreMaterialByMatID(MatId, int.Parse(chk.Value));
+
+                    if (chk.Selected && workshopStoreMaterial == null)
+                    {
+                        workshopStoreMaterial = new WorkshopStoreMaterial();
+                        workshopStoreMaterial.InStoreQty = 0;
+                        workshopStoreMaterial.MatID = Convert.ToInt32(MatId);
+                        workshopStoreMaterial.AcaID = Convert.ToInt32(chk.Value);
+                        workshopStoreMaterial.CreatedOn = DateTime.Now;
+                        workshopStoreMaterial.ModifyBy = UserID;
+                        workshopStoreMaterial.ModifyOn = DateTime.Now;
+
+                        if (workshopStoreMaterial.ID == 0)
+                        {
+                            repo.AddNewWorkshopMaterial(workshopStoreMaterial);
+                        }
+                    }
+                }
             }
             else
             {
@@ -439,7 +462,29 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
         if (dsCouDetails.Tables[0].Rows.Count > 0)
         {
             txtMat.Text = dsCouDetails.Tables[0].Rows[0]["MatName"].ToString();
-            txtRate.Text = dsCouDetails.Tables[0].Rows[0]["MatCost"].ToString();
+            if (dsCouDetails.Tables[0].Rows[0]["MatTypeId"].ToString() == "75")
+            {
+                txtRate.Text = dsCouDetails.Tables[0].Rows[0]["AkalWorkshopRate"].ToString();
+                DataSet dsWorkshopDetails = new DataSet();
+                dsWorkshopDetails = DAL.DalAccessUtility.GetDataInDataSet("Select AcaID from WorkshopStoreMaterial where MatID=" + ID);
+                divworkshop.Visible = true;
+                BindWorkshop();
+                if (dsWorkshopDetails != null && dsWorkshopDetails.Tables[0] != null && dsWorkshopDetails.Tables[0].Rows.Count > 0)
+                {
+                    foreach (ListItem item in chkWorkshop.Items)
+                    {
+                        var foundId = dsWorkshopDetails.Tables[0].Select("AcaID= '" + item.Value + "'");
+                        if (foundId.Length > 0)
+                        {
+                            item.Selected = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                txtRate.Text = dsCouDetails.Tables[0].Rows[0]["MatCost"].ToString();
+            }
             ddlMatType.SelectedIndex = ddlMatType.Items.IndexOf(ddlMatType.Items.FindByValue(dsCouDetails.Tables[0].Rows[0]["MatTypeId"].ToString().Trim()));
             BindUnit();
             ddlUnit.SelectedIndex = ddlUnit.Items.IndexOf(ddlUnit.Items.FindByValue(dsCouDetails.Tables[0].Rows[0]["UnitId"].ToString().Trim()));
@@ -451,13 +496,13 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     }
     protected void DeactiveMat(string ID)
     {
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','0','','','00.00'");
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','0','','','00.00','00.00'");
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material deactive successfully.');", true);
 
     }
     protected void ActiveMat(string ID)
     {
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','1','','','00.00'");
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '','00.00','','" + lblUser.Text + "','4','" + ID + "','1','','','00.00','00.00'");
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material active successfully.');", true);
 
     }
@@ -499,7 +544,5 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 divworkshop.Visible = false;
             }
         }
-     
-      
     }
 }

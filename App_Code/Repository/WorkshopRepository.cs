@@ -88,4 +88,9 @@ public class WorkshopRepository
         _context.SaveChanges();
 
     }
+
+    public WorkshopStoreMaterial GetWorkshopInStoreMaterialByMatID(int matID, int AcaID)
+    {
+        return _context.WorkshopStoreMaterial.Where(m => m.MatID == matID && m.AcaID == AcaID).FirstOrDefault();
+    }
 }
