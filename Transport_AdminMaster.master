@@ -227,5 +227,10 @@
     <script src="js/charisma.js"></script>
     <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").searchable();
+        });
+    </script>
 </body>
 </html>

@@ -44,4 +44,11 @@ public class WorkshopController : System.Web.Services.WebService
         WorkshopRepository repository = new WorkshopRepository(new AkalAcademy.DataContext());
         return repository.GetAcademyNameByEstId(EstimateID);
     }
+
+    [WebMethod]
+    public void ReturnEstimateMaterial(int EMRID)
+    {
+        WorkshopRepository workRepository = new WorkshopRepository(new AkalAcademy.DataContext());
+        workRepository.ReturnEstimateMaterial(EMRID);
+    }
 }

@@ -44,7 +44,7 @@ public class WorkshopRepository
 
         WorkshopStoreMaterial workshopStoreMaterial = _context.WorkshopStoreMaterial.Include(m => m.Material).Where(x => x.ID == workshopStoreMaterialDTO.ID).FirstOrDefault();
 
-        workshopStoreMaterial.Material.MatCost = workshopStoreMaterialDTO.Rate;
+        workshopStoreMaterial.Material.AkalWorkshopRate = workshopStoreMaterialDTO.Rate;
         workshopStoreMaterial.InStoreQty = workshopStoreMaterialDTO.InStoreQty;
         workshopStoreMaterial.ModifyBy = workshopStoreMaterialDTO.ModifyBy;
         workshopStoreMaterial.ModifyOn = DateTime.UtcNow;
@@ -68,5 +68,24 @@ public class WorkshopRepository
     public List<Estimate> GetAcademyNameByEstId(int EstimateID)
     {
         return _context.Estimate.Where(x => x.EstId == EstimateID).Include(x => x.Academy).ToList();
+    }
+    public void AddNewBill(WorkshopBills wb)
+    {
+        _context.Entry(wb).State = EntityState.Added;
+        _context.SaveChanges();
+
+        WorkshopBills newBill = _context.WorkshopBills.Where(v => v.ID == wb.ID).FirstOrDefault();
+        newBill.BillNumber = wb.ID.ToString();
+        _context.Entry(newBill).State = EntityState.Modified;
+        _context.SaveChanges();
+       
+    }
+    public void ReturnEstimateMaterial(int EMRID)
+    {
+        EstimateAndMaterialOthersRelations RejectMaterialItem = _context.EstimateAndMaterialOthersRelations.Where(v => v.Sno == EMRID).FirstOrDefault();
+        RejectMaterialItem.PurchaseEmpID = 0;
+        _context.Entry(RejectMaterialItem).State = EntityState.Modified;
+        _context.SaveChanges();
+
     }
 }

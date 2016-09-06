@@ -7,14 +7,15 @@ var selectedMaterialList = new Array();
 var sum = 0;
 var listVal = "";
 
+
 $(document).ready(function () {
-    BindEstimate();
+    BindEstimate($("input[id*='hdnInchargeID']").val());
     BindCurrentDate();
   
     $("#drpEstimate").change(function (e) {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($(this).val());
-        listVal += $(this).val() + ",";
+        listVal += $(this).val() + "_";
         var EstVal = listVal.substr(0, listVal.length - 1);
         $("input[id*='hdnEstNo']").val(EstVal);
         GetAcademyName($(this).val());
@@ -84,11 +85,12 @@ function BindMaterialItems(estID) {
     });
 }
 
-function BindEstimate() {
+function BindEstimate(inchargeId) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetEstimateNumberList",
+        data: JSON.stringify({ InchargeID: parseInt(inchargeId) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -197,13 +199,12 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
         $newRow.find("#nameofItem").html(adminLoanList[i].Material.MatName);
         $newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].Qty + "</label></td></tr></table>");
         $newRow.find("#pcs").html(adminLoanList[i].Unit.UnitName);
-        $newRow.find("#rate").html(adminLoanList[i].Material.MatCost);
-        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Material.MatCost;
+        $newRow.find("#rate").html(adminLoanList[i].Material.AkalWorkshopRate);
+        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Material.AkalWorkshopRate;
         $newRow.find("#amount").html("<input type='hidden' value='" + linetotal + "' id='txtTotalAmount" + i + "' />" + linetotal);
         count++;
         sum += linetotal;
-        $("[id$='lblTotal']").html(sum);
-        $("input[id*='hdnTotal']").val(sum);
+
         $newRow.addClass(className);
         $newRow.show();
 
@@ -216,13 +217,12 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
         $("#grid").removeAttr("style");
     }
 
-
     grdTicketDiscription = $('#grid').DataTable(
         {
             "bPaginate": false,
-            "bAutoWidth": false,
-            "bLengthChange": false,
-            "bDestroy": false
+            "bFilter": false,
+            "bInfo": false,
+            "bDestroy": true
         });
     TotalAmt();
 }
@@ -244,8 +244,14 @@ function TotalAmt() {
     var Amt = 0;
     var rate = 0;
     for (var i = 0 ; i < tablelength ; i++) {
-        var qty = $("#txtTotalAmount" + i).val();
-        Amt += parseInt(qty);
+        if ($("#txtTotalAmount" + i).val() == undefined) {
+            var qty = 0;
+            Amt += parseInt(qty);
+        }
+        else {
+            var qty = $("#txtTotalAmount" + i).val();
+            Amt += parseInt(qty);
+        }
     }
      $("[id$='lblTotal']").html(Amt);
      $("input[id*='hdnTotal']").val(Amt);

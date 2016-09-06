@@ -31,9 +31,9 @@
 <asp:HiddenField ID="hidEMRID" runat="server" />
 <div id="content" class="span10">
     <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-    <div class="row-fluid sortable">
+    <div id="divacademy" runat="server"  class="row-fluid sortable">
         <div class="box span12">
-            <div class="box-header well">
+            <div id="divDrpHeader" runat="server" class="box-header well">
                 <h2><i class="icon-user"></i>Material dispatch status</h2>
                 <div class="box-icon">
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>

@@ -62,6 +62,7 @@ namespace AkalAcademy
         public DbSet<AdminTypeRelation> AdminTypeRelation { get; set; }
         public DbSet<WorkshopStoreMaterial> WorkshopStoreMaterial { get; set; }
         public DbSet<WorkshopDispatchMaterial> WorkshopDispatchMaterial { get; set; }
+        public DbSet<WorkshopBills> WorkshopBills { get; set; }
 
 
 

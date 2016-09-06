@@ -52,4 +52,5 @@ public class Material
 
     public decimal? LocalRate { get; set; }
 
+    public decimal? AkalWorkshopRate { get; set; }
 }

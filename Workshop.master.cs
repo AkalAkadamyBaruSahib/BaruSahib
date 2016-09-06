@@ -28,6 +28,7 @@ public partial class Workshop : System.Web.UI.MasterPage
             liMaterialDispatch.Visible = false;
             liEstimateView.Visible = false;
             liMaterialPending.Visible = false;
+            liBill.Visible = false;
         }
         else
         {

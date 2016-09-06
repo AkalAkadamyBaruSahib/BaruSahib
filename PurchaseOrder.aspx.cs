@@ -69,7 +69,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
         pnlHtml.InnerHtml = htmlCode;
 
-        Utility.GeneratePDF(htmlCode, "abc.pdf");
+        Utility.GeneratePDF(htmlCode, "abc.pdf", string.Empty);
     }
 
     

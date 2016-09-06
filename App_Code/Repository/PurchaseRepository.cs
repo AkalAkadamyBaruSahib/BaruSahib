@@ -89,6 +89,7 @@ public class PurchaseRepository
             Unit = x.Unit,
             MatCost = x.MatCost,
             LocalRate = x.LocalRate,
+            AkalWorkshopRate = x.AkalWorkshopRate
 
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
         return mt;
@@ -106,14 +107,28 @@ public class PurchaseRepository
         return _context.VendorInfo.ToList();
     }
 
-    public List<Estimate> GetEstimateNumberList()
+    public List<Estimate> GetEstimateNumberList(int InchargeID)
     {
-        return _context.Estimate.ToList();
+       List<Estimate> estimates = new List<Estimate>();
+
+        var ests = _context.Estimate.Where(e => e.IsApproved == true).ToList();
+
+        foreach (Estimate e in ests)
+        {
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == 3 && er.EstId == e.EstId && er.DispatchStatus == 1 && er.PurchaseEmpID == InchargeID).ToList();
+            if (estimateRelation.Count > 0)
+            {
+                e.EstimateAndMaterialOthersRelations = estimateRelation;
+                estimates.Add(e);
+            }
+        }
+        ests = null;
+        return estimates; 
     }
 
     public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
     {
-        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID).ToList();
+        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID && x.DispatchStatus==1).ToList();
     }
 
     public List<VendorInfo> GetVendorAddress(int VendorID)

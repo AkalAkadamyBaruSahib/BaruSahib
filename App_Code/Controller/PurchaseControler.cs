@@ -72,10 +72,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<Estimate> GetEstimateNumberList()
+    public List<Estimate> GetEstimateNumberList(int InchargeID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetEstimateNumberList();
+        return repository.GetEstimateNumberList(InchargeID);
     }
 
     [WebMethod]

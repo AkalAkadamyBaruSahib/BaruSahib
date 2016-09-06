@@ -12,12 +12,13 @@
         }
     </style>
     <div id="content" class="span10">
-
+        <asp:HiddenField ID="hdnBillID" runat="server" />
         <asp:HiddenField ID="hdnEstimateID" runat="server" />
         <asp:HiddenField ID="hdnSelectedItems" runat="server" />
         <asp:HiddenField ID="hdnItemsLength" runat="server" />
         <asp:HiddenField ID="hdnUserId" runat="server" />
-        <div class="row-fluid sortable">
+        <asp:HiddenField ID="hdnInchargeID" runat="server" />
+        <div style="display:none;" class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
 
@@ -37,7 +38,7 @@
                                 <tr>
                                     <td style="height: 21px">
                                         <table style="width: 1000px;">
-                                            <tr>
+                                            <tr style="display: none;">
                                                 <td valign="top">
                                                     <span style="font-size: 25px; font-weight: bold; margin-left: 280px;">BILL/CHALLAN</span><br />
                                                     <br />
@@ -55,10 +56,10 @@
                             </table>
                             <table id="tblbill" width="100%">
                                 <tbody>
-                                    <tr>
+                                    <tr style="display: none;">
                                         <td style="float: left; width: 174px;">
                                             <span style="color: #cc3300; font-weight: bold;">Bill No:</span>
-                                            <asp:TextBox ID="txtBillNo" runat="server" Width="125px" Style="margin-top: -29px; margin-left: 64px;"></asp:TextBox>
+                                            <%-- <asp:TextBox ID="txtBillNo" runat="server" Width="125px" Style="margin-top: -29px; margin-left: 64px;"></asp:TextBox>--%>
                                         </td>
                                         <td style="float: right; width: 174px;">
                                             <span style="color: #cc3300; font-weight: bold; margin-left: -200px;">Date:</span>
@@ -71,17 +72,9 @@
                             </table>
                             <table id="tblWorkshopBill" width="100%">
                                 <tbody>
+
                                     <tr>
-                                        <td style="float: left; width: 174px;">
-                                            <span style="color: #cc3300; font-weight: bold;">Estimate:</span>
-                                            <select id="drpEstimate" style="width: 136px; margin-top: -26px; margin-left: 64px;">
-                                                <option value="0">-Select Estimate--</option>
-                                            </select>
-                                            <asp:HiddenField ID="hdnEstNo" runat="server" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="float: left;">
+                                        <td style="float: left; display: none;">
                                             <span style="color: #cc3300; font-weight: bold;">To:</span>
                                             <asp:Label ID="lblAcademy" Style="margin-left: 42px;" runat="server"></asp:Label>
                                             <asp:HiddenField ID="hdnAcademy" runat="server" />
@@ -107,6 +100,17 @@
                     </div>
                 </div>
                 <div class="box-content">
+                    <table>
+                        <tr>
+                            <td style="float: left; width: 174px;">
+                                <span style="color: #cc3300; font-weight: bold;">Estimate:</span>
+                                <select id="drpEstimate" style="width: 136px; margin-top: -26px; margin-left: 64px;">
+                                    <option value="0">-Select Estimate--</option>
+                                </select>
+                                <asp:HiddenField ID="hdnEstNo" runat="server" />
+                            </td>
+                        </tr>
+                    </table>
                     <table id="grid" class='table table-striped table-bordered bootstrap-datatable'>
                         <thead>
                             <tr class="heading">
@@ -146,29 +150,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <br />
-                    <br />
-                    <table id="tblFooter">
-                        <tr>
-                            <td style="float: left; width: 174px;">
-                                <span style="color: #cc3300; font-weight: bold;">Date:</span>
-                                <asp:Label ID="lblDate" runat="server"></asp:Label>
-                                <asp:HiddenField ID="hdnDate" runat="server" />
-                            </td>
-                            <td style="float: left; width: 174px; margin-left: 164px">
-                                <span style="color: #cc3300; font-weight: bold;">Signature:</span>
-                                <asp:TextBox ID="txtSignature" runat="server" Width="125px" Style="margin-top: -29px; margin-left: 85px;"></asp:TextBox>
-                                <asp:HiddenField ID="hdnSignature" runat="server" />
-                            </td>
-                            <td style="float: left;">
-                                <span style="color: #cc3300; font-weight: bold; margin-left: 257px">Signature Supervisor:</span>
-                                <asp:TextBox ID="txtSupervisorSign" runat="server" Width="125px" Style="margin-top: -1px; margin-left: 29px"></asp:TextBox>
-                                <asp:HiddenField ID="hdnSuperSignature" runat="server" />
-                            </td>
-                        </tr>
-                    </table>
-                    <br />
-                    <br />
                     <asp:Button ID="btnpdf" runat="server" OnClick="btnpdf_Click" Style="margin-left: 550px; float: left" Text="Generate PDF" CssClass="btn btn-primary" />
                 </div>
             </div>

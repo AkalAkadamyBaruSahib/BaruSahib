@@ -290,9 +290,17 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 }
 
                 double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
+                double AkalWorkshopCost = 0.00;
                 double LocalCost = 0.00;
                 string ddl = ddlMatType.SelectedValue;
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "'");
+                if (ddlMatType.SelectedValue == "75")
+                {
+                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + AkalWorkshopCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + MaterialCost + "'");
+                }
+                else
+                {
+                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + AkalWorkshopCost + "'");
+                }
                 dsExist = DAL.DalAccessUtility.GetDataInDataSet("select Matid from Material where MatName='" + txtMat.Text + "'");
                 if (dsExist.Tables[0].Rows.Count > 0)
                 {
@@ -375,10 +383,18 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
 
             string MatId = Request.QueryString["MatId"];
             double MaterialCost = txtRate.Visible == false ? 0.00 : Convert.ToDouble(txtRate.Text);
+            double AkalWorkshopCost = 0.00;
             string ddl = ddlMatType.SelectedValue;
             double LocalCost = 0.00;
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "'");
-     
+            if (ddlMatType.SelectedValue == "75")
+            {
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + AkalWorkshopCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + MaterialCost + "'");
+            }
+            else
+            {
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + MaterialCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + AkalWorkshopCost + "'");
+            }
+          
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material edit successfully.');", true);
             Session["dsMatDetails"] = null;
             BindMatDetails(true, int.Parse(ddlMatType.SelectedValue));

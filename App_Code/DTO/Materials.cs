@@ -16,4 +16,5 @@ public class MaterialsDTO
     public MaterialType MaterialType { get; set; }
     public decimal? LocalRate { get; set; }
     public int? AcaID { get; set; }
+    public decimal? AkalWorkshopRate { get; set; }
 }

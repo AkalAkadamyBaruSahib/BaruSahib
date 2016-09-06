@@ -16,7 +16,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     DataRow dr;
 
     private int _islocal = -1;
-    
+
     public int PurchaseSource
     {
         get
@@ -295,7 +295,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID),DispatchStatus);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), DispatchStatus);
 
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.ADMIN))
@@ -322,11 +322,13 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
             {
-                   PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), DispatchStatus);
+                divacademy.Visible = false;
+                divDrpHeader.Visible = false;
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), DispatchStatus);
             }
         }
 
-       
+
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         if (PurchaseEstimateView.Count > 0)
@@ -388,10 +390,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                         {
                             ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Material To Dispatch</span></a></td>";
                         }
-                        else
-                        {
-                            ZoneInfo += "<td class='center' width='20%'><a href='Workshop_GenegerateBill.aspx'><span class='label label-warning'  style='font-size: 15.998px;'>Generate Bill</span></a></td>";
-                        }
                     }
                     else
                     {
@@ -429,8 +427,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         ZoneInfo += "<th width='15%'> Purchase Date</th>";
                     }
-                     ZoneInfo += "<th width='20%'>Remark</th>";
-                    
+                    if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                    {
+                        ZoneInfo += "<th width='20%'>Remark</th>";
+                    }
+
                     if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                     {
                         if (DispatchStatus == 0)
@@ -483,17 +484,23 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                     ZoneInfo += "</td>";
                                 }
                                 ZoneInfo += "<td>" + material.DispatchDate + "</td>";
-                                ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
-                             
+                                if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                                {
+                                    ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
+                                }
 
-                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+
+                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                                {
+                                    ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
+                                }
+                                else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {
                                     if (DispatchStatus == 0)
                                     {
-                                        ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
+                                        ZoneInfo += "<td width='30%'><a href='javascript: ReturnEstimateMaterial(" + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Return Item</span></a></td>";
                                     }
                                 }
-
                                 ZoneInfo += "</tr>";
                                 count++;
                             }
@@ -587,7 +594,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     {
         PurchaseControler controler = new PurchaseControler();
         controler.RejectMaterialItemByID(int.Parse(hidEMRID.Value), int.Parse(hidEstID.Value));
-        getPurchaseMaterialsDetailsDetails(-1,-1);
+        getPurchaseMaterialsDetailsDetails(-1, -1);
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set remarkByPurchase = '" + txtRemarks.Text + "' where estid = '" + hidEstID.Value + "' and sno ='" + hidEMRID.Value + "'");
         txtRemarks.Text = "";
     }
@@ -606,6 +613,4 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         return anchorLink.Substring(0, anchorLink.Length - 3);
 
     }
-
-  
 }

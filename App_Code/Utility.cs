@@ -433,11 +433,16 @@ public static class Utility
 
     }
 
-    public static void GeneratePDF(string html, string fileName)
+    public static void GeneratePDF(string html, string fileName, string folderPath)
     {
         HttpContext.Current.Response.ContentType = "application/pdf";
         HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
         var pdfBytes = (new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(html);
+
+        FileStream fs = new FileStream(folderPath + "\\" + fileName, FileMode.OpenOrCreate);
+        fs.Write(pdfBytes, 0, pdfBytes.Length);
+        fs.Close();
+
         HttpContext.Current.Response.BinaryWrite(pdfBytes);
         HttpContext.Current.Response.End();
     }

@@ -23,6 +23,7 @@ public partial class Admin_UserControls_BodyWorkshopMaterial : System.Web.UI.Use
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
                 hdnUserType.Value = Session["UserTypeID"].ToString();
             }
+
             BindWorkshop();
         }
     }
@@ -33,18 +34,18 @@ public partial class Admin_UserControls_BodyWorkshopMaterial : System.Web.UI.Use
         int UserType = Convert.ToInt32(Session["UserTypeID"].ToString());
         DataSet dsWorkshop = new DataSet();
         dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("Select A.AcaId,A.AcaName from Academy A INNER JOIN AcademyAssignToEmployee AAE on A.AcaId=AAE.AcaId Where  AAE.EmpId='" + UserID + "'");
-        ddlworkshop.DataSource = dsWorkshop;
-        ddlworkshop.DataValueField = "AcaId";
-        ddlworkshop.DataTextField = "AcaName";
-        ddlworkshop.DataBind();
         if (UserType == (int)(TypeEnum.UserType.WORKSHOPADMIN))
         {
+            ddlworkshop.DataSource = dsWorkshop;
+            ddlworkshop.DataValueField = "AcaId";
+            ddlworkshop.DataTextField = "AcaName";
+            ddlworkshop.DataBind();
             ddlworkshop.Items.Insert(0, new System.Web.UI.WebControls.ListItem("ALL Workshop Material", "0"));
         }
         else
         {
-            ddlworkshop.Items.Insert(0, new System.Web.UI.WebControls.ListItem("-- Select Workshop --", "0"));
+            divDrpWork.Visible = false;
+            hdnAcaID.Value = dsWorkshop.Tables[0].Rows[0]["AcaId"].ToString();
         }
     }
- 
 }

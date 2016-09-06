@@ -4,6 +4,10 @@ $(document).ready(function () {
     if ($("input[id*='hdnUserType']").val() == 6) {
         LoadMaterialInfo(0);
     }
+    else
+    {
+        LoadMaterialInfo($("input[id*='hdnAcaID']").val());
+    }
    $("select[id*='ddlworkshop']").change(function () {
         LoadMaterialInfo($(this).val());
       
@@ -53,7 +57,7 @@ function LoadMaterialInfo(acaid) {
                         else {
                             $newRow.find("#materialname").html("<table><tr><td><input type='hidden' value='" + adminLoanList[i].MatID + "' id='hdnmatid" + i + "' />" + adminLoanList[i].Material.MatName + "</td></tr><tr><td><b>Workshop Name:-</b>" + adminLoanList[i].Academy.AcaName);
                         }
-                        $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].AcaID + "' id='hdnAcaID" + i + "' /><input style='width:100px;' value='" + adminLoanList[i].Material.MatCost + "' type='text' id='txtRate" + i + "' name='txtRate'>");
+                        $newRow.find("#rate").html("<input type='hidden' value='" + adminLoanList[i].AcaID + "' id='hdnAcaID" + i + "' /><input style='width:100px;' value='" + adminLoanList[i].Material.AkalWorkshopRate + "' type='text' id='txtRate" + i + "' name='txtRate'>");
                         $newRow.find("#instore").html("<input style='width:100px;' type='text' id='txtInStore" + i + "' value='" + adminLoanList[i].InStoreQty + "'  name='txtInStore'>");
                         $newRow.find("#action").html("<input style='width:100px;'  class='btn btn-primary' type='button' id='btnUpdate" + i + "' name='btnUpdate' value='Update' onclick='return UpdateWorkshpMaterial(" + i + ")'>");
                         $newRow.addClass(className);
@@ -125,11 +129,10 @@ function UpdateWorkshpMaterial(rowid) {
   }
 }
 
-function openModelPopUp(EstID, EMRID) {
 
-    $("#divRejectItem").modal('show');
-    $("input[id*='hidEstID']").val(EstID);
-    $("input[id*='hidEMRID']").val(EMRID);
-    $('#lblEstimate').html("<strong>Reject Item for Estimate No: " + EstID + "</strong>");
-}
+
+
+
+
+
 
