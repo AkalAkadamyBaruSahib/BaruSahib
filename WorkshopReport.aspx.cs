@@ -8,20 +8,26 @@ using System.Web.UI.WebControls;
 
 public partial class WorkshopReport : System.Web.UI.Page
 {
-
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.QueryString["Reports Section"] != null)
+        if (!Page.IsPostBack)
         {
-            BindDatatable();
+            BindWorkshop();
         }
-
     }
     protected void btnDownload_Click(object sender, EventArgs e)
     {
         Response.ClearContent();
         Response.Buffer = true;
-        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "StatusReport.xls"));
+        if (ddlWorkshopReport.SelectedValue == "1")
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "InstoreQtyReport.xls"));
+        }
+        else
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DispatchStatusReport.xls"));
+        }
+
         Response.ContentType = "application/ms-excel";
         DataTable dt = BindDatatable();
         string str = string.Empty;
@@ -42,7 +48,6 @@ public partial class WorkshopReport : System.Web.UI.Page
             Response.Write("\n");
         }
         Response.End();
-
     }
 
     protected DataTable BindDatatable()
@@ -51,14 +56,37 @@ public partial class WorkshopReport : System.Web.UI.Page
         int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        if (UserTypeID == 6)
+        if (ddlWorkshopReport.SelectedValue == ((int)TypeEnum.WorkshopReportTypes.InStoreReport).ToString())
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','3'").Tables[0];
+            string selectedItems = String.Join(",", chkworkshop.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_WorkshopInstoreMaterialReportByWorkshopID]'" + selectedItems).Tables[0];
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "','3'").Tables[0];
+            if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
+            {
+                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "'," + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+            }
+            else
+            {
+                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "'," + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+            }
         }
         return dt;
+    }
+
+    public void BindWorkshop()
+    {
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
+        int UserType = Convert.ToInt32(Session["UserTypeID"].ToString());
+        DataTable dsWorkshop = new DataTable();
+        dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("Select A.AcaId,A.AcaName from Academy A INNER JOIN AcademyAssignToEmployee AAE on A.AcaId=AAE.AcaId Where  AAE.EmpId='" + UserID + "'").Tables[0];
+        if (dsWorkshop != null)
+        {
+            chkworkshop.DataSource = dsWorkshop;
+            chkworkshop.DataValueField = "AcaId";
+            chkworkshop.DataTextField = "AcaName";
+            chkworkshop.DataBind();
+        }
     }
 }

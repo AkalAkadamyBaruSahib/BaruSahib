@@ -11,11 +11,6 @@ public partial class Admin_EstimatePendencyReport : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.QueryString["Reports Section"] != null)
-        {
-            BindDatatable();
-        }
-
     }
     protected void btnDownload_Click(object sender, EventArgs e)
     {
@@ -48,10 +43,7 @@ public partial class Admin_EstimatePendencyReport : System.Web.UI.Page
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
-        DataSet ds = new DataSet();
-      
-       dt = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2'").Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2'").Tables[0];
         return dt;
-        //ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DispatchExcel4PurchaseAndWorkShop 2");
     }
 }

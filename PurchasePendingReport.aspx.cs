@@ -12,11 +12,6 @@ public partial class PurchasePendingReport : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.QueryString["Reports Section"] != null)
-        {
-            BindDatatable();
-        }
-
     }
     protected void btnDownload_Click(object sender, EventArgs e)
     {

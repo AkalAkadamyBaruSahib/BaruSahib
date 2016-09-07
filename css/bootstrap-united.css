@@ -776,15 +776,18 @@ input[type="checkbox"]:focus {
   min-height: 18px;
   padding-left: 18px;
 }
-.radio input[type="radio"],
+
+/*.radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
   margin-left: -18px;
-}
+}*/
+
 .controls > .radio:first-child,
 .controls > .checkbox:first-child {
   padding-top: 5px;
 }
+
 .radio.inline,
 .checkbox.inline {
   display: inline-block;

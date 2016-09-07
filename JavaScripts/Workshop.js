@@ -4,14 +4,13 @@ $(document).ready(function () {
     if ($("input[id*='hdnUserType']").val() == 6) {
         LoadMaterialInfo(0);
     }
-    else
-    {
+    else {
         LoadMaterialInfo($("input[id*='hdnAcaID']").val());
     }
-   $("select[id*='ddlworkshop']").change(function () {
+    $("select[id*='ddlworkshop']").change(function () {
         LoadMaterialInfo($(this).val());
-      
     });
+ 
 });
 
 
@@ -79,6 +78,7 @@ function LoadMaterialInfo(acaid) {
                         "bFilter": false,
                         "aaSorting": []
                     });
+                    DisableControl();
                 }
                
             },
@@ -127,6 +127,22 @@ function UpdateWorkshpMaterial(rowid) {
           }
       });
   }
+}
+
+function DisableControl() {
+    var tablelength = $("#tbody").children('tr').length;
+    for (var i = 0 ; i < tablelength; i++) {
+        if ($("input[id*='hdnUserType']").val() == 6) {
+            $("#txtRate" + i).prop('disabled', true);
+            $("#txtInStore" + i).prop('disabled', true);
+            $("#btnUpdate" + i).prop('disabled', true);
+        }
+        else {
+            $("#txtRate" + i).prop('disabled', false);
+            $("#txtInStore" + i).prop('disabled', false);
+            $("#btnUpdate" + i).prop('disabled', false);
+        }
+    }
 }
 
 

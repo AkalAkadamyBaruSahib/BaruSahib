@@ -122,4 +122,15 @@ public class TypeEnum
         TRANS = 7,
         CHASSIS=8
     }
+
+    public enum WorkshopReportTypes : int
+    {
+        InStoreReport = 1,
+        DispatchMaterial = 2
+    }
+
+    public enum PurchaseSourceID : int
+    {
+        AkalWorkshop = 3
+    }
 }
