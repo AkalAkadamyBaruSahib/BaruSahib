@@ -231,7 +231,7 @@ function BindCurrentDate() {
     var curr_date = dNow.getDate();
     var curr_month = dNow.getMonth();
     var curr_year = dNow.getFullYear();
-    var localdate = m_names[curr_month] + curr_date + "," + curr_year;
+    var localdate = m_names[curr_month] + curr_date + "," +"  "+ curr_year;
     $("[id$='lblCurrentDate']").html(localdate);
     $("[id$='lblDate']").html(localdate);
     $("input[id*='hdnCurrentDate']").val(localdate); 

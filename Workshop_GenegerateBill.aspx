@@ -135,7 +135,7 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <asp:Button ID="btnpdf" runat="server" OnClick="btnpdf_Click" Style="margin-left: 550px; float: left" Text="Generate PDF" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnpdf" runat="server" OnClick="btnpdf_Click" Style="margin-left: 550px; float: left" Text="Generate Bill" CssClass="btn btn-primary" />
                 </div>
             </div>
         </div>
