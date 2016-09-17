@@ -81,7 +81,9 @@
                 <tr>
                     <td>Select Workshop</td>
                     <td>
-                        <asp:DropDownList ID="ddlEmployee" runat="server"></asp:DropDownList></td>
+                        <asp:DropDownList ID="ddlEmployee" runat="server"></asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="reqWorkshop" runat="server" ControlToValidate="ddlEmployee" ValidationGroup="workshop" InitialValue="-1" ErrorMessage="Please Select the Workshop" ForeColor="Red"></asp:RequiredFieldValidator>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center"></td>
@@ -89,7 +91,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CssClass="btn-primary" />
+            <asp:Button ID="btnSave" runat="server" ValidationGroup="workshop" Text="Save" OnClick="btnSave_Click" CssClass="btn-primary" />
             <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
         </div>
     </div>

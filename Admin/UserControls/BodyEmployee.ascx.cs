@@ -37,8 +37,6 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
                 getInchargeDetails(Request.QueryString["InchargeId"].ToString());
                 btnEdit.Visible = true;
                 btnSave.Visible = false;
-                ddlDept.Enabled = false;
-                ddlDesig.Enabled = false;
                 ddlUserType.Enabled = false;
             }
 

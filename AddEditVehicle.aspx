@@ -238,6 +238,16 @@
                                     <asp:TextBox ID="txtKm" Width="50px" runat="server"></asp:TextBox>
                                 </td>
                             </tr>
+                              <tr>
+                                <td>Vehicle Contract Rate:<br />
+                                 <asp:TextBox ID="txtContractRate" runat="server"></asp:TextBox>
+                                  <asp:RequiredFieldValidator runat="server" Display="None" ValidationGroup="vehicle" ID="RequiredFieldValidator9" ControlToValidate="txtContractRate" ErrorMessage="Please Enter the Vehicle Contract Rate" />
+                                </td>
+                                <td>Vehicle Average:<br />
+                                   <asp:TextBox ID="txtAverage" runat="server"></asp:TextBox>
+                                   <asp:RequiredFieldValidator runat="server" Display="None" ValidationGroup="vehicle" ID="RequiredFieldValidator10" ControlToValidate="txtAverage" ErrorMessage="Please Enter the Vehicle Average" />
+                                </td>
+                            </tr>
                         </table>
                     </fieldset>
                     <br />

@@ -8,7 +8,7 @@ var delItems = 0;
 
 $(document).ready(function () {
 
-    AutofillMaterialSearchBox();
+   // AutofillMaterialSearchBox();
 
     $("input[id*='btnloadMaterials']").click(function (e) {
 
@@ -169,8 +169,8 @@ function SaveEstimate() {
         EstimateAndMaterialOthersRelation.PurchaseEmpID = 0;
         EstimateAndMaterialOthersRelation.DispatchStatus = 0;
         EstimateAndMaterialOthersRelation.DirectPurchase = false;
-        Amt += parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
-        EstimateAndMaterialOthersRelation.Amount = parseInt(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
+        Amt += parseFloat(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
+        EstimateAndMaterialOthersRelation.Amount = parseFloat(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
         estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);
     }
     $("#lblAmt").val(Amt);

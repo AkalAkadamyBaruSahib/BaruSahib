@@ -31,15 +31,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             }
 
             DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '" + lblUser.Text + "'");
-            lblZoneCo.Text = dsAdminCount.Tables[1].Rows[0]["Zoco"].ToString();
-            lblAcaCo.Text = dsAdminCount.Tables[2].Rows[0]["Acaco"].ToString();
-            lblUnitCo.Text = dsAdminCount.Tables[6].Rows[0]["Unitco"].ToString();
-            lblMatTCo.Text = dsAdminCount.Tables[7].Rows[0]["MatTco"].ToString();
-            lblBillCount.Text = dsAdminCount.Tables[10].Rows[0]["StatusCount"].ToString();
             lblMsg.Text = dsAdminCount.Tables[11].Rows[0]["Msgco"].ToString();
-            lblDrwCo.Text = dsAdminCount.Tables[12].Rows[0]["Dwgco"].ToString();
-            lblFtCount.Text = dsAdminCount.Tables[13].Rows[0]["FBcount"].ToString();
-            lblFBCount.Text = dsAdminCount.Tables[14].Rows[0]["FB"].ToString();
             SetControls();
         }
     }

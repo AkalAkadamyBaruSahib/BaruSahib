@@ -26,7 +26,7 @@ public class VehiclesDTO
 
     public int ID { get; set; }
 
-   public string FileNumber { get; set; }
+    public string FileNumber { get; set; }
 
     public string EngineNumber { get; set; }
 
@@ -63,4 +63,14 @@ public class VehiclesDTO
     public int? ConductorID { get; set; }
 
     public int? DriverID { get; set; }
+
+    public int? VehicleContractRate { get; set; }
+
+    public decimal? VehicleAverage { get; set; }
+}
+
+public class VehicleIDAndNumber
+{
+    public int ID { get; set; }
+    public string Number { get; set; }
 }

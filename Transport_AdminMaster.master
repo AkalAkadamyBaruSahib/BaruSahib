@@ -130,7 +130,8 @@
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_VehicleDetails.aspx"><i></i><span class="hidden-tablet">Vehicle Info</span></a></li>
                                     <li><a class="ajax-link" href="AddEditVehicle.aspx"><i></i><span class="hidden-tablet">Add New Vehicle</span></a></li>
-                                    <li><a class="ajax-link" href="Transport_VechicleRouteMap.aspx"><i></i><span class="hidden-tablet">Vehicle Route Map</span></a></li>
+                                    <li><a class="ajax-link" href="Transport_VechicleRouteMap.aspx"><i></i><span class="hidden-tablet">Vehicle Route Map</span></a></li>    
+                                    <li><a class="ajax-link" href="TransportDocumentUpload.aspx"><i></i><span class="hidden-tablet">Vehicle Documents Upload</span></a></li>
                                 </ul>
                             </li>
                             <li id="lireport" runat="server"><a class="dropmenu" href="#"><i>
@@ -140,7 +141,7 @@
                                 </ul>
                             </li>
                             <li id="li4" runat="server"><a class="dropmenu" href="#"><i>
-                                <img src="img/report.png" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
+                                <img src="img/Bill.jpg" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="TranspportGenerateBill.aspx"><i></i><span class="hidden-tablet">Generate Bill</span></a></li>
                                 </ul>
@@ -157,31 +158,25 @@
                                     <li><a class="ajax-link" href="Transport_PertrolDieselPrice.aspx"><i></i><span class="hidden-tablet">Diesel/Petrol Price</span></a></li>
                                 </ul>
                             </li>
-                            <li id="li3" runat="server"><a class="dropmenu" href="#"><i>
-                                <img src="img/pump.jpg" /></i><span class="hidden-tablet"><b> Documents</b></span></a>
+                            <li id="liEstimate" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet"><b>ESTIMATE</b></span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="TransportDocumentUpload.aspx"><i></i><span class="hidden-tablet">Documents Upload</span></a></li>
-                                </ul>
-                            </li>
-                            <li id="liEstimate" runat="server"><a class="ajax-link" href="#"><i class="icon-calendar"></i><span class="hidden-tablet">Estimate</span></a>
-                                <ul>
-                                    <li runat="server"><a class="ajax-link" href="Transport_UploadEstimate.aspx"><i></i><span class="hidden-tablet">Upload Estimate</span></a></li>
+                                    <li runat="server"><a class="ajax-link" href="Transport_UploadEstimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>
                                     <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="Transport_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate</span></a></li>
 
                                 </ul> 
                             </li>
-                          <li id="liEstimateiewForEmp" runat="server"><a href="Transport_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate View</span></a></li>
-                              <li id="liVehicleSearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet">Search</span></a>
+                         
+                           <li id="liContractRate" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet"><b>VEHICLE CONTRACT RATE</b></span></a>
+                                <ul>
+                                    <li id="liContractRateChange" runat="server"><a class="ajax-link" href="Transport_ContractRate.aspx"><i></i><span class="hidden-tablet">Contract Rate</span></a></li>
+                                </ul> 
+                            </li>
+                                <li id="liEstimateiewForEmp" runat="server"><a href="Transport_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate View</span></a></li>
+                              <li id="liVehicleSearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
                                 <ul>
                                     <li id="liVSearch" runat="server"><a class="ajax-link" href="Transport_VehicleSearch.aspx"><i></i><span class="hidden-tablet">Vehicle Search</span></a></li>
                                 </ul> 
-                            </li>
-                           <li id="liContractRate" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet">Vehicle Contract Rate</span></a>
-                                <ul>
-                                    <li id="liContractRateChange" runat="server"><a class="ajax-link" href="Transport_ContractRate.aspx"><i></i><span class="hidden-tablet">Rate Changes</span></a></li>
-                                </ul> 
-                            </li>
-                                
+                            </li> 
                            
                         </ul>
                     </div>

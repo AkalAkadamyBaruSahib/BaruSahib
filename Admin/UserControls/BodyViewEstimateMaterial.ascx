@@ -133,7 +133,7 @@
                 </asp:TemplateField>
                   <asp:TemplateField HeaderText="Rate">
                     <ItemTemplate>
-                   <asp:Label ID="lblRate" runat="server" Text='<%#Eval("MatCost") %>'></asp:Label>
+                   <asp:Label ID="lblRate" runat="server" Text='<%#Eval("AkalWorkshopRate") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
                  <asp:TemplateField HeaderText="InStoreQty">

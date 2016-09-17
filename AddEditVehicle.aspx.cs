@@ -318,6 +318,8 @@ public partial class AddVehicle : System.Web.UI.Page
         }
 
         txtKm.Text = vehicle.KMPerDay.ToString();
+        txtAverage.Text = vehicle.VehicleAverage.ToString();
+        txtContractRate.Text = vehicle.VehicleContractRate.ToString();
         DisableControl();
     }
 
@@ -359,8 +361,8 @@ public partial class AddVehicle : System.Web.UI.Page
 
             if (isVehicleExists.Tables[0].Rows.Count == 0 || VehicleID > -1)
             {
-                
-                long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + ddlConductorName.SelectedValue + "," + ddlDriverName.SelectedValue);
+
+                long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + ddlConductorName.SelectedValue + "," + ddlDriverName.SelectedValue + "," + txtContractRate.Text + "," +txtAverage.Text);
 
                 if (VehicleID == -1)
                 {
@@ -467,11 +469,15 @@ public partial class AddVehicle : System.Web.UI.Page
             ddlOilSlab.Enabled = false;
             txtKm.Enabled = false;
             dNorms.Visible = true;
+            txtContractRate.Text = "0";
+            txtContractRate.Enabled = false;
 
         }
         else if (ddlTransportType.SelectedValue == "6" || ddlTransportType.SelectedValue == "7" || ddlTransportType.SelectedValue == "8" || ddlTransportType.SelectedValue == "9")
         {
             dNorms.Visible = false;
+            txtContractRate.Text = "0";
+            txtContractRate.Enabled = false;
         }
         else if (ddlTransportType.SelectedValue == "5")
         {
@@ -488,6 +494,8 @@ public partial class AddVehicle : System.Web.UI.Page
             OwnerName.Text = "Trust";
             txtSitting.Text = "2";
             txtSitting.Enabled = false;
+            txtContractRate.Text = "0";
+            txtContractRate.Enabled = false;
         }
         else if (ddlTransportType.SelectedValue == "3")
         {
@@ -497,6 +505,8 @@ public partial class AddVehicle : System.Web.UI.Page
             ddlOilSlab.Enabled = false;
             txtKm.Enabled = false;
             dNorms.Visible = false;
+            txtContractRate.Text = "0";
+            txtContractRate.Enabled = false;
 
         }
         else
@@ -506,6 +516,7 @@ public partial class AddVehicle : System.Web.UI.Page
             ddlOilSlab.Enabled = true;
             txtKm.Enabled = true;
             dNorms.Visible = true;
+            txtContractRate.Enabled = true;
         }
     
     }
