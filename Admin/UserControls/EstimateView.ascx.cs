@@ -493,32 +493,31 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateView.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Del=1'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Delete Estimate</span></a></td></tr>";
                 }
             }
-            //{
-            //  ZoneInfo += "<tr><td><a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
-            //}
-            //ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   </td></tr>";
+           
             ZoneInfo += "</table></td>";
-            //ZoneInfo += "<td class='center'width='15%'>";
-            //ZoneInfo += "" + dtapproved.Rows[i]["EstmateCost"].ToString() + "";
-            //ZoneInfo += "</td>";
-            DataSet dsBal = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateBalAmt '" + dtapproved.Rows[i]["EstId"].ToString() + "'");
 
             if (isApproved)
             {
-                ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: " + dsBal.Tables[0].Rows[0]["BalAmt"].ToString() + "</td></tr></table></td>";
+                ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>:0 </td></tr></table></td>";
                 ZoneInfo += "<td width='40%'><table width='100%'>";
-                DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT SubBillId,CONVERT (VARCHAR(20),BillDate,107) AS bdATE,TotalAmount FROM SubmitBillByUser WHERE EstId='" + dtapproved.Rows[i]["EstId"].ToString() + "'");
-                DataSet dsTa = DAL.DalAccessUtility.GetDataInDataSet("exec USP_TotalEstimateCostAfterBillSubmit '" + dtapproved.Rows[i]["EstId"].ToString() + "'");
-                for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+                DataSet dsBillDetails = new DataSet();
+                DataSet dsTa = new DataSet();
+                if (dsBillDetails.Tables.Count > 0)
                 {
-                    ZoneInfo += "<tr><td width='17%'><a href='Admin_BillDetailsAfterApproval.aspx?SubBillId=" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "'>" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "</a></td><td width='50%'>" + dsBillDetails.Tables[0].Rows[j]["bdATE"].ToString() + "</td><td width='33%'>" + dsBillDetails.Tables[0].Rows[j]["TotalAmount"].ToString() + "</td></tr>";
-                    //if (dsTa.Tables[0].Rows.Count > 0 && dsTa.Tables[1].Rows.Count > 0)
+                    for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+                    {
+                        ZoneInfo += "<tr><td width='17%'><a href='Admin_BillDetailsAfterApproval.aspx?SubBillId=" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "'>" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "</a></td><td width='50%'>" + dsBillDetails.Tables[0].Rows[j]["bdATE"].ToString() + "</td><td width='33%'>" + dsBillDetails.Tables[0].Rows[j]["TotalAmount"].ToString() + "</td></tr>";
+                        //if (dsTa.Tables[0].Rows.Count > 0 && dsTa.Tables[1].Rows.Count > 0)
 
+                    }
                 }
-                if (dsTa.Tables[0].Rows[0]["Ta"].ToString() != "" && dsTa.Tables[1].Rows[0]["BDate"].ToString() != "")
+                if (dsTa.Tables.Count > 0)
                 {
-                    ZoneInfo += "<td></td><td><b>Total Amount</b></td><td>" + dsTa.Tables[0].Rows[0]["Ta"].ToString() + "</td>";
+                    if (dsTa.Tables[0].Rows[0]["Ta"].ToString() != "" && dsTa.Tables[1].Rows[0]["BDate"].ToString() != "")
+                    {
+                        ZoneInfo += "<td></td><td><b>Total Amount</b></td><td>" + dsTa.Tables[0].Rows[0]["Ta"].ToString() + "</td>";
 
+                    }
                 }
                 else
                 {
@@ -527,15 +526,53 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             }
             else
             {
-                ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: " + dsBal.Tables[0].Rows[0]["BalAmt"].ToString() + "</td></tr></table></td>";
+                ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>:0</td></tr></table></td>";
 
                 ZoneInfo += "<td width='35%'><table width='100%'>";
-                DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM EstimateStatus WHERE EstId='" + dtapproved.Rows[i]["EstId"].ToString() + "'");
-                for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+                DataSet dsBillDetails = new DataSet();
+                if (dsBillDetails.Tables.Count > 0)
                 {
-                    ZoneInfo += "<tr><td width='33%'>" + (j + 1) + ". " + dsBillDetails.Tables[0].Rows[j]["ReviewComments"].ToString() + "</td><td width='34%'>" + dsBillDetails.Tables[0].Rows[j]["CreatedOn"].ToString() + "</td></tr>";
+                    for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+                    {
+                        ZoneInfo += "<tr><td width='33%'>" + (j + 1) + ". " + dsBillDetails.Tables[0].Rows[j]["ReviewComments"].ToString() + "</td><td width='34%'>" + dsBillDetails.Tables[0].Rows[j]["CreatedOn"].ToString() + "</td></tr>";
+                    }
                 }
             }
+            //DataSet dsBal = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateBalAmt '" + dtapproved.Rows[i]["EstId"].ToString() + "'");
+
+            //if (isApproved)
+            //{
+            //    ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: " + dsBal.Tables[0].Rows[0]["BalAmt"].ToString() + "</td></tr></table></td>";
+            //    ZoneInfo += "<td width='40%'><table width='100%'>";
+            //    DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT SubBillId,CONVERT (VARCHAR(20),BillDate,107) AS bdATE,TotalAmount FROM SubmitBillByUser WHERE EstId='" + dtapproved.Rows[i]["EstId"].ToString() + "'");
+            //    DataSet dsTa = DAL.DalAccessUtility.GetDataInDataSet("exec USP_TotalEstimateCostAfterBillSubmit '" + dtapproved.Rows[i]["EstId"].ToString() + "'");
+            //    for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+            //    {
+            //        ZoneInfo += "<tr><td width='17%'><a href='Admin_BillDetailsAfterApproval.aspx?SubBillId=" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "'>" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "</a></td><td width='50%'>" + dsBillDetails.Tables[0].Rows[j]["bdATE"].ToString() + "</td><td width='33%'>" + dsBillDetails.Tables[0].Rows[j]["TotalAmount"].ToString() + "</td></tr>";
+            //        //if (dsTa.Tables[0].Rows.Count > 0 && dsTa.Tables[1].Rows.Count > 0)
+
+            //    }
+            //    if (dsTa.Tables[0].Rows[0]["Ta"].ToString() != "" && dsTa.Tables[1].Rows[0]["BDate"].ToString() != "")
+            //    {
+            //        ZoneInfo += "<td></td><td><b>Total Amount</b></td><td>" + dsTa.Tables[0].Rows[0]["Ta"].ToString() + "</td>";
+
+            //    }
+            //    else
+            //    {
+            //        ZoneInfo += "<td colspan='2'><span class='label label-important' style='font-size: 15.998px;'>No Bill Submit</span></td>";
+            //    }
+            //}
+            //else
+            //{
+            //    ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: " + dsBal.Tables[0].Rows[0]["BalAmt"].ToString() + "</td></tr></table></td>";
+
+            //    ZoneInfo += "<td width='35%'><table width='100%'>";
+            //    DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM EstimateStatus WHERE EstId='" + dtapproved.Rows[i]["EstId"].ToString() + "'");
+            //    for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+            //    {
+            //        ZoneInfo += "<tr><td width='33%'>" + (j + 1) + ". " + dsBillDetails.Tables[0].Rows[j]["ReviewComments"].ToString() + "</td><td width='34%'>" + dsBillDetails.Tables[0].Rows[j]["CreatedOn"].ToString() + "</td></tr>";
+            //    }
+            //}
             ZoneInfo += "</table></td>";
             ZoneInfo += "</tr>";
         }
@@ -638,11 +675,14 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
 
     private void BindAcademy()
     {
-        DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM Academy order by AcaName asc");
-        ddlAcademy.DataSource = dsBillDetails.Tables[0];
-        ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataValueField = "AcaID";
-        ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
+        DataTable dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select AcaName,AcaID FROM Academy order by AcaName asc").Tables[0];
+        if (dsBillDetails.Rows.Count > 0 && dsBillDetails != null)
+        {
+            ddlAcademy.DataSource = dsBillDetails;
+            ddlAcademy.DataTextField = "AcaName";
+            ddlAcademy.DataValueField = "AcaID";
+            ddlAcademy.DataBind();
+            ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
+        }
     }
 }

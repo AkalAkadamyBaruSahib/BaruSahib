@@ -30,8 +30,9 @@ public partial class Workshop_Home : System.Web.UI.Page
     protected void BindAllZoneDetails()
     {
         DataSet dsZoneDetails = new DataSet();
-        dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet(" exec USP_ShowAllZoneDetails ");
-
+        dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowAllZoneDetails ");
+        DataTable dseEmp = new DataTable();
+        dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee").Tables[0];
         divZone.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-bordered table-striped table-condensed'>";
@@ -59,14 +60,13 @@ public partial class Workshop_Home : System.Web.UI.Page
             ZoneInfo += "</td>";
             ZoneInfo += "<td class='center' width='25%'>";
             ZoneInfo += "<table>";
-            DataSet dseEmp = new DataSet();
-            dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee '" + dsZoneDetails.Tables[0].Rows[i]["ZoneId"].ToString() + "'");
-            if (dseEmp.Tables[0].Rows.Count > 0)
+            DataRow[] dr = dseEmp.Select("ZoneID=" + dsZoneDetails.Tables[0].Rows[i]["ZoneID"].ToString());
+            if (dr != null)
             {
-                for (int j = 0; j < dseEmp.Tables[0].Rows.Count; j++)
+
+                for (int j = 0; j < dr.Length; j++)
                 {
-                    ZoneInfo += "<tr><td><span  title=' Mobile: " + dseEmp.Tables[0].Rows[j]["InMobile"].ToString() + " \n Department: " + dseEmp.Tables[0].Rows[j]["department"].ToString() + " \n Designation: " + dseEmp.Tables[0].Rows[j]["Designation"].ToString() + "\n'  href='#'> " + dseEmp.Tables[0].Rows[j]["InName"].ToString() + " </span></td></tr>";
-                    //class='btn btn-setting btn-round'
+                    ZoneInfo += "<tr><td><span  title=' Mobile: " + dr[j]["InMobile"].ToString() + " \n Department: " + dr[j]["department"].ToString() + " \n Designation: " + dr[j]["Designation"].ToString() + "\n'  href='#'> " + dr[j]["InName"].ToString() + " </span></td></tr>";
                 }
             }
             else
@@ -85,9 +85,9 @@ public partial class Workshop_Home : System.Web.UI.Page
             //dsZoneName = DAL.DalAccessUtility.GetDataInDataSet("select ZoneName from zone where ZoneId='" + Session["ZoneId"].ToString() + "'");
             //lblZone.Text = dsZoneName.Tables[0].Rows[0]["ZoneName"].ToString();
 
-            DataSet dsAcaCount = new DataSet();
-            dsAcaCount = DAL.DalAccessUtility.GetDataInDataSet("select COUNT(*) as Coun from Academy where ZoneId='" + dsZoneDetails.Tables[0].Rows[i]["ZoneId"].ToString() + "'");
-            ZoneInfo += "<td width='10%' class='center'>" + dsAcaCount.Tables[0].Rows[0]["Coun"].ToString() + "</td>";
+            //DataSet dsAcaCount = new DataSet();
+            //dsAcaCount = DAL.DalAccessUtility.GetDataInDataSet("select COUNT(*) as Coun from Academy where ZoneId='" + dsZoneDetails.Tables[0].Rows[i]["ZoneId"].ToString() + "'");
+            ZoneInfo += "<td width='10%' class='center'>" + dsZoneDetails.Tables[0].Rows[i]["Coun"].ToString() + "</td>";
             ZoneInfo += "</tr>";
         }
         ZoneInfo += "</tbody>";

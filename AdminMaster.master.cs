@@ -30,8 +30,8 @@ public partial class AdminMaster : System.Web.UI.MasterPage
                 AdminType = Convert.ToInt16(Session["AdminType"].ToString());
             }
 
-            DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '" + lblUser.Text + "'");
-            lblMsg.Text = dsAdminCount.Tables[11].Rows[0]["Msgco"].ToString();
+            //DataSet dsAdminCount = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminCount '" + lblUser.Text + "'");
+            //lblMsg.Text = dsAdminCount.Tables[11].Rows[0]["Msgco"].ToString();
             SetControls();
         }
     }

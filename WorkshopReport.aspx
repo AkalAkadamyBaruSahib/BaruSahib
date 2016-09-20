@@ -32,7 +32,7 @@
                 $("#divRadioButton").show();
             }
             else if (ddlselectedvalue.value == "2") {
-                $("#divRadioButton").hide();
+                $("#divRadioButton").show();
                 $("#divDesigDetails").show();
             }
             else {
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="box-content" id="divRadioButton" style="display: none">
-                Select Button To Download Instore Qty Report:<br />
+                Select CheckBox To Download Report:<br />
                 <div class="box-content">
                     <asp:CheckBoxList ID="chkworkshop" runat="server" RepeatDirection="Horizontal"></asp:CheckBoxList>
                 </div>

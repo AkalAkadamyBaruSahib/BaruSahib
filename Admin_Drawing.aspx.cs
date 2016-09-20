@@ -41,36 +41,45 @@ public partial class Admin_Drawing : System.Web.UI.Page
     }
     protected void BinddWGtYPE()
     {
-        DataSet dsZone = new DataSet();
-        dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT DwTypeId,DwTypeName FROM DrawingType where Active=1 AND DwTypeName<>'ALL DRAWING'");
-        ddlDwgType.DataSource = dsZone;
-        ddlDwgType.DataValueField = "DwTypeId";
-        ddlDwgType.DataTextField = "DwTypeName";
-        ddlDwgType.DataBind();
-        ddlDwgType.Items.Insert(0, "SELECT DRAWING TYPE");
-        ddlDwgType.SelectedIndex = 0;
+        DataTable dsZone = new DataTable();
+        dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT DwTypeId,DwTypeName FROM DrawingType where Active=1 AND DwTypeName<>'ALL DRAWING'").Tables[0];
+        if (dsZone != null && dsZone.Rows.Count > 0)
+        {
+            ddlDwgType.DataSource = dsZone;
+            ddlDwgType.DataValueField = "DwTypeId";
+            ddlDwgType.DataTextField = "DwTypeName";
+            ddlDwgType.DataBind();
+            ddlDwgType.Items.Insert(0, "SELECT DRAWING TYPE");
+            ddlDwgType.SelectedIndex = 0;
+        }
     }
     protected void BindZone()
     {
-        DataSet dsZone = new DataSet();
-        dsZone = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,ZoneName  from Zone where Active=1");
-        ddlZone.DataSource = dsZone;
-        ddlZone.DataValueField = "ZoneId";
-        ddlZone.DataTextField = "ZoneName";
-        ddlZone.DataBind();
-        ddlZone.Items.Insert(0, "Select Zone");
-        ddlZone.SelectedIndex = 0;
+        DataTable dsZone = new DataTable();
+        dsZone = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId,ZoneName  from Zone where Active=1").Tables[0];
+        if (dsZone != null && dsZone.Rows.Count > 0)
+        {
+            ddlZone.DataSource = dsZone;
+            ddlZone.DataValueField = "ZoneId";
+            ddlZone.DataTextField = "ZoneName";
+            ddlZone.DataBind();
+            ddlZone.Items.Insert(0, "Select Zone");
+            ddlZone.SelectedIndex = 0;
+        }
     }
     protected void BindAcademy()
     {
-        DataSet dsAca = new DataSet();
-        dsAca = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where Active=1 and ZoneId='" + ddlZone.SelectedValue + "'");
-        ddlAcademy.DataSource = dsAca;
-        ddlAcademy.DataValueField = "AcaId";
-        ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, "Select Academy");
-        ddlAcademy.SelectedIndex = 0;
+        DataTable dsAca = new DataTable();
+        dsAca = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where Active=1 and ZoneId='" + ddlZone.SelectedValue + "'").Tables[0];
+        if (dsAca != null && dsAca.Rows.Count > 0)
+        {
+            ddlAcademy.DataSource = dsAca;
+            ddlAcademy.DataValueField = "AcaId";
+            ddlAcademy.DataTextField = "AcaName";
+            ddlAcademy.DataBind();
+            ddlAcademy.Items.Insert(0, "Select Academy");
+            ddlAcademy.SelectedIndex = 0;
+        }
     }
     protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -306,14 +315,17 @@ public partial class Admin_Drawing : System.Web.UI.Page
 
     protected void BindSubDrawingType()
     {
-        DataSet dwgZone = new DataSet();
-        dwgZone = DAL.DalAccessUtility.GetDataInDataSet("select Description,id from dbo.SubDrawingTypes where DwgTypeId ='" + ddlDwgType.SelectedValue + "'");
-        ddlSubDrawingType.DataSource = dwgZone;
-        ddlSubDrawingType.DataValueField = "ID";
-        ddlSubDrawingType.DataTextField = "Description";
-        ddlSubDrawingType.DataBind();
-        ddlSubDrawingType.Items.Insert(0, new ListItem("SELECT SUB DRAWING TYPE", "0"));
-        ddlSubDrawingType.SelectedIndex = 0;
+        DataTable dwgZone = new DataTable();
+        dwgZone = DAL.DalAccessUtility.GetDataInDataSet("select Description,id from dbo.SubDrawingTypes where DwgTypeId ='" + ddlDwgType.SelectedValue + "'").Tables[0];
+        if (dwgZone != null && dwgZone.Rows.Count > 0)
+        {
+            ddlSubDrawingType.DataSource = dwgZone;
+            ddlSubDrawingType.DataValueField = "ID";
+            ddlSubDrawingType.DataTextField = "Description";
+            ddlSubDrawingType.DataBind();
+            ddlSubDrawingType.Items.Insert(0, new ListItem("SELECT SUB DRAWING TYPE", "0"));
+            ddlSubDrawingType.SelectedIndex = 0;
+        }
     }
     protected void ddlDwgType_SelectedIndexChanged(object sender, EventArgs e)
     {

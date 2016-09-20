@@ -87,14 +87,14 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[BillNo]", hdnBillID.Value);
         htmlCode = htmlCode.Replace("[UserName]", hdnUserId.Value);
         htmlCode = htmlCode.Replace("[CurntDate]", hdnCurrentDate.Value);
-        
+        htmlCode = htmlCode.Replace("[EstimateNo]", hdnEstNo.Value);
         htmlCode = htmlCode.Replace("[To]", hdnAcademy.Value);
         htmlCode = htmlCode.Replace("[Total]", hdnTotal.Value);
         htmlCode = htmlCode.Replace("[Date]", hdnCurrentDate.Value);
         htmlCode = htmlCode.Replace("[Signature]", string.Empty);
         htmlCode = htmlCode.Replace("[SignatureSuprevisor]", String.Empty);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
-        htmlCode = htmlCode.Replace("[EstimateNo]", hdnEstNo.Value);
+        
 
         pnlHtml.InnerHtml = htmlCode;
         string folderPath = Server.MapPath("WorkshopBills");
@@ -133,7 +133,7 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
             SubTotal = Math.Round(SubTotal, 2);
             MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             MaterialInfo += "</tr>";
-            hdnEstNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
+          //  hdnEstNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
         }
         MaterialInfo += "</tbody>";
         MaterialInfo += "<tfoot>";
@@ -145,7 +145,7 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         MaterialInfo += "</tr>";
         MaterialInfo += "</tfoot>";
         MaterialInfo += "</table>";
-        hdnEstNo.Value = hdnEstNo.Value.Substring(0, hdnEstNo.Value.Length - 1);
+       // hdnEstNo.Value = hdnEstNo.Value.Substring(0, hdnEstNo.Value.Length - 1);
 
         return MaterialInfo;
     }

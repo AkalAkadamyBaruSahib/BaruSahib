@@ -56,20 +56,29 @@ public partial class WorkshopReport : System.Web.UI.Page
         int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
+        string selectedItems = String.Join(",", chkworkshop.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
         if (ddlWorkshopReport.SelectedValue == ((int)TypeEnum.WorkshopReportTypes.InStoreReport).ToString())
         {
-            string selectedItems = String.Join(",", chkworkshop.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_WorkshopInstoreMaterialReportByWorkshopID]'" + selectedItems).Tables[0];
+            if (selectedItems != "")
+            {
+                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_WorkshopInstoreMaterialReportByWorkshopID] '" + (selectedItems) + "'").Tables[0];
+            }
         }
         else
         {
             if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
             {
-                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "'," + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+                if (selectedItems != "")
+                {
+                    dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "','" + (selectedItems) + "'").Tables[0];
+                }
             }
             else
             {
-                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "'," + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+                if (selectedItems != "")
+                {
+                    dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "','" + (selectedItems) + "'").Tables[0];
+                }
             }
         }
         return dt;

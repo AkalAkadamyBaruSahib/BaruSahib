@@ -118,14 +118,17 @@ public partial class Admin_DrawingView : System.Web.UI.Page
     }
     protected void BinddWGtYPE()
     {
-        DataSet dsZone = new DataSet();
-        dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT DwTypeId,DwTypeName FROM DrawingType where Active=1");
-        ddlDwgType.DataSource = dsZone;
-        ddlDwgType.DataValueField = "DwTypeId";
-        ddlDwgType.DataTextField = "DwTypeName";
-        ddlDwgType.DataBind();
-        ddlDwgType.Items.Insert(0, "SELECT DRAWING TYPE");
-        ddlDwgType.SelectedIndex = 0;
+        DataTable dsZone = new DataTable();
+        dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT DwTypeId,DwTypeName FROM DrawingType where Active=1").Tables[0];
+        if (dsZone != null && dsZone.Rows.Count > 0)
+        {
+            ddlDwgType.DataSource = dsZone;
+            ddlDwgType.DataValueField = "DwTypeId";
+            ddlDwgType.DataTextField = "DwTypeName";
+            ddlDwgType.DataBind();
+            ddlDwgType.Items.Insert(0, "SELECT DRAWING TYPE");
+            ddlDwgType.SelectedIndex = 0;
+        }
     }
     protected void DeactiveDrawing(string ID)
     {
@@ -333,13 +336,16 @@ public partial class Admin_DrawingView : System.Web.UI.Page
     }
     private void BindAcademy()
     {
-        DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM Academy order by AcaName asc");
-        ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataValueField = "AcaID";
-        ddlAcademy.DataSource = dsBillDetails.Tables[0];
-        ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, new ListItem("--All Academy---", "0"));
-        ddlAcademy.SelectedIndex = 0;
+        DataTable dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select AcaName,AcaID FROM Academy order by AcaName asc").Tables[0];
+        if (dsBillDetails != null && dsBillDetails.Rows.Count > 0)
+        {
+            ddlAcademy.DataTextField = "AcaName";
+            ddlAcademy.DataValueField = "AcaID";
+            ddlAcademy.DataSource = dsBillDetails;
+            ddlAcademy.DataBind();
+            ddlAcademy.Items.Insert(0, new ListItem("--All Academy---", "0"));
+            ddlAcademy.SelectedIndex = 0;
+        }
 
     }
 }

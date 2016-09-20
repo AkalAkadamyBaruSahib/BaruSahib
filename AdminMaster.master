@@ -175,7 +175,8 @@
 
                                 </ul>
                             </li>
-                            <li id="liBilldata" runat="server"><a class="ajax-link" href="#"><i><img src="img/Bill.jpg"/></i><span class="hidden-tablet"><b>BILLS</b></span></a>
+                           
+                            <li id="liBilldata" runat="server"><a class="ajax-link" href="#"><i><img src="img/Bill1.png" /></i><span class="hidden-tablet"><b>BILLS</b></span></a>
                                 <ul>
                                     <li id="liBill" runat="server"><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval</span></a></li>
                                     <li id="liBillStatus" runat="server"><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
@@ -191,7 +192,7 @@
 
                                 </ul>
                             </li>
-                            <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i><img src="img/Compliant.jpg" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
+                            <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i> <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Admin_ComplaintTickets.aspx"><span class="hidden-tablet">Compalaint Tickets</span></a></li>
                                 </ul>

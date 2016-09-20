@@ -38,7 +38,7 @@ public partial class Arch_DrawingView : System.Web.UI.Page
             }
             else
             {
-                BindAllDrawing(true, -1);
+                BindAllDrawing(true, -1 ,- 1);
             }
 
             BinddWGtYPE();
@@ -52,7 +52,7 @@ public partial class Arch_DrawingView : System.Web.UI.Page
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
         int acaID = int.Parse(ddlAcademy.SelectedValue);
-        BindAllDrawing(true, acaID);
+        BindAllDrawing(true, acaID, - 1);
 
     }
 
@@ -66,13 +66,12 @@ public partial class Arch_DrawingView : System.Web.UI.Page
         // remove
         this.Request.QueryString.Clear();
 
-        BindAllDrawing(false, -1);
+        BindAllDrawing(false, -1, -1);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing has been approved successfully.');", true);
     }
 
     protected void btnExecl_Click(object sender, EventArgs e)
     {
-        System.Threading.Thread.Sleep(1000);
         Response.ClearContent();
         Response.Buffer = true;
         Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Drawing.xls"));
@@ -107,19 +106,22 @@ public partial class Arch_DrawingView : System.Web.UI.Page
     }
     protected void BinddWGtYPE()
     {
-        DataSet dsZone = new DataSet();
-        dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT DwTypeId,DwTypeName FROM DrawingType where Active=1");
-        ddlDwgType.DataSource = dsZone;
-        ddlDwgType.DataValueField = "DwTypeId";
-        ddlDwgType.DataTextField = "DwTypeName";
-        ddlDwgType.DataBind();
-        ddlDwgType.Items.Insert(0, "SELECT DRAWING TYPE");
-        ddlDwgType.SelectedIndex = 0;
+        DataTable dsZone = new DataTable();
+        dsZone = DAL.DalAccessUtility.GetDataInDataSet("SELECT DwTypeId,DwTypeName FROM DrawingType where Active=1").Tables[0];
+        if (dsZone != null && dsZone.Rows.Count > 0)
+        {
+            ddlDwgType.DataSource = dsZone;
+            ddlDwgType.DataValueField = "DwTypeId";
+            ddlDwgType.DataTextField = "DwTypeName";
+            ddlDwgType.DataBind();
+            ddlDwgType.Items.Insert(0, new ListItem("SELECT DRAWING TYPE", "0"));
+            ddlDwgType.SelectedIndex = 0;
+        }
     }
     protected void DeactiveDrawing(string ID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewDrawingProc '" + ID + "','','','','','','','','','','','','4','0',1,0");
-        BindAllDrawing(true, -1);
+        BindAllDrawing(true, -1, -1);
         //BindDrawing();
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing deactive successfully.');", true);
 
@@ -127,12 +129,12 @@ public partial class Arch_DrawingView : System.Web.UI.Page
     protected void ActiveDrawing(string ID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewDrawingProc '" + ID + "','','','','','','','','','','','','4','1',1,0");
-        BindAllDrawing(true, -1);
+        BindAllDrawing(true, -1,-1);
         //BindDrawing();
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing active successfully.');", true);
 
     }
-    protected void BindAllDrawing(bool IsApproved, int acaID)
+    protected void BindAllDrawing(bool IsApproved, int acaID, int drwingTypeID)
     {
         int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         if (IsApproved)
@@ -140,20 +142,17 @@ public partial class Arch_DrawingView : System.Web.UI.Page
         else
             btnNonApproved.Text = "View Approved Drawing";
 
-       DataTable dtZoneDetails = null;
-        System.Data.EnumerableRowCollection<System.Data.DataRow> datarows = null;
-        if (acaID > 0)
+        DataTable dtZoneDetails = null;
+        
+        if (drwingTypeID > 0 || int.Parse(ddlAcademy.SelectedValue) > 0)
         {
-
-            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForArchByAcaID'" + acaID + "','" + IsApproved + "','" + UserID + "'").Tables[0];
+            dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForArchByAcaID'" + ddlAcademy.SelectedValue + "','" + IsApproved + "','" + UserID + "'," + ddlDwgType.SelectedValue).Tables[0];
         }
         else
         {
             dtZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowForArchByID'" + IsApproved + "','" + UserID + "'").Tables[0]; ;
         }
 
-       
-    
         divAllDrawingView.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -191,11 +190,12 @@ public partial class Arch_DrawingView : System.Web.UI.Page
             ZoneInfo += "<td>Revision No: " + dtZoneDetails.Rows[i]["RevisionNo"].ToString() + "</td>";
             ZoneInfo += "</tr>";
             ZoneInfo += "<tr>";
-            ZoneInfo += "<td colspan='2'>Drawing Name: " + dtZoneDetails.Rows[i]["DrawingName"].ToString() + "</td>";
+            ZoneInfo += "<td>Drawing Name: " + dtZoneDetails.Rows[i]["DrawingName"].ToString() + "</td>";
+            ZoneInfo += "<td>Drawing Type: " + dtZoneDetails.Rows[i]["DwTypeName"].ToString() + "</td>";
             ZoneInfo += "</tr>";
             ZoneInfo += "</table>";
             ZoneInfo += "</td>";
-           
+
             ZoneInfo += "<td width='45%'><table><tr><td>PDF: <a href='" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["PdfFileName"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>DWG: <a href='" + dtZoneDetails.Rows[i]["DwgFilePath"].ToString() + "' target='_blank'>" + dtZoneDetails.Rows[i]["DwgFileName"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>Uploaded Date: " + dtZoneDetails.Rows[i]["CreatedOn"].ToString() + "</a></td></tr>";
@@ -211,7 +211,7 @@ public partial class Arch_DrawingView : System.Web.UI.Page
     protected void BindDrawing()
     {
         DataSet dsZoneDetails = new DataSet();
-        dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet(" exec USP_DrwaingShowByDwgTypeForAdmin  '" + ddlDwgType.SelectedValue + "'");
+        dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_DrwaingShowByDwgTypeForAdmin  '" + ddlDwgType.SelectedValue + "'");
 
         divDrawingView.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
@@ -277,18 +277,29 @@ public partial class Arch_DrawingView : System.Web.UI.Page
 
     protected void ddlDwgType_SelectedIndexChanged(object sender, EventArgs e)
     {
+        int UserType= int.Parse(Session["UserTypeID"].ToString());
+        
         if (ddlDwgType.SelectedValue == "6")
         {
             btnNonApproved.Text = "View Non Approved Drawing";
-            BindAllDrawing(true, -1);
+            BindAllDrawing(true, -1,-1);
             divAllDrawingView.Visible = true;
             divDrawingView.Visible = false;
         }
         else
         {
-            BindDrawing();
-            divDrawingView.Visible = true;
-            divAllDrawingView.Visible = false;
+            if (UserType ==(int)TypeEnum.UserType.ADMIN)
+            {
+                BindDrawing();
+                divDrawingView.Visible = true;
+                divAllDrawingView.Visible = false;
+            }
+            else
+            {
+                BindAllDrawing(true, -1, int.Parse(ddlDwgType.SelectedValue));
+                divAllDrawingView.Visible = true;
+                divDrawingView.Visible = false;
+            }
         }
     }
 
@@ -296,24 +307,27 @@ public partial class Arch_DrawingView : System.Web.UI.Page
     {
         if (((Button)sender).Text == "View Non Approved Drawing")
         {
-            BindAllDrawing(false, -1);
+            BindAllDrawing(false, -1,-1);
             ((Button)sender).Text = "View Approved Drawing";
         }
         else
         {
-            BindAllDrawing(true, -1);
+            BindAllDrawing(true, -1, -1);
             ((Button)sender).Text = "View Non Approved Drawing";
         }
     }
     private void BindAcademy()
     {
-        DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM Academy order by AcaName asc");
-        ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataValueField = "AcaID";
-        ddlAcademy.DataSource = dsBillDetails.Tables[0];
-        ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, new ListItem("--All Academy---", "0"));
-        ddlAcademy.SelectedIndex = 0;
+        DataTable dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select AcaName,AcaID FROM Academy order by AcaName asc").Tables[0];
+        if (dsBillDetails != null && dsBillDetails.Rows.Count > 0)
+        {
+            ddlAcademy.DataTextField = "AcaName";
+            ddlAcademy.DataValueField = "AcaID";
+            ddlAcademy.DataSource = dsBillDetails;
+            ddlAcademy.DataBind();
+            ddlAcademy.Items.Insert(0, new ListItem("--All Academy---", "0"));
+            ddlAcademy.SelectedIndex = 0;
+        }
 
     }
 }
