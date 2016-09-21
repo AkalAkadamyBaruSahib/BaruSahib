@@ -32,7 +32,7 @@
                 $("#divRadioButton").show();
             }
             else if (ddlselectedvalue.value == "2") {
-                $("#divRadioButton").show();
+                $("#divRadioButton").hide();
                 $("#divDesigDetails").show();
             }
             else {

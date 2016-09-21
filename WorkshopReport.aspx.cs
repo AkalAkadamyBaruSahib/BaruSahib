@@ -68,17 +68,11 @@ public partial class WorkshopReport : System.Web.UI.Page
         {
             if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
             {
-                if (selectedItems != "")
-                {
-                    dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "','" + (selectedItems) + "'").Tables[0];
-                }
+                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "'").Tables[0];
             }
             else
             {
-                if (selectedItems != "")
-                {
-                    dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "','" + (selectedItems) + "'").Tables[0];
-                }
+                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "'").Tables[0];
             }
         }
         return dt;
@@ -90,7 +84,7 @@ public partial class WorkshopReport : System.Web.UI.Page
         int UserType = Convert.ToInt32(Session["UserTypeID"].ToString());
         DataTable dsWorkshop = new DataTable();
         dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("Select A.AcaId,A.AcaName from Academy A INNER JOIN AcademyAssignToEmployee AAE on A.AcaId=AAE.AcaId Where  AAE.EmpId='" + UserID + "'").Tables[0];
-        if (dsWorkshop != null)
+        if (dsWorkshop != null && dsWorkshop.Rows.Count>0)
         {
             chkworkshop.DataSource = dsWorkshop;
             chkworkshop.DataValueField = "AcaId";
