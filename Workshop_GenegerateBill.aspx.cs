@@ -51,14 +51,15 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
     }
 
     protected void btnpdf_Click(object sender, EventArgs e)
-    {  
+    {
+        string estIDS = hdnEstNo.Value.Replace(',', '_');
         int UserId = Convert.ToInt32(Session["InchargeID"].ToString());
         DataSet dtAcaID = new DataSet();
         dtAcaID = DAL.DalAccessUtility.GetDataInDataSet("Select AcaId from AcademyAssignToEmployee where EmpId='" + UserId + "'");
         WorkshopBills wb = new WorkshopBills();
         wb.WSId = Convert.ToInt32(dtAcaID.Tables[0].Rows[0]["AcaId"].ToString());
         hdnUserId.Value = hdnUserId.Value.Replace(" ", "");
-        wb.BillPath = "WorkshopBills/" + hdnUserId.Value.Trim() + "_" + hdnEstNo.Value + ".pdf";
+        wb.BillPath = "WorkshopBills/" + hdnUserId.Value.Trim() + "_" + estIDS + ".pdf";
         wb.CreatedBy = UserId;
         wb.CreatedOn = DateTime.Now;
         WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
@@ -87,23 +88,25 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[BillNo]", hdnBillID.Value);
         htmlCode = htmlCode.Replace("[UserName]", hdnUserId.Value);
         htmlCode = htmlCode.Replace("[CurntDate]", hdnCurrentDate.Value);
-        htmlCode = htmlCode.Replace("[EstimateNo]", hdnEstNo.Value);
+       
         htmlCode = htmlCode.Replace("[To]", hdnAcademy.Value);
         htmlCode = htmlCode.Replace("[Total]", hdnTotal.Value);
         htmlCode = htmlCode.Replace("[Date]", hdnCurrentDate.Value);
         htmlCode = htmlCode.Replace("[Signature]", string.Empty);
         htmlCode = htmlCode.Replace("[SignatureSuprevisor]", String.Empty);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
-        
+         htmlCode = htmlCode.Replace("[EstimateNo]", hdnEstNo.Value);
 
         pnlHtml.InnerHtml = htmlCode;
         string folderPath = Server.MapPath("WorkshopBills");
         hdnUserId.Value = hdnUserId.Value.Replace(" ", "");
-        Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + hdnEstNo.Value + ".pdf"), folderPath);
+        string estIDS = hdnEstNo.Value.Replace(',', '_');
+        Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + ".pdf"), folderPath);
     }
 
     public string getGrid()
     {
+        
         DataTable dt = new DataTable();
         dt = DAL.DalAccessUtility.GetDataInDataSet("Select EMR.EstID,M.MatName,EMR.Qty,M.AkalWorkshopRate,U.UnitName from EstimateAndMaterialOthersRelations EMR " +
         "INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
@@ -133,7 +136,10 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
             SubTotal = Math.Round(SubTotal, 2);
             MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             MaterialInfo += "</tr>";
-          //  hdnEstNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
+            if (!hdnEstNo.Value.Contains(dt.Rows[i]["EstID"].ToString()))
+            {
+                hdnEstNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
+            }
         }
         MaterialInfo += "</tbody>";
         MaterialInfo += "<tfoot>";
@@ -145,7 +151,7 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         MaterialInfo += "</tr>";
         MaterialInfo += "</tfoot>";
         MaterialInfo += "</table>";
-       // hdnEstNo.Value = hdnEstNo.Value.Substring(0, hdnEstNo.Value.Length - 1);
+        hdnEstNo.Value = hdnEstNo.Value.Substring(0, hdnEstNo.Value.Length - 1);
 
         return MaterialInfo;
     }

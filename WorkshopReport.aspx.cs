@@ -13,6 +13,7 @@ public partial class WorkshopReport : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             BindWorkshop();
+            BindIncharge();
         }
     }
     protected void btnDownload_Click(object sender, EventArgs e)
@@ -66,13 +67,20 @@ public partial class WorkshopReport : System.Web.UI.Page
         }
         else
         {
+            string selectedIncharge = String.Join(",", chkIncharge.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
             if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
             {
-                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "'").Tables[0];
+                if (selectedIncharge != "")
+                {
+                    dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "','" + (selectedIncharge) + "'").Tables[0];
+                }
             }
             else
             {
-                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + UserID + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "'").Tables[0];
+                if (selectedIncharge != "")
+                {
+                    dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + selectedIncharge + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "'").Tables[0];
+                }
             }
         }
         return dt;
@@ -90,6 +98,29 @@ public partial class WorkshopReport : System.Web.UI.Page
             chkworkshop.DataValueField = "AcaId";
             chkworkshop.DataTextField = "AcaName";
             chkworkshop.DataBind();
+        }
+    }
+
+
+    public void BindIncharge()
+    {
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
+        int UserType = Convert.ToInt32(Session["UserTypeID"].ToString());
+        DataTable dsWorkshop = new DataTable();
+        if (UserType == (int)TypeEnum.UserType.WORKSHOPADMIN)
+        {
+            dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("select InchargeId,InName from Incharge where ModuleID=" + (int)TypeEnum.Module.Workshop + " and  DepId=13").Tables[0];
+        }
+        else
+        {
+            dsWorkshop = DAL.DalAccessUtility.GetDataInDataSet("select InchargeId,InName from Incharge where ModuleID=" + (int)TypeEnum.Module.Workshop + " and  InchargeId=" + UserID + "").Tables[0];
+        }
+        if (dsWorkshop != null && dsWorkshop.Rows.Count > 0)
+        {
+            chkIncharge.DataSource = dsWorkshop;
+            chkIncharge.DataValueField = "InchargeId";
+            chkIncharge.DataTextField = "InName";
+            chkIncharge.DataBind();
         }
     }
 }

@@ -29,15 +29,18 @@
         function ReportOnChange(ddlselectedvalue) {
             if (ddlselectedvalue.value == "1") {
                 $("#divDesigDetails").hide();
-                $("#divRadioButton").show();
+                $("#divRadioButton").show(); 
+                $("#divCheckIncharge").hide();
             }
             else if (ddlselectedvalue.value == "2") {
                 $("#divRadioButton").hide();
                 $("#divDesigDetails").show();
+                $("#divCheckIncharge").show();
             }
             else {
                 $("#divRadioButton").hide();
                 $("#divDesigDetails").hide();
+                $("#divCheckIncharge").hide();
             }
         }
     </script>
@@ -66,6 +69,13 @@
                 Select CheckBox To Download Report:<br />
                 <div class="box-content">
                     <asp:CheckBoxList ID="chkworkshop" runat="server" RepeatDirection="Horizontal"></asp:CheckBoxList>
+                </div>
+            </div>
+
+             <div class="box-content" id="divCheckIncharge" style="display: none">
+                Select CheckBox To Download Report:<br />
+                <div class="box-content">
+                    <asp:CheckBoxList ID="chkIncharge" runat="server" RepeatDirection="Horizontal"></asp:CheckBoxList>
                 </div>
             </div>
             <div id="divDesigDetails" style="display: none">

@@ -39,7 +39,7 @@ public partial class Admin_UserControls_BodyAssignPurchaseOffice : System.Web.UI
         DataSet dsAcaDetails = new DataSet();
         if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
         {
-            dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("select * from incharge where usertypeid IN (12,4,0)");
+            dsAcaDetails = DAL.DalAccessUtility.GetDataInDataSet("select * from incharge where usertypeid IN (12,4,0) and Active=1");
         }
         ddlEmployee.DataSource = dsAcaDetails.Tables[0];
         ddlEmployee.DataTextField = "InName";
