@@ -30,8 +30,8 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
 
     private void GetPurchaseMaterialDetail(int estID)
     {
-        string UserTypeID = Session["UserTypeID"].ToString();
-        string UserID = Session["InchargeID"].ToString();
+        int UserTypeID = Convert.ToInt32(Session["UserTypeID"].ToString());
+        int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         DataTable dtapproved = new DataTable();
 
         List<Estimate> PurchaseRegister = new List<Estimate>();
@@ -39,7 +39,7 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
 
         if (estID != null)
         {
-            PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, 2);
+            PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, 2, UserTypeID, UserID);
         }
 
         divMaterialDetails.InnerHtml = string.Empty;
@@ -71,7 +71,18 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 ZoneInfo += "<td class='center' width='25%'><b style='color:red;'>Sub Estimate:</b> " + Est.SubEstimate + "</td>";
                 ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Academy:</b> " + Est.Academy.AcaName + "</td>";
                 ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
-                ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                if (UserTypeID == (int)TypeEnum.UserType.ADMIN)
+                {
+                      ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                }
+                else if (UserTypeID == (int)TypeEnum.UserType.PURCHASE)
+                {
+                    ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                }
+                else
+                {
+                    ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='PurchaseEmployee_ViewEstMaterial.aspx?IsLocal=2&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
+                }
                 ZoneInfo += "</tr>";
                 ZoneInfo += "</table>";
                 ZoneInfo += "<table border='1' class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -84,8 +95,6 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 ZoneInfo += "<th width='27%'>Purchase Officer</th>";
                 ZoneInfo += "<th width='15%'>Purchase Date</th>";
                 ZoneInfo += "<th width='20%'>Remark</th>";
-                ZoneInfo += "<th width='0%'>Action</th>";
-
                 ZoneInfo += "</tr>";
 
                 int count = 0;
@@ -122,10 +131,6 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
 
 
                         ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
-
-                        ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
-
-
                         ZoneInfo += "</tr>";
                         count++;
                     }

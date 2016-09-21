@@ -880,30 +880,60 @@ public class PurchaseRepository
 
     }
 
-    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID)
+    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID,int UserTypeId,int UserId)
     {
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.EstId == EstID)
-            .Include(z => z.Zone)
-            .Include(a => a.Academy).ToList();
-
         List<Estimate> estimates = new List<Estimate>();
-        foreach (Estimate e in ests)
+        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.PURCHASE) || (UserTypeId == (int)TypeEnum.UserType.ADMIN))
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
-                .Include(m => m.Material)
-                .Include(u => u.Unit)
-                .Include(i => i.Incharge)
-                .Include(p => p.PurchaseSource).ToList();
+            var ests = _context.Estimate.Where(e=>e.EstId == EstID)
+                .Include(z => z.Zone)
+                .Include(a => a.Academy).ToList();
 
-            e.SanctionDate = e.ModifyOn;
-
-            if (estimateRelation.Count > 0)
+           
+            foreach (Estimate e in ests)
             {
-                e.EstimateAndMaterialOthersRelations = estimateRelation;
-                estimates.Add(e);
+                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                    .Include(m => m.Material)
+                    .Include(u => u.Unit)
+                    .Include(i => i.Incharge)
+                    .Include(p => p.PurchaseSource).ToList();
+
+                e.SanctionDate = e.ModifyOn;
+
+                if (estimateRelation.Count > 0)
+                {
+                    e.EstimateAndMaterialOthersRelations = estimateRelation;
+                    estimates.Add(e);
+                }
             }
+            ests = null;
         }
-        ests = null;
+        else
+        {
+            var ests = _context.Estimate.Where(e=>e.EstId == EstID && e.IsApproved==true)
+               .Include(z => z.Zone)
+               .Include(a => a.Academy).ToList();
+
+           
+            foreach (Estimate e in ests)
+            {
+                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID == UserId)
+                    .Include(m => m.Material)
+                    .Include(u => u.Unit)
+                    .Include(i => i.Incharge)
+                    .Include(p => p.PurchaseSource).ToList();
+
+                e.SanctionDate = e.ModifyOn;
+
+                if (estimateRelation.Count > 0)
+                {
+                    e.EstimateAndMaterialOthersRelations = estimateRelation;
+                    estimates.Add(e);
+                }
+            }
+            ests = null;
+        }
+        
         return estimates;
     }
 

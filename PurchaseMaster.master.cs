@@ -32,7 +32,7 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         else
         {
             liStatusReport.Visible = false;
-            liestimatesearch.Visible = false;
+          
         }
     }
     protected void lbLogOut_Click(object sender, EventArgs e)

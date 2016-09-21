@@ -432,7 +432,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                         ZoneInfo += "<th width='20%'>Remark</th>";
                     }
 
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                     {
                         if (DispatchStatus == 0)
                         {
@@ -487,12 +487,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                 if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {
                                     ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
-                                }
-
-
-                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
-                                {
-                                    ZoneInfo += "<td width='30%'><a href='javascript: openModelPopUp(" + Est.EstId + "," + material.Sno + ");'><span class='label label-warning'  style='font-size: 15.998px;'>Reject Item</span></a></td>";
                                 }
                                 else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {
