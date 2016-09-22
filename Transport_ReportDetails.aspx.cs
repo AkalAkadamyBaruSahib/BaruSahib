@@ -81,6 +81,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         //dtVehicleSummary.Columns.Add("DLType");
         dtVehicleSummary.Columns.Add("WrittenContract", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("Pollution", typeof(System.Int32));
+        dtVehicleSummary.Columns.Add("RouteMap", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("DL", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("Camera", typeof(System.Int32));
         dtVehicleSummary.Columns.Add("FemaleConductor", typeof(System.Int32));
@@ -125,6 +126,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             int Permit = 0;
             int Passing = 0;
             int Pollution = 0;
+            int RouteMap = 0;
             int Tax = 0;
             int WrittenContract = 0;
             int DL = 0;
@@ -258,6 +260,14 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
+                if (v.TypeID == (int)(TypeEnum.TransportType.Contractual) || v.TypeID == (int)(TypeEnum.TransportType.Trust))
+                {
+                    if (getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.RouteMap)).Count() == 0)
+                    {
+                        RouteMap += 1;
+                    }
+                }
+
                 getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID =" + v.ID).Tables[0];
                 if (v.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
@@ -316,7 +326,8 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["Tax"] = Tax;
             dr["Passing"] = Passing;
             dr["Pollution"] = Pollution;
-            dr["WrittenContract"] = WrittenContract;
+            dr["WrittenContract"] = WrittenContract; 
+            dr["RouteMap"] = RouteMap;
             dr["DL"] = DL;
             dr["Camera"] = Camera;
             dr["FemaleConductor"] = FemaleConductor;
@@ -324,7 +335,8 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["GPS"] = GPS;
             dr["MaleConductor"] = MaleConductor;
             dr["YellowColor"] = YellowColor;
-            dr["Total"] = (RC + Insurance + Permit + Tax + Passing + Pollution + WrittenContract + DL + Camera + FemaleConductor + SpeedGoverner + GPS + MaleConductor + YellowColor);
+        
+            dr["Total"] = (RC + Insurance + Permit + Tax + Passing + Pollution + WrittenContract + DL + Camera + FemaleConductor + SpeedGoverner + GPS + MaleConductor + YellowColor + RouteMap);
 
             dtTransportManagerName = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct INC.* FROM Vehicles V " +
             "INNER JOIN dbo.AcademyAssignToEmployee A ON A.AcaID=V.AcademyID " +
@@ -356,6 +368,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             dr["Passing"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Passing)", string.Empty));
             dr["WrittenContract"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(WrittenContract)", string.Empty));
             dr["Pollution"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Pollution)", string.Empty));
+            dr["RouteMap"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(RouteMap)", string.Empty));
             dr["DL"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(DL)", string.Empty));
             dr["Camera"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(Camera)", string.Empty));
             dr["FemaleConductor"] = Convert.ToInt32(dtVehicleSummary.Compute("SUM(FemaleConductor)", string.Empty));
@@ -542,17 +555,31 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         }
                     }
                 }
+
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual) || vehicle.TypeID == (int)(TypeEnum.TransportType.Trust))
+                {
+                    if (!getDocuments.Exists(document => document.TransportDocumentID == (int)TypeEnum.TransportDocumentType.RouteMap))
+                    {
+                        PendingDocumentName += "RouteMap" + ",";
+                        count += 1;
+                    }
+                }
             }
             else
             {
-                if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust) || vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
+                if (vehicle.TypeID == (int)(TypeEnum.TransportType.MaterialMovementVehicle) || vehicle.TypeID == (int)(TypeEnum.TransportType.DailyWages) || vehicle.TypeID == (int)(TypeEnum.TransportType.Ambulance) || vehicle.TypeID == (int)(TypeEnum.TransportType.CivilEquipmentVehicle))
                 {
                     PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,";
                     count = 6;
                 }
                 else if (vehicle.TypeID == (int)(TypeEnum.TransportType.Contractual))
                 {
-                    PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,WrittenContract,";
+                    PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,WrittenContract,RouteMap,";
+                    count = 8;
+                }
+                else if (vehicle.TypeID == (int)(TypeEnum.TransportType.Trust))
+                {
+                    PendingDocumentName = "Registration,Pollution,Permit,Tax,Passing,Insurance,RouteMap,";
                     count = 7;
                 }
                 else
@@ -560,7 +587,6 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     PendingDocumentName = "Registration,Pollution,Insurance,";
                     count = 3;
                 }
-               
             }
 
             if (getDL.Count != 0)

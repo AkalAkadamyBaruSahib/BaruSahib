@@ -141,7 +141,7 @@
                                 </ul>
                             </li>
                             <li id="li4" runat="server"><a class="dropmenu" href="#"><i>
-                                <img src="img/Bill.jpg" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
+                                <img src="img/Bill1.png" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="TranspportGenerateBill.aspx"><i></i><span class="hidden-tablet">Generate Bill</span></a></li>
                                 </ul>
