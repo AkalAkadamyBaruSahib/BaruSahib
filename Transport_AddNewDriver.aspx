@@ -3,20 +3,20 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-      <script type="text/javascript">
-          function ClientSideClick(myButton) {
+    <script type="text/javascript">
+        function ClientSideClick(myButton) {
 
-              if (typeof (Page_ClientValidate) == 'function') {
-                  if (Page_ClientValidate() == false)
-                  { return false; }
-              }
-              if (myButton.getAttribute('type') == 'button') {
-                  myButton.disabled = true;
-                  myButton.className = "btn btn-success";
-                  myButton.value = "Please Wait...";
-              }
-              return true;
-          }
+            if (typeof (Page_ClientValidate) == 'function') {
+                if (Page_ClientValidate() == false)
+                { return false; }
+            }
+            if (myButton.getAttribute('type') == 'button') {
+                myButton.disabled = true;
+                myButton.className = "btn btn-success";
+                myButton.value = "Please Wait...";
+            }
+            return true;
+        }
     </script>
     <script src="JavaScripts/TransportValidation.js"></script>
     <style>
@@ -31,7 +31,7 @@
         }
     </style>
     <asp:HiddenField ID="hdnvehicleEmployeeID" runat="server" />
-    
+
     <div id="content" class="span10">
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -53,7 +53,7 @@
                         <div class="box-content">
 
                             <table id="tabledata" width="100%">
-                                <tr>  
+                                <tr>
                                     <td>
                                         <div class="control-group" id="div2">
                                             <label class="control-label" for="typeahead">Transport Type:</label>
@@ -65,7 +65,7 @@
                                                 ControlToValidate="drpTransportType" InitialValue="0" ErrorMessage="Please Select The  Transport Type" ForeColor="Red">*</asp:RequiredFieldValidator>
                                         </div>
                                     </td>
-                                      <td>
+                                    <td>
                                         <div class="control-group" id="div3">
                                             <label class="control-label" for="typeahead">Vehicle Number:</label>
                                             <div class="controls">
@@ -90,7 +90,7 @@
                                                 ControlToValidate="drpEmpLoyeeType" InitialValue="0" ErrorMessage="Please Select The  Employee Type" ForeColor="Red">*</asp:RequiredFieldValidator>
                                         </div>
                                     </td>
-                                    
+
 
                                 </tr>
 
@@ -123,6 +123,7 @@
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDateOfBirth" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_txtDateOfBirth" ControlToValidate="txtDateOfBirth" ErrorMessage="Please Enter The Date Of Birth" />
+                                                <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red"  ControlToValidate="txtDateOfBirth" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
                                             </div>
                                         </div>
                                     </td>
@@ -135,8 +136,20 @@
                                         <div class="control-group" id="divfileUploadQualification" runat="server">
                                             <label class="control-label" for="typeahead">Qualification:</label>
                                             <div class="controls">
-                                                <input type="file" id="fileUploadQualification" multiple="multiple"/>
+                                                <input type="file" id="fileUploadQualification" multiple="multiple" />
                                                 <div id="aQualification"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="control-group" id="div1" runat="server">
+                                            <label class="control-label" for="typeahead">DL Scan Copy:</label>
+                                            <div class="controls">
+                                                <input type="file" id="fileUploadDlValidity" multiple="multiple" />
+                                                <div id="afileUploadDlValidity"></div>
+
+
                                             </div>
                                         </div>
                                     </td>
@@ -145,19 +158,7 @@
                                             <label class="control-label" for="typeahead">Date Of Joining:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDateOfJoin" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox>
-                                              <%--  <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver"
-                                                    ID="RequiredFieldValidator_txtDateOfJoin" ControlToValidate="txtDateOfJoin"
-                                                    ErrorMessage="Please Enter The Date Of Joining" />--%>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="control-group" id="div1" runat="server">
-                                            <label class="control-label" for="typeahead">DL Scan Copy:</label>
-                                            <div class="controls">
-                                                <input type="file" id="fileUploadDlValidity" multiple="multiple" />
-                                                   <div id="afileUploadDlValidity"></div>
-                                             
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtDateOfJoin" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
 
                                             </div>
                                         </div>
@@ -169,7 +170,7 @@
                                             <label class="control-label" for="typeahead">DL Number:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDlNumber" runat="server" CssClass="span6 typeahead" Style="width: 200px; height: 25px;"></asp:TextBox>
-                         
+
                                             </div>
                                         </div>
                                     </td>
@@ -180,7 +181,7 @@
                                                 <div class="controls">
                                                     <asp:DropDownList ID="drpDlType" runat="server" Style="width: 200px; height: 25px;">
                                                     </asp:DropDownList>
-                                                  </div>
+                                                </div>
                                             </div>
                                     </td>
                                     <td>
@@ -188,7 +189,9 @@
                                             <label class="control-label" for="typeahead">DL Validity:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtdlvalidity" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox><br />
-                                             </div>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red"  ControlToValidate="txtdlvalidity" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -209,8 +212,8 @@
                                             <label class="control-label" for="typeahead">Application Form:</label>
                                             <div class="controls">
                                                 <input type="file" id="fileUploadApplicationForm" multiple="multiple" />
-                                                  <div id="afileUploadApplicationForm"></div>
-                                         
+                                                <div id="afileUploadApplicationForm"></div>
+
                                             </div>
                                         </div>
                                     </td>
@@ -219,8 +222,9 @@
                                             <label class="control-label" for="typeahead">Address:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" CssClass="span6 typeahead" Style="width: 200px;"></asp:TextBox>
-                                 <%--               <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_txtAddress" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
-                                --%>            </div>
+                                                <%--               <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_txtAddress" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
+                                                --%>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
@@ -237,7 +241,7 @@
 
 
                             </table>
-                           
+
                             <fieldset id="fCompanyDetail">
                                 <legend><span class="labelH labelH-info">Previous Company Detail</span></legend>
                                 <asp:UpdatePanel ID="updatepanel2" runat="server">
@@ -272,7 +276,7 @@
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </fieldset>
-                            <fieldset  id="fFamilyDetail">
+                            <fieldset id="fFamilyDetail">
                                 <legend><span class="labelH labelH-info">Family Members Detail</span></legend>
                                 <asp:UpdatePanel ID="updatepanel" runat="server">
                                     <ContentTemplate>
@@ -329,7 +333,7 @@
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
                             </fieldset>
-                            <fieldset  id="fRefenceDetail">
+                            <fieldset id="fRefenceDetail">
                                 <legend><span class="labelH labelH-info">Reference Detail</span></legend>
                                 <asp:UpdatePanel ID="updatepanel1" runat="server">
                                     <ContentTemplate>
@@ -380,10 +384,10 @@
                         </div>
                         <div class="form-actions">
                             <%--<input id="btnSave" value="Save" class="btn btn-primary" />--%>
-                                   <input type="button" id="btnSave" value="Save" title="Save" class="btn btn-success" />
-                          <%--  <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary"  />--%>
-                              <input type="button" id="btnEdit" value="Update" title="Save" class="btn btn-success" />
-                           <%-- <asp:Button ID="btnEdit" Text="Update" runat="server" CssClass="btn btn-primary"/>--%>
+                            <input type="button" id="btnSave" value="Save" title="Save" class="btn btn-success" />
+                            <%--  <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary"  />--%>
+                            <input type="button" id="btnEdit" value="Update" title="Save" class="btn btn-success" />
+                            <%-- <asp:Button ID="btnEdit" Text="Update" runat="server" CssClass="btn btn-primary"/>--%>
                         </div>
                     </fieldset>
 

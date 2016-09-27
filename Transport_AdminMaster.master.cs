@@ -34,8 +34,18 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
         else
         {
             liEstimateiewForEmp.Visible = false;
-        }
+            showUnApprovedEstimateCount();
 
+        }
+     
+    }
+    private void showUnApprovedEstimateCount()
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        if (!spnViewEstimate.InnerText.Contains('('))
+        {
+            spnViewEstimate.InnerText = spnViewEstimate.InnerText + " (" + repository.GetUnApprovedEstimates((int)TypeEnum.Module.Transport) + ")";
+        }
     }
     protected void lbLogOut_Click(object sender, EventArgs e)
     {

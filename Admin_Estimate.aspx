@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin_Estimate.aspx.cs" Inherits="Admin_Estimate" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" EnableEventValidation="false" CodeFile="Admin_Estimate.aspx.cs" Inherits="Admin_Estimate" %>
 
 <%@ Register Src="~/Admin/UserControls/UploadEstimate.ascx" TagPrefix="uc1" TagName="UploadEstimate" %>
 

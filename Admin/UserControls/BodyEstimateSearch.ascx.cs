@@ -39,7 +39,14 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
 
         if (estID != null)
         {
-            PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, 2, UserTypeID, UserID);
+            if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN || UserTypeID == (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
+            {
+                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop, UserTypeID, UserID);
+            }
+            else
+            {
+                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.Mohali, UserTypeID, UserID);
+            }
         }
 
         divMaterialDetails.InnerHtml = string.Empty;
@@ -79,6 +86,17 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 {
                     ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                 }
+                else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
+                {
+                    ZoneInfo += "<td class='center' width='20%'><a href='AkalWorkshop_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Workshop_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Assign Workshop</span></a></td>";
+                }
+                else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                {
+                    //if (DispatchStatus == 0)
+                    //{
+                        ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Material To Dispatch</span></a></td>";
+                   // }
+                }
                 else
                 {
                     ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='PurchaseEmployee_ViewEstMaterial.aspx?IsLocal=2&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
@@ -92,7 +110,14 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 ZoneInfo += "<th width='2%'>Unit</th>";
                 ZoneInfo += "<th width='2%'>Quantity</th>";
                 ZoneInfo += "<th width='5%'>Source Type</th>";
-                ZoneInfo += "<th width='27%'>Purchase Officer</th>";
+                if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                {
+                    ZoneInfo += "<th width='27%'>Workshop Name</th>";
+                }
+                else
+                {
+                    ZoneInfo += "<th width='27%'>Purchase Officer</th>";
+                }
                 ZoneInfo += "<th width='15%'>Purchase Date</th>";
                 ZoneInfo += "<th width='20%'>Remark</th>";
                 ZoneInfo += "</tr>";

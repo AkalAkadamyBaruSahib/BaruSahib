@@ -39,6 +39,27 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public List<string> GetSearchActiveMaterials(int MatTypeID)
+    {
+        List<string> arrMaterials = new List<string>();
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        List<MaterialsDTO> materials = repository.GetActiveMaterialsByMatTypeID(MatTypeID);
+        foreach (MaterialsDTO dto in materials)
+        {
+            arrMaterials.Add(dto.MatName.Trim());
+        }
+        return arrMaterials;
+    }
+
+    [WebMethod]
+    public List<MaterialsDTO> GetActiveMaterialsList(int MatTypeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        List<MaterialsDTO> materials = repository.GetActiveMaterialsByMatTypeID(MatTypeID);
+        return materials;
+    }
+
+    [WebMethod]
     public List<string> GetActiveMaterials()
     {
         List<string> arrMaterials = new List<string>();
@@ -51,12 +72,20 @@ public class PurchaseControler : System.Web.Services.WebService
         return arrMaterials;
     }
 
+
+    [WebMethod]
+    public List<MaterialType> GetActiveMaterialTypes()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetActiveMaterialTypes();
+    }
+
     [WebMethod]
     public List<string> GetMaterials()
     {
         List<string> arrMaterials = new List<string>();
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        List<MaterialsDTO> materials = repository.GetActiveMaterials();
+        List<MaterialsDTO> materials = repository.GetMaterials();
         foreach (MaterialsDTO dto in materials)
         {
             arrMaterials.Add(dto.MatName.Trim());
@@ -394,4 +423,5 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetAcademybyZoneIDByEmpID(ZoneID, InchargeID);
     }
+
 }

@@ -196,13 +196,27 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             ZoneInfo += "<tr>";
             ZoneInfo += "<td>" + MatDetails.Rows[i]["MatTypeName"].ToString() + "</td>";
             ZoneInfo += "<td>" + MatDetails.Rows[i]["MatName"].ToString() + "(" + MatDetails.Rows[i]["UnitName"].ToString() + ")</td>";
-            if (MatDetails.Rows[i]["MatCost"].ToString() != "")
+            if (MatID == 83)
             {
-                ZoneInfo += "<td>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["MatCost"].ToString())) + "</td>";
+                if (MatDetails.Rows[i]["AkalWorkshopRate"].ToString() != "")
+                {
+                    ZoneInfo += "<td>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["AkalWorkshopRate"].ToString())) + "</td>";
+                }
+                else
+                {
+                    ZoneInfo += "<td>0.00</td>";
+                }
             }
             else
             {
-                ZoneInfo += "<td>0.00</td>";
+                if (MatDetails.Rows[i]["MatCost"].ToString() != "")
+                {
+                    ZoneInfo += "<td>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["MatCost"].ToString())) + "</td>";
+                }
+                else
+                {
+                    ZoneInfo += "<td>0.00</td>";
+                }
             }
             ZoneInfo += "<td class='center'>";
             if (MatDetails.Rows[i]["Active"].ToString() == "1")

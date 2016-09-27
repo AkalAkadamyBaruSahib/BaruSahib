@@ -131,6 +131,8 @@ public class TypeEnum
 
     public enum PurchaseSourceID : int
     {
+        Local = 1,
+        Mohali = 2,
         AkalWorkshop = 3
     }
 }

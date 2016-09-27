@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Workshop.master" AutoEventWireup="true" CodeFile="WorkShop_AddEstimate.aspx.cs" Inherits="WorkShop_AddEstimate" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Workshop.master" AutoEventWireup="true" EnableEventValidation="false" CodeFile="WorkShop_AddEstimate.aspx.cs" Inherits="WorkShop_AddEstimate" %>
 
 <%@ Register Src="~/Admin/UserControls/UploadEstimate.ascx" TagPrefix="uc1" TagName="UploadEstimate" %>
 

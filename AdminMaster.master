@@ -43,8 +43,8 @@
 
     <!-- The fav icon -->
     <link rel="shortcut icon" href="img/favicon.ico">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
 </head>
 
 <body>
@@ -217,6 +217,7 @@
                             <li id="liestimatesearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
                                 <ul>
                                     <li><a href="AdminEstimateSearch.aspx"><span class="hidden-tablet">Estimate Search</span></a></li>
+                                      <li><a href="NewEstimateFunctionality.aspx"><span class="hidden-tablet">New Estimate Functionality</span></a></li>
                                 </ul>
                             </li>
                         </ul>

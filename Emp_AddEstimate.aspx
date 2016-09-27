@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EmpMaster.master" AutoEventWireup="true" CodeFile="Emp_AddEstimate.aspx.cs" Inherits="Emp_AddEstimate" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EmpMaster.master" EnableEventValidation="false" AutoEventWireup="true" CodeFile="Emp_AddEstimate.aspx.cs" Inherits="Emp_AddEstimate" %>
 
 <%@ Register Src="~/Admin/UserControls/UploadEstimate.ascx" TagPrefix="uc1" TagName="UploadEstimate" %>
 
@@ -6,5 +6,4 @@
     <script src="JavaScripts/EstimateUpload.js"></script>
     <uc1:UploadEstimate runat="server" ID="UploadEstimate" />
 </asp:Content>
-
 

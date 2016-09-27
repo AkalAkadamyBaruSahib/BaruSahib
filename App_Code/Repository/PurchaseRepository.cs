@@ -55,14 +55,30 @@ public class PurchaseRepository
 
     }
 
+    public List<MaterialsDTO> GetActiveMaterialsByMatTypeID(int MatTypeID)
+    {
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        return mt = _context.Material.Include(u => u.Unit).Where(m => m.Active == 1 && m.MatTypeId == MatTypeID).AsEnumerable().Select(x => new MaterialsDTO
+                         {
+                             MatID = x.MatId,
+                             MatName = x.MatName.Trim(),
+                             MatCost = x.MatCost,
+                             AkalWorkshopRate = x.AkalWorkshopRate,
+                             LocalRate = x.LocalRate,
+                             Unit = x.Unit,
+                             MatTypeID = x.MatTypeId
+                         }).OrderByDescending(m => m.MatName).Reverse().ToList();
+    }
+
+
     public List<MaterialsDTO> GetActiveMaterials()
     {
         List<MaterialsDTO> mt = new List<MaterialsDTO>();
         return mt = _context.Material.Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
-                         {
-                             MatID = x.MatId,
-                             MatName = x.MatName,
-                         }).OrderByDescending(m => m.MatName).Reverse().ToList();
+        {
+            MatID = x.MatId,
+            MatName = x.MatName,
+        }).OrderByDescending(m => m.MatName).Reverse().ToList();
 
     }
 
@@ -72,7 +88,12 @@ public class PurchaseRepository
         return mt = _context.Material.Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
         {
             MatID = x.MatId,
-            MatName = x.MatName,
+            MatName = x.MatName.Trim(),
+            MatCost = x.MatCost,
+            AkalWorkshopRate = x.AkalWorkshopRate,
+            LocalRate = x.LocalRate,
+            Unit = x.Unit,
+            MatTypeID = x.MatTypeId
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
     }
 
@@ -109,7 +130,7 @@ public class PurchaseRepository
 
     public List<Estimate> GetEstimateNumberList(int InchargeID)
     {
-       List<Estimate> estimates = new List<Estimate>();
+        List<Estimate> estimates = new List<Estimate>();
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true).ToList();
 
@@ -123,12 +144,12 @@ public class PurchaseRepository
             }
         }
         ests = null;
-        return estimates; 
+        return estimates;
     }
 
     public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
     {
-        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID && x.DispatchStatus==1).ToList();
+        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID && x.DispatchStatus == 1).ToList();
     }
 
     public List<VendorInfo> GetVendorAddress(int VendorID)
@@ -880,16 +901,16 @@ public class PurchaseRepository
 
     }
 
-    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID,int UserTypeId,int UserId)
+    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID, int UserTypeId, int UserId)
     {
         List<Estimate> estimates = new List<Estimate>();
-        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.PURCHASE) || (UserTypeId == (int)TypeEnum.UserType.ADMIN))
+        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.PURCHASE) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN))
         {
-            var ests = _context.Estimate.Where(e=>e.EstId == EstID)
+            var ests = _context.Estimate.Where(e => e.EstId == EstID)
                 .Include(z => z.Zone)
                 .Include(a => a.Academy).ToList();
 
-           
+
             foreach (Estimate e in ests)
             {
                 var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
@@ -910,11 +931,11 @@ public class PurchaseRepository
         }
         else
         {
-            var ests = _context.Estimate.Where(e=>e.EstId == EstID && e.IsApproved==true)
+            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsApproved == true)
                .Include(z => z.Zone)
                .Include(a => a.Academy).ToList();
 
-           
+
             foreach (Estimate e in ests)
             {
                 var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID == UserId)
@@ -933,7 +954,7 @@ public class PurchaseRepository
             }
             ests = null;
         }
-        
+
         return estimates;
     }
 
@@ -996,5 +1017,10 @@ public class PurchaseRepository
         ests = null;
         return estimates;
 
+    }
+
+    public List<MaterialType> GetActiveMaterialTypes()
+    {
+        return _context.MaterialType.Where(m => m.Active == 1).ToList();
     }
 }
