@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class Workshop : System.Web.UI.MasterPage
 {
+    int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -38,7 +39,20 @@ public partial class Workshop : System.Web.UI.MasterPage
             liMaterialAssign.Visible = false;
             liEstimateWorkAllot.Visible = false;
           
-        } 
+        }
+
+        showUncompletedEstimatesCount();
+    }
+
+    private void showUncompletedEstimatesCount()
+    {
+        InchargeID = int.Parse(Session["InchargeID"].ToString());
+        WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
+        if (!spnPendingEstimates.InnerText.Contains('('))
+        {
+            spnPendingEstimates.InnerText = spnPendingEstimates.InnerText + " (" + repo.GetUnCompletedEstimate(InchargeID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop) + ")";
+        }
+
     }
     protected void lbLogOut_Click(object sender, EventArgs e)
     {

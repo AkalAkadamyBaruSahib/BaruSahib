@@ -93,4 +93,13 @@ public class WorkshopRepository
     {
         return _context.WorkshopStoreMaterial.Where(m => m.MatID == matID && m.AcaID == AcaID).FirstOrDefault();
     }
+
+    public int GetUnCompletedEstimate(int inchargeID, int purchaseSourceID)
+    {
+        List<Estimate> estimates = new List<Estimate>();
+
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true)
+          .Include(r => r.EstimateAndMaterialOthersRelations).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 0 && er.PurchaseEmpID == inchargeID)).Count();
+        return ests;
+    }
 }
