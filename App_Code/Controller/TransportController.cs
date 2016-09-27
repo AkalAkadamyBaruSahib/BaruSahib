@@ -104,4 +104,12 @@ public class TransportController : System.Web.Services.WebService
         }
         return arrVehicles;
     }
+
+
+    [WebMethod]
+    public List<VehiclesDTO> GetContracturalVehiclesByAcaID(int AcaID, int TypeID)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        return repository.GetContracturalVehiclesByAcaID(AcaID, TypeID);
+    }
 }

@@ -196,7 +196,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             ZoneInfo += "<tr>";
             ZoneInfo += "<td>" + MatDetails.Rows[i]["MatTypeName"].ToString() + "</td>";
             ZoneInfo += "<td>" + MatDetails.Rows[i]["MatName"].ToString() + "(" + MatDetails.Rows[i]["UnitName"].ToString() + ")</td>";
-            if (MatID == 83)
+            if (MatID == 75)
             {
                 if (MatDetails.Rows[i]["AkalWorkshopRate"].ToString() != "")
                 {

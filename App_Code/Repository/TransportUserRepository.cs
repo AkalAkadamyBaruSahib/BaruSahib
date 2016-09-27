@@ -423,4 +423,37 @@ public class TransportUserRepository
     {
         return _context.VechilesNormsRelation.Where(x => x.VehicleID == VehicleID).ToList();
     }
+
+    public List<Vehicles> GetVehiclesKmByVehicleID(int VehicleID)
+    {
+        return _context.Vehicles.Where(x => x.ID == VehicleID).ToList();
+    }
+
+    public List<VehicleContractRate> getVehiclesContractRateBySeater(int SeatingCapacity)
+    {
+        return _context.VehicleContractRate.Where(x => x.SeatCapacity == SeatingCapacity).ToList();
+    }
+
+    public List<VehiclesDTO> GetContracturalVehiclesByAcaID(int AcaID, int TypeID)
+    {
+        List<VehiclesDTO> mt = new List<VehiclesDTO>();
+        return mt = _context.Vehicles.Where(v => v.AcademyID == AcaID && v.TypeID == TypeID && v.IsApproved == true).AsEnumerable().Select(x => new VehiclesDTO
+        {
+            ID = x.ID,
+            Number = x.Number,
+        }).OrderByDescending(m => m.Number).Reverse().ToList();
+    }
+
+    public List<Vehicles> GetVehicleDetailByVehicleID(int VehicleID)
+    {
+        return _context.Vehicles.Where(v => v.ID == VehicleID)
+            .Include(a => a.Academy)
+            .Include(z => z.Zone).ToList();
+    }
+
+    public int GetUnApprovedEstimates(int ModuleID)
+    {
+        return _context.Estimate.Where(e => e.IsApproved == false && e.ModuleID == ModuleID && e.IsActive == true).Count();
+    }
+
 }
