@@ -39,11 +39,11 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<string> GetSearchActiveMaterials(int MatTypeID)
+    public List<string> GetMaterialsBySourceTypeID(int sourceTypeID)
     {
         List<string> arrMaterials = new List<string>();
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        List<MaterialsDTO> materials = repository.GetActiveMaterialsByMatTypeID(MatTypeID);
+        List<MaterialsDTO> materials = repository.GetMaterialsBySourceTypeID(sourceTypeID);
         foreach (MaterialsDTO dto in materials)
         {
             arrMaterials.Add(dto.MatName.Trim());
@@ -52,11 +52,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<MaterialsDTO> GetActiveMaterialsList(int MatTypeID)
+    public List<MaterialsDTO> GetMaterialsBySourceTypeIDList(int sourceTypeID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        List<MaterialsDTO> materials = repository.GetActiveMaterialsByMatTypeID(MatTypeID);
-        return materials;
+        return repository.GetMaterialsBySourceTypeID(sourceTypeID);
     }
 
     [WebMethod]

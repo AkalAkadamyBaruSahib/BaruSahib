@@ -210,50 +210,50 @@
                     <table id="tblEstimateMatDetail" style="width: 100%;" class='table table-striped table-bordered'>
                         <thead>
                             <tr>
-                                <th style="color: #cc3300; width: 50px;">Sr No</th>
-                                <th style="color: #cc3300; width: 50px;">Material Type</th>
+                                <th style="color: #cc3300; width: 30px;">Sr No</th>
+                                <th style="color: #cc3300; width: 140px;">Source Type</th>
                                 <th style="color: #cc3300; width: 200px;">MaterialName</th>
-                                <th style="color: #cc3300; width: 139px;">Source Type</th>
+                                <th style="color: #cc3300; width: 180px;">Material Type</th>
                                 <th style="color: #cc3300; width: 120px;">Quantity</th>
-                                <th style="color: #cc3300">Unit</th>
-                                <th style="color: #cc3300; width: 121px">Rate</th>
-                                <th style="color: #cc3300; width: 300px">Remarks</th>
-                                <th style="color: #cc3300; width: 45px;">Action</th>
+                                <th style="color: #cc3300; width: 50px;"">Unit</th>
+                                <th style="color: #cc3300; width: 100px">Rate</th>
+                                <th style="color: #cc3300; width: 200px">Remarks</th>
+                                <th style="color: #cc3300; width: 75px;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
-                            <tr>
+                            <tr id="tr0">
                                 <td>
                                     <span id="spn0">1</span>
                                 </td>
-                                <td>
-                                    <select id="ddlMatTypeID0" style="width: 150px;">
-                                        <option value="0">Select Material Type</option>
+                                 <td>
+                                    <select id="ddlSourceType0"  style="width: 150px;">
+                                        <option value="0">Select Source Type</option>
                                     </select>
                                 </td>
+                                
                                 <td>
                                     <input id="txtMaterialName0" name="txtMaterialName1" type="text" class="span6 typeahead" style="width: 210px;" />
 
                                 </td>
-                                <td>
-                                    <select id="ddlSourceType0" disabled="disabled" style="width: 150px;">
-                                        <option value="0">Select Source Type</option>
-                                    </select>
+                               <td>
+                                     <span id="spnMaterialTypeID0"></span>
                                 </td>
                                 <td>
-                                    <input id="txtQty0" disabled="disabled" type="text" style="width: 80px;" />
+                                    <input id="txtQty0" type="text" style="width: 80px;" />
                                 </td>
                                 <td>
                                     <label id="lblUnit0"></label>
                                 </td>
                                 <td>
-                                    <input id="txtRate0" disabled="disabled" type="text" style="width: 100px;" />
+                                    <input id="txtRate0" type="text" style="width: 80px;" />
                                 </td>
                                 <td>
-                                    <input id="txtRemarks0" disabled="disabled" type="text" class="span6 typeahead" style="width: 200px;" />
+                                    <input id="txtRemarks0"  type="text" class="span6 typeahead" style="width: 200px;" />
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" id="a1" onclick="AddMaterialRow();">+</a>
+                                    <a href="javascript:void(0);" id="aAddNewRow0" onclick="AddMaterialRow();"><b>Add Row</b></a>
+                                    <a href="javascript:void(0);" id="aDeleteRow0" onclick="removeRow(0);"><b>Delete</b></a>
                                     <input type="hidden" id="hdnMatID0" /><input type="hidden" id="hdnMatTypeID0" /><input type="hidden" id="hdnUnitID0" />
                                 </td>
                             </tr>
@@ -261,12 +261,11 @@
                     </table>
                     <table style="width: 100%;">
                         <tr>
-
                             <td>
-                                <input type="button" id="btnEstimateCost" value="EstimateCost" title="EstimateCost" style="float: left; margin-left: 650px;" class="btn btn-success" />
+                                <input type="button" id="btnEstimateCost" value="EstimateCost" title="EstimateCost" style="float: left; margin-left: 570px;" class="btn btn-success" />
                             </td>
                             <td>
-                                <asp:Label ID="lblAmt" ForeColor="Red" Font-Bold="true" Text="0.00" Style="float: right; margin-right: 350px;" runat="server"></asp:Label>
+                                <asp:Label ID="lblAmt" ForeColor="Red" Font-Bold="true" Text="0.00" Style="float: right; margin-right: 450px;" runat="server"></asp:Label>
                             </td>
                         </tr>
 

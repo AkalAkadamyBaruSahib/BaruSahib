@@ -26,14 +26,15 @@ public class WorkshopRepository
         List<WorkshopStoreMaterial> WorkshopStoreMaterials = new List<WorkshopStoreMaterial>();
         if (AcaID == 0)
         {
-            WorkshopStoreMaterials = _context.WorkshopStoreMaterial
+            WorkshopStoreMaterials = _context.WorkshopStoreMaterial.Include(a => a.Academy)
                 .Include(m => m.Material)
-                .Include(a => a.Academy).ToList().OrderByDescending(e => e.Material.MatName).ToList();
+                .Where(m => m.Material.Active == 1)
+                .ToList().OrderByDescending(e => e.Material.MatName).ToList();
         }
         else
         {
             WorkshopStoreMaterials = _context.WorkshopStoreMaterial
-                .Include(m => m.Material).Where(a => a.AcaID == AcaID).ToList().OrderByDescending(e => e.Material.MatName).ToList(); ;
+                .Include(m => m.Material).Where(m => m.Material.Active == 1).Where(a => a.AcaID == AcaID).ToList().OrderByDescending(e => e.Material.MatName).ToList(); ;
         }
 
         return WorkshopStoreMaterials;

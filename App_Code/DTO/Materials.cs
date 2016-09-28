@@ -11,10 +11,12 @@ public class MaterialsDTO
     public int MatID { get; set; }
     public String MatName { get; set; }
     public int? MatTypeID { get; set; }
+    public string MatTypeName { get; set; }
     public Unit Unit { get; set; }
     public decimal? MatCost { get; set; }
-    public MaterialType MaterialType { get; set; }
+    public  MaterialType MaterialType { get; set; }
     public decimal? LocalRate { get; set; }
     public int? AcaID { get; set; }
     public decimal? AkalWorkshopRate { get; set; }
+
 }
