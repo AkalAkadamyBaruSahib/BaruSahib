@@ -47,15 +47,16 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
     {
         DataSet dsEstimateDetails = new DataSet();
 
+        int InchargeID = int.Parse(Session["InchargeID"].ToString());
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
 
         if (ddlAcademy.SelectedIndex > 0)
         {
-            dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EmpEstimateAcaWise '" + lblUser.Text + "' ,'" + ddlAcademy.SelectedValue + "','" + ModuleID + "'");
+            dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EmpEstimateAcaWise " + InchargeID + " ," + ddlAcademy.SelectedValue + "," + ModuleID);
         }
         else
         {
-            dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AllEstimate4Emp '" + lblUser.Text + "','" + ModuleID + "'");
+            dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AllEstimate4Emp " + InchargeID + "," + ModuleID);
         }
 
         var dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
@@ -148,9 +149,9 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
             ZoneInfo += "<tr><td><b>Sanction Date:</b>" + dtapproved.Rows[i]["SanctionDate"].ToString() + "</td></tr>";
 
             ZoneInfo += "</table></td>";
-            DataSet dsBal = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateBalAmt '" + dtapproved.Rows[i]["EstId"].ToString() + "'");
+            DataSet dsBal = new DataSet();
 
-            ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: " + dsBal.Tables[0].Rows[0]["BalAmt"].ToString() + "</td></tr></table></td>";
+            ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: 0</td></tr></table></td>";
 
             ZoneInfo += "<td width='35%'><table width='100%'>";
             DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM EstimateStatus WHERE EstId='" + dtapproved.Rows[i]["EstId"].ToString() + "'");
@@ -315,14 +316,17 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
 
     protected void BindAcademy()
     {
-        DataSet dsAca = new DataSet();
-        dsAca = DAL.DalAccessUtility.GetDataInDataSet("exec USP_BindAcademyForEmpEstimateAcademyWise '" + lblUser.Text + "'");
-        ddlAcademy.DataSource = dsAca;
-        ddlAcademy.DataValueField = "AcaId";
-        ddlAcademy.DataTextField = "AcaName";
-        ddlAcademy.DataBind();
-        ddlAcademy.Items.Insert(0, "Select Academy");
-        ddlAcademy.SelectedIndex = 0;
+        DataTable dsAca = new DataTable();
+        dsAca = DAL.DalAccessUtility.GetDataInDataSet("exec USP_BindAcademyForEmpEstimateAcademyWise '" + lblUser.Text + "'").Tables[0];
+        if (dsAca != null && dsAca.Rows.Count > 0)
+        {
+            ddlAcademy.DataSource = dsAca;
+            ddlAcademy.DataValueField = "AcaId";
+            ddlAcademy.DataTextField = "AcaName";
+            ddlAcademy.DataBind();
+            ddlAcademy.Items.Insert(0, "Select Academy");
+            ddlAcademy.SelectedIndex = 0;
+        }
     }
 
     private void getEstimateDetails()

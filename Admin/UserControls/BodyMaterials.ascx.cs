@@ -196,7 +196,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             ZoneInfo += "<tr>";
             ZoneInfo += "<td>" + MatDetails.Rows[i]["MatTypeName"].ToString() + "</td>";
             ZoneInfo += "<td>" + MatDetails.Rows[i]["MatName"].ToString() + "(" + MatDetails.Rows[i]["UnitName"].ToString() + ")</td>";
-            if (MatID == 75)
+            if (MatID == 83)
             {
                 if (MatDetails.Rows[i]["AkalWorkshopRate"].ToString() != "")
                 {
@@ -307,7 +307,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 double AkalWorkshopCost = 0.00;
                 double LocalCost = 0.00;
                 string ddl = ddlMatType.SelectedValue;
-                if (ddlMatType.SelectedValue == "75")
+                if (ddlMatType.SelectedValue == "83")
                 {
                     DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + AkalWorkshopCost + "','" + ddl + "','" + lblUser.Text + "','1','','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + MaterialCost + "'");
                 }
@@ -321,7 +321,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                    matid = Convert.ToInt32(dsExist.Tables[0].Rows[0]["Matid"].ToString());
                 }
 
-                if (ddlMatType.SelectedValue == "75")
+                if (ddlMatType.SelectedValue == "83")
                 {
                     WorkshopStoreMaterial workshopStoreMaterial = null;
                     foreach (ListItem chk in chkWorkshop.Items)
@@ -401,7 +401,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             double AkalWorkshopCost = 0.00;
             string ddl = ddlMatType.SelectedValue;
             double LocalCost = 0.00;
-            if (ddlMatType.SelectedValue == "75")
+            if (ddlMatType.SelectedValue == "83")
             {
                 DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMatProc '" + txtMat.Text + "','" + AkalWorkshopCost + "','" + ddlMatType.SelectedValue + "','" + lblUser.Text + "','2','" + MatId + "','1','" + ddlUnit.SelectedValue + "','" + fileNameToSave + "','" + LocalCost + "','" + MaterialCost + "'");
                 WorkshopStoreMaterial workshopStoreMaterial = null;
@@ -471,12 +471,13 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     }
     private void getMatDetails(string ID)
     {
+        UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         DataSet dsCouDetails = new DataSet();
         dsCouDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowMatrialDetails_ByID '" + ID + "'");
         if (dsCouDetails.Tables[0].Rows.Count > 0)
         {
             txtMat.Text = dsCouDetails.Tables[0].Rows[0]["MatName"].ToString();
-            if (dsCouDetails.Tables[0].Rows[0]["MatTypeId"].ToString() == "75")
+            if (dsCouDetails.Tables[0].Rows[0]["MatTypeId"].ToString() == "83" && UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
             {
                 txtRate.Text = dsCouDetails.Tables[0].Rows[0]["AkalWorkshopRate"].ToString();
                 DataSet dsWorkshopDetails = new DataSet();
@@ -540,11 +541,12 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     }
     protected void ddlMatType_SelectedIndexChanged1(object sender, EventArgs e)
     {
+        UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         DataSet dsMatType = new DataSet();
         dsMatType = DAL.DalAccessUtility.GetDataInDataSet("Select MatTypeId from MaterialType where MatTypeId ='" + ddlMatType.SelectedValue + "'");
         if (dsMatType.Tables[0].Rows.Count > 0)
         {
-            if (dsMatType.Tables[0].Rows[0]["MatTypeId"].ToString() == "75")
+            if (dsMatType.Tables[0].Rows[0]["MatTypeId"].ToString() == "83" && UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
             {
                 divworkshop.Visible = true;
                 BindWorkshop();

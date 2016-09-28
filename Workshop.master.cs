@@ -30,6 +30,7 @@ public partial class Workshop : System.Web.UI.MasterPage
             liEstimateView.Visible = false;
             liMaterialPending.Visible = false;
             liBill.Visible = false;
+           
         }
         else
         {
@@ -41,7 +42,8 @@ public partial class Workshop : System.Web.UI.MasterPage
           
         }
 
-        showUncompletedEstimatesCount();
+        showUncompletedEstimatesCount(); 
+        showUnAssignedEstimatesCount();
     }
 
     private void showUncompletedEstimatesCount()
@@ -51,6 +53,17 @@ public partial class Workshop : System.Web.UI.MasterPage
         if (!spnPendingEstimates.InnerText.Contains('('))
         {
             spnPendingEstimates.InnerText = spnPendingEstimates.InnerText + " (" + repo.GetUnCompletedEstimate(InchargeID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop) + ")";
+        }
+
+    }
+
+    private void showUnAssignedEstimatesCount()
+    {
+        InchargeID = int.Parse(Session["InchargeID"].ToString());
+        WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
+        if (!spnPendingAssignEstimates.InnerText.Contains('('))
+        {
+            spnPendingAssignEstimates.InnerText = spnPendingAssignEstimates.InnerText + " (" + repo.GetUnAssignedEstimate((int)TypeEnum.PurchaseSourceID.AkalWorkshop) + ")";
         }
 
     }

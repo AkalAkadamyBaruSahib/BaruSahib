@@ -102,4 +102,13 @@ public class WorkshopRepository
           .Include(r => r.EstimateAndMaterialOthersRelations).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 0 && er.PurchaseEmpID == inchargeID)).Count();
         return ests;
     }
+
+    public int GetUnAssignedEstimate(int purchaseSourceID)
+    {
+        List<Estimate> estimates = new List<Estimate>();
+
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true)
+          .Include(r => r.EstimateAndMaterialOthersRelations).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 0 && er.PurchaseEmpID == 0)).Count();
+        return ests;
+    }
 }
