@@ -43,6 +43,7 @@ public class Visitors
     public string City { get; set; }
     public bool IsActive { get; set; }
     public string VisitorReference { get; set; }
+    public int? RoomRentType { get; set; }
 
     public List<VisitorRoomNumbers> VisitorRoomNumbers { get; set; }
 

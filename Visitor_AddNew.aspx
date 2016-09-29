@@ -3,7 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-       
+
     <script type="text/javascript">
         function ClientSideClick(myButton) {
             // Client side validation
@@ -141,43 +141,36 @@
                         <div class="box-content">
                             <table id="tabledata" width="100%">
                                 <tr>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead">Full Name:</label>
-                                            <div class="controls">
-                                                <asp:TextBox ID="txtName" runat="server" CssClass="span6 typeahead" Style="width: 220px;"></asp:TextBox>
+                                    <td width="30%" style="padding-right: 254px;">
+                                        <label class="control-label" for="typeahead">Full Name:</label>
+                                        <asp:TextBox ID="txtName" runat="server" CssClass="span6 typeahead" Style="width: 220px;"></asp:TextBox>
+                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="reqName"
+                                            ControlToValidate="txtName" ErrorMessage="Please enter the Full Name Of Visitor" />
 
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="reqName"
-                                                    ControlToValidate="txtName" ErrorMessage="Please enter the Full Name Of Visitor" />
-                                            </div>
-                                        </div>
                                     </td>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead">Visitor Contact Number:</label>
-                                            <div class="controls">
-                                                <asp:TextBox ID="txtContactNumber" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
-                                                <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtContactNumber" ForeColor="Red" Font-Size="13px" ErrorMessage="Please Enter only at least 10 Digit Numbers" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
-                                                <asp:RequiredFieldValidator Display="None" runat="server"
-                                                    ID="RequiredFieldValidator3" ControlToValidate="txtContactNumber"
-                                                    ErrorMessage="Please enter the contact Number" />
-                                            </div>
-                                        </div>
+                                    <td width="30%" style="float: left; margin-left: -150px">
+
+                                        <label class="control-label" for="typeahead">Visitor Contact Number:</label>
+                                        <asp:TextBox ID="txtContactNumber" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtContactNumber" ForeColor="Red" Font-Size="13px" ErrorMessage="Please Enter only at least 10 Digit Numbers" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
+                                        <asp:RequiredFieldValidator Display="None" runat="server"
+                                            ID="RequiredFieldValidator3" ControlToValidate="txtContactNumber"
+                                            ErrorMessage="Please enter the contact Number" />
+
+                                    </td>
+                                    <td width="30%" style="float: left; margin-left: 217px;">
+
+                                        <label class="control-label" for="typeahead">Address:</label>
+                                        <asp:TextBox ID="txtAddress" TextMode="MultiLine" runat="server" Style="width: 220px;"></asp:TextBox>
+                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor"
+                                            ID="RequiredFieldValidator2" ControlToValidate="txtAddress"
+                                            ErrorMessage="Please enter Visitor Address" />
+
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead">Address:</label>
-                                            <div class="controls">
-                                                <asp:TextBox ID="txtAddress" TextMode="MultiLine" runat="server" Style="width: 220px;"></asp:TextBox>
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor"
-                                                    ID="RequiredFieldValidator2" ControlToValidate="txtAddress"
-                                                    ErrorMessage="Please enter Visitor Address" />
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
+
+                                    <td width="30%">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">City:</label>
                                             <div class="controls">
@@ -188,13 +181,7 @@
                                             </div>
                                         </div>
                                     </td>
-
-
-
-
-                                </tr>
-                                <tr>
-                                    <td width="50%">
+                                    <td width="30%" style="float: left; margin-left: -145px;">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">State:</label>
                                             <div class="controls">
@@ -205,7 +192,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
+                                    <td width="30%" style="float: left; margin-left: 210px;">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Country:</label>
                                             <div class="controls">
@@ -216,10 +203,8 @@
                                         </div>
                                     </td>
                                 </tr>
-
-
                                 <tr>
-                                    <td colspan="1" width="50%">
+                                    <td colspan="1" width="30%">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Select Building Name with Room Number:</label>
                                             <div class="controls">
@@ -234,7 +219,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
+                                    <td width="30%" style="float: left; margin-left: -145px;">
                                         <div class="control-group" id="dividphoto" runat="server">
                                             <label class="control-label" for="typeahead">Upload Photo:</label>
                                             <div class="controls">
@@ -244,14 +229,13 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td width="50%">
+
+                                    <td width="30%" style="float: left; margin-left: 210px;">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Identity proof type:</label>
                                             <div class="controls">
                                                 <asp:DropDownList ID="drpProofType" runat="server">
-                                                    <asp:ListItem Text="" Value="NULL">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
                                                     <asp:ListItem Text="Licence" Value="Licence"></asp:ListItem>
                                                     <asp:ListItem Text="Voter Card" Value="Voter Card"></asp:ListItem>
                                                     <asp:ListItem Text="Passport" Value="Passport"></asp:ListItem>
@@ -261,7 +245,43 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
+                                </tr>
+                                <tr>
+                                    <td width="30%">
+                                        <div class="control-group" id="divddlntypeofvisitor" runat="server">
+                                            <label class="control-label" for="typeahead">Employee Type:</label>
+                                            <div class="controls">
+                                                <asp:DropDownList ID="ddlntypeofvisitor" runat="server">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                        <div class="control-group" id="divddlelectricitybill" runat="server">
+                                            <label class="control-label" for="typeahead">Electricity Bill Type:</label>
+                                            <div class="controls">
+                                                <asp:DropDownList ID="ddlelectricitybill" runat="server">
+                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="Paid By Trust" Value="1"></asp:ListItem>
+                                                    <asp:ListItem Text="Paid By employee" Value="2"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="30%" style="float: left; margin-left: 210px;">
+                                        <div class="control-group" id="divfileUploadauthority" runat="server">
+                                            <label class="control-label" for="typeahead">Application Of Room From Authority:</label>
+                                            <div class="controls">
+                                                <asp:FileUpload ID="fileUploadauthority" runat="server" />
+                                                <a id="aAuthorityLetter" style="font-size: 13px;" target="_blank">Authority Letter</a>
+
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="30%">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Upload Identity Proof:</label>
                                             <div class="controls">
@@ -271,11 +291,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td width="50%">
+                                    <td width="30%" style="float: left; margin-left: -145px;">
                                         <div class="control-group" id="divRefenceNo">
                                             <label class="control-label" for="typeahead">If No Identity proof, Any Reference:</label>
                                             <div class="controls">
@@ -285,12 +301,12 @@
                                         </div>
                                     </td>
 
-                                    <td width="50%">
+                                    <td width="30%" style="float: left; margin-left: 210px;">
                                         <div class="control-group" id="divddlpurpose" runat="server">
                                             <label class="control-label" for="typeahead">Purpose of Visit:</label>
                                             <div class="controls">
                                                 <asp:DropDownList ID="ddlpurpose" runat="server">
-                                                    <asp:ListItem Text="" Value="NULL">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
                                                     <asp:ListItem Text="Parents Meeting" Value="Parents Meeting"></asp:ListItem>
                                                     <asp:ListItem Text="Office Meeting" Value="Office Meeting"></asp:ListItem>
                                                     <asp:ListItem Text="Sports Meet" Value="Sports Meet"></asp:ListItem>
@@ -306,36 +322,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <div class="control-group" id="divddlntypeofvisitor" runat="server">
-                                            <label class="control-label" for="typeahead">Employee Type:</label>
-                                            <div class="controls">
-                                                <asp:DropDownList ID="ddlntypeofvisitor" runat="server">
-                                                </asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
-                                        <div class="control-group" id="divfileUploadauthority" runat="server">
-                                            <label class="control-label" for="typeahead">Application Of Room From Authority:</label>
-                                            <div class="controls">
-                                                <asp:FileUpload ID="fileUploadauthority" runat="server" />
-                                                <a id="aAuthorityLetter" style="font-size: 13px;" target="_blank">Authority Letter</a>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="50%">
-                                        <div class="control-group" id="divtxtvehicle" runat="server">
-                                            <label class="control-label" for="typeahead">Vehicle Number, if any? :</label>
-                                            <div class="controls">
-                                                <asp:TextBox ID="txtvehicle" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
+                                    <td width="30%">
                                         <div class="control-group" id="divtxtnoofperson" runat="server">
                                             <label class="control-label" for="typeahead">Number of Person:</label>
                                             <div class="controls">
@@ -346,50 +333,22 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td width="50%">
-                                        <div class="control-group" id="divddlroomservice" runat="server">
+
+                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                        <div class="control-group" id="divVisitorRoomRent" runat="server">
                                             <label class="control-label" for="typeahead">Room Rent:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="ddlroomservice" runat="server">
-                                                    <asp:ListItem Text="" Value="NULL">--Select One--</asp:ListItem>
-                                                    <asp:ListItem Text="Paid By Trust" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="Paid By employee" Value="2"></asp:ListItem>
+                                                <asp:DropDownList ID="ddlRoomRent" runat="server">
+                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="Free" Value="1"></asp:ListItem>
+                                                    <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                                                    <asp:ListItem Text="500" Value="500"></asp:ListItem>
+
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
-                                        <div class="control-group" id="divddlelectricitybill" runat="server">
-                                            <label class="control-label" for="typeahead">Electricity Bill:</label>
-                                            <div class="controls">
-                                                <asp:DropDownList ID="ddlelectricitybill" runat="server">
-                                                    <asp:ListItem Text="" Value="NULL">--Select One--</asp:ListItem>
-                                                    <asp:ListItem Text="Paid By Trust" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="Paid By employee" Value="2"></asp:ListItem>
-                                                </asp:DropDownList>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-
-                                    <td width="50%">
-                                        <div class="control-group" id="divtxtfirstDate" runat="server">
-                                            <label class="control-label" for="typeahead">Time Period For Stay:</label>
-                                            <div>
-                                                <label class="control-label" for="typeahead">From:</label>
-                                                <asp:TextBox runat="server" ID="txtfirstDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
-                                            </div>
-                                            <div>
-                                                <label class="control-label" for="typeahead">To:</label>
-                                                <asp:TextBox runat="server" ID="txtlastDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
+                                    <td width="30%" style="float: left; margin-left: 210px;">
                                         <div class="control-group" id="divdrpNumberOfDays" runat="server">
                                             <label class="control-label" for="typeahead">Number of Days to stay:</label>
                                             <div class="controls">
@@ -411,14 +370,45 @@
                                     </td>
 
                                 </tr>
+                                <tr>
+                                    <td width="30%">
+                                        <div class="control-group" id="divtxtfirstDate" runat="server">
+                                            <label class="control-label" for="typeahead">Time Period For Stay:</label>
+                                            <div class="control-group">
+                                                <label class="control-label" for="typeahead">From:</label>
+                                                <asp:TextBox runat="server" ID="txtfirstDate" CssClass="input-xlarge datepicker" Style="width: 80px; height: 20px;"></asp:TextBox>
+                                                <label class="control-label" for="typeahead">To:</label>
+                                                <asp:TextBox runat="server" ID="txtlastDate" CssClass="input-xlarge datepicker" Style="width: 80px; height: 20px;"></asp:TextBox>
+                                            </div>
 
-
-
+                                        </div>
+                                    </td>
+                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                        <div class="control-group" id="divddlroomservice" runat="server">
+                                            <label class="control-label" for="typeahead">Room Rent Type:</label>
+                                            <div class="controls">
+                                                <asp:DropDownList ID="ddlroomservice" runat="server">
+                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="Paid By Trust" Value="1"></asp:ListItem>
+                                                    <asp:ListItem Text="Paid By employee" Value="2"></asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td width="30%" style="float: left; margin-left: 210px;">
+                                        <div class="control-group" id="divtxtvehicle" runat="server">
+                                            <label class="control-label" for="typeahead">Vehicle Number, if any? :</label>
+                                            <div class="controls">
+                                                <asp:TextBox ID="txtvehicle" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="form-actions">
                             <%--<input id="btnSave" value="Save" class="btn btn-primary" />--%>
-                            <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary"  OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" ValidationGroup="visitor" OnClick="btnSave_Click" />
+                            <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" ValidationGroup="visitor" OnClick="btnSave_Click" />
                         </div>
                     </fieldset>
                 </div>
@@ -445,7 +435,7 @@
                                         <th style="color: #cc3300;">Visitor Name</th>
                                         <th style="color: #cc3300;">Room(s) Allocated</th>
                                         <th style="color: #cc3300;">Arrived On</th>
-                                        <th style="color: #cc3300;">No Of Days To Stay</th>
+                                        <th style="color: #cc3300;">Stay Upto</th>
                                         <th style="color: #cc3300;">Identity Proof</th>
                                     </tr>
                                 </thead>
@@ -464,7 +454,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h3>Visitor <span id="spnName"></span>| <span id="spanidentityfication"></span></h3>
-             
+
             </div>
             <div class="modal-body">
                 <iframe id="iframeDailog" style="width: 750px; height: 500px"></iframe>
@@ -474,8 +464,8 @@
         <div id="divRoomNumbers" class="modal hide fade" style="display: none; width: 800px; height: 500px">
             <div class="modal-header">
                 <input id="btnclose" value="Ok" style="width: 40px; float: right;" class="btn btn-primary" data-dismiss="modal" />
-                <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3> 
-                
+                <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3>
+
             </div>
             <div class="modal-body">
                 <div class="box-content" style="width: 800px; height: 500px">

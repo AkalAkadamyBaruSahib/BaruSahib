@@ -44,5 +44,6 @@ public class VisitorsDTO
     public string City { get; set; }
     public bool IsActive { get; set; }
     public string VisitorReference { get; set; }
+    public int? RoomRentType { get; set; }
 
 }

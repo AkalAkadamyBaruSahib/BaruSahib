@@ -135,4 +135,11 @@ public class TypeEnum
         Mohali = 2,
         AkalWorkshop = 3
     }
+
+    public enum RoomRentType : int
+    {
+        PaidByTrust = 1,
+        PaidByEmployee = 2,
+        VisitorSelfPaid = 3
+    }
 }

@@ -50,6 +50,7 @@ public class VisitorUserRepository
         param.Add("City", visitors.City);
         param.Add("IsActive", visitors.IsActive);
         param.Add("VisitorReference", visitors.VisitorReference);
+        param.Add("RoomRentType", visitors.RoomRentType);
 
 
         int visitorID = DAL.DalAccessUtility.GetDataInScaler("procSaveVisitors", param);
@@ -102,6 +103,7 @@ public class VisitorUserRepository
             visitDTO.City = v.City;
             visitDTO.IsActive = v.IsActive;
             visitDTO.VisitorReference = v.VisitorReference;
+            visitDTO.RoomRentType = v.RoomRentType;
 
 
             visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
@@ -171,6 +173,7 @@ public class VisitorUserRepository
             visitDTO.City = v.City;
             visitDTO.IsActive = v.IsActive;
             visitDTO.VisitorReference = v.VisitorReference;
+            visitDTO.RoomRentType = v.RoomRentType;
             visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
 
             if (visitortype != null && visitortype.Tables != null && visitortype.Tables.Count > 0
@@ -299,6 +302,7 @@ public class VisitorUserRepository
         dto.City = visitor.City;
         dto.IsActive = visitor.IsActive;
         dto.VisitorReference = visitor.VisitorReference;
+        dto.RoomRentType = visitor.RoomRentType;
 
         return dto;
         //   newVisitor
@@ -351,6 +355,7 @@ public class VisitorUserRepository
         newVisitor.City = visitor.City;
         newVisitor.IsActive = visitor.IsActive;
         newVisitor.VisitorReference = visitor.VisitorReference;
+        newVisitor.RoomRentType = visitor.RoomRentType;
 
         //   newVisitor
 

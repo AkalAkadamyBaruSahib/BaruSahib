@@ -249,7 +249,7 @@ function LoadVisitors() {
                     $newRow.find("#Name").html("<table><tr><td><ul class='thumbnails gallery><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].VisitorsPhoto + ")'  href='" + adminLoanList[i].VisitorsPhoto + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].VisitorsPhoto + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + visitorType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].ContactNumber + "</td></tr><tr><td><b>Address:</b> " + adminLoanList[i].VisitorAddress + "</td></tr></table>");
                     $newRow.find("#Rooms").html("<table><tr><td><b>Building Name :</b> " + adminLoanList[i].BuildingName + "</td></tr><tr><td><b>RoomNumber(s):</b> " + adminLoanList[i].RoomNumbers + "</td></tr><tr><td><a href='#' class='warning' onclick='CheckOutRoom(" + adminLoanList[i].ID + ")'>Check-Out</a></td></tr></table>"); //(adminLoanList[i].Rooms);
                     $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
-                    $newRow.find("#NoOfDays").html(adminLoanList[i].NoOfDaysToStay);
+                    $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
 
                     $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='#' onclick='LoadVisitorByVisitorID(" + adminLoanList[i].ID + ")'>Update</a></td></tr></table>");
                     $newRow.addClass(className);
@@ -311,12 +311,13 @@ function LoadVisitorByVisitorID(visitorID) {
                 $("select[id*='ddlntypeofvisitor']").val(msg.VisitorTypeID);
                 $("input[id*='txtlastDate']").val(msg.TimePeriodTo);
                 $("input[id*='txtfirstDate']").val(msg.TimePeriodFrom);
-                $("select[id*='ddlroomservice']").val(msg.RoomRent);
+                $("select[id*='ddlroomservice']").val(msg.RoomRentType);
                 $("select[id*='ddlelectricitybill']").val(msg.ElectricityBill);
                 $("input[id*='txtstate']").val(msg.State);
                 $("input[id*='txtcountry']").val(msg.Country);
                 $("input[id*='txtcity']").val(msg.City);
                 $("input[id*='txtReference']").val(msg.VisitorReference);
+                $("select[id*='ddlRoomRent']").val(msg.RoomRent);
                 
                 var bookedRoom = "";
                     bookedRoom = GetVisitorRoomList(msg.ID);
@@ -331,6 +332,22 @@ function LoadVisitorByVisitorID(visitorID) {
                 $("#aRoomNumber").show();
                 $("input[id*='btnSave'] ").val("Update");
                 EnableDisabledValidator();
+                if (msg.VisitorTypeID == 1) {
+                    $("[id$='divfileUploadauthority']").hide();
+                    $("[id$='divddlelectricitybill']").hide();
+                    $("[id$='divddlroomservice']").hide();
+                    $("[id$='divddlntypeofvisitor']").hide();
+
+                }
+                else {
+                    $("[id$='divtxtvehicle']").hide();
+                    $("[id$='divtxtnoofperson']").hide();
+                    $("[id$='divdrpNumberOfDays']").hide();
+                    $("[id$='divddlpurpose']").hide();
+                    $("[id$='divVisitorRoomRent']").hide();
+                    $("[id$='ddlRoomRent']").hide();
+                    $("[id$='ddlpurpose']").hide();
+                }
             }
         },
         error: function (response) {
@@ -433,7 +450,7 @@ function LoadVisitorsByVisitorTypeID(selectedValue) {
                     $newRow.find("#Name").html("<table><tr><td><ul class='thumbnails gallery><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].VisitorsPhoto + ")'  href='" + adminLoanList[i].VisitorsPhoto + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].VisitorsPhoto + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + visitorType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].ContactNumber + "</td></tr><tr><td><b>Address:</b> " + adminLoanList[i].VisitorAddress + "</td></tr></table>");
                     $newRow.find("#Rooms").html("<table><tr><td><b>Building Name :</b> " + adminLoanList[i].BuildingName + "</td></tr><tr><td><b>RoomNumber(s):</b> " + adminLoanList[i].RoomNumbers + "</td></tr></table>"); //(adminLoanList[i].Rooms);
                     $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
-                    $newRow.find("#NoOfDays").html(adminLoanList[i].NoOfDaysToStay);
+                    $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
                     $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='#' onclick='LoadVisitorByVisitorID(" + adminLoanList[i].ID + ")'>Update</a></td></tr></table>");
                    
                     //                    $newRow.addClass(className);

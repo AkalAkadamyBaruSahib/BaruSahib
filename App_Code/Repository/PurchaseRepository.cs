@@ -76,7 +76,7 @@ public class PurchaseRepository
         List<MaterialsDTO> mt = new List<MaterialsDTO>();
         if (sourceTypeID == (int)TypeEnum.PurchaseSourceID.AkalWorkshop)
         {
-            mt = _context.Material.Include(u => u.Unit).Include(x => x.MaterialType).Where(m => m.Active == 1 && m.MatTypeId == 75).AsEnumerable().Select(x => new MaterialsDTO
+            mt = _context.Material.Include(u => u.Unit).Include(x => x.MaterialType).Where(m => m.Active == 1 && m.MatTypeId == 83).AsEnumerable().Select(x => new MaterialsDTO
             {
                 MatID = x.MatId,
                 MatName = x.MatName.Trim(),

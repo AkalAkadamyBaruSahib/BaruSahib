@@ -55,20 +55,23 @@ public partial class Visitor_AddNew : System.Web.UI.Page
     
     private void BindVisitorType()
     {
-        DataSet visitortype = new DataSet();
-        visitortype = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.VisitorType");
-        ddlntypeofvisitor.DataSource = visitortype;
-        ddlntypeofvisitor.DataValueField = "ID";
-        ddlntypeofvisitor.DataTextField = "VisitorType";
-        ddlntypeofvisitor.DataBind();
-        ddlntypeofvisitor.Items.Insert(0, new ListItem("--Select--", "0"));
+        DataTable visitortype = new DataTable();
+        visitortype = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.VisitorType").Tables[0];
+        if (visitortype != null && visitortype.Rows.Count > 0)
+        {
+            ddlntypeofvisitor.DataSource = visitortype;
+            ddlntypeofvisitor.DataValueField = "ID";
+            ddlntypeofvisitor.DataTextField = "VisitorType";
+            ddlntypeofvisitor.DataBind();
+            ddlntypeofvisitor.Items.Insert(0, new ListItem("--Select--", "0"));
 
-        ddlntypeofvisitor.Items.RemoveAt(1);
+            ddlntypeofvisitor.Items.RemoveAt(1);
 
-        ddltypeofvisitor.DataSource = visitortype;
-        ddltypeofvisitor.DataValueField = "ID";
-        ddltypeofvisitor.DataTextField = "VisitorType";
-        ddltypeofvisitor.DataBind();
+            ddltypeofvisitor.DataSource = visitortype;
+            ddltypeofvisitor.DataValueField = "ID";
+            ddltypeofvisitor.DataTextField = "VisitorType";
+            ddltypeofvisitor.DataBind();
+        }
         
     }
 
@@ -76,7 +79,6 @@ public partial class Visitor_AddNew : System.Web.UI.Page
     {
         lblTag.Text = "Add New Visitor Information";
         divfileUploadauthority.Visible = false;
-        divdrpNumberOfDays.Visible = false;
         divddlelectricitybill.Visible = false;
         divddlroomservice.Visible = false;
         divddlntypeofvisitor.Visible = false;
@@ -87,9 +89,11 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         lblTag.Text = "Add Permanent Employee Information";
         divtxtvehicle.Visible = false;
         divtxtnoofperson.Visible = false;
-        divdrpNumberOfDays.Visible = false;
         divddlpurpose.Visible = false;
         divdrpNumberOfDays.Visible = false;
+        divVisitorRoomRent.Visible = false;
+        ddlRoomRent.Visible = false;
+        ddlpurpose.Visible = false;
         DataSet visitortype = new DataSet();
        
     }
@@ -107,6 +111,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         txtReference.Text = "";
         txtContactNumber.Text= "";
         ddlroomservice.ClearSelection();
+        ddlRoomRent.ClearSelection();
         ddlelectricitybill.ClearSelection();
         txtfirstDate.Text = "";
         txtlastDate.Text = "";
@@ -155,21 +160,29 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         {
             visitor.VisitorsAuthorityLetter = "";
         }
-        if (ddlroomservice.SelectedValue != null)
+        if (ddlRoomRent.SelectedValue != "0")
         {
-            visitor.RoomRent = ddlroomservice.SelectedValue;
+            visitor.RoomRent = ddlRoomRent.SelectedValue;
         }
         else
         {
-            visitor.RoomRent = null;
+            visitor.RoomRent = "0";
         }
-        if (ddlelectricitybill.SelectedValue != null)
+        if (ddlroomservice.SelectedValue != "0")
+        {
+            visitor.RoomRentType = Convert.ToInt32(ddlroomservice.SelectedValue);
+        }
+        else
+        {
+            visitor.RoomRentType = (int)TypeEnum.RoomRentType.VisitorSelfPaid;
+        }
+        if (ddlelectricitybill.SelectedValue != "0")
         {
             visitor.ElectricityBill = ddlelectricitybill.SelectedValue;
         }
         else
         {
-            visitor.ElectricityBill = null;
+            visitor.ElectricityBill = "0";
         }
 
         if (string.IsNullOrEmpty(txtfirstDate.Text))
@@ -186,13 +199,13 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         { visitor.TimePeriodTo = Convert.ToDateTime(txtlastDate.Text); }
 
         visitor.Name = txtName.Text;
-        if (ddlpurpose.SelectedValue != null)
+        if (ddlpurpose.SelectedValue != "0")
         {
             visitor.PurposeOfVisit = ddlpurpose.SelectedValue;
         }
         else
         {
-            visitor.PurposeOfVisit = null;
+            visitor.PurposeOfVisit = "0";
         }
         visitor.VisitorAddress = txtAddress.Text;
         visitor.ContactNumber = txtContactNumber.Text;
