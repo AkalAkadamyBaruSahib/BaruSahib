@@ -70,7 +70,6 @@ $(document).ready(function () {
         $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
     }
     GetPurchaseSource();
-
     $("#aDeleteRow0").hide();
 });
 
@@ -236,22 +235,23 @@ function AddMaterialRow() {
         '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
         '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
         '<td><input id="txtRemarks' + cntM + '" name="txtRemarks' + cntM + '" value="" type="text"class="span6 typeahead" style="width:200px;"/></td>' +
-        '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /></td></tr>');
+        '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM +
+
+');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /></td></tr>');
 
     BindPurchaseSource(cntM);
     fixSerialNumber();
-   
+
     $("#aDeleteRow" + cntM).hide();
 
-    if (cntM > 0)
-    {
+    if (cntM > 0) {
         var cntR = cntM - 1;
         $("#aAddNewRow" + cntR).hide();
         $("#aDeleteRow" + cntR).show();
         $("#aAddNewRow0").hide();
         $("#aDeleteRow0").show();
     }
-    
+
     cntM++;
 }
 
@@ -273,7 +273,7 @@ function GetPurchaseSource() {
                     if (SourceTypeID != undefined && this.value != 0) {
                         GetMaterials(SourceTypeID);
                     }
-                    ClearTextBox();
+                    ClearData(0);
                 }).change();
             }
         },
@@ -294,7 +294,7 @@ function BindPurchaseSource(cntID) {
         if (SourceTypeID != undefined && this.value != 0) {
             AutofillMaterialSearchBox(cntID, SourceTypeID);
         }
-        ClearData();
+        ClearData(cntID);
     }).change();
 }
 
@@ -307,12 +307,18 @@ function GetMaterials(sourceTypeID) {
         dataType: "json",
         success: function (result, textStatus) {
             MaterialObjectList = result.d;
+            if (MaterialObjectList.length > 0)
+            { GetMaterialsFromMaterialObject(sourceTypeID); }
         },
         error: function (result, textStatus) {
             alert(result.responseText);
         }
     });
 
+
+}
+
+function GetMaterialsFromMaterialObject(sourceTypeID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -331,7 +337,7 @@ function GetMaterials(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#hdnMatID0").val(selectedMaterial.MatID);
                         $("#lblUnit0").text(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID0").val(selectedMaterial.Unit.UnitId); 
+                        $("#hdnUnitID0").val(selectedMaterial.Unit.UnitId);
                         $("#spnMaterialTypeID0").text(selectedMaterial.MaterialType.MatTypeName);
                         $("#hdnMatTypeID0").val(selectedMaterial.MaterialType.MatTypeId);
 
@@ -547,7 +553,7 @@ function SignedCopyFileUpload(estid) {
             //$("#progress").dialog('close');
             alert("Estimate Create Successfuly");
             if ($("input[id*='hdnIsAdmin']").val() == 1) {
-                window.location.replace("Admin_EstimateView.aspx?EstId=" + estid);
+                window.location.replace("Admin_ParticularEstimateView.aspx?EstId=" + estid);
             }
             else if ($("input[id*='hdnIsAdmin']").val() == 30 || $("input[id*='hdnIsAdmin']").val() == 6) {
                 window.location.replace("WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + estid);
@@ -566,35 +572,33 @@ function SignedCopyFileUpload(estid) {
 }
 
 function TotalAmt() {
-    var tablelength = $("#tbody").children('tr').length;
-    var Amt = 0;
-    var rate = 0;
-    var qty = 0;
-    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
-       if ($("#ddlSourceType" + i).val() == "undefined" || $("#ddlSourceType" + i).val() == "0") {
-            $("#ddlSourceType" + i).css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#ddlSourceType" + i).css('border-color', '');
-        }
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
-            qty = 0;
-        }
-        else {
-            qty = $("#txtQty" + i).val();
-        }
 
-        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
-            rate = 0;
-        }
-        else {
-            rate = $("#txtRate" + i).val();
-        }
 
-        Amt += parseInt(qty) * parseFloat(rate);
+    if (Validation()) {
+        var tablelength = $("#tbody").children('tr').length;
+        var Amt = 0;
+        var rate = 0;
+        var qty = 0;
+        for (var i = 0 ; i < (tablelength + delItems) ; i++) {
+            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
+                qty = 0;
+            }
+            else {
+                qty = $("#txtQty" + i).val();
+            }
+
+            if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
+                rate = 0;
+            }
+            else {
+                rate = $("#txtRate" + i).val();
+            }
+
+            Amt += parseFloat(qty) * parseFloat(rate);
+        }
+        var RoundAmt = Amt.toFixed(2);
+        $("[id$='lblAmt']").html(RoundAmt);
     }
-    $("[id$='lblAmt']").html(Amt);
 }
 
 function fixSerialNumber() {
@@ -626,13 +630,17 @@ function Validation() {
         else {
             $("#txtMaterialName" + i).css('border-color', '');
         }
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0") {
+        var value = $("#txtQty" + i).val()
+        var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+
+        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || !value.match(regex)) {
             $("#txtQty" + i).css('border-color', 'red');
             return false;
         }
         else {
             $("#txtQty" + i).css('border-color', '');
         }
+
     }
     return true;
 }
@@ -645,22 +653,23 @@ function removeRow(removeNum) {
     cntM--;
 }
 
-function ClearTextBox() {
-    $("#txtMaterialName0").val("");
-    $("#txtRate0").val("");
-    $("#lblUnit0").text("");
-    $("#txtRemarks0").val("");
-    $("#txtQty0").val("");
-    $("#spnMaterialTypeID0").text("");
-}
-
 function ClearData(cntID) {
-    $("#txtMaterialName" + cntID).val("");
-    $("#txtRate" + cntID).val("");
-    $("#lblUnit" + cntID).text("");
-    $("#txtRemarks" + cntID).val("");
-    $("#txtQty" + cntID).val("");
-    $("#spnMaterialTypeID" + cntID).text("");
+    if (cntID > 0) {
+        $("#txtMaterialName" + cntID).val("");
+        $("#txtRate" + cntID).val("");
+        $("#lblUnit" + cntID).text("");
+        $("#txtRemarks" + cntID).val("");
+        $("#txtQty" + cntID).val("");
+        $("#spnMaterialTypeID" + cntID).text("");
+    }
+    else {
+        $("#txtMaterialName0").val("");
+        $("#txtRate0").val("");
+        $("#lblUnit0").text("");
+        $("#txtRemarks0").val("");
+        $("#txtQty0").val("");
+        $("#spnMaterialTypeID0").text("");
+    }
 }
 
 

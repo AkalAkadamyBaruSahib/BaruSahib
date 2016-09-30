@@ -14,6 +14,7 @@ public partial class Emp_EstimateView : System.Web.UI.Page
 {
     DataTable dt = new DataTable();
     DataRow dr;
+    public string InchargeID = string.Empty;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -140,16 +141,16 @@ public partial class Emp_EstimateView : System.Web.UI.Page
     }
     private void getEstimateDetails(string ID)
     {
+       var  InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstViewByEstIdForUser '" + lblUser.Text + "' , '" + ID + "'");
+        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstViewByEstIdForUser '" + InchargeID + "' , '" + ID + "'");
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";
         ZoneInfo += "<div class='box-header well' data-original-title>";
         ZoneInfo += "<h2><i class='icon-user'></i> Estimate List</h2>";
         ZoneInfo += "<div class='box-icon'>";
-        //ZoneInfo += "<a href='#' class='btn btn-setting btn-round'><i class='icon-cog'></i></a>";
         ZoneInfo += "<a href='#' class='btn btn-minimize btn-round'><i class='icon-chevron-up'></i></a>";
         ZoneInfo += "<a href='#' class='btn btn-close btn-round'><i class='icon-remove'></i></a>";
         ZoneInfo += "</div>";
@@ -159,7 +160,6 @@ public partial class Emp_EstimateView : System.Web.UI.Page
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
         ZoneInfo += "<th width='10%'>Estmate No.</th>";
-        //ZoneInfo += "<th width='15%'>Sanction Date</th>";
         ZoneInfo += "<th width='25%'>Details of Sactioned Estimates</th>";
         ZoneInfo += "<th width='15%'>Estimate Cost</th>";
         ZoneInfo += "<th width='35%'><table width='100%'><tr><th colspan='2' align='center'>Commulative Total Expenditure as On</th></tr><tr><th width='33%'>Bill Id</th><th width='34%'>Bill Date</th><th width='33%'>Bill Amount</th></tr></table></th>";
@@ -170,28 +170,28 @@ public partial class Emp_EstimateView : System.Web.UI.Page
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td width='10%'>" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "</td>";
-            //ZoneInfo += "<td class='center' width='15%'>" + dsEstimateDetails.Tables[0].Rows[i]["SanctionDate"].ToString() + "</td>";
             ZoneInfo += "<td class='center'width='25%'><table>";
             ZoneInfo += "<tr><td><b>Sub Head:</b><a href='Emp_ParticularEstimateView.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'>" + dsEstimateDetails.Tables[0].Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dsEstimateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Sanction Date:</b>" + dsEstimateDetails.Tables[0].Rows[i]["SanctionDate"].ToString() + "</td></tr>";
             ZoneInfo += "</table></td>";
-            DataSet dsBal = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateBalAmt '" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'");
-            ZoneInfo += "<td width='20%'><table><tr><td> " + dsEstimateDetails.Tables[0].Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: " + dsBal.Tables[0].Rows[0]["BalAmt"].ToString() + "</td> </tr> <tr><td><a href='Emp_EstimateAcademyWise.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td> </tr><tr><td><b>Estimate File</b>: " + GetFileName(dsEstimateDetails.Tables[0].Rows[i]["FilePath"].ToString(), dsEstimateDetails.Tables[0].Rows[i]["FileNme"].ToString()) + "</td></tr></table></td>";
-            //ZoneInfo += "<td width='35%'><table width='100%'><tr><td>--</td><td>--</td></tr></table></td>";
+            ZoneInfo += "<td width='20%'><table><tr><td> " + dsEstimateDetails.Tables[0].Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>: 0</td> </tr> <tr><td><a href='Emp_EstimateAcademyWise.aspx?EstId=" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td> </tr><tr><td><b>Estimate File</b>: " + GetFileName(dsEstimateDetails.Tables[0].Rows[i]["FilePath"].ToString(), dsEstimateDetails.Tables[0].Rows[i]["FileNme"].ToString()) + "</td></tr></table></td>";
             ZoneInfo += "<td width='35%'><table width='100%'>";
-            DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT SubBillId,CONVERT (VARCHAR(20),BillDate,107) AS bdATE,TotalAmount FROM SubmitBillByUser WHERE EstId='" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'");
-            DataSet dsTa = DAL.DalAccessUtility.GetDataInDataSet("exec USP_TotalEstimateCostAfterBillSubmit '" + dsEstimateDetails.Tables[0].Rows[i]["EstId"].ToString() + "'");
-            for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+            DataSet dsBillDetails = new DataSet();
+            DataSet dsTa = new DataSet();
+            if (dsBillDetails.Tables.Count > 0)
             {
-                ZoneInfo += "<tr><td width='33%'><a href='Emp_BillDetails.aspx?BillId=" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "'>" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "</a></td><td width='34%'>" + dsBillDetails.Tables[0].Rows[j]["bdATE"].ToString() + "</td><td width='33%'>" + dsBillDetails.Tables[0].Rows[j]["TotalAmount"].ToString() + "</td></tr>";
-                //if (dsTa.Tables[0].Rows.Count > 0 && dsTa.Tables[1].Rows.Count > 0)
-
+                for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
+                {
+                    ZoneInfo += "<tr><td width='33%'><a href='Emp_BillDetails.aspx?BillId=" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "'>" + dsBillDetails.Tables[0].Rows[j]["SubBillId"].ToString() + "</a></td><td width='34%'>" + dsBillDetails.Tables[0].Rows[j]["bdATE"].ToString() + "</td><td width='33%'>" + dsBillDetails.Tables[0].Rows[j]["TotalAmount"].ToString() + "</td></tr>";
+               }
             }
-            if (dsTa.Tables[0].Rows[0]["Ta"].ToString() != "" && dsTa.Tables[1].Rows[0]["BDate"].ToString() != "")
+            if (dsTa.Tables.Count > 0)
             {
-                ZoneInfo += "<td></td><td><b>Total Amount</b></td><td>" + dsTa.Tables[0].Rows[0]["Ta"].ToString() + "</td>";
-
+                if (dsTa.Tables[0].Rows[0]["Ta"].ToString() != "" && dsTa.Tables[1].Rows[0]["BDate"].ToString() != "")
+                {
+                    ZoneInfo += "<td></td><td><b>Total Amount</b></td><td>" + dsTa.Tables[0].Rows[0]["Ta"].ToString() + "</td>";
+                }
             }
             else
             {
@@ -202,8 +202,6 @@ public partial class Emp_EstimateView : System.Web.UI.Page
         }
         ZoneInfo += "</tbody>";
         ZoneInfo += "</table>";
-        //ZoneInfo += "</div>";
-        //ZoneInfo += "</div>";
         divEstimateDetails.InnerHtml = ZoneInfo.ToString();
     }
 
