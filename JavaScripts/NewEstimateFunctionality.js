@@ -9,7 +9,8 @@ var cntM = 1;
 var SourceTypeList;
 var materialType;
 var MaterialTypeIntransport;
-
+var NonWorkshopMaterialList = Array();
+var WorkshopMaterialList = Array();
 $(document).ready(function () {
 
     $("#btnSubEstimate").click(function (e) {
@@ -70,10 +71,10 @@ $(document).ready(function () {
         $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
     }
    
-    GetMaterials(2);
+    GetMaterialObjectList();
     GetPurchaseSource();
-
     $("#aDeleteRow0").hide();
+
 });
 
 function BindZone() {
@@ -233,8 +234,8 @@ function AddMaterialRow() {
 
     if (Validation()) {
         $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
-            '<td> <select id="ddlSourceType' + cntM + '" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
-           '<td><input id="txtMaterialName' + cntM + '" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /></td>' +
+            '<td> <select id="ddlSourceType' + cntM + '" onchange="SourceType_ChangeEvent(' + cntM + ');" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
+           '<td><input id="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /></td>' +
             '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
             '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
             '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
@@ -271,14 +272,6 @@ function GetPurchaseSource() {
                 $.each(SourceTypeList, function (key, value) {
                     $("#ddlSourceType0").append($("<option></option>").val(value.PSId).html(value.PSName));
                 });
-
-                $("#ddlSourceType0").on('ddlSourceTypechange change', function () {
-                    var SourceTypeID = this.value;
-                    if (SourceTypeID != undefined && this.value != 0) {
-                        GetMaterials(SourceTypeID);
-                    }
-                    ClearTextBox();
-                }).change();
             }
         },
         error: function (result, textStatus) {
@@ -291,34 +284,24 @@ function BindPurchaseSource(cntID) {
     $.each(SourceTypeList, function (key, value) {
         $("#ddlSourceType" + cntID).append($("<option></option>").val(value.PSId).html(value.PSName));
     });
-
-    $("#ddlSourceType" + cntID).on('ddlSourceTypechange change', function () {
-
-        var SourceTypeID = this.value;
-        if (SourceTypeID != undefined && this.value != 0) {
-            AutofillMaterialSearchBox(cntID, SourceTypeID);
-        }
-        ClearData(cntID);
-    }).change();
 }
 
-function GetMaterials(sourceTypeID) {
-    $.when(GetMaterialsAjax(sourceTypeID)
-   ).done
-    (GetMaterialsFromMaterialObject(sourceTypeID));
-}
-
-function GetMaterialsAjax(sourceTypeID) {
+// Step1 :- Get All Active Materials and Create MaterialObjectList Object
+function GetMaterialObjectList() {
     if (MaterialObjectList == undefined || MaterialObjectList.length == 0) {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-            url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeIDList",
+            url: "Services/PurchaseControler.asmx/GetActiveMaterials",
             dataType: "json",
             async: false,
             success: function (result, textStatus) {
-                MaterialObjectList = result.d;
+                if (result.d != undefined && result.d.length > 0) {
+                    MaterialObjectList = result.d;
+                    if (MaterialObjectList != undefined && MaterialObjectList.length > 0) {
+                        GetMaterialsForAutoFill();
+                    }
+                }
             },
             error: function (result, textStatus) {
                 alert(result.responseText);
@@ -330,123 +313,77 @@ function GetMaterialsAjax(sourceTypeID) {
     }
 }
 
-function GetMaterialsFromMaterialObject(sourceTypeID)
-{
-    
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-        url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeID",
-        dataType: "json",
-        async: false,
-        success: function (result, textStatus) {
-            MaterialList = result.d;
-            $("#tblEstimateMatDetail").show();
-            $("#txtMaterialName0").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
+// Step2 :- Get Workshop and Non Workshop Material Objects
+function GetMaterialsForAutoFill() {
 
-            $("#txtMaterialName0").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#hdnMatID0").val(selectedMaterial.MatID);
-                        $("#lblUnit0").text(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID0").val(selectedMaterial.Unit.UnitId);
-                        $("#spnMaterialTypeID0").text(selectedMaterial.MaterialType.MatTypeName);
-                        $("#hdnMatTypeID0").val(selectedMaterial.MaterialType.MatTypeId);
+    var tempArray = $.grep(MaterialObjectList, function (e) { return e.MatTypeID != 83 }); //83 Live // 75 Local
 
-                        var drpSourceType = $("#ddlSourceType0").val();
-                        if (selectedMaterial != undefined) {
-                            if (drpSourceType == "2") {
-                                $("#txtRate0").val(selectedMaterial.MatCost);
-                            }
-                            else if (drpSourceType == "1") {
-                                $("#txtRate0").val(selectedMaterial.LocalRate);
-                            }
-                            else if (drpSourceType == "3") {
-                                $("#txtRate0").val(selectedMaterial.AkalWorkshopRate);
-                            }
-                            else {
-                                $("#txtRate0").val('0.00');
-                            }
-                        }
-                    }
-                }
+    $.each(tempArray, function (index, value) {
+        NonWorkshopMaterialList.push(value.MatName);
+    });
 
-            }).change();
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
+    // Workshop Material Object
+    tempArray = $.grep(MaterialObjectList, function (e) { return e.MatTypeID == 83 }); //83 Live // 75 Local
+
+    $.each(tempArray, function (index, value) {
+        WorkshopMaterialList.push(value.MatName);
     });
 }
 
-function AutofillMaterialSearchBox(cntID, sourceTypeID) {
+//Step3 autofill Materials
+function SourceType_ChangeEvent(id)
+{
+    $("#tblEstimateMatDetail").show();
+    ClearData(id);
+    var isWorkshopMaterial = false;
+    if ($("#ddlSourceType" + id).val() == 3) {
+        isWorkshopMaterial = true;
+    }
+    
+    if (isWorkshopMaterial) {
+        $("#txtMaterialName" + id).autocomplete({
+            source: WorkshopMaterialList,
+            minlength: 8
+        });
+    } else {
+        $("#txtMaterialName" + id).autocomplete({
+            source: NonWorkshopMaterialList,
+            minlength: 8
+        });
+    }
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-        url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeIDList",
-        dataType: "json",
-        success: function (result, textStatus) {
-            MaterialObjectList = result.d;
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
+}
+
+// Step4 ChangeEvent
+function MaterialTextBox_ChangeEvent(cntID) {
+
+    var Matname = $("#txtMaterialName" + cntID).val();
+
+    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+
+    if (selectedMaterial != undefined) {
+        $("#hdnMatID" + cntID).val(selectedMaterial.MatID);
+        $("#lblUnit" + cntID).text(selectedMaterial.Unit.UnitName);
+        $("#hdnUnitID" + cntID).val(selectedMaterial.Unit.UnitId);
+        $("#spnMaterialTypeID" + cntID).text(selectedMaterial.MaterialType.MatTypeName);
+        $("#hdnMatTypeID" + cntID).val(selectedMaterial.MaterialType.MatTypeId);
+
+        var drpSourceType = $("#ddlSourceType" + cntID).val();
+        if (selectedMaterial != undefined) {
+            if (drpSourceType == "2") {
+                $("#txtRate" + cntID).val(selectedMaterial.MatCost);
+            }
+            else if (drpSourceType == "1") {
+                $("#txtRate" + cntID).val(selectedMaterial.LocalRate);
+            }
+            else if (drpSourceType == "3") {
+                $("#txtRate" + cntID).val(selectedMaterial.AkalWorkshopRate);
+            }
+            else {
+                $("#txtRate" + cntID).val('0.00');
+            }
         }
-    });
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-        url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeID",
-        dataType: "json",
-        success: function (result, textStatus) {
-            MaterialList = result.d;
-            $("#txtMaterialName" + cntID).autocomplete({
-                source: MaterialList
-            });
-            $("#txtMaterialName" + cntID).on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#hdnMatID" + cntID).val(selectedMaterial.MatID);
-                        $("#lblUnit" + cntID).text(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID" + cntID).val(selectedMaterial.Unit.UnitId);
-                        $("#spnMaterialTypeID" + cntID).text(selectedMaterial.MaterialType.MatTypeName);
-                        $("#hdnMatTypeID" + cntID).val(selectedMaterial.MaterialType.MatTypeId);
-
-                        var drpSourceType = $("#ddlSourceType" + cntID).val();
-                        if (selectedMaterial != undefined) {
-                            if (drpSourceType == "2") {
-                                $("#txtRate" + cntID).val(selectedMaterial.MatCost);
-                            }
-                            else if (drpSourceType == "1") {
-                                $("#txtRate" + cntID).val(selectedMaterial.LocalRate);
-                            }
-                            else if (drpSourceType == "3") {
-                                $("#txtRate" + cntID).val(selectedMaterial.AkalWorkshopRate);
-                            }
-                            else {
-                                $("#txtRate" + cntID).val('0.00');
-                            }
-                        }
-                    }
-                }
-
-            }).change();
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
-    });
+    }
 }
 
 function SaveEstimate() {

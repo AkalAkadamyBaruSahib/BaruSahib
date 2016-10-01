@@ -59,7 +59,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<string> GetActiveMaterials()
+    public List<string> GetActiveMaterialsForAutoFill()
     {
         List<string> arrMaterials = new List<string>();
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
@@ -80,16 +80,11 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<string> GetMaterials()
+    public List<MaterialsDTO> GetActiveMaterials()
     {
-        List<string> arrMaterials = new List<string>();
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        List<MaterialsDTO> materials = repository.GetMaterials();
-        foreach (MaterialsDTO dto in materials)
-        {
-            arrMaterials.Add(dto.MatName.Trim());
-        }
-        return arrMaterials;
+        List<MaterialsDTO> materials = repository.GetActiveMaterials();
+        return materials;
     }
 
     [WebMethod]

@@ -106,22 +106,10 @@ public class PurchaseRepository
         return mt;
     }
 
-
     public List<MaterialsDTO> GetActiveMaterials()
     {
         List<MaterialsDTO> mt = new List<MaterialsDTO>();
-        return mt = _context.Material.Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
-        {
-            MatID = x.MatId,
-            MatName = x.MatName,
-        }).OrderByDescending(m => m.MatName).Reverse().ToList();
-
-    }
-
-    public List<MaterialsDTO> GetMaterials()
-    {
-        List<MaterialsDTO> mt = new List<MaterialsDTO>();
-        return mt = _context.Material.Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
+        return mt = _context.Material.Include(u => u.Unit).Include(x => x.MaterialType).Where(m => m.Active == 1).AsEnumerable().Select(x => new MaterialsDTO
         {
             MatID = x.MatId,
             MatName = x.MatName.Trim(),
@@ -129,7 +117,8 @@ public class PurchaseRepository
             AkalWorkshopRate = x.AkalWorkshopRate,
             LocalRate = x.LocalRate,
             Unit = x.Unit,
-            MatTypeID = x.MatTypeId
+            MatTypeID = x.MatTypeId,
+            MaterialType = x.MaterialType
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
     }
 

@@ -61,7 +61,7 @@ function AutofillMaterialSearchBox() {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetMaterials",
+        url: "Services/PurchaseControler.asmx/GetActiveMaterialsForAutoFill",
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {

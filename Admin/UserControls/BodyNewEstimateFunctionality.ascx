@@ -227,13 +227,13 @@
                                     <span id="spn0">1</span>
                                 </td>
                                  <td>
-                                    <select id="ddlSourceType0"  style="width: 150px;">
+                                    <select id="ddlSourceType0" onchange="SourceType_ChangeEvent(0);"  style="width: 150px;">
                                         <option value="0">Select Source Type</option>
                                     </select>
                                 </td>
                                 
                                 <td>
-                                    <input id="txtMaterialName0" name="txtMaterialName1" type="text" class="span6 typeahead" style="width: 210px;" />
+                                    <input id="txtMaterialName0" name="txtMaterialName1" onblur="MaterialTextBox_ChangeEvent(0);" type="text" class="span6 typeahead" style="width: 210px;" />
 
                                 </td>
                                <td>
