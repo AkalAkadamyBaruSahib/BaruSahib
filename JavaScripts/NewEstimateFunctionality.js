@@ -69,7 +69,10 @@ $(document).ready(function () {
         $("select[id*='ddlZone']").append($("<option></option>").val("0").html("--Select Zone--"));
         $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
     }
+   
+    GetMaterials(2);
     GetPurchaseSource();
+
     $("#aDeleteRow0").hide();
 });
 
@@ -227,32 +230,33 @@ function BindRateBySourceType() {
 }
 
 function AddMaterialRow() {
-    $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
-        '<td> <select id="ddlSourceType' + cntM + '" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
-       '<td><input id="txtMaterialName' + cntM + '" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /></td>' +
-        '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
-        '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
-        '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
-        '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
-        '<td><input id="txtRemarks' + cntM + '" name="txtRemarks' + cntM + '" value="" type="text"class="span6 typeahead" style="width:200px;"/></td>' +
-        '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM +
 
-');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /></td></tr>');
+    if (Validation()) {
+        $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
+            '<td> <select id="ddlSourceType' + cntM + '" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
+           '<td><input id="txtMaterialName' + cntM + '" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /></td>' +
+            '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
+            '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+            '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
+            '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+            '<td><input id="txtRemarks' + cntM + '" name="txtRemarks' + cntM + '" value="" type="text"class="span6 typeahead" style="width:200px;"/></td>' +
+            '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /></td></tr>');
 
-    BindPurchaseSource(cntM);
-    fixSerialNumber();
+        BindPurchaseSource(cntM);
+        fixSerialNumber();
 
-    $("#aDeleteRow" + cntM).hide();
+        $("#aDeleteRow" + cntM).hide();
 
-    if (cntM > 0) {
-        var cntR = cntM - 1;
-        $("#aAddNewRow" + cntR).hide();
-        $("#aDeleteRow" + cntR).show();
-        $("#aAddNewRow0").hide();
-        $("#aDeleteRow0").show();
+        if (cntM > 0) {
+            var cntR = cntM - 1;
+            $("#aAddNewRow" + cntR).hide();
+            $("#aDeleteRow" + cntR).show();
+            $("#aAddNewRow0").hide();
+            $("#aDeleteRow0").show();
+        }
+
+        cntM++;
     }
-
-    cntM++;
 }
 
 function GetPurchaseSource() {
@@ -273,7 +277,7 @@ function GetPurchaseSource() {
                     if (SourceTypeID != undefined && this.value != 0) {
                         GetMaterials(SourceTypeID);
                     }
-                    ClearData(0);
+                    ClearTextBox();
                 }).change();
             }
         },
@@ -299,37 +303,51 @@ function BindPurchaseSource(cntID) {
 }
 
 function GetMaterials(sourceTypeID) {
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-        url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeIDList",
-        dataType: "json",
-        success: function (result, textStatus) {
-            MaterialObjectList = result.d;
-            if (MaterialObjectList.length > 0)
-            { GetMaterialsFromMaterialObject(sourceTypeID); }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
-    });
-
-
+    $.when(GetMaterialsAjax(sourceTypeID)
+   ).done
+    (GetMaterialsFromMaterialObject(sourceTypeID));
 }
 
-function GetMaterialsFromMaterialObject(sourceTypeID) {
+function GetMaterialsAjax(sourceTypeID) {
+    if (MaterialObjectList == undefined || MaterialObjectList.length == 0) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
+            url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeIDList",
+            dataType: "json",
+            async: false,
+            success: function (result, textStatus) {
+                MaterialObjectList = result.d;
+            },
+            error: function (result, textStatus) {
+                alert(result.responseText);
+            }
+        })
+    }
+    else {
+        $("#progress").dialog('close');
+    }
+}
+
+function GetMaterialsFromMaterialObject(sourceTypeID)
+{
+    
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
         url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeID",
         dataType: "json",
+        async: false,
         success: function (result, textStatus) {
             MaterialList = result.d;
+            $("#tblEstimateMatDetail").show();
             $("#txtMaterialName0").autocomplete({
-                source: MaterialList
+                source: MaterialList,
+                minlength: 8
             });
+
             $("#txtMaterialName0").on('autocompletechange change', function () {
                 var Matname = this.value;
                 if (MaterialObjectList != undefined) {
@@ -572,8 +590,6 @@ function SignedCopyFileUpload(estid) {
 }
 
 function TotalAmt() {
-
-
     if (Validation()) {
         var tablelength = $("#tbody").children('tr').length;
         var Amt = 0;
@@ -623,22 +639,47 @@ function Validation() {
         else {
             $("#ddlSourceType" + i).css('border-color', '');
         }
+
         if ($("#txtMaterialName" + i).val() == "" || $("#txtMaterialName" + i).val() == "0") {
             $("#txtMaterialName" + i).css('border-color', 'red');
             return false;
         }
         else {
-            $("#txtMaterialName" + i).css('border-color', '');
+            if ($("#txtMaterialName" + i).val() != undefined) {
+                var Matname = $("#txtMaterialName" + i).val();
+                var ValidateMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                if (ValidateMaterial == undefined) {
+                    $("#txtMaterialName" + i).css('border-color', 'red');
+                    $("#txtMaterialName" + i).val("");
+                    $("#hdnMatID" + i).val("");
+                    return false;
+                }
+                else {
+                    $("#txtMaterialName" + i).css('border-color', '');
+                }
+            }
         }
-        var value = $("#txtQty" + i).val()
-        var regex = new RegExp(/^\+?[0-9(),.-]+$/);
 
-        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || !value.match(regex)) {
-            $("#txtQty" + i).css('border-color', 'red');
+        if ($("#hdnMatID" + i).val() == "undefined" || $("#hdnMatID" + i).val() == "") {
+            $("#txtMaterialName" + i).css('border-color', 'red');
+            $("#txtMaterialName" + i).val("");
             return false;
         }
         else {
-            $("#txtQty" + i).css('border-color', '');
+            $("#txtMaterialName" + i).css('border-color', '');
+        }
+
+        if ($("#txtQty" + i).val() != undefined) {
+            var value = $("#txtQty" + i).val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+
+            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || !value.match(regex)) {
+                $("#txtQty" + i).css('border-color', 'red');
+                return false;
+            }
+            else {
+                $("#txtQty" + i).css('border-color', '');
+            }
         }
 
     }
@@ -653,23 +694,23 @@ function removeRow(removeNum) {
     cntM--;
 }
 
+function ClearTextBox() {
+    $("#txtMaterialName0").val("");
+    $("#txtRate0").val("");
+    $("#lblUnit0").text("");
+    $("#txtRemarks0").val("");
+    $("#txtQty0").val("");
+    $("#spnMaterialTypeID0").text("");
+}
+
 function ClearData(cntID) {
-    if (cntID > 0) {
-        $("#txtMaterialName" + cntID).val("");
-        $("#txtRate" + cntID).val("");
-        $("#lblUnit" + cntID).text("");
-        $("#txtRemarks" + cntID).val("");
-        $("#txtQty" + cntID).val("");
-        $("#spnMaterialTypeID" + cntID).text("");
-    }
-    else {
-        $("#txtMaterialName0").val("");
-        $("#txtRate0").val("");
-        $("#lblUnit0").text("");
-        $("#txtRemarks0").val("");
-        $("#txtQty0").val("");
-        $("#spnMaterialTypeID0").text("");
-    }
+
+    $("#txtMaterialName" + cntID).val("");
+    $("#txtRate" + cntID).val("");
+    $("#lblUnit" + cntID).text("");
+    $("#txtRemarks" + cntID).val("");
+    $("#txtQty" + cntID).val("");
+    $("#spnMaterialTypeID" + cntID).text("");
 }
 
 
