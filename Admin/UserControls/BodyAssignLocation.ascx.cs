@@ -112,13 +112,14 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
     {
         //if(ddlDept.SelectedItem.Text=)
         pnlEmplyee.Visible = true;
-        pnlZone.Visible = false;
+        GridZone.Visible = false;
+        lblAssignLocation.Visible = false;
         lblDesignation.Visible = false;
         btnAddAcademy.Visible = false;
         pnlAllZone.Visible = false;
         pnlSingleSelect.Visible = false;
         chkAllZone.Checked = false;
-        pnlAcademy.Visible = false;
+        GridAcademy.Visible = false;
         BindEmployee();
     }
 
@@ -151,7 +152,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = false;
             pnlAllZone.Visible = false;
-            pnlAcademy.Visible = false;
+            GridAcademy.Visible = false;
         }
 
         else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC) || userTypeID == ((int)TypeEnum.UserType.AUDIT) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE) || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE)
@@ -160,7 +161,8 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         {
             BindZoneGridOnSelectedEmp();
             BindBtnAcademyClickGrid();
-            pnlZone.Visible = true;
+            GridZone.Visible = true;
+            lblAssignLocation.Visible = true;
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = true;
             pnlAllZone.Visible = false;
@@ -171,21 +173,23 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         {
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = false;
-            pnlZone.Visible = false;
+            GridZone.Visible = false;
+            lblAssignLocation.Visible = false;
             pnlSingleSelect.Visible = false;
             pnlAllZone.Visible = true;
-            pnlAcademy.Visible = false;
+            GridAcademy.Visible = false;
         }
         else
         {
             pnlEmplyee.Visible = true;
-            pnlZone.Visible = false;
+            GridZone.Visible = false;
+            lblAssignLocation.Visible = false;
             lblDesignation.Visible = false;
             btnAddAcademy.Visible = false;
             pnlAllZone.Visible = false;
             pnlSingleSelect.Visible = false;
             chkAllZone.Checked = false;
-            pnlAcademy.Visible = false;
+            GridAcademy.Visible = false;
         }
     }
 
@@ -642,7 +646,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
 
     private void BindBtnAcademyClickGrid()
     {
-        pnlAcademy.Visible = true;
+        GridAcademy.Visible = true;
         string data = "";
         foreach (GridViewRow row in GridZone.Rows)
         {
@@ -722,7 +726,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
                     if (dsLo.Tables[0].Rows[i]["ZoneID"].ToString() == hdnZoneID.Value)
                     {
                         chkCtrl.Checked = true;
-                        chkCtrl.Enabled = false;
+                        //chkCtrl.Enabled = false;
                     }
                 }
             }

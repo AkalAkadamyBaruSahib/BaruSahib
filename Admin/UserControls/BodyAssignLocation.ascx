@@ -72,28 +72,13 @@
                                             <asp:CheckBox ID="chkAllZone" runat="server" CssClass="chkTxtAlign" />
                                             <asp:Label ID="lblChkAllZone" runat="server" Text="Assign all zone"></asp:Label>
                                         </asp:Panel>
-                                        <table>
-                                            <%-- <tr>
-                                                              <asp:Panel ID="PNLmULTIsELECT" runat="server" Width="230px" Visible="false">
-                                                              <td style="display:none;">
-                                                                    <asp:DropDownCheckBoxes ID="ddchkZone" runat="server" AddJQueryReference="True" UseButtons="True" UseSelectAllNode="True" CssClass="reset">
-                                                                        <Style SelectBoxWidth="200" DropDownBoxBoxWidth="200" DropDownBoxBoxHeight="130" />
-                                                                        <Texts SelectBoxCaption="Select Zone" />
-                                                                    </asp:DropDownCheckBoxes>
-                                                                    <asp:Label ID="lblZoneIDM" runat="server"></asp:Label><br />
-                                                                    <asp:Label ID="lblZoneNameM" runat="server"></asp:Label>
-                                                                    <asp:Button ID="btnSubmit" runat="server" Text="Submit" />
-                                                              </td>
-                                                               </asp:Panel>
-                                                          </tr>--%>
+                                        <table> 
                                             <tr style="vertical-align: top">
                                                 <td>
-
-                                                    <asp:Panel ID="pnlZone" runat="server" Width="330px" ScrollBars="Vertical" Visible="false" Height="200px">
-                                                        Assign work location
+                                                    <div style="overflow: auto; height: 600px">
+                                                          <asp:Label ID="lblAssignLocation" runat="server" Visible="false" Text=" Assign work location"></asp:Label>
                                                         <br />
-                                                        <asp:GridView ID="GridZone" runat="server" AutoGenerateColumns="false" class="table table-striped table-bordered bootstrap-datatable datatable">
-                                                            <AlternatingRowStyle />
+                                                        <asp:GridView ID="GridZone" Visible="false" runat="server" AutoGenerateColumns="false" class="table table-striped table-bordered bootstrap-datatable datatable">
                                                             <Columns>
                                                                 <asp:TemplateField ItemStyle-Width="5">
                                                                     <ItemTemplate>
@@ -104,41 +89,38 @@
                                                                 <asp:BoundField DataField="ZoneName" HeaderText="Zone" ItemStyle-Width="150" />
                                                             </Columns>
                                                         </asp:GridView>
-
-                                                    </asp:Panel>
-                                                    <br />
+                                                        <br />
+                                                    </div>
                                                     <asp:Button runat="server" ID="btnAddAcademy" Visible="false" Text="Select Academy" CssClass="btn btn-primary" OnClick="btnAddAcademy_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                                                     <asp:Label ID="lblZoneId" runat="server" Visible="true"></asp:Label>
                                                 </td>
                                                 <td style="width: 50px">&nbsp;
                                                 </td>
                                                 <td>
-                                                    <asp:Panel ID="pnlAcademy" runat="server" Width="330px" ScrollBars="Vertical" Visible="false">
-                                                        <div style="overflow: scroll; height: 400px">
-                                                            <asp:GridView ID="GridAcademy" runat="server" AutoGenerateColumns="false" class="table table-striped table-bordered bootstrap-datatable datatable">
-                                                                <AlternatingRowStyle />
-                                                                <Columns>
-                                                                    <asp:TemplateField ItemStyle-Width="5">
-                                                                        <HeaderTemplate>
-                                                                            <asp:CheckBox ID="chkboxSelectAll" Text="Select All" Font-Bold="true" CssClass="chkFontStyle" TextAlign="Left" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxSelectAll_CheckedChanged" />
-                                                                        </HeaderTemplate>
-                                                                        <ItemTemplate>
-                                                                            <asp:CheckBox ID="chkCtrl" runat="server" OnCheckedChanged="chkCtrl_CheckedChanged" AutoPostBack="true" />
-                                                                            <asp:HiddenField ID="hdnAcaId" runat="server" Value='<%# Eval("AcaID") %>' />
-                                                                            <asp:HiddenField ID="hdnZoneID" runat="server" Value='<%# Eval("ZoneID") %>' />
-                                                                        </ItemTemplate>
-                                                                        <ItemStyle Width="5px" />
-                                                                    </asp:TemplateField>
+                                                    <div style="overflow: auto; height: 600px">
+                                                        <asp:GridView ID="GridAcademy" Visible="false" runat="server" AutoGenerateColumns="false" class="table table-striped table-bordered bootstrap-datatable datatable">
+                                                            <AlternatingRowStyle />
+                                                            <Columns>
+                                                                <asp:TemplateField ItemStyle-Width="5">
+                                                                    <HeaderTemplate>
+                                                                        <asp:CheckBox ID="chkboxSelectAll" Text="Select All" Font-Bold="true" CssClass="chkFontStyle" TextAlign="Left" runat="server" AutoPostBack="true" OnCheckedChanged="chkboxSelectAll_CheckedChanged" />
+                                                                    </HeaderTemplate>
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkCtrl" runat="server" OnCheckedChanged="chkCtrl_CheckedChanged" AutoPostBack="true" />
+                                                                        <asp:HiddenField ID="hdnAcaId" runat="server" Value='<%# Eval("AcaID") %>' />
+                                                                        <asp:HiddenField ID="hdnZoneID" runat="server" Value='<%# Eval("ZoneID") %>' />
+                                                                    </ItemTemplate>
+                                                                    <ItemStyle Width="5px" />
+                                                                </asp:TemplateField>
 
-                                                                    <asp:BoundField DataField="AcaName" HeaderText="Academy" ItemStyle-Width="150">
-                                                                        <ItemStyle Width="150px" />
-                                                                    </asp:BoundField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                            <asp:Button runat="server" ID="btnAddAca" CssClass="btn btn-primary" Text="Load Academy" OnClick="btnAddAca_Click" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                                                            <asp:Label ID="lblAcaId" runat="server" Visible="true"></asp:Label>
-                                                        </div>
-                                                    </asp:Panel>
+                                                                <asp:BoundField DataField="AcaName" HeaderText="Academy" ItemStyle-Width="150">
+                                                                    <ItemStyle Width="150px" />
+                                                                </asp:BoundField>
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                    </div>
+                                                    <asp:Button runat="server" ID="btnAddAca" CssClass="btn btn-primary" Text="Load Academy" OnClick="btnAddAca_Click" Visible="false" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
+                                                    <asp:Label ID="lblAcaId" runat="server" Visible="true"></asp:Label>
                                                 </td>
                                             </tr>
                                         </table>
@@ -149,7 +131,7 @@
                         <div class="form-actions">
                             <asp:Button ID="btnSave" Text="Save" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                             <asp:Button ID="btnEdit" Text="Edit" CssClass="btn btn-primary" runat="server" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" Visible="false" />
-                            <asp:Button ID="btnCreateIncharge" CssClass="btn btn-primary" Text="Create Incharge"  runat="server" OnClick="btnCreateIncharge_Click"  />
+                            <asp:Button ID="btnCreateIncharge" CssClass="btn btn-primary" Text="Create Incharge" runat="server" OnClick="btnCreateIncharge_Click" />
                             <%--<a href="Admin_Incharge.aspx" class="btn">Create Incharge</a>--%>
                             <a href="Default.aspx" class="btn">Cancel</a>
                         </div>
