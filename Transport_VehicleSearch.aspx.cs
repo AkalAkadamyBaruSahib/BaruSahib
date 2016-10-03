@@ -40,8 +40,9 @@ public partial class Transport_VehicleSearch : System.Web.UI.Page
     {
         string name = Request.Form["txtVehicle"];
         DataSet dsVehicleDetails = new DataSet();
+        int InchargeID = int.Parse(Session["InchargeID"].ToString());
         int UserTypeID = int.Parse(Session["UserTypeID"].ToString());
-        dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_SearchVehicleInTransport '" + name.Trim() + "'");
+        dsVehicleDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_SearchVehicleInTransport '" + name.Trim() + "'," + InchargeID);
         divVehicleDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";

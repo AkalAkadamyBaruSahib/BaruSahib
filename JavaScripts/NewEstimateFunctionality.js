@@ -631,15 +631,6 @@ function removeRow(removeNum) {
     cntM--;
 }
 
-function ClearTextBox() {
-    $("#txtMaterialName0").val("");
-    $("#txtRate0").val("");
-    $("#lblUnit0").text("");
-    $("#txtRemarks0").val("");
-    $("#txtQty0").val("");
-    $("#spnMaterialTypeID0").text("");
-}
-
 function ClearData(cntID) {
 
     $("#txtMaterialName" + cntID).val("");
