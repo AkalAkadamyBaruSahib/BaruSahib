@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Security_AdminMaster.master" AutoEventWireup="true" CodeFile="Security_NewEmployee.aspx.cs" Inherits="Security_NewEmployee" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Security_AdminMaster.master" EnableEventValidation="false" AutoEventWireup="true" CodeFile="Security_NewEmployee.aspx.cs" Inherits="Security_NewEmployee" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script src="JavaScripts/Security.js"></script>
@@ -46,7 +46,7 @@
                                                     <div class="controls">
                                                         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
                                                         <asp:TextBox ID="txtName" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                       <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="reqName" ForeColor="Red"  ControlToValidate="txtName" ErrorMessage="Please Enter the  Name" />
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="reqName" ForeColor="Red" ControlToValidate="txtName" ErrorMessage="Please Enter the  Name" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -56,7 +56,7 @@
                                                     <div class="controls">
                                                         <asp:TextBox ID="txtMobileNo" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtMobileNo" ErrorMessage="Invalid Mobile No" ValidationExpression="[0-9]{10}" ForeColor="Red"></asp:RegularExpressionValidator>
-                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator1" ForeColor="Red"  ControlToValidate="txtMobileNo" ErrorMessage="Please Enter the Mobile No" />
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator1" ForeColor="Red" ControlToValidate="txtMobileNo" ErrorMessage="Please Enter the Mobile No" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -66,7 +66,7 @@
                                                     <div class="controls">
                                                         <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
                                                         <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator2" ForeColor="Red" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator2" ForeColor="Red" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -77,16 +77,16 @@
                                                     <label class="control-label" for="typeahead">Salary:</label>
                                                     <div class="controls">
                                                         <asp:TextBox ID="txtSalary" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator3" ForeColor="Red" ControlToValidate="txtSalary" ErrorMessage="Please Enter the  Salary" />
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator3" ForeColor="Red" ControlToValidate="txtSalary" ErrorMessage="Please Enter the  Salary" />
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Cutting:</label>
+                                                    <label class="control-label" for="typeahead">Deduction:</label>
                                                     <div class="controls">
                                                         <asp:TextBox ID="txtCutting" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                         <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator4" ForeColor="Red"  ControlToValidate="txtCutting" ErrorMessage="Please Enter the Cutting" />
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator4" ForeColor="Red" ControlToValidate="txtCutting" ErrorMessage="Please Enter the Cutting" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -104,60 +104,89 @@
                                                             <asp:ListItem Text="Graduation" Value="Graduation"></asp:ListItem>
                                                             <asp:ListItem Text="Post Graduation" Value="Post Graduation"></asp:ListItem>
                                                         </asp:DropDownList>
-                                                       <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" InitialValue="0" ID="RequiredFieldValidator5" ForeColor="Red" ControlToValidate="ddlEducation" ErrorMessage="Please Select the Education" />
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" InitialValue="0" ID="RequiredFieldValidator5" ForeColor="Red" ControlToValidate="ddlEducation" ErrorMessage="Please Select the Education" />
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="50%">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Designation:</label>
-                                                    <div class="controls">
-                                                        <asp:DropDownList ID="ddlDesig" Width="200px" runat="server"></asp:DropDownList>
-                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator6" ForeColor="Red" ControlToValidate="ddlDesig" ErrorMessage="Please Select the Designation" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td width="50%">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Department:</label>
-                                                    <div class="controls">
-                                                        <asp:DropDownList ID="ddlDept" Width="200px" runat="server"></asp:DropDownList>
-                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator7" ForeColor="Red" ControlToValidate="ddlDept" ErrorMessage="Please Select the Department" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Zone:</label>
-                                                    <div class="controls">
-                                                        <asp:DropDownList ID="ddlZone" Width="200px" runat="server">
-                                                            <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
-                                                        </asp:DropDownList><br />   
-                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="ddlZone" ErrorMessage="Please Select the Zone" />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
 
-                                            <td>
-                                                <div class="control-group">
-                                                    <label class="control-label" for="typeahead">Academy:</label>
-                                                    <div class="controls">
-                                                        <asp:DropDownList ID="ddlAcademy" Width="200px" runat="server">
-                                                                <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
-                                                        </asp:DropDownList><br />
-                                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator8" ForeColor="Red" ControlToValidate="ddlAcademy" ErrorMessage="Please Select the Academy" />
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                        </tr>
                                     </table>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
+                            <fieldset>
+                                <legend><span class="labelH labelH-info">Location Assign</span></legend>
+                                <asp:UpdatePanel ID="updatepanel3" runat="server">
+                                    <ContentTemplate>
+                                        <table width="100%">
+                                            <tr>
+
+                                                <td>
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="typeahead">Zone:</label>
+                                                        <div class="controls">
+                                                            <asp:DropDownList ID="drpZone" Width="200px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpZone_SelectedIndexChanged">
+                                                                <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                                            </asp:DropDownList><br />
+                                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="drpZone" ErrorMessage="Please Select the Zone" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td width="50%">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="typeahead">Academy:</label>
+                                                        <div class="controls">
+                                                            <asp:DropDownList ID="drpAcademy" Width="200px" runat="server">
+                                                                <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
+                                                            </asp:DropDownList><br />
+                                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator8" ForeColor="Red" ControlToValidate="drpAcademy" ErrorMessage="Please Select the Academy" />
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                                <td width="50%">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="typeahead">Designation:</label>
+                                                        <div class="controls">
+                                                            <asp:DropDownList ID="ddlDesig" Width="200px" runat="server"></asp:DropDownList>
+                                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator6" ForeColor="Red" ControlToValidate="ddlDesig" ErrorMessage="Please Select the Designation" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td width="50%">
+                                                    <label class="control-label" for="typeahead">Date of Joining:</label>
+                                                    <div class="controls">
+                                                        <asp:TextBox ID="txtDateofJoining" runat="server" Width="200px" CssClass="input-xlarge datepicker"></asp:TextBox>
+                                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator7" ForeColor="Red" ControlToValidate="txtDateofJoining" ErrorMessage="Please Enter the Date of Joining" />
+                                                    </div>
+                                                </td>
+                                                <td width="50%">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="typeahead">Date of Appraisal:</label>
+                                                        <div class="controls">
+                                                            <asp:TextBox ID="txtDateofAppraisal" runat="server" Width="200px" CssClass="input-xlarge datepicker"></asp:TextBox>
+                                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator10" ForeColor="Red" ControlToValidate="txtDateofAppraisal" ErrorMessage="Please Enter the Date of Appraisal" />
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                                <td>
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="typeahead">Last Appraisal Amount:</label>
+                                                        <div class="controls">
+                                                            <asp:TextBox ID="txtLastAppraisal" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
+                                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator11" ForeColor="Red" ControlToValidate="txtLastAppraisal" ErrorMessage="Please Enter the Last Appraisal Amount" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </fieldset>
                             <fieldset>
                                 <legend><span class="labelH labelH-info">Employee Detail Upload</span></legend>
                                 <asp:UpdatePanel ID="updatepanel2" runat="server">
@@ -169,9 +198,8 @@
                                                         <label class="control-label" for="typeahead">Appointment:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadAppointment" runat="server" />
-                                                            <a id="afileUploadAppointment" style="font-size: 13px;"  target="_blank">Appointment Letter</a>
-                                          <%--                  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="fileUploadAppointment" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Appointment"></asp:RequiredFieldValidator>
-                                         --%>               </div>
+                                                            <a id="afileUploadAppointment" runat="server" visible="false" style="font-size: 13px;" target="_blank">Appointment Letter</a>
+                                                          </div>
                                                     </div>
                                                 </td>
                                                 <td width="50%">
@@ -179,9 +207,8 @@
                                                         <label class="control-label" for="typeahead">Experience:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadExperience" runat="server" />
-                                                            <a id="afileUploadExperience" style="font-size: 13px;"  target="_blank">Experience Letter </a>
-                                                 <%--           <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="fileUploadExperience" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Experience"></asp:RequiredFieldValidator>
-                                                --%>        </div>
+                                                            <a id="afileUploadExperience"  runat="server" visible="false" style="font-size: 13px;" target="_blank">Experience Letter </a>
+                                                           </div>
                                                     </div>
                                                 </td>
                                                 <td width="50%">
@@ -189,9 +216,8 @@
                                                         <label class="control-label" for="typeahead">Family Ration Card:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadFamilyRationCard" runat="server" />
-                                                            <a id="afileUploadFamilyRationCard" style="font-size: 13px;" target="_blank">Ration Card </a>
-                                                 <%--           <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="fileUploadFamilyRationCard" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Family Ration Card"></asp:RequiredFieldValidator>
-                                                --%>        </div>
+                                                            <a id="afileUploadFamilyRationCard"  runat="server" visible="false" style="font-size: 13px;" target="_blank">Ration Card </a>
+                                                           </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -201,9 +227,8 @@
                                                         <label class="control-label" for="typeahead">PCC(Verification):</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadPCC" runat="server" />
-                                                            <a id="afileUploadPCC" style="font-size: 13px;"  target="_blank">PCC</a>
-                                                   <%--         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="fileUploadPCC" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  PCC"></asp:RequiredFieldValidator>
-                                               --%>         </div>
+                                                            <a id="afileUploadPCC"  runat="server" visible="false" style="font-size: 13px;" target="_blank">PCC</a>
+                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td width="50%">
@@ -211,9 +236,8 @@
                                                         <label class="control-label" for="typeahead">Qualification Letter:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadQualification" runat="server" />
-                                                            <a id="afileUploadQualification" style="font-size: 13px;"  target="_blank">Qualification Letter </a>
-                                              <%--              <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="fileUploadQualification" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload Qualification"></asp:RequiredFieldValidator>
-                                              --%>          </div>
+                                                            <a id="afileUploadQualification"  runat="server" visible="false" style="font-size: 13px;" target="_blank">Qualification Letter </a>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -221,9 +245,8 @@
                                                         <label class="control-label" for="typeahead">Upload Photo:</label>
                                                         <div class="controls">
                                                             <asp:FileUpload ID="fileUploadphoto" runat="server" />
-                                                               <a id="afileUploadphoto" style="font-size: 13px;"  target="_blank">Photo</a>
-                                                <%--            <asp:RequiredFieldValidator ID="RequiredFieldValidatorphoto" ControlToValidate="fileUploadphoto" runat="server" ValidationGroup="security" Display="None" ErrorMessage="Please Upload  Photo"></asp:RequiredFieldValidator>
-                                              --%>          </div>
+                                                            <a id="afileUploadphoto"  runat="server" visible="false" style="font-size: 13px;" target="_blank">Photo</a>
+                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -235,38 +258,6 @@
                         <div class="form-actions">
                             <asp:Button ID="btnSave" Text="Save" CssClass="btn btn-primary" runat="server" ValidationGroup="security" OnClick="btnSave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                             <asp:Button ID="Button1" Text="Cancel" CssClass="btn" runat="server" OnClick="Button1_Click" />
-                        </div>
-                        <div class="row-fluid sortable">
-                            <div class="box span12">
-                                <div class="box-header well" data-original-title>
-                                    <h2 style="color: #cc3300;"><i class="icon-user"></i>Security Employee Details</h2>
-                                    <div class="box-icon">
-                                        <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-                                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-                                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-                                    </div>
-                                </div>
-                                <div class="box-content">
-
-                                    <div id="divMatDetails" runat="server">
-                                        <div id="divVisitorDetails" runat="server">
-                                            <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
-                                                <thead>
-                                                    <tr>
-                                                        <th style="color: #cc3300;">Name</th>
-                                                        <th style="color: #cc3300;">Address</th>
-                                                        <th style="color: #cc3300;">Contact No</th>
-                                                        <th style="color: #cc3300;">Qualification</th>
-                                                        <th style="color: #cc3300;">Documents</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tbody">
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div id="myModal" class="modal hide fade" style="display: none; width: 800px; height: 500px">
                             <div class="modal-header">

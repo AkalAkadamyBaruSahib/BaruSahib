@@ -26,17 +26,15 @@ public class SecurityEmployeeInfo
 
     public string Salary { get; set; }
 
-    public string Cutting { get; set; }
+    public int? Deduction { get; set; }
 
-    public int? AcaID { get; set; }
+    public int AcaID { get; set; }
 
-    public int? ZoneID { get; set; }
+    public int ZoneID { get; set; }
 
     public string Education { get; set; }
 
-    public int? DesigID { get; set; }
-
-    public int? DeptID { get; set; }
+    public int DesigID { get; set; }
 
     public string AppointmentLetter { get; set; }
 
@@ -55,4 +53,15 @@ public class SecurityEmployeeInfo
     public bool? IsApproved { get; set; }
 
     public string Photo { get; set; }
+
+    public DateTime? DOJ { get; set; }
+
+    public DateTime? DateOfAppraisal { get; set; }
+
+    public string LastAppraisal { get; set; }
+
+    public Zone Zone { get; set; }
+
+    public Academy Academy { get; set; }
+
 }

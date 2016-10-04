@@ -156,7 +156,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         }
 
         else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC) || userTypeID == ((int)TypeEnum.UserType.AUDIT) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE) || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE)
-            || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO) 
+            || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO) || userTypeID == ((int)TypeEnum.UserType.SECURITY)
             || userTypeID == ((int)TypeEnum.UserType.TRANSPORTTRAINEE) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICETRAINEE) || userTypeID == ((int)TypeEnum.UserType.WORKSHOPADMIN) || userTypeID == ((int)TypeEnum.UserType.WORKSHOPEMPLOYEE))
         {
             BindZoneGridOnSelectedEmp();

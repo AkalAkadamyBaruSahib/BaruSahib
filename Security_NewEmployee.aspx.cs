@@ -35,7 +35,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
 
             BindDesignation();
             BindDepartment();
-            //BindZone();
+            BindZone();
 
             if (EmployeeID > 0)
             {
@@ -43,28 +43,30 @@ public partial class Security_NewEmployee : System.Web.UI.Page
             }
         }
     }
-    //protected void BindAcademy()
-    //{
-    //    DataSet AcaList = new DataSet();
-    //    AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId='" + ddlZone.SelectedValue + "'");
-    //    ddlAcademy.DataSource = AcaList;
-    //    ddlAcademy.DataValueField = "AcaId";
-    //    ddlAcademy.DataTextField = "AcaName";
-    //    ddlAcademy.DataBind();
-    //    ddlAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
-    //    ddlAcademy.SelectedIndex = 0;
-    //}
-    //protected void BindZone()
-    //{
-    //    DataSet ZoneList = new DataSet();
-    //    ZoneList = DAL.DalAccessUtility.GetDataInDataSet("select * from Zone where Active=1");
-    //    ddlZone.DataSource = ZoneList;
-    //    ddlZone.DataValueField = "ZoneId";
-    //    ddlZone.DataTextField = "ZoneName";
-    //    ddlZone.DataBind();
-    //    ddlZone.Items.Insert(0, "Select Zone");
-    //    ddlZone.SelectedIndex = 0;
-    //}
+
+    protected void BindAcademy()
+    {
+        DataSet AcaList = new DataSet();
+        AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId='" + drpZone.SelectedValue + "'");
+        drpAcademy.DataSource = AcaList;
+        drpAcademy.DataValueField = "AcaId";
+        drpAcademy.DataTextField = "AcaName";
+        drpAcademy.DataBind();
+        drpAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
+        drpAcademy.SelectedIndex = 0;
+    }
+    protected void BindZone()
+    {
+        DataSet ZoneList = new DataSet();
+        ZoneList = DAL.DalAccessUtility.GetDataInDataSet("select * from Zone where Active=1");
+        drpZone.DataSource = ZoneList;
+        drpZone.DataValueField = "ZoneId";
+        drpZone.DataTextField = "ZoneName";
+        drpZone.DataBind();
+        drpZone.Items.Insert(0, "Select Zone");
+        drpZone.SelectedIndex = 0;
+    }
+ 
     protected void btnSave_Click(object sender, EventArgs e)
     {
         string fileNameToSave = string.Empty;
@@ -137,38 +139,31 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         {
             securityemp.QualificationLetter = "";
         }
-        if (ddlZone.SelectedValue != null)
+        if (drpZone.SelectedValue != "0")
         {
-            securityemp.ZoneID = Convert.ToInt32(ddlZone.SelectedValue);
+            securityemp.ZoneID = Convert.ToInt32(drpZone.SelectedValue);
         }
         else
         {
-            securityemp.ZoneID = null;
+            securityemp.ZoneID = 0;
         }
-        if (ddlAcademy.SelectedValue != null)
+        if (drpAcademy.SelectedValue != "0")
         {
-            securityemp.AcaID = Convert.ToInt32(ddlAcademy.SelectedValue);
+            securityemp.AcaID = Convert.ToInt32(drpAcademy.SelectedValue);
         }
         else
         {
-            securityemp.AcaID = null;
+            securityemp.AcaID = 0;
         }
-        if (ddlDesig.SelectedValue != null)
+        if (ddlDesig.SelectedValue != "0")
         {
             securityemp.DesigID = Convert.ToInt32(ddlDesig.SelectedValue);
         }
         else
         {
-            securityemp.DesigID = null;
+            securityemp.DesigID = 0;
         }
-        if (ddlDept.SelectedValue != null)
-        {
-            securityemp.DeptID = Convert.ToInt32(ddlDept.SelectedValue);
-        }
-        else
-        {
-            securityemp.DeptID = null;
-        }
+      
         if (ddlEducation.SelectedValue != null)
         {
             securityemp.Education = ddlEducation.SelectedValue;
@@ -181,13 +176,17 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         securityemp.Address = txtAddress.Text;
         securityemp.MobileNo = txtMobileNo.Text;
         securityemp.Salary = txtSalary.Text;
-        securityemp.Cutting = txtCutting.Text;
+        securityemp.Deduction = Convert.ToInt32(txtCutting.Text);
         securityemp.CreatedOn = DateTime.Now;
         securityemp.ModifyOn = DateTime.Now;
         securityemp.IsApproved = true;
-        hdnsecurityEmployeeID.Value = "";
+        securityemp.DateOfAppraisal = Convert.ToDateTime(txtDateofAppraisal.Text);
+        securityemp.DOJ =Convert.ToDateTime(txtDateofJoining.Text);
+        securityemp.LastAppraisal = txtLastAppraisal.Text;
+
+      
         SecurityRepository repo = new SecurityRepository(new AkalAcademy.DataContext());
-        if (securityemp.ID == 0)
+        if (hdnsecurityEmployeeID.Value == "0" || hdnsecurityEmployeeID.Value =="")
         {
             repo.AddNewSecurityEmp(securityemp);
         }
@@ -196,6 +195,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
             repo.UpdateSecurityEmp(securityemp);
         }
         ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Record Saved Successfully');</script>", false);
+        Response.Redirect("Security_EmployeeDetail.aspx");
         Clr();
     }
     protected void Clr()
@@ -206,10 +206,12 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         txtAddress.Text = "";
         txtMobileNo.Text = "";
         txtName.Text = "";
-        ddlDept.SelectedIndex = 0;
+        txtLastAppraisal.Text = "";
+        txtDateofJoining.Text = "";
+        txtDateofAppraisal.Text = "";
         ddlDesig.SelectedIndex = 0;
-        ddlZone.SelectedIndex = 0;
-        ddlAcademy.ClearSelection();
+        drpZone.SelectedIndex = 0;
+        drpAcademy.ClearSelection();
         ddlEducation.ClearSelection();
     }
     protected void BindDesignation()
@@ -225,37 +227,48 @@ public partial class Security_NewEmployee : System.Web.UI.Page
     }
     protected void BindDepartment()
     {
-        DataSet dsDept = new DataSet();
-        dsDept = DAL.DalAccessUtility.GetDataInDataSet("select DepId,department from Department where Active=1 and ModuleID=" + ModuleID + " order by department asc");
-        ddlDept.DataSource = dsDept;
-        ddlDept.DataValueField = "DepId";
-        ddlDept.DataTextField = "department";
-        ddlDept.DataBind();
-        ddlDept.Items.Insert(0, "--Select Department--");
-        ddlDept.SelectedIndex = 0;
+     
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
         Clr();
     }
-    //protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    BindAcademy();
-    //}
+   
     public void LoadEmployeeData()
     {
         SecurityEmployeeInfoDTO emp = new SecurityEmployeeInfoDTO();
         SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
         emp = repository.GetSecurityEmployeeInfoToUpdate(EmployeeID);
+        hdnsecurityEmployeeID.Value = emp.ID.ToString();
         txtAddress.Text = emp.Address;
         txtName.Text = emp.Name;
         txtMobileNo.Text = emp.MobileNo;
         txtSalary.Text = emp.Salary;
-        txtCutting.Text = emp.Cutting;
+        txtCutting.Text = emp.Deduction;
         ddlEducation.SelectedValue = emp.Education.ToString();
         ddlDesig.SelectedValue = emp.DesigID.ToString();
-        ddlDept.SelectedValue = emp.DeptID.ToString();
-        ddlZone.SelectedValue = emp.ZoneID.ToString();
-        ddlAcademy.SelectedValue = emp.AcaID.ToString();
+        drpZone.SelectedValue = emp.ZoneID.ToString();
+        BindAcademy();
+        drpAcademy.SelectedValue = emp.AcaID.ToString();
+        txtDateofJoining.Text = emp.DOJ;
+        txtDateofAppraisal.Text = emp.DateOfAppraisal;
+        txtLastAppraisal.Text = emp.LastAppraisal.ToString();
+        afileUploadAppointment.Visible = true;
+        afileUploadExperience.Visible = true;
+        afileUploadQualification.Visible = true;
+        afileUploadPCC.Visible = true;
+        afileUploadFamilyRationCard.Visible = true;
+        afileUploadphoto.Visible = true;
+        afileUploadAppointment.HRef = emp.AppointmentLetter;
+        afileUploadExperience.HRef = emp.ExperienceLetter;
+        afileUploadQualification.HRef = emp.QualificationLetter;
+        afileUploadPCC.HRef = emp.PCC;
+        afileUploadFamilyRationCard.HRef = emp.FamilyRationCard;
+        afileUploadphoto.HRef = emp.Photo;
+
+    }
+    protected void drpZone_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindAcademy();
     }
 }

@@ -1,14 +1,11 @@
-﻿$(document).ready(function () {
-    $("#afileUploadQualification").hide();
-    $("#afileUploadAppointment").hide();
-    $("#afileUploadPCC").hide();
-    $("#afileUploadFamilyRationCard").hide();
-    $("#afileUploadExperience").hide();
-    $("#afileUploadphoto").hide();
-    $("input[id*='btnEdit'] ").hide();
-   
-    LoadSecurityEmployee(-1);
+﻿var d = new Date();
+var CurrentDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() ;
 
+$(document).ready(function () {
+ 
+    $("#btnUploadSave").click(function () {
+        SaveEmpTransferInfo();
+    });
 
     BindZone();
 
@@ -134,14 +131,16 @@ function GetSecurityEmployeeInfoToUpdate(securityEmployeeID) {
                 $("input[id*='txtName']").val(rdata.Name);
                 $("input[id*='txtMobileNo']").val(rdata.MobileNo);
                 $("input[id*='txtSalary']").val(rdata.Salary);
-                $("input[id*='txtCutting']").val(rdata.Cutting);
+                $("input[id*='txtCutting']").val(rdata.Deduction);
                 $("textarea[id*='txtAddress']").val(rdata.Address);
                 $("select[id*='ddlZone']").val(rdata.ZoneID);
                 BindAcademybyZoneID(rdata.ZoneID);
                 $("select[id*='ddlAcademy']").val(rdata.AcaID);
                 $("select[id*='ddlDesig']").val(rdata.DesigID);
-                $("select[id*='ddlDept']").val(rdata.DeptID);
                 $("select[id*='ddlEducation']").val(rdata.Education);
+                $("select[id*='txtDateofJoining']").val(rdata.DOJ);
+                $("select[id*='txtDateofAppraisal']").val(rdata.DateOfAppraisal);
+                $("input[id*='txtLastAppraisal']").val(rdata.LastAppraisal);
                 $("#afileUploadQualification").show();
                 $("#afileUploadQualification").attr("href", rdata.QualificationLetter);
                 $("#afileUploadAppointment").show();
@@ -168,7 +167,7 @@ function BindZone() {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/SecurityController.asmx/GetDrawingZone",
+        url: "Services/SecurityController.asmx/GetZone",
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -212,5 +211,84 @@ function BindAcademybyZoneID(selctZoneID) {
     });
 }
 
+function OpenTransferEmployee(EmpID, ZoneID, AcaID, Name) {
+    $("input[id*='hdnEmpID']").val(EmpID);
+    $("input[id*='hdnZoneId']").val(ZoneID);
+    $("input[id*='hdnAcaId']").val(AcaID);
+    $("input[id*='hdnName']").val(Name);
+    $("#divTransferEmployee").modal('show');
+   
+}
+
+function SaveEmpTransferInfo() {
+    var paramBill = new Object();
+
+    var EmployeeTransfer = new Object();
+
+    var hdnEmpID = $("input[id*='hdnEmpID']").val();
+    var hdnZoneID = $("input[id*='hdnZoneId']").val();
+    var hdnAcaID = $("input[id*='hdnAcaId']").val();
+    EmployeeTransfer.EmpID = hdnEmpID;
+    EmployeeTransfer.OldAcaID = hdnAcaID;
+    EmployeeTransfer.OldZoneID = hdnZoneID;
+    EmployeeTransfer.NewAcaID = $("select[id*='ddlAcademy']").val();
+    EmployeeTransfer.NewZoneID = $("select[id*='ddlZone']").val();
+    EmployeeTransfer.DateOfTransfer = CurrentDate;
+    EmployeeTransfer.CreatedBy = $("input[id*='hdnInchargeID']").val();
 
 
+    var ext = $("#uploadeTransferLetter")[0].files[0].name.split('.').pop();
+    var dates = "";
+    for (var i = 0; i < CurrentDate.length; i++)
+    {
+        dates += CurrentDate[i].replace('/', '');
+    }
+    
+    var transferLetter = $("input[id*='hdnName']").val() + "_" + dates + "." + ext;
+    EmployeeTransfer.TransferLatter = "SecurityAppointmentLetter/TransferLetters/" + transferLetter;
+
+
+    paramBill.EmployeeTransfer = EmployeeTransfer;
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        url: "Services/SecurityController.asmx/SaveSecurityTransferLetter",
+        data: JSON.stringify(paramBill),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                TransferLetterUpload(transferLetter);
+
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText)
+        }
+    });
+}
+
+
+function TransferLetterUpload(filename) {
+    var files = $("#uploadeTransferLetter")[0].files;
+    var data = new FormData();
+    for (var i = 0; i < files.length; i++) {
+        data.append(files[i].name, files[i]);
+    }
+
+    $.ajax({
+        url: "TransferLetterHandler.ashx?name=" + filename,
+        type: "POST",
+        async: false,
+        data: data,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            $("#divTransferEmployee").modal('hide');
+        },
+        error: function (err) {
+            alert(err.statusText)
+        }
+    });
+}

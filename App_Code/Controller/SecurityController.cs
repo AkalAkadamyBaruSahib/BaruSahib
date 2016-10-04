@@ -53,4 +53,38 @@ public class SecurityController : System.Web.Services.WebService {
         SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
         return repository.GetAcademybyZoneID(ZoneID);
     }
+
+    [WebMethod]
+    public void SaveSecurityTransferLetter(EmployeeTransfer EmployeeTransfer)
+    {
+        SecurityRepository securityRepository = new SecurityRepository(new AkalAcademy.DataContext());
+        securityRepository.SaveSecurityTransferLetter(EmployeeTransfer);
+    }
+
+    [WebMethod]
+    public void DeleteEmployeeInfo(int EID)
+    {
+        SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
+        repository.DeleteEmployeeInfo(EID);
+    }
+
+    [WebMethod]
+    public void ActiveEmployeeInfo(int EID)
+    {
+        SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
+        repository.ActiveEmployeeInfo(EID);
+    }
+
+    [WebMethod]
+    public List<string> GetActiveSecurityEmployee()
+    {
+        List<string> arrEmp = new List<string>();
+        SecurityRepository repository = new SecurityRepository(new AkalAcademy.DataContext());
+        List<SecurityEmployeeInfo> employee = repository.GetActiveSecurityEmployee();
+        foreach (SecurityEmployeeInfo dto in employee)
+        {
+            arrEmp.Add(dto.Name.Trim());
+        }
+        return arrEmp;
+    }
 }

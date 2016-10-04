@@ -121,6 +121,8 @@
                                 <ul>
                                     <li><a class="ajax-link" href="Security_Designation.aspx"><i></i><span class="hidden-tablet">Designation</span></a></li>
                                     <li><a class="ajax-link" href="Security_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
+                                    <li id="liLocation" runat="server"><a class="ajax-link" href="Security_LocationAssign.aspx"><i></i><span class="hidden-tablet">Location Assign</span></a></li>
+
                                  </ul>
                             </li>
                             <li><a class="dropmenu" href="#"><i>
@@ -138,9 +140,15 @@
                                 </ul>
                             </li>
                              <li id="li1" runat="server"><a class="dropmenu" href="#"><i>
-                                <img src="img/report.png" /></i><span class="hidden-tablet"><b> MESSAGES</b></span></a>
+                                <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b> MESSAGES</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Security_SendMessage.aspx"><i></i><span class="hidden-tablet">Send Message Through Phone</span></a></li>
+                                </ul>
+                            </li>
+                              <li id="liestimatesearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
+                                <ul>
+                                    <li><a href="SecuritySearchEmployee.aspx"><span class="hidden-tablet">Employee Search</span></a></li>
+                                   
                                 </ul>
                             </li>
                         </ul>

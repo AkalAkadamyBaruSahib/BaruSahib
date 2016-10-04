@@ -25,7 +25,7 @@ public class SecurityEmployeeInfoDTO
 
     public string Salary { get; set; }
 
-    public string Cutting { get; set; }
+    public string Deduction { get; set; }
 
     public int? AcaID { get; set; }
 
@@ -34,8 +34,6 @@ public class SecurityEmployeeInfoDTO
     public string Education { get; set; }
 
     public int? DesigID { get; set; }
-
-    public int? DeptID { get; set; }
 
     public string AppointmentLetter { get; set; }
 
@@ -55,6 +53,10 @@ public class SecurityEmployeeInfoDTO
 
     public string Photo { get; set; }
 
+    public string DOJ { get; set; }
 
+    public string DateOfAppraisal { get; set; }
+
+    public string LastAppraisal { get; set; }
    
 }
