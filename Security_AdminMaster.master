@@ -139,18 +139,23 @@
                                     <li><a class="ajax-link" href="Security_Reports.aspx"><i></i><span class="hidden-tablet">Reports</span></a></li>
                                 </ul>
                             </li>
-                             <li id="li1" runat="server"><a class="dropmenu" href="#"><i>
+                          <%--   <li id="li1" runat="server"><a class="dropmenu" href="#"><i>
                                 <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b> MESSAGES</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Security_SendMessage.aspx"><i></i><span class="hidden-tablet">Send Message Through Phone</span></a></li>
                                 </ul>
-                            </li>
+                            </li>--%>
                               <li id="liestimatesearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
                                 <ul>
                                     <li><a href="SecuritySearchEmployee.aspx"><span class="hidden-tablet">Employee Search</span></a></li>
                                    
                                 </ul>
                             </li>
+                            <%--  <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i> <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="Security_ComplaintTickets.aspx"><span class="hidden-tablet">Compalaint Tickets</span></a></li>
+                                </ul>
+                            </li>--%>
                         </ul>
                     </div>
                     <!--/.well -->

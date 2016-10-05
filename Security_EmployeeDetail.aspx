@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div id="content" class="span10">
+          <asp:Button ID="btnNonApproved" runat="server" Text="View InActive Employee(s)" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)"  Font-Bold="True" ForeColor="Black" title="Click this button you get InActive employee" data-rel="tooltip" OnClick="btnNonApproved_Click" Width="235px" />
     </div>
     <script src="JavaScripts/Security.js"></script>
     <asp:HiddenField ID="hdnEmpID" runat="server" />
@@ -21,7 +22,7 @@
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Transfer Security Employee</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="divtransEmp">
             <table id="tblTransferEmployee" style="width: 730px;">
                 <tbody>
                     <tr>

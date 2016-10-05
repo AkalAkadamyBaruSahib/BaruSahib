@@ -57,7 +57,7 @@ public partial class SecuritySearchEmployee : System.Web.UI.Page
         ZoneInfo += "<th style='display:none;'></th>";
         ZoneInfo += "<th width='30%'>Employee Information.</th>";
         ZoneInfo += "<th width='25%'>Assigned For</th>";
-        ZoneInfo += "<th width='20%'>Address</th>";
+        ZoneInfo += "<th width='30%'>Zonal Security Supervisor</th>";
         ZoneInfo += "<th width='5%'>Salary</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
@@ -76,10 +76,22 @@ public partial class SecuritySearchEmployee : System.Web.UI.Page
                 {
                     ZoneInfo += "<td width='30%'><table><tr><td><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + Security.Photo + ")'  href='" + Security.Photo + "'><img class='grayscale' width='75Px' height='75PX' src='" + Security.Photo + "' ></a></li></td></tr><tr><td><a class='btn btn-danger' href='Security_NewEmployee.aspx?EmployeeID=" + Security.ID + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>" + Security.Name + "</span></a></td><td><a href='Security_EmployeeDetail.aspx?DeActiveEmployeeID=" + Security.ID + "'><span class='label label-warning' style='font-size: 15.998px;' title='Employee InActive'>InActive</span></a></td></tr></table></td>";
                 }
-                ZoneInfo += "<td width='30%'><table><tr><td><b>Zone</b>: " + Security.Zone.ZoneName + "</td></tr><tr><td><b>Academy</b>: " + Security.Academy.AcaName + "</td></tr></table>";
+                ZoneInfo += "<td width='30%'><table><tr><td><b>Zone</b>: " + Security.Zone.ZoneName + "</td></tr><tr><td><b>Academy</b>: " + Security.Academy.AcaName + "</td></tr><tr><td><b>Address:</b>" + Security.Address + "</td></tr><tr><td><b>MobileNo:</b> " + Security.MobileNo + "</td></tr></table>";
                 ZoneInfo += "<td class='center'width='20%'><table>";
-                ZoneInfo += "<tr><td><b>Address:</b>" + Security.Address + "</td></tr>";
-                ZoneInfo += "<tr><td><b>MobileNo:</b> " + Security.MobileNo + "</td></tr>";
+                DataTable dsINcharge = new DataTable();
+                dsINcharge = DAL.DalAccessUtility.GetDataInDataSet("select distinct Inc.InName,Inc.InMobile from  AcademyAssignToEmployee AAE INNER JOIN Incharge Inc on Inc.InchargeId = AAE.EmpID where AAE.ZoneId='" + Security.ZoneID + "' and Inc.ModuleID = 3 and Inc.DesigId = 26").Tables[0];
+                if (dsINcharge != null && dsINcharge.Rows.Count > 0)
+                {
+                    for (int j = 0; j < dsINcharge.Rows.Count; j++)
+                    {
+                        ZoneInfo += "<tr><td class='center'><b>Name:</b>" + dsINcharge.Rows[j]["InName"].ToString() + "</td>";
+                        ZoneInfo += "<tr><td class='center'><b>MobileNo:</b> " + dsINcharge.Rows[j]["InMobile"].ToString() + "</td></tr>";
+                    }
+                }
+                else
+                {
+                    ZoneInfo += "<td width='20%' class='center'>No Zonal Officer Assign</td>";
+                }
                 ZoneInfo += "</table></td>";
                 ZoneInfo += "<td width='5%'>" + Security.Salary + "</td>";
                 ZoneInfo += "</tr>";

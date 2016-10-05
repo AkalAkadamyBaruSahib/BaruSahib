@@ -12,6 +12,7 @@ $(document).ready(function () {
     $("select[id*='ddlZone']").change(function () {
         BindAcademybyZoneID($(this).val());
     });
+
 });
 function LoadSecurityEmployee() {
 

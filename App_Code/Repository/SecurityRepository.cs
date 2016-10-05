@@ -186,10 +186,10 @@ public class SecurityRepository
         return _context.Academy.Where(x => x.ZoneId == ZoneID).ToList();
     }
 
-    public List<SecurityEmployeeInfo> SecurityEmployeeInfoView()
+    public List<SecurityEmployeeInfo> SecurityEmployeeInfoView(bool IsApproved)
     {
 
-        return _context.SecurityEmployeeInfo.Where(s => s.IsApproved == true)
+        return _context.SecurityEmployeeInfo.Where(s => s.IsApproved == IsApproved)
             .Include(z => z.Zone)
             .Include(a => a.Academy)
             .OrderByDescending(e => e.CreatedOn).ToList();

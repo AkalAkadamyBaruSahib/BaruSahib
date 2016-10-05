@@ -10,19 +10,13 @@ using excel = Microsoft.Office.Interop.Excel;
 public partial class Security_Reports : System.Web.UI.Page
 {
     public static int ModuleID = -1;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        if (Request.QueryString["report"] != null)
-        {
-            downloadExcel();
-        }
         if (!Page.IsPostBack)
         {
-            if (Session["ModuleID"] != null)
-            {
-                ModuleID = int.Parse(Session["ModuleID"].ToString());
-            } BindEmployee();
+            BindZones();
+            BindEmployee();
         }
     }
     protected void btnDownload_Click(object sender, EventArgs e)
@@ -55,32 +49,38 @@ public partial class Security_Reports : System.Web.UI.Page
     {
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_ExcelWorkingSecurityEmployee] '" + ddlReport.SelectedValue + "'");
-       dt = ds.Tables[0];
+        ds = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_ExcelWorkingSecurityEmployee] '" + ddlDesignation.SelectedValue + "', '" + ddlZone.SelectedValue + "'");
+        dt = ds.Tables[0];
         return dt;
     }
 
     private void BindEmployee()
     {
-        DataSet dsDesgis = new DataSet();
-        dsDesgis = DAL.DalAccessUtility.GetDataInDataSet("Select distinct D.DesgId,D.Designation from SecurityEmployeeInfo S Inner Join Designation D on S.DesigID = D.DesgId where D.ModuleID='" + ModuleID + "' order by Designation asc");
-        ddlReport.DataSource = dsDesgis;
-        ddlReport.DataValueField = "DesgId";
-        ddlReport.DataTextField = "Designation";
-        ddlReport.DataBind();
-        ddlReport.Items.Insert(0, "--Select Designation--");
-        ddlReport.SelectedIndex = 0;
-    
+        DataTable dsDesgis = new DataTable();
+        dsDesgis = DAL.DalAccessUtility.GetDataInDataSet("Select  D.DesgId,D.Designation from  Designation D  where D.ModuleID='" + (int)TypeEnum.Module.Security + "' order by Designation asc").Tables[0];
+        if (dsDesgis != null && dsDesgis.Rows.Count > 0)
+        {
+            ddlDesignation.DataSource = dsDesgis;
+            ddlDesignation.DataValueField = "DesgId";
+            ddlDesignation.DataTextField = "Designation";
+            ddlDesignation.DataBind();
+            ddlDesignation.Items.Insert(0, new ListItem("--Select Designation--", "0"));
+            ddlDesignation.SelectedIndex = 0;
+        }
     }
-    private void downloadExcel()
+   
+    private void BindZones()
     {
-        //Response.Redirect(Server.MapPath("~/VehicleDoc/Maintenance_schedule.xlsx"));
-
-        Response.ClearContent();
-        Response.Buffer = true;
-        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Maintenance_schedule.xlsx"));
-        Response.ContentType = "application/ms-excel";
-        Response.WriteFile(Server.MapPath("~/VehicleDoc/Maintenance_schedule.xlsx"));
-        Response.End();
+        DataTable allZone = new DataTable();
+        allZone = DAL.DalAccessUtility.GetDataInDataSet("select ZoneID,ZoneName from dbo.Zone").Tables[0];
+        if (allZone != null && allZone.Rows.Count > 0)
+        {
+            ddlZone.DataSource = allZone;
+            ddlZone.DataValueField = "ZoneID";
+            ddlZone.DataTextField = "ZoneName";
+            ddlZone.DataBind();
+            ddlZone.Items.Insert(0, new ListItem("--Select Zone--", "0"));
+        }
     }
+  
 }
