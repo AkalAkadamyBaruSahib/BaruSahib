@@ -1,7 +1,19 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Security_AdminMaster.master" AutoEventWireup="true" CodeFile="Security_EmployeeDetail.aspx.cs" Inherits="Security_EmployeeDetail" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
+    <script type="text/javascript">
+     function validateFileSize(controlID) {
+            var id = controlID.files[0].size;
+            if (id > 200000) {
+                $('#dvMsg').show();
+                return false;
+            }
+            else {
+                $('#dvMsg').hide();
+                return true;
+            }
+     }
+     </script>
     <div id="content" class="span10">
           <asp:Button ID="btnNonApproved" runat="server" Text="View InActive Employee(s)" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)"  Font-Bold="True" ForeColor="Black" title="Click this button you get InActive employee" data-rel="tooltip" OnClick="btnNonApproved_Click" Width="235px" />
     </div>
@@ -46,7 +58,8 @@
 
                             <label class="control-label" for="typeahead">Upload Transfer Letter:</label>
                             <div class="controls">
-                                <input id="uploadeTransferLetter" type="file" style="width: 150px; height: 18px;" class="span6 typeahead" />
+                                <input id="uploadeTransferLetter" type="file" style="width: 150px; height: 18px;" class="span6 typeahead" onchange="validateFileSize(this);" />
+                                <div id="dvMsg" style="color: Red; width: 250px; display: none;">Maximum size allowed Less than is 200 KB </div>
                             </div>
                         </td>
                     </tr>

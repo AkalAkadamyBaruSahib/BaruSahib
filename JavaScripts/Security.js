@@ -287,6 +287,7 @@ function TransferLetterUpload(filename) {
         processData: false,
         success: function (result) {
             $("#divTransferEmployee").modal('hide');
+            location.reload();
         },
         error: function (err) {
             alert(err.statusText)

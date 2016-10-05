@@ -19,6 +19,19 @@
             }
             return true;
         }
+
+        function validateFileSize(controlID) {
+            var id = controlID.files[0].size;
+            if (id > 200000) {
+                $('#dvMsg').show();
+                return false;
+            }
+            else {
+                $('#dvMsg').hide();
+                return true;
+            }
+        }
+
     </script>
     <div id="content" class="span10">
         <asp:HiddenField ID="hdnsecurityEmployeeID" runat="server" />
@@ -76,6 +89,8 @@
                                             <div class="controls">
                                                 <asp:TextBox ID="txtSalary" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator3" ForeColor="Red" ControlToValidate="txtSalary" ErrorMessage="Please Enter the  Salary" />
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator6" ControlToValidate="txtSalary" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
+
                                             </div>
                                         </div>
                                     </td>
@@ -85,6 +100,8 @@
                                             <div class="controls">
                                                 <asp:TextBox ID="txtCutting" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator4" ForeColor="Red" ControlToValidate="txtCutting" ErrorMessage="Please Enter the Deduction" />
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ControlToValidate="txtCutting" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
+
                                             </div>
                                         </div>
                                     </td>
@@ -174,6 +191,7 @@
                                                 <div class="controls">
                                                     <asp:TextBox ID="txtLastAppraisal" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                     <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator11" ForeColor="Red" ControlToValidate="txtLastAppraisal" ErrorMessage="Please Enter the Last Appraisal Amount" />
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator4" ControlToValidate="txtLastAppraisal" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
                                                 </div>
                                             </div>
                                         </td>
@@ -185,11 +203,16 @@
                                 <legend><span class="labelH labelH-info">Employee Detail Upload</span></legend>
                                 <table width="100%">
                                     <tr>
+                                        <td>
+                                            <div id="dvMsg" style="color: Red; width: 250px; display: none;">Maximum size allowed Less than is 200 KB </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td width="50%">
                                             <div class="control-group" id="div1" runat="server">
                                                 <label class="control-label" for="typeahead">Appointment:</label>
                                                 <div class="controls">
-                                                    <asp:FileUpload ID="fileUploadAppointment" runat="server" />
+                                                    <asp:FileUpload ID="fileUploadAppointment" runat="server" onchange="validateFileSize(this);" />
                                                     <a id="afileUploadAppointment" runat="server" visible="false" style="font-size: 13px;" target="_blank">Appointment Letter</a>
                                                 </div>
                                             </div>
@@ -198,7 +221,7 @@
                                             <div class="control-group" id="div2" runat="server">
                                                 <label class="control-label" for="typeahead">Experience:</label>
                                                 <div class="controls">
-                                                    <asp:FileUpload ID="fileUploadExperience" runat="server" />
+                                                    <asp:FileUpload ID="fileUploadExperience" runat="server" onchange="validateFileSize(this);" />
                                                     <a id="afileUploadExperience" runat="server" visible="false" style="font-size: 13px;" target="_blank">Experience Letter </a>
                                                 </div>
                                             </div>
@@ -207,7 +230,7 @@
                                             <div class="control-group" id="div3" runat="server">
                                                 <label class="control-label" for="typeahead">Family Ration Card:</label>
                                                 <div class="controls">
-                                                    <asp:FileUpload ID="fileUploadFamilyRationCard" runat="server" />
+                                                    <asp:FileUpload ID="fileUploadFamilyRationCard" runat="server" onchange="validateFileSize(this);" />
                                                     <a id="afileUploadFamilyRationCard" runat="server" visible="false" style="font-size: 13px;" target="_blank">Ration Card </a>
                                                 </div>
                                             </div>
@@ -218,7 +241,7 @@
                                             <div class="control-group" id="div4" runat="server">
                                                 <label class="control-label" for="typeahead">PCC(Verification):</label>
                                                 <div class="controls">
-                                                    <asp:FileUpload ID="fileUploadPCC" runat="server" />
+                                                    <asp:FileUpload ID="fileUploadPCC" runat="server" onchange="validateFileSize(this);" />
                                                     <a id="afileUploadPCC" runat="server" visible="false" style="font-size: 13px;" target="_blank">PCC</a>
                                                 </div>
                                             </div>
@@ -227,7 +250,7 @@
                                             <div class="control-group" id="div5" runat="server">
                                                 <label class="control-label" for="typeahead">Qualification Letter:</label>
                                                 <div class="controls">
-                                                    <asp:FileUpload ID="fileUploadQualification" runat="server" />
+                                                    <asp:FileUpload ID="fileUploadQualification" runat="server" onchange="validateFileSize(this);" />
                                                     <a id="afileUploadQualification" runat="server" visible="false" style="font-size: 13px;" target="_blank">Qualification Letter </a>
                                                 </div>
                                             </div>
@@ -236,7 +259,7 @@
                                             <div class="control-group" id="dividphoto" runat="server">
                                                 <label class="control-label" for="typeahead">Upload Photo:</label>
                                                 <div class="controls">
-                                                    <asp:FileUpload ID="fileUploadphoto" runat="server" />
+                                                    <asp:FileUpload ID="fileUploadphoto" runat="server" onchange="validateFileSize(this);" />
                                                     <a id="afileUploadphoto" runat="server" visible="false" style="font-size: 13px;" target="_blank">Photo</a>
                                                 </div>
                                             </div>
