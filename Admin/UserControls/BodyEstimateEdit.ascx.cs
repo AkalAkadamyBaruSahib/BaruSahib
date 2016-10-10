@@ -522,5 +522,28 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
     }
 
+    protected void txtQty_TextChanged(object sender, EventArgs e)
+    {
+        GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
+        TextBox txtQt = (TextBox)row.FindControl("txtQty");
+        TextBox txtRa = (TextBox)row.FindControl("txtRate");
+        Label lblAm = (Label)row.FindControl("txtAmtEdit");
+        decimal qt = Convert.ToDecimal(txtQt.Text);
+        decimal ra = Convert.ToDecimal(txtRa.Text);
+        decimal am = qt * ra;
+        lblAm.Text = am.ToString();
+    }
+
+    protected void txtQtyFooter_TextChanged(object sender, EventArgs e)
+    {
+        GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
+        TextBox txtQt = (TextBox)row.FindControl("txtQtyFooter");
+        TextBox txtRa = (TextBox)row.FindControl("txtRateFooter");
+        Label lblAm = (Label)row.FindControl("lblAmtFooter");
+        decimal qt = Convert.ToDecimal(txtQt.Text);
+        decimal ra = Convert.ToDecimal(txtRa.Text);
+        decimal am = qt * ra;
+        lblAm.Text = am.ToString();
+    }
 }
    

@@ -214,6 +214,7 @@
                                                     <FooterTemplate>
                                                         <asp:ImageButton ID="imgbtnAdd" runat="server" ImageUrl="~/img/Images/AddNewitem.jpg" ValidationGroup="visitor" CommandName="AddNew" Width="30px" Height="30px" ToolTip="Add new User" />
                                                     </FooterTemplate>
+                                                    
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="EstmateId" Visible="false">
                                                     <EditItemTemplate>
@@ -237,6 +238,7 @@
                                                     <FooterTemplate>
                                                         <asp:DropDownList runat="server" Width="115Px" ID="ddlMatTIdFooter" OnSelectedIndexChanged="ddlMatTIdFooter_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                                     </FooterTemplate>
+                                                    
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Material">
                                                     <EditItemTemplate>
@@ -263,7 +265,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Qty">
                                                     <EditItemTemplate>
-                                                        <asp:TextBox ID="txtQty" Width="85Px" runat="server" Text='<%#Eval("Qty") %>' />
+                                                        <asp:TextBox ID="txtQty" Width="85Px" runat="server" Text='<%#Eval("Qty") %>' OnTextChanged="txtQty_TextChanged" AutoPostBack="true"/>
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidatortxtQty" runat="server" ValidationGroup="visitor"
                                                             ControlToValidate="txtQty" ForeColor="Red" ErrorMessage="Please enter the Qty" />
                                                     </EditItemTemplate>
@@ -271,7 +273,7 @@
                                                         <asp:Label ID="lblQty" runat="server" Text='<%#Eval("Qty") %>' />
                                                     </ItemTemplate>
                                                     <FooterTemplate>
-                                                        <asp:TextBox ID="txtQtyFooter" Width="85Px" runat="server" Text='<%#Eval("Qty") %>' />
+                                                        <asp:TextBox ID="txtQtyFooter" Width="85Px" runat="server" Text='<%#Eval("Qty") %>' OnTextChanged="txtQtyFooter_TextChanged" AutoPostBack="true" />
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidatortxtQtyFooter" runat="server" ValidationGroup="visitor"
                                                             ControlToValidate="txtQtyFooter" ForeColor="Red" ErrorMessage="Please enter the Qty" />
                                                     </FooterTemplate>
