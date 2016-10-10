@@ -608,7 +608,7 @@ public class PurchaseRepository
             dt1 = DateTime.Now.AddDays(-7);
         }
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -642,7 +642,7 @@ public class PurchaseRepository
 
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -674,7 +674,7 @@ public class PurchaseRepository
 
         var assignAcademies = _context.AcademyAssignToEmployee.Where(a => a.EmpId == inchargeID).Select(s => s.AcaId).ToList();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1 && assignAcademies.Contains(e.AcaId))
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && assignAcademies.Contains(e.AcaId))
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -735,7 +735,7 @@ public class PurchaseRepository
         DateTime dt1 = DateTime.Now.AddDays(-30);
 
         List<Estimate> estimates = new List<Estimate>();
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1 && e.CreatedBy == InchargeID)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.CreatedBy == InchargeID)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -818,7 +818,7 @@ public class PurchaseRepository
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
