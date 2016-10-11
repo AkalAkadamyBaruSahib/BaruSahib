@@ -31,7 +31,7 @@ public partial class TransportHome : System.Web.UI.Page
         int UsrTypeID = int.Parse(Session["UserTypeID"].ToString());
 
         DataSet dsZoneDetails = new DataSet();
-        if (UsrTypeID == 13)
+        if (UsrTypeID == (int)TypeEnum.UserType.TRANSPORTADMIN)
         {
             dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowZoneDetails_ByUser '" + lblUser.Text + "'");
         }

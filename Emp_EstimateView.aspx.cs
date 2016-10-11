@@ -144,7 +144,7 @@ public partial class Emp_EstimateView : System.Web.UI.Page
        var  InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstViewByEstIdForUser '" + InchargeID + "' , '" + ID + "'");
+        dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstViewByEstIdForUser " + InchargeID + " , " + ID);
         divEstimateDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";

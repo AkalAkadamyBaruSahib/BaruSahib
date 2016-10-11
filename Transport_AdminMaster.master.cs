@@ -9,6 +9,8 @@ using Microsoft.Office.Interop.Excel;
 
 public partial class Transport_AdminMaster : System.Web.UI.MasterPage
 {
+    public int AdminType = -1;
+    public int UserType = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -18,11 +20,16 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
         else
         {
             lblUserName.Text = Session["InName"].ToString();
-
+            if (Session["AdminType"] != null)
+            {
+                AdminType = Convert.ToInt16(Session["AdminType"].ToString());
+            }
+            UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
         }
-        if (Session["UserTypeID"].ToString() != "13")
+
+
+        if (UserType != (int)TypeEnum.UserType.TRANSPORTADMIN)
         {
-            // lireport.Visible = false;
             liDesignation.Visible = false;
             liDepartment.Visible = false;
             liCreateEditEmployee.Visible = false;
@@ -35,8 +42,47 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
         {
             liEstimateiewForEmp.Visible = false;
             showUnApprovedEstimateCount();
+        }
+        
+
+        if (AdminType == (int)TypeEnum.SubAdminName.TransportMaintenance)
+        {
+            liEmployee.Visible = false;
+            liVehicles.Visible = false;
+            lireport.Visible = false;
+            liMaintenance.Visible = true;
+            liDiesel.Visible = false;
+            liEstimate.Visible = true;
+            liContractRate.Visible = false;
+            liDesignation.Visible = false;
+            liDepartment.Visible = false;
+            liCreateEditEmployee.Visible = false;
+            liLocationAssign.Visible = false;
+            liCreateMaterial.Visible = false;
+            liContractRate.Visible = false;
+            liEstimateNewEstimate.Visible = true;
+            liEstimateiewForEmp.Visible = false;
+
+ 
+        }
+        else if(AdminType == (int)TypeEnum.SubAdminName.TransportVehicleMaintenance)
+        {
+            liEmployee.Visible = true;
+            liVehicles.Visible = true;
+            lireport.Visible = true;
+            liMaintenance.Visible = false;
+            liDiesel.Visible = false;
+            liEstimate.Visible = false;
+            liContractRate.Visible = false;
+            liDesignation.Visible = false;
+            liDepartment.Visible = false;
+            liCreateEditEmployee.Visible = false;
+            liEstimateNewEstimate.Visible = false;
+            liCreateMaterial.Visible = false;
+            liContractRate.Visible = false;
 
         }
+        
      
     }
     private void showUnApprovedEstimateCount()

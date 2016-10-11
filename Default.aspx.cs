@@ -61,6 +61,12 @@ public partial class _Default : System.Web.UI.Page
                         case (int)TypeEnum.SubAdminName.Construction:
                             Session["AdminType"] = (int)TypeEnum.SubAdminName.Construction;
                             break;
+                        case (int)TypeEnum.SubAdminName.TransportMaintenance:
+                            Session["AdminType"] = (int)TypeEnum.SubAdminName.TransportMaintenance;
+                            break;
+                        case (int)TypeEnum.SubAdminName.TransportVehicleMaintenance:
+                            Session["AdminType"] = (int)TypeEnum.SubAdminName.TransportVehicleMaintenance;
+                            break;
                         default:
                             break;
                     }

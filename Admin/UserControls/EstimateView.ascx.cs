@@ -341,7 +341,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             {
                 dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
                               where mytable.Field<bool>("IsApproved") == isApproved && (mytable.Field<bool>("IsItemRejected") == false) &&
-                              mytable.Field<DateTime>("CreatedOn") >= DateTime.Now.AddDays(-30)
+                              mytable.Field<DateTime>("ModifyOn") >= DateTime.Now.AddDays(-30)
                               select mytable);
             }
             else

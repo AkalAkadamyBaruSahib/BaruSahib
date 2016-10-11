@@ -98,6 +98,8 @@ public class TypeEnum
         Barusahib = 2,
         Transport = 3,
         Construction = 4,
+        TransportMaintenance = 5,
+        TransportVehicleMaintenance = 6
     }
 
     public enum TransportType : int
