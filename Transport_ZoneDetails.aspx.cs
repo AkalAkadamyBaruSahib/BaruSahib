@@ -31,6 +31,7 @@ public partial class Transport_ZoneDetails : System.Web.UI.Page
 
     private void getAcaDetails(string ID)
     {
+        DataSet dsCount = new DataSet();
         UsersRepository users = new UsersRepository(new AkalAcademy.DataContext());
         DataSet dsAcaDetails = new DataSet();
         dsAcaDetails = users.GetAcademyByUserNameAndZoneID(lblUser.Text, 2, int.Parse(ID));
@@ -69,18 +70,21 @@ public partial class Transport_ZoneDetails : System.Web.UI.Page
             ZoneInfo += "</td>";
             ZoneInfo += "<td class='center' width='30%'>";
             ZoneInfo += "<table>";
-            if (dsAcaDetails.Tables[1].Rows.Count > 0)
+            string sqlQuery = "SELECT Count(*) AS Count,Incharge.InName, Incharge.InMobile FROM Vehicles " +
+                                    "INNER JOIN AcademyAssignToEmployee AAE ON AAE.AcaID=Vehicles.AcademyID " +
+                                    "INNER JOIN Incharge ON AAE.EmpId = Incharge.InchargeId " +
+                                    "WHERE IsApproved=1 and  AcademyID= @AcaID AND Incharge.UserTypeID=14 " +
+                                    "group by Incharge.InName, Incharge.InMobile ";
+
+            sqlQuery=sqlQuery.Replace("@AcaID",dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString());
+            dsCount = DAL.DalAccessUtility.GetDataInDataSet(sqlQuery);
+            if (dsCount.Tables[0].Rows.Count > 0)
             {
-                //ZoneInfo += "<tr><td><b>Alloted To:</b><table>";
-                //for (int k = 0; k < dsAcaDetails.Tables[1].Rows.Count; k++)
-                //{
-                //    ZoneInfo += " <tr><td>" + dsAcaDetails.Tables[1].Rows[k]["InName"].ToString() + "(" + dsAcaDetails.Tables[1].Rows[k]["InMobile"].ToString() + ")</td></tr>";
-                //}
-                //ZoneInfo += " </table></td></tr>";
-                DataSet dsCount = new DataSet();
-                dsCount = DAL.DalAccessUtility.GetDataInDataSet("SELECT Count(*) AS Count FROM Vehicles WHERE IsApproved=1 and  AcademyID= '" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'");
+                ZoneInfo += "<tr><td><b>Alloted To:</b></td>";
                 for (int j = 0; j < dsCount.Tables[0].Rows.Count; j++)
                 {
+                    ZoneInfo += " <td>" + dsCount.Tables[0].Rows[j]["InName"].ToString() + "(" + dsCount.Tables[0].Rows[j]["InMobile"].ToString() + ")";
+                    ZoneInfo += " </td></tr>";
                     ZoneInfo += "<tr><td><b><a href='Transport_VehicleDetails.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>Vehicals(" + dsCount.Tables[0].Rows[j]["Count"].ToString() + ")</a></b></td></tr>";
                 }
             }
