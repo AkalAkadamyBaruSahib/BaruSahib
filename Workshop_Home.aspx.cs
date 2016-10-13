@@ -32,7 +32,7 @@ public partial class Workshop_Home : System.Web.UI.Page
         DataSet dsZoneDetails = new DataSet();
         dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowAllZoneDetails ");
         DataTable dseEmp = new DataTable();
-        dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee").Tables[0];
+        dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee  " + (int)TypeEnum.Module.Workshop).Tables[0];
         divZone.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-bordered table-striped table-condensed'>";

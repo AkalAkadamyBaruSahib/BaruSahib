@@ -77,7 +77,7 @@ public partial class AdminHome : System.Web.UI.Page
         DataSet dsZoneDetails = new DataSet();
         dsZoneDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowZoneDetails_ByUser " + UserID);
         DataTable dseEmp = new DataTable();
-        dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee").Tables[0];
+        dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee " + (int)TypeEnum.Module.Purchase).Tables[0];
         divZone.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-bordered table-striped table-condensed'>";

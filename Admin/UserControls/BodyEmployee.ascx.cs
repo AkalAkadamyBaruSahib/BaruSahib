@@ -98,6 +98,8 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
     }
     protected void BindInchargeDetails()
     {
+        UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
+
         DataSet dsDegisDetails = new DataSet();
         dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowInchargeDetails_ByUser '" + lblUser.Text + "'," + ModuleID);
         divDesigDetails.InnerHtml = string.Empty;
@@ -108,8 +110,9 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
         ZoneInfo += "<th style='display:none;'></th>";
         ZoneInfo += "<th width='30%'>Incharge Details</th>";
         ZoneInfo += "<th width='30%'>Details</th>";
-        ZoneInfo += "<th width='20%'>Status</th>";
-        ZoneInfo += "<th width='20%'>Actions</th>";
+        ZoneInfo += "<th width='20%'>Assign Locations</th>";
+        ZoneInfo += "<th>Status</th>";
+        ZoneInfo += "<th>Actions</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -123,7 +126,22 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             ZoneInfo += "<tr><td><b>Designation</b> : " + dsDegisDetails.Tables[0].Rows[i]["Designation"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Login ID</b> :" + dsDegisDetails.Tables[0].Rows[i]["LoginId"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Password</b> : " + dsDegisDetails.Tables[0].Rows[i]["UserPwd"].ToString() + "</td></tr></table></td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+
+            List<Academy> Academies = repo.GetAcademyByInchargeID(int.Parse(dsDegisDetails.Tables[0].Rows[i]["InchargeId"].ToString()));
+
+            if (Academies != null)
+            {
+                ZoneInfo += "<td  width='20%'><table><tr><td><b>Academies:</b></td></tr>";
+                foreach (Academy aca in Academies)
+                {
+                    ZoneInfo += "<tr><td>" + aca.AcaName + "</td></tr>";
+                }
+            }
+
+            ZoneInfo += "</table></td>";
+            
+            
+            ZoneInfo += "<td class='center'>";
             if (dsDegisDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
             {
                 ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>";
@@ -133,7 +151,11 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
                 ZoneInfo += "<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>";
             }
             ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+
+            
+
+
+            ZoneInfo += "<td class='center'>";
 
             if (ModuleID == (int)TypeEnum.Module.Purchase)
             {
@@ -153,7 +175,13 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             //ZoneInfo += "<i class='icon-edit icon-white'></i> Edit Location";
             //ZoneInfo += "</a>";
             ZoneInfo += "</td>";
+
+
+
+
+            
             ZoneInfo += "</tr>";
+            
         }
         ZoneInfo += "</tbody>";
         ZoneInfo += "</table>";

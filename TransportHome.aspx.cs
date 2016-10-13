@@ -30,6 +30,9 @@ public partial class TransportHome : System.Web.UI.Page
     {
         int UsrTypeID = int.Parse(Session["UserTypeID"].ToString());
 
+        DataTable dseEmp = new DataTable();
+        dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee " + (int)TypeEnum.Module.Transport).Tables[0];
+
         DataSet dsZoneDetails = new DataSet();
         if (UsrTypeID == (int)TypeEnum.UserType.TRANSPORTADMIN)
         {
@@ -48,7 +51,7 @@ public partial class TransportHome : System.Web.UI.Page
         ZoneInfo += "<th width='10%'>Zone Code</th>";
         ZoneInfo += "<th width='20%'>Zone Name</th>";
         ZoneInfo += "<th width='35%'>Location</th>";
-        //ZoneInfo += "<th width='25%'>Zone Assigned To</th>";
+        ZoneInfo += "<th width='25%'>Zone Assigned To</th>";
         ZoneInfo += "<th width='10%'>Total Nos. of Academy</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
@@ -63,6 +66,16 @@ public partial class TransportHome : System.Web.UI.Page
             ZoneInfo += "<table>";
             ZoneInfo += "<tr><td> <b>State:</b> " + dsZoneDetails.Tables[0].Rows[i]["StateName"].ToString() + " </td></tr>";
             ZoneInfo += "<tr><td> <b>City:</b> " + dsZoneDetails.Tables[0].Rows[i]["CityName"].ToString() + "(" + dsZoneDetails.Tables[0].Rows[i]["Pincode"].ToString() + ")</td></tr>";
+            ZoneInfo += "</table>";
+            ZoneInfo += "</td>";
+
+            DataRow[] dr = dseEmp.Select("ZoneID=" + dsZoneDetails.Tables[0].Rows[i]["ZoneID"].ToString());
+            ZoneInfo += "<td class='center' width='25%'>";
+            ZoneInfo += "<table>";
+            for (int j = 0; j < dr.Length; j++)
+            {
+                ZoneInfo += "<tr><td><span  title=' Mobile: " + dr[j]["InMobile"].ToString() + " \n Department: " + dr[j]["department"].ToString() + " \n Designation: " + dr[j]["Designation"].ToString() + "\n'  href='#'> " + dr[j]["InName"].ToString() + " </span></td></tr>";
+            }
             ZoneInfo += "</table>";
             ZoneInfo += "</td>";
             DataSet dsAcaCount = new DataSet();
