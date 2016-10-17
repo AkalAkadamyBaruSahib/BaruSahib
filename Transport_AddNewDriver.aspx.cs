@@ -52,43 +52,51 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
 
     private void BindDLType()
     {
-        DataSet TranspotDlType = new DataSet();
-        TranspotDlType = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.DLTypes");
-        drpDlType.DataSource = TranspotDlType;
-        drpDlType.DataValueField = "ID";
-        drpDlType.DataTextField = "Name";
-        drpDlType.DataBind();
-        drpDlType.Items.Insert(0, new ListItem("--Select One--", "0"));
+        DataTable TranspotDlType = new DataTable();
+        TranspotDlType = DAL.DalAccessUtility.GetDataInDataSet("select * from dbo.DLTypes").Tables[0];
+        if (TranspotDlType != null && TranspotDlType.Rows.Count > 0)
+        {
+            drpDlType.DataSource = TranspotDlType;
+            drpDlType.DataValueField = "ID";
+            drpDlType.DataTextField = "Name";
+            drpDlType.DataBind();
+            drpDlType.Items.Insert(0, new ListItem("--Select One--", "0"));
+        }
     }
 
     private void BindTransportType()
     {
-        DataSet TranspotType = new DataSet();
-        TranspotType = DAL.DalAccessUtility.GetDataInDataSet("select * from TransportTypes");
-        drpTransportType.DataSource = TranspotType;
-        drpTransportType.DataValueField = "ID";
-        drpTransportType.DataTextField = "Type";
-        drpTransportType.DataBind();
-        drpTransportType.Items.Insert(0, new ListItem("--Select One--", "0"));
+        DataTable TranspotType = new DataTable();
+        TranspotType = DAL.DalAccessUtility.GetDataInDataSet("select * from TransportTypes").Tables[0];
+        if (TranspotType != null && TranspotType.Rows.Count > 0)
+        {
+            drpTransportType.DataSource = TranspotType;
+            drpTransportType.DataValueField = "ID";
+            drpTransportType.DataTextField = "Type";
+            drpTransportType.DataBind();
+            drpTransportType.Items.Insert(0, new ListItem("--Select One--", "0"));
+        }
     }
 
     private void BindVehicleNumber()
     {
-        DataSet TranspotVehicles = new DataSet();
+        DataTable TranspotVehicles = new DataTable();
         if (UserTypeID == 13)
         {
-            TranspotVehicles = DAL.DalAccessUtility.GetDataInDataSet("select ID,Number from Vehicles Where IsApproved=1");
+            TranspotVehicles = DAL.DalAccessUtility.GetDataInDataSet("select ID,Number from Vehicles Where IsApproved=1").Tables[0];
         }
         else
         {
-            TranspotVehicles = DAL.DalAccessUtility.GetDataInDataSet("select V.ID, V.Number,AAE.EmpId,A.AcaName from Vehicles V INNER JOIN Academy A on V.AcademyID = A.AcaId INNER JOIN AcademyAssignToEmployee AAE on AAE.AcaID = A.AcaId  Where V.IsApproved=1 and AAE.EmpId='" + InchargeID + "'");  
+            TranspotVehicles = DAL.DalAccessUtility.GetDataInDataSet("select V.ID, V.Number,AAE.EmpId,A.AcaName from Vehicles V INNER JOIN Academy A on V.AcademyID = A.AcaId INNER JOIN AcademyAssignToEmployee AAE on AAE.AcaID = A.AcaId  Where V.IsApproved=1 and AAE.EmpId='" + InchargeID + "'").Tables[0];  
         }
-       
+        if(TranspotVehicles != null && TranspotVehicles.Rows.Count > 0)
+        {
         ddlVehicleNumber.DataSource = TranspotVehicles;
         ddlVehicleNumber.DataValueField = "ID";
         ddlVehicleNumber.DataTextField = "Number";
         ddlVehicleNumber.DataBind();
         ddlVehicleNumber.Items.Insert(0, new ListItem("--Select One--", "0"));
+        }
     }
 
      public void ClearTextBox()

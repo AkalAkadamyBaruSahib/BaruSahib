@@ -30,6 +30,13 @@ public class TypeEnum
         Reference = 2
     }
 
+    public enum TransportVehicleEmployeeType : int
+    {
+        Driver = 1,
+        Conductor = 2
+    }
+
+
     public enum TransportDocumentType : int
     {
         Registration = 1,

@@ -235,7 +235,7 @@
                                     <asp:DropDownList ID="ddlOilSlab" runat="server">
                                     </asp:DropDownList>
                                 </td>
-                                <td>Minimun number of Km/Day<br />
+                                <td>Minimun number of Km/Day As Per Aggrement<br />
                                     <asp:TextBox ID="txtKm" Width="50px" runat="server"></asp:TextBox>
                                 </td>
                             </tr>

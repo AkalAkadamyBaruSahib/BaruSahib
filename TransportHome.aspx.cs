@@ -31,6 +31,7 @@ public partial class TransportHome : System.Web.UI.Page
         int UsrTypeID = int.Parse(Session["UserTypeID"].ToString());
 
         DataTable dseEmp = new DataTable();
+
         dseEmp = DAL.DalAccessUtility.GetDataInDataSet("exec USP_LocationEmployee " + (int)TypeEnum.Module.Transport).Tables[0];
 
         DataSet dsZoneDetails = new DataSet();
@@ -53,6 +54,7 @@ public partial class TransportHome : System.Web.UI.Page
         ZoneInfo += "<th width='35%'>Location</th>";
         ZoneInfo += "<th width='25%'>Zone Assigned To</th>";
         ZoneInfo += "<th width='10%'>Total Nos. of Academy</th>";
+        ZoneInfo += "<th width='10%'>Total Nos. of Vehicles</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -79,9 +81,10 @@ public partial class TransportHome : System.Web.UI.Page
             ZoneInfo += "</table>";
             ZoneInfo += "</td>";
             DataSet dsAcaCount = new DataSet();
-            
-            dsAcaCount = DAL.DalAccessUtility.GetDataInDataSet("select COUNT(*) as Coun from [TransportZoneAcademyRelation] where ZoneId='" + dsZoneDetails.Tables[0].Rows[i]["ZoneId"].ToString() + "'");
+
+            dsAcaCount = DAL.DalAccessUtility.GetDataInDataSet("select (select COUNT(1) as Coun from [TransportZoneAcademyRelation] where ZoneId=" + dsZoneDetails.Tables[0].Rows[i]["ZoneId"].ToString() + ") AS coun, (select COUNT(1) as vehicleCount from [Vehicles] where IsApproved=1 and ZoneId=" + dsZoneDetails.Tables[0].Rows[i]["ZoneId"].ToString() + ") as VehicleCount");
             ZoneInfo += "<td width='10%' class='center'>" + dsAcaCount.Tables[0].Rows[0]["Coun"].ToString() + "</td>";
+            ZoneInfo += "<td width='10%' class='center'>" + dsAcaCount.Tables[0].Rows[0]["VehicleCount"].ToString() + "</td>";
             ZoneInfo += "</tr>";
         }
         ZoneInfo += "</tbody>";

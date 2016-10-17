@@ -119,7 +119,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             DataTable dtTransportManagerName = new DataTable();
 
             DataTable getDocuments = new DataTable();
-            DataTable getDL = new DataTable();
+            VehicleEmployee getDL = new VehicleEmployee();
             DataTable getNorms = new DataTable();
             int RC = 0;
             int Insurance = 0;
@@ -268,12 +268,28 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                getDL = DAL.DalAccessUtility.GetDataInDataSet("select distinct DLType,VehicleID from [dbo].[VehicleEmployee] where VehicleID =" + v.ID).Tables[0];
+                
                 if (v.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
-                    if (getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HMV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.HTV)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.PSVBUS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.TRANS)).Count() == 0 && getDL.Select("DLType = " + (int)(TypeEnum.TransportDLType.CHASSIS)).Count() == 0)
+                    getDL = trepository.GetEmployeeByVehicleID(v.ID, (int)TypeEnum.TransportVehicleEmployeeType.Driver);
+                   if (getDL.DLType != (int)TypeEnum.TransportDLType.HMV && 
+                       getDL.DLType != (int)TypeEnum.TransportDLType.HTV && 
+                       getDL.DLType != (int)TypeEnum.TransportDLType.PSVBUS && 
+                       getDL.DLType !=  (int)TypeEnum.TransportDLType.TRANS && 
+                       getDL.DLType !=  (int)TypeEnum.TransportDLType.CHASSIS )
                     {
                         DL += 1;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(getDL.DLValidity))
+                        {
+                            expiryDate = Convert.ToDateTime(getDL.DLValidity);
+                            if (expiryDate <= DateTime.Now)
+                            {
+                                DL += 1;
+                            }
+                        }
                     }
                 }
 
@@ -317,8 +333,6 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                    
                 }
             }
-
-
 
             dr["RC"] = RC;
             dr["Insurance"] = Insurance;
@@ -390,7 +404,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         int ZoneID = Convert.ToInt16(ddlZone.SelectedValue);
         List<VechilesDocumentRelation> getDocuments = new List<VechilesDocumentRelation>();
         List<VechilesNormsRelation> getNorms = new List<VechilesNormsRelation>();
-        List<VehicleEmployee> getDL = new List<VehicleEmployee>();
+        VehicleEmployee getDL = new VehicleEmployee();
 
         List<Vehicles> getVehicles = new List<Vehicles>();
 
@@ -404,7 +418,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         foreach (Vehicles vehicle in getVehicles)
         {
             getDocuments = repository.GetVechilesDocumentRelationByVehicleID(vehicle.ID);
-            getDL = repository.GetDLByVehicleID(vehicle.ID);
+            getDL = repository.GetEmployeeByVehicleID(vehicle.ID, (int)TypeEnum.TransportVehicleEmployeeType.Driver);
             getNorms = repository.GetVechilesNormsRelationByVehicleID(vehicle.ID);
             incharge = user.GetUsersByAcademyID(vehicle.AcademyID, 14).FirstOrDefault();
             var PendingDocumentName = string.Empty;
@@ -589,13 +603,28 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 }
             }
 
-            if (getDL.Count != 0)
+            if (getDL!= null)
             {
                 if (vehicle.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
-                    if ((getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS))) || (getDL.Exists(dlt => dlt.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))))
+                    if (getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV) || 
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS) || 
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS) || 
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS) || 
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))
                     {
-                        PendingDL = "";
+                        if (!string.IsNullOrEmpty(getDL.DLValidity))
+                        {
+                            var row8 = Convert.ToDateTime(getDL.DLValidity) <= DateTime.Now;
+                            if (row8 != null)
+                            {
+                                PendingDL = "Pending";
+                            }
+                            else
+                            {
+                                PendingDL = "";
+                            }
+                        }
                     }
                     else
                     {

@@ -135,7 +135,7 @@ public class TransportUserRepository
     public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int VehicleEmployeeID)
     {
 
-        List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true).Include(a=>a.Vehicle)
+        List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true).Include(a => a.Vehicle)
          .Include(e => e.TransportEmployeeRelation).Distinct().OrderByDescending(x => x.CreatedOn).ToList();
 
 
@@ -398,7 +398,7 @@ public class TransportUserRepository
         var vehicle = (from V in _context.Vehicles
                        join A in _context.Academy on V.AcademyID equals A.AcaID
                        join AAE in _context.AcademyAssignToEmployee on A.AcaID equals AAE.AcaId
-                       where AAE.EmpId == InchargeID 
+                       where AAE.EmpId == InchargeID
                        select new
                        {
                            ID = V.ID,
@@ -414,9 +414,9 @@ public class TransportUserRepository
         return vehicle;
     }
 
-    public List<VehicleEmployee> GetDLByVehicleID(int VehicleID)
+    public VehicleEmployee GetEmployeeByVehicleID(int VehicleID, int EmployeeType)
     {
-        return _context.VehicleEmployee.Where(x => x.VehicleID == VehicleID).ToList();
+        return _context.VehicleEmployee.Where(x => x.VehicleID == VehicleID && x.EmployeeType == EmployeeType).FirstOrDefault();
     }
 
     public List<VechilesNormsRelation> GetVechilesNormsRelationByVehicleID(int VehicleID)
@@ -453,7 +453,7 @@ public class TransportUserRepository
 
     public int GetUnApprovedEstimates(int ModuleID)
     {
-        return _context.Estimate.Where(e => e.IsApproved == false && e.ModuleID == ModuleID && e.IsActive == true).Count();
+        return _context.Estimate.Where(e => e.IsApproved == false && e.ModuleID == ModuleID && e.IsActive == true)
+        .Include(r => r.EstimateAndMaterialOthersRelations).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.MatTypeId == 49)).Count();
     }
-
 }
