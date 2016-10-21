@@ -13,6 +13,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.html.simpleparser;
 
+
 /// <summary>
 /// Summary description for Utility
 /// </summary>
@@ -446,6 +447,14 @@ public static class Utility
         HttpContext.Current.Response.BinaryWrite(pdfBytes);
         HttpContext.Current.Response.End();
     }
+
+    //public static void GeneratePDF(string url, string fileName, string folderPath)
+    //{
+    //    HttpContext.Current.Response.ContentType = "application/pdf";
+    //    HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
+
+    //    HtmlToPdf.ConvertUrl(url, Response.OutputStream);
+    //}
 
 
     //public byte[] GetPDF(string pHTML)

@@ -27,8 +27,8 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         }
     }
 
-    protected void Page_Load(object sender, EventArgs e)  
-     {
+    protected void Page_Load(object sender, EventArgs e)
+    {
         if (!Page.IsPostBack)
         {
             if (Session["InchargeID"] != null)
@@ -41,7 +41,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 if (visitorType == "1")
                 {
                     BindNewVisitor();
-                    
+
                 }
                 else
                 {
@@ -49,10 +49,42 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 }
             }
             BindVisitorType();
-           // ddlntypeofvisitor.Items.FindByValue("1").Selected = true;
+            // ddlntypeofvisitor.Items.FindByValue("1").Selected = true;
+            BindCountry();
+            if (Request.QueryString["VisitorID"] != null)
+            {
+                int visitor = int.Parse(Request.QueryString["VisitorID"]);
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "LoadVisitorByVisitorID(" + visitor + ");", true);
+            }
         }
     }
-    
+
+    private void BindCountry()
+    {
+        DataTable dtTemp = new DataTable();
+        UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
+        dtTemp = repo.GetCountry();
+        if (dtTemp != null && dtTemp.Rows.Count > 0)
+        {
+            drpCountry.DataSource = dtTemp;
+            drpCountry.DataValueField = "CountryID";
+            drpCountry.DataTextField = "CountryName";
+            drpCountry.DataBind();
+            drpCountry.Items.Insert(0, new ListItem("--Select Country--", "0"));
+        }
+        dtTemp.Clear();
+        dtTemp = repo.GetStateByCountryID(15);
+
+        if (dtTemp != null && dtTemp.Rows.Count > 0)
+        {
+            drpState.DataSource = dtTemp;
+            drpState.DataValueField = "StateID";
+            drpState.DataTextField = "StateName";
+            drpState.DataBind();
+            drpState.Items.Insert(0, new ListItem("--Select State--", "0"));
+        }
+    }
+
     private void BindVisitorType()
     {
         DataTable visitortype = new DataTable();
@@ -66,13 +98,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             ddlntypeofvisitor.Items.Insert(0, new ListItem("--Select--", "0"));
 
             ddlntypeofvisitor.Items.RemoveAt(1);
-
-            ddltypeofvisitor.DataSource = visitortype;
-            ddltypeofvisitor.DataValueField = "ID";
-            ddltypeofvisitor.DataTextField = "VisitorType";
-            ddltypeofvisitor.DataBind();
         }
-        
     }
 
     private void BindNewVisitor()
@@ -95,7 +121,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         ddlRoomRent.Visible = false;
         ddlpurpose.Visible = false;
         DataSet visitortype = new DataSet();
-       
+
     }
 
     public void Clear()
@@ -109,17 +135,16 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         ddlntypeofvisitor.ClearSelection();
         txtAddress.Text = "";
         txtReference.Text = "";
-        txtContactNumber.Text= "";
+        txtContactNumber.Text = "";
         ddlroomservice.ClearSelection();
         ddlRoomRent.ClearSelection();
         ddlelectricitybill.ClearSelection();
         txtfirstDate.Text = "";
         txtlastDate.Text = "";
-        txtstate.Text = "";
-        txtcountry.Text = "";
-        txtcity.Text = "";
-       
-  }
+        drpState.ClearSelection();
+        drpCountry.ClearSelection();
+        drpCity.ClearSelection();
+    }
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
@@ -137,18 +162,18 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         {
             visitor.IdentificationPath = string.Empty;
         }
-       visitor.ID = hdnVisitorID.Value == "" ? 0 : Convert.ToInt16(hdnVisitorID.Value);
-       if (fileUploadphoto.HasFile)
-       {
-           string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
-           string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
-           fileUploadphoto.PostedFile.SaveAs(path);
-           visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
-       }
-       else
-       {
-           visitor.VisitorsPhoto = "";
-       }
+        visitor.ID = hdnVisitorID.Value == "" ? 0 : Convert.ToInt16(hdnVisitorID.Value);
+        if (fileUploadphoto.HasFile)
+        {
+            string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
+            string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
+            fileUploadphoto.PostedFile.SaveAs(path);
+            visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
+        }
+        else
+        {
+            visitor.VisitorsPhoto = "";
+        }
         if (fileUploadauthority.HasFile)
         {
             string AuthorityFileEx = System.IO.Path.GetExtension(fileUploadauthority.FileName);
@@ -225,11 +250,31 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         visitor.ModifyOn = DateTime.Now;
         if (txtnoofperson.Text == "")
         {
-            visitor.TotalNoOfPerson = 0;
+            visitor.TotalNoOfMen = 0;
         }
         else
         {
-            visitor.TotalNoOfPerson = Convert.ToInt32(txtnoofperson.Text);
+            visitor.TotalNoOfMen = Convert.ToInt32(txtnoofperson.Text);
+
+        }
+
+        if (txtNoOfFemale.Text == "")
+        {
+            visitor.TotalNoOfWomen = 0;
+        }
+        else
+        {
+            visitor.TotalNoOfWomen = Convert.ToInt32(txtNoOfFemale.Text);
+
+        }
+
+        if (txtNoOfChildren.Text == "")
+        {
+            visitor.TotalNoOfChildren = 0;
+        }
+        else
+        {
+            visitor.TotalNoOfChildren = Convert.ToInt32(txtNoOfChildren.Text);
 
         }
         if (drpNumberOfDays.SelectedValue != null)
@@ -242,19 +287,20 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         }
         visitor.Identification = drpProofType.SelectedValue;
 
-        
+
         if (ddlntypeofvisitor.SelectedValue == "0")
         {
             visitor.VisitorTypeID = 1;
         }
-        else 
+        else
         {
-             visitor.VisitorTypeID = Convert.ToInt32(ddlntypeofvisitor.SelectedValue);
+            visitor.VisitorTypeID = Convert.ToInt32(ddlntypeofvisitor.SelectedValue);
         }
-        visitor.State = txtstate.Text;
-        visitor.Country = txtcountry.Text;
-        visitor.City = txtcity.Text;
+        visitor.State = drpState.SelectedValue;
+        visitor.Country = drpCountry.SelectedValue;
+        visitor.City = drpCity.SelectedValue;
         visitor.IsActive = true;
+        visitor.AdmissionNumber = txtAdmissionNo.Text;
         visitor.VisitorReference = txtReference.Text;
 
 
@@ -268,7 +314,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             visitor.VisitorRoomNumbers.Add(roomNumber);
         }
 
-        
+
         hdnVisitorID.Value = "";
         hdnbookedSeats.Value = "";
         VisitorUserRepository repo = new VisitorUserRepository(new AkalAcademy.DataContext());
@@ -278,13 +324,14 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         }
         else
         {
-            
+
             repo.UpdateVisitor(visitor);
         }
 
 
         ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Record Saved Successfully');</script>", false);
-      
+        Response.Redirect("ViewVisitors.aspx");
+
         Clear();
     }
 
@@ -296,5 +343,20 @@ public partial class Visitor_AddNew : System.Web.UI.Page
     protected void ddltypeofvisitor_SelectedIndexChanged(object sender, EventArgs e)
     {
 
+    }
+    protected void drpState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int stateID = int.Parse(drpState.SelectedValue);
+        DataTable dtTemp = new DataTable();
+        UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
+        dtTemp = repo.GetCityByStateID(stateID);
+        if (dtTemp != null && dtTemp.Rows.Count > 0)
+        {
+            drpCity.DataSource = dtTemp;
+            drpCity.DataValueField = "CityID";
+            drpCity.DataTextField = "CityName";
+            drpCity.DataBind();
+            drpCity.Items.Insert(0, new ListItem("--Select City--", "0"));
+        }
     }
 }

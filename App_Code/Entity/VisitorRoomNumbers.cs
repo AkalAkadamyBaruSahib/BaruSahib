@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -25,6 +26,9 @@ public class VisitorRoomNumbers
 
     public DateTime? CreatedOn { get; set; }
 
+    [ForeignKey("RoomNumberID")]
+    public RoomNumbers RoomNumbers { get; set; }
+
 }
 
 public class BuildingName
@@ -43,4 +47,9 @@ public class RoomNumbers
     public string Number { get; set; }
 
     public int BuildingFloor { get; set; }
+
+    public int? NumOfBed { get; set; }
+
+    [ForeignKey("BuildingID")]
+    public BuildingName BuildingName { get; set; }
 }

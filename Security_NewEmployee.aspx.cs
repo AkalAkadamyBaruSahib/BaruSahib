@@ -180,7 +180,10 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         securityemp.CreatedOn = DateTime.Now;
         securityemp.ModifyOn = DateTime.Now;
         securityemp.IsApproved = true;
-        securityemp.DateOfAppraisal = Convert.ToDateTime(txtDateofAppraisal.Text);
+        if (txtDateofAppraisal.Text != null && txtDateofAppraisal.Text != "")
+        {
+            securityemp.DateOfAppraisal = Convert.ToDateTime(txtDateofAppraisal.Text);
+        }
         securityemp.DOJ =Convert.ToDateTime(txtDateofJoining.Text);
         securityemp.LastAppraisal = txtLastAppraisal.Text;
 

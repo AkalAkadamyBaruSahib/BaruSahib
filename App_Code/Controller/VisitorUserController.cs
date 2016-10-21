@@ -83,5 +83,12 @@ public class VisitorUserController : System.Web.Services.WebService {
         VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
         return repository.GetVisitorInfoByVisitorId(VisitorID);
     }
+
+    [WebMethod]
+    public List<City> GetCityByStateID(int stateID)
+    {
+        VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
+        return repository.GetCityByStateID(stateID);
+    }
     
 }

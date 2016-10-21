@@ -17,7 +17,9 @@ public class VisitorsDTO
 
     public int ID { get; set; }
     public string Name { get; set; }
-    public int? TotalNoOfPerson { get; set; }
+    public int? TotalNoOfMen { get; set; }
+    public int? TotalNoOfWomen { get; set; }
+    public int? TotalNoOfChildren { get; set; }
     public string PurposeOfVisit { get; set; }
     public string VehicleNo { get; set; }
     public string Identification { get; set; }
@@ -45,5 +47,5 @@ public class VisitorsDTO
     public bool IsActive { get; set; }
     public string VisitorReference { get; set; }
     public int? RoomRentType { get; set; }
-
+    public string AdmissionNumber { get; set; }
 }

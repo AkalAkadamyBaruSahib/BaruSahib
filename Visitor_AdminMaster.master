@@ -8,11 +8,13 @@
     <!-- The styles -->
     <link href="css/bootstrap-united.css" rel="stylesheet">
     <style type="text/css">
-        body {
+        body
+        {
             padding-bottom: 40px;
         }
 
-        .sidebar-nav {
+        .sidebar-nav
+        {
             padding: 9px 0;
         }
     </style>
@@ -112,10 +114,38 @@
                     <div class="well nav-collapse sidebar-nav">
                         <ul class="nav nav-tabs nav-stacked main-menu">
                             <li class="nav-header hidden-tablet">Main</li>
-                            <li><a class="ajax-link" href="Visitor_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
-                            <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorsId=1"><i class="icon-picture"></i><span class="hidden-tablet">Add New Visitor</span></a></li>
-                            <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorsId=2"><i class="icon-picture"></i><span class="hidden-tablet">Add Permanent Employee</span></a></li>
-                             <li><a class="ajax-link" href="Visitors_Reports.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Reports</span></a></li>
+                            <li><a class="ajax-link" href="Visitor_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet"><b>HOME</b></span></a></li>
+                            <li id="liGeography" runat="server"><a href="#"><i class="icon-edit"></i><span class="hidden-tablet"><b>VISITORS</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorsId=1"><span class="hidden-tablet">Add New Visitor</span></a></li>
+                                    <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorsId=2"><span class="hidden-tablet">Add Permanent Employee</span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#"><i class="icon-folder-open"></i><span class="hidden-tablet"><b>VISITORS DETAIL</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="ViewVisitors.aspx"><span class="hidden-tablet">View Visitors</span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#"><i>
+                                <img src="img/report.png" /></i><span class="hidden-tablet"><b>REPORTS</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="Visitors_Reports.aspx"><span class="hidden-tablet">Reports</span></a></li>
+                                </ul>
+                            </li>
+
+
+                            <li><a href="#"><i>
+                                <img src="img/alert.png" /></i><span class="hidden-tablet"><b>ALERT</b></span></a>
+                                <ul>
+                                    <li><a class="ajax-link" href="Visitors_Alert.aspx"><span id="spnNewNotification" runat="server" class="hidden-tablet">New Notification</span></a></li>
+                                </ul>
+                            </li>
+                              <li id="liBill" runat="server"><a class="ajax-link" href="#">
+                                <img src="img/Bill1.png" /><span class="hidden-tablet"><b>RECEIPT</b></span></a>
+                                <ul>
+                                    <li><a href="ReceptionReceipt.aspx"><span class="hidden-tablet">Generate Receipt</span></a></li>
+                                </ul>
+                            </li>
 
                         </ul>
 

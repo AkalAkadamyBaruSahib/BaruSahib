@@ -25,7 +25,10 @@ public class VisitorUserRepository
     {
         Hashtable param = new Hashtable();
         param.Add("Name", visitors.Name);
-        param.Add("TotalNoOfPerson", visitors.TotalNoOfPerson);
+        param.Add("TotalNoOfMen", visitors.TotalNoOfMen);
+        param.Add("TotalNoOfWomen", visitors.TotalNoOfWomen);
+        param.Add("TotalNoOfChildren", visitors.TotalNoOfChildren);
+        param.Add("AdmissionNumber", visitors.AdmissionNumber);
         param.Add("PurposeOfVisit", visitors.PurposeOfVisit);
         param.Add("VehicleNo", visitors.VehicleNo);
         param.Add("Identification", visitors.Identification);
@@ -79,7 +82,9 @@ public class VisitorUserRepository
 
             visitDTO.ID = v.ID;
             visitDTO.Name = v.Name;
-            visitDTO.TotalNoOfPerson = v.TotalNoOfPerson;
+            visitDTO.TotalNoOfMen = v.TotalNoOfMen;
+            visitDTO.TotalNoOfWomen = v.TotalNoOfWomen;
+            visitDTO.TotalNoOfChildren = v.TotalNoOfChildren;
             visitDTO.PurposeOfVisit = v.PurposeOfVisit;
             visitDTO.VehicleNo = v.VehicleNo;
             visitDTO.Identification = v.Identification;
@@ -104,6 +109,7 @@ public class VisitorUserRepository
             visitDTO.IsActive = v.IsActive;
             visitDTO.VisitorReference = v.VisitorReference;
             visitDTO.RoomRentType = v.RoomRentType;
+            visitDTO.AdmissionNumber = v.AdmissionNumber;
 
 
             visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
@@ -122,7 +128,7 @@ public class VisitorUserRepository
 
                 string room = visitDTO.RoomNumbers.Substring(0, visitDTO.RoomNumbers.Length - 1);
                 string buildingname = visitDTO.BuildingName.Substring(0, visitDTO.BuildingName.Length - 1);
-               
+
                 visitDTO.RoomNumbers = room;
                 visitDTO.BuildingName = buildingname;
             }
@@ -134,7 +140,7 @@ public class VisitorUserRepository
 
     public List<VisitorsDTO> GetVisitorInformationByVisitorTypeID(int visitorTypeID)
     {
-        List<Visitors> visitors = _context.Visitors.Where(v => v.VisitorTypeID == visitorTypeID)
+        List<Visitors> visitors = _context.Visitors.Where(v => v.VisitorTypeID == visitorTypeID && v.IsActive == true)
           .ToList();
 
 
@@ -148,7 +154,9 @@ public class VisitorUserRepository
 
             visitDTO.ID = v.ID;
             visitDTO.Name = v.Name;
-            visitDTO.TotalNoOfPerson = v.TotalNoOfPerson;
+            visitDTO.TotalNoOfMen = v.TotalNoOfMen;
+            visitDTO.TotalNoOfWomen = v.TotalNoOfWomen;
+            visitDTO.TotalNoOfChildren = v.TotalNoOfChildren;
             visitDTO.PurposeOfVisit = v.PurposeOfVisit;
             visitDTO.VehicleNo = v.VehicleNo;
             visitDTO.Identification = v.Identification;
@@ -174,6 +182,7 @@ public class VisitorUserRepository
             visitDTO.IsActive = v.IsActive;
             visitDTO.VisitorReference = v.VisitorReference;
             visitDTO.RoomRentType = v.RoomRentType;
+            visitDTO.AdmissionNumber = v.AdmissionNumber;
             visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
 
             if (visitortype != null && visitortype.Tables != null && visitortype.Tables.Count > 0
@@ -236,7 +245,7 @@ public class VisitorUserRepository
                           Number = x.Number
                       }).ToList();
 
-         return result;
+        return result;
     }
 
     public List<RoomNumbers> GetRoomList(int BuildingID)
@@ -258,6 +267,7 @@ public class VisitorUserRepository
         _context.SaveChanges();
     }
 
+
     public VisitorsDTO GetVisitorInfoByVisitorId(int VisitorID)
     {
         Visitors visitor = _context.Visitors.Where(v => v.ID == VisitorID)
@@ -267,7 +277,9 @@ public class VisitorUserRepository
         VisitorsDTO dto = new VisitorsDTO();
         dto.ID = visitor.ID;
         dto.Name = visitor.Name;
-        dto.TotalNoOfPerson = visitor.TotalNoOfPerson;
+        dto.TotalNoOfMen = visitor.TotalNoOfMen;
+        dto.TotalNoOfWomen = visitor.TotalNoOfWomen;
+        dto.TotalNoOfChildren = visitor.TotalNoOfChildren;
         dto.PurposeOfVisit = visitor.PurposeOfVisit;
         dto.VehicleNo = visitor.VehicleNo;
         dto.Identification = visitor.Identification;
@@ -303,7 +315,7 @@ public class VisitorUserRepository
         dto.IsActive = visitor.IsActive;
         dto.VisitorReference = visitor.VisitorReference;
         dto.RoomRentType = visitor.RoomRentType;
-
+        dto.AdmissionNumber = visitor.AdmissionNumber;
         return dto;
         //   newVisitor
 
@@ -320,7 +332,9 @@ public class VisitorUserRepository
             .FirstOrDefault();
 
         newVisitor.Name = visitor.Name;
-        newVisitor.TotalNoOfPerson = visitor.TotalNoOfPerson;
+        newVisitor.TotalNoOfMen = visitor.TotalNoOfMen;
+        newVisitor.TotalNoOfWomen = visitor.TotalNoOfWomen;
+        newVisitor.TotalNoOfChildren = visitor.TotalNoOfChildren;
         newVisitor.PurposeOfVisit = visitor.PurposeOfVisit;
         newVisitor.VehicleNo = visitor.VehicleNo;
         newVisitor.Identification = visitor.Identification;
@@ -378,5 +392,34 @@ public class VisitorUserRepository
         _context.SaveChanges();
     }
 
-    
+    public List<Visitors> GetUnCheckOutVisitor(DateTime date, bool isActive)
+    {
+
+        List<Visitors> visitors = _context.Visitors.Where(v => v.TimePeriodTo < date && v.IsActive == isActive)
+                            .Include(r => r.VisitorRoomNumbers)
+                            .Include(o => o.VisitorRoomNumbers.Select(emp => emp.RoomNumbers))
+                            .Include(o => o.VisitorRoomNumbers.Select(emp => emp.RoomNumbers.BuildingName))
+                            .ToList();
+
+        return visitors;
+    }
+
+
+    public int GetUnCheckOutRoomCount(DateTime date, bool isActive)
+    {
+        var visitors = _context.Visitors.Where(v => v.TimePeriodTo < date && v.IsActive == isActive).Count();
+        return visitors;
+    }
+
+
+    public List<City> GetCityByStateID(int stateID)
+    {
+        return _context.City.Where(x => x.StateId == stateID).OrderBy(x => x.CityName).ToList();
+    }
+
+    public void AddNewReceipt(VisitorReceipt vr)
+    {
+        _context.Entry(vr).State = EntityState.Added;
+        _context.SaveChanges();
+    }
 }

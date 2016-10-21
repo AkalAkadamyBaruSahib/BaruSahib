@@ -64,6 +64,8 @@ namespace AkalAcademy
         public DbSet<WorkshopDispatchMaterial> WorkshopDispatchMaterial { get; set; }
         public DbSet<WorkshopBills> WorkshopBills { get; set; }
         public DbSet<EmployeeTransfer> EmployeeTransfer { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<VisitorReceipt> VisitorReceipt { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

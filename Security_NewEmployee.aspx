@@ -112,8 +112,8 @@
                                             <div class="controls">
                                                 <asp:DropDownList ID="ddlEducation" Width="200px" runat="server">
                                                     <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
-                                                    <asp:ListItem Text="Below Matrix" Value="Below Matrix"></asp:ListItem>
-                                                    <asp:ListItem Text="Matrix" Value="Matrix"></asp:ListItem>
+                                                    <asp:ListItem Text="Below 10th" Value="9"></asp:ListItem>
+                                                    <asp:ListItem Text="10th" Value="10"></asp:ListItem>
                                                     <asp:ListItem Text="+2" Value="+2"></asp:ListItem>
                                                     <asp:ListItem Text="Diploma" Value="Diploma"></asp:ListItem>
                                                     <asp:ListItem Text="Graduation" Value="Graduation"></asp:ListItem>
@@ -180,22 +180,18 @@
                                                 <div class="controls">
                                                     <asp:TextBox ID="txtDateofAppraisal" runat="server" Width="200px" CssClass="input-xlarge datepicker"></asp:TextBox>
                                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtDateofAppraisal" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
-                                                    <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator10" ForeColor="Red" ControlToValidate="txtDateofAppraisal" ErrorMessage="Please Enter the Date of Appraisal" />
                                                 </div>
                                             </div>
-
                                         </td>
                                         <td>
                                             <div class="control-group">
                                                 <label class="control-label" for="typeahead">Last Appraisal Amount:</label>
                                                 <div class="controls">
                                                     <asp:TextBox ID="txtLastAppraisal" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                    <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator11" ForeColor="Red" ControlToValidate="txtLastAppraisal" ErrorMessage="Please Enter the Last Appraisal Amount" />
                                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator4" ControlToValidate="txtLastAppraisal" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
                                                 </div>
                                             </div>
                                         </td>
-
                                     </tr>
                                 </table>
                             </fieldset>

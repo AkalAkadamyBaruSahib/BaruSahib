@@ -152,4 +152,11 @@ public class TypeEnum
         PaidByEmployee = 2,
         VisitorSelfPaid = 3
     }
+
+    public enum ReceptionCashType : int
+    {
+        ByCash = 1,
+        ByCheque = 2,
+        ByDD = 3
+    }
 }

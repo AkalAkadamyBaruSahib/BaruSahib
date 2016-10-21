@@ -22,7 +22,7 @@ public partial class Visitor_AdminMaster : System.Web.UI.MasterPage
         DataSet dsUser = new DataSet();
         dsUser = DAL.DalAccessUtility.GetDataInDataSet("exec USP_UserCount '" + lblUser.Text + "'");
         lblUserName.Text = dsUser.Tables[0].Rows[0]["InName"].ToString();
-
+        showUnCheckOutCount(); 
     }
 
     protected void lbLogOut_Click(object sender, EventArgs e)
@@ -31,4 +31,16 @@ public partial class Visitor_AdminMaster : System.Web.UI.MasterPage
         Session.Clear();
         Response.Redirect("~/Default.aspx");
     }
+
+    private void showUnCheckOutCount()
+    {
+        VisitorUserRepository repo = new VisitorUserRepository(new AkalAcademy.DataContext());
+        if (!spnNewNotification.InnerText.Contains('('))
+        {
+            spnNewNotification.InnerText = spnNewNotification.InnerText + " (" + repo.GetUnCheckOutRoomCount(DateTime.Now, true) + ")";
+        }
+
+    }
+
+   
 }

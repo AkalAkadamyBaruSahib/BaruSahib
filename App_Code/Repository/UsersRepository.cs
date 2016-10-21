@@ -246,4 +246,19 @@ public class UsersRepository
     {
         return _context.AdminTypeRelation.Where(x => x.UserID == UserID).FirstOrDefault();
     }
+
+    public DataTable GetCountry()
+    {
+        return DAL.DalAccessUtility.GetDataInDataSet("Select CountryID,CountryName from Country").Tables[0];
+    }
+
+    public DataTable GetStateByCountryID(int countryID)
+    {
+        return DAL.DalAccessUtility.GetDataInDataSet("Select StateID,StateName from State where countryID=" + countryID + " order by statename asc").Tables[0];
+    }
+
+    public DataTable GetCityByStateID(int stateID)
+    {
+        return DAL.DalAccessUtility.GetDataInDataSet("Select CityID,CityName from City where StateID=" + stateID + " order by cityname asc").Tables[0];
+    }
 }
