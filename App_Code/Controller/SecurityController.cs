@@ -57,6 +57,7 @@ public class SecurityController : System.Web.Services.WebService {
     [WebMethod]
     public void SaveSecurityTransferLetter(EmployeeTransfer EmployeeTransfer)
     {
+        EmployeeTransfer.DateOfTransfer = DateTime.UtcNow;
         SecurityRepository securityRepository = new SecurityRepository(new AkalAcademy.DataContext());
         securityRepository.SaveSecurityTransferLetter(EmployeeTransfer);
     }
@@ -86,5 +87,12 @@ public class SecurityController : System.Web.Services.WebService {
             arrEmp.Add(dto.Name.Trim());
         }
         return arrEmp;
+    }
+
+    [WebMethod]
+    public List<EmployeeTransfer> GetTransferDetails(int EmpID)
+    {
+        SecurityRepository storeRepository = new SecurityRepository(new AkalAcademy.DataContext());
+        return storeRepository.GetTransferDetails(EmpID);
     }
 }

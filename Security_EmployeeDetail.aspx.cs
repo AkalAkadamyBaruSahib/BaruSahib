@@ -9,23 +9,23 @@ using System.Web.UI.WebControls;
 public partial class Security_EmployeeDetail : System.Web.UI.Page
 {
     private bool IsApproved = true;
-   protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
         {
-           getSecurityDetails(IsApproved);
-           hdnInchargeID.Value = Session["InchargeID"].ToString();
+            getSecurityDetails(IsApproved);
+            hdnInchargeID.Value = Session["InchargeID"].ToString();
 
-           if (Request.QueryString["ActiveEmployeeID"] != null)
-           {
-               InActiveEmployee(Request.QueryString["ActiveEmployeeID"].ToString());
-           }
+            if (Request.QueryString["ActiveEmployeeID"] != null)
+            {
+                InActiveEmployee(Request.QueryString["ActiveEmployeeID"].ToString());
+            }
 
-           if (Request.QueryString["DeActiveEmployeeID"] != null)
-           {
+            if (Request.QueryString["DeActiveEmployeeID"] != null)
+            {
                 ActiveEmployee(Request.QueryString["DeActiveEmployeeID"].ToString());
-           }
-           
+            }
+
         }
 
     }
@@ -97,10 +97,11 @@ public partial class Security_EmployeeDetail : System.Web.UI.Page
              
               
                 ZoneInfo += "</table></td>";
-                ZoneInfo += "<td width='15%'>" + Security.Salary + "</td>";
+                ZoneInfo += "<td width='15%'>" + Convert.ToDecimal(Security.Salary).ToString("#,##0.00") + "</td>";
                 if (IsApproved)
                 {
-                    ZoneInfo += "<td  width='15%' class='center'><a onclick='OpenTransferEmployee(" + Security.ID + "," + Security.ZoneID + "," + Security.AcaID + ",&quot;" + Security.Name + "&quot;);'  href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Transfer Employee</span></a></td>";
+                    ZoneInfo += "<td  width='15%' class='center'><table><tr><td><a onclick='OpenTransferEmployee(" + Security.ID + "," + Security.ZoneID + "," + Security.AcaID + ",&quot;" + Security.Name + "&quot;);'  href='#'><span class='label label-warning'  style='font-size: 15.998px;'>Transfer Employee</span></a></td></tr>";
+                    ZoneInfo += "<tr><td class='center'><a onclick='OpenViewTransferLetter(" + Security.ID + ");' href='#'><span class='label label-warning'  style='font-size: 15.998px;'>View Transfer Letter</span></a></td></tr></table></td>";
                 }
                 ZoneInfo += "</tr>";
             }

@@ -35,8 +35,8 @@
     <style>
         #holder
         {
-            height: 750px;
-            width: 740px;
+            height: 99%;
+            width: 99%;
             background-color: #F5F5F5;
             border: 1px solid #A4A4A4;
             margin-left: 10px;
@@ -54,7 +54,8 @@
 
             #place a
             {
-                font-size: 0.6em;
+                font-size: 1.0em;
+                margin-left: -25px;
             }
 
             #place li
@@ -71,17 +72,18 @@
             {
                 background: url("img/available_seat_img.gif") no-repeat scroll 0 0 transparent;
                 height: 50px;
-                width: 33px;
-                display: block;
+                width: 50px;
+                margin-left: 20px;
             }
 
             #place .selectedSeat
             {
                 background: url("img/booked_seat_img.gif") no-repeat scroll 0 0 transparent;
                 height: 50px;
-                width: 33px;
-                display: block;
+                width: 50px;
+                margin-left: 20px;
             }
+
 
             #place .selectingSeat
             {
@@ -101,10 +103,14 @@
             float: left;
         }
 
-        .controls
-        {
-            width: 519px;
-        }
+         #place .selectedSeatID
+            {
+                background: url("img/booked_seat_img.gif") no-repeat scroll 0 0 transparent;
+                height: 50px;
+                width: 50px;
+                
+            }
+       
     </style>
 
     <script src="JavaScripts/Visitor.js"></script>
@@ -158,7 +164,7 @@
                                             ControlToValidate="txtName" ErrorMessage="Please enter the Full Name Of Visitor" />
 
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -150px">
+                                    <td width="30%" style="float: left; margin-left: -110px">
                                         <label class="control-label" for="typeahead">Visitor Contact Number:</label>
                                         <asp:TextBox ID="txtContactNumber" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtContactNumber" ForeColor="Red" Font-Size="13px" ErrorMessage="Please Enter only at least 10 Digit Numbers" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
@@ -188,7 +194,7 @@
                                         </div>
 
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">State:</label>
                                             <div class="controls">
@@ -225,7 +231,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group" id="dividphoto" runat="server">
                                             <label class="control-label" for="typeahead">Upload Photo:</label>
                                             <div class="controls">
@@ -262,7 +268,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group" id="divddlelectricitybill" runat="server">
                                             <label class="control-label" for="typeahead">Electricity Bill Type:</label>
                                             <div class="controls">
@@ -297,7 +303,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group" id="divRefenceNo">
                                             <label class="control-label" for="typeahead">If No Identity proof, Any Reference:</label>
                                             <div class="controls">
@@ -352,7 +358,7 @@
                                         </div>
                                     </td>
 
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group" id="divddlpurpose" runat="server">
                                             <label class="control-label" for="typeahead">Purpose of Visit:</label>
                                             <div class="controls">
@@ -398,7 +404,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group" id="divtxtvehicle" runat="server">
                                             <label class="control-label" for="typeahead">Vehicle Number, if any? :</label>
                                             <div class="controls">
@@ -420,7 +426,7 @@
 
                                         </div>
                                     </td>
-                                    <td width="30%" style="float: left; margin-left: -145px;">
+                                    <td width="30%" style="float: left; margin-left: -110px;">
                                         <div class="control-group" id="divddlroomservice" runat="server">
                                             <label class="control-label" for="typeahead">Room Rent Type:</label>
                                             <div class="controls">
@@ -459,25 +465,23 @@
             </div>
         </div>
 
-        <div id="divRoomNumbers" class="modal hide fade" style="display: none; width: 800px; height: 500px">
+        <div id="divRoomNumbers" class="modalFullScreen hide fade" style="display: none; width:90%; height: 600px">
             <div class="modal-header">
                 <input id="btnclose" value="Ok" style="width: 40px; float: right;" class="btn btn-primary" data-dismiss="modal" />
                 <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3>
 
             </div>
-            <div class="modal-body">
-                <div class="box-content" style="width: 800px; height: 500px">
+            <div style="width:100%">
+                <div class="box-content" style="width:99%; height: 99%">
                     <h4>Choose rooms by clicking the corresponding seat in the layout below:</h4>
                     <div style="float: left;">
                         <ul id="seatDescription">
-                            <li style="background: url('img/available_seat_img.gif') no-repeat scroll 0 0 transparent;">Available Seat</li>
-                            <li style="background: url('img/booked_seat_img.gif') no-repeat scroll 0 0 transparent;">Booked Seat</li>
-                            <li style="background: url('img/selected_seat_img.gif') no-repeat scroll 0 0 transparent;">Selected Seat</li>
+                            <li style="background: url('img/available_seat_img.gif') no-repeat scroll 0 0 transparent;">&nbsp;&nbsp;&nbsp;Available Seat</li>
+                            <li style="background: url('img/booked_seat_img.gif') no-repeat scroll 0 0 transparent;">&nbsp;&nbsp;&nbsp;Booked Seat</li>
+                            <li style="background: url('img/selected_seat_img.gif') no-repeat scroll 0 0 transparent;">&nbsp;&nbsp;&nbsp;Selected Seat</li>
                         </ul>
                     </div>
-                    <br />
-                    <br />
-                    <div id="holder" style="-moz-column-count: 8; -moz-column-gap: 5px; -webkit-column-count: 8; -webkit-column-gap: 5px; column-count: 8; column-gap: 5px">
+                    <div id="holder" style="width:99%; -moz-column-count: 8; -moz-column-gap: 5px; -webkit-column-count: 8; -webkit-column-gap: 5px; column-count: 8; column-gap: 5px">
                         <ul id="place">
                         </ul>
                     </div>

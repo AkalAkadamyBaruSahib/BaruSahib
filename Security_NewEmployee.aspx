@@ -66,7 +66,7 @@
                                             <label class="control-label" for="typeahead">Mobile No:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtMobileNo" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtMobileNo" ErrorMessage="Invalid Mobile No" ValidationExpression="[0-9]{10}" ForeColor="Red"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="security" ControlToValidate="txtMobileNo" ErrorMessage="Invalid Mobile No" ValidationExpression="[0-9]{10}" ForeColor="Red"></asp:RegularExpressionValidator>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator1" ForeColor="Red" ControlToValidate="txtMobileNo" ErrorMessage="Please Enter the Mobile No" />
                                             </div>
                                         </div>
@@ -78,6 +78,7 @@
                                                 <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
                                                 <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator2" ForeColor="Red" ControlToValidate="txtAddress" ErrorMessage="Please Enter the Address" />
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="security" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red"  ValidationExpression="^[a-zA-Z0-9 ]*$"></asp:RegularExpressionValidator>  
                                             </div>
                                         </div>
                                     </td>
@@ -89,7 +90,7 @@
                                             <div class="controls">
                                                 <asp:TextBox ID="txtSalary" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator3" ForeColor="Red" ControlToValidate="txtSalary" ErrorMessage="Please Enter the  Salary" />
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator6" ControlToValidate="txtSalary" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator6" ValidationGroup="security" ControlToValidate="txtSalary" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
 
                                             </div>
                                         </div>
@@ -100,7 +101,7 @@
                                             <div class="controls">
                                                 <asp:TextBox ID="txtCutting" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator4" ForeColor="Red" ControlToValidate="txtCutting" ErrorMessage="Please Enter the Deduction" />
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ControlToValidate="txtCutting" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ValidationGroup="security" ControlToValidate="txtCutting" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
 
                                             </div>
                                         </div>
@@ -170,8 +171,8 @@
                                             <label class="control-label" for="typeahead">Date of Joining:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDateofJoining" runat="server" Width="200px" CssClass="input-xlarge datepicker"></asp:TextBox>
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtDateofJoining" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator7" ForeColor="Red" ControlToValidate="txtDateofJoining" ErrorMessage="Please Enter the Date of Joining" />
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ValidationGroup="security" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtDateofJoining" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                <asp:RequiredFieldValidator Display="None" runat="server"  ID="RequiredFieldValidator7" ForeColor="Red" ControlToValidate="txtDateofJoining" ErrorMessage="Please Enter the Date of Joining" />
                                             </div>
                                         </td>
                                         <td width="50%">
@@ -188,7 +189,7 @@
                                                 <label class="control-label" for="typeahead">Last Appraisal Amount:</label>
                                                 <div class="controls">
                                                     <asp:TextBox ID="txtLastAppraisal" runat="server" Width="200px" CssClass="span6 typeahead"></asp:TextBox>
-                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator4" ControlToValidate="txtLastAppraisal" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator4"  ControlToValidate="txtLastAppraisal" ForeColor="Red" ValidationExpression="\d+" Display="Static" EnableClientScript="true" ErrorMessage="Please Enter Numbers Only" runat="server"></asp:RegularExpressionValidator>
                                                 </div>
                                             </div>
                                         </td>

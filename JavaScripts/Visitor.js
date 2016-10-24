@@ -108,6 +108,7 @@ function EnableDisabledValidator()
 
 function GetAllRoomList(selectedValue)
 {
+    var BuildingName = $("#drpbuilding option:selected").text();
     // Get All Rooms
     $.ajax({
         type: "POST",
@@ -121,6 +122,7 @@ function GetAllRoomList(selectedValue)
 
                 init(bookedSeats, seatNo);
                 $('#divRoomNumbers').modal('show');
+                $("#spnBuildingName").text(BuildingName);
             }
         },
         error: function (result, textStatus) {
@@ -159,20 +161,30 @@ var init = function (bookedSeats, seatNo) {
     for (j = 0; j < seatNo.length; j++) {
         //seatNo = (i + j * settings.rows + 1);
         className = settings.seatCss + ' ' + settings.rowCssPrefix + j.toString() + ' ' + settings.colCssPrefix + j.toString();
+
         if ($.inArray(seatNo[j].ID, bookedSeats) != -1) {
             className += ' ' + settings.selectedSeatCss;
-            str.push('<li title="Number of Bed(s) : ' + seatNo[j].NumOfBed + '" class="selectedSeat">' + //+ className + '"' +
-                  '<a title="' + seatNo[j].ID + '">' + seatNo[j].Number + '</a>' +
+            if (seatNo[j].Number.indexOf("HALL") >= 0) {
+                str.push('<li title="Number of Bed(s) : ' + seatNo[j].NumOfBed + '" class="seat">' + //+ className + '"' +
+                     '<p><a title="' + seatNo[j].ID + '">' + seatNo[j].Number + '</a></p>' +
                   '</li>');
+            }
+            else {
+                str.push('<li title="Number of Bed(s) : ' + seatNo[j].NumOfBed + '" class="selectedSeat">' + //+ className + '"' +
+                    '<p><a title="' + seatNo[j].ID + '">' + seatNo[j].Number + '</a></p>' +
+                       '</li>');
+            }
         }
         else {
             str.push('<li title="Number of Bed(s) : ' + seatNo[j].NumOfBed + '" class="seat">' + //+ className + '"' +
-                  '<a title="' + seatNo[j].ID + '">' + seatNo[j].Number + '</a>' +
+                     '<p><a title="' + seatNo[j].ID + '">' + seatNo[j].Number + '</a></p>' +
                   '</li>');
         }
+
     }
-    //  }
+
     $('#place').html(str.join(''));
+    
 };
 
 function LoadBuildings() {

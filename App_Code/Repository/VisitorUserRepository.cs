@@ -106,7 +106,7 @@ public class VisitorUserRepository
             visitDTO.State = v.State;
             visitDTO.Country = v.Country;
             visitDTO.City = v.City;
-            visitDTO.IsActive = v.IsActive;
+            visitDTO.IsActive = Convert.ToBoolean(v.IsActive);
             visitDTO.VisitorReference = v.VisitorReference;
             visitDTO.RoomRentType = v.RoomRentType;
             visitDTO.AdmissionNumber = v.AdmissionNumber;
@@ -179,7 +179,7 @@ public class VisitorUserRepository
             visitDTO.State = v.State;
             visitDTO.Country = v.Country;
             visitDTO.City = v.City;
-            visitDTO.IsActive = v.IsActive;
+            visitDTO.IsActive = Convert.ToBoolean(v.IsActive);
             visitDTO.VisitorReference = v.VisitorReference;
             visitDTO.RoomRentType = v.RoomRentType;
             visitDTO.AdmissionNumber = v.AdmissionNumber;
@@ -312,7 +312,7 @@ public class VisitorUserRepository
         dto.State = visitor.State;
         dto.Country = visitor.Country;
         dto.City = visitor.City;
-        dto.IsActive = visitor.IsActive;
+        dto.IsActive = Convert.ToBoolean(visitor.IsActive);
         dto.VisitorReference = visitor.VisitorReference;
         dto.RoomRentType = visitor.RoomRentType;
         dto.AdmissionNumber = visitor.AdmissionNumber;

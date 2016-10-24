@@ -154,9 +154,9 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         {
 
             string FileEx = System.IO.Path.GetExtension(fileUploadIdentity.FileName);
-            string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtName.Text.Replace(" ", "_") + drpProofType.SelectedItem.Text + FileEx);
+            string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtName.Text + "_" + drpProofType.SelectedItem.Text + FileEx);
             fileUploadIdentity.PostedFile.SaveAs(visitorfilepath);
-            visitor.IdentificationPath = "VisitorProof/" + txtName.Text.Replace(" ", "_") + drpProofType.SelectedItem.Text + FileEx;
+            visitor.IdentificationPath = "VisitorProof/" + txtName.Text + "_" + drpProofType.SelectedItem.Text + FileEx;
         }
         else
         {
@@ -166,9 +166,9 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         if (fileUploadphoto.HasFile)
         {
             string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
-            string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
+            string path = Server.MapPath("~/VisitorsPhoto/" + txtName.Text + "_" + txtContactNumber.Text + PhotoFileEx);
             fileUploadphoto.PostedFile.SaveAs(path);
-            visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
+            visitor.VisitorsPhoto = "VisitorsPhoto/" + txtName.Text + "_" + txtContactNumber.Text + PhotoFileEx;
         }
         else
         {
@@ -177,9 +177,9 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         if (fileUploadauthority.HasFile)
         {
             string AuthorityFileEx = System.IO.Path.GetExtension(fileUploadauthority.FileName);
-            string path = Server.MapPath("~/VisitorsAuthourityLetter/" + txtName.Text.Replace(" ", "_") + AuthorityFileEx);
+            string path = Server.MapPath("~/VisitorsAuthourityLetter/" + txtName.Text + "_" + txtContactNumber.Text + AuthorityFileEx);
             fileUploadauthority.PostedFile.SaveAs(path);
-            visitor.VisitorsAuthorityLetter = "VisitorsAuthourityLetter/" + txtName.Text.Replace(" ", "_") + AuthorityFileEx;
+            visitor.VisitorsAuthorityLetter = "VisitorsAuthourityLetter/" + txtName.Text + "_" + txtContactNumber.Text + AuthorityFileEx;
         }
         else
         {
@@ -187,11 +187,11 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         }
         if (ddlRoomRent.SelectedValue != "0")
         {
-            visitor.RoomRent = ddlRoomRent.SelectedValue;
+            visitor.RoomRent = int.Parse(ddlRoomRent.SelectedValue);
         }
         else
         {
-            visitor.RoomRent = "0";
+            visitor.RoomRent = 0;
         }
         if (ddlroomservice.SelectedValue != "0")
         {
@@ -203,11 +203,11 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         }
         if (ddlelectricitybill.SelectedValue != "0")
         {
-            visitor.ElectricityBill = ddlelectricitybill.SelectedValue;
+            visitor.ElectricityBill = int.Parse(ddlelectricitybill.SelectedValue);
         }
         else
         {
-            visitor.ElectricityBill = "0";
+            visitor.ElectricityBill = 0;
         }
 
         if (string.IsNullOrEmpty(txtfirstDate.Text))
@@ -296,9 +296,9 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         {
             visitor.VisitorTypeID = Convert.ToInt32(ddlntypeofvisitor.SelectedValue);
         }
-        visitor.State = drpState.SelectedValue;
-        visitor.Country = drpCountry.SelectedValue;
-        visitor.City = drpCity.SelectedValue;
+        visitor.State = int.Parse(drpState.SelectedValue);
+        visitor.Country = int.Parse(drpCountry.SelectedValue);
+        visitor.City = int.Parse(drpCity.SelectedValue);
         visitor.IsActive = true;
         visitor.AdmissionNumber = txtAdmissionNo.Text;
         visitor.VisitorReference = txtReference.Text;

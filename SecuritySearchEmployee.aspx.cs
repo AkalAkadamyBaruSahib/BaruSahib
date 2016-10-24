@@ -93,7 +93,7 @@ public partial class SecuritySearchEmployee : System.Web.UI.Page
                     ZoneInfo += "<td width='20%' class='center'>No Zonal Officer Assign</td>";
                 }
                 ZoneInfo += "</table></td>";
-                ZoneInfo += "<td width='5%'>" + Security.Salary + "</td>";
+                ZoneInfo += "<td width='5%'>" + Convert.ToDecimal(Security.Salary).ToString("#,##0.00") + "</td>";
                 ZoneInfo += "</tr>";
             }
             ZoneInfo += "</tbody>";

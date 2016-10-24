@@ -96,10 +96,8 @@
                         </div>
 
                         <div class="form-actions">
-
                             <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-primary" OnClick="btnSave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                             <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" Visible="false" OnClick="btnEdit_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                            <asp:Button ID="btnExecl" runat="server" Text="Excel Download" CssClass="btn btn-primary" OnClick="btnExecl_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                             <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn" OnClick="btnCl_Click" />
                         </div>
                     </fieldset>
@@ -124,7 +122,8 @@
                 
             </div>
             <div class="box-content">
-                <asp:DropDownList ID="ddlMatTypegrid" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlMatType_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="ddlMatTypegrid" runat="server" AutoPostBack="true"   OnSelectedIndexChanged="ddlMatType_SelectedIndexChanged"></asp:DropDownList>
+                <asp:Button ID="btnExecl" runat="server" Text="Excel Download" style="margin-top: -15px;" CssClass="btn btn-primary" OnClick="btnExecl_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
                 <div id="divMatDetails" runat="server"></div>
 
             </div>

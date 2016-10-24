@@ -14,6 +14,8 @@ $(document).ready(function () {
     });
 
 });
+
+var grdLetter;
 function LoadSecurityEmployee() {
 
     /*create/distroy grid for the new search*/
@@ -234,7 +236,7 @@ function SaveEmpTransferInfo() {
     EmployeeTransfer.OldZoneID = hdnZoneID;
     EmployeeTransfer.NewAcaID = $("select[id*='ddlAcademy']").val();
     EmployeeTransfer.NewZoneID = $("select[id*='ddlZone']").val();
-    EmployeeTransfer.DateOfTransfer = CurrentDate;
+    EmployeeTransfer.DateOfTransfer = "";
     EmployeeTransfer.CreatedBy = $("input[id*='hdnInchargeID']").val();
 
 
@@ -293,4 +295,66 @@ function TransferLetterUpload(filename) {
             alert(err.statusText)
         }
     });
+}
+
+function OpenViewTransferLetter(empID) {
+ /*create/distroy grid for the new search*/
+    if (typeof grdLetter != 'undefined') {
+        grdLetter.fnClearTable();
+    }
+
+    var rowCount = $('#grdLetter').find("#rowTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowTemplate").remove();
+    }
+
+    var rowTemplate = '<tr id="rowTemplate"><td id="TransferDate"></td><td id="view"></td></tr>';
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/SecurityController.asmx/GetTransferDetails",
+        data: JSON.stringify({ EmpID: empID }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbody").append(rowTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+
+                    var $newRow = $("#rowTemplate").clone();
+                    $newRow.find("#TransferDate").html("<a target='_blank' href='" + adminLoanList[i].TransferLatter + "' >" + getJsonDate(adminLoanList[i].DateOfTransfer) + "</a>");
+                    $newRow.find("#view").html("<a target='_blank' href='" + adminLoanList[i].TransferLatter + "' >View</a>");
+                 
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdLetter > tbody");
+                    }
+
+                }
+                grdLetter = $('#grdLetter').DataTable();
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+
+    $("#divViewTransferEmployee").modal('show');
+}
+function getJsonDate(strDate) {
+    var displayDate = "";
+    if (strDate != null) {
+        var date = new Date(parseInt(strDate.substr(6)));
+        // format display date (e.g. 04/10/2012)
+        displayDate = $.datepicker.formatDate("mm/dd/yy", date);
+    }
+    return displayDate;
 }

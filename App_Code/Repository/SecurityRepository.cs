@@ -245,4 +245,10 @@ public class SecurityRepository
             .Include(a => a.Academy)
             .OrderByDescending(e => e.CreatedOn).ToList();
     }
+
+    public List<EmployeeTransfer> GetTransferDetails(int EmpID)
+    {
+        List<EmployeeTransfer> employeeTransfer = _context.EmployeeTransfer.Where(s => s.EmpID == EmpID).ToList();
+        return employeeTransfer;
+    }
 }

@@ -607,16 +607,16 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             {
                 if (vehicle.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
-                    if (getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV) || 
-                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS) || 
-                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS) || 
-                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS) || 
+                    if (getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HMV) ||
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.CHASSIS) ||
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.TRANS) ||
+                        getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS) ||
                         getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))
                     {
                         if (!string.IsNullOrEmpty(getDL.DLValidity))
                         {
                             var row8 = Convert.ToDateTime(getDL.DLValidity) <= DateTime.Now;
-                            if (row8 != null)
+                            if (row8 != null && (row8))
                             {
                                 PendingDL = "Pending";
                             }

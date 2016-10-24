@@ -47,7 +47,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
     protected void BindAcademy()
     {
         DataSet AcaList = new DataSet();
-        AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId='" + drpZone.SelectedValue + "'");
+        AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId=" + drpZone.SelectedValue);
         drpAcademy.DataSource = AcaList;
         drpAcademy.DataValueField = "AcaId";
         drpAcademy.DataTextField = "AcaName";
@@ -57,9 +57,10 @@ public partial class Security_NewEmployee : System.Web.UI.Page
     }
     protected void BindZone()
     {
-        DataSet ZoneList = new DataSet();
-        ZoneList = DAL.DalAccessUtility.GetDataInDataSet("select * from Zone where Active=1");
-        drpZone.DataSource = ZoneList;
+        int InchargeID = int.Parse(Session["InchargeID"].ToString());
+        PurchaseRepository repo = new PurchaseRepository(new DataContext());
+        List<Zone> zones = repo.GetZoneByInchargeID(InchargeID);
+        drpZone.DataSource = zones;
         drpZone.DataValueField = "ZoneId";
         drpZone.DataTextField = "ZoneName";
         drpZone.DataBind();
@@ -74,9 +75,9 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         if (fileUploadAppointment.HasFile)
         {
             string FileEx = System.IO.Path.GetExtension(fileUploadAppointment.FileName);
-            string Securityfilepath = Server.MapPath("~/SecurityAppointmentLetter/" + txtName.Text.Replace(" ", "_") + FileEx);
+            string Securityfilepath = Server.MapPath("~/SecurityAppointmentLetter/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + FileEx);
             fileUploadAppointment.PostedFile.SaveAs(Securityfilepath);
-            securityemp.AppointmentLetter = "SecurityAppointmentLetter/" + txtName.Text.Replace(" ", "_") + FileEx;
+            securityemp.AppointmentLetter = "SecurityAppointmentLetter/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + FileEx;
         }
         else
         {
@@ -86,9 +87,9 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         if (fileUploadphoto.HasFile)
         {
             string PhotoFileEx = System.IO.Path.GetExtension(fileUploadphoto.FileName);
-            string path = Server.MapPath("~/SecurityEmployeePhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx);
+            string path = Server.MapPath("~/SecurityEmployeePhoto/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + PhotoFileEx);
             fileUploadphoto.PostedFile.SaveAs(path);
-            securityemp.Photo = "SecurityEmployeePhoto/" + txtName.Text.Replace(" ", "_") + PhotoFileEx;
+            securityemp.Photo = "SecurityEmployeePhoto/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + PhotoFileEx;
         }
         else
         {
@@ -98,9 +99,9 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         if (fileUploadExperience.HasFile)
         {
             string ExperienceFileEx = System.IO.Path.GetExtension(fileUploadExperience.FileName);
-            string path = Server.MapPath("~/SecurityExperienceLetter/" + txtName.Text.Replace(" ", "_") + ExperienceFileEx);
+            string path = Server.MapPath("~/SecurityExperienceLetter/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + ExperienceFileEx);
             fileUploadExperience.PostedFile.SaveAs(path);
-            securityemp.ExperienceLetter = "SecurityExperienceLetter/" + txtName.Text.Replace(" ", "_") + ExperienceFileEx;
+            securityemp.ExperienceLetter = "SecurityExperienceLetter/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + ExperienceFileEx;
         }
         else
         {
@@ -109,9 +110,9 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         if (fileUploadFamilyRationCard.HasFile)
         {
             string RationCardFileEx = System.IO.Path.GetExtension(fileUploadFamilyRationCard.FileName);
-            string path = Server.MapPath("~/SecurityFamilyRationCard/" + txtName.Text.Replace(" ", "_") + RationCardFileEx);
+            string path = Server.MapPath("~/SecurityFamilyRationCard/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + RationCardFileEx);
             fileUploadFamilyRationCard.PostedFile.SaveAs(path);
-            securityemp.FamilyRationCard = "SecurityFamilyRationCard/" + txtName.Text.Replace(" ", "_") + RationCardFileEx;
+            securityemp.FamilyRationCard = "SecurityFamilyRationCard/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + RationCardFileEx;
         }
         else
         {
@@ -120,9 +121,9 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         if (fileUploadPCC.HasFile)
         {
             string PCCFileEx = System.IO.Path.GetExtension(fileUploadPCC.FileName);
-            string path = Server.MapPath("~/SecurityPCC/" + txtName.Text.Replace(" ", "_") + PCCFileEx);
+            string path = Server.MapPath("~/SecurityPCC/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + PCCFileEx);
             fileUploadPCC.PostedFile.SaveAs(path);
-            securityemp.PCC = "SecurityPCC/" + txtName.Text.Replace(" ", "_") + PCCFileEx;
+            securityemp.PCC = "SecurityPCC/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + PCCFileEx;
         }
         else
         {
@@ -131,9 +132,9 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         if (fileUploadQualification.HasFile)
         {
             string QualificationFileEx = System.IO.Path.GetExtension(fileUploadQualification.FileName);
-            string path = Server.MapPath("~/SecurityQualificationLetter/" + txtName.Text.Replace(" ", "_") + QualificationFileEx);
+            string path = Server.MapPath("~/SecurityQualificationLetter/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + QualificationFileEx);
             fileUploadQualification.PostedFile.SaveAs(path);
-            securityemp.QualificationLetter = "SecurityQualificationLetter/" + txtName.Text.Replace(" ", "_") + QualificationFileEx;
+            securityemp.QualificationLetter = "SecurityQualificationLetter/" + txtName.Text.Replace(" ", "_") + txtMobileNo.Text + QualificationFileEx;
         }
         else
         {
@@ -184,11 +185,11 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         {
             securityemp.DateOfAppraisal = Convert.ToDateTime(txtDateofAppraisal.Text);
         }
-        securityemp.DOJ =Convert.ToDateTime(txtDateofJoining.Text);
+
+        securityemp.DOJ = Convert.ToDateTime(txtDateofJoining.Text);
         securityemp.LastAppraisal = txtLastAppraisal.Text;
 
-      
-        SecurityRepository repo = new SecurityRepository(new AkalAcademy.DataContext());
+         SecurityRepository repo = new SecurityRepository(new AkalAcademy.DataContext());
         if (hdnsecurityEmployeeID.Value == "0" || hdnsecurityEmployeeID.Value =="")
         {
             repo.AddNewSecurityEmp(securityemp);
@@ -254,7 +255,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         BindAcademy();
         drpAcademy.SelectedValue = emp.AcaID.ToString();
         txtDateofJoining.Text = emp.DOJ;
-        txtDateofAppraisal.Text = emp.DateOfAppraisal;
+        txtDateofAppraisal.Text = emp.DateOfAppraisal.ToString();
         txtLastAppraisal.Text = emp.LastAppraisal.ToString();
         afileUploadAppointment.Visible = true;
         afileUploadExperience.Visible = true;

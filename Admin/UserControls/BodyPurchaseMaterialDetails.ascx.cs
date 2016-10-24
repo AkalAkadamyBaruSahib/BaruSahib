@@ -411,7 +411,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<th width='2%'>Unit</th>";
                     ZoneInfo += "<th width='2%'>Quantity</th>";
                     ZoneInfo += "<th width='5%'>Source Type</th>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || (PurchaseSource == 2 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)))
                     {
                         ZoneInfo += "<th width='27%'>Purchase Officer</th>";
                     }
@@ -423,7 +423,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         ZoneInfo += "<th width='15%'>Dispatch Date</th>";
                     }
-                    else
+                    else if ((UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE)) || (PurchaseSource == 1 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)))
                     {
                         ZoneInfo += "<th width='15%'> Purchase Date</th>";
                     }
@@ -467,11 +467,12 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                 ZoneInfo += "<td>" + material.Unit.UnitName + "</td>";
                                 ZoneInfo += "<td>" + material.Qty + "</td>";
                                 ZoneInfo += "<td>" + material.PurchaseSource.PSName + "</td>";
-                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
+                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || (PurchaseSource == 2 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)))
                                 {
                                     ZoneInfo += "<td class='left'>";
                                     ZoneInfo += "<table>";
                                     ZoneInfo += "<tr><td> <b>Name:</b> " + material.Incharge.InName + " </td></tr>";
+                                    ZoneInfo += "<tr><td> <b>Contact Number:</b> " + material.Incharge.InMobile + " </td></tr>";
                                     if (material.EmployeeAssignDateTime == Convert.ToDateTime("1/1/1900 12:00:00 AM"))
                                     {
                                         ZoneInfo += "<tr><td><b>Assigned Date:</b> </td></tr>";
@@ -483,7 +484,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                     ZoneInfo += "</table>";
                                     ZoneInfo += "</td>";
                                 }
-                                ZoneInfo += "<td>" + material.DispatchDate + "</td>";
+                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE) || (PurchaseSource == 1 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
+                                {
+                                    ZoneInfo += "<td>" + material.DispatchDate + "</td>";
+                                }
                                 if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {
                                     ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
