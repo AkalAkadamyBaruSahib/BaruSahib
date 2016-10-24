@@ -929,7 +929,7 @@ public class PurchaseRepository
     public List<Estimate> EstimateDetailByEstId(int EstID, int PSID, int UserTypeId, int UserId)
     {
         List<Estimate> estimates = new List<Estimate>();
-        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.PURCHASE) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN))
+        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.PURCHASE) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN) || (UserTypeId == (int)TypeEnum.UserType.PURCHASECOMMITTEE))
         {
             var ests = _context.Estimate.Where(e => e.EstId == EstID)
                 .Include(z => z.Zone)

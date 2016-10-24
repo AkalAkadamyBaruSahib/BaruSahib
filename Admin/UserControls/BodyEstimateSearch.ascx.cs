@@ -82,7 +82,7 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 {
                       ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
                 }
-                else if (UserTypeID == (int)TypeEnum.UserType.PURCHASE)
+                else if (UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                 {
                     ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                 }

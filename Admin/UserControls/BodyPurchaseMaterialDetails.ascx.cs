@@ -141,7 +141,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "</thead>";
         EstInfo += "<tbody>";
         DataSet dsMatDetails = new DataSet();
-        if (UserTypeID == (int)TypeEnum.UserType.PURCHASE)
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
         {
             dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "' ");
         }
@@ -253,7 +253,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         if (AcaID > 0)
         {
 
-            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
             {
                 PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
             }
@@ -289,7 +289,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         }
         else
         {
-            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
             {
                 PurchaseEstimateView = purchaseRepo.EstimateViewForPurchase(PSID, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
             }
@@ -360,7 +360,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td>";
                     ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "<br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath, Est.FileNme) + "</td>";
                     }
@@ -372,7 +372,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td class='center' width='25%'><b style='color:red;'>Sub Estimate:</b> " + Est.SubEstimate + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Academy:</b> " + Est.Academy.AcaName + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
                         ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Purchase_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
@@ -411,7 +411,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<th width='2%'>Unit</th>";
                     ZoneInfo += "<th width='2%'>Quantity</th>";
                     ZoneInfo += "<th width='5%'>Source Type</th>";
-                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || (PurchaseSource == 2 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)))
+                    if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || (PurchaseSource == 2 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
                         ZoneInfo += "<th width='27%'>Purchase Officer</th>";
                     }
@@ -467,7 +467,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                 ZoneInfo += "<td>" + material.Unit.UnitName + "</td>";
                                 ZoneInfo += "<td>" + material.Qty + "</td>";
                                 ZoneInfo += "<td>" + material.PurchaseSource.PSName + "</td>";
-                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || (PurchaseSource == 2 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)))
+                                if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || (PurchaseSource == 2 && UserTypeID == (int)(TypeEnum.UserType.CONSTRUCTION)) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                                 {
                                     ZoneInfo += "<td class='left'>";
                                     ZoneInfo += "<table>";

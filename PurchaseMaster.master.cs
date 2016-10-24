@@ -26,8 +26,6 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASECOMMITTEE).ToString())
         {
             liRateApproved.Visible = true;
-            liStatusReport.Visible = false;
-            liestimatesearch.Visible = false;
         }
         else
         {

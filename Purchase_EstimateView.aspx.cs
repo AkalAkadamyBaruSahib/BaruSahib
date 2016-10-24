@@ -224,7 +224,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     {
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-        if (UserType == (int)TypeEnum.UserType.PURCHASE)
+        if (UserType == (int)TypeEnum.UserType.PURCHASE || UserType == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
         {
             dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AllEstimateView");
         }
@@ -244,7 +244,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         }
         else
         {
-            if (UserType == (int)TypeEnum.UserType.PURCHASE)
+            if (UserType == (int)TypeEnum.UserType.PURCHASE || UserType == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
             {
 
                 dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()

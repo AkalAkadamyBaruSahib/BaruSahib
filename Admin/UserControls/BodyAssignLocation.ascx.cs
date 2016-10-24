@@ -178,7 +178,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             pnlSingleSelect.Visible = false;
         }
         else if (userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN) || userTypeID == ((int)TypeEnum.UserType.ADMIN) || userTypeID == ((int)TypeEnum.UserType.ARCHITECTURAL)
-            || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE) || userTypeID == ((int)TypeEnum.UserType.PURCHASE) || userTypeID == ((int)TypeEnum.UserType.SECURITY))
+            || userTypeID == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE) || userTypeID == ((int)TypeEnum.UserType.PURCHASE) || userTypeID == ((int)TypeEnum.UserType.SECURITY) || userTypeID == ((int)TypeEnum.UserType.PURCHASECOMMITTEE))
         {
             lblDesignation.Visible = true;
             btnAddAcademy.Visible = false;
