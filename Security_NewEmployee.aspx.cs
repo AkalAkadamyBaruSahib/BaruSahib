@@ -46,14 +46,17 @@ public partial class Security_NewEmployee : System.Web.UI.Page
 
     protected void BindAcademy()
     {
-        DataSet AcaList = new DataSet();
-        AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId=" + drpZone.SelectedValue);
-        drpAcademy.DataSource = AcaList;
-        drpAcademy.DataValueField = "AcaId";
-        drpAcademy.DataTextField = "AcaName";
-        drpAcademy.DataBind();
-        drpAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
-        drpAcademy.SelectedIndex = 0;
+        DataTable AcaList = new DataTable();
+        AcaList = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where ZoneId=" + drpZone.SelectedValue).Tables[0];
+        if (AcaList != null && AcaList.Rows.Count > 0)
+        {
+            drpAcademy.DataSource = AcaList;
+            drpAcademy.DataValueField = "AcaId";
+            drpAcademy.DataTextField = "AcaName";
+            drpAcademy.DataBind();
+            drpAcademy.Items.Insert(0, new ListItem("--Select Academy--", "0"));
+            drpAcademy.SelectedIndex = 0;
+        }
     }
     protected void BindZone()
     {
@@ -64,7 +67,7 @@ public partial class Security_NewEmployee : System.Web.UI.Page
         drpZone.DataValueField = "ZoneId";
         drpZone.DataTextField = "ZoneName";
         drpZone.DataBind();
-        drpZone.Items.Insert(0, "Select Zone");
+        drpZone.Items.Insert(0, new ListItem("--Select Zone--", "0"));
         drpZone.SelectedIndex = 0;
     }
  
@@ -220,14 +223,17 @@ public partial class Security_NewEmployee : System.Web.UI.Page
     }
     protected void BindDesignation()
     {
-        DataSet dsDesgis = new DataSet();
-        dsDesgis = DAL.DalAccessUtility.GetDataInDataSet("select DesgId,Designation from Designation where Active=1 and ModuleID=" + ModuleID + " order by Designation asc");
-        ddlDesig.DataSource = dsDesgis;
-        ddlDesig.DataValueField = "DesgId";
-        ddlDesig.DataTextField = "Designation";
-        ddlDesig.DataBind();
-        ddlDesig.Items.Insert(0, "--Select Designation--");
-        ddlDesig.SelectedIndex = 0;
+        DataTable dsDesgis = new DataTable();
+        dsDesgis = DAL.DalAccessUtility.GetDataInDataSet("select DesgId,Designation from Designation where Active=1 and ModuleID=" + ModuleID + " order by Designation asc").Tables[0];
+        if (dsDesgis != null && dsDesgis.Rows.Count > 0)
+        {
+            ddlDesig.DataSource = dsDesgis;
+            ddlDesig.DataValueField = "DesgId";
+            ddlDesig.DataTextField = "Designation";
+            ddlDesig.DataBind();
+            ddlDesig.Items.Insert(0, new ListItem("--Select Designation--", "0"));
+            ddlDesig.SelectedIndex = 0;
+        }
     }
     protected void BindDepartment()
     {

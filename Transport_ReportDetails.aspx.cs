@@ -272,24 +272,31 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 if (v.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
                     getDL = trepository.GetEmployeeByVehicleID(v.ID, (int)TypeEnum.TransportVehicleEmployeeType.Driver);
-                   if (getDL.DLType != (int)TypeEnum.TransportDLType.HMV && 
-                       getDL.DLType != (int)TypeEnum.TransportDLType.HTV && 
-                       getDL.DLType != (int)TypeEnum.TransportDLType.PSVBUS && 
-                       getDL.DLType !=  (int)TypeEnum.TransportDLType.TRANS && 
-                       getDL.DLType !=  (int)TypeEnum.TransportDLType.CHASSIS )
+                    if (getDL != null)
                     {
-                        DL += 1;
+                        if (getDL.DLType != (int)TypeEnum.TransportDLType.HMV &&
+                            getDL.DLType != (int)TypeEnum.TransportDLType.HTV &&
+                            getDL.DLType != (int)TypeEnum.TransportDLType.PSVBUS &&
+                            getDL.DLType != (int)TypeEnum.TransportDLType.TRANS &&
+                            getDL.DLType != (int)TypeEnum.TransportDLType.CHASSIS)
+                        {
+                            DL += 1;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(getDL.DLValidity))
+                            {
+                                expiryDate = Convert.ToDateTime(getDL.DLValidity);
+                                if (expiryDate <= DateTime.Now)
+                                {
+                                    DL += 1;
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(getDL.DLValidity))
-                        {
-                            expiryDate = Convert.ToDateTime(getDL.DLValidity);
-                            if (expiryDate <= DateTime.Now)
-                            {
-                                DL += 1;
-                            }
-                        }
+                        DL += 1;
                     }
                 }
 

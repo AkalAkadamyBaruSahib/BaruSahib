@@ -139,7 +139,7 @@
                                                     <asp:DropDownList ID="drpZone" Width="200px" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpZone_SelectedIndexChanged">
                                                         <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
                                                     </asp:DropDownList><br />
-                                                    <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="drpZone" ErrorMessage="Please Select the Zone" />
+                                                    <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="security" ID="RequiredFieldValidator9" ForeColor="Red" ControlToValidate="drpZone" ErrorMessage="Please Select the Zone" />
                                                 </div>
                                             </div>
                                         </td>
@@ -150,7 +150,7 @@
                                                     <asp:DropDownList ID="drpAcademy" Width="200px" runat="server">
                                                         <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
                                                     </asp:DropDownList><br />
-                                                    <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator8" ForeColor="Red" ControlToValidate="drpAcademy" ErrorMessage="Please Select the Academy" />
+                                                    <asp:RequiredFieldValidator Display="None" runat="server"  InitialValue="0"  ValidationGroup="security" ID="RequiredFieldValidator8" ForeColor="Red" ControlToValidate="drpAcademy" ErrorMessage="Please Select the Academy" />
                                                 </div>
                                             </div>
 
@@ -159,8 +159,10 @@
                                             <div class="control-group">
                                                 <label class="control-label" for="typeahead">Designation:</label>
                                                 <div class="controls">
-                                                    <asp:DropDownList ID="ddlDesig" Width="200px" runat="server"></asp:DropDownList>
-                                                    <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="security" ID="RequiredFieldValidator6" ForeColor="Red" ControlToValidate="ddlDesig" ErrorMessage="Please Select the Designation" />
+                                                    <asp:DropDownList ID="ddlDesig" Width="200px" runat="server">
+                                                          <asp:ListItem Value="0">--Select Designation--</asp:ListItem>
+                                                    </asp:DropDownList>
+                                                    <asp:RequiredFieldValidator Display="None" runat="server" InitialValue="0" ValidationGroup="security" ID="RequiredFieldValidator6" ForeColor="Red" ControlToValidate="ddlDesig" ErrorMessage="Please Select the Designation" />
                                                 </div>
                                             </div>
                                         </td>

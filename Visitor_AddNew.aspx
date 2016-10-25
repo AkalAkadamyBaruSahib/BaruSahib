@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Akal Academy | Visitor Record" Language="C#" MasterPageFile="~/Visitor_AdminMaster.master"  EnableEventValidation="false" AutoEventWireup="true" CodeFile="Visitor_AddNew.aspx.cs" Inherits="Visitor_AddNew" %>
+﻿<%@ Page Title="Akal Academy | Visitor Record" Language="C#" MasterPageFile="~/Visitor_AdminMaster.master" EnableEventValidation="false" AutoEventWireup="true" CodeFile="Visitor_AddNew.aspx.cs" Inherits="Visitor_AddNew" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
@@ -103,14 +103,12 @@
             float: left;
         }
 
-         #place .selectedSeatID
-            {
-                background: url("img/booked_seat_img.gif") no-repeat scroll 0 0 transparent;
-                height: 50px;
-                width: 50px;
-                
-            }
-       
+        #place .selectedSeatID
+        {
+            background: url("img/booked_seat_img.gif") no-repeat scroll 0 0 transparent;
+            height: 50px;
+            width: 50px;
+        }
     </style>
 
     <script src="JavaScripts/Visitor.js"></script>
@@ -168,7 +166,7 @@
                                         <label class="control-label" for="typeahead">Visitor Contact Number:</label>
                                         <asp:TextBox ID="txtContactNumber" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtContactNumber" ForeColor="Red" Font-Size="13px" ErrorMessage="Please Enter only at least 10 Digit Numbers" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
-                                        <asp:RequiredFieldValidator Display="None" runat="server"  ValidationGroup="visitor" ID="RequiredFieldValidator3" ControlToValidate="txtContactNumber" ErrorMessage="Please Enter the Visitor Contact Number" />
+                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator3" ControlToValidate="txtContactNumber" ErrorMessage="Please Enter the Visitor Contact Number" />
 
                                     </td>
                                     <td width="30%" style="float: left; margin-left: 217px;">
@@ -178,6 +176,7 @@
                                         <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor"
                                             ID="RequiredFieldValidator2" ControlToValidate="txtAddress"
                                             ErrorMessage="Please enter Visitor Address" />
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="visitor" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z0-9 ]*$"></asp:RegularExpressionValidator>
 
                                     </td>
                                 </tr>
@@ -254,6 +253,7 @@
                                                     <asp:ListItem Text="Adhaar Card" Value="Adhaar Card"></asp:ListItem>
                                                     <asp:ListItem Text="Identity Card (Any)" Value="Identity Card (Any)"></asp:ListItem>
                                                 </asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ControlToValidate="drpProofType" runat="server" InitialValue="0" ValidationGroup="visitor" Display="None" ErrorMessage="Please Select the Identity proof type"></asp:RequiredFieldValidator>
                                             </div>
                                         </div>
                                     </td>
@@ -465,14 +465,14 @@
             </div>
         </div>
 
-        <div id="divRoomNumbers" class="modalFullScreen hide fade" style="display: none; width:90%; height: 600px">
+        <div id="divRoomNumbers" class="modalFullScreen hide fade" style="display: none; width: 90%; height: 600px">
             <div class="modal-header">
                 <input id="btnclose" value="Ok" style="width: 40px; float: right;" class="btn btn-primary" data-dismiss="modal" />
                 <h3>Rooms Allocation | <span id="spnBuildingName"></span></h3>
 
             </div>
-            <div style="width:100%">
-                <div class="box-content" style="width:99%; height: 99%">
+            <div style="width: 100%">
+                <div class="box-content" style="width: 99%; height: 99%">
                     <h4>Choose rooms by clicking the corresponding seat in the layout below:</h4>
                     <div style="float: left;">
                         <ul id="seatDescription">
@@ -481,7 +481,7 @@
                             <li style="background: url('img/selected_seat_img.gif') no-repeat scroll 0 0 transparent;">&nbsp;&nbsp;&nbsp;Selected Seat</li>
                         </ul>
                     </div>
-                    <div id="holder" style="width:99%; -moz-column-count: 8; -moz-column-gap: 5px; -webkit-column-count: 8; -webkit-column-gap: 5px; column-count: 8; column-gap: 5px">
+                    <div id="holder" style="width: 99%; -moz-column-count: 8; -moz-column-gap: 5px; -webkit-column-count: 8; -webkit-column-gap: 5px; column-count: 8; column-gap: 5px">
                         <ul id="place">
                         </ul>
                     </div>
