@@ -48,7 +48,7 @@ public partial class PurchasePendingReport : System.Web.UI.Page
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
 
-        if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+        if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.PURCHASECOMMITTEE))
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PendingStatusForPurchaser] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2'").Tables[0];
         }
