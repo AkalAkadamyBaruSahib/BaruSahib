@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+using System.Net;
+using System.Collections.Specialized;
+using System.Data;
+
 
 public partial class ReceptionReceipt : System.Web.UI.Page
 {
@@ -22,7 +29,6 @@ public partial class ReceptionReceipt : System.Web.UI.Page
             {
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
                 lblCurrentDate.Text = DateTime.Now.ToShortDateString();
-                lblDate.Text = DateTime.Now.ToShortDateString();
             }
         }
     }
@@ -85,11 +91,32 @@ public partial class ReceptionReceipt : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[Received]", txtReceived.Text);
         htmlCode = htmlCode.Replace("[Rupees]", txtSumofRupees.Text);
         htmlCode = htmlCode.Replace("[Cash]", txtNumber.Text == string.Empty ? "Cash" : txtNumber.Text);
-         htmlCode = htmlCode.Replace("[Account]", "Kalgidhar Trust");
+        htmlCode = htmlCode.Replace("[Account]", "Kalgidhar Trust");
         htmlCode = htmlCode.Replace("[SignatureSuprevisor]", String.Empty);
 
         pnlHtml.InnerHtml = htmlCode;
         string folderPath = Server.MapPath("Bills/VisitorReceipt/");
-        Utility.GeneratePDF(htmlCode, (txtReceived.Text + ".pdf"), folderPath + "");
+
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("content-disposition", "attachment;filename=" + txtReceived.Text + ".pdf");
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+        BaseFont f_cb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        BaseFont f_cn = BaseFont.CreateFont("c:\\windows\\fonts\\calibri.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter hw = new HtmlTextWriter(sw);
+        pnlHtml.RenderControl(hw);
+        StringReader sr = new StringReader(sw.ToString());
+        Document pdfDoc = new Document(PageSize.A4, 50, 50, 30, 30);
+        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        pdfDoc.Open();
+        htmlparser.Parse(sr);
+        pdfDoc.Close();
+        Response.Write(pdfDoc);
+
+        Response.End();
+       //Utility.GeneratePDF(htmlCode, (txtReceived.Text + ".pdf"), folderPath + "");
     }
 }

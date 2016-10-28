@@ -88,20 +88,43 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[BillNo]", hdnBillID.Value);
         htmlCode = htmlCode.Replace("[UserName]", hdnUserId.Value);
         htmlCode = htmlCode.Replace("[CurntDate]", hdnCurrentDate.Value);
-       
+
         htmlCode = htmlCode.Replace("[To]", hdnAcademy.Value);
         htmlCode = htmlCode.Replace("[Total]", hdnTotal.Value);
         htmlCode = htmlCode.Replace("[Date]", hdnCurrentDate.Value);
         htmlCode = htmlCode.Replace("[Signature]", string.Empty);
         htmlCode = htmlCode.Replace("[SignatureSuprevisor]", String.Empty);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
-         htmlCode = htmlCode.Replace("[EstimateNo]", hdnEstNo.Value);
+        htmlCode = htmlCode.Replace("[EstimateNo]", hdnEstNo.Value);
 
         pnlHtml.InnerHtml = htmlCode;
         string folderPath = Server.MapPath("WorkshopBills");
         hdnUserId.Value = hdnUserId.Value.Replace(" ", "");
         string estIDS = hdnEstNo.Value.Replace(',', '_');
-        Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + ".pdf"), folderPath);
+
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("content-disposition", "attachment;filename="+ hdnUserId.Value.Trim() + "_" + estIDS + ".pdf");
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+        BaseFont f_cb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        BaseFont f_cn = BaseFont.CreateFont("c:\\windows\\fonts\\calibri.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter hw = new HtmlTextWriter(sw);
+        pnlHtml.RenderControl(hw);
+        StringReader sr = new StringReader(sw.ToString());
+        Document pdfDoc = new Document(PageSize.A4, 50, 50, 30, 30);
+        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        pdfDoc.Open();
+        htmlparser.Parse(sr);
+        pdfDoc.Close();
+        Response.Write(pdfDoc);
+
+        Response.End();
+
+
+       // Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + ".pdf"), folderPath);
     }
 
     public string getGrid()
