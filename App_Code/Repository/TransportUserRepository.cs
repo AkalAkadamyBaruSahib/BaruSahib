@@ -36,14 +36,18 @@ public class TransportUserRepository
     {
         return _context.Vehicles.Where(v => v.AcademyID == AcaID && v.IsApproved == true)
             .Include(a => a.Academy)
-            .Include(z => z.Zone).ToList();
+            .Include(z => z.Zone)
+            .Include(ve => ve.VehicleEmployee)
+            .ToList();
     }
 
     public Vehicles GetVehicleByVehicleID(int VehicleID)
     {
         return _context.Vehicles.Where(v => v.ID == VehicleID)
             .Include(a => a.Academy)
-            .Include(z => z.Zone).FirstOrDefault();
+            .Include(z => z.Zone)
+            .Include(ve => ve.VehicleEmployee)
+            .FirstOrDefault();
     }
 
     public List<Vehicles> GetVehiclesByZoneID(int ZoneID)
@@ -99,19 +103,6 @@ public class TransportUserRepository
         param.Add("IsActive", true);
         int VehicleEmployeeID = DAL.DalAccessUtility.GetDataInScaler("procSaveTransportEmployee", param);
 
-        Vehicles newVehicles = _context.Vehicles.Where(v => v.ID == VehicleEmp.VehicleID)
-           .FirstOrDefault();
-        if (VehicleEmp.EmployeeType == 1)
-        {
-            newVehicles.DriverID = VehicleEmployeeID;
-        }
-        else
-        {
-            newVehicles.ConductorID = VehicleEmployeeID;
-        }
-        _context.Entry(newVehicles).State = EntityState.Modified;
-        _context.SaveChanges();
-
         return VehicleEmployeeID;
     }
 
@@ -152,7 +143,7 @@ public class TransportUserRepository
             employeeDTO.EmployeeType = v.EmployeeType;
             employeeDTO.MobileNumber = v.MobileNumber;
             employeeDTO.DLType = v.DLType;
-            employeeDTO.DLValidity = v.DLValidity;
+            employeeDTO.DLValidity = v.DLValidity.ToString();
             employeeDTO.CreatedOn = v.CreatedOn.ToString();
             employeeDTO.Address = v.Address;
             employeeDTO.FatherName = v.FatherName;
@@ -220,7 +211,7 @@ public class TransportUserRepository
         dto.TransportTypeID = vehicleEmployee.TransportTypeID;
         dto.MobileNumber = vehicleEmployee.MobileNumber;
         dto.DLType = vehicleEmployee.DLType;
-        dto.DLValidity = vehicleEmployee.DLValidity;
+        dto.DLValidity = vehicleEmployee.DLValidity.ToString();
         dto.Address = vehicleEmployee.Address;
         dto.FatherName = vehicleEmployee.FatherName;
         dto.DateOfBirth = vehicleEmployee.DateOfBirth.Value.ToShortDateString();
@@ -455,5 +446,37 @@ public class TransportUserRepository
     {
         return _context.Estimate.Where(e => e.IsApproved == false && e.ModuleID == ModuleID && e.IsActive == true)
         .Include(r => r.EstimateAndMaterialOthersRelations).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.MatTypeId == 49)).Count();
+    }
+
+    public List<Academy> GetAcademyByInchargeID(int InchargeID)
+    {
+        var Zones = (from z in _context.Academy
+                     join AAE in _context.AcademyAssignToEmployee on z.AcaID equals AAE.AcaId
+                     where AAE.EmpId == InchargeID
+                     select new
+                     {
+                         AcaID = z.AcaID,
+                         AcaName = z.AcaName,
+
+                     }).AsEnumerable().Select(x => new Academy
+                     {
+                         AcaID = x.AcaID,
+                         AcaName = x.AcaName,
+                     }).OrderBy(m => m.AcaName).ToList();
+
+        Zones = Zones.GroupBy(test => test.AcaID)
+                   .Select(grp => grp.First())
+                   .ToList();
+        return Zones;
+    }
+
+    public List<Vehicles> GetVehiclesByAcademyID(int AcaID)
+    {
+        return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true).ToList();
+    }
+
+    public Vehicles GetVehiclesInfoByVehicleID(int VehicleID)
+    {
+        return _context.Vehicles.Where(v => v.ID == VehicleID).Include(t => t.TransportTypes).Include(ve=>ve.VehicleEmployee).FirstOrDefault();
     }
 }

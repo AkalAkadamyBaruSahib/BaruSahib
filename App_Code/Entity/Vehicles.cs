@@ -43,8 +43,6 @@ public class Vehicles
     public string RearRightTyre2Condition { get; set; }
     public string RearLeftTyre2Condition { get; set; }
     public int? NumberOfTypres { get; set; }
-    public int? DriverID { get; set; }
-    public int? ConductorID { get; set; }
     public int? VehicleContractRate { get; set; }
     public decimal? VehicleAverage { get; set; }
 
@@ -59,4 +57,6 @@ public class Vehicles
     [ForeignKey("TypeID")]
     public TransportTypes TransportTypes { get; set; }
 
+    public List<VehicleEmployee> VehicleEmployee { get; set; }
+  
 }

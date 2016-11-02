@@ -60,10 +60,6 @@ public class VehiclesDTO
 
     public int? NumberOfTypres { get; set; }
 
-    public int? ConductorID { get; set; }
-
-    public int? DriverID { get; set; }
-
     public int? VehicleContractRate { get; set; }
 
     public decimal? VehicleAverage { get; set; }

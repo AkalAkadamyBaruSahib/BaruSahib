@@ -268,7 +268,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                     }
                 }
 
-                
+
                 if (v.TypeID != (int)(TypeEnum.TransportType.Twowheeler))
                 {
                     getDL = trepository.GetEmployeeByVehicleID(v.ID, (int)TypeEnum.TransportVehicleEmployeeType.Driver);
@@ -284,13 +284,13 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         }
                         else
                         {
-                            if (!string.IsNullOrEmpty(getDL.DLValidity))
+                            if (getDL.DLValidity != null)
                             {
-                                expiryDate = Convert.ToDateTime(getDL.DLValidity);
-                                if (expiryDate <= DateTime.Now)
-                                {
-                                    DL += 1;
-                                }
+                               expiryDate = Convert.ToDateTime(getDL.DLValidity);
+                               if (expiryDate <= DateTime.Now)
+                               {
+                                   DL += 1;
+                               }
                             }
                         }
                     }
@@ -332,12 +332,19 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                 {
                     if (v.Sitter > 17)
                     {
-                        if ((v.ConductorID == null) || (v.ConductorID == 0))
+                        if (v.VehicleEmployee == null)
                         {
                             MaleConductor += 1;
                         }
+                        else
+                        {
+                            var ConductorID = v.VehicleEmployee.Where(x => x.EmployeeType == (int)TypeEnum.TransportVehicleEmployeeType.Conductor).FirstOrDefault();
+                            if (ConductorID == null)
+                            {
+                                MaleConductor += 1;
+                            }
+                        }
                     }
-                   
                 }
             }
 
@@ -437,14 +444,22 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
             {
                 if (vehicle.Sitter > 17)
                 {
-                    if ((vehicle.ConductorID == null) || (vehicle.ConductorID == 0))
+                    if (vehicle.VehicleEmployee == null)
                     {
                         PendingConductor = "Pending";
-
                     }
                     else
                     {
-                        PendingConductor = "";
+                        var ConductorID = vehicle.VehicleEmployee.Where(x => x.EmployeeType == (int)TypeEnum.TransportVehicleEmployeeType.Conductor).FirstOrDefault();
+                        if (ConductorID == null)
+                        {
+                            PendingConductor = "Pending";
+
+                        }
+                        else
+                        {
+                            PendingConductor = "";
+                        }
                     }
                 }
                 else
@@ -620,9 +635,10 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
                         getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.PSVBUS) ||
                         getDL.DLType == Convert.ToInt32(TypeEnum.TransportDLType.HTV))
                     {
-                        if (!string.IsNullOrEmpty(getDL.DLValidity))
+                        if (getDL.DLValidity != null)
                         {
-                            var row8 = Convert.ToDateTime(getDL.DLValidity) <= DateTime.Now;
+                            string x = getDL.DLValidity.Value.ToString("MM-dd-yyyy");
+                            var row8 = Convert.ToDateTime(x) <= DateTime.Now;
                             if (row8 != null && (row8))
                             {
                                 PendingDL = "Pending";

@@ -28,7 +28,7 @@ public class VehicleEmployee
 
     public int? DLType { get; set; }
 
-    public string DLValidity { get; set; }
+    public DateTime? DLValidity { get; set; }
 
     public DateTime? CreatedOn { get; set; }
 

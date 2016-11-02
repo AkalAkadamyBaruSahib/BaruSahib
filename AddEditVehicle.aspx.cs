@@ -204,16 +204,19 @@ public partial class AddVehicle : System.Web.UI.Page
         ddlTransportType.ClearSelection();
         ddlTransportType.Items.FindByValue(vehicle.TypeID.ToString()).Selected = true;
 
-        if (!String.IsNullOrEmpty(vehicle.DriverID.ToString()) && vehicle.DriverID != -1)
+        var DriverID = vehicle.VehicleEmployee.Where(x => x.EmployeeType == (int)TypeEnum.TransportVehicleEmployeeType.Driver).FirstOrDefault();
+        var ConductorID = vehicle.VehicleEmployee.Where(x => x.EmployeeType == (int)TypeEnum.TransportVehicleEmployeeType.Conductor).FirstOrDefault();
+
+        if (DriverID!=null)
         {
             ddlDriverName.ClearSelection();
-            ddlDriverName.Items.FindByValue(vehicle.DriverID.ToString()).Selected = true;
+            ddlDriverName.Items.FindByValue(DriverID.ID.ToString()).Selected = true;
         }
 
-        if (!String.IsNullOrEmpty(vehicle.ConductorID.ToString()))
+        if (ConductorID!=null)
         {
             ddlConductorName.ClearSelection();
-            ddlConductorName.Items.FindByValue(vehicle.ConductorID.ToString()).Selected = true;
+            ddlConductorName.Items.FindByValue(ConductorID.ID.ToString()).Selected = true;
         }
 
         //string VehicleNumber = txtVehicleNo1.Text + "-" + txtVehicleNo2.Text + "-" + txtVehicleNo3.Text + "-" + txtVehicleNo4.Text;
@@ -362,7 +365,7 @@ public partial class AddVehicle : System.Web.UI.Page
             if (isVehicleExists.Tables[0].Rows.Count == 0 || VehicleID > -1)
             {
 
-                long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + ddlConductorName.SelectedValue + "," + ddlDriverName.SelectedValue + "," + txtContractRate.Text + "," +txtAverage.Text);
+                long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + txtContractRate.Text + "," + txtAverage.Text);
 
                 if (VehicleID == -1)
                 {
