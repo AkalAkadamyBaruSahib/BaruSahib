@@ -64,10 +64,10 @@ public class VisitorUserController : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public List<RoomNumbers> GetRoomList(int BuildingID)
+    public List<RoomNumbers> GetRoomList(int BuildingID, int VisitorType)
     {
         VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
-        return repository.GetRoomList(BuildingID);
+        return repository.GetRoomList(BuildingID, VisitorType);
     }
 
     [WebMethod]

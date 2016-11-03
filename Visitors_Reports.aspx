@@ -27,6 +27,17 @@
                 return false;
             }
         }
+
+        function ReportOnChange(control) {
+            if (control.value == "1") {
+                $("#divCheckInDate").show();
+            }
+
+            else {
+                $("#divCheckInDate").hide();
+            }
+        }
+
     </script>
     <div class="box span10">
 
@@ -41,58 +52,21 @@
         <div class="box-content">
             <div id="divDesigDetails" runat="server">
 
-                <table border="0" width="100%">
-                    <%--class="table table-striped table-bordered bootstrap-datatable datatable"--%>
-                    <tbody>
-                        <tr>
-                            <td width="50%">
-                                <div class="control-group" id="divFilterData" runat="server">
-                                    <label class="control-label" for="typeahead">Filter By:</label>
-                                    <div class="controls">
-                                        <asp:DropDownList ID="drpFilterData" runat="server" AutoPostBack="True" OnSelectedIndexChanged="drpFilterData_SelectedIndexChanged">
-                                            <asp:ListItem Text="" Value="NULL">--Select One--</asp:ListItem>
-                                            <%--   <asp:ListItem Text="Visitors" Value="Visitors"></asp:ListItem>
-                                                    <asp:ListItem Text="Sewadar" Value="Sewadar"></asp:ListItem>
-                                                    <asp:ListItem Text="Employee" Value="Employee"></asp:ListItem>--%>
-                                            <asp:ListItem Text="Date" Value="Date"></asp:ListItem>
-                                            <%--  <asp:ListItem Text="Reference By" Value="Reference By"></asp:ListItem>
-                                                    <asp:ListItem Text="Room According" Value="Room According"></asp:ListItem>--%>
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="control-group" id="divCheckOutDate" runat="server">
-                                    <label class="control-label" for="typeahead">Check Out Date:</label>
-                                    <asp:TextBox runat="server" ID="txtCheckOutDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
-                                </div>
-                            </td>
-                            <td width="50%">
-                                <div class="control-group" id="divCheckInDate" runat="server">
-                                    <label class="control-label" for="typeahead">Check In Date:</label>
-                                    <asp:TextBox runat="server" ID="txtCheckInDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
-                                </div>
-                            </td>
-
-
-
-                        </tr>
-                        <tr>
-                            <td width="50%">
-                                <div class="control-group" id="divName" runat="server">
-                                    <label class="control-label" for="typeahead">Name:</label>
-                                    <div class="controls">
-                                        <asp:DropDownList ID="ddlName" runat="server">
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="control-group" id="divFilterData" runat="server">
+                    <label class="control-label" for="typeahead">Filter By:</label>
+                    <div class="controls">
+                        <asp:DropDownList ID="drpFilterData" runat="server" onchange="ReportOnChange(this);">
+                            <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
+                            <asp:ListItem Text="According Date" Value="1"></asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="control-group" id="divCheckInDate" style="display: none">
+                    <label class="control-label" for="typeahead">Check In Date:</label>
+                    <asp:TextBox runat="server" ID="txtCheckInDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
+                    <label class="control-label" for="typeahead">Check Out Date:</label>
+                    <asp:TextBox runat="server" ID="txtCheckOutDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
+                </div>
             </div>
             <div>
                 <asp:Button ID="btnDownload" runat="server" Text="Click To Download Report in Excel Sheet" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="355px" />

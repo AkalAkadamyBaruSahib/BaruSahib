@@ -248,9 +248,20 @@ public class VisitorUserRepository
         return result;
     }
 
-    public List<RoomNumbers> GetRoomList(int BuildingID)
+    public List<RoomNumbers> GetRoomList(int BuildingID, int VisitorType)
     {
-        return _context.RoomNumbers.Where(r => r.BuildingID == BuildingID).ToList();
+        List<RoomNumbers> roomList = new List<RoomNumbers>();
+
+        if (VisitorType == (int)TypeEnum.VisitoryType.Visitor)
+        {
+            roomList = _context.RoomNumbers.Where(r => r.BuildingID == BuildingID && r.IsPermanent == false).ToList();
+        }
+        else
+        {
+            roomList = _context.RoomNumbers.Where(r => r.BuildingID == BuildingID).ToList();
+        }
+
+        return roomList;
     }
 
     public void CheckOutVisitor(int VisitorID)

@@ -159,4 +159,11 @@ public class TypeEnum
         ByCheque = 2,
         ByDD = 3
     }
+
+    public enum VisitoryType : int
+    {
+        Visitor = 1,
+        Sewadar = 2,
+        Employee = 3
+    }
 }

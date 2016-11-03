@@ -35,9 +35,9 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             {
                 UserID = Convert.ToInt16(Session["InchargeID"].ToString());
             }
-            if (Request.QueryString["VisitorsId"] != null)
+            if (Request.QueryString["VisitorType"] != null)
             {
-                visitorType = Request.QueryString["VisitorsId"].ToString();
+                visitorType = Request.QueryString["VisitorType"].ToString();
                 if (visitorType == "1")
                 {
                     BindNewVisitor();
@@ -47,6 +47,8 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 {
                     BindPermanentEmp();
                 }
+
+                hdnVisitorType.Value = visitorType;
             }
             BindVisitorType();
             // ddlntypeofvisitor.Items.FindByValue("1").Selected = true;
@@ -154,9 +156,9 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         {
 
             string FileEx = System.IO.Path.GetExtension(fileUploadIdentity.FileName);
-            string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtName.Text + "_" + drpProofType.SelectedItem.Text + FileEx);
+            string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtName.Text + "_" + txtContactNumber.Text + FileEx);
             fileUploadIdentity.PostedFile.SaveAs(visitorfilepath);
-            visitor.IdentificationPath = "VisitorProof/" + txtName.Text + "_" + drpProofType.SelectedItem.Text + FileEx;
+            visitor.IdentificationPath = "VisitorProof/" + txtName.Text + "_" + txtContactNumber.Text + FileEx;
         }
         else
         {
@@ -185,7 +187,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         {
             visitor.VisitorsAuthorityLetter = "";
         }
-        if (ddlRoomRent.SelectedValue != "0")
+        if (ddlRoomRent.SelectedValue != "-1")
         {
             visitor.RoomRent = int.Parse(ddlRoomRent.SelectedValue);
         }

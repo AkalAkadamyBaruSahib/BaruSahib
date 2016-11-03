@@ -106,20 +106,20 @@ function EnableDisabledValidator()
     };
 }
 
-function GetAllRoomList(selectedValue)
-{
+function GetAllRoomList(selectedValue) {
     var BuildingName = $("#drpbuilding option:selected").text();
     // Get All Rooms
+    var VisitoryType = $("input[id*='hdnVisitorType']").val()
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/VisitorUserController.asmx/GetRoomList",
-        data: JSON.stringify({ BuildingID: parseInt(selectedValue) }),
+        data: JSON.stringify({ BuildingID: parseInt(selectedValue), VisitorType: parseInt(VisitoryType) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var seatNo = result.d;
-
                 init(bookedSeats, seatNo);
                 $('#divRoomNumbers').modal('show');
                 $("#spnBuildingName").text(BuildingName);

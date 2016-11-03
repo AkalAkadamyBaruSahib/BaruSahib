@@ -134,6 +134,7 @@
         <asp:HiddenField ID="hdnNewSeats" runat="server" />
         <asp:HiddenField ID="hdnBuildingID" runat="server" />
         <asp:HiddenField ID="hdnVisitorID" runat="server" />
+        <asp:HiddenField ID="hdnVisitorType" runat="server" />
 
         <div class="row-fluid sortable" runat="server" id="divAllotment">
             <div class="box span12">
@@ -253,7 +254,6 @@
                                                     <asp:ListItem Text="Adhaar Card" Value="Adhaar Card"></asp:ListItem>
                                                     <asp:ListItem Text="Identity Card (Any)" Value="Identity Card (Any)"></asp:ListItem>
                                                 </asp:DropDownList>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ControlToValidate="drpProofType" runat="server" InitialValue="0" ValidationGroup="visitor" Display="None" ErrorMessage="Please Select the Identity proof type"></asp:RequiredFieldValidator>
                                             </div>
                                         </div>
                                     </td>
@@ -298,8 +298,8 @@
                                             <label class="control-label" for="typeahead">Upload Identity Proof:</label>
                                             <div class="controls">
                                                 <asp:FileUpload ID="fileUploadIdentity" runat="server" />
-                                                <asp:RequiredFieldValidator ID="rerurduploadimage" ControlToValidate="fileUploadIdentity" runat="server" ValidationGroup="visitor" Display="None" ErrorMessage="Please Upload the Id Proof"></asp:RequiredFieldValidator>
-                                                <a id="aIdentityProof" style="font-size: 13px;" target="_blank">Visitor Proof</a>
+                                                <%--       <asp:RequiredFieldValidator ID="rerurduploadimage" ControlToValidate="fileUploadIdentity" runat="server" ValidationGroup="visitor" Display="None" ErrorMessage="Please Upload the Id Proof"></asp:RequiredFieldValidator>
+                                                --%>         <a id="aIdentityProof" style="font-size: 13px;" target="_blank">Visitor Proof</a>
                                             </div>
                                         </div>
                                     </td>
@@ -395,8 +395,8 @@
                                             <label class="control-label" for="typeahead">Room Rent:</label>
                                             <div class="controls">
                                                 <asp:DropDownList ID="ddlRoomRent" runat="server">
-                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
-                                                    <asp:ListItem Text="Free" Value="1"></asp:ListItem>
+                                                    <asp:ListItem Text="" Value="-1">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="Free" Value="0"></asp:ListItem>
                                                     <asp:ListItem Text="100" Value="100"></asp:ListItem>
                                                     <asp:ListItem Text="500" Value="500"></asp:ListItem>
 
@@ -420,10 +420,11 @@
                                             <div class="control-group">
                                                 <label class="control-label" for="typeahead">From:</label>
                                                 <asp:TextBox runat="server" ID="txtfirstDate" CssClass="input-xlarge datepicker" Style="width: 80px; height: 20px;"></asp:TextBox>
-                                               
+
                                                 <label class="control-label" for="typeahead">To:</label>
-                                                <asp:TextBox runat="server" ID="txtlastDate" CssClass="input-xlarge datepicker" Style="width: 80px; height: 20px;"></asp:TextBox>  <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red"  ControlToValidate="txtfirstDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red"  ControlToValidate="txtlastDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                <asp:TextBox runat="server" ID="txtlastDate" CssClass="input-xlarge datepicker" Style="width: 80px; height: 20px;"></asp:TextBox>
+                                                <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtfirstDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtlastDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
                                             </div>
 
                                         </div>

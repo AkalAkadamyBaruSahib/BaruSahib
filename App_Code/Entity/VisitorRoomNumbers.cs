@@ -52,4 +52,6 @@ public class RoomNumbers
 
     [ForeignKey("BuildingID")]
     public BuildingName BuildingName { get; set; }
+
+    public bool? IsPermanent { get; set; }
 }

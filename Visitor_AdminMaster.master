@@ -117,8 +117,8 @@
                             <li><a class="ajax-link" href="Visitor_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet"><b>HOME</b></span></a></li>
                             <li id="liGeography" runat="server"><a href="#"><i class="icon-edit"></i><span class="hidden-tablet"><b>VISITORS</b></span></a>
                                 <ul>
-                                    <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorsId=1"><span class="hidden-tablet">Add New Visitor</span></a></li>
-                                    <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorsId=2"><span class="hidden-tablet">Add Permanent Employee</span></a></li>
+                                    <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorType=1"><span class="hidden-tablet">Add New Visitor</span></a></li>
+                                    <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorType=2"><span class="hidden-tablet">Add Permanent Employee</span></a></li>
                                 </ul>
                             </li>
                             <li><a href="#"><i class="icon-folder-open"></i><span class="hidden-tablet"><b>VISITORS DETAIL</b></span></a>
