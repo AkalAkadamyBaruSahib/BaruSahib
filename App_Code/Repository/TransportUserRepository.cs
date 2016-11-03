@@ -61,7 +61,7 @@ public class TransportUserRepository
     {
         return _context.Vehicles.Where(v => v.ZoneID == ZoneID && v.IsApproved == IsApproved)
             .Include(a => a.Academy)
-            .Include(z => z.Zone).Include(t => t.TransportTypes).OrderByDescending(v => v.AcademyID).ToList();
+            .Include(z => z.Zone).Include(t => t.TransportTypes).Include(ve => ve.VehicleEmployee).OrderByDescending(v => v.AcademyID).ToList();
     }
 
     public List<Vehicles> GetAllVehiclesByZoneID(int ZoneID)
