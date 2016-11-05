@@ -75,16 +75,6 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             drpCountry.Items.Insert(0, new ListItem("--Select Country--", "0"));
         }
         dtTemp.Clear();
-        dtTemp = repo.GetStateByCountryID(15);
-
-        if (dtTemp != null && dtTemp.Rows.Count > 0)
-        {
-            drpState.DataSource = dtTemp;
-            drpState.DataValueField = "StateID";
-            drpState.DataTextField = "StateName";
-            drpState.DataBind();
-            drpState.Items.Insert(0, new ListItem("--Select State--", "0"));
-        }
     }
 
     private void BindVisitorType()
@@ -359,6 +349,23 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             drpCity.DataTextField = "CityName";
             drpCity.DataBind();
             drpCity.Items.Insert(0, new ListItem("--Select City--", "0"));
+        }
+    }
+    protected void drpCountry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DataTable dtTemp = new DataTable();
+        UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
+
+        int countryID = int.Parse(drpCountry.SelectedValue);
+        dtTemp = repo.GetStateByCountryID(countryID);
+
+        if (dtTemp != null && dtTemp.Rows.Count > 0)
+        {
+            drpState.DataSource = dtTemp;
+            drpState.DataValueField = "StateID";
+            drpState.DataTextField = "StateName";
+            drpState.DataBind();
+            drpState.Items.Insert(0, new ListItem("--Select State--", "0"));
         }
     }
 }

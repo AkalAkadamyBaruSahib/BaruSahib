@@ -167,7 +167,7 @@
                                         <label class="control-label" for="typeahead">Visitor Contact Number:</label>
                                         <asp:TextBox ID="txtContactNumber" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtContactNumber" ForeColor="Red" Font-Size="13px" ErrorMessage="Please Enter only at least 10 Digit Numbers" ValidationExpression="[0-9]{10}"></asp:RegularExpressionValidator>
-                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator3" ControlToValidate="txtContactNumber" ErrorMessage="Please Enter the Visitor Contact Number" />
+                                        <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator3" ControlToValidate="txtContactNumber" ErrorMessage="Please enter the Visitor Contact Number" />
 
                                     </td>
                                     <td width="30%" style="float: left; margin-left: 217px;">
@@ -187,9 +187,11 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Country:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="drpCountry" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="drpCountry" runat="server" OnSelectedIndexChanged="drpCountry_SelectedIndexChanged" AutoPostBack="true" >
+                                                       <asp:ListItem Value="0">Select Country</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator1"
-                                                    ControlToValidate="drpCountry" InitialValue="0" ErrorMessage="Please Enter the Country" />
+                                                    ControlToValidate="drpCountry" InitialValue="0" ErrorMessage="Please select the Country" />
                                             </div>
                                         </div>
 
@@ -198,9 +200,11 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">State:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="drpState" AutoPostBack="true" OnSelectedIndexChanged="drpState_SelectedIndexChanged" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="drpState" AutoPostBack="true" OnSelectedIndexChanged="drpState_SelectedIndexChanged" runat="server">
+                                                    <asp:ListItem Value="0">Select State</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator4"
-                                                    ControlToValidate="drpState" InitialValue="0" ErrorMessage="Please Enter the State" />
+                                                    ControlToValidate="drpState" InitialValue="0" ErrorMessage="Please select the State" />
                                             </div>
                                         </div>
                                     </td>
@@ -208,9 +212,11 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">City:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="drpCity" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="drpCity" runat="server">
+                                                       <asp:ListItem Value="0">Select City</asp:ListItem>
+                                                </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator6"
-                                                    ControlToValidate="drpCity" InitialValue="0" ErrorMessage="Please Enter the City" />
+                                                    ControlToValidate="drpCity" InitialValue="0" ErrorMessage="Please select the City" />
                                             </div>
                                         </div>
                                     </td>

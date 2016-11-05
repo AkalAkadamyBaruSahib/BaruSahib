@@ -61,8 +61,13 @@ function LoadVisitors() {
                     $newRow.find("#Rooms").html("<table><tr><td><b>Building Name :</b> " + adminLoanList[i].BuildingName + "</td></tr><tr><td><b>RoomNumber(s):</b> " + adminLoanList[i].RoomNumbers + "</td></tr><tr><td><a href='#' class='warning' onclick='CheckOutRoom(" + adminLoanList[i].ID + ")'>Check-Out</a></td></tr></table>"); //(adminLoanList[i].Rooms);
                     $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
                     $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
-                    var url=location.href.substring(0, location.href.lastIndexOf("/")+1);
-                    $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                    var url = location.href.substring(0, location.href.lastIndexOf("/") + 1);
+                    if (adminLoanList[i].IdentificationPath == "") {
+                        $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                    }
+                    else {
+                        $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                    }
                     $newRow.addClass(className);
                     $newRow.show();
 
@@ -233,8 +238,12 @@ function LoadVisitorsByVisitorTypeID(selectedValue) {
                     $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
                     $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
                     var url = location.href.substring(0, location.href.lastIndexOf("/") + 1);
+                    if (adminLoanList[i].IdentificationPath != "") {
                     $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
-
+                    }
+                    else {
+                        $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                    }
                     //                    $newRow.addClass(className);
                     $newRow.show();
                     if (i == 0) {
