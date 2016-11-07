@@ -38,15 +38,15 @@ public partial class Visitors_Alert : System.Web.UI.Page
 
         divNotification.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
-     
-        ZoneInfo += "<table class='table table-striped alert alert-info'>";
+
+        ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
-        ZoneInfo += "<th width='20%'>Name</th>";
-        ZoneInfo += "<th width='20%'>Contact Number</th>";
-        ZoneInfo += "<th width='20%'>Building Name</th>";
-        ZoneInfo += "<th width='20%'>Room Numbers</th>";
-        ZoneInfo += "<th width='20%'>Action</th>";
+        ZoneInfo += "<th width='20%' style='color: #cc3300;'>Name</th>";
+        ZoneInfo += "<th width='20%' style='color: #cc3300;'>Contact Number</th>";
+        ZoneInfo += "<th width='20%' style='color: #cc3300;'>Building Name</th>";
+        ZoneInfo += "<th width='20%' style='color: #cc3300;'>Room Numbers</th>";
+        ZoneInfo += "<th width='20%' style='color: #cc3300;'>Action</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>"; 
      
@@ -59,14 +59,17 @@ public partial class Visitors_Alert : System.Web.UI.Page
             ZoneInfo += "<tr>";
             ZoneInfo += "<td width='20%'>" + visitor.Name + "</td>";
             ZoneInfo += "<td width='20%'>" + visitor.ContactNumber + "</td>";
-            ZoneInfo += "<td width='20%'>" + visitor.VisitorRoomNumbers[0].RoomNumbers.BuildingName.Name + "</td>";
-            foreach (VisitorRoomNumbers room in visitor.VisitorRoomNumbers)
+            if (visitor.VisitorRoomNumbers.Count > 0)
             {
-                roomnumbers += room.RoomNumbers.Number + ",";
-            }
-            if (roomnumbers.Length > 1)
-            {
-                roomnumbers = roomnumbers.Substring(0, roomnumbers.Length - 1);
+                ZoneInfo += "<td width='20%'>" + visitor.VisitorRoomNumbers[0].RoomNumbers.BuildingName.Name + "</td>";
+                foreach (VisitorRoomNumbers room in visitor.VisitorRoomNumbers)
+                {
+                    roomnumbers += room.RoomNumbers.Number + ",";
+                }
+                if (roomnumbers.Length > 1)
+                {
+                    roomnumbers = roomnumbers.Substring(0, roomnumbers.Length - 1);
+                }
             }
             ZoneInfo += "<td width='20%'>" + roomnumbers + "</td>";
             ZoneInfo += "<td  width='15%' class='center'><a href='Visitors_Alert.aspx?visitorIDCheckOut=" + visitor.ID + "'>Check Out</a></td>";

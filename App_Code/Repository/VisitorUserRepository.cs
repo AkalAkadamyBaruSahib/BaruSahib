@@ -406,7 +406,7 @@ public class VisitorUserRepository
     public List<Visitors> GetUnCheckOutVisitor(DateTime date, bool isActive)
     {
 
-        List<Visitors> visitors = _context.Visitors.Where(v => v.TimePeriodTo < date && v.IsActive == isActive)
+        List<Visitors> visitors = _context.Visitors.Where(v => v.TimePeriodTo < date && v.IsActive == isActive && v.VisitorTypeID == (int)TypeEnum.VisitoryType.Visitor)
                             .Include(r => r.VisitorRoomNumbers)
                             .Include(o => o.VisitorRoomNumbers.Select(emp => emp.RoomNumbers))
                             .Include(o => o.VisitorRoomNumbers.Select(emp => emp.RoomNumbers.BuildingName))
