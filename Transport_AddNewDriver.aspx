@@ -31,7 +31,8 @@
         }
     </style>
     <asp:HiddenField ID="hdnvehicleEmployeeID" runat="server" />
-
+    <asp:HiddenField ID="hdnvehicleIDExit" runat="server" />
+    <asp:HiddenField ID="hdnEmployeeType" runat="server" />
     <div id="content" class="span10">
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -55,14 +56,17 @@
                             <table id="tabledata" width="100%">
                                 <tr>
                                     <td>
-                                        <div class="control-group" id="div2">
-                                            <label class="control-label" for="typeahead">Transport Type:</label>
+                                        <div class="control-group" id="divemptype">
+                                            <label class="control-label" for="typeahead">Employee Type:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="drpTransportType" runat="server" Style="width: 200px; height: 25px;">
+                                                <asp:DropDownList ID="drpEmployeeType" runat="server" Style="width: 200px; height: 25px;">
+                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
+                                                    <asp:ListItem Text="Driver" Value="1"></asp:ListItem>
+                                                    <asp:ListItem Text="Conductor" Value="2"></asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator1"
-                                                ControlToValidate="drpTransportType" InitialValue="0" ErrorMessage="Please Select The  Transport Type" ForeColor="Red">*</asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_drpEmpLoyeeType"
+                                                ControlToValidate="drpEmpLoyeeType" InitialValue="0" ErrorMessage="Please Select The  Employee Type" ForeColor="Red">*</asp:RequiredFieldValidator>
                                         </div>
                                     </td>
                                     <td>
@@ -77,19 +81,17 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="control-group" id="divemptype">
-                                            <label class="control-label" for="typeahead">Employee Type:</label>
+                                        <div class="control-group" id="div2">
+                                            <label class="control-label" for="typeahead">Transport Type:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="drpEmployeeType" runat="server" Style="width: 200px; height: 25px;">
-                                                    <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
-                                                    <asp:ListItem Text="Driver" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="Conductor" Value="2"></asp:ListItem>
+                                                <asp:DropDownList ID="drpTransportType" runat="server" Style="width: 200px; height: 25px;">
                                                 </asp:DropDownList>
                                             </div>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_drpEmpLoyeeType"
-                                                ControlToValidate="drpEmpLoyeeType" InitialValue="0" ErrorMessage="Please Select The  Employee Type" ForeColor="Red">*</asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator1"
+                                                ControlToValidate="drpTransportType" InitialValue="0" ErrorMessage="Please Select The  Transport Type" ForeColor="Red">*</asp:RequiredFieldValidator>
                                         </div>
                                     </td>
+
 
 
                                 </tr>
@@ -123,7 +125,7 @@
                                             <div class="controls">
                                                 <asp:TextBox ID="txtDateOfBirth" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="driver" ID="RequiredFieldValidator_txtDateOfBirth" ControlToValidate="txtDateOfBirth" ErrorMessage="Please Enter The Date Of Birth" />
-                                                <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red"  ControlToValidate="txtDateOfBirth" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtDateOfBirth" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
                                             </div>
                                         </div>
                                     </td>
@@ -189,7 +191,7 @@
                                             <label class="control-label" for="typeahead">DL Validity:</label>
                                             <div class="controls">
                                                 <asp:TextBox ID="txtdlvalidity" runat="server" CssClass="input-xlarge datepicker" Style="width: 190px; height: 18px;"></asp:TextBox><br />
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red"  ControlToValidate="txtdlvalidity" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtdlvalidity" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
 
                                             </div>
                                         </div>

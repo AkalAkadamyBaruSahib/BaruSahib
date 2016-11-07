@@ -479,4 +479,8 @@ public class TransportUserRepository
     {
         return _context.Vehicles.Where(v => v.ID == VehicleID).Include(t => t.TransportTypes).Include(ve=>ve.VehicleEmployee).FirstOrDefault();
     }
+    public VehicleEmployee GetVehicleEmployeeInfo(int VehicleID, int EmpType)
+    {
+        return _context.VehicleEmployee.Where(v => v.VehicleID == VehicleID && v.EmployeeType == EmpType).FirstOrDefault();
+    }
 }

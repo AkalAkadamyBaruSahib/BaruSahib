@@ -150,6 +150,9 @@ $(document).ready(function () {
         $("div[id*='divEstimateDetails']").show();
         $("#divTransportGps").hide();
     });
+    $("select[id*='ddlVehicleNumber']").change(function () {
+        VehicleNumberValidation($(this).val(), $("select[id*='drpEmployeeType']").val());
+    });
 });
     
     function DisableDLControl() {
@@ -767,21 +770,41 @@ $(document).ready(function () {
             $("#fCompanyDetail").show();
         }
     }
+   
 
-    function Validation() {
-        if ($("select[id*='drpDlType']").val() == "undefined" || $("select[id*='drpDlType']").val() == "0") {
-            alert("Please Select the DL Type");
+    function VehicleNumberValidation(vehicleID) {
+        if ($("select[id*='drpEmployeeType']").val() == "undefined" || $("select[id*='drpEmployeeType']").val() == "0") {
+            alert("Please Select the Employee Type");
+            $("select[id*='drpEmployeeType']").val("");
+            $("select[id*='ddlVehicleNumber']").val("");
             return false;
         }
-        else if ($("input[id*='txtdlvalidity']").val() == "" || $("input[id*='txtdlvalidity']").val() == "0") {
-            alert("Please Enter the DL Validity");
-            return false;
-        }
-        else if ($("input[id*='txtDlNumber']").val() == "" || $("input[id*='txtDlNumber']").val() == "0") {
-            alert("Please Enter the DL Number");
-            return false;
-        }
-        return true;
+
+        var empTypeID = $("select[id*='drpEmployeeType']").val();
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "Services/TransportController.asmx/GetVehicleEmployeeInfo",
+            data: JSON.stringify({ VehicleID: parseInt(vehicleID), EmpType: empTypeID }),
+            dataType: "json",
+            success: function (responce) {
+                var rdata = responce.d;
+                if (rdata != undefined) {
+                    if (rdata.EmployeeType == 1) {
+                        alert("Driver " + rdata.Name + " already assign to this vehicle.");
+                    }
+                    else {
+                        alert("Conductor " + rdata.Name + " already assign to this vehicle.");
+                    }
+                    $("select[id*='ddlVehicleNumber']").val("");
+                    $("select[id*='drpEmployeeType']").val("");
+                }
+            },
+            error: function (result, textStatus) {
+                alert(result.responseText);
+            }
+        });
     }
    
 
