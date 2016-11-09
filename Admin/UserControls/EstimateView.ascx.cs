@@ -226,6 +226,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             ZoneInfo += "<td width='5%'>" + dtapproved.Rows[i]["EstId"].ToString() + "</td>";
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Estimate File</b>: <a href='" + dtapproved.Rows[i]["FilePath"].ToString() + "' target='_blank'>" + dtapproved.Rows[i]["FileNme"].ToString() + "</a></td></tr></table></td>";
             ZoneInfo += "<td class='center'width='30%'><table>";
+            
             if (ModuleID == (int)(TypeEnum.Module.Transport))
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
@@ -238,8 +239,10 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='Admin_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
+
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dtapproved.Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
-            ZoneInfo += "<tr><td><b>Sanction Date:</b> " + dtapproved.Rows[i]["dt"].ToString() + "</td></tr>";
+
+            ZoneInfo += "<tr><td><b>Sanction Date:</b> " + Utility.GetLocalDateTime(Convert.ToDateTime(dtapproved.Rows[i]["dt"].ToString())) + "</td></tr>";
             if (ModuleID == (int)(TypeEnum.Module.Transport))
             {
                 ZoneInfo += "<tr><td><a class='btn btn-danger' href='Transport_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";

@@ -28,15 +28,28 @@
             }
         }
 
-        function ReportOnChange(control) {
-            if (control.value == "1") {
-                $("#divCheckInDate").show();
-            }
-
-            else {
-                $("#divCheckInDate").hide();
-            }
-        }
+        //function ReportOnChange(control) {
+        //    if (control.value == "1") {
+        //        $("#divCheckInDate").show();
+        //        $("#divEmptyRoomList").hide();
+        //        $("#divPlaces").hide();
+        //    }
+        //    else if (control.value == "2") {
+        //        $("#divCheckInDate").hide();
+        //        $("#divEmptyRoomList").show();
+        //        $("#divPlaces").hide();
+        //    }
+        //    else if (control.value == "3") {
+        //        $("#divCheckInDate").hide();
+        //        $("#divEmptyRoomList").hide();
+        //        $("#divPlaces").show();
+        //    }
+        //    else {
+        //        $("#divCheckInDate").hide();
+        //        $("#divEmptyRoomList").hide();
+        //        $("#divPlaces").hide();
+        //    }
+        //}
 
     </script>
     <div class="box span10">
@@ -54,22 +67,47 @@
 
                 <div class="control-group" id="divFilterData" runat="server">
                     <label class="control-label" for="typeahead">Filter By:</label>
-                    <div class="controls">
-                        <asp:DropDownList ID="drpFilterData" runat="server" onchange="ReportOnChange(this);">
-                            <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
-                            <asp:ListItem Text="According Date" Value="1"></asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
+                    <asp:DropDownList ID="drpFilterData" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFilterData_SelectedIndexChanged">
+                        <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
+                        <asp:ListItem Text="According Date" Value="1"></asp:ListItem>
+                        <asp:ListItem Text="Empty Room List" Value="2"></asp:ListItem>
+                        <asp:ListItem Text="Visitors Report By Places" Value="3"></asp:ListItem>
+                    </asp:DropDownList> 
+                    <asp:RequiredFieldValidator ID="reqReport" runat="server" ValidationGroup="vreport" ErrorMessage="Please Select the Report Type" ForeColor="Red" ControlToValidate="drpFilterData" InitialValue="0"></asp:RequiredFieldValidator>
                 </div>
-                <div class="control-group" id="divCheckInDate" style="display: none">
+
+                <div class="control-group" id="divCheckInDate" runat="server" visible="false">
                     <label class="control-label" for="typeahead">Check In Date:</label>
                     <asp:TextBox runat="server" ID="txtCheckInDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
                     <label class="control-label" for="typeahead">Check Out Date:</label>
                     <asp:TextBox runat="server" ID="txtCheckOutDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
                 </div>
+
+                <div class="control-group" id="divEmptyRooms" runat="server" visible="false">
+                    <label class="control-label" for="typeahead">Select Building Name:</label>
+                    <asp:DropDownList ID="drpBuildingName" runat="server"></asp:DropDownList>
+                </div>
+                <br />
+
+                <div class="control-group" id="divPlaces" runat="server" visible="false">
+                    Select Country:<asp:DropDownList ID="drpCountry" runat="server" OnSelectedIndexChanged="drpCountry_SelectedIndexChanged" AutoPostBack="true">
+                        <asp:ListItem Value="-1">All Country</asp:ListItem>
+                    </asp:DropDownList><br />
+                    <br />
+                    Select State:<asp:DropDownList ID="drpState" AutoPostBack="true" OnSelectedIndexChanged="drpState_SelectedIndexChanged" runat="server" Style="float: right; margin-right: 890px;">
+                        <asp:ListItem Value="-1">All State</asp:ListItem>
+                    </asp:DropDownList><br />
+                    <br />
+                    <br />
+                    Select City:<asp:DropDownList ID="drpCity" runat="server" Style="float: right; margin-right: 890px;">
+                        <asp:ListItem Value="-1">All City</asp:ListItem>
+                    </asp:DropDownList><br />
+                    <br />
+                </div>
+
             </div>
             <div>
-                <asp:Button ID="btnDownload" runat="server" Text="Click To Download Report in Excel Sheet" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="355px" />
+                <asp:Button ID="btnDownload" ValidationGroup="vreport" runat="server" Text="Click To Download Report in Excel Sheet" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="355px" />
             </div>
         </div>
     </div>

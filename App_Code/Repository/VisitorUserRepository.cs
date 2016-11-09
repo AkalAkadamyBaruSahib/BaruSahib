@@ -274,6 +274,7 @@ public class VisitorUserRepository
 
         visitor.VisitorRoomNumbers = null;
         visitor.IsActive = false;
+        visitor.TimePeriodTo = DateTime.UtcNow;
         _context.Entry(visitor).State = EntityState.Modified;
         _context.SaveChanges();
     }
@@ -431,6 +432,52 @@ public class VisitorUserRepository
     public void AddNewReceipt(VisitorReceipt vr)
     {
         _context.Entry(vr).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+    public void AddNewBuilding(BuildingName bName)
+    {
+        _context.Entry(bName).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+
+    public void AddNewRooms(RoomNumbers roomNumber)
+    {
+        _context.Entry(roomNumber).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+
+    public List<RoomNumbers> GetVisitorRoomDetail(int RoomID)
+    {
+        List<RoomNumbers> roomNumbers = _context.RoomNumbers.Include(a => a.BuildingName).ToList();
+        return roomNumbers;
+    }
+
+    public RoomNumbers GetRoomInfoToUpdate(int RoomID)
+    {
+        RoomNumbers roomNumbers = _context.RoomNumbers.Where(v => v.ID == RoomID)
+            .Include(e => e.BuildingName)
+          .FirstOrDefault();
+        RoomNumbers dto = new RoomNumbers();
+        dto.ID = roomNumbers.ID;
+        dto.NumOfBed = roomNumbers.NumOfBed;
+        dto.Number = roomNumbers.Number;
+        dto.BuildingID = roomNumbers.BuildingID;
+        dto.BuildingFloor = roomNumbers.BuildingFloor;
+        dto.IsPermanent = roomNumbers.IsPermanent;
+        return dto;
+    }
+
+    public void UpdateVisitorRoomInfo(RoomNumbers RoomNumbers)
+    {
+
+        RoomNumbers newRoomNumbers = _context.RoomNumbers.Where(v => v.ID == RoomNumbers.ID).Include(r => r.BuildingName).FirstOrDefault();
+
+        newRoomNumbers.BuildingID = RoomNumbers.BuildingID;
+        newRoomNumbers.BuildingFloor = RoomNumbers.BuildingFloor;
+        newRoomNumbers.Number = RoomNumbers.Number;
+        newRoomNumbers.IsPermanent = RoomNumbers.IsPermanent;
+        newRoomNumbers.NumOfBed = RoomNumbers.NumOfBed;
+        _context.Entry(newRoomNumbers).State = EntityState.Modified;
         _context.SaveChanges();
     }
 }

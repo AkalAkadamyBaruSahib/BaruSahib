@@ -11,9 +11,11 @@ using System.Web.Services;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 [System.Web.Script.Services.ScriptService]
-public class VisitorUserController : System.Web.Services.WebService {
+public class VisitorUserController : System.Web.Services.WebService
+{
 
-    public VisitorUserController () {
+    public VisitorUserController()
+    {
 
         //Uncomment the following line if using designed components 
         //InitializeComponent(); 
@@ -90,5 +92,24 @@ public class VisitorUserController : System.Web.Services.WebService {
         VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
         return repository.GetCityByStateID(stateID);
     }
-    
+
+    [WebMethod]
+    public List<RoomNumbers> GetVisitorRoomDetail(int RoomID)
+    {
+        VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
+        return repository.GetVisitorRoomDetail(RoomID);
+    }
+    [WebMethod]
+    public RoomNumbers GetRoomInfoToUpdate(int RoomID)
+    {
+        VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
+        return repository.GetRoomInfoToUpdate(RoomID);
+    }
+
+    [WebMethod]
+    public void UpdateVisitorRoomInfo(RoomNumbers RoomNumbers)
+    {
+        VisitorUserRepository tr = new VisitorUserRepository(new AkalAcademy.DataContext());
+        tr.UpdateVisitorRoomInfo(RoomNumbers);
+    }
 }

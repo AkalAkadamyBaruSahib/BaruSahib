@@ -164,6 +164,8 @@ public class TypeEnum
     {
         Visitor = 1,
         Sewadar = 2,
-        Employee = 3
+        Employee = 3,
+        Staff = 4,
+        Volunteer = 5
     }
 }

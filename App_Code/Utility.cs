@@ -448,6 +448,19 @@ public static class Utility
         HttpContext.Current.Response.End();
     }
 
+    public static DateTime GetLocalDateTime(DateTime UTCDateTime)
+    {
+        TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+        DateTime indianTime = DateTime.MinValue;
+
+        if (UTCDateTime != null)
+        {
+            indianTime = TimeZoneInfo.ConvertTimeFromUtc((DateTime)UTCDateTime, INDIAN_ZONE);
+        }
+        return indianTime;
+    }
+
+
     //public static void GeneratePDF(string url, string fileName, string folderPath)
     //{
     //    HttpContext.Current.Response.ContentType = "application/pdf";

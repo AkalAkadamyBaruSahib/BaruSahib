@@ -214,13 +214,17 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 visitor.TimePeriodFrom = System.DateTime.Now;
             }
             else
-            { visitor.TimePeriodFrom = Convert.ToDateTime(txtfirstDate.Text); }
+            { 
+                visitor.TimePeriodFrom = Convert.ToDateTime(txtfirstDate.Text); 
+            }
             if (string.IsNullOrEmpty(txtlastDate.Text))
             {
                 visitor.TimePeriodTo = System.DateTime.Now;
             }
             else
-            { visitor.TimePeriodTo = Convert.ToDateTime(txtlastDate.Text); }
+            { 
+                visitor.TimePeriodTo = Convert.ToDateTime(txtlastDate.Text);
+            }
 
             visitor.Name = txtName.Text;
             if (ddlpurpose.SelectedValue != "0")
