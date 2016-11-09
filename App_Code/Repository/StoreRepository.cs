@@ -73,15 +73,15 @@ public class StoreRepository
         return ests;
     }
 
-    public List<Estimate> GetStockRegisterInfo()
+    public List<Estimate> GetStockRegisterInfo(int PurchaseID)
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
-
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
-
+            .Include(a => a.Academy)
+            .Where(x => x.EstimateAndMaterialOthersRelations.Any(er => er.PSId == PurchaseID))
+            .OrderByDescending(e => e.ModifyOn).ToList();
 
         return ests;
     }

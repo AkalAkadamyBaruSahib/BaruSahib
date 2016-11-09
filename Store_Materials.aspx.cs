@@ -238,7 +238,7 @@ public partial class Store_Materials : System.Web.UI.Page
         }
         else
         {
-            storeRegister = storeRepository.GetStockRegisterInfo();
+            storeRegister = storeRepository.GetStockRegisterInfo((int)TypeEnum.PurchaseSourceID.Mohali);
         }
 
         divEstimateDetails.InnerHtml = string.Empty;
