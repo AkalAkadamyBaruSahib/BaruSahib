@@ -33,14 +33,17 @@
                                             <asp:DropDownList ID="drpBuildingFloor" runat="server">
                                                 <asp:ListItem Value="-1">--Select Building Floor--</asp:ListItem>
                                                 <asp:ListItem Value="0">Ground Floor</asp:ListItem>
-                                                <asp:ListItem Value="1">Basement One</asp:ListItem>
-                                                <asp:ListItem Value="2">Basement Two</asp:ListItem>
-                                                <asp:ListItem Value="3">Basement Three</asp:ListItem>
-                                                <asp:ListItem Value="4">Basement Four</asp:ListItem>
-                                                <asp:ListItem Value="5">Basement Five</asp:ListItem>
-                                                <asp:ListItem Value="6">Basement Six</asp:ListItem>
-                                                <asp:ListItem Value="7">Basement Seven</asp:ListItem>
-                                                <asp:ListItem Value="8">Basement Eight</asp:ListItem>
+                                                <asp:ListItem Value="1">Floor One</asp:ListItem>
+                                                <asp:ListItem Value="2">Floor Two</asp:ListItem>
+                                                <asp:ListItem Value="3">Floor Three</asp:ListItem>
+                                                <asp:ListItem Value="4">Floor Four</asp:ListItem>
+                                                <asp:ListItem Value="5">Floor Five</asp:ListItem>
+                                                <asp:ListItem Value="6">Floor Six</asp:ListItem>
+                                                <asp:ListItem Value="7">Floor Seven</asp:ListItem>
+                                                <asp:ListItem Value="8">Floor Eight</asp:ListItem>
+                                                <asp:ListItem Value="9">Floor Nine</asp:ListItem>
+                                                <asp:ListItem Value="10">Floor Ten</asp:ListItem>
+                                                <asp:ListItem Value="11">Floor Eleven</asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter the Building Floor" ForeColor="Red" InitialValue="-1" ControlToValidate="drpBuildingFloor" ValidationGroup="visitorroom"></asp:RequiredFieldValidator>
                                         </td>
