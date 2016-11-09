@@ -29,10 +29,19 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportOnEmptyRoomList.xls"));
         }
-        else
+        else if (drpFilterData.SelectedValue == "3")
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorsReportByPlace.xls"));
         }
+        else if (drpFilterData.SelectedValue == "5")
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportBookedRoomList.xls"));
+        }
+        else
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PermanentRoomDetails.xls"));
+        }
+
         Response.ContentType = "application/ms-excel";
         DataTable dt = BindDatatable();
         string str = string.Empty;
@@ -68,9 +77,17 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetVacantRoomListByBuilding '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
-        else
+        else if (drpFilterData.SelectedValue == "3")
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet(getSqlString()).Tables[0];
+        }
+        else if (drpFilterData.SelectedValue == "5")
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetBookedRoomListByBuilding '" + drpBuildingName.SelectedValue + "'").Tables[0];
+        }
+        else
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetPermanentRoomReport]").Tables[0];
         }
         return dt;
     }
