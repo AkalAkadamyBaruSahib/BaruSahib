@@ -168,4 +168,12 @@ public class TypeEnum
         Staff = 4,
         Volunteer = 5
     }
+    public enum VisitorReportTypes : int
+    {
+        AccordingDate = 1,
+        ViewVacantRoomList = 2,
+        VisitorsReportByPlaces = 3,
+        PermanentRoomDetailReport = 4,
+        ViewBookedRoomList = 5,
+    }
 }

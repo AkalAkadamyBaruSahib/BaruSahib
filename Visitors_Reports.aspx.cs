@@ -21,19 +21,19 @@ public partial class Visitors_Reports : System.Web.UI.Page
     {
         Response.ClearContent();
         Response.Buffer = true;
-        if (drpFilterData.SelectedValue == "1")
+        if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorReportByDate.xls"));
         }
-        else if (drpFilterData.SelectedValue == "2")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString())
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportOnEmptyRoomList.xls"));
         }
-        else if (drpFilterData.SelectedValue == "3")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorsReportByPlace.xls"));
         }
-        else if (drpFilterData.SelectedValue == "5")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString())
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportBookedRoomList.xls"));
         }
@@ -69,25 +69,25 @@ public partial class Visitors_Reports : System.Web.UI.Page
         DataTable dt = new DataTable();
         string from = string.Empty;
         from = txtCheckInDate.Text == string.Empty ? DateTime.MinValue.ToShortDateString() : txtCheckInDate.Text;
-        if (drpFilterData.SelectedValue == "1")
+        if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetVisitorsReports '" + txtCheckInDate.Text + "','" + txtCheckOutDate.Text + "'").Tables[0];
         }
-        else if (drpFilterData.SelectedValue == "2")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetVacantRoomListByBuilding '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
-        else if (drpFilterData.SelectedValue == "3")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet(getSqlString()).Tables[0];
         }
-        else if (drpFilterData.SelectedValue == "5")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetBookedRoomListByBuilding '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetPermanentRoomReport]").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetPermanentRoomReport] '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
         return dt;
     }
@@ -156,19 +156,19 @@ public partial class Visitors_Reports : System.Web.UI.Page
     }
     protected void drpFilterData_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (drpFilterData.SelectedValue == "1")
+        if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
         {
             divCheckInDate.Visible = true;
             divEmptyRooms.Visible = false;
             divPlaces.Visible = false;
         }
-        else if (drpFilterData.SelectedValue == "2")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
         {
             divCheckInDate.Visible = false;
             divEmptyRooms.Visible = true;
             divPlaces.Visible = false;
         }
-        else if (drpFilterData.SelectedValue == "3")
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
         {
             divCheckInDate.Visible = false;
             divEmptyRooms.Visible = false;
@@ -185,9 +185,9 @@ public partial class Visitors_Reports : System.Web.UI.Page
     private string getSqlString()
     {
         string sql = string.Empty;
-        sql = "SELECT distinct V.Name AS [Visitor Name], VT.VisitorType,V.ContactNumber,V.VisitorAddress,V.PurposeOfVisit,B.Name As BuildingName,RN.BuildingFloor AS BuildingFloor,RN.Number As RoomNumber,V.RoomRent,V.AdmissionNumber, " +
+        sql = "SELECT distinct V.Name AS [Visitor Name], VT.VisitorType,V.ContactNumber,V.VisitorAddress,CO.CountryName,S.StateName,C.CityName,V.PurposeOfVisit,B.Name As BuildingName,RN.BuildingFloor AS BuildingFloor,RN.Number As RoomNumber,V.RoomRent,V.AdmissionNumber, " +
             "V.VisitorReference,V.VehicleNo,V.Identification,V.TimePeriodFrom As CheckIn,V.TimePeriodTo As CheckOut FROM Visitors V INNER jOIN VisitorRoomNumbers RM ON RM.VisitorID=V.ID INNER JOIN VisitorType VT ON VT.ID= V.VisitorTypeID " +
-            "INNER JOIN BuildingName B ON B.ID= V.BuildingID INNER JOIN RoomNumbers RN ON RM.RoomNumberID = RN.ID WHERE V.VisitorTypeID=" + (int)TypeEnum.VisitoryType.Visitor;
+            "INNER JOIN BuildingName B ON B.ID= V.BuildingID INNER JOIN RoomNumbers RN ON RM.RoomNumberID = RN.ID INNER JOIN Country CO ON CO.CountryId = V.Country	INNER JOIN State S ON S.StateId = V.State INNER JOIN City C ON C.CityId = V.City WHERE V.VisitorTypeID=" + (int)TypeEnum.VisitoryType.Visitor;
 
         if (drpCountry.SelectedValue != "-1")
         {
