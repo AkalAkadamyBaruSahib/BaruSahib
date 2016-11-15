@@ -91,6 +91,10 @@
                             ControlToValidate="txtRate" />
                         <asp:HiddenField runat="server" ID="txtEstID" Value='<%#Eval("EstID") %>' />
                         <asp:HiddenField runat="server" ID="hdnPurchaseQty" Value='<%#Eval("PurchaseQty") %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>
+                  <asp:TemplateField HeaderText="Direct Purchase">
+                    <ItemTemplate>
                         <asp:CheckBox ID="chkDirectPurchase" runat="server" Checked="false" Visible="false" ToolTip="Direct Purchase"/>
                     </ItemTemplate>
                 </asp:TemplateField>
