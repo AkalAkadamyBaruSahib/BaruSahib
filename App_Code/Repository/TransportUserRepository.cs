@@ -481,6 +481,6 @@ public class TransportUserRepository
     }
     public VehicleEmployee GetVehicleEmployeeInfo(int VehicleID, int EmpType)
     {
-        return _context.VehicleEmployee.Where(v => v.VehicleID == VehicleID && v.EmployeeType == EmpType).FirstOrDefault();
+        return _context.VehicleEmployee.Where(v => v.VehicleID == VehicleID && v.EmployeeType == EmpType && v.IsActive == true).FirstOrDefault();
     }
 }
