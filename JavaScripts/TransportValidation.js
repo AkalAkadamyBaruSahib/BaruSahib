@@ -47,11 +47,7 @@ $(document).ready(function () {
 
     });
     $("#btnEdit").click(function (e) {
-        if (Page_ClientValidate("driver")) {
-            ClientSideClick(this);
-            UpdateTansportEmployeeInfo();
-            return false;
-        }
+        UpdateTansportEmployeeInfo();
     });
    
     $("#anc_add").click(function () {
