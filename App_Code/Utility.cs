@@ -12,6 +12,7 @@ using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.html.simpleparser;
+using IronPdf;
 
 
 /// <summary>
@@ -438,11 +439,20 @@ public static class Utility
     {
         HttpContext.Current.Response.ContentType = "application/pdf";
         HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
-        var pdfBytes = (new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(html);
 
-        FileStream fs = new FileStream(folderPath + "\\" + fileName, FileMode.OpenOrCreate);
-        fs.Write(pdfBytes, 0, pdfBytes.Length);
-        fs.Close();
+
+        HtmlToPdf HtmlToPdf = new IronPdf.HtmlToPdf();
+        PdfResource PDF = HtmlToPdf.RenderHtmlAsPdf(html);
+        
+
+
+
+        var pdfBytes = PDF.BinaryData; //(new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(html);
+
+        PDF.SaveAs(folderPath + "\\" + fileName);
+        //FileStream fs = new FileStream(folderPath + "\\" + fileName, FileMode.OpenOrCreate);
+        //fs.Write(pdfBytes, 0, pdfBytes.Length);
+        //fs.Close();
 
         HttpContext.Current.Response.BinaryWrite(pdfBytes);
         HttpContext.Current.Response.End();

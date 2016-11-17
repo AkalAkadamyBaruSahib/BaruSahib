@@ -338,11 +338,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 ZoneInfo += "<div class='row-fluid sortable'>";
                 ZoneInfo += "<div class='box span12'>";
                 ZoneInfo += "<div class='box-header well' data-original-title>";
-                ZoneInfo += "<h2><i class='icon-user'></i> Material Dispatch Details</h2>";
-                ZoneInfo += "<div class='box-icon'>";
-                ZoneInfo += "<a href='#' class='btn btn-minimize btn-round'><i class='icon-chevron-up'></i></a>";
-                ZoneInfo += "<a href='#' class='btn btn-close btn-round'><i class='icon-remove'></i></a>";
-                ZoneInfo += "</div>";
+                ZoneInfo += "<marquee behavior='scroll' direction='left'>Below Estimate Only Show  For Last 30 Days </h1></marquee>";
+                //ZoneInfo += "<div class='box-icon'>";
+                //ZoneInfo += "<a href='#' class='btn btn-minimize btn-round'><i class='icon-chevron-up'></i></a>";
+                //ZoneInfo += "<a href='#' class='btn btn-close btn-round'><i class='icon-remove'></i></a>";
+                //ZoneInfo += "</div>";
                 ZoneInfo += "</div>";
                 ZoneInfo += "<div class='box-content'>";
                 ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";

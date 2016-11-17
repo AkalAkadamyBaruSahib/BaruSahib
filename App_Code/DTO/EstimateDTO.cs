@@ -51,5 +51,11 @@ public class EstimateDTO
     public int ModuleID { get; set; }
 
     public List<EstimateAndMaterialOthersRelationsDTO> EstimateAndMaterialOthersRelationsDTO { get; set; }
+
+    public bool IsReceived { get; set; }
+
+    public string ReceivedMaterialDate { get; set; }
+
+    public int? ReceivedBy { get; set; }
 }
 

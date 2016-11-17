@@ -235,7 +235,7 @@ function AddMaterialRow() {
     if (Validation()) {
         $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
             '<td> <select id="ddlSourceType' + cntM + '" onchange="SourceType_ChangeEvent(' + cntM + ');" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
-           '<td><input id="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /></td>' +
+           '<td><input id="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /><br/><div id="menu-container' + cntM + '" style="position:absolute; width:500px;"></div></td>' +
             '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
             '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
             '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
@@ -343,12 +343,14 @@ function SourceType_ChangeEvent(id)
     if (isWorkshopMaterial) {
         $("#txtMaterialName" + id).autocomplete({
             source: WorkshopMaterialList,
-            minlength: 8
+            appendTo: '#menu-container0',
+            appendTo: '#menu-container' + id
         });
     } else {
         $("#txtMaterialName" + id).autocomplete({
             source: NonWorkshopMaterialList,
-            minlength: 8
+            appendTo: '#menu-container0',
+            appendTo: '#menu-container' + id
         });
     }
 
@@ -421,7 +423,8 @@ function SaveEstimate() {
     else {
         Estimate.ModuleID = 1;
     }
-
+    Estimate.IsReceived = false;
+    Estimate.ReceivedBy = 0;
     Estimate.EstimateAndMaterialOthersRelations = new Object();
 
     var estimateAndMaterialOthersRelations = new Array();

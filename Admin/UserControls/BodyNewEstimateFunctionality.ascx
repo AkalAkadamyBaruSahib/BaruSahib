@@ -212,7 +212,7 @@
                             <tr>
                                 <th style="color: #cc3300; width: 30px;">Sr No</th>
                                 <th style="color: #cc3300; width: 140px;">Source Type</th>
-                                <th style="color: #cc3300; width: 200px;">MaterialName</th>
+                                <th style="color: #cc3300; width: 250px;">MaterialName</th>
                                 <th style="color: #cc3300; width: 180px;">Material Type</th>
                                 <th style="color: #cc3300; width: 120px;">Quantity</th>
                                 <th style="color: #cc3300; width: 50px;"">Unit</th>
@@ -231,9 +231,10 @@
                                         <option value="0">Select Source Type</option>
                                     </select>
                                 </td>
-                                
                                 <td>
-                                    <input id="txtMaterialName0" name="txtMaterialName1" onblur="MaterialTextBox_ChangeEvent(0);" type="text" class="span6 typeahead" style="width: 210px;" />
+                                    <input id="txtMaterialName0" name="txtMaterialName1" style="position:absolute; width: 200px;" onblur="MaterialTextBox_ChangeEvent(0);" type="text" class="span6 typeahead" />
+                                    <br /><br />
+                                    <div id="menu-container0" style="position:absolute; width: 500px;"></div>
 
                                 </td>
                                <td>
@@ -268,12 +269,7 @@
                                 <asp:Label ID="lblAmt" ForeColor="Red" Font-Bold="true" Text="0.00" Style="float: right; margin-right: 450px;" runat="server"></asp:Label>
                             </td>
                         </tr>
-
                     </table>
-
-
-
-
                 </div>
                 <div class="form-actions" style="text-align: center">
                     <input type="button" id="btnSubEstimate" value="Submit Estimate" title="Submit Estimate" class="btn btn-success" />

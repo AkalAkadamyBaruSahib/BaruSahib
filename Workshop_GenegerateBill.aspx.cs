@@ -102,29 +102,29 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         hdnUserId.Value = hdnUserId.Value.Replace(" ", "");
         string estIDS = hdnEstNo.Value.Replace(',', '_');
 
-        Response.ContentType = "application/pdf";
-        Response.AddHeader("content-disposition", "attachment;filename="+ hdnUserId.Value.Trim() + "_" + estIDS + ".pdf");
-        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        //Response.ContentType = "application/pdf";
+        //Response.AddHeader("content-disposition", "attachment;filename="+ hdnUserId.Value.Trim() + "_" + estIDS + ".pdf");
+        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
 
-        BaseFont f_cb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-        BaseFont f_cn = BaseFont.CreateFont("c:\\windows\\fonts\\calibri.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        //BaseFont f_cb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        //BaseFont f_cn = BaseFont.CreateFont("c:\\windows\\fonts\\calibri.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
-        StringWriter sw = new StringWriter();
-        HtmlTextWriter hw = new HtmlTextWriter(sw);
-        pnlHtml.RenderControl(hw);
-        StringReader sr = new StringReader(sw.ToString());
-        Document pdfDoc = new Document(PageSize.A4, 50, 50, 30, 30);
-        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        pdfDoc.Open();
-        htmlparser.Parse(sr);
-        pdfDoc.Close();
-        Response.Write(pdfDoc);
+        //StringWriter sw = new StringWriter();
+        //HtmlTextWriter hw = new HtmlTextWriter(sw);
+        //pnlHtml.RenderControl(hw);
+        //StringReader sr = new StringReader(sw.ToString());
+        //Document pdfDoc = new Document(PageSize.A4, 50, 50, 30, 30);
+        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        //pdfDoc.Open();
+        //htmlparser.Parse(sr);
+        //pdfDoc.Close();
+        //Response.Write(pdfDoc);
 
-        Response.End();
+        //Response.End();
 
 
-       // Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + ".pdf"), folderPath);
+        Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + ".pdf"), folderPath);
     }
 
     public string getGrid()

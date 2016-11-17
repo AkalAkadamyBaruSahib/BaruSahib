@@ -52,15 +52,19 @@ SELECT distinct  EstId
 
                 [Received BillNumber]
 
+
+
+
+
 FROM EstimateReport 
 
-WHERE PSId=@PsId
 
 
+WHERE PSId=2
 
 AND IsApproved=1 
 
-AND ISNULL(EmployeeDispatchStatus,0)=0
+AND ISNULL(isReceived,0)=0
 
 AND ModifyOn >= @StartDate and ModifyOn <= @EndDate
 

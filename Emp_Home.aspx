@@ -6,11 +6,7 @@
         <div id="divallotedZone" runat="server" class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
-                    <h2>Alloted Zones</h2>
-                    <div class="box-icon">
-                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-                    </div>
+                       <marquee behavior='scroll' direction='left'>WELCOME TO AKALSEWA SOFTWARE | ALLOTED ZONES</marquee>
                 </div>
                 <div class="box-content">
                     <div id="divZone" runat="server"></div>

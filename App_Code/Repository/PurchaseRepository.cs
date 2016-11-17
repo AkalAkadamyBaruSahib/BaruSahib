@@ -1048,4 +1048,57 @@ public class PurchaseRepository
     {
         return _context.MaterialType.Where(m => m.Active == 1).ToList();
     }
+    public void ReceivedMaterial(int EstID, int InchargeID)
+    {
+        Estimate estimate = _context.Estimate.Where(v => v.EstId == EstID).FirstOrDefault();
+        estimate.IsReceived = true;
+        estimate.ReceivedMaterialDate = DateTime.UtcNow;
+        estimate.ReceivedBy = InchargeID;
+        _context.Entry(estimate).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
+    public List<Estimate> MaterialReceivedStatusAcaID(int PSID, int UserID, int AcaID)
+    {
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedBy == UserID && e.AcaId == AcaID)
+                   .Include(z => z.Zone)
+                   .Include(a => a.Academy)
+                   .Where(x => x.EstimateAndMaterialOthersRelations.Any(er => er.PSId == PSID))
+                   .OrderByDescending(e => e.ModifyOn).ToList();
+
+        return ests;
+    }
+
+    public List<Estimate> MaterialReceivedStatusForAdminAcaID(int PSID, int UserID, int AcaID)
+    {
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID)
+                      .Include(z => z.Zone)
+                      .Include(a => a.Academy)
+                      .Where(x => x.EstimateAndMaterialOthersRelations.Any(er => er.PSId == PSID))
+                      .OrderByDescending(e => e.ModifyOn).ToList();
+        return ests;
+    }
+
+    public List<Estimate> MaterialReceivedStatus(int PSID, int UserID)
+    {
+        DateTime dt1 = DateTime.Now.AddDays(-30);
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1 && e.CreatedBy == UserID)
+                  .Include(z => z.Zone)
+                  .Include(a => a.Academy)
+                  .Where(x => x.EstimateAndMaterialOthersRelations.Any(er => er.PSId == PSID))
+                  .OrderByDescending(e => e.ModifyOn).ToList();
+
+        return ests;
+    }
+
+    public List<Estimate> MaterialReceivedStatusForAdmin(int PSID, int UserID)
+    {
+        DateTime dt1 = DateTime.Now.AddDays(-30);
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+                      .Include(z => z.Zone)
+                      .Include(a => a.Academy)
+                      .Where(x => x.EstimateAndMaterialOthersRelations.Any(er => er.PSId == PSID))
+                      .OrderByDescending(e => e.ModifyOn).ToList();
+        return ests;
+    }
 }

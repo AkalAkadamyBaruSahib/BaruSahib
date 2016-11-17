@@ -417,5 +417,11 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetAcademybyZoneIDByEmpID(ZoneID, InchargeID);
     }
+    [WebMethod]
+    public void ReceivedMaterial(int EstID, int InchargeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.ReceivedMaterial(EstID, InchargeID);
+    }
 
 }

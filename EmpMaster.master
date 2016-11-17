@@ -19,6 +19,9 @@
         .sidebar-nav {
             padding: 9px 0;
         }
+
+        .ui-autocomplete { position: absolute; cursor: default;z-index:30 !important;} 
+
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/charisma-app.css" rel="stylesheet">
@@ -39,6 +42,7 @@
     <link rel="shortcut icon" href="img/favicon.ico">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="js/jquery-2.2.3.min.js"></script>
 </head>
 <body>
     <!-- topbar starts -->
@@ -123,7 +127,7 @@
                             <li><a class="ajax-link" href="Emp_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
                             <li><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted</span></a></li>
                             <li><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate</span></a></li>
-                            <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status For Mohali</span></a></li>
+                            <li><a class="ajax-link" href="Emp_ReceivedEstimate.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Estimate Status</span></a></li>
                             <%--<li><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet"> Stock</span></a></li>
 						<li><a class="ajax-link" href="Emp_DrawingView.aspx"><i class="icon-font"></i><span class="hidden-tablet"> Drawings</span></a></li>--%>
                             <li><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status</span></a></li>
@@ -158,8 +162,11 @@
         <p class="pull-left">&copy; <a href="http://akalacademy.org/AA/" target="_blank">Akal Academy</a> 2016</p>
         <p class="pull-right">Powered by: <a href="http://akalacademy.org/AA/">AkalSoftwares</a></p>
     </footer>
+    
     <!-- jQuery -->
-    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <!-- jQuery -->
+    <%--<script src="js/jquery-1.7.2.min.js"></script>--%>
     <!-- jQuery UI -->
     <script src="js/jquery-ui-1.8.21.custom.min.js"></script>
     <!-- transition / effect library -->

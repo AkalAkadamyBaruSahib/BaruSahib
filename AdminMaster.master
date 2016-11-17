@@ -165,8 +165,7 @@
 <%--                                    <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="Admin_Estimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>--%>
                                    <li id="liEstimateNewEstimate" runat="server"><a href="NewEstimateFunctionality.aspx"><span class="hidden-tablet">New Estimate </span></a></li>
                                     <li><a class="ajax-link" href="Admin_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate</span></a></li>
-
-
+                                     <li><a class="ajax-link" href="Admin_ReceivedMaterial.aspx"><i></i><span class="hidden-tablet">Estimate Status</span></a></li>
                                 </ul>
                             </li>
                             <li id="liDrawing" runat="server"><a class="ajax-link" href="#"><i class="icon-picture"></i><span class="hidden-tablet"><b>DRAWINGS</b></span></a>

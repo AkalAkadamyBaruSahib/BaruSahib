@@ -63,5 +63,9 @@ public class Estimate
     public Zone Zone { get; set; }
     public Academy Academy { get; set; }
 
+    public bool? IsReceived { get; set; }
 
+    public DateTime? ReceivedMaterialDate { get; set; }
+
+    public int? ReceivedBy { get; set; }
 }
