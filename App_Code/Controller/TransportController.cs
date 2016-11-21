@@ -131,7 +131,8 @@ public class TransportController : System.Web.Services.WebService
     public Vehicles GetVehiclesInfoByVehicleID(int VehicleID)
     {
         TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
-        return repository.GetVehiclesInfoByVehicleID(VehicleID);
+        var vehicle = repository.GetVehiclesInfoByVehicleID(VehicleID);
+        return vehicle;
     }
     [WebMethod]
     public VehicleEmployee GetVehicleEmployeeInfo(int VehicleID, int EmpType)

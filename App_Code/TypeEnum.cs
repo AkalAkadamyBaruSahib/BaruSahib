@@ -176,4 +176,11 @@ public class TypeEnum
         PermanentRoomDetailReport = 4,
         ViewBookedRoomList = 5,
     }
+    public enum TransportProformaType : int
+    {
+        GENSETREAPIRANDSERVICE = 1,
+        BATTERYQUOTATION = 2,
+        TYREREQUIREMENTORQUOTATION = 3,
+        SERVICEOTHERREAPIRSOFVEHICLE = 4
+    }
 }
