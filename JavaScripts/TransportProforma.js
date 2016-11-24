@@ -58,7 +58,6 @@ $(document).ready(function () {
             $("#txtLastRepairDate").prop('disabled', false);
             $("#txtLastRepairAmount").prop('disabled', false);
             $("#txtQuotationAmount").prop('disabled', false);
-            $("#txtApprovalAmount").prop('disabled', false);
             $("#txtGensetTotalRunning").prop('disabled', false);
             $("#txtService").prop('disabled', false);
             $("#txtGensetAverageRunning").prop('disabled', false);
@@ -108,6 +107,13 @@ $(document).ready(function () {
             $("#txtQuantity0").prop('disabled', true);
             $("#txtPrice0").prop('disabled', true); 
             $("#txtBillNo").prop('disabled', true);
+            $("#txtEngineerName").prop('disabled', false);
+            $("#txtEngineerNumber").prop('disabled', false);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtServiceDriverandNumber").prop('disabled', true);
+            $("#txtServiceVehicelType").prop('disabled', true);
             ClearTextBox();
         }
         else if ($(this).val() == 2) {
@@ -174,6 +180,13 @@ $(document).ready(function () {
             $("#txtQty0").prop('disabled', true);
             $("#txtRate0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', false);
+            $("#txtEngineerName").prop('disabled', true);
+            $("#txtEngineerNumber").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', false);
+            $("#txtBatteryModel").prop('disabled', false);
+            $("#txtBatteryDriverandNumber").prop('disabled', false);
+            $("#txtServiceDriverandNumber").prop('disabled', true);
+            $("#txtServiceVehicelType").prop('disabled', true);
             ClearTextBox();
         }
         else if ($(this).val() == 3) {
@@ -240,6 +253,13 @@ $(document).ready(function () {
             $("#txtQuantity0").prop('disabled', true);
             $("#txtPrice0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
+            $("#txtEngineerName").prop('disabled', true);
+            $("#txtEngineerNumber").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtServiceDriverandNumber").prop('disabled', true);
+            $("#txtServiceVehicelType").prop('disabled', true);
             ClearTextBox();
         }
         else if ($(this).val() == 4) {
@@ -306,6 +326,13 @@ $(document).ready(function () {
             $("#txtTotalRuningKm").prop('disabled', true);
             $("#txtTyreLastReading").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
+            $("#txtEngineerName").prop('disabled', true);
+            $("#txtEngineerNumber").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtServiceDriverandNumber").prop('disabled', false);
+            $("#txtServiceVehicelType").prop('disabled', false);
             ClearTextBox();
         }
         else {
@@ -372,6 +399,13 @@ $(document).ready(function () {
             $("#txtQuantity0").prop('disabled', true);
             $("#txtPrice0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
+            $("#txtEngineerName").prop('disabled', true);
+            $("#txtEngineerNumber").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtServiceDriverandNumber").prop('disabled', true);
+            $("#txtServiceVehicelType").prop('disabled', true);
             ClearTextBox();
         }
     });
@@ -477,6 +511,8 @@ function BindSeatedAndModelByVehicleID(vehicleID) {
             if (rdata != undefined) {
                 if ($("select[id*='ddlproforma']").val() == 2) {
                     $("input[id*='txtVehicelType']").val(rdata.TransportTypes.Type);
+                    $("input[id*='txtBatterySeated']").val(rdata.Sitter);
+                    $("input[id*='txtBatteryModel']").val(rdata.Model);
                 }
                 else if ($("select[id*='ddlproforma']").val() == 3) {
                     $("input[id*='txtTyreVehicleType']").val(rdata.TransportTypes.Type);
@@ -484,6 +520,7 @@ function BindSeatedAndModelByVehicleID(vehicleID) {
                 else if ($("select[id*='ddlproforma']").val() == 4) {
                     $("input[id*='txtSeated']").val(rdata.Sitter);
                     $("input[id*='txtModel']").val(rdata.Model);
+                    $("input[id*='txtServiceVehicelType']").val(rdata.TransportTypes.Type);
                 }
             }
         },
@@ -503,6 +540,12 @@ function BindSeatedAndModelByVehicleID(vehicleID) {
             if (rdata != undefined) {
                 if ($("select[id*='ddlproforma']").val() == 3) {
                     $("input[id*='txtNameofDriver']").val(rdata.Name + "(" + rdata.MobileNumber + ")");
+                }
+                else if ($("select[id*='ddlproforma']").val() == 2) {
+                    $("input[id*='txtBatteryDriverandNumber']").val(rdata.Name + "(" + rdata.MobileNumber + ")");
+                }
+                else if ($("select[id*='ddlproforma']").val() == 4) {
+                    $("input[id*='txtServiceDriverandNumber']").val(rdata.Name + "(" + rdata.MobileNumber + ")");
                 }
             }
         },
@@ -999,6 +1042,14 @@ function ClearTextBox() {
     $("#txtStafneyCondition").val("");
     $("#txtStafneyRunning").val("");
     $("#txtStafneyldTyreNo").val("");
+    $("#txtEngineerName").val("");
+    $("#txtEngineerNumber").val("");
+    $("#txtBatterySeated").val("");
+    $("#txtBatteryModel").val("");
+    $("#txtBatteryDriverandNumber").val("");
+    $("#txtServiceDriverandNumber").val("");
+    $("#txtServiceVehicelType").val("");
+   
 }
 
 

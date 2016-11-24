@@ -21,10 +21,14 @@ using IronPdf;
 public static class Utility
 {
 
-    public static void SendEmail(string to, string body, List<Attachment> attachments, string subject)
+    public static void SendEmail(string to, string cc, string body, List<Attachment> attachments, string subject)
     {
         MailMessage mail = new MailMessage();
         mail.To.Add(to);
+        if (cc.Length > 0)
+        {
+            mail.CC.Add(cc);
+        }
 
         mail.From = new MailAddress(ConfigurationManager.AppSettings["FromEmailAddress"].ToString());
         mail.Subject = subject;
@@ -513,5 +517,14 @@ public static class Utility
     //    return bPDF;
     //}
 
+    public static void SendEmailUsingAttachments(string filePaths, string to, string cc, string body, string subject)
+    {
+        List<Attachment> attachments = new List<Attachment>();
+        Attachment att;
 
+        att = new Attachment(filePaths);
+        attachments.Add(att);
+
+        SendEmail(to, cc, body, attachments, subject);
+    }
 }

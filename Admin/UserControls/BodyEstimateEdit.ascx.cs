@@ -22,7 +22,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         if (!IsPostBack)
         {
             Page.Form.Attributes.Add("enctype", "multipart/form-data");
-           
+
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -155,31 +155,20 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         {
             dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 order by MatTypeName");
         }
-            ddlMateType.DataSource = dsMatType;
-            ddlMateType.DataValueField = "MatTypeId";
-            ddlMateType.DataTextField = "MatTypeName";
-            ddlMateType.DataBind();
-            ddlMateType.Items.Insert(0, "Material Type");
-            ddlMateType.ClearSelection();
-       
-            ddlMateType.Items.FindByText(ddlMatTId).Selected = true;
-       
-            ddlMatTId_SelectedIndexChanged(ddlMateType, new EventArgs());
+        ddlMateType.DataSource = dsMatType;
+        ddlMateType.DataValueField = "MatTypeId";
+        ddlMateType.DataTextField = "MatTypeName";
+        ddlMateType.DataBind();
+        ddlMateType.Items.Insert(0, "Material Type");
+        ddlMateType.ClearSelection();
 
-            DropDownList ddlMaterail = (DropDownList)gvDetails.Rows[e.NewEditIndex].FindControl("ddlMatId");
-            ddlMaterail.ClearSelection();
-            ddlMaterail.Items.FindByText(lblMat).Selected = true;
+        ddlMateType.Items.FindByText(ddlMatTId).Selected = true;
 
-            DropDownList ddlSourceType = ((DropDownList)gvDetails.Rows[e.NewEditIndex].Cells[8].FindControl("ddlPs"));
-            DataSet dsSourcType = new DataSet();
-            dsSourcType = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
-            ddlSourceType.DataSource = dsSourcType;
-            ddlSourceType.DataValueField = "PSId";
-            ddlSourceType.DataTextField = "PSName";
-            ddlSourceType.DataBind();
-            ddlSourceType.Items.Insert(0, "Source Type");
-            ddlSourceType.Items.FindByText(ddlPs).Selected = true;
-       
+        ddlMatTId_SelectedIndexChanged(ddlMateType, new EventArgs());
+
+        DropDownList ddlMaterail = (DropDownList)gvDetails.Rows[e.NewEditIndex].FindControl("ddlMatId");
+        ddlMaterail.ClearSelection();
+        ddlMaterail.Items.FindByText(lblMat).Selected = true;
     }
 
     private void SaveFiles(bool IsApproved, bool IsItemRejected)
@@ -229,9 +218,9 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         }
         else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
         {
-          
-           Response.Redirect("WorkshopAdmin_EstimateView.aspx");
-          
+
+            Response.Redirect("WorkshopAdmin_EstimateView.aspx");
+
         }
         else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTMANAGER) || UserTypeID == (int)(TypeEnum.UserType.BACKOFFICE) || UserTypeID == (int)(TypeEnum.UserType.TRANSPORTINCHARGE))
         {
@@ -247,7 +236,15 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
         DropDownList ddlMateType = (DropDownList)row.FindControl("ddlMatTId");
+        Label UnitName = (Label)row.FindControl("lblUnitEdit");
+        TextBox txtRa = (TextBox)row.FindControl("txtRate");
         DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMatId");
+        DropDownList ddlPurchaseSource = (DropDownList)row.FindControl("ddlPs");
+        ddlMaterail.ClearSelection();
+        txtRa.Text = "";
+        UnitName.Text = "";
+        ddlPurchaseSource.ClearSelection();
+
         DataSet dsMat = new DataSet();
         dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId='" + ddlMateType.SelectedValue + "' order by MatName asc");
         ddlMaterail.DataSource = dsMat;
@@ -256,6 +253,26 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlMaterail.DataBind();
         ddlMaterail.Items.Insert(0, "Material");
         ddlMaterail.SelectedIndex = 0;
+
+
+        DataTable dsSourcTypef = new DataTable();
+        if (ddlMateType.SelectedValue == "75")
+        {
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+        }
+        else
+        {
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId!=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+        }
+        if (dsSourcTypef != null)
+        {
+            ddlPurchaseSource.DataSource = dsSourcTypef;
+            ddlPurchaseSource.DataValueField = "PSId";
+            ddlPurchaseSource.DataTextField = "PSName";
+            ddlPurchaseSource.DataBind();
+            ddlPurchaseSource.Items.Insert(0, "Source Type");
+            ddlPurchaseSource.SelectedIndex = 0;
+        }
     }
 
     protected void gvDetails_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
@@ -293,9 +310,25 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
         Label UnitName = (Label)row.FindControl("lblUnitEdit");
+        TextBox txtRa = (TextBox)row.FindControl("txtRate");
+        TextBox txtQt = (TextBox)row.FindControl("txtQty");
+        DropDownList dlMatT = (DropDownList)row.FindControl("ddlMatTId");
         DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMatId");
-        DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
+        Label lblAm = (Label)row.FindControl("txtAmtEdit");
+        DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName,Material.MatCost,Material.LocalRate,Material.AkalWorkshopRate FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
         UnitName.Text = dsUName.Tables[0].Rows[0]["UnitName"].ToString();
+        if (dlMatT.SelectedValue == "75")
+        {
+            txtRa.Text = dsUName.Tables[0].Rows[0]["AkalWorkshopRate"].ToString();
+        }
+        else
+        {
+            txtRa.Text = dsUName.Tables[0].Rows[0]["MatCost"].ToString();
+        }
+        decimal qt = Convert.ToDecimal(txtQt.Text);
+        decimal ra = Convert.ToDecimal(txtRa.Text);
+        decimal am = qt * ra;
+        lblAm.Text = am.ToString();
     }
 
     protected void txtRate_TextChanged(object sender, EventArgs e)
@@ -355,6 +388,14 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
         DropDownList ddlMateType = (DropDownList)row.FindControl("ddlMatTIdFooter");
         DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMatIdFooter");
+        Label UnitName = (Label)row.FindControl("lblUnitFooter");
+        TextBox txtRa = (TextBox)row.FindControl("txtRateFooter");
+        DropDownList ddlPurchaseSource = (DropDownList)row.FindControl("ddlPsFooter");
+        ddlMaterail.ClearSelection();
+        txtRa.Text = "";
+        UnitName.Text = "";
+        ddlPurchaseSource.ClearSelection();
+
         DataSet dsMat = new DataSet();
         dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId='" + ddlMateType.SelectedValue + "' order by MatName asc");
         ddlMaterail.DataSource = dsMat;
@@ -363,6 +404,26 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         ddlMaterail.DataBind();
         ddlMaterail.Items.Insert(0, "Material");
         ddlMaterail.SelectedIndex = 0;
+
+
+        DataTable dsSourcTypef = new DataTable();
+        if (ddlMateType.SelectedValue == "75")
+        {
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+        }
+        else
+        {
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId!=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+        }
+        if (dsSourcTypef != null)
+        {
+            ddlPurchaseSource.DataSource = dsSourcTypef;
+            ddlPurchaseSource.DataValueField = "PSId";
+            ddlPurchaseSource.DataTextField = "PSName";
+            ddlPurchaseSource.DataBind();
+            ddlPurchaseSource.Items.Insert(0, "Source Type");
+            ddlPurchaseSource.SelectedIndex = 0;
+        }
     }
 
     protected void ddlMatIdFooter_SelectedIndexChanged(object sender, EventArgs e)
@@ -370,8 +431,24 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
         Label UnitName = (Label)row.FindControl("lblUnitFooter");
         DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMatIdFooter");
-        DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
+        DropDownList ddlMateType = (DropDownList)row.FindControl("ddlMatTIdFooter");
+        TextBox txtQt = (TextBox)row.FindControl("txtQtyFooter");
+        TextBox txtRa = (TextBox)row.FindControl("txtRateFooter");
+        Label lblAm = (Label)row.FindControl("lblAmtFooter");
+        DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName,Material.MatCost,Material.LocalRate,Material.AkalWorkshopRate FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
         UnitName.Text = dsUName.Tables[0].Rows[0]["UnitName"].ToString();
+        if (ddlMateType.SelectedValue == "75")
+        {
+            txtRa.Text = dsUName.Tables[0].Rows[0]["AkalWorkshopRate"].ToString();
+        }
+        else
+        {
+            txtRa.Text = dsUName.Tables[0].Rows[0]["MatCost"].ToString();
+        }
+        decimal qt = Convert.ToDecimal(txtQt.Text);
+        decimal ra = Convert.ToDecimal(txtRa.Text);
+        decimal am = qt * ra;
+        lblAm.Text = am.ToString();
     }
 
     protected void txtRateFooter_TextChanged(object sender, EventArgs e)
@@ -543,7 +620,8 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal qt = Convert.ToDecimal(txtQt.Text);
         decimal ra = Convert.ToDecimal(txtRa.Text);
         decimal am = qt * ra;
-        lblAm.Text = am.ToString();
+        lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
+
+
 }
-   

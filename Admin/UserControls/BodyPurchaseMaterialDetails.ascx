@@ -34,7 +34,7 @@
     <div id="divacademy" runat="server"  class="row-fluid sortable">
         <div class="box span12">
             <div id="divDrpHeader" runat="server" class="box-header well">
-                <marquee behavior='scroll' direction='left'>WELCOME  TO AKALSEWA SOFTWARE | Material To Dispatch</marquee>
+                <marquee behavior='scroll' direction='left'>WELCOME  TO AKALSEWA SOFTWARE | Materials to dispatch</marquee>
             </div>
             <div class="box-content">
                 <div id="divDesigDetails" runat="server">

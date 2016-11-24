@@ -10,7 +10,7 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+      // Utility.SendEmailUsingAttachments(@"D:\GITAkalSewa\Source\Repos\BaruSahib\EstFile\6808_22112016.xlsx", "itmohali@barusahib.org", "test", "15 Days pending report");
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)

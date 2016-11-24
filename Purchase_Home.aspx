@@ -4,6 +4,7 @@
     <div id="content" class="span10">
         <!-- content starts -->
         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
+        <asp:HiddenField ID="hbnInchargeID" runat="server" />
 
         <div class="row-fluid sortable">
             <div class="box span12">

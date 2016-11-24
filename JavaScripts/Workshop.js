@@ -75,8 +75,8 @@ function LoadMaterialInfo(acaid) {
                     {
                         "bPaginate": false,
                         "bDestroy": true,
-                        "bFilter": false,
-                        "aaSorting": []
+                        "bFilter": true
+                       
                     });
                     DisableControl();
                 }

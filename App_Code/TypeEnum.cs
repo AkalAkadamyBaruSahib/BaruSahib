@@ -183,4 +183,8 @@ public class TypeEnum
         TYREREQUIREMENTORQUOTATION = 3,
         SERVICEOTHERREAPIRSOFVEHICLE = 4
     }
+    public enum AutoGenerateReportType : int
+    {
+        PendingReport = 1
+    }
 }

@@ -31,7 +31,7 @@ public class DrawingController : System.Web.Services.WebService {
             att = new Attachment(Server.MapPath(str));
             attachments.Add(att);
         }
-        Utility.SendEmail(to, body, attachments, subject);
+        Utility.SendEmail(to, string.Empty, body, attachments, subject);
     }
     
 }
