@@ -118,9 +118,9 @@ public partial class Purchase_Home : System.Web.UI.Page
             PendingEst.TableName = FileName;
             PendingEst.WriteXml(@FilePath);
 
-            //akalconstruction@barusahib.org,dsingh@barusahib.org,csmavi@gmail.com"
-            string cc = string.Empty;
-            Utility.SendEmailUsingAttachments(@FilePath, "itmohali@barusahib.org,sukhdran1985@gmail.com", cc, msg, "Pending Estimates");
+            string to = "akalconstruction@barusahib.org,dsingh@barusahib.org,csmavi@gmail.com";
+            string cc = "jagjit@barusahib.org";
+            Utility.SendEmailUsingAttachments(@FilePath, to, cc, msg, "Pending Estimates");
         }
     }
 
