@@ -143,7 +143,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         string ddlMatTId = ((Label)gvDetails.Rows[e.NewEditIndex].FindControl("lblMatT")).Text;
         string lblMat = ((Label)gvDetails.Rows[e.NewEditIndex].FindControl("lblMat")).Text;
         string ddlPs = ((Label)gvDetails.Rows[e.NewEditIndex].FindControl("lblPs")).Text;
-
+  
         BindGrid();
         DropDownList ddlMateType = ((DropDownList)gvDetails.Rows[e.NewEditIndex].Cells[3].FindControl("ddlMatTId"));
         DataSet dsMatType = new DataSet();
@@ -241,10 +241,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMatId");
         DropDownList ddlPurchaseSource = (DropDownList)row.FindControl("ddlPs");
         ddlMaterail.ClearSelection();
-        txtRa.Text = "";
-        UnitName.Text = "";
-        ddlPurchaseSource.ClearSelection();
-
+       
         DataSet dsMat = new DataSet();
         dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId='" + ddlMateType.SelectedValue + "' order by MatName asc");
         ddlMaterail.DataSource = dsMat;
@@ -328,7 +325,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal qt = Convert.ToDecimal(txtQt.Text);
         decimal ra = Convert.ToDecimal(txtRa.Text);
         decimal am = qt * ra;
-        lblAm.Text = am.ToString();
+        lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
 
     protected void txtRate_TextChanged(object sender, EventArgs e)
@@ -340,7 +337,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal qt = Convert.ToDecimal(txtQt.Text);
         decimal ra = Convert.ToDecimal(txtRa.Text);
         decimal am = qt * ra;
-        lblAm.Text = am.ToString();
+        lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
 
     protected void gvDetails_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -392,9 +389,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         TextBox txtRa = (TextBox)row.FindControl("txtRateFooter");
         DropDownList ddlPurchaseSource = (DropDownList)row.FindControl("ddlPsFooter");
         ddlMaterail.ClearSelection();
-        txtRa.Text = "";
-        UnitName.Text = "";
-        ddlPurchaseSource.ClearSelection();
+      
 
         DataSet dsMat = new DataSet();
         dsMat = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatName from Material where Active=1 and MatTypeId='" + ddlMateType.SelectedValue + "' order by MatName asc");
@@ -448,7 +443,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal qt = Convert.ToDecimal(txtQt.Text);
         decimal ra = Convert.ToDecimal(txtRa.Text);
         decimal am = qt * ra;
-        lblAm.Text = am.ToString();
+        lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
 
     protected void txtRateFooter_TextChanged(object sender, EventArgs e)
@@ -608,7 +603,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal qt = Convert.ToDecimal(txtQt.Text);
         decimal ra = Convert.ToDecimal(txtRa.Text);
         decimal am = qt * ra;
-        lblAm.Text = am.ToString();
+        lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
 
     protected void txtQtyFooter_TextChanged(object sender, EventArgs e)
@@ -622,6 +617,5 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal am = qt * ra;
         lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
-
 
 }
