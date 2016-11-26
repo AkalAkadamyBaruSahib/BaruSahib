@@ -74,7 +74,7 @@
     <div id="divViewTransferEmployee" class="modal hide fade" style="display: none; width: 500px;">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h3>Employee Transfer Detail:-</h3>
+        <h3>Security Employee Transfer Detail:-</h3>
     </div>
     <div class="modal-body" style="width: 300px;">
         <table id="grdLetter" class='table table-striped table-bordered'>

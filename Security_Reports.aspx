@@ -5,7 +5,7 @@
     <div id="content" class="span10">
 
         <div class="box-header well">
-            <h2><i class="icon-user"></i>Download Transport Reports</h2>
+            <h2><i class="icon-user"></i>Download Security Employee Detail Reports</h2>
             <div class="box-icon">
                 <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
                 <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>

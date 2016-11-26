@@ -41,7 +41,7 @@ public partial class Security_EmployeeDetail : System.Web.UI.Page
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";
         ZoneInfo += "<div class='box-header well' data-original-title>";
-        ZoneInfo += "<h2><i class='icon-user'></i> Employee List</h2>";
+        ZoneInfo += "<h2><i class='icon-user'></i>Security Employee List</h2>";
         ZoneInfo += "<div class='box-icon'>";
         //ZoneInfo += "<a href='#' class='btn btn-setting btn-round'><i class='icon-cog'></i></a>";
         ZoneInfo += "<a href='#' class='btn btn-minimize btn-round'><i class='icon-chevron-up'></i></a>";
