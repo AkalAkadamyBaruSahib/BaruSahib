@@ -1,10 +1,27 @@
 ﻿var grdTicketDiscription;
+var grdInProgressTicket;
+var grdCompletedTicket;
 var TicketCreatedBy = null;
+
+var _Page_tabToSelect = 0;
 
 $(document).ready(function () {
 
-    
-    LoadComplaints();
+
+    var $tabs = $("#tabs").tabs();
+    $("#tabs").tabs({
+        select: function(event, ui) {
+            if (ui.index == 0) {
+                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+            }
+            if (ui.index == 1) {
+                LoadInProgressComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+            }
+            if (ui.index == 2) {
+                LoadCompleteComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+            }
+        }
+    });
 
     $("input[id$='btnNewTicket']").click(function () {
         LoadControls();
@@ -37,6 +54,7 @@ $(document).ready(function () {
         
     });
 
+  //  LoadComplaints1();
 });
 
 function SaveTicket() {
@@ -322,3 +340,284 @@ function LoadControls() {
     }
 }
 
+
+function LoadAssignComplaints(UserType,inchargeID)
+{
+  
+    /*create/distroy grid for the new search*/
+    if (typeof grdTicketDiscription != 'undefined') {
+        grdTicketDiscription.fnClearTable();
+    }
+
+    var rowCount = $('#grdTicketDiscription').find("#rowTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowTemplate").remove();
+    }
+
+    var rowTemplate = '<tr id="rowTemplate"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+
+    var LoginID = $("input[id$='hdnLoginID']").val();
+    var Status = "Assigned";
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
+        data: JSON.stringify({ UserType: parseInt(UserType), InchargeID:parseInt(inchargeID), complaintStatus: Status }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbody").append(rowTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+                    var className = "ReportGridItem";
+                    if (i % 2 == 0) {
+                        className = "ReportGridAlternatingItem";
+                    }
+
+                    var $newRow = $("#rowTemplate").clone();
+
+                    $newRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
+                    $newRow.find("#Discription").html(adminLoanList[i].Description);
+                    $newRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
+                    $newRow.find("#TantativeDate").html(adminLoanList[i].TentativeDate);
+                    $newRow.find("#CompletionDate").html(adminLoanList[i].CompletionDate);
+                    $newRow.find("#Status").html(adminLoanList[i].Status);
+                    $newRow.find("#feedback").html(adminLoanList[i].Feedback);
+
+                    if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                        $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
+                    }
+
+                    if ($("input[id*='hdnUserType']").val() == "2") {
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+                    else {
+                        //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+
+
+                    $newRow.addClass(className);
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdTicketDiscription > tbody");
+                    }
+                    $("#grdTicketDiscription").removeAttr("style");
+
+                }
+
+                grdTicketDiscription = $('#grdTicketDiscription').DataTable(
+                    {
+                        "bPaginate": true,
+                        "iDisplayLength": 12,
+                        "sPaginationType": "full_numbers",
+                        "aaSorting": [[2, 'desc']],
+                        "bAutoWidth": false,
+                        "bLengthChange": false,
+                        "language": {
+                            "zeroRecords": "No loans available"
+                        },
+                        "bDestroy": true
+
+                    });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function LoadInProgressComplaints(UserType, inchargeID) {
+
+    if (typeof grdInProgressTicket != 'undefined') {
+        grdInProgressTicket.fnClearTable();
+    }
+
+    var rowCount = $('#grdInProgressTicket').find("#progresRow").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#progresRow").remove();
+    }
+
+    var progresRow = '<tr id="progresRow"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+
+    var LoginID = $("input[id$='hdnLoginID']").val();
+    var Status = "In Progress";
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
+        data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(inchargeID), complaintStatus: Status }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbodyProgress").append(progresRow);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+                    var className = "ReportGridItem";
+                    if (i % 2 == 0) {
+                        className = "ReportGridAlternatingItem";
+                    }
+
+                    var $newProgresRow = $("#progresRow").clone();
+
+                    $newProgresRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
+                    $newProgresRow.find("#Discription").html(adminLoanList[i].Description);
+                    $newProgresRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
+                    $newProgresRow.find("#TantativeDate").html(adminLoanList[i].TentativeDate);
+                    $newProgresRow.find("#CompletionDate").html(adminLoanList[i].CompletionDate);
+                    $newProgresRow.find("#Status").html(adminLoanList[i].Status);
+                    $newProgresRow.find("#feedback").html(adminLoanList[i].Feedback);
+
+                    if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                        $newProgresRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
+                    }
+
+                    if ($("input[id*='hdnUserType']").val() == "2") {
+                        $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+                    else {
+                        //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
+                        $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+
+
+                   $newProgresRow.addClass(className);
+                    $newProgresRow.show();
+                    if (i == 0) {
+                        $("#progresRow").replaceWith($newProgresRow);
+                    }
+                    else {
+                        $newProgresRow.appendTo("#grdInProgressTicket > tbodyProgress");
+                    }
+                    $("#grdInProgressTicket").removeAttr("style");
+
+                }
+
+                grdInProgressTicket = $('#grdInProgressTicket').DataTable(
+                    {
+                        "bPaginate": true,
+                        "iDisplayLength": 12,
+                        "sPaginationType": "full_numbers",
+                        "aaSorting": [[2, 'desc']],
+                        "bAutoWidth": false,
+                        "bLengthChange": false,
+                        "language": {
+                            "zeroRecords": "No loans available"
+                        },
+                        "bDestroy": true
+
+                    });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function LoadCompleteComplaints(UserType, inchargeID) {
+
+    /*create/distroy grid for the new search*/
+    if (typeof grdCompletedTicket != 'undefined') {
+        grdCompletedTicket.fnClearTable();
+    }
+
+    var rowCount = $('#grdCompletedTicket').find("#rowTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowTemplate").remove();
+    }
+
+    var rowTemplate = '<tr id="rowTemplate"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+
+    var LoginID = $("input[id$='hdnLoginID']").val();
+    var Status = "Completed";
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
+        data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(inchargeID), complaintStatus: Status }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+                    $("#tbody2").append(rowTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+                    var className = "ReportGridItem";
+                    if (i % 2 == 0) {
+                        className = "ReportGridAlternatingItem";
+                    }
+
+                    var $newRow = $("#rowTemplate").clone();
+
+                    $newRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
+                    $newRow.find("#Discription").html(adminLoanList[i].Description);
+                    $newRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
+                    $newRow.find("#TantativeDate").html(adminLoanList[i].TentativeDate);
+                    $newRow.find("#CompletionDate").html(adminLoanList[i].CompletionDate);
+                    $newRow.find("#Status").html(adminLoanList[i].Status);
+                    $newRow.find("#feedback").html(adminLoanList[i].Feedback);
+
+                    if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                        $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
+                    }
+
+                    if ($("input[id*='hdnUserType']").val() == "2") {
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+                    else {
+                        //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+
+
+                    $newRow.addClass(className);
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdCompletedTicket > tbody2");
+                    }
+                    $("#grdCompletedTicket").removeAttr("style");
+
+                }
+
+                grdCompletedTicket = $('#grdCompletedTicket').DataTable(
+                    {
+                        "bPaginate": true,
+                        "iDisplayLength": 12,
+                        "sPaginationType": "full_numbers",
+                        "aaSorting": [[2, 'desc']],
+                        "bAutoWidth": false,
+                        "bLengthChange": false,
+                        "language": {
+                            "zeroRecords": "No loans available"
+                        },
+                        "bDestroy": true
+
+                    });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}

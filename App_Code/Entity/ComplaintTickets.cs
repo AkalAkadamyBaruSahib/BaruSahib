@@ -27,4 +27,5 @@ public class ComplaintTickets
     public int? SeverityDays { get; set; }
     public string Feedback { get; set; }
     public int ZoneID { get; set; }
+    public int AcaID { get; set; }
 }

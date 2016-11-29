@@ -4,6 +4,7 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <script src="JavaScripts/CreateTickets.js"></script>
     <uc1:CreateTicket runat="server" ID="CreateTicket" />
 </asp:Content>
 
