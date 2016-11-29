@@ -24,13 +24,13 @@ public class AcadamicUserController : System.Web.Services.WebService {
     public string SaveComplaintTicket(ComplaintTickets complaintTickets, int isAdd, int InchageID, int UserTypeID)
     {
         UsersRepository usersRepository = new UsersRepository(new DataContext());
-        List<Incharge> Inchage = usersRepository.GetUsersByUserType(2);
+        //List<Incharge> Inchage = usersRepository.GetUsersByUserType(2);
         string ErrorMsg = string.Empty;
 
         if (complaintTickets.ID == 0)
         {
-            complaintTickets.AssignedTo = Inchage[0].InchargeId;
-            complaintTickets.CreatedOn = DateTime.Now;
+            complaintTickets.AssignedTo = 3;
+            complaintTickets.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             complaintTickets.Status = "Assigned";
             ErrorMsg = "Complaint has been created and assigned to sewa daar.";
         }
@@ -40,7 +40,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
             ErrorMsg = "Complaint has been updated.";
         }
 
-        if (Inchage[0].UserTypeId == 2 && complaintTickets.ID > 0 && complaintTickets.TentativeDate > DateTime.Now.AddDays(7))
+        if (complaintTickets.ID > 0 && complaintTickets.TentativeDate > DateTime.Now.AddDays(7))
         {
             complaintTickets.IsApprovedRequired = true;
             complaintTickets.IsApproved = false;
@@ -48,9 +48,11 @@ public class AcadamicUserController : System.Web.Services.WebService {
         }
 
         System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
-        dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT DISTINCT AcademyAssignToEmployee.ZoneId FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where AcademyAssignToEmployee.Active=1 and  Incharge.InchargeID='" + InchageID + "'");
+        dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT DISTINCT AcademyAssignToEmployee.ZoneId,AcademyAssignToEmployee.AcaID FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where AcademyAssignToEmployee.Active=1 and  Incharge.InchargeID='" + InchageID + "'");
 
         complaintTickets.ZoneID = int.Parse(dsDegisDetails.Tables[0].Rows[0]["ZoneID"].ToString());
+        complaintTickets.AcaID = int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString());
+
         AcadamicUserRepository acadamicUserRepository = new AcadamicUserRepository(new DataContext());
         acadamicUserRepository.SaveComplaintTicket(complaintTickets);
 
@@ -89,13 +91,28 @@ public class AcadamicUserController : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public List<DTO.Ticket> GetComplaintTickets(string loginID)
+    public List<DTO.Ticket> GetComplaintTickets(int UserType,int InchargeID,string complaintStatus)
     {
         AcadamicUserRepository acadamicUserRepository = new AcadamicUserRepository(new DataContext());
       //  acadamicUserRepository.SaveComplaintTicket();
 
+        string sql =string.Empty;
+        if (UserType != (int)TypeEnum.UserType.ADMIN)
+        {
+            sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
+            ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
+            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by CreatedOn desc";
+        }
+        else
+        {
+            sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
+            ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
+            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' order by CreatedOn desc";
+        }
+
         System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
-        dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate, ac.AcaName, z.ZoneName, ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn,(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn ,ct.Comments, ct.status, ct.Image, ct.ComplaintType from ComplaintTickets ct INNER JOIN AcademyAssignToEmployee aae on aae.EmpId=ct.CreatedBy INNER JOIN Academy ac on ac.AcaId=aae.AcaId INNER JOIN Zone z on z.ZoneId=aae.ZoneId WHERE ct.ZoneID IN (SELECT DISTINCT AcademyAssignToEmployee.ZoneId FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where AcademyAssignToEmployee.Active=1 and  Incharge.LoginId='" + loginID + "') order by CreatedOn desc");
+        dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet(sql);
+
         List<DTO.Ticket> tickets = new List<DTO.Ticket>();
         DTO.Ticket ticket = null;
         for (int i = 0; i < dsDegisDetails.Tables[0].Rows.Count; i++)

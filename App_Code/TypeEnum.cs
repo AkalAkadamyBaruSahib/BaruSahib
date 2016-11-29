@@ -78,7 +78,8 @@ public class TypeEnum
         EMPLOYEESUBADMIN = 28,
         TRANSPORTSUBADMIN = 29,
         WORKSHOPEMPLOYEE = 30,
-        SECURITYSUPERVISOR = 31
+        SECURITYSUPERVISOR = 31,
+        RECEPTIONADMIN = 32
     }
     public enum TransportNormsType : int
     {
@@ -186,5 +187,10 @@ public class TypeEnum
     public enum AutoGenerateReportType : int
     {
         PendingReport = 1
+    }
+    public enum ComplaintTicketStatus : int
+    {
+        InProgres = 1,
+        Completed = 2
     }
 }
