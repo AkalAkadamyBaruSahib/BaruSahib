@@ -501,7 +501,7 @@ function LoadInProgressComplaints(UserType, inchargeID) {
                         $("#progresRow").replaceWith($newProgresRow);
                     }
                     else {
-                        $newProgresRow.appendTo("#grdInProgressTicket > tbodyProgress");
+                        $newProgresRow.appendTo("#grdInProgressTicket > tbody");
                     }
                     $("#grdInProgressTicket").removeAttr("style");
 
@@ -594,7 +594,7 @@ function LoadCompleteComplaints(UserType, inchargeID) {
                         $("#rowTemplate").replaceWith($newRow);
                     }
                     else {
-                        $newRow.appendTo("#grdCompletedTicket > tbody2");
+                        $newRow.appendTo("#grdCompletedTicket > tbody");
                     }
                     $("#grdCompletedTicket").removeAttr("style");
 
