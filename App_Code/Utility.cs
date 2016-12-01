@@ -527,4 +527,11 @@ public static class Utility
 
         SendEmail(to, cc, body, attachments, subject);
     }
+
+    public static void getDataFromAPI()
+    {
+        string data = Utility.GetPageContent("http://fleetvts.com/attendance_json_api.php?name=HR 68 B 6688&from=2016-10-16&to=2016-10-18");
+        System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+        var data2 = serializer.Deserialize<VehicleAPIData[]>(data);
+    }
 }
