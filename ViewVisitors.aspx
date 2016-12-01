@@ -2,6 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script src="JavaScripts/ViewVisitors.js"></script>
+    <asp:HiddenField ID="hdnUserType" runat="server" />
     <div id="content" class="span10">
         <div class="row-fluid sortable">
             <div class="box span12">

@@ -417,9 +417,9 @@ public class VisitorUserRepository
     }
 
 
-    public int GetUnCheckOutRoomCount(DateTime date, bool isActive)
+    public int GetUnCheckOutRoomCount(DateTime date, bool isActive,int VisitorTypeID )
     {
-        var visitors = _context.Visitors.Where(v => v.TimePeriodTo < date && v.IsActive == isActive).Count();
+        var visitors = _context.Visitors.Where(v => v.TimePeriodTo < date && v.IsActive == isActive && v.VisitorTypeID == VisitorTypeID).Count();
         return visitors;
     }
 
@@ -479,5 +479,10 @@ public class VisitorUserRepository
         newRoomNumbers.NumOfBed = RoomNumbers.NumOfBed;
         _context.Entry(newRoomNumbers).State = EntityState.Modified;
         _context.SaveChanges();
+    }
+
+    public List<State> GetStateByCountryID(int CountryID)
+    {
+        return _context.State.Where(x => x.CountryId == CountryID).OrderBy(x => x.StateName).ToList();
     }
 }

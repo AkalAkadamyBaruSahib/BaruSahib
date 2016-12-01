@@ -238,22 +238,22 @@ public partial class Admin_UserControls_BodyEstimateStatus : System.Web.UI.UserC
         {
             if (UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION)
             {
-                storeRegister = storeRepository.MaterialReceivedStatusAcaID((int)TypeEnum.PurchaseSourceID.Mohali, UserID, AcaID);
+                storeRegister = storeRepository.MaterialClosedReceivedStatusAcaID((int)TypeEnum.PurchaseSourceID.Mohali, UserID, AcaID);
             }
             else
             {
-                storeRegister = storeRepository.MaterialReceivedStatusForAdminAcaID((int)TypeEnum.PurchaseSourceID.Mohali, UserID, AcaID);
+                storeRegister = storeRepository.MaterialClosedReceivedStatusForAdminAcaID((int)TypeEnum.PurchaseSourceID.Mohali, UserID, AcaID);
             }
         }
         else
         {
             if (UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION)
             {
-                storeRegister = storeRepository.MaterialReceivedStatus((int)TypeEnum.PurchaseSourceID.Mohali, UserID);
+                storeRegister = storeRepository.MaterialClosedReceivedStatus((int)TypeEnum.PurchaseSourceID.Mohali, UserID);
             }
             else
             {
-                storeRegister = storeRepository.MaterialReceivedStatusForAdmin((int)TypeEnum.PurchaseSourceID.Mohali, UserID);
+                storeRegister = storeRepository.MaterialClosedReceivedStatusForAdmin((int)TypeEnum.PurchaseSourceID.Mohali, UserID);
             }
         }
 

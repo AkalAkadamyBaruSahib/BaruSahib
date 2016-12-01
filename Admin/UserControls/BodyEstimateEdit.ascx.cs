@@ -253,7 +253,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
 
         DataTable dsSourcTypef = new DataTable();
-        if (ddlMateType.SelectedValue == "75")
+        if (ddlMateType.SelectedValue == "83")
         {
             dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
         }
@@ -314,7 +314,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         Label lblAm = (Label)row.FindControl("txtAmtEdit");
         DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName,Material.MatCost,Material.LocalRate,Material.AkalWorkshopRate FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
         UnitName.Text = dsUName.Tables[0].Rows[0]["UnitName"].ToString();
-        if (dlMatT.SelectedValue == "75")
+        if (dlMatT.SelectedValue == "83")
         {
             txtRa.Text = dsUName.Tables[0].Rows[0]["AkalWorkshopRate"].ToString();
         }
@@ -402,7 +402,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
 
         DataTable dsSourcTypef = new DataTable();
-        if (ddlMateType.SelectedValue == "75")
+        if (ddlMateType.SelectedValue == "83")
         {
             dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
         }
@@ -432,7 +432,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         Label lblAm = (Label)row.FindControl("lblAmtFooter");
         DataSet dsUName = DAL.DalAccessUtility.GetDataInDataSet("SELECT Unit.UnitName,Material.MatCost,Material.LocalRate,Material.AkalWorkshopRate FROM Material INNER JOIN Unit ON Material.UnitId = Unit.UnitId where Material.MatId='" + ddlMaterail.SelectedValue + "'");
         UnitName.Text = dsUName.Tables[0].Rows[0]["UnitName"].ToString();
-        if (ddlMateType.SelectedValue == "75")
+        if (ddlMateType.SelectedValue == "83")
         {
             txtRa.Text = dsUName.Tables[0].Rows[0]["AkalWorkshopRate"].ToString();
         }

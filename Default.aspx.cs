@@ -113,7 +113,7 @@ public partial class _Default : System.Web.UI.Page
                 {
                     Response.Redirect("TransportHome.aspx");
                 }
-                else if (inchrge.UserTypeId == 22)
+                else if (inchrge.UserTypeId == 22 || inchrge.UserTypeId == 32)
                 {
                     Response.Redirect("Visitor_Home.aspx");
                 }

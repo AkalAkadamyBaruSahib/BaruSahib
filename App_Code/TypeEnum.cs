@@ -190,7 +190,8 @@ public class TypeEnum
     }
     public enum ComplaintTicketStatus : int
     {
-        InProgres = 1,
-        Completed = 2
+        Assigned = 1,
+        InProgres = 2,
+        Completed = 3,
     }
 }

@@ -238,10 +238,9 @@ function LoadVisitorByVisitorID(visitorID) {
                 $("input[id*='txtfirstDate']").val(msg.TimePeriodFrom);
                 $("select[id*='ddlroomservice']").val(msg.RoomRentType);
                 $("select[id*='ddlelectricitybill']").val(msg.ElectricityBill);
-                $("select[id*='drpState']").val(msg.State);
                 $("select[id*='drpCountry']").val(msg.Country);
-                BindCity(msg.State);
-                $("select[id*='drpCity']").val(msg.City);
+                BindState(msg.Country,msg.State);
+                BindCity(msg.State, msg.City);
                 $("input[id*='txtReference']").val(msg.VisitorReference);
                 $("select[id*='ddlRoomRent']").val(msg.RoomRent);
                 $("input[id*='txtAdmissionNo']").val(msg.AdmissionNumber);
@@ -280,6 +279,8 @@ function LoadVisitorByVisitorID(visitorID) {
                 {
                     $("#divAdminsnNo").show();
                 }
+
+            
             }
         },
         error: function (response) {
@@ -326,8 +327,7 @@ function OpenDailogLink(src) {
     $('#myModal').modal('show');
 }
 
-function BindCity(StateID)
-{
+function BindCity(StateID,CityID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -340,12 +340,35 @@ function BindCity(StateID)
                 $.each(Result, function (key, value) {
                     $("select[id*='drpCity']").append($("<option></option>").val(value.CityId).html(value.CityName));
                 });
+                $("select[id*='drpCity']").val(CityID);
+             
             }
         },
         error: function (result, textStatus) {
             alert(result.responseText);
         }
     });
+}
 
+function BindState(countryID,StateID) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/VisitorUserController.asmx/GetStateByCountryID",
+        data: JSON.stringify({ CountryID: parseInt(countryID) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $.each(Result, function (key, value) {
+                    $("select[id*='drpState']").append($("<option></option>").val(value.StateId).html(value.StateName));
+                });
+                $("select[id*='drpState']").val(StateID);
 
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
 }

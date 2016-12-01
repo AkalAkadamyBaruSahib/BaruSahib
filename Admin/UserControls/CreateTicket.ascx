@@ -4,25 +4,35 @@
 <input id="hdnID" runat="server" type="hidden" value="0" />
 <input id="hdnUserType" runat="server" type="hidden" value="0" />
 <input id="hdnLoginID" runat="server" type="hidden" value="0" />
+ <script type="text/javascript">
+     function ReportOnChange(control) {
+         if (control.value == "1" || control.value == "2" || control.value == "3") {
+             $("input[id*='btnDownload']").show();
+         }
+         else {
+             $("input[id*='btnDownload']").hide();
+         }
+     }
+     </script>
 <div id="content" class="span10">
     <div class="row-fluid sortable" runat="server" id="divAllotment">
         <div class="box span12">
             <div class="box-header well" data-original-title>
                 <h2><i class="icon-edit"></i>Complaint Ticket Report</h2>
                 <div class='box-icon'>
-                    <input id="btnNewTicket" type="button" value="Create New Ticket" />
+                    <input id="btnNewTicket" type="button" class="btn btn-primary"  value="Create New Ticket" />
                 </div>
 
             </div>
         <div class="box-content">
                 Select Report to Download Data:
-                    <asp:DropDownList ID="ddlReport" runat="server">
+                    <asp:DropDownList ID="ddlReport" runat="server" onchange="ReportOnChange(this);">
                         <asp:ListItem Text="--Choose Report Type--" Selected="True" Value="-1"></asp:ListItem>
-                        <asp:ListItem Text="New" Value="1"></asp:ListItem>
-                        <asp:ListItem Text="Pending" Value="2"></asp:ListItem>
-                        <asp:ListItem Text="Completed" Value="3"></asp:ListItem>
+                        <asp:ListItem Text="New Complaints" Value="1"></asp:ListItem>
+                        <asp:ListItem Text="Pending Complaints" Value="2"></asp:ListItem>
+                        <asp:ListItem Text="Completed Complaints" Value="3"></asp:ListItem>
                     </asp:DropDownList>
-                <asp:Button ID="btnDownload" runat="server" Text="Download" CssClass="btn btn-primary" />
+                <asp:Button ID="btnDownload" runat="server"  Text="Download" CssClass="btn btn-primary" style="margin-bottom: 11px; display:none;" OnClick="btnDownload_Click" />
             </div>
         </div>
     </div>
@@ -52,7 +62,7 @@
             </table>
         </div>
         <div id="divInProgresComplaint">
-            <table id="grdInProgressTicket" class='table table-striped table-bordered bootstrap-datatable datatable'>
+            <table id="grdInProgressTicket" style="width:1150px;" class='table table-striped table-bordered bootstrap-datatable datatable'>
                 <thead>
                     <tr>
                         <th>Zone & Academy</th>
@@ -72,7 +82,7 @@
         
         
         <div id="divCompletedComplaint">
-            <table id="grdCompletedTicket" class='table table-striped table-bordered bootstrap-datatable datatable'>
+            <table id="grdCompletedTicket" style="width:1150px;" class='table table-striped table-bordered bootstrap-datatable datatable'>
                 <thead>
                     <tr>
                         <th>Zone & Academy</th>

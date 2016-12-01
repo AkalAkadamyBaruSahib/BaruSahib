@@ -133,7 +133,7 @@
                                     <li><a class="ajax-link" href="ViewVisitors.aspx"><span class="hidden-tablet">View Visitors</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href="#"><i>
+                            <li id="liReport" runat="server"><a href="#"><i>
                                 <img src="img/report.png" /></i><span class="hidden-tablet"><b>REPORTS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Visitors_Reports.aspx"><span class="hidden-tablet">Reports</span></a></li>

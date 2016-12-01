@@ -247,6 +247,8 @@
    <script src="js/jquery-2.2.3.min.js"></script>
     <!-- jQuery UI -->
     <script src="js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.js"></script>
+
     <!-- transition / effect library -->
     <script src="js/bootstrap-transition.js"></script>
     <!-- alert enhancer library -->

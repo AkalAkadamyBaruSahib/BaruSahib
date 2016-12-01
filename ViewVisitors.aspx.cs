@@ -13,6 +13,15 @@ public partial class ViewVisitors : System.Web.UI.Page
         if (!Page.IsPostBack)
         {
             BindVisitorType();
+
+            if (Session["EmailId"] == null)
+            {
+                Response.Redirect("Default.aspx");
+            }
+            else
+            {
+                hdnUserType.Value = Session["UserTypeID"].ToString();
+            }
          
         }
     }

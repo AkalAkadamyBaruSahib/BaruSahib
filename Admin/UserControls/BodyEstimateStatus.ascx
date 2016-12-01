@@ -27,28 +27,24 @@
     });
 
 </script>
+
 <div id="content" class="span10">
     <asp:HiddenField ID="hdnEstID" runat="server" />
     <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-    <div class="row-fluid sortable">
-        <div class="box span12">
-            <div id="tabs" class="bs-component">
-                <ul>
-                    <li><a href="#divPendingEstimate">Pending Estimates</a></li>
-                    <li><a href="#divClosedEstimate">Closed Estimates</a></li>
-                </ul>
-                <div id="divPendingEstimate">
-                    <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList>
-                    <div id="divEstimateDetails" runat="server"></div>
-                </div>
-                <div id="divClosedEstimate">
-                    <asp:DropDownList ID="ddlClosedAcademies" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlClosedAcademies_SelectedIndexChanged"></asp:DropDownList>
-                    <div id="divCloseEstimateDetails" runat="server"></div>
-                </div>
-            </div>
+    <div id="tabs" class="bs-component">
+        <ul>
+            <li><a href="#divPendingEstimate">Pending Estimates</a></li>
+            <li><a href="#divClosedEstimate">Closed Estimates</a></li>
+        </ul>
+        <div id="divPendingEstimate">
+            <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList>
+            <div id="divEstimateDetails" runat="server"></div>
+        </div>
+        <div id="divClosedEstimate">
+            <asp:DropDownList ID="ddlClosedAcademies" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlClosedAcademies_SelectedIndexChanged"></asp:DropDownList>
+            <div id="divCloseEstimateDetails" runat="server"></div>
         </div>
     </div>
-
 </div>
 
 

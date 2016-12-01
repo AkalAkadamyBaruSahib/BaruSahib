@@ -91,12 +91,12 @@ public class AcadamicUserController : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public List<DTO.Ticket> GetComplaintTickets(int UserType, int InchargeID, string complaintStatus)
+    public List<DTO.Ticket> GetComplaintTickets(int UserType,int InchargeID,string complaintStatus)
     {
         AcadamicUserRepository acadamicUserRepository = new AcadamicUserRepository(new DataContext());
-        //  acadamicUserRepository.SaveComplaintTicket();
+      //  acadamicUserRepository.SaveComplaintTicket();
 
-        string sql = string.Empty;
+        string sql =string.Empty;
         if (UserType != (int)TypeEnum.UserType.ADMIN)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
@@ -146,7 +146,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
 
             if (DateTime.Now.AddDays(2) >= Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["CreatedOn"].ToString()) &&
             string.IsNullOrEmpty(dsDegisDetails.Tables[0].Rows[i]["TentativeDate"].ToString()) &&
-                dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() == "Assigned")
+                dsDegisDetails.Tables[0].Rows[i]["Status"].ToString()=="Assigned")
             {
                 ticket.Status = "<span style='color:orange'><b>" + dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() + "</b></span>";
             }

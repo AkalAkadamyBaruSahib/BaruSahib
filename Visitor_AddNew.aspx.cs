@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+
 public partial class Visitor_AddNew : System.Web.UI.Page
 {
     protected static int UserID = -1;
@@ -211,19 +212,21 @@ public partial class Visitor_AddNew : System.Web.UI.Page
 
             if (string.IsNullOrEmpty(txtfirstDate.Text))
             {
-                visitor.TimePeriodFrom = System.DateTime.Now;
+                visitor.TimePeriodFrom = Utility.GetLocalDateTime(System.DateTime.UtcNow);
             }
             else
-            { 
-                visitor.TimePeriodFrom = Convert.ToDateTime(txtfirstDate.Text); 
+            {
+                DateTime FromDate = Convert.ToDateTime(txtfirstDate.Text);
+                visitor.TimePeriodFrom = TimeZoneInfo.ConvertTimeToUtc(FromDate);
             }
             if (string.IsNullOrEmpty(txtlastDate.Text))
             {
-                visitor.TimePeriodTo = System.DateTime.Now;
+                visitor.TimePeriodTo = Utility.GetLocalDateTime(System.DateTime.UtcNow);
             }
             else
-            { 
+            {
                 visitor.TimePeriodTo = Convert.ToDateTime(txtlastDate.Text);
+                //  visitor.TimePeriodTo = TimeZoneInfo.ConvertTimeToUtc(ToDate); 
             }
 
             visitor.Name = txtName.Text;
@@ -247,10 +250,10 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 visitor.VehicleNo = txtvehicle.Text;
             }
             visitor.BuildingID = Convert.ToInt16(hdnBuildingID.Value);
-            visitor.CreatedOn = DateTime.Now;
+            visitor.CreatedOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
             visitor.CreatedBy = UserID;
             visitor.ModifyBy = UserID;
-            visitor.ModifyOn = DateTime.Now;
+            visitor.ModifyOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
             if (txtnoofperson.Text == "")
             {
                 visitor.TotalNoOfMen = 0;

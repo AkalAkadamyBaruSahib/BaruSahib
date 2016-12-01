@@ -177,7 +177,7 @@
                                         <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor"
                                             ID="RequiredFieldValidator2" ControlToValidate="txtAddress"
                                             ErrorMessage="Please enter Visitor Address" />
-                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="visitor" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z0-9 ]*$"></asp:RegularExpressionValidator>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="visitor" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z0-9 #,&()-]*$"></asp:RegularExpressionValidator>
 
                                     </td>
                                 </tr>
