@@ -51,17 +51,17 @@ public partial class Admin_Unit : System.Web.UI.Page
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
-        ZoneInfo += "<th width='60%'>Unit</th>";
-        ZoneInfo += "<th width='20%'>Status</th>";
-        ZoneInfo += "<th width='20%'>Actions</th>";
+        ZoneInfo += "<th width='30%'>Unit</th>";
+        ZoneInfo += "<th width='30%'>Status</th>";
+        ZoneInfo += "<th width='40%'>Actions</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
         for (int i = 0; i < dsUnitDetails.Tables[0].Rows.Count; i++)
         {
             ZoneInfo += "<tr>";
-            ZoneInfo += "<td width='60%'>" + dsUnitDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td width='30%'>" + dsUnitDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
+            ZoneInfo += "<td class='center' width='30%'>";
             if (dsUnitDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
             {
                 ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>";
@@ -71,7 +71,7 @@ public partial class Admin_Unit : System.Web.UI.Page
                 ZoneInfo += "<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>";
             }
             ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td class='center' width='40%'>";
             ZoneInfo += "<a class='btn btn-success' href='Admin_Unit.aspx?UnitIdA=" + dsUnitDetails.Tables[0].Rows[i]["UnitId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
             ZoneInfo += "</a>&nbsp;";

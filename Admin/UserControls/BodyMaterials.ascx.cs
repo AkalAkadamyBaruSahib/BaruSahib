@@ -176,17 +176,17 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
 
         divMatDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
-        ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
+        ZoneInfo += "<table style='width:100%' class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
-        ZoneInfo += "<th>Material Type</th>";
-        ZoneInfo += "<th>Material Name</th>";
-        ZoneInfo += "<th>Material Cost</th>";
-        ZoneInfo += "<th>Status</th>";
-        ZoneInfo += "<th>Image of Material</th>";
+        ZoneInfo += "<th style='width:15%'>Material Type</th>";
+        ZoneInfo += "<th style='width:15%'>Material Name</th>";
+        ZoneInfo += "<th style='width:10%'>Material Cost</th>";
+        ZoneInfo += "<th style='width:10%'>Status</th>";
+        ZoneInfo += "<th style='width:10%'>Image of Material</th>";
         if (UserTypeID != 2 && UserTypeID != 10 && UserTypeID != 3)
         {
-            ZoneInfo += "<th>Actions</th>";
+            ZoneInfo += "<th style='width:40%'>Actions</th>";
         }
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
@@ -194,31 +194,31 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
         for (int i = 0; i < MatDetails.Rows.Count; i++)
         {
             ZoneInfo += "<tr>";
-            ZoneInfo += "<td>" + MatDetails.Rows[i]["MatTypeName"].ToString() + "</td>";
-            ZoneInfo += "<td>" + MatDetails.Rows[i]["MatName"].ToString() + "(" + MatDetails.Rows[i]["UnitName"].ToString() + ")</td>";
+            ZoneInfo += "<td style='width:15%'>" + MatDetails.Rows[i]["MatTypeName"].ToString() + "</td>";
+            ZoneInfo += "<td style='width:25%'>" + MatDetails.Rows[i]["MatName"].ToString() + "(" + MatDetails.Rows[i]["UnitName"].ToString() + ")</td>";
             if (MatID == 83)
             {
                 if (MatDetails.Rows[i]["AkalWorkshopRate"].ToString() != "")
                 {
-                    ZoneInfo += "<td>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["AkalWorkshopRate"].ToString())) + "</td>";
+                    ZoneInfo += "<td style='width:10%'>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["AkalWorkshopRate"].ToString())) + "</td>";
                 }
                 else
                 {
-                    ZoneInfo += "<td>0.00</td>";
+                    ZoneInfo += "<td style='width:10%'>0.00</td>";
                 }
             }
             else
             {
                 if (MatDetails.Rows[i]["MatCost"].ToString() != "")
                 {
-                    ZoneInfo += "<td>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["MatCost"].ToString())) + "</td>";
+                    ZoneInfo += "<td style='width:10%'>" + string.Format("{0:0.00}", Convert.ToDouble(MatDetails.Rows[i]["MatCost"].ToString())) + "</td>";
                 }
                 else
                 {
-                    ZoneInfo += "<td>0.00</td>";
+                    ZoneInfo += "<td style='width:10%'>0.00</td>";
                 }
             }
-            ZoneInfo += "<td class='center'>";
+            ZoneInfo += "<td class='center' style='width:10%'>";
             if (MatDetails.Rows[i]["Active"].ToString() == "1")
             {
                 ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>";
@@ -233,12 +233,12 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             }
             ZoneInfo += "</td>";
 
-            ZoneInfo += "<td width='25%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
+            ZoneInfo += "<td width='10%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
             ZoneInfo += "<a  style='background:url(" + MatDetails.Rows[i]["ImageUrl"].ToString() + ")'  href='" + MatDetails.Rows[i]["ImageUrl"].ToString() + "'>";
             ZoneInfo += "<img class='grayscale' width='75Px' height='75PX' src='" + MatDetails.Rows[i]["ImageUrl"].ToString() + "' ></a></li></ul></td>";
             if (UserTypeID != 2 && UserTypeID != 10 && UserTypeID != 3)
             {
-                ZoneInfo += "<td class='center'>";
+                ZoneInfo += "<td class='center' style='width:30%'>";
                 ZoneInfo += "<a class='btn btn-success' href='" + GetPageName() + "?MatIdA=" + MatDetails.Rows[i]["MatId"].ToString() + "'>";
                 ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
                 ZoneInfo += "</a>&nbsp;";

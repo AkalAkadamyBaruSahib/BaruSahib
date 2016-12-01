@@ -61,19 +61,19 @@ public partial class Adm_State : System.Web.UI.Page
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
-        ZoneInfo += "<th width='30%'>Country Name</th>";
-        ZoneInfo += "<th width='30%'>State Name</th>";
-        ZoneInfo += "<th width='20%'>Status</th>";
-        ZoneInfo += "<th width='20%'>Actions</th>";
+        ZoneInfo += "<th width='25%'>Country Name</th>";
+        ZoneInfo += "<th width='25%'>State Name</th>";
+        ZoneInfo += "<th width='15%'>Status</th>";
+        ZoneInfo += "<th width='35%'>Actions</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
         for (int i = 0; i < dsSateDetails.Tables[0].Rows.Count; i++)
         {
             ZoneInfo += "<tr>";
-            ZoneInfo += "<td width='30%'>" + dsSateDetails.Tables[0].Rows[i]["CountryName"].ToString() + "</td>";
-            ZoneInfo += "<td width='30%'>" + dsSateDetails.Tables[0].Rows[i]["StateName"].ToString() + "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td width='25%'>" + dsSateDetails.Tables[0].Rows[i]["CountryName"].ToString() + "</td>";
+            ZoneInfo += "<td width='25%'>" + dsSateDetails.Tables[0].Rows[i]["StateName"].ToString() + "</td>";
+            ZoneInfo += "<td class='center' width='15%'>";
             if (dsSateDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
             {
                 ZoneInfo += "<span class='label label-success' style='font-size: 15.998px;' title='Active'>Active</span>";
@@ -83,7 +83,7 @@ public partial class Adm_State : System.Web.UI.Page
                 ZoneInfo += "<span class='label label-important'  style='font-size: 15.998px;' title='Inactive'>InActive</span>";
             }
             ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td class='center' width='35%'>";
             ZoneInfo += "<a class='btn btn-success' href='Adm_State.aspx?StateIdA=" + dsSateDetails.Tables[0].Rows[i]["StateId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
             ZoneInfo += "</a>&nbsp;";

@@ -90,15 +90,15 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         dsSateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowWorkAllotDetailsByAcaId '" + id + "'");
         divAcademyDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
-        ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
+        ZoneInfo += "<table width='100%' class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
         ZoneInfo += "<th style='display:none;'></th>";
         ZoneInfo += "<th width='20%'>Zone & Academy</th>";
-        ZoneInfo += "<th width='25%'>Name of Work</th>";
-        ZoneInfo += "<th width='25%'>Image of Work</th>";
+        ZoneInfo += "<th width='20%'>Name of Work</th>";
+        ZoneInfo += "<th width='10%'>Image of Work</th>";
         ZoneInfo += "<th width='10%'>Status</th>";
-        ZoneInfo += "<th width='20%'>Actions</th>";
+        ZoneInfo += "<th width='40%'>Actions</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -109,8 +109,8 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             ZoneInfo += "<td style='display:none;'>1</td>";
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone:</b> " + dsSateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr>";
             ZoneInfo += " <tr><td><b>Academy:</b> " + dsSateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
-            ZoneInfo += "<td width='25%'><a href='ViewAdminWorkDetails.aspx?WAID='" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + ">" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td>";
-            ZoneInfo += "<td width='25%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
+            ZoneInfo += "<td width='20%'><a href='ViewAdminWorkDetails.aspx?WAID='" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + ">" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td>";
+            ZoneInfo += "<td width='10%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
             ZoneInfo += "<a  style='background:url(" + dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString() + ")'  href='" + dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString() + "'>";
             ZoneInfo += "<img class='grayscale' width='75Px' height='75PX' src='" + dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString() + "' ></a></li></ul></td>";
             ZoneInfo += "<td class='center' width='10%'>";
@@ -123,7 +123,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
                 ZoneInfo += "<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>";
             }
             ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td class='center' width='40%'>";
             ZoneInfo += "<a class='btn btn-success' href='Admin_WorkAllot.aspx?WAIdA=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
             ZoneInfo += "</a>&nbsp;";
@@ -256,10 +256,10 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         ZoneInfo += "<tr>";
         ZoneInfo += "<th style='display:none;'></th>";
         ZoneInfo += "<th width='20%'>Zone & Academy</th>";
-        ZoneInfo += "<th width='25%'>Name of Work</th>";
-        ZoneInfo += "<th width='25%'>Image of Work</th>";
-        ZoneInfo += "<th width='10%'>Status</th>";
-        ZoneInfo += "<th width='20%'>Actions</th>";
+        ZoneInfo += "<th width='20%'>Name of Work</th>";
+        ZoneInfo += "<th width='15%'>Image of Work</th>";
+        ZoneInfo += "<th width='15%'>Status</th>";
+        ZoneInfo += "<th width='30%'>Actions</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -270,11 +270,11 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             ZoneInfo += "<td style='display:none;'>1</td>";
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone:</b> " + dsSateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr>";
             ZoneInfo += " <tr><td><b>Academy:</b> " + dsSateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
-            ZoneInfo += "<td width='25%'><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td>";
-            ZoneInfo += "<td width='25%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
+            ZoneInfo += "<td width='20%'><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td>";
+            ZoneInfo += "<td width='15%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
             ZoneInfo += "<a  style='background:url(" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + ")'  href='" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + "'>";
             ZoneInfo += "<img class='grayscale' width='75Px' height='75PX' src='" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + "' ></a></li></ul></td>";
-            ZoneInfo += "<td class='center' width='10%'>";
+            ZoneInfo += "<td class='center' width='15%'>";
             if (dsSateDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
             {
                 ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>";
@@ -284,7 +284,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
                 ZoneInfo += "<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>";
             }
             ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td class='center' width='30%'>";
             ZoneInfo += "<a class='btn btn-success' href='Admin_WorkAllot.aspx?WAIdA=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'>";
             ZoneInfo += "<i class='icon-zoom-in icon-white'></i> Active";
             ZoneInfo += "</a>";
