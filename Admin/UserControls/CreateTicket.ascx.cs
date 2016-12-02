@@ -12,6 +12,7 @@ public partial class Admin_UserControls_CreateTicket : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
+            txtuserID.Value = Session["InchargeID"].ToString();
             hdnUserType.Value = Session["UserTypeID"].ToString();
             hdnLoginID.Value = Session["EmailId"].ToString();
             hdnUserID.Value = Session["InchargeID"].ToString();
@@ -57,7 +58,6 @@ public partial class Admin_UserControls_CreateTicket : System.Web.UI.UserControl
         }
         Response.End();
     }
-
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();

@@ -110,7 +110,7 @@ function SaveTicket() {
             if (textStatus == "success") {
                 $("#divCreateTicket").dialog('close');
                 alert(result.d);
-                LoadComplaints();
+                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
             }
         },
         error: function (result, textStatus) {
@@ -237,7 +237,7 @@ function SaveFeedback(ticketID, sfeedback) {
             if (textStatus == "success") {
                 $("#divFeedback").dialog('close');
                 alert("Feedback has been given to ticket and updated to admin.")
-                LoadComplaints();
+                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
                 return false;
             }
         },
@@ -300,7 +300,7 @@ function DeleteTicket(ticketID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 alert("Complaint Ticket has been deleted.");
-                LoadComplaints();
+                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
                 return false;
             }
         },
@@ -344,14 +344,13 @@ function LoadControls() {
 
 function LoadAssignComplaints(UserType,inchargeID)
 {
-    var rowCount = $('#grdTicketDiscription').find("#rowTemplate").length;
-    if (rowCount == 0) {
-        /*create/distroy grid for the new search*/
+   
+         /*create/distroy grid for the new search*/
         if (typeof grdTicketDiscription != 'undefined') {
             grdTicketDiscription.fnClearTable();
         }
 
-
+          var rowCount = $('#grdTicketDiscription').find("#rowTemplate").length;
         for (var i = 0; i < rowCount; i++) {
             $("#rowTemplate").remove();
         }
@@ -437,7 +436,7 @@ function LoadAssignComplaints(UserType,inchargeID)
             }
         });
     }
-}
+
 
 function LoadInProgressComplaints(UserType, inchargeID) {
 

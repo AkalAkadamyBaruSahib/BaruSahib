@@ -4,6 +4,7 @@
 <input id="hdnID" runat="server" type="hidden" value="0" />
 <input id="hdnUserType" runat="server" type="hidden" value="0" />
 <input id="hdnLoginID" runat="server" type="hidden" value="0" />
+<input id="txtuserID" runat="server" type="hidden" value="0" />
  <script type="text/javascript">
      function ReportOnChange(control) {
          if (control.value == "1" || control.value == "2" || control.value == "3") {
