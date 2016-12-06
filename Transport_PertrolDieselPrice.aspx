@@ -28,7 +28,7 @@
                                         <label class="control-label" for="typeahead"></label>
                                         <div class="controls">
                                             Zone:<br />
-                                            <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged"></asp:DropDownList><br />
+                                            <asp:DropDownList ID="ddlZone" runat="server"></asp:DropDownList><br />
                                         </div>
                                     </div>
                                 </td>
@@ -36,8 +36,7 @@
                                     <div class="control-group">
                                         <label class="control-label" for="typeahead"></label>
                                         <div class="controls">
-                                            Academy:<br />
-                                            <asp:DropDownList ID="ddlAcademy" runat="server"></asp:DropDownList><br />
+                                           Update All Academy:<asp:CheckBox ID="chkAcademy" runat="server" />
                                         </div>
                                     </div>
                                 </td>

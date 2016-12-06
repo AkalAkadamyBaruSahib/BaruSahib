@@ -96,7 +96,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
 
     private void BindNewVisitor()
     {
-        lblTag.Text = "Add New Visitor Information";
+        lblTag.Text = "Add New Visitor Information ||";
         divfileUploadauthority.Visible = false;
         divddlelectricitybill.Visible = false;
         divddlroomservice.Visible = false;
@@ -113,8 +113,6 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         divVisitorRoomRent.Visible = false;
         ddlRoomRent.Visible = false;
         ddlpurpose.Visible = false;
-        DataSet visitortype = new DataSet();
-
     }
 
     public void Clear()

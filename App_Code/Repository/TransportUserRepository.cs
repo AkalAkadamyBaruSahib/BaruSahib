@@ -407,7 +407,7 @@ public class TransportUserRepository
 
     public VehicleEmployee GetEmployeeByVehicleID(int VehicleID, int EmployeeType)
     {
-        return _context.VehicleEmployee.Where(x => x.VehicleID == VehicleID && x.EmployeeType == EmployeeType).FirstOrDefault();
+        return _context.VehicleEmployee.Where(x => x.VehicleID == VehicleID && x.EmployeeType == EmployeeType && x.IsActive == true).FirstOrDefault();
     }
 
     public List<VechilesNormsRelation> GetVechilesNormsRelationByVehicleID(int VehicleID)
@@ -425,13 +425,15 @@ public class TransportUserRepository
         return _context.VehicleContractRate.Where(x => x.SeatCapacity == SeatingCapacity).ToList();
     }
 
-    public List<VehiclesDTO> GetContracturalVehiclesByAcaID(int AcaID, int TypeID)
+    public List<VehiclesDTO> GetContracturalVehiclesByAcaID(int AcaID, bool isApproved)
     {
         List<VehiclesDTO> mt = new List<VehiclesDTO>();
-        return mt = _context.Vehicles.Where(v => v.AcademyID == AcaID && v.TypeID == TypeID && v.IsApproved == true).AsEnumerable().Select(x => new VehiclesDTO
+        return mt = _context.Vehicles.Where(v => v.AcademyID == AcaID && v.IsApproved == isApproved && (v.TypeID == (int)TypeEnum.TransportType.Contractual || v.TypeID == (int)TypeEnum.TransportType.DailyWages || v.TypeID == (int)TypeEnum.TransportType.Passengervehicle)).AsEnumerable().Select(x => new VehiclesDTO
         {
             ID = x.ID,
             Number = x.Number,
+            OwnerName = x.OwnerName,
+            OwnerNumber = x.OwnerNumber
         }).OrderByDescending(m => m.Number).Reverse().ToList();
     }
 

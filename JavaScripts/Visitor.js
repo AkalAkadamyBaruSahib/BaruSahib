@@ -71,6 +71,8 @@ $(document).ready(function () {
             SelectedRoomNo = SelectedRoomNo.substr(0, SelectedRoomNo.length - 1);
             $("#aRoomNumber").text("Allocated Rooms: " + SelectedRoomNo);
         }
+
+      
     });
 
     //LoadVisitors(-1);
@@ -88,6 +90,19 @@ $(document).ready(function () {
         var BuildingID = $("input[id*='hdnBuildingID']").val();
         $.when(getBookedRoomList(BuildingID)).then(GetAllRoomList(BuildingID));
         return false;
+    });
+
+    $("input[id*=chkAdminsnNumber]:checkbox").click(function () {
+        if ($(this)[0].checked) {
+            $("#trStudentSearch").show();
+        }
+        else {
+            $("#trStudentSearch").hide();
+        }
+    });
+
+    $('#btnSearch').click(function () {
+        GetVisitorInfoByAdminsnNumber($("input[id*='txtAdmisnNo']").val());
     });
 });
  
@@ -239,8 +254,7 @@ function LoadVisitorByVisitorID(visitorID) {
                 $("select[id*='ddlroomservice']").val(msg.RoomRentType);
                 $("select[id*='ddlelectricitybill']").val(msg.ElectricityBill);
                 $("select[id*='drpCountry']").val(msg.Country);
-                BindState(msg.Country,msg.State);
-                BindCity(msg.State, msg.City);
+                BindState(msg.Country, msg.State, msg.City);
                 $("input[id*='txtReference']").val(msg.VisitorReference);
                 $("select[id*='ddlRoomRent']").val(msg.RoomRent);
                 $("input[id*='txtAdmissionNo']").val(msg.AdmissionNumber);
@@ -327,7 +341,7 @@ function OpenDailogLink(src) {
     $('#myModal').modal('show');
 }
 
-function BindCity(StateID,CityID) {
+function BindCity(StateID, CityID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -341,7 +355,6 @@ function BindCity(StateID,CityID) {
                     $("select[id*='drpCity']").append($("<option></option>").val(value.CityId).html(value.CityName));
                 });
                 $("select[id*='drpCity']").val(CityID);
-             
             }
         },
         error: function (result, textStatus) {
@@ -350,7 +363,7 @@ function BindCity(StateID,CityID) {
     });
 }
 
-function BindState(countryID,StateID) {
+function BindState(countryID,stateID,cityID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -363,12 +376,44 @@ function BindState(countryID,StateID) {
                 $.each(Result, function (key, value) {
                     $("select[id*='drpState']").append($("<option></option>").val(value.StateId).html(value.StateName));
                 });
-                $("select[id*='drpState']").val(StateID);
+                $("select[id*='drpState']").val(stateID);
+                BindCity(stateID, cityID);
 
             }
         },
         error: function (result, textStatus) {
             alert(result.responseText);
+        }
+    });
+}
+
+function GetVisitorInfoByAdminsnNumber(admissionNo) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/VisitorUserController.asmx/GetVisitorInfoByAdminsnNumber",
+        data: JSON.stringify({ AdmissionNumber: parseInt(admissionNo) }),
+        dataType: "json",
+        success: function (responce) {
+            var msg = responce.d;
+            if (msg != undefined) {
+
+                $("input[id*='txtName']").val(msg.FatherName);
+                $("select[id*='drpCountry']").val(msg.CountryID);
+                $("textarea[id*='txtAddress']").val(msg.Address);
+                BindState(msg.CountryID, msg.StateID, msg.CityID);
+                $("input[id*='txtContactNumber']").val(msg.ContactNo);
+                $("select[id*='ddlpurpose']").val("Parents Meeting");
+                $("#divAdminsnNo").show();
+                $("input[id*='txtAdmissionNo']").val(admissionNo);
+                $("#lblStudentName").html(msg.StudentName);
+            }
+            else {
+                alert("Admission Number does not exit.");
+            }
+        },
+        error: function (response) {
+            alert(response.status + '' + response.textStatus);
         }
     });
 }

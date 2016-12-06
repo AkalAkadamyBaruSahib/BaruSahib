@@ -141,19 +141,38 @@
                 <div class="box-header well" data-original-title>
 
                     <h2><i class="icon-user"></i>
-                        <asp:Label ID="lblTag" runat="server" Text="" ForeColor="#cc3300"></asp:Label></h2>
+                        <asp:Label ID="lblTag" runat="server" Text="" ForeColor="#cc3300"></asp:Label>
+                        <label id="lblStudentName" style="color: #cc3300; font-weight: 600; font-size: 20px"></label>
+                    </h2>
                     <div class="box-icon">
-
                         <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
                 </div>
-                <div class="box-content">
-
+                <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="visitor" />
+                <%-- <div class="well bs-component form-horizontal">--%>
+                <div class="well bs-component">
                     <fieldset>
-                        <legend></legend>
-                        <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="visitor" />
+                        <legend>Personal Information
+                            <div>
+                                <label class="control-label" for="typeahead">Fill data through Admission Number:</label>
+                                <input type="checkbox" id="chkAdminsnNumber" />
+                            </div>
+                        </legend>
                         <div class="box-content">
+                            <div id="trStudentSearch" style="display: none;">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label class="control-label" for="typeahead">Admission Number:</label>
+                                            <input type="text" id="txtAdmisnNo" class="span6 typeahead" name="txtAdmisnNo" maxlength="8" style="width:200px" /></td>
+                                        <td>
+                                            <input type="button" id="btnSearch" value="Search" class="btn btn-primary" /></td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
                             <table id="tabledata" width="100%">
                                 <tr>
                                     <td width="30%" style="padding-right: 254px; padding-bottom: 29px;">
@@ -177,7 +196,7 @@
                                         <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor"
                                             ID="RequiredFieldValidator2" ControlToValidate="txtAddress"
                                             ErrorMessage="Please enter Visitor Address" />
-                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="visitor" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z0-9 #,&()-]*$"></asp:RegularExpressionValidator>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="visitor" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z0-9 #,&()-.:]*$"></asp:RegularExpressionValidator>
 
                                     </td>
                                 </tr>
@@ -187,8 +206,8 @@
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead">Country:</label>
                                             <div class="controls">
-                                                <asp:DropDownList ID="drpCountry" runat="server" OnSelectedIndexChanged="drpCountry_SelectedIndexChanged" AutoPostBack="true" >
-                                                       <asp:ListItem Value="0">Select Country</asp:ListItem>
+                                                <asp:DropDownList ID="drpCountry" runat="server" OnSelectedIndexChanged="drpCountry_SelectedIndexChanged" AutoPostBack="true">
+                                                    <asp:ListItem Value="0">Select Country</asp:ListItem>
                                                 </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator1"
                                                     ControlToValidate="drpCountry" InitialValue="0" ErrorMessage="Please select the Country" />
@@ -213,7 +232,7 @@
                                             <label class="control-label" for="typeahead">City:</label>
                                             <div class="controls">
                                                 <asp:DropDownList ID="drpCity" runat="server">
-                                                       <asp:ListItem Value="0">Select City</asp:ListItem>
+                                                    <asp:ListItem Value="0">Select City</asp:ListItem>
                                                 </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator6"
                                                     ControlToValidate="drpCity" InitialValue="0" ErrorMessage="Please select the City" />
@@ -370,12 +389,14 @@
                                             <div class="controls">
                                                 <asp:DropDownList ID="ddlpurpose" runat="server" onchange="PurposeOnChange(this);">
                                                     <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
-                                                    <asp:ListItem Text="Parents Meeting" Value="Parents Meeting"></asp:ListItem>
+                                                    <asp:ListItem Text="Annual Day Function" Value="Annual Day Function"></asp:ListItem>
+                                                    <asp:ListItem Text="Darshan Mela" Value="Darshan Mela"></asp:ListItem>
+                                                    <asp:ListItem Text="New Admission" Value="New Admission"></asp:ListItem>
                                                     <asp:ListItem Text="Office Meeting" Value="Office Meeting"></asp:ListItem>
+                                                    <asp:ListItem Text="Parents Meeting" Value="Parents Meeting"></asp:ListItem>
+                                                    <asp:ListItem Text="Samagam" Value="Samagam"></asp:ListItem>
                                                     <asp:ListItem Text="Sports Meet" Value="Sports Meet"></asp:ListItem>
                                                     <asp:ListItem Text="Training" Value="Training"></asp:ListItem>
-                                                    <asp:ListItem Text="Samagam" Value="Samagam"></asp:ListItem>
-                                                    <asp:ListItem Text="Annual Day Function" Value="Annual Day Function"></asp:ListItem>
                                                     <asp:ListItem Text="Others" Value="Others"></asp:ListItem>
                                                 </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator5"

@@ -119,4 +119,12 @@ public class VisitorUserController : System.Web.Services.WebService
         VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
         return repository.GetStateByCountryID(CountryID);
     }
+
+
+    [WebMethod]
+    public StudentDetail GetVisitorInfoByAdminsnNumber(int AdmissionNumber)
+    {
+        VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
+        return repository.GetVisitorInfoByAdminsnNumber(AdmissionNumber);
+    }
 }

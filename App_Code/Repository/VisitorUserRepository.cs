@@ -485,4 +485,10 @@ public class VisitorUserRepository
     {
         return _context.State.Where(x => x.CountryId == CountryID).OrderBy(x => x.StateName).ToList();
     }
+
+    public StudentDetail GetVisitorInfoByAdminsnNumber(int AdmissionNumber)
+    {
+        StudentDetail visitor = _context.StudentDetail.Where(v => v.AdmissionNumber == AdmissionNumber).FirstOrDefault();
+        return visitor;
+    }
 }

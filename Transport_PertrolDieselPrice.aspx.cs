@@ -31,13 +31,8 @@ public partial class PertrolDieselPrice : System.Web.UI.Page
         ddlZone.ClearSelection();
         ddlZone.Items.FindByValue(dtPrice.Rows[0]["ZoneID"].ToString()).Selected = true;
         ddlZone.Enabled = false;
-
-        BindAcademy();
-
-        ddlAcademy.ClearSelection();
-        ddlAcademy.Items.FindByValue(dtPrice.Rows[0]["AcaID"].ToString()).Selected = true;
-        ddlAcademy.Enabled = false;
-
+        chkAcademy.Checked = true;
+        chkAcademy.Enabled = false;
         txtDieselPrice.Text = dtPrice.Rows[0]["DieselPrice"].ToString();
         txtPetrolPrice.Text = dtPrice.Rows[0]["PetrolPrice"].ToString();
 
@@ -49,8 +44,10 @@ public partial class PertrolDieselPrice : System.Web.UI.Page
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Zone.');", true);
         }
-        else if (ddlAcademy.SelectedValue == "0")
-        { ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Academy.');", true); }
+        else if (chkAcademy.Checked == false)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please check the Academy.');", true);
+        }
         else if (txtPetrolPrice.Text == string.Empty)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Petrol Price.');", true);
@@ -61,22 +58,36 @@ public partial class PertrolDieselPrice : System.Web.UI.Page
         }
         else
         {
-            if (hdnID.Value != string.Empty)
-            {
-                DAL.DalAccessUtility.ExecuteNonQuery("Update DieselPetrolPrice SET DieselPrice=" + txtDieselPrice.Text + ", PetrolPrice=" + txtPetrolPrice.Text + ", CreatedOn=getdate() WHERE ID=" + hdnID.Value);
+            //if (hdnID.Value != string.Empty)
+            //{
+            //    DAL.DalAccessUtility.ExecuteNonQuery("Update DieselPetrolPrice SET DieselPrice=" + txtDieselPrice.Text + ", PetrolPrice=" + txtPetrolPrice.Text + ", CreatedOn=getdate() WHERE ID=" + hdnID.Value);
 
-                PropertyInfo isreadonly = typeof(System.Collections.Specialized.NameValueCollection).GetProperty("IsReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
-                // make collection editable
-                isreadonly.SetValue(this.Request.QueryString, false, null);
-                // remove
-                this.Request.QueryString.Remove("ID");
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Price has been updated.');", true);
-            }
-            else
-            {
-                DAL.DalAccessUtility.ExecuteNonQuery("Insert into DieselPetrolPrice values(" + ddlAcademy.SelectedValue + "," + txtDieselPrice.Text + "," + txtPetrolPrice.Text + ",getdate())");
+            //    PropertyInfo isreadonly = typeof(System.Collections.Specialized.NameValueCollection).GetProperty("IsReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+            //    // make collection editable
+            //    isreadonly.SetValue(this.Request.QueryString, false, null);
+            //    // remove
+            //    this.Request.QueryString.Remove("ID");
+            //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Price has been updated.');", true);
+            //}
+            //else
+            //{
+                DAL.DalAccessUtility.ExecuteNonQuery("delete from DieselPetrolPrice where AcaID in (select AcaId from Academy where ZoneId='" + ddlZone.SelectedValue + "')");
+                DataSet dsA = new DataSet();
+                dsA = DAL.DalAccessUtility.GetDataInDataSet("select AcaId from Academy where ZoneId='" + ddlZone.SelectedValue + "'");
+               
+                foreach (DataRow drAca in dsA.Tables[0].Rows)
+                {
+                    string Aca = string.Empty;
+                    Aca = Aca + "," + drAca["AcaId"].ToString();
+                    foreach (string acaDetail in Aca.Split(','))
+                    {
+                        DataSet dsA1 = new DataSet();
+                        DAL.DalAccessUtility.ExecuteNonQuery("Insert into DieselPetrolPrice values('" + acaDetail + "'," + txtDieselPrice.Text + "," + txtPetrolPrice.Text + ",getdate())");
+                    }
+                }
+
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Diesel and Petrol price has been saved.');", true);
-            }
+          //  }
             Clear();
             BindPriceDetails();
         }
@@ -87,8 +98,8 @@ public partial class PertrolDieselPrice : System.Web.UI.Page
         hdnID.Value = string.Empty;
         ddlZone.SelectedIndex = 0;
         ddlZone.Enabled = true;
-        ddlAcademy.SelectedIndex = 0;
-        ddlAcademy.Enabled = true;
+        chkAcademy.Checked = false;
+        chkAcademy.Enabled = true;
         txtDieselPrice.Text = string.Empty;
         txtPetrolPrice.Text = string.Empty;
     }
@@ -144,23 +155,5 @@ public partial class PertrolDieselPrice : System.Web.UI.Page
         ddlZone.DataBind();
         ddlZone.Items.Insert(0, new ListItem("--All Zones---", "0"));
         ddlZone.SelectedIndex = 0;
-    }
-
-    private void BindAcademy()
-    {
-        DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM academy where ZoneID=" + ddlZone.SelectedValue + " order by AcaName asc");
-        if (dsBillDetails.Tables.Count > 0 && dsBillDetails.Tables[0].Rows.Count > 0)
-        {
-            ddlAcademy.DataTextField = "AcaName";
-            ddlAcademy.DataValueField = "AcaID";
-            ddlAcademy.DataSource = dsBillDetails.Tables[0];
-            ddlAcademy.DataBind();
-            ddlAcademy.Items.Insert(0, new ListItem("--All Academies---", "0"));
-            ddlAcademy.SelectedIndex = 0;
-        }
-    }
-    protected void ddlZone_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        BindAcademy();
     }
 }

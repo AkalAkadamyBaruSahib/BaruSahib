@@ -16,34 +16,23 @@ SELECT distinct  EstId
 				,[PurchaseQuantity]
 				,ReceivedStoreQuantity
 				,DispatchQuantity
-				,[PendingQuantity]
-    			,Rate
-				,Amount
+				,[StorePendingQuantity]
+				,[DirectPurchasedQty]
+     			,Rate AS [PerItemRate]
+				,Amount AS [TotalAmount]
 				,CreatedOnDate
     			,EmployeeAssignDate
 				,PurchaseDate
-				,PurchaserName,  
-				[Dispatch Status],  
+				,PurchaserName
+				,[StoreDispatchStatus] AS [Dispatch Status],  
                 [Received BillNumber],
 				[EmployeeDispatchStatus]
-
-
-
-				 from EstimateReport WHERE PSId=@PsId 
-
-
-
-AND IsApproved=1  
-
-
+         		 from EstimateReport WHERE PSId=@PsId 
+AND IsApproved=1  AND IsReceived=0
 
 
 
 AND ModifyOn >= @Firstdate and ModifyOn <= @SecondDate
-
-
-
-
 
 
 
