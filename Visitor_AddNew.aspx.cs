@@ -214,8 +214,12 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             }
             else
             {
-                DateTime FromDate = Convert.ToDateTime(txtfirstDate.Text);
-                visitor.TimePeriodFrom = TimeZoneInfo.ConvertTimeToUtc(FromDate);
+                DateTime serverTime = Convert.ToDateTime(txtfirstDate.Text); 
+                DateTime utcTime = serverTime.ToUniversalTime();
+
+                TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi);
+                visitor.TimePeriodFrom = localTime;
             }
             if (string.IsNullOrEmpty(txtlastDate.Text))
             {
@@ -324,7 +328,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             VisitorUserRepository repo = new VisitorUserRepository(new AkalAcademy.DataContext());
             if (visitor.ID == 0)
             {
-                repo.AddNewVisitor(visitor);
+              //  repo.AddNewVisitor(visitor);
             }
             else
             {
