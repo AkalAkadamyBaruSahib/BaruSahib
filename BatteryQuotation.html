@@ -26,54 +26,80 @@
                 <table border="1" style="width: 100%;">
                     <tr>
                         <td colspan="2">AA NAME</td>
-                        <td colspan="2">[BatteryAcaName]</td>
+                        <td colspan="3">[BatteryAcaName]</td>
+                    </tr>
+                     <tr>
+                        <td colspan="2">BATTERY TYPE</td>
+                        <td colspan="3">[BatteryTye]</td>
                     </tr>
                     <tr>
-                        <td colspan="2">VEHICLE NUMBER</td>
-                        <td colspan="2">[BatteryVehicleNumber]</td>
+                        <td colspan="2">VEHICLE NUMBER/SEATED/ MODEL</td>
+                        <td>[BatteryVehicleNumber]</td>
+                        <td>[BatterySeated]</td>
+                        <td>[BatteryModel]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">DRIVER NAME & NUMBER</td>
+                        <td colspan="3">[BatteryDriverName]</td>
                     </tr>
                     <tr>
                         <td colspan="2">VEHICLE TYPE</td>
-                        <td colspan="2">[BatteryVehicleType]</td>
+                        <td colspan="3">[BatteryVehicleType]</td>
+                    </tr>
+                     <tr>
+                        <td colspan="2">GENSET NUMBER</td>
+                        <td colspan="3">[BatteryGensetNo]</td>
+                    </tr>
+                     <tr>
+                        <td colspan="2">GENSET POWER</td>
+                        <td colspan="3">[BatteryGensetPower]</td>
+                    </tr>
+                     <tr>
+                        <td colspan="2">GENSET COMPANY</td>
+                        <td colspan="3">[BatteryGensetCompany]</td>
+                    </tr>
+                     <tr>
+                        <td colspan="2">INVERTAR COMPANY</td>
+                        <td colspan="3">[BatteryInvertarCompany]</td>
                     </tr>
                     <tr>
                         <td colspan="2">CRUNNENT MERTER READING</td>
-                        <td colspan="2">[BatteryCurrentMeterReading]</td>
+                        <td colspan="3">[BatteryCurrentMeterReading]</td>
                     </tr>
                     <tr>
                         <td colspan="2"><b>NEW BATTERY REQUIREMENT OR QUOTATION</b></td>
-                        <td colspan="2"><b>OLD BATTERY DETAIL</b></td>
+                        <td colspan="3"><b>OLD BATTERY DETAIL</b></td>
                     </tr>
                     <tr>
                         <td>NO. OF REQUIRED</td>
                         <td>[NoofRequired]</td>
                         <td>MAKE OF BATTERY/CAPACITY</td>
-                        <td>[MakeOfBatteryCapacity]</td>
+                        <td colspan="2">[MakeOfBatteryCapacity]</td>
                     </tr>
                     <tr>
                         <td>NEW MAKE OF BATTERY</td>
                         <td>[NewMakeOfBattery]</td>
                         <td>OLD BATTREY SERIAL NUMBER</td>
-                        <td>[OldBatterySerialNumber]</td>
+                        <td colspan="2">[OldBatterySerialNumber]</td>
                     </tr>
                     <tr>
                         <td>NEW BATTREY CAPACITY</td>
                         <td>[NewBatteryCapacity]</td>
                         <td>OLD PURCHASE DATE</td>
-                        <td>[OldPurchaseDate]</td>
+                        <td colspan="2">[OldPurchaseDate]</td>
                     </tr>
                     <tr>
                         <td>NEW BATTREY SERIAL NUMBER</td>
                         <td>[NewBatterySerialNumber]</td>
                         <td>OLD BATTERY SALE PRICE</td>
-                        <td>[OldBatterySalePrice]</td>
+                        <td colspan="2">[OldBatterySalePrice]</td>
                     </tr>
                     <tr>
                         <td>NEW BATTERY LIFE IN YEARS</td>
                         <td>[NewbatteryLifeInYears]</td>
 
                         <td>APPROVAL AMOUNT</td>
-                        <td>[ApprovalAmount]</td>
+                        <td colspan="2">[ApprovalAmount]</td>
 
                     </tr>
                 </table>
@@ -97,7 +123,7 @@
                         <tr>
                             <th><b>NAME OF COMPANY</b></th>
                             <th><b>SIZE OF BATTERY</b></th>
-                            <th></th>
+                            <th><b>NO OF REQUIREMENT</b></b></th>
                             <th><b>PRICE OF BATTERY</b></th>
                         </tr>
                     </thead>
@@ -136,7 +162,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>MICRO TECH</td>
+                            <td>OKAYA</td>
                             <td>[MicroTechSize]</td>
 
 
@@ -156,6 +182,11 @@
                     <tr>
                         <td style="height: 70px;" colspan="4">
                             <span style="font-weight: bolder; margin-left: 350px; font-size: 20px;"><b>REMARKS</b></span><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            [BatteryRemarks]
                         </td>
                     </tr>
                 </table>

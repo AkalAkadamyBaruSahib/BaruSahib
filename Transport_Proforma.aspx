@@ -4,7 +4,7 @@
     <script src="JavaScripts/TransportProforma.js"></script>
     <div id="content" class="span10">
         <asp:HiddenField ID="hdnInchargeID" runat="server" />
-           <asp:HiddenField ID="hdnUserId" runat="server" />
+        <asp:HiddenField ID="hdnUserId" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well">
@@ -111,25 +111,16 @@
                                                         </tr>
                                                         <tr>
 
-                                                            <td><b>LAST TIME REPAIR AMOUNT:</b></td>
+                                                            <td><b>LAST TIME QUOTATION AMOUNT:</b></td>
                                                             <td style="width: 400px">
                                                                 <input type="text" name="txtLastRepairAmount" disabled="disabled" id="txtLastRepairAmount" required />
                                                             </td>
-
                                                         </tr>
                                                         <tr>
 
-                                                            <td><b>QUOTATION AMOUNT:</b></td>
+                                                            <td><b>CURRENT QUOTATION AMOUNT:</b></td>
                                                             <td style="width: 400px">
                                                                 <input type="text" name="txtQuotationAmount" disabled="disabled" id="txtQuotationAmount" required />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-
-                                                            <td><b>APPROVAL AMOUNT OF SERVICE :</b></td>
-                                                            <td style="width: 400px">
-                                                                <input type="text" name="txtApprovalAmount" disabled="disabled" id="txtApprovalAmount" required />
-
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -331,8 +322,177 @@
                                                                     <input id="txtRate9" name="txtRate9" type="text" />
                                                                 </td>
                                                             </tr>
+                                                            <tr id="tr22">
+                                                                <td>
+                                                                    <span id="Span28">11</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input name="txtMaterialName10" id="txtMaterialName10" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQty10" name="txtQty10" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtRate10" name="txtRate10" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr23">
+                                                                <td>
+                                                                    <span id="Span29">12</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input name="txtMaterialName11" id="txtMaterialName11" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQty11" name="txtQty11" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtRate11" name="txtRate11" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr24">
+                                                                <td>
+                                                                    <span id="Span30">13</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input name="txtMaterialName12" id="txtMaterialName12" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQty12" name="txtQty12" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtRate12" name="txtRate12" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr25">
+                                                                <td>
+                                                                    <span id="Span31">14</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input name="txtMaterialName13" id="txtMaterialName13" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQty13" name="txtQty13" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtRate13" name="txtRate13" type="text" />
+                                                                </td>
+                                                                <tr id="tr26">
+                                                                    <td>
+                                                                        <span id="Span32">15</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input name="txtMaterialName14" id="txtMaterialName14" type="text" />
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtQty14" name="txtQty14" type="text" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtRate14" name="txtRate14" type="text" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="tr34">
+                                                                    <td>
+                                                                        <span id="Span38">16</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input name="txtMaterialName15" id="txtMaterialName15" type="text" />
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtQty15" name="txtQty15" type="text" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtRate15" name="txtRate15" type="text" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="tr35">
+                                                                    <td>
+                                                                        <span id="Span39">17</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input name="txtMaterialName16" id="txtMaterialName16" type="text" />
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtQty16" name="txtQty16" type="text" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtRate16" name="txtRate16" type="text" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="tr36">
+                                                                    <td>
+                                                                        <span id="Span40">18</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input name="txtMaterialName17" id="txtMaterialName17" type="text" />
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtQty17" name="txtQty17" type="text" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtRate17" name="txtRate17" type="text" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="tr37">
+                                                                    <td>
+                                                                        <span id="Span41">19</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input name="txtMaterialName18" id="txtMaterialName18" type="text" />
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtQty18" name="txtQty18" type="text" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtRate18" name="txtRate18" type="text" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="tr38">
+                                                                    <td>
+                                                                        <span id="Span42">20</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input name="txtMaterialName19" id="txtMaterialName19" type="text" />
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtQty19" name="txtQty19" type="text" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input id="txtRate19" name="txtRate19" type="text" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr id="tr32">
+                                                                    <td colspan="3">
+                                                                        <input type="button" id="btnGensetTotalAmt" value="TOTAL AMOUNT" style="margin-left: 350px;" class="btn btn-primary" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <label id="lblTotal" name="lblTotal"></label>
+                                                                        <asp:HiddenField ID="hdnGensetTotal" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 15px; font-weight: bolder; margin-left: 375px;"><b>REMARKS</b></span><br />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height: 70px;">
+                                                    <textarea name="txtGensetRemarks" id="txtGensetRemarks" style="width: 800px;"></textarea>
                                                 </td>
                                             </tr>
                                         </table>
@@ -361,7 +521,7 @@
                                                     <table border="0">
                                                         <tr>
                                                             <td colspan="2">AA NAME</td>
-                                                            <td colspan="2">
+                                                            <td colspan="3">
                                                                 <select id="ddlBatteryAcaName" disabled="disabled" name="ddlBatteryAcaName" required>
                                                                     <option value="">--Select Academy--</option>
                                                                 </select>
@@ -369,29 +529,77 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">VEHICLE NUMBER</td>
-                                                            <td colspan="2">
+                                                            <td colspan="2">BATTERY TYPE</td>
+                                                            <td colspan="3">
+                                                                <select id="ddlBatteryTye" disabled="disabled" name="ddlBatteryTye" required>
+                                                                    <option value="">--Select Battery Type--</option>
+                                                                    <option value="Vehicle Battery">Vehicle Battery</option>
+                                                                    <option value="Genset Battery">Genset Battery</option>
+                                                                    <option value="Inverter Battery">Inverter Battery</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trVehicleDetail" style="display: none;">
+                                                            <td colspan="2">VEHICLE NUMBER/SEATED/MODEL</td>
+                                                            <td>
                                                                 <select id="ddlVehicleNumber" disabled="disabled" name="ddlVehicleNumber" required>
                                                                     <option value="">--Select Vehicle--</option>
                                                                 </select>
                                                                 <asp:HiddenField ID="hdnBatteryVehicleNo" runat="server" />
                                                             </td>
+                                                            <td>
+                                                                <input type="text" disabled="disabled" id="txtBatterySeated" name="txtBatterySeated" required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" disabled="disabled" id="txtBatteryModel" name="txtBatteryModel" required />
+                                                            </td>
+
                                                         </tr>
-                                                        <tr>
+                                                        <tr id="trDriverDetail" style="display: none;">
+                                                            <td colspan="2">DRIVER NAME & NUMBER</td>
+                                                            <td colspan="3">
+                                                                <input type="text" disabled="disabled" id="txtBatteryDriverandNumber" name="txtBatteryDriverandNumber" required /></td>
+
+                                                        </tr>
+                                                        <tr id="trVehicelTypeDetail" style="display: none;">
                                                             <td colspan="2">VEHICLE TYPE</td>
-                                                            <td colspan="2">
+                                                            <td colspan="3">
                                                                 <input type="text" disabled="disabled" id="txtVehicelType" name="txtVehicelType" required />
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trGensetNumber" style="display: none;">
+                                                            <td colspan="2">GENSET NUMBER</td>
+                                                            <td colspan="3">
+                                                                <input type="text" disabled="disabled" id="txtBatteryGensetNo" name="txtBatteryGensetNo" required />
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trGensetPower" style="display: none;">
+                                                            <td colspan="2">GENSET POWER</td>
+                                                            <td colspan="3">
+                                                                <input type="text" disabled="disabled" id="txtBatteryGensetPower" name="txtBatteryGensetPower" required />
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trGensetCompany" style="display: none;">
+                                                            <td colspan="2">GENSET COMPANY</td>
+                                                            <td colspan="3">
+                                                                <input type="text" disabled="disabled" id="txtBatteryGensetCompany" name="txtBatteryGensetCompany" required />
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trInvertar" style="display: none;">
+                                                            <td colspan="2">INVERTAR COMPANY</td>
+                                                            <td colspan="3">
+                                                                <input type="text" disabled="disabled" id="txtBatteryInvertarCompany" name="txtBatteryInvertarCompany" required />
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="2">CRUNNENT MERTER READING</td>
-                                                            <td colspan="2">
+                                                            <td colspan="3">
                                                                 <input type="text" disabled="disabled" id="txtCurrentMeterReading" name="txtCurrentMeterReading" required />
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="2" style="height: 30px;"><b>NEW BATTERY REQUIREMENT OR QUOTATION</b></td>
-                                                            <td colspan="2" style="height: 30px;"><b>OLD BATTERY DETAIL</b></td>
+                                                            <td colspan="3" style="height: 30px;"><b>OLD BATTERY DETAIL</b></td>
                                                         </tr>
                                                         <tr>
                                                             <td>NO. OF REQUIRED:</td>
@@ -399,7 +607,7 @@
                                                                 <input type="text" disabled="disabled" id="txtNoRequird" name="txtNoRequird" required />
                                                             </td>
                                                             <td>MAKE OF BATTERY/CAPACITY</td>
-                                                            <td>
+                                                            <td colspan="2">
                                                                 <input type="text" disabled="disabled" id="txtBatteryCapacity" name="txtBatteryCapacity" required />
                                                             </td>
                                                         </tr>
@@ -409,7 +617,7 @@
                                                                 <input type="text" disabled="disabled" id="txtNewMakeBattery" name="txtNewMakeBattery" required />
                                                             </td>
                                                             <td>OLD BATTREY SERIAL NUMBER</td>
-                                                            <td>
+                                                            <td colspan="2">
                                                                 <input type="text" disabled="disabled" id="txtOldBatterySrNum" name="txtOldBatterySrNum" required />
                                                             </td>
                                                         </tr>
@@ -419,8 +627,8 @@
                                                                 <input type="text" disabled="disabled" id="txtNewBatteryCapacity" name="txtNewBatteryCapacity" required />
                                                             </td>
                                                             <td>OLD PURCHASE DATE</td>
-                                                            <td>
-                                                                <input type="text" disabled="disabled" id="txtPurchaseDate" style="width:210px;" name="txtPurchaseDate" class="input-xlarge datepicker" required />
+                                                            <td colspan="2">
+                                                                <input type="text" disabled="disabled" id="txtPurchaseDate" style="width: 210px;" name="txtPurchaseDate" class="input-xlarge datepicker" required />
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -429,7 +637,7 @@
                                                                 <input type="text" disabled="disabled" id="txtNewBatterySrNum" name="txtNewBatterySrNum" required />
                                                             </td>
                                                             <td>OLD BATTERY SALE PRICE</td>
-                                                            <td>
+                                                            <td colspan="2">
                                                                 <input type="text" disabled="disabled" id="txtOldBatterySale" name="txtOldBatterySale" required />
                                                             </td>
                                                         </tr>
@@ -439,7 +647,7 @@
                                                                 <input type="text" disabled="disabled" id="txtNewBatteryLife" name="txtNewBatteryLife" required />
                                                             </td>
                                                             <td>APPROVAL AMOUNT</td>
-                                                            <td>
+                                                            <td colspan="2">
                                                                 <input type="text" disabled="disabled" id="txtBatteryApprovalAmount" name="txtBatteryApprovalAmount" required />
                                                             </td>
                                                         </tr>
@@ -464,7 +672,7 @@
                                                             <tr>
                                                                 <th><b>NAME OF COMPANY</b></th>
                                                                 <th><b>SIZE OF BATTERY</b></th>
-                                                                <th></th>
+                                                                <th>NO OF REQUIREMENT</th>
                                                                 <th><b>PRICE OF BATTERY</b></th>
                                                             </tr>
                                                         </thead>
@@ -472,61 +680,71 @@
                                                             <tr id="tr2">
                                                                 <td>MICROTEK</td>
                                                                 <td>
-                                                                    <input type="text" id="txtMocrotaxSize" name="txtMocrotaxSize" />
+                                                                    <input type="text" id="txtMocrotaxSize" name="txtMocrotaxSize" disabled="disabled"  required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtMocrotax" name="txtMocrotax" />
+                                                                    <input type="text" id="txtMocrotax" name="txtMocrotax"  disabled="disabled"  required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMocrotaxPrice" name="txtMocrotaxPrice" />
+                                                                    <input type="text" id="txtMocrotaxPrice" name="txtMocrotaxPrice"  disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>TATA AMARON</td>
                                                                 <td>
-                                                                    <input type="text" id="txtAmaronSize" name="txtAmaronSize" />
+                                                                    <input type="text" id="txtAmaronSize" name="txtAmaronSize"  disabled="disabled"  required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtAmaron" name="txtAmaron" />
+                                                                    <input type="text" id="txtAmaron" name="txtAmaron"  disabled="disabled"  required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtAmaronPrice" name="txtAmaronPrice" />
+                                                                    <input type="text" id="txtAmaronPrice" name="txtAmaronPrice"  disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>EXIDE</td>
                                                                 <td>
-                                                                    <input type="text" id="txtExideSize" name="txtExideSize" />
+                                                                    <input type="text" id="txtExideSize" name="txtExideSize"  disabled="disabled"  required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtExide" name="txtExide" />
+                                                                    <input type="text" id="txtExide" name="txtExide"  disabled="disabled"  required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtExidePrice" name="txtExidePrice" />
+                                                                    <input type="text" id="txtExidePrice" name="txtExidePrice"  disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td>MICRO TECH</td>
+                                                                <td>OKAYA</td>
                                                                 <td>
-                                                                    <input type="text" id="txtMicroTechSize" name="txtMicroTechSize" />
+                                                                    <input type="text" id="txtMicroTechSize" name="txtMicroTechSize"  disabled="disabled"  required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtMicroTech" name="txtMicroTech" />
+                                                                    <input type="text" id="txtMicroTech" name="txtMicroTech"  disabled="disabled"  required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMicroTechPrice" name="txtMicroTechPrice" />
+                                                                    <input type="text" id="txtMicroTechPrice" name="txtMicroTechPrice"  disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 15px; font-weight: bolder; margin-left: 475px;"><b>REMARKS</b></span><br />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height: 70px;">
+                                                    <textarea name="txtBatteryRemarks" id="txtBatteryRemarks" style="width: 100%;"></textarea>
                                                 </td>
                                             </tr>
                                         </table>
@@ -566,6 +784,16 @@
                                                                 <asp:HiddenField ID="hdnTyreVehicleNo" runat="server" />
                                                             </td>
                                                             <td colspan="2">TYPE OF VEHICLES:<input type="text" disabled="disabled" id="txtTyreVehicleType" name="txtTyreVehicleType" style="float: right; margin-right: 70px;" required />
+                                                            </td>
+                                                        </tr>
+                                                         <tr>
+                                                            <td>SEATED</td>
+                                                            <td>
+                                                                <input type="text" disabled="disabled" id="txtTyreSeated" name="txtTyreSeated" required />
+                                                            </td>
+                                                            <td>MODEL</td>
+                                                            <td>
+                                                                <input type="text" disabled="disabled" id="txtTyreModel" name="txtTyreModel"  required />
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -655,49 +883,49 @@
                                                             <tr id="tr4">
                                                                 <td>MRF TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtMrfRates" name="txtMrfRates" />
+                                                                    <input type="text" id="txtMrfRates" name="txtMrfRates" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMrfQty" name="txtMrfQty" />
+                                                                    <input type="text" id="txtMrfQty" name="txtMrfQty" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMrfAmount" name="txtMrfAmount" />
+                                                                    <input type="text" id="txtMrfAmount" name="txtMrfAmount" disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>APPOLO TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtApoloRates" name="txtApoloRates" />
+                                                                    <input type="text" id="txtApoloRates" name="txtApoloRates"  disabled="disabled"  required/>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtApoloQty" name="txtApoloQty" />
+                                                                    <input type="text" id="txtApoloQty" name="txtApoloQty" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtApoloAmount" name="txtApoloAmount" />
+                                                                    <input type="text" id="txtApoloAmount" name="txtApoloAmount"  disabled="disabled"  required/>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>CEAT TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtCeatRates" name="txtCeatRates" />
+                                                                    <input type="text" id="txtCeatRates" name="txtCeatRates" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtCeatQty" name="txtCeatQty" />
+                                                                    <input type="text" id="txtCeatQty" name="txtCeatQty" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtCeatAmount" name="txtCeatAmount" />
+                                                                    <input type="text" id="txtCeatAmount" name="txtCeatAmount" disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>JK TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtJkRates" name="txtJkRates" />
+                                                                    <input type="text" id="txtJkRates" name="txtJkRates" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtJkQty" name="txtJkQty" />
+                                                                    <input type="text" id="txtJkQty" name="txtJkQty" disabled="disabled"  required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtJkAmount" name="txtJkAmount" />
+                                                                    <input type="text" id="txtJkAmount" name="txtJkAmount" disabled="disabled"  required />
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -807,6 +1035,16 @@
                                                     </table>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 15px; font-weight: bolder; margin-left: 475px;"><b>REMARKS</b></span><br />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height: 70px;">
+                                                    <textarea name="txtTyreRemarks" id="txtTyreRemarks" style="width: 100%;"></textarea>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -839,7 +1077,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><span id="Span6">3.</span></td>
+                                                            <td><span id="Span6">2.</span></td>
                                                             <td><b>VEHICLE NO./SEATED/ MODEL</b></td>
                                                             <td>
                                                                 <select disabled="disabled" id="ddlServiceVehicleNo" name="ddlServiceVehicleNo" required>
@@ -855,7 +1093,20 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><span id="Span7">5.</span></td>
+                                                            <td><span id="Span26">5.</span></td>
+                                                            <td><b>DRIVER NAME & NUMBER</b></td>
+                                                            <td>
+                                                                <input type="text" disabled="disabled" id="txtServiceDriverandNumber" name="txtServiceDriverandNumber" required /></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span id="Span27">6.</span></td>
+                                                            <td><b>VEHICLE TYPE</b></td>
+                                                            <td>
+                                                                <input type="text" disabled="disabled" id="txtServiceVehicelType" name="txtServiceVehicelType" required />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span id="Span7">7.</span></td>
                                                             <td style="width: 400px;"><b>CURRENT METER READING /LAST METER READING</b></td>
                                                             <td>
                                                                 <input type="text" disabled="disabled" id="txtSrvicCurntMetrReading" name="txtSrvicCurntMetrReading" required />
@@ -865,21 +1116,21 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><span id="Span8">7.</span></td>
+                                                            <td><span id="Span8">9.</span></td>
                                                             <td><b>QUOTATION AMOUNT</b></td>
                                                             <td>
                                                                 <input type="text" disabled="disabled" id="txtServiceQuotationAmount" name="txtServiceQuotationAmount" required />
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><span id="Span9">8</span></td>
+                                                            <td><span id="Span9">10.</span></td>
                                                             <td><b>APPROVAL AMOUNT</b></td>
                                                             <td>
                                                                 <input type="text" disabled="disabled" id="txtServiceApprovalAmount" name="txtServiceApprovalAmount" required />
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><span id="Span10">9.</span></td>
+                                                            <td><span id="Span10">11.</span></td>
                                                             <td><b>AVERAGE OF VEHICLE</b></td>
                                                             <td>
                                                                 <input type="text" disabled="disabled" id="txtAvergeVehicle" name="txtAvergeVehicle" required />
@@ -887,7 +1138,7 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <td><span id="Span13">10.</span></td>
+                                                            <td><span id="Span13">12.</span></td>
                                                             <td><b>SERVICE PLACE-AGENCY/OTHER/BILL NO.</b></td>
                                                             <td>
                                                                 <input type="text" disabled="disabled" id="txtServicePlace" name="txtServicePlace" required />
@@ -1061,8 +1312,177 @@
                                                                     <input id="txtPrice9" name="txtPrice9" type="text" />
                                                                 </td>
                                                             </tr>
+                                                            <tr id="tr27">
+                                                                <td>
+                                                                    <span id="Span33">11</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial10" name="txtMaterial10" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity10" name="txtQuantity10" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice10" name="txtPrice10" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr28">
+                                                                <td>
+                                                                    <span id="Span34">12</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial11" name="txtMaterial11" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity11" name="txtQuantity11" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice11" name="txtPrice11" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr29">
+                                                                <td>
+                                                                    <span id="Span35">13</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial12" name="txtMaterial12" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity12" name="txtQuantity12" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice12" name="txtPrice12" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr30">
+                                                                <td>
+                                                                    <span id="Span36">14</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial13" name="txtMaterial13" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity13" name="txtQuantity13" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice13" name="txtPrice13" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr31">
+                                                                <td>
+                                                                    <span id="Span37">15</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial14" name="txtMaterial14" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity14" name="txtQuantity14" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice14" name="txtPrice14" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr39">
+                                                                <td>
+                                                                    <span id="Span43">16</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial15" name="txtMaterial15" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity15" name="txtQuantity15" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice15" name="txtPrice15" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr40">
+                                                                <td>
+                                                                    <span id="Span44">17</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial16" name="txtMaterial16" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity16" name="txtQuantity16" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice16" name="txtPrice16" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr41">
+                                                                <td>
+                                                                    <span id="Span45">18</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial17" name="txtMaterial17" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity17" name="txtQuantity17" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice17" name="txtPrice17" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr42">
+                                                                <td>
+                                                                    <span id="Span46">19</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial18" name="txtMaterial18" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity18" name="txtQuantity18" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice18" name="txtPrice18" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr43">
+                                                                <td>
+                                                                    <span id="Span47">20</span>
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtMaterial19" name="txtMaterial19" type="text" />
+
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtQuantity19" name="txtQuantity19" type="text" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice19" name="txtPrice19" type="text" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="tr33">
+                                                                <td colspan="3">
+                                                                    <input type="button" id="btnServiceTotalAmt" value="TOTAL AMOUNT" style="margin-left: 350px;" class="btn btn-primary" />
+                                                                </td>
+                                                                <td>
+                                                                    <label id="lblServiceTotal" name="lblServiceTotal"></label>
+                                                                    <asp:HiddenField ID="hdnServiceTotal" runat="server" />
+                                                                </td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 15px; font-weight: bolder; margin-left: 475px;"><b>REMARKS</b></span><br />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height: 70px;">
+                                                    <textarea name="txtServiceRemarks" id="txtServiceRemarks" style="width: 100%;"></textarea>
                                                 </td>
                                             </tr>
                                         </table>

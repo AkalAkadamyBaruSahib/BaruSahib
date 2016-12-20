@@ -75,7 +75,6 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[LastTimeRepairDate]", Request.Form["txtLastRepairDate"]);
                 htmlCode = htmlCode.Replace("[LastTimeRepairAmount]", Request.Form["txtLastRepairAmount"]);
                 htmlCode = htmlCode.Replace("[QuotationAmount]", Request.Form["txtQuotationAmount"]);
-                htmlCode = htmlCode.Replace("[ApprovalAmountOfService]", Request.Form["txtApprovalAmount"]);
                 htmlCode = htmlCode.Replace("[TotalRunningOfGenset]", Request.Form["txtGensetTotalRunning"]);
                 htmlCode = htmlCode.Replace("[AverageRunning]", Request.Form["txtGensetAverageRunning"]);
                 htmlCode = htmlCode.Replace("[ServicePlaceAgency]", Request.Form["txtService"]);
@@ -109,14 +108,45 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[MaterialName9]", Request.Form["txtMaterialName9"]);
                 htmlCode = htmlCode.Replace("[txtQty9]", Request.Form["txtQty9"]);
                 htmlCode = htmlCode.Replace("[txtRate9]", Request.Form["txtRate9"]);
+                htmlCode = htmlCode.Replace("[MaterialName10]", Request.Form["txtMaterialName10"]);
+                htmlCode = htmlCode.Replace("[txtQty10]", Request.Form["txtQty10"]);
+                htmlCode = htmlCode.Replace("[txtRate10]", Request.Form["txtRate10"]);
+                htmlCode = htmlCode.Replace("[MaterialName11]", Request.Form["txtMaterialName11"]);
+                htmlCode = htmlCode.Replace("[txtQty11]", Request.Form["txtQty11"]);
+                htmlCode = htmlCode.Replace("[txtRate11]", Request.Form["txtRate11"]);
+                htmlCode = htmlCode.Replace("[MaterialName12]", Request.Form["txtMaterialName12"]);
+                htmlCode = htmlCode.Replace("[txtQty12]", Request.Form["txtQty12"]);
+                htmlCode = htmlCode.Replace("[txtRate12]", Request.Form["txtRate12"]);
+                htmlCode = htmlCode.Replace("[MaterialName13]", Request.Form["txtMaterialName13"]);
+                htmlCode = htmlCode.Replace("[txtQty13]", Request.Form["txtQty13"]);
+                htmlCode = htmlCode.Replace("[txtRate13]", Request.Form["txtRate13"]);
+                htmlCode = htmlCode.Replace("[MaterialName14]", Request.Form["txtMaterialName14"]);
+                htmlCode = htmlCode.Replace("[txtQty14]", Request.Form["txtQty14"]);
+                htmlCode = htmlCode.Replace("[txtRate14]", Request.Form["txtRate14"]);
+                htmlCode = htmlCode.Replace("[MaterialName15]", Request.Form["txtMaterialName15"]);
+                htmlCode = htmlCode.Replace("[txtQty15]", Request.Form["txtQty15"]);
+                htmlCode = htmlCode.Replace("[txtRate15]", Request.Form["txtRate15"]);
+                htmlCode = htmlCode.Replace("[MaterialName16]", Request.Form["txtMaterialName16"]);
+                htmlCode = htmlCode.Replace("[txtQty16]", Request.Form["txtQty16"]);
+                htmlCode = htmlCode.Replace("[txtRate16]", Request.Form["txtRate16"]);
+                htmlCode = htmlCode.Replace("[MaterialName17]", Request.Form["txtMaterialName17"]);
+                htmlCode = htmlCode.Replace("[txtQty17]", Request.Form["txtQty17"]);
+                htmlCode = htmlCode.Replace("[txtRate17]", Request.Form["txtRate17"]);
+                htmlCode = htmlCode.Replace("[MaterialName18]", Request.Form["txtMaterialName18"]);
+                htmlCode = htmlCode.Replace("[txtQty18]", Request.Form["txtQty18"]);
+                htmlCode = htmlCode.Replace("[txtRate18]", Request.Form["txtRate18"]);
+                htmlCode = htmlCode.Replace("[MaterialName19]", Request.Form["txtMaterialName19"]);
+                htmlCode = htmlCode.Replace("[txtQty19]", Request.Form["txtQty19"]);
+                htmlCode = htmlCode.Replace("[txtRate19]", Request.Form["txtRate19"]);
+                htmlCode = htmlCode.Replace("[GensetRemarks]", Request.Form["txtGensetRemarks"]);
+                htmlCode = htmlCode.Replace("[TotalGensetAmount]", hdnGensetTotal.Value);
                 pnlGenset.InnerHtml = htmlCode;
             }
             else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.BATTERYQUOTATION).ToString())
             {
                 htmlCode = client.DownloadString(hostName + "/BatteryQuotation.html");
                 htmlCode = htmlCode.Replace("[BatteryAcaName]", hdnBatteryAcaName.Value);
-                htmlCode = htmlCode.Replace("[BatteryVehicleNumber]", hdnBatteryVehicleNo.Value);
-                htmlCode = htmlCode.Replace("[BatteryVehicleType]", Request.Form["txtVehicelType"]);
+                htmlCode = htmlCode.Replace("[BatteryTye]", Request.Form["ddlBatteryTye"]);
                 htmlCode = htmlCode.Replace("[BatteryCurrentMeterReading]", Request.Form["txtCurrentMeterReading"]);
                 htmlCode = htmlCode.Replace("[NoofRequired]", Request.Form["txtNoRequird"]);
                 htmlCode = htmlCode.Replace("[MakeOfBatteryCapacity]", Request.Form["txtBatteryCapacity"]);
@@ -142,6 +172,43 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[MicroTechPrice]", Request.Form["txtMicroTechPrice"]);
                 htmlCode = htmlCode.Replace("[BatteryDate]", DateTime.Now.ToShortDateString());
                 htmlCode = htmlCode.Replace("[BillNo]", Request.Form["txtBillNo"]);
+                htmlCode = htmlCode.Replace("[BatteryRemarks]", Request.Form["txtBatteryRemarks"]);
+                if (Request.Form["ddlBatteryTye"] == "Vehicle Battery")
+                {
+                    htmlCode = htmlCode.Replace("[BatteryVehicleNumber]", hdnBatteryVehicleNo.Value);
+                    htmlCode = htmlCode.Replace("[BatteryVehicleType]", Request.Form["txtVehicelType"]);
+                    htmlCode = htmlCode.Replace("[BatteryDriverName]", Request.Form["txtBatteryDriverandNumber"]);
+                    htmlCode = htmlCode.Replace("[BatterySeated]", Request.Form["txtBatterySeated"]);
+                    htmlCode = htmlCode.Replace("[BatteryModel]", Request.Form["txtBatteryModel"]);
+                    htmlCode = htmlCode.Replace("[BatteryGensetNo]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryGensetPower]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryGensetCompany]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryInvertarCompany]", "NA");
+                }
+                else if (Request.Form["ddlBatteryTye"] == "Genset Battery")
+                {
+                    htmlCode = htmlCode.Replace("[BatteryGensetNo]", Request.Form["txtBatteryGensetNo"]);
+                    htmlCode = htmlCode.Replace("[BatteryGensetPower]", Request.Form["txtBatteryGensetPower"]);
+                    htmlCode = htmlCode.Replace("[BatteryGensetCompany]", Request.Form["txtBatteryGensetCompany"]);
+                    htmlCode = htmlCode.Replace("[BatteryVehicleNumber]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryVehicleType]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryDriverName]", "NA");
+                    htmlCode = htmlCode.Replace("[BatterySeated]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryModel]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryInvertarCompany]", "NA");
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[BatteryInvertarCompany]", Request.Form["txtBatteryInvertarCompany"]);
+                    htmlCode = htmlCode.Replace("[BatteryGensetNo]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryGensetPower]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryGensetCompany]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryVehicleNumber]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryVehicleType]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryDriverName]", "NA");
+                    htmlCode = htmlCode.Replace("[BatterySeated]", "NA");
+                    htmlCode = htmlCode.Replace("[BatteryModel]", "NA");
+                }
                 pnlBatteryQuotation.InnerHtml = htmlCode;
             }
             else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.TYREREQUIREMENTORQUOTATION).ToString())
@@ -195,6 +262,9 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[StafneyCondition]", Request.Form["txtStafneyCondition"]);
                 htmlCode = htmlCode.Replace("[StafneyRunning]", Request.Form["txtStafneyRunning"]);
                 htmlCode = htmlCode.Replace("[StafneyldTyreNo]", Request.Form["txtStafneyldTyreNo"]);
+                htmlCode = htmlCode.Replace("[TyreRemarks]", Request.Form["txtTyreRemarks"]);
+                htmlCode = htmlCode.Replace("[TyreSeated]", Request.Form["txtTyreSeated"]);
+                htmlCode = htmlCode.Replace("[TyreModel]", Request.Form["txtTyreModel"]);
                 pnlTyreRequirement.InnerHtml = htmlCode;
             }
             else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.SERVICEOTHERREAPIRSOFVEHICLE).ToString())
@@ -240,7 +310,41 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[Material9]", Request.Form["txtMaterial9"]);
                 htmlCode = htmlCode.Replace("[Quantity9]", Request.Form["txtQuantity9"]);
                 htmlCode = htmlCode.Replace("[Price9]", Request.Form["txtPrice9"]);
+                htmlCode = htmlCode.Replace("[Material10]", Request.Form["txtMaterial10"]);
+                htmlCode = htmlCode.Replace("[Quantity10]", Request.Form["txtQuantity10"]);
+                htmlCode = htmlCode.Replace("[Price10]", Request.Form["txtPrice10"]);
+                htmlCode = htmlCode.Replace("[Material11]", Request.Form["txtMaterial11"]);
+                htmlCode = htmlCode.Replace("[Quantity11]", Request.Form["txtQuantity11"]);
+                htmlCode = htmlCode.Replace("[Price11]", Request.Form["txtPrice11"]);
+                htmlCode = htmlCode.Replace("[Material12]", Request.Form["txtMaterial12"]);
+                htmlCode = htmlCode.Replace("[Quantity12]", Request.Form["txtQuantity12"]);
+                htmlCode = htmlCode.Replace("[Price12]", Request.Form["txtPrice12"]);
+                htmlCode = htmlCode.Replace("[Material13]", Request.Form["txtMaterial13"]);
+                htmlCode = htmlCode.Replace("[Quantity13]", Request.Form["txtQuantity13"]);
+                htmlCode = htmlCode.Replace("[Price13]", Request.Form["txtPrice13"]);
+                htmlCode = htmlCode.Replace("[Material14]", Request.Form["txtMaterial14"]);
+                htmlCode = htmlCode.Replace("[Quantity14]", Request.Form["txtQuantity14"]);
+                htmlCode = htmlCode.Replace("[Price14]", Request.Form["txtPrice14"]);
+                htmlCode = htmlCode.Replace("[Material15]", Request.Form["txtMaterial15"]);
+                htmlCode = htmlCode.Replace("[Quantity15]", Request.Form["txtQuantity15"]);
+                htmlCode = htmlCode.Replace("[Price15]", Request.Form["txtPrice15"]);
+                htmlCode = htmlCode.Replace("[Material16]", Request.Form["txtMaterial16"]);
+                htmlCode = htmlCode.Replace("[Quantity16]", Request.Form["txtQuantity16"]);
+                htmlCode = htmlCode.Replace("[Price16]", Request.Form["txtPrice16"]);
+                htmlCode = htmlCode.Replace("[Material17]", Request.Form["txtMaterial17"]);
+                htmlCode = htmlCode.Replace("[Quantity17]", Request.Form["txtQuantity17"]);
+                htmlCode = htmlCode.Replace("[Price17]", Request.Form["txtPrice17"]);
+                htmlCode = htmlCode.Replace("[Material18]", Request.Form["txtMaterial18"]);
+                htmlCode = htmlCode.Replace("[Quantity18]", Request.Form["txtQuantity18"]);
+                htmlCode = htmlCode.Replace("[Price18]", Request.Form["txtPrice18"]);
+                htmlCode = htmlCode.Replace("[Material19]", Request.Form["txtMaterial19"]);
+                htmlCode = htmlCode.Replace("[Quantity19]", Request.Form["txtQuantity19"]);
+                htmlCode = htmlCode.Replace("[Price19]", Request.Form["txtPrice149"]);
                 htmlCode = htmlCode.Replace("[ServiceDate]", DateTime.Now.ToShortDateString());
+                htmlCode = htmlCode.Replace("[ServiceDriverName]", Request.Form["txtServiceDriverandNumber"]);
+                htmlCode = htmlCode.Replace("[ServiceVehicleType]", Request.Form["txtServiceVehicelType"]);
+                htmlCode = htmlCode.Replace("[ServiceRemarks]", Request.Form["txtServiceRemarks"]);
+                htmlCode = htmlCode.Replace("[TotalServiceAmount]", hdnServiceTotal.Value);
                 pnlServiceandOtherRepair.InnerHtml = htmlCode;
             }
         }

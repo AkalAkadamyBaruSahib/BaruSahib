@@ -121,10 +121,10 @@ public class TransportController : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<Vehicles> GetVehiclesByAcademyID(int AcaID)
+    public List<Vehicles> GetVehiclesByAcademyIDandTypeID(int AcaID, int TypeID)
     {
         TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
-        return repository.GetVehiclesByAcademyID(AcaID);
+        return repository.GetVehiclesByAcademyIDandTypeID(AcaID, TypeID);
     }
 
     [WebMethod]

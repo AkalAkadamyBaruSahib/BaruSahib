@@ -2,23 +2,25 @@
 var MaterialList = new Array();
 var MaterialObjectList;
 var MaterialList;
+
 $(document).ready(function () {
+
 
     BindAcademyByInchargeID($("input[id*='hdnInchargeID']").val());
 
     $("select[id*='ddlTyreAcaName']").change(function () {
         $("input[id*='hdnTyreAcaName']").val($("#ddlTyreAcaName option:selected").text());
-        BindVechileByAcaID($(this).val());
+        BindTrustVechileByAcaID($(this).val());
     });
 
     $("select[id*='ddlServiceAcaName']").change(function () {
-        BindVechileByAcaID($(this).val());
+        BindTrustVechileByAcaID($(this).val());
         $("input[id*='hdnServiceAcaName']").val($("#ddlServiceAcaName option:selected").text());
     });
 
     $("select[id*='ddlBatteryAcaName']").change(function () {
         $("input[id*='hdnBatteryAcaName']").val($("#ddlBatteryAcaName option:selected").text());
-        BindVechileByAcaID($(this).val());
+        BindTrustVechileByAcaID($(this).val());
     });
 
     $("select[id*='ddlServiceVehicleNo']").change(function () {
@@ -105,16 +107,44 @@ $(document).ready(function () {
             $("#txtServiceApprovalAmount").prop('disabled', true);
             $("#txtMaterial0").prop('disabled', true);
             $("#txtQuantity0").prop('disabled', true);
-            $("#txtPrice0").prop('disabled', true); 
+            $("#txtPrice0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
-            $("#txtEngineerName").prop('disabled', false);
-            $("#txtEngineerNumber").prop('disabled', false);
             $("#txtBatterySeated").prop('disabled', true);
             $("#txtBatteryModel").prop('disabled', true);
             $("#txtBatteryDriverandNumber").prop('disabled', true);
             $("#txtServiceDriverandNumber").prop('disabled', true);
             $("#txtServiceVehicelType").prop('disabled', true);
-            ClearTextBox();
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
+            $("#ddlBatteryTye").prop('disabled', true);
+            $("#txtMocrotaxSize").prop('disabled', true);
+            $("#txtMocrotax").prop('disabled', true);
+            $("#txtMocrotaxPrice").prop('disabled', true);
+            $("#txtAmaronSize").prop('disabled', true);
+            $("#txtAmaron").prop('disabled', true);
+            $("#txtAmaronPrice").prop('disabled', true);
+            $("#txtExideSize").prop('disabled', true);
+            $("#txtExide").prop('disabled', true);
+            $("#txtExidePrice").prop('disabled', true);
+            $("#txtMicroTechSize").prop('disabled', true);
+            $("#txtMicroTech").prop('disabled', true);
+            $("#txtMicroTechPrice").prop('disabled', true);
+            $("#txtMrfRates").prop('disabled', true);
+            $("#txtMrfQty").prop('disabled', true);
+            $("#txtMrfAmount").prop('disabled', true);
+            $("#txtApoloRates").prop('disabled', true);
+            $("#txtApoloQty").prop('disabled', true);
+            $("#txtApoloAmount").prop('disabled', true);
+            $("#txtCeatRates").prop('disabled', true);
+            $("#txtCeatQty").prop('disabled', true);
+            $("#txtCeatAmount").prop('disabled', true);
+            $("#txtJkRates").prop('disabled', true);
+            $("#txtJkQty").prop('disabled', true);
+            $("#txtJkAmount").prop('disabled', true);
+            $("#txtTyreSeated").prop('disabled', true);
+            $("#txtTyreModel").prop('disabled', true);
         }
         else if ($(this).val() == 2) {
             $("#divGenset").hide();
@@ -122,9 +152,14 @@ $(document).ready(function () {
             $("#divTyreRequirement").hide();
             $("#divServiceandOtherRepair").hide();
             $("#trbtnDownload").show();
+            $("#trVehicleDetail").hide();
+            $("#trDriverDetail").hide();
+            $("#trVehicelTypeDetail").hide();
+            $("#trGensetNumber").hide();
+            $("#trGensetPower").hide();
+            $("#trGensetCompany").hide();
+            $("#trInvertar").hide();
             $("#ddlBatteryAcaName").prop('disabled', false);
-            $("#ddlVehicleNumber").prop('disabled', false);
-            $("#txtVehicelType").prop('disabled', false);
             $("#txtCurrentMeterReading").prop('disabled', false);
             $("#txtBatteryCapacity").prop('disabled', false);
             $("#txtNewMakeBattery").prop('disabled', false);
@@ -136,6 +171,15 @@ $(document).ready(function () {
             $("#txtNoRequird").prop('disabled', false);
             $("#txtOldBatterySrNum").prop('disabled', false);
             $("#txtBatteryApprovalAmount").prop('disabled', false);
+            $("#ddlVehicleNumber").prop('disabled', false);
+            $("#txtVehicelType").prop('disabled', false);
+            $("#txtBatterySeated").prop('disabled', false);
+            $("#txtBatteryModel").prop('disabled', false);
+            $("#txtBatteryDriverandNumber").prop('disabled', false);
+            $("#txtBatteryGensetNo").prop('disabled', false);
+            $("#txtBatteryGensetPower").prop('disabled', false);
+            $("#txtBatteryGensetCompany").prop('disabled', false);
+            $("#txtBatteryInvertarCompany").prop('disabled', false);
             $("#ddlTyreAcaName").prop('disabled', true);
             $("#txtNameofDriver").prop('disabled', true);
             $("#ddlTyreVehicleNo").prop('disabled', true);
@@ -180,13 +224,35 @@ $(document).ready(function () {
             $("#txtQty0").prop('disabled', true);
             $("#txtRate0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', false);
-            $("#txtEngineerName").prop('disabled', true);
-            $("#txtEngineerNumber").prop('disabled', true);
-            $("#txtBatterySeated").prop('disabled', false);
-            $("#txtBatteryModel").prop('disabled', false);
-            $("#txtBatteryDriverandNumber").prop('disabled', false);
             $("#txtServiceDriverandNumber").prop('disabled', true);
             $("#txtServiceVehicelType").prop('disabled', true);
+            $("#ddlBatteryTye").prop('disabled', false);
+            $("#txtMocrotaxSize").prop('disabled', false);
+            $("#txtMocrotax").prop('disabled', false);
+            $("#txtMocrotaxPrice").prop('disabled', false);
+            $("#txtAmaronSize").prop('disabled', false);
+            $("#txtAmaron").prop('disabled', false);
+            $("#txtAmaronPrice").prop('disabled', false);
+            $("#txtExideSize").prop('disabled', false);
+            $("#txtExide").prop('disabled', false);
+            $("#txtExidePrice").prop('disabled', false);
+            $("#txtMicroTechSize").prop('disabled', false);
+            $("#txtMicroTech").prop('disabled', false);
+            $("#txtMicroTechPrice").prop('disabled', false);
+            $("#txtMrfRates").prop('disabled', true);
+            $("#txtMrfQty").prop('disabled', true);
+            $("#txtMrfAmount").prop('disabled', true);
+            $("#txtApoloRates").prop('disabled', true);
+            $("#txtApoloQty").prop('disabled', true);
+            $("#txtApoloAmount").prop('disabled', true);
+            $("#txtCeatRates").prop('disabled', true);
+            $("#txtCeatQty").prop('disabled', true);
+            $("#txtCeatAmount").prop('disabled', true);
+            $("#txtJkRates").prop('disabled', true);
+            $("#txtJkQty").prop('disabled', true);
+            $("#txtJkAmount").prop('disabled', true);
+            $("#txtTyreSeated").prop('disabled', true);
+            $("#txtTyreModel").prop('disabled', true);
             ClearTextBox();
         }
         else if ($(this).val() == 3) {
@@ -253,13 +319,42 @@ $(document).ready(function () {
             $("#txtQuantity0").prop('disabled', true);
             $("#txtPrice0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
-            $("#txtEngineerName").prop('disabled', true);
-            $("#txtEngineerNumber").prop('disabled', true);
             $("#txtBatterySeated").prop('disabled', true);
             $("#txtBatteryModel").prop('disabled', true);
             $("#txtBatteryDriverandNumber").prop('disabled', true);
             $("#txtServiceDriverandNumber").prop('disabled', true);
             $("#txtServiceVehicelType").prop('disabled', true);
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
+            $("#ddlBatteryTye").prop('disabled', true);
+            $("#txtMocrotaxSize").prop('disabled', true);
+            $("#txtMocrotax").prop('disabled', true);
+            $("#txtMocrotaxPrice").prop('disabled', true);
+            $("#txtAmaronSize").prop('disabled', true);
+            $("#txtAmaron").prop('disabled', true);
+            $("#txtAmaronPrice").prop('disabled', true);
+            $("#txtExideSize").prop('disabled', true);
+            $("#txtExide").prop('disabled', true);
+            $("#txtExidePrice").prop('disabled', true);
+            $("#txtMicroTechSize").prop('disabled', true);
+            $("#txtMicroTech").prop('disabled', true);
+            $("#txtMicroTechPrice").prop('disabled', true);
+            $("#txtMrfRates").prop('disabled', false);
+            $("#txtMrfQty").prop('disabled', false);
+            $("#txtMrfAmount").prop('disabled', false);
+            $("#txtApoloRates").prop('disabled', false);
+            $("#txtApoloQty").prop('disabled', false);
+            $("#txtApoloAmount").prop('disabled', false);
+            $("#txtCeatRates").prop('disabled', false);
+            $("#txtCeatQty").prop('disabled', false);
+            $("#txtCeatAmount").prop('disabled', false);
+            $("#txtJkRates").prop('disabled', false);
+            $("#txtJkQty").prop('disabled', false);
+            $("#txtJkAmount").prop('disabled', false);
+            $("#txtTyreSeated").prop('disabled', false);
+            $("#txtTyreModel").prop('disabled', false);
             ClearTextBox();
         }
         else if ($(this).val() == 4) {
@@ -326,13 +421,42 @@ $(document).ready(function () {
             $("#txtTotalRuningKm").prop('disabled', true);
             $("#txtTyreLastReading").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
-            $("#txtEngineerName").prop('disabled', true);
-            $("#txtEngineerNumber").prop('disabled', true);
             $("#txtBatterySeated").prop('disabled', true);
             $("#txtBatteryModel").prop('disabled', true);
             $("#txtBatteryDriverandNumber").prop('disabled', true);
             $("#txtServiceDriverandNumber").prop('disabled', false);
             $("#txtServiceVehicelType").prop('disabled', false);
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
+            $("#ddlBatteryTye").prop('disabled', true);
+            $("#txtMocrotaxSize").prop('disabled', true);
+            $("#txtMocrotax").prop('disabled', true);
+            $("#txtMocrotaxPrice").prop('disabled', true);
+            $("#txtAmaronSize").prop('disabled', true);
+            $("#txtAmaron").prop('disabled', true);
+            $("#txtAmaronPrice").prop('disabled', true);
+            $("#txtExideSize").prop('disabled', true);
+            $("#txtExide").prop('disabled', true);
+            $("#txtExidePrice").prop('disabled', true);
+            $("#txtMicroTechSize").prop('disabled', true);
+            $("#txtMicroTech").prop('disabled', true);
+            $("#txtMicroTechPrice").prop('disabled', true);
+            $("#txtMrfRates").prop('disabled', true);
+            $("#txtMrfQty").prop('disabled', true);
+            $("#txtMrfAmount").prop('disabled', true);
+            $("#txtApoloRates").prop('disabled', true);
+            $("#txtApoloQty").prop('disabled', true);
+            $("#txtApoloAmount").prop('disabled', true);
+            $("#txtCeatRates").prop('disabled', true);
+            $("#txtCeatQty").prop('disabled', true);
+            $("#txtCeatAmount").prop('disabled', true);
+            $("#txtJkRates").prop('disabled', true);
+            $("#txtJkQty").prop('disabled', true);
+            $("#txtJkAmount").prop('disabled', true);
+            $("#txtTyreSeated").prop('disabled', true);
+            $("#txtTyreModel").prop('disabled', true);
             ClearTextBox();
         }
         else {
@@ -399,26 +523,126 @@ $(document).ready(function () {
             $("#txtQuantity0").prop('disabled', true);
             $("#txtPrice0").prop('disabled', true);
             $("#txtBillNo").prop('disabled', true);
-            $("#txtEngineerName").prop('disabled', true);
-            $("#txtEngineerNumber").prop('disabled', true);
             $("#txtBatterySeated").prop('disabled', true);
             $("#txtBatteryModel").prop('disabled', true);
             $("#txtBatteryDriverandNumber").prop('disabled', true);
             $("#txtServiceDriverandNumber").prop('disabled', true);
             $("#txtServiceVehicelType").prop('disabled', true);
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
+            $("#ddlBatteryTye").prop('disabled', true);
+            $("#txtMocrotaxSize").prop('disabled', true);
+            $("#txtMocrotax").prop('disabled', true);
+            $("#txtMocrotaxPrice").prop('disabled', true);
+            $("#txtAmaronSize").prop('disabled', true);
+            $("#txtAmaron").prop('disabled', true);
+            $("#txtAmaronPrice").prop('disabled', true);
+            $("#txtExideSize").prop('disabled', true);
+            $("#txtExide").prop('disabled', true);
+            $("#txtExidePrice").prop('disabled', true);
+            $("#txtMicroTechSize").prop('disabled', true);
+            $("#txtMicroTech").prop('disabled', true);
+            $("#txtMicroTechPrice").prop('disabled', true);
+            $("#txtMrfRates").prop('disabled', true);
+            $("#txtMrfQty").prop('disabled', true);
+            $("#txtMrfAmount").prop('disabled', true);
+            $("#txtApoloRates").prop('disabled', true);
+            $("#txtApoloQty").prop('disabled', true);
+            $("#txtApoloAmount").prop('disabled', true);
+            $("#txtCeatRates").prop('disabled', true);
+            $("#txtCeatQty").prop('disabled', true);
+            $("#txtCeatAmount").prop('disabled', true);
+            $("#txtJkRates").prop('disabled', true);
+            $("#txtJkQty").prop('disabled', true);
+            $("#txtJkAmount").prop('disabled', true);
+            $("#txtTyreSeated").prop('disabled', true);
+            $("#txtTyreModel").prop('disabled', true);
             ClearTextBox();
         }
     });
 
-    $("input[id*='txtQty0']").change(function () {
-        var value = $("#txtQty0").val()
-        var regex = new RegExp(/^\+?[0-9(),.-]+$/);
-        if ($("#txtQty0").val() == "" || $("#txtQty0").val() == "0" || !value.match(regex)) {
-            $("#txtQty0").css('border-color', 'red');
-            return false;
+    $("#btnGensetTotalAmt").click(function (e) {
+        TotalGensetAmt();
+    });
+
+    $("#btnServiceTotalAmt").click(function (e) {
+        TotalServiceAmt();
+    });
+
+    $("select[id*='ddlBatteryTye']").change(function () {
+        if ($("select[id*='ddlBatteryTye']").val() == "Vehicle Battery") {
+            $("#trVehicleDetail").show();
+            $("#trDriverDetail").show();
+            $("#trVehicelTypeDetail").show();
+            $("#trGensetNumber").hide();
+            $("#trGensetPower").hide();
+            $("#trGensetCompany").hide();
+            $("#trInvertar").hide();
+            $("#ddlVehicleNumber").prop('disabled', false);
+            $("#txtVehicelType").prop('disabled', false);
+            $("#txtBatterySeated").prop('disabled', false);
+            $("#txtBatteryModel").prop('disabled', false);
+            $("#txtBatteryDriverandNumber").prop('disabled', false);
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
+        }
+        else if ($("select[id*='ddlBatteryTye']").val() == "Genset Battery") {
+            $("#trVehicleDetail").hide();
+            $("#trDriverDetail").hide();
+            $("#trVehicelTypeDetail").hide();
+            $("#trGensetNumber").show();
+            $("#trGensetPower").show();
+            $("#trGensetCompany").show();
+            $("#trInvertar").hide();
+            $("#ddlVehicleNumber").prop('disabled', true);
+            $("#txtVehicelType").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtBatteryGensetNo").prop('disabled', false);
+            $("#txtBatteryGensetPower").prop('disabled', false);
+            $("#txtBatteryGensetCompany").prop('disabled', false);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
+        }
+        else if ($("select[id*='ddlBatteryTye']").val() == "Inverter Battery") {
+            $("#trVehicleDetail").hide();
+            $("#trDriverDetail").hide();
+            $("#trVehicelTypeDetail").hide();
+            $("#trGensetNumber").hide();
+            $("#trGensetPower").hide();
+            $("#trGensetCompany").hide();
+            $("#trInvertar").show();
+            $("#ddlVehicleNumber").prop('disabled', true);
+            $("#txtVehicelType").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', false);
         }
         else {
-            $("#txtQty0" + i).css('border-color', '');
+            $("#trVehicleDetail").hide();
+            $("#trDriverDetail").hide();
+            $("#trVehicelTypeDetail").hide();
+            $("#trGensetNumber").hide();
+            $("#trGensetPower").hide();
+            $("#trGensetCompany").hide();
+            $("#trInvertar").hide();
+            $("#ddlVehicleNumber").prop('disabled', true);
+            $("#txtVehicelType").prop('disabled', true);
+            $("#txtBatterySeated").prop('disabled', true);
+            $("#txtBatteryModel").prop('disabled', true);
+            $("#txtBatteryDriverandNumber").prop('disabled', true);
+            $("#txtBatteryGensetNo").prop('disabled', true);
+            $("#txtBatteryGensetPower").prop('disabled', true);
+            $("#txtBatteryGensetCompany").prop('disabled', true);
+            $("#txtBatteryInvertarCompany").prop('disabled', true);
         }
     });
 });
@@ -448,7 +672,7 @@ function BindAcademyByInchargeID(inchargeId) {
     });
 }
 
-function BindVechileByAcaID(acaId) {
+function BindTrustVechileByAcaID(acaId) {
 
     $("select[id*='ddlTyreVehicleNo'] option").each(function (index, option) {
         $(option).remove();
@@ -464,8 +688,8 @@ function BindVechileByAcaID(acaId) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "Services/TransportController.asmx/GetVehiclesByAcademyID",
-        data: JSON.stringify({ AcaID: parseInt(acaId) }),
+        url: "Services/TransportController.asmx/GetVehiclesByAcademyIDandTypeID",
+        data: JSON.stringify({ AcaID: parseInt(acaId), TypeID:1 }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -516,6 +740,8 @@ function BindSeatedAndModelByVehicleID(vehicleID) {
                 }
                 else if ($("select[id*='ddlproforma']").val() == 3) {
                     $("input[id*='txtTyreVehicleType']").val(rdata.TransportTypes.Type);
+                    $("input[id*='txtTyreSeated']").val(rdata.Sitter);
+                    $("input[id*='txtTyreModel']").val(rdata.Model);
                 }
                 else if ($("select[id*='ddlproforma']").val() == 4) {
                     $("input[id*='txtSeated']").val(rdata.Sitter);
@@ -635,6 +861,47 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                 source: MaterialList,
                 minlength: 8
             });
+            $("#txtMaterialName10").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName11").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName12").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName13").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName14").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName15").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName16").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName17").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName18").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+            $("#txtMaterialName19").autocomplete({
+                source: MaterialList,
+                minlength: 8
+            });
+           
             $("#txtMaterialName0").on('autocompletechange change', function () {
                 var Matname = this.value;
                 if (MaterialObjectList != undefined) {
@@ -681,8 +948,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                 }
 
             }).change();
-
-          
+         
             $("#txtMaterialName4").on('autocompletechange change', function () {
                 var Matname = this.value;
                 if (MaterialObjectList != undefined) {
@@ -693,6 +959,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                 }
 
             }).change();
+
             $("#txtMaterialName5").on('autocompletechange change', function () {
                 var Matname = this.value;
                 if (MaterialObjectList != undefined) {
@@ -703,6 +970,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                 }
 
             }).change();
+
             $("#txtMaterialName6").on('autocompletechange change', function () {
                 var Matname = this.value;
                 if (MaterialObjectList != undefined) {
@@ -713,6 +981,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                 }
 
             }).change();
+
             $("#txtMaterialName7").on('autocompletechange change', function () {
                 var Matname = this.value;
                 if (MaterialObjectList != undefined) {
@@ -741,6 +1010,116 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate9").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName10").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate10").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName11").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate11").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName12").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate12").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName13").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate13").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName14").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate14").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName15").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate15").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName16").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate16").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName17").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate17").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName18").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate18").val(selectedMaterial.MatCost);
+                    }
+                }
+
+            }).change();
+
+            $("#txtMaterialName19").on('autocompletechange change', function () {
+                var Matname = this.value;
+                if (MaterialObjectList != undefined) {
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("#txtRate19").val(selectedMaterial.MatCost);
                     }
                 }
 
@@ -786,6 +1165,46 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                    source: MaterialList,
                    minlength: 8
                });
+               $("#txtMaterial10").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial11").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial12").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial13").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial14").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial15").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial16").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial17").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial18").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
+               $("#txtMaterial19").autocomplete({
+                   source: MaterialList,
+                   minlength: 8
+               });
              
                 $("#txtMaterial0").on('autocompletechange change', function () {
                     var Matname = this.value;
@@ -796,6 +1215,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial1").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -805,6 +1225,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial2").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -814,6 +1235,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial3").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -823,6 +1245,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial4").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -832,6 +1255,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial5").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -841,6 +1265,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial6").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -850,6 +1275,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial7").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -859,6 +1285,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial8").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
@@ -868,12 +1295,113 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         }
                     }
                 }).change();
+
                 $("#txtMaterial9").on('autocompletechange change', function () {
                     var Matname = this.value;
                     if (MaterialObjectList != undefined) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice9").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial10").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice10").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial11").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice11").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial12").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice12").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial13").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice13").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial14").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice14").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial15").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice15").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial16").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice16").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial17").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice17").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial18").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice18").val(selectedMaterial.MatCost);
+                        }
+                    }
+                }).change();
+
+                $("#txtMaterial19").on('autocompletechange change', function () {
+                    var Matname = this.value;
+                    if (MaterialObjectList != undefined) {
+                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
+                        if (selectedMaterial != undefined) {
+                            $("#txtPrice19").val(selectedMaterial.MatCost);
                         }
                     }
                 }).change();
@@ -928,6 +1456,36 @@ function ClearTextBox() {
     $("#txtMaterialName9").val("");
     $("#txtQty9").val("");
     $("#txtRate9").val("");
+    $("#txtMaterialName10").val("");
+    $("#txtQty10").val("");
+    $("#txtRate10").val("");
+    $("#txtMaterialName11").val("");
+    $("#txtQty11").val("");
+    $("#txtRate11").val("");
+    $("#txtMaterialName12").val("");
+    $("#txtQty12").val("");
+    $("#txtRate12").val("");
+    $("#txtMaterialName13").val("");
+    $("#txtQty13").val("");
+    $("#txtRate13").val("");
+    $("#txtMaterialName14").val("");
+    $("#txtQty14").val("");
+    $("#txtRate14").val("");
+    $("#txtMaterialName15").val("");
+    $("#txtQty15").val("");
+    $("#txtRate15").val("");
+    $("#txtMaterialName16").val("");
+    $("#txtQty16").val("");
+    $("#txtRate16").val("");
+    $("#txtMaterialName17").val("");
+    $("#txtQty17").val("");
+    $("#txtRate17").val("");
+    $("#txtMaterialName18").val("");
+    $("#txtQty18").val("");
+    $("#txtRate18").val("");
+    $("#txtMaterialName19").val("");
+    $("#txtQty19").val("");
+    $("#txtRate19").val("");
     $("#ddlBatteryAcaName").val("");
     $("#ddlVehicleNumber").val("");
     $("#txtVehicelType").val("");
@@ -997,6 +1555,36 @@ function ClearTextBox() {
     $("#txtMaterial9").val("");
     $("#txtQuantity9").val("");
     $("#txtPrice9").val("");
+    $("#txtMaterial10").val("");
+    $("#txtQuantity10").val("");
+    $("#txtPrice10").val("");
+    $("#txtMaterial11").val("");
+    $("#txtQuantity11").val("");
+    $("#txtPrice11").val("");
+    $("#txtMaterial12").val("");
+    $("#txtQuantity12").val("");
+    $("#txtPrice12").val("");
+    $("#txtMaterial13").val("");
+    $("#txtQuantity13").val("");
+    $("#txtPrice13").val("");
+    $("#txtMaterial14").val("");
+    $("#txtQuantity14").val("");
+    $("#txtPrice14").val("");
+    $("#txtMaterial15").val("");
+    $("#txtQuantity15").val("");
+    $("#txtPrice15").val("");
+    $("#txtMaterial16").val("");
+    $("#txtQuantity16").val("");
+    $("#txtPrice16").val("");
+    $("#txtMaterial17").val("");
+    $("#txtQuantity17").val("");
+    $("#txtPrice17").val("");
+    $("#txtMaterial18").val("");
+    $("#txtQuantity18").val("");
+    $("#txtPrice18").val("");
+    $("#txtMaterial19").val("");
+    $("#txtQuantity19").val("");
+    $("#txtPrice19").val("");
     $("#txtMocrotaxSize").val("");
     $("#txtMocrotax").val("");
     $("#txtMocrotaxPrice").val("");
@@ -1042,17 +1630,120 @@ function ClearTextBox() {
     $("#txtStafneyCondition").val("");
     $("#txtStafneyRunning").val("");
     $("#txtStafneyldTyreNo").val("");
-    $("#txtEngineerName").val("");
-    $("#txtEngineerNumber").val("");
     $("#txtBatterySeated").val("");
     $("#txtBatteryModel").val("");
     $("#txtBatteryDriverandNumber").val("");
     $("#txtServiceDriverandNumber").val("");
     $("#txtServiceVehicelType").val("");
-   
+    $("#txtTyreRemarks").val("");
+    $("#txtServiceRemarks").val("");
+    $("#txtGensetRemarks").val("");
+    $("#txtBatteryRemarks").val("");
+    $("#txtBatteryGensetNo").val("");
+    $("#txtBatteryGensetPower").val("");
+    $("#txtBatteryGensetCompany").val("");
+    $("#txtBatteryInvertarCompany").val("");
+    $("#ddlBatteryTye").val("");
 }
 
+function TotalGensetAmt() {
+    if (Validation()) {
+        var tablelength = $("#tbodyService").children('tr').length;
+        var Amt = 0;
+        var rate = 0;
+        var qty = 0;
+        for (var i = 0 ; i < (tablelength) ; i++) {
+            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
+                qty = 0;
+            }
+            else {
+                qty = $("#txtQty" + i).val();
+            }
 
+            if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
+                rate = 0;
+            }
+            else {
+                rate = $("#txtRate" + i).val();
+            }
+
+            Amt += parseFloat(qty) * parseFloat(rate);
+        }
+        var RoundAmt = Amt.toFixed(2);
+        $("[id$='lblTotal']").html(RoundAmt);
+        $("input[id*='hdnGensetTotal']").val(RoundAmt);
+    }
+}
+
+function Validation() {
+    var tablelength = $("#tbodyService").children('tr').length;
+    for (var i = 0 ; i < (tablelength) ; i++) {
+        if ($("#txtQty" + i).val() != undefined) {
+            var value = $("#txtQty" + i).val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty" + i).css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty" + i).css('border-color', '');
+                }
+            }
+        }
+    }
+    return true;
+}
+
+function TotalServiceAmt() {
+    if (serviceValidation()) {
+        var tablelength = $("#tbody1d").children('tr').length;
+        var Amt = 0;
+        var rate = 0;
+        var qty = 0;
+        for (var i = 0 ; i < (tablelength) ; i++) {
+            if ($("#txtQuantity" + i).val() == "" || $("#txtQuantity" + i).val() == undefined) {
+                qty = 0;
+            }
+            else {
+                qty = $("#txtQuantity" + i).val();
+            }
+
+            if ($("#txtPrice" + i).val() == "" || $("#txtPrice" + i).val() == undefined) {
+                rate = 0;
+            }
+            else {
+                rate = $("#txtPrice" + i).val();
+            }
+
+            Amt += parseFloat(qty) * parseFloat(rate);
+        }
+        var RoundAmt = Amt.toFixed(2);
+        $("[id$='lblServiceTotal']").html(RoundAmt);
+        $("input[id*='hdnServiceTotal']").val(RoundAmt);
+    }
+}
+
+function serviceValidation() {
+
+    var tablelength = $("#tbody1d").children('tr').length;
+    for (var i = 0 ; i < (tablelength) ; i++) {
+        if ($("#txtQuantity" + i).val() != undefined) {
+            var value = $("#txtQuantity" + i).val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity" + i).css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity0" + i).css('border-color', '');
+                }
+            }
+        }
+    }
+    return true;
+}
 
 
 

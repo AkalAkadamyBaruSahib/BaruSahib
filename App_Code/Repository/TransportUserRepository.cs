@@ -472,15 +472,16 @@ public class TransportUserRepository
         return Zones;
     }
 
-    public List<Vehicles> GetVehiclesByAcademyID(int AcaID)
+    public List<Vehicles> GetVehiclesByAcademyIDandTypeID(int AcaID,int TypeID)
     {
-        return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true).ToList();
+        return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true && x.TypeID == TypeID).ToList();
     }
 
     public Vehicles GetVehiclesInfoByVehicleID(int VehicleID)
     {
         return _context.Vehicles.Where(v => v.ID == VehicleID).Include(t => t.TransportTypes).FirstOrDefault();
     }
+
     public VehicleEmployee GetVehicleEmployeeInfo(int VehicleID, int EmpType)
     {
         return _context.VehicleEmployee.Where(v => v.VehicleID == VehicleID && v.EmployeeType == EmpType && v.IsActive == true).FirstOrDefault();
