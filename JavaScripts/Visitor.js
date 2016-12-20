@@ -20,6 +20,10 @@ $(document).ready(function () {
     $("#aPhoto").hide();
     $("#aAuthorityLetter").hide();
     $("#aRoomNumber").hide();
+    $("#aPrmntProof").hide();
+    $("#aPrmntPhoto").hide();
+    $("#aPrmntAuthority").hide();
+    $("#aPrmnentRoomNumber").hide();
     $("input[id*='hdnBuildingID']").val()
   
     //$("input[id*='txtfirstDate']").datepicker({
@@ -68,8 +72,10 @@ $(document).ready(function () {
                 $("input[id*='hdnbookedSeats']").val(selectedSeats);
             }
             $("#aRoomNumber").show();
+            $("#aPrmnentRoomNumber").show();
             SelectedRoomNo = SelectedRoomNo.substr(0, SelectedRoomNo.length - 1);
             $("#aRoomNumber").text("Allocated Rooms: " + SelectedRoomNo);
+            $("#aPrmnentRoomNumber").text("Allocated Rooms: " + SelectedRoomNo);
         }
 
       
@@ -85,8 +91,20 @@ $(document).ready(function () {
 
         $.when(getBookedRoomList($("input[id*='hdnBuildingID']").val())).then(GetAllRoomList($(this).val()));
     });
+    $("#drpPrmntBuilding").change(function (e) {
+
+        $("input[id*='hdnBuildingID']").val($(this).val());
+
+        $.when(getBookedRoomList($("input[id*='hdnBuildingID']").val())).then(GetAllRoomList($(this).val()));
+    });
 
     $("#aRoomNumber").click(function (e) {
+        var BuildingID = $("input[id*='hdnBuildingID']").val();
+        $.when(getBookedRoomList(BuildingID)).then(GetAllRoomList(BuildingID));
+        return false;
+    });
+
+    $("#aPrmnentRoomNumber").click(function (e) {
         var BuildingID = $("input[id*='hdnBuildingID']").val();
         $.when(getBookedRoomList(BuildingID)).then(GetAllRoomList(BuildingID));
         return false;
@@ -123,6 +141,7 @@ function EnableDisabledValidator()
 
 function GetAllRoomList(selectedValue) {
     var BuildingName = $("#drpbuilding option:selected").text();
+    var PermanentBuildingName = $("#drpPrmntBuilding option:selected").text();
     // Get All Rooms
     var VisitoryType = $("input[id*='hdnVisitorType']").val()
 
@@ -138,6 +157,7 @@ function GetAllRoomList(selectedValue) {
                 init(bookedSeats, seatNo);
                 $('#divRoomNumbers').modal('show');
                 $("#spnBuildingName").text(BuildingName);
+                $("#spnBuildingName").text(PermanentBuildingName);
             }
         },
         error: function (result, textStatus) {
@@ -213,6 +233,7 @@ function LoadBuildings() {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("#drpbuilding").append($("<option></option>").val(value.ID).html(value.Name));
+                    $("#drpPrmntBuilding").append($("<option></option>").val(value.ID).html(value.Name));
                 });
             }
         },
@@ -234,67 +255,86 @@ function LoadVisitorByVisitorID(visitorID) {
             var msg = responce.d;
 
             if (msg != undefined) {
-
-                $("input[id*='hdnVisitorID']").val(msg.ID);
-                $("input[id*='txtName']").val(msg.Name);
-                $("input[id*='txtnoofperson']").val(msg.TotalNoOfMen);
-                $("input[id*='txtNoOfFemale']").val(msg.TotalNoOfWomen);
-                $("input[id*='txtNoOfChildren']").val(msg.TotalNoOfChildren);
-                $("input[id*='txtvehicle']").val(msg.VehicleNo);
-                $("select[id*='ddlpurpose']").val(msg.PurposeOfVisit);
-                $("select[id*='drpProofType']").val(msg.Identification);
-                $("select[id*='drpNumberOfDays']").val(msg.NoOfDaysToStay);
-                $("input[id*='txtContactNumber']").val(msg.ContactNumber);
-                $("textarea[id*='txtAddress']").val(msg.VisitorAddress);
-                $("input[id*='hdnBuildingID']").val(msg.BuildingID);
-                $("#drpbuilding").val(msg.BuildingID);
-                $("select[id*='ddlntypeofvisitor']").val(msg.VisitorTypeID);
-                $("input[id*='txtlastDate']").val(msg.TimePeriodTo);
-                $("input[id*='txtfirstDate']").val(msg.TimePeriodFrom);
-                $("select[id*='ddlroomservice']").val(msg.RoomRentType);
-                $("select[id*='ddlelectricitybill']").val(msg.ElectricityBill);
-                $("select[id*='drpCountry']").val(msg.Country);
-                BindState(msg.Country, msg.State, msg.City);
-                $("input[id*='txtReference']").val(msg.VisitorReference);
-                $("select[id*='ddlRoomRent']").val(msg.RoomRent);
-                $("input[id*='txtAdmissionNo']").val(msg.AdmissionNumber);
-                
-                var bookedRoom = "";
-                    bookedRoom = GetVisitorRoomList(msg.ID);
-                
-
-                $("#aIdentityProof").show();
-                $("#aIdentityProof").attr("href", msg.IdentificationPath);
-                $("#aPhoto").show();
-                $("#aPhoto").attr("href", msg.VisitorsPhoto);
-                $("#aAuthorityLetter").show();
-                $("#aAuthorityLetter").attr("href", msg.VisitorsAuthorityLetter);
-                $("#aRoomNumber").show();
-                $("input[id*='btnSave'] ").val("Update");
-                EnableDisabledValidator();
                 if (msg.VisitorTypeID == 1) {
-                    $("[id$='divfileUploadauthority']").hide();
-                    $("[id$='divddlelectricitybill']").hide();
-                    $("[id$='divddlroomservice']").hide();
-                    $("[id$='divddlntypeofvisitor']").hide();
+                    $("input[id*='hdnVisitorID']").val(msg.ID);
+                    $("input[id*='txtName']").val(msg.Name);
+                    $("input[id*='txtnoofperson']").val(msg.TotalNoOfMen);
+                    $("input[id*='txtNoOfFemale']").val(msg.TotalNoOfWomen);
+                    $("input[id*='txtNoOfChildren']").val(msg.TotalNoOfChildren);
+                    $("input[id*='txtvehicle']").val(msg.VehicleNo);
+                    $("select[id*='ddlpurpose']").val(msg.PurposeOfVisit);
+                    $("select[id*='drpProofType']").val(msg.Identification);
+                    $("select[id*='drpNumberOfDays']").val(msg.NoOfDaysToStay);
+                    $("input[id*='txtContactNumber']").val(msg.ContactNumber);
+                    $("textarea[id*='txtAddress']").val(msg.VisitorAddress);
+                    $("input[id*='hdnBuildingID']").val(msg.BuildingID);
+                    $("#drpbuilding").val(msg.BuildingID);
+                    $("input[id*='txtlastDate']").val(msg.TimePeriodTo);
+                    $("input[id*='txtfirstDate']").val(msg.TimePeriodFrom);
+                    $("select[id*='drpCountry']").val(msg.Country);
+                    BindState(msg.Country, msg.State, msg.City);
+                    $("input[id*='txtReference']").val(msg.VisitorReference);
+                    $("select[id*='ddlRoomRent']").val(msg.RoomRent);
+                    $("input[id*='txtAdmissionNo']").val(msg.AdmissionNumber);
 
+                    var bookedRoom = "";
+                    bookedRoom = GetVisitorRoomList(msg.ID);
+
+
+                    $("#aIdentityProof").show();
+                    $("#aIdentityProof").attr("href", msg.IdentificationPath);
+                    $("#aPhoto").show();
+                    $("#aPhoto").attr("href", msg.VisitorsPhoto);
+                    $("#aAuthorityLetter").show();
+                    $("#aAuthorityLetter").attr("href", msg.VisitorsAuthorityLetter);
+                    $("#aRoomNumber").show();
                 }
                 else {
-                    $("[id$='divtxtvehicle']").hide();
-                    $("[id$='divtxtnoofperson']").hide();
-                    $("[id$='divdrpNumberOfDays']").hide();
-                    $("[id$='divddlpurpose']").hide();
-                    $("[id$='divVisitorRoomRent']").hide();
-                    $("[id$='ddlRoomRent']").hide();
-                    $("[id$='ddlpurpose']").hide();
+                    $("input[id*='hdnVisitorID']").val(msg.ID);
+                    $("input[id*='txtPrmntName']").val(msg.Name);
+                    $("select[id*='drpProofType']").val(msg.Identification);
+                    $("input[id*='txtPrmntContactNo']").val(msg.ContactNumber);
+                    $("textarea[id*='txtPrmntAddress']").val(msg.VisitorAddress);
+                    $("input[id*='hdnBuildingID']").val(msg.BuildingID);
+                    $("#divPrmntBuilding").val(msg.BuildingID);
+                    $("select[id*='ddlntypeofvisitor']").val(msg.VisitorTypeID);
+                    $("input[id*='txtprmntTo']").val(msg.TimePeriodTo);
+                    $("input[id*='txtprmntFrom']").val(msg.TimePeriodFrom);
+                    $("select[id*='ddlroomservice']").val(msg.RoomRentType);
+                    $("select[id*='ddlelectricitybill']").val(msg.ElectricityBill);
+                    $("select[id*='ddlPrmntIdntity']").val(msg.Identification);
+                    $("select[id*='ddlPrmntCountry']").val(msg.Country);
+
+                    BindState(msg.Country, msg.State, msg.City);
+
+                    var bookedRoom = "";
+                    bookedRoom = GetVisitorRoomList(msg.ID);
+
+
+                    $("#aPrmntProof").show();
+                    $("#aPrmntProof").attr("href", msg.IdentificationPath);
+                    $("#aPrmntPhoto").show();
+                    $("#aPrmntPhoto").attr("href", msg.VisitorsPhoto);
+                    $("#aPrmntAuthority").show();
+                    $("#aPrmntAuthority").attr("href", msg.VisitorsAuthorityLetter);
+                    $("#aPrmnentRoomNumber").show();
+
+                }
+                $("input[id*='btnSave'] ").val("Update");
+            
+                if (msg.VisitorTypeID == 1) {
+                    EnableDisabledValidator();
+                    $("[id$='divVisitorInfo']").show();
+                    $("[id$='divPrmanent']").hide();
+                }
+                else {
+                    $("[id$='divVisitorInfo']").hide();
+                    $("[id$='divPrmanent']").show();
                 }
 
-                if (msg.PurposeOfVisit == "Parents Meeting")
-                {
+                if (msg.PurposeOfVisit == "Parents Meeting") {
                     $("#divAdminsnNo").show();
                 }
-
-            
             }
         },
         error: function (response) {
@@ -324,6 +364,7 @@ function GetVisitorRoomList(visitorID) {
             hdnbookedSeats = hdnbookedSeats.substr(0, hdnbookedSeats.length - 1);
             aRoomNumber = aRoomNumber.substr(0, aRoomNumber.length - 1);
             $("#aRoomNumber").text("Allocated Rooms: " + aRoomNumber);
+            $("#aPrmnentRoomNumber").text("Allocated Rooms: " + aRoomNumber);
             $("input[id*='hdnbookedSeats'] ").val(hdnbookedSeats);
         }
     });
@@ -353,8 +394,10 @@ function BindCity(StateID, CityID) {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("select[id*='drpCity']").append($("<option></option>").val(value.CityId).html(value.CityName));
+                    $("select[id*='ddlPrmntCity']").append($("<option></option>").val(value.CityId).html(value.CityName));
                 });
                 $("select[id*='drpCity']").val(CityID);
+                $("select[id*='ddlPrmntCity']").val(CityID);
             }
         },
         error: function (result, textStatus) {
@@ -375,8 +418,10 @@ function BindState(countryID,stateID,cityID) {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("select[id*='drpState']").append($("<option></option>").val(value.StateId).html(value.StateName));
+                    $("select[id*='ddlPrmntState']").append($("<option></option>").val(value.StateId).html(value.StateName));
                 });
                 $("select[id*='drpState']").val(stateID);
+                $("select[id*='ddlPrmntState']").val(stateID);
                 BindCity(stateID, cityID);
 
             }
