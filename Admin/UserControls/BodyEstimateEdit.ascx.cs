@@ -169,6 +169,10 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         DropDownList ddlMaterail = (DropDownList)gvDetails.Rows[e.NewEditIndex].FindControl("ddlMatId");
         ddlMaterail.ClearSelection();
         ddlMaterail.Items.FindByText(lblMat).Selected = true;
+
+        DropDownList ddlPurchaseSource = (DropDownList)gvDetails.Rows[e.NewEditIndex].FindControl("ddlPs");
+        ddlPurchaseSource.ClearSelection();
+        ddlPurchaseSource.Items.FindByText(ddlPs).Selected = true;
     }
 
     private void SaveFiles(bool IsApproved, bool IsItemRejected)
@@ -440,10 +444,10 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         {
             txtRa.Text = dsUName.Tables[0].Rows[0]["MatCost"].ToString();
         }
-        decimal qt = Convert.ToDecimal(txtQt.Text);
-        decimal ra = Convert.ToDecimal(txtRa.Text);
-        decimal am = qt * ra;
-        lblAm.Text = string.Format("{0:#.00}", am.ToString());
+        //decimal qt = Convert.ToDecimal(txtQt.Text);
+        //decimal ra = Convert.ToDecimal(txtRa.Text);
+        //decimal am = qt * ra;
+        //lblAm.Text = string.Format("{0:#.00}", am.ToString());
     }
 
     protected void txtRateFooter_TextChanged(object sender, EventArgs e)
