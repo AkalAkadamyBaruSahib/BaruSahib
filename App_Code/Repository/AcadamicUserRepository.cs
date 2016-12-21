@@ -27,6 +27,7 @@ public class AcadamicUserRepository
             Isticket.Status = ticket.Status;
             Isticket.IsApproved = ticket.IsApproved;
             Isticket.IsApprovedRequired = ticket.IsApprovedRequired;
+            Isticket.Description = ticket.Description;
             if (Isticket.Status == "Completed")
             {
                 Isticket.CompletionDate = DateTime.Now;

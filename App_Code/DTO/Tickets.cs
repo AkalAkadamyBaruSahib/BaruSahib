@@ -30,5 +30,6 @@ namespace DTO
         public string Zone { get; set; }
         public string Academy { get; set; }
         public string Feedback { get; set; }
+        public string StatusID { get; set; }
     }
 }

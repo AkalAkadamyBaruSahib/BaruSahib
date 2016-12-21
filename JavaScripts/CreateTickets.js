@@ -6,23 +6,23 @@ var TicketCreatedBy = null;
 var _Page_tabToSelect = 0;
 
 $(document).ready(function () {
-
+    $.fn.dataTableExt.sErrMode = 'throw';
 
     var $tabs = $("#tabs").tabs();
     $("#tabs").tabs({
         select: function(event, ui) {
             if (ui.index == 0) {
-                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+                LoadAssignComplaints();
             }
             if (ui.index == 1) {
-                LoadInProgressComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+                LoadInProgressComplaints(false);
             }
             if (ui.index == 2) {
-                LoadCompleteComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+                LoadCompleteComplaints(false);
             }
         }
     });
-    LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+    LoadAssignComplaints();
 
     $("input[id$='btnNewTicket']").click(function () {
         LoadControls();
@@ -109,8 +109,9 @@ function SaveTicket() {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 $("#divCreateTicket").dialog('close');
-                alert(result.d);
-                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+                LoadCompleteComplaints(true);
+                LoadInProgressComplaints(true);
+                LoadAssignComplaints();
             }
         },
         error: function (result, textStatus) {
@@ -189,20 +190,15 @@ function LoadComplaints() {
                     $("#grdTicketDiscription").removeAttr("style");
 
                 }
-                
-                grdTicketDiscription= $('#grdTicketDiscription').DataTable(
+                grdTicketDiscription = null;
+                grdTicketDiscription = $('#grdTicketDiscription').DataTable(
                     {
+                        "bDestroy": true,
                         "bPaginate": true,
                         "iDisplayLength": 12,
                         "sPaginationType": "full_numbers",
                         "aaSorting": [[2, 'desc']],
-                        "bAutoWidth": false,
-                        "bLengthChange": false,
-                        "language": {
-                            "zeroRecords": "No loans available"
-                        },
-                        "bDestroy": true
-
+                        
                     });
             }
         },
@@ -237,7 +233,7 @@ function SaveFeedback(ticketID, sfeedback) {
             if (textStatus == "success") {
                 $("#divFeedback").dialog('close');
                 alert("Feedback has been given to ticket and updated to admin.")
-                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+                LoadCompleteComplaints(true);
                 return false;
             }
         },
@@ -264,7 +260,7 @@ function LoadData(ticketID) {
                 $("textarea[id*='txtComments']").focus();
                 $('#ddlComplaintType').val(adminLoanList.ComplaintType);
                 $("textarea[id*='txtBody']").val(adminLoanList.Description);
-                $("#ddlStatus").val(adminLoanList.Status);
+                $("#ddlStatus").val(adminLoanList.StatusID);
                 $("textarea[id*='txtComments']").val(adminLoanList.Comments);
                 $("input[id*='txtCompletionDate']").val(adminLoanList.TentativeDate);
                 $("#ddlSeverity").val(adminLoanList.Severity);
@@ -300,7 +296,7 @@ function DeleteTicket(ticketID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 alert("Complaint Ticket has been deleted.");
-                LoadAssignComplaints($("input[id$='hdnUserType']").val(), $("input[id$='hdnUserID']").val());
+                LoadAssignComplaints();
                 return false;
             }
         },
@@ -342,107 +338,112 @@ function LoadControls() {
 }
 
 
-function LoadAssignComplaints(UserType,inchargeID)
-{
-   
-         /*create/distroy grid for the new search*/
-        if (typeof grdTicketDiscription != 'undefined') {
-            grdTicketDiscription.fnClearTable();
-        }
+function LoadAssignComplaints() {
 
-          var rowCount = $('#grdTicketDiscription').find("#rowTemplate").length;
-        for (var i = 0; i < rowCount; i++) {
-            $("#rowTemplate").remove();
-        }
+    var UserType = $("input[id$='hdnUserType']").val();
+    var InchargeID = $("input[id$='hdnUserID']").val();
 
-        var rowTemplate = '<tr id="rowTemplate"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
-
-        var LoginID = $("input[id$='hdnLoginID']").val();
-        var Status = "Assigned";
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
-            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(inchargeID), complaintStatus: Status }),
-            dataType: "json",
-            success: function (result, textStatus) {
-                if (textStatus == "success") {
-                    var adminLoanList = result.d;
-                    if (adminLoanList.length > 0) {
-
-                        $("#tbody").append(rowTemplate);
-                    }
-
-                    for (var i = 0; i < adminLoanList.length; i++) {
-                        var className = "ReportGridItem";
-                        if (i % 2 == 0) {
-                            className = "ReportGridAlternatingItem";
-                        }
-
-                        var $newRow = $("#rowTemplate").clone();
-
-                        $newRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
-                        $newRow.find("#Discription").html(adminLoanList[i].Description);
-                        $newRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
-                        $newRow.find("#TantativeDate").html(adminLoanList[i].TentativeDate);
-                        $newRow.find("#CompletionDate").html(adminLoanList[i].CompletionDate);
-                        $newRow.find("#Status").html(adminLoanList[i].Status);
-                        $newRow.find("#feedback").html(adminLoanList[i].Feedback);
-
-                        if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
-                            $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
-                        }
-
-                        if ($("input[id*='hdnUserType']").val() == "2") {
-                            $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
-                        }
-                        else {
-                            //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
-                            $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
-                        }
-
-
-                        $newRow.addClass(className);
-                        $newRow.show();
-                        if (i == 0) {
-                            $("#rowTemplate").replaceWith($newRow);
-                        }
-                        else {
-                            $newRow.appendTo("#grdTicketDiscription > tbody");
-                        }
-                        $("#grdTicketDiscription").removeAttr("style");
-
-                    }
-
-                    grdTicketDiscription = $('#grdTicketDiscription').DataTable(
-                        {
-                            "bPaginate": true,
-                            "iDisplayLength": 12,
-                            "sPaginationType": "full_numbers",
-                            "aaSorting": [[2, 'desc']],
-                            "bAutoWidth": false,
-                            "bLengthChange": false,
-                            "language": {
-                                "zeroRecords": "No loans available"
-                            },
-                            "bDestroy": true
-
-                        });
-                }
-            },
-            error: function (result, textStatus) {
-                alert(result.responseText);
-            }
-        });
+    /*create/distroy grid for the new search*/
+    if (typeof grdTicketDiscription != 'undefined') {
+        grdTicketDiscription.fnClearTable();
     }
 
+    var rowCount = $('#grdTicketDiscription').find("#rowTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowTemplate").remove();
+    }
 
-function LoadInProgressComplaints(UserType, inchargeID) {
+    var rowTemplate = '<tr id="rowTemplate"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+
+    var LoginID = $("input[id$='hdnLoginID']").val();
+    var Status = "Assigned";
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
+        data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
+        dataType: "json",
+        async: false,
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbody").append(rowTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+                    var className = "ReportGridItem";
+                    if (i % 2 == 0) {
+                        className = "ReportGridAlternatingItem";
+                    }
+
+                    var $newRow = $("#rowTemplate").clone();
+
+                    $newRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
+                    $newRow.find("#Discription").html(adminLoanList[i].Description);
+                    $newRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
+                    $newRow.find("#TantativeDate").html(adminLoanList[i].TentativeDate);
+                    $newRow.find("#CompletionDate").html(adminLoanList[i].CompletionDate);
+                    $newRow.find("#Status").html(adminLoanList[i].Status);
+                    $newRow.find("#feedback").html(adminLoanList[i].Feedback);
+
+                    if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                        $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
+                    }
+
+                    if ($("input[id*='hdnUserType']").val() == "2") {
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+                    else {
+                        //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                    }
+
+
+                    $newRow.addClass(className);
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdTicketDiscription > tbody");
+                    }
+                    $("#grdTicketDiscription").removeAttr("style");
+
+                }
+                grdTicketDiscription = null;
+                grdTicketDiscription = $('#grdTicketDiscription').DataTable(
+                    {
+                        "bDestroy": true,
+                        "bPaginate": true,
+                        "iDisplayLength": 12,
+                        "sPaginationType": "full_numbers",
+                        "aaSorting": [[2, 'desc']],
+                        "bAutoWidth": false,
+                        "bLengthChange": false,
+                        "language": {
+                            "zeroRecords": "No loans available"
+                        }
+                    });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+
+function LoadInProgressComplaints(IsRefresh) {
+
+    var UserType = $("input[id$='hdnUserType']").val();
+    var InchargeID = $("input[id$='hdnUserID']").val();
 
     var rowCount = $('#grdInProgressTicket').find("#progresRow").length;
 
-    if (rowCount == 0) {
+    if (rowCount == 0 || IsRefresh == true) {
 
         if (typeof grdInProgressTicket != 'undefined') {
             grdInProgressTicket.fnClearTable();
@@ -462,8 +463,9 @@ function LoadInProgressComplaints(UserType, inchargeID) {
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
-            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(inchargeID), complaintStatus: Status }),
+            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
             dataType: "json",
+            async: false,
             success: function (result, textStatus) {
                 if (textStatus == "success") {
                     var adminLoanList = result.d;
@@ -536,11 +538,14 @@ function LoadInProgressComplaints(UserType, inchargeID) {
     }
 }
 
-function LoadCompleteComplaints(UserType, inchargeID) {
+function LoadCompleteComplaints(IsRefresh) {
+
+    var UserType = $("input[id$='hdnUserType']").val();
+    var InchargeID = $("input[id$='hdnUserID']").val();
 
     var rowCount = $('#grdCompletedTicket').find("#rowTemplate").length;
 
-    if (rowCount == 0) {
+    if (rowCount == 0 || IsRefresh == true) {
         /*create/distroy grid for the new search*/
         if (typeof grdCompletedTicket != 'undefined') {
             grdCompletedTicket.fnClearTable();
@@ -560,8 +565,9 @@ function LoadCompleteComplaints(UserType, inchargeID) {
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
-            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(inchargeID), complaintStatus: Status }),
+            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
             dataType: "json",
+            async:false,
             success: function (result, textStatus) {
                 if (textStatus == "success") {
                     var adminLoanList = result.d;

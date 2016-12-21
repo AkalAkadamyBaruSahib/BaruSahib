@@ -160,6 +160,7 @@
             <td>Status:- </td>
             <td>
                 <select id="ddlStatus" class="dropdown">
+                    <option value="Assigned">Assigned</option>
                     <option value="In Progress">In Progres</option>
                     <option value="Completed">Completed</option>
                 </select></td>

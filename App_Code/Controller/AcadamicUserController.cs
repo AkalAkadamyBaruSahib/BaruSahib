@@ -176,6 +176,8 @@ public class AcadamicUserController : System.Web.Services.WebService {
         ticket.Comments = dsDegisDetails.Tables[0].Rows[0]["Comments"].ToString();
         ticket.ComplaintType = dsDegisDetails.Tables[0].Rows[0]["ComplaintType"].ToString();
         ticket.Status = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();
+        ticket.StatusID = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();   
+      
 
         if (DateTime.Now.AddDays(2)>=Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[0]["CreatedOn"].ToString()) &&
             string.IsNullOrEmpty(dsDegisDetails.Tables[0].Rows[0]["TentativeDate"].ToString()))
