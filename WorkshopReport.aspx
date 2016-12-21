@@ -37,6 +37,11 @@
                 $("#divDesigDetails").show();
                 $("#divCheckIncharge").show();
             }
+            else if (ddlselectedvalue.value == "3") {
+                $("#divRadioButton").hide();
+                $("#divDesigDetails").show();
+                $("#divCheckIncharge").show();
+            }
             else {
                 $("#divRadioButton").hide();
                 $("#divDesigDetails").hide();
@@ -59,9 +64,10 @@
                 <div class="box-content">
                     Select Report to Download Data:
                  <asp:DropDownList ID="ddlWorkshopReport" runat="server" onchange="ReportOnChange(this);">
-                     <asp:ListItem Value="0">Select Report</asp:ListItem>
+                     <asp:ListItem Value="0">--Select Report--</asp:ListItem>
                      <asp:ListItem Value="1">InStore Report</asp:ListItem>
-                     <asp:ListItem Value="2">Dispatch Status Report</asp:ListItem>
+                     <asp:ListItem Value="2">Dispatch Estimate Report</asp:ListItem>
+                     <asp:ListItem Value="3">Pending Estimate Report</asp:ListItem>
                  </asp:DropDownList>
                 </div>
             </div>
@@ -75,7 +81,7 @@
              <div class="box-content" id="divCheckIncharge" style="display: none">
                 Select CheckBox To Download Report:<br />
                 <div class="box-content">
-                    <asp:CheckBoxList ID="chkIncharge" runat="server" RepeatDirection="Horizontal"></asp:CheckBoxList>
+                    <asp:CheckBoxList ID="chkIncharge" runat="server" RepeatDirection="Horizontal" ></asp:CheckBoxList>
                 </div>
             </div>
             <div id="divDesigDetails" style="display: none">

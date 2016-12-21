@@ -38,6 +38,7 @@ public partial class Workshop : System.Web.UI.MasterPage
             liWorkshop.Visible = false;
             liViewNewEstimate.Visible = false;
             liMaterialAssign.Visible = false;
+            liMaterialUnAssign.Visible = false;
             liEstimateWorkAllot.Visible = false;
           
         }

@@ -71,7 +71,7 @@ public class EstimateAndMaterialOthersRelations
     public virtual Material Material { get; set; }
     public virtual Unit Unit { get; set; }
 
-    //[ForeignKey("PSId")] 
+    [ForeignKey("PSId")] 
     public virtual PurchaseSource PurchaseSource { get; set; }
 
     [ForeignKey("PurchaseEmpID")]

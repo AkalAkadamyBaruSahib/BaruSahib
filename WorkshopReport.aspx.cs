@@ -14,19 +14,31 @@ public partial class WorkshopReport : System.Web.UI.Page
         {
             BindWorkshop();
             BindIncharge();
+            for (int i = 0; i < chkIncharge.Items.Count; i++)
+            {
+                chkIncharge.Items[i].Selected = true;
+            }
+            for (int i = 0; i < chkworkshop.Items.Count; i++)
+            {
+                chkworkshop.Items[i].Selected = true;
+            }
         }
     }
     protected void btnDownload_Click(object sender, EventArgs e)
     {
         Response.ClearContent();
         Response.Buffer = true;
-        if (ddlWorkshopReport.SelectedValue == "1")
+        if (ddlWorkshopReport.SelectedValue == ((int)TypeEnum.WorkshopReportTypes.InStoreReport).ToString())
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "InstoreQtyReport.xls"));
         }
+        else if (ddlWorkshopReport.SelectedValue == ((int)TypeEnum.WorkshopReportTypes.DispatchMaterial).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DispatchEstimateReport.xls"));
+        }
         else
         {
-            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DispatchStatusReport.xls"));
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PendingEstimateReport.xls"));
         }
 
         Response.ContentType = "application/ms-excel";
@@ -65,7 +77,7 @@ public partial class WorkshopReport : System.Web.UI.Page
                 dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_WorkshopInstoreMaterialReportByWorkshopID] '" + (selectedItems) + "'").Tables[0];
             }
         }
-        else
+        else if (ddlWorkshopReport.SelectedValue == ((int)TypeEnum.WorkshopReportTypes.DispatchMaterial).ToString())
         {
             string selectedIncharge = String.Join(",", chkIncharge.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
             if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN)
@@ -81,6 +93,14 @@ public partial class WorkshopReport : System.Web.UI.Page
                 {
                     dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateStatusReportForWorkshopByEmpID] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + selectedIncharge + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "'").Tables[0];
                 }
+            }
+        }
+        else
+        {
+            string selectedIncharge = String.Join(",", chkIncharge.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
+            if (selectedIncharge != "")
+            {
+                dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PendingEstimateStatusReportForWorkshop] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop + "','" + (selectedIncharge) + "'").Tables[0];
             }
         }
         return dt;
@@ -121,6 +141,8 @@ public partial class WorkshopReport : System.Web.UI.Page
             chkIncharge.DataValueField = "InchargeId";
             chkIncharge.DataTextField = "InName";
             chkIncharge.DataBind();
+           
         }
+     
     }
 }

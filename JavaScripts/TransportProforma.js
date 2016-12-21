@@ -689,7 +689,7 @@ function BindTrustVechileByAcaID(acaId) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/TransportController.asmx/GetVehiclesByAcademyIDandTypeID",
-        data: JSON.stringify({ AcaID: parseInt(acaId), TypeID:1 }),
+        data: JSON.stringify({ AcaID: parseInt(acaId), TypeID: 2 }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {

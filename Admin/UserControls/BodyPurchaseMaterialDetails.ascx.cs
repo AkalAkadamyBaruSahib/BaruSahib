@@ -44,10 +44,27 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             return (int)ViewState["_DispatchStatus"];
         }
     }
+
+    public int AssignEstimate
+    {
+        set
+        {
+            ViewState["_AssignEst"] = value;
+        }
+        get
+        {
+            if (ViewState["_AssignEst"] == null)
+            {
+                ViewState["_AssignEst"] = "0";
+            }
+            return (int)ViewState["_AssignEst"];
+        }
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
         PurchaseSource = Request.QueryString["IsLocal"] != null ? 1 : 2;
         DispatchStatus = Convert.ToInt32(Request.QueryString["DispatchStatus"]);
+        AssignEstimate = Convert.ToInt32(Request.QueryString["AssignEst"]);
 
         string UserTypeID = Session["UserTypeID"].ToString();
         if (UserTypeID == "1" || UserTypeID == "2")
@@ -280,11 +297,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByAcaID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForWorkshopPurchaseByAcaID((int)TypeEnum.PurchaseSourceID.AkalWorkshop, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID, AssignEstimate);
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID, DispatchStatus);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeIDByAcaID((int)TypeEnum.PurchaseSourceID.AkalWorkshop, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), AcaID, DispatchStatus);
             }
         }
         else
@@ -318,13 +335,13 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
             {
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchase(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID));
+                PurchaseEstimateView = purchaseRepo.EstimateViewForWorkshopPurchase((int)TypeEnum.PurchaseSourceID.AkalWorkshop, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID),AssignEstimate);
             }
             else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
             {
                 divacademy.Visible = false;
                 divDrpHeader.Visible = false;
-                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID(3, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), DispatchStatus);
+                PurchaseEstimateView = purchaseRepo.EstimateViewForPurchaseByEmployeeID((int)TypeEnum.PurchaseSourceID.AkalWorkshop, Convert.ToInt32(UserTypeID), Convert.ToInt32(UserID), DispatchStatus);
             }
         }
 
@@ -600,15 +617,17 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
     private string GetFileName(string filepaths, string fileName)
     {
         string anchorLink = string.Empty;
-        string[] filePath = filepaths.Split(',');
-        int count = 0;
-        foreach (string path in filePath)
+        if (!string.IsNullOrEmpty(filepaths))
         {
-            count++;
-            anchorLink += "<a href='" + path + "' target='_blank'>" + fileName + "_" + count + "</a> , ";
+            string[] filePath = filepaths.Split(',');
+            int count = 0;
+            foreach (string path in filePath)
+            {
+                count++;
+                anchorLink += "<a href='" + path + "' target='_blank'>" + fileName + "_" + count + "</a> , ";
+            }
+            anchorLink = anchorLink.Substring(0, anchorLink.Length - 3);
         }
-
-        return anchorLink.Substring(0, anchorLink.Length - 3);
-
+        return anchorLink;
     }
 }

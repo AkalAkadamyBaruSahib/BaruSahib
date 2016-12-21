@@ -474,7 +474,7 @@ public class TransportUserRepository
 
     public List<Vehicles> GetVehiclesByAcademyIDandTypeID(int AcaID,int TypeID)
     {
-        return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true && x.TypeID == TypeID).ToList();
+        return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true && x.TypeID != TypeID).ToList();
     }
 
     public Vehicles GetVehiclesInfoByVehicleID(int VehicleID)

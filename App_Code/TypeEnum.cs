@@ -137,7 +137,8 @@ public class TypeEnum
     public enum WorkshopReportTypes : int
     {
         InStoreReport = 1,
-        DispatchMaterial = 2
+        DispatchMaterial = 2,
+        PendingMaterial =3
     }
 
     public enum PurchaseSourceID : int

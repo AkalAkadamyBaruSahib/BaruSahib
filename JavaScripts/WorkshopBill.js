@@ -6,6 +6,9 @@ var MaterialList;
 var selectedMaterialList = new Array();
 var sum = 0;
 var listVal = "";
+var delItems = 0;
+var cntM = 1;
+var removeMaterialList = "";
 
 
 $(document).ready(function () {
@@ -23,30 +26,28 @@ $(document).ready(function () {
 
     $("input[id*='btnLoad']").click(function (e) {
         LoadWorkshopBillInfo(selectedMaterialList);
-        $("input[id*='hdnItemsLength']").val("");
-        var SnoValue = "";
-        for (var i = 0; i < selectedMaterialList.length; i++) {
-            var Material = selectedMaterialList[i];
-            SnoValue += Material.Sno + ",";
-        }
-        SnoValue = SnoValue.substr(0, SnoValue.length - 1);
-        $("input[id*='hdnItemsLength']").val(SnoValue);
-
         $("#divUploadMaterial").modal('hide');
+
     });
+
 });
 
 
-function RemoveItem(chkbox) {
+function RemoveItem(chkbox, sno) {
     var SnoIds = ($(chkbox).attr("emrid"));
+    var Material = $.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0];
     if ($(chkbox).is(':checked')) {
-        selectedMaterialList.push($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
+        selectedMaterialList.push(Material);
     }
     else {
-        selectedMaterialList.pop($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
+        var selectedMaterialListNew = selectedMaterialList.filter(function (item) {
+            return item.Sno != sno;
+        });
+
+        selectedMaterialList = selectedMaterialListNew;
+        LoadWorkshopBillInfo(selectedMaterialList);
     }
 }
-
 function IsMaterialAlreadySelected(sno) {
     var flag = false;
 
@@ -136,10 +137,10 @@ function GetMaterialList(selectedValue) {
                     $newRow.find("#srno").html(count);
                     $newRow.find("#materialname").html(MaterialList[i].Material.MatName);
                     if (IsMaterialAlreadySelected(MaterialList[i].Sno)) {
-                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange = 'RemoveItem(this)' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
+                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange = 'RemoveItem($(this)," + MaterialList[i].Sno + ")' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
                     }
                     else {
-                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange='RemoveItem(this)' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
+                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange='RemoveItem($(this)," + MaterialList[i].Sno + ")' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
                     }
                     count++;
                     $newRow.show();
@@ -178,6 +179,7 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
                 '<td id="pcs">abc</td>' +
                     '<td id="rate">abc</td>' +
                         '<td id="amount">abc</td>' +
+                           '<td id="delete">abc</td>' +
                             '</tr>';
 
     var adminLoanList = selectedMaterialList;
@@ -193,13 +195,14 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
             className = "warning";
         }
         var $newRow = $("#rowTemplate").clone();
-        $newRow.find("#srno").html(count);
+        $newRow.find("#srno").html("<span id=spn" + i + ">" + (i + 1) + "</span>");
         $newRow.find("#nameofItem").html(adminLoanList[i].Material.MatName);
         $newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].Qty + "</label></td></tr></table>");
         $newRow.find("#pcs").html(adminLoanList[i].Unit.UnitName);
         $newRow.find("#rate").html(adminLoanList[i].Material.AkalWorkshopRate);
         var linetotal = adminLoanList[i].Qty * adminLoanList[i].Material.AkalWorkshopRate;
         $newRow.find("#amount").html("<input type='hidden' value='" + linetotal + "' id='txtTotalAmount" + i + "' />" + linetotal);
+        $newRow.find("#delete").html("<a  href='#' onclick='return RemoveItem($(this)," + adminLoanList[i].Sno + ")'>Delete</a>");
         count++;
         sum += linetotal;
 
@@ -223,6 +226,8 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
             "bDestroy": true
         });
     TotalAmt();
+    MaterialItemLength(selectedMaterialList);
+  
 }
 
 function BindCurrentDate() {
@@ -241,7 +246,7 @@ function TotalAmt() {
     var tablelength = $("#tbody").children('tr').length;
     var Amt = 0;
     var rate = 0;
-    for (var i = 0 ; i < tablelength ; i++) {
+    for (var i = 0 ; i < tablelength + delItems ; i++) {
         if ($("#txtTotalAmount" + i).val() == undefined) {
             var qty = 0;
             Amt += parseInt(qty);
@@ -276,4 +281,18 @@ function GetAcademyName(selectedValue) {
         }
     });
 }
+
+function MaterialItemLength(selectedMaterialList)
+{
+    $("input[id*='hdnItemsLength']").val("");
+    var SnoValue = "";
+
+    for (var i = 0; i < selectedMaterialList.length + delItems; i++) {
+        var Material = selectedMaterialList[i];
+        SnoValue += Material.Sno + ",";
+    }
+    SnoValue = SnoValue.substr(0, SnoValue.length - 1);
+    $("input[id*='hdnItemsLength']").val(SnoValue);
+}
+
 

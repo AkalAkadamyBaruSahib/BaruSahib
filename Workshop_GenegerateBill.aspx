@@ -18,6 +18,7 @@
         <asp:HiddenField ID="hdnItemsLength" runat="server" />
         <asp:HiddenField ID="hdnUserId" runat="server" />
         <asp:HiddenField ID="hdnInchargeID" runat="server" />
+          <asp:HiddenField ID="hdnRemoveItems" runat="server" />
         <div style="display: none;" class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -120,6 +121,7 @@
                                 <th style="text-align: center;">Pcs/Kg</th>
                                 <th style="text-align: center;">Rate</th>
                                 <th style="text-align: center;">Amount</th>
+                                <th style="text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -128,10 +130,11 @@
                             <tr>
                                 <td rowspan="1" colspan="4"></td>
                                 <td style="color: #cc3300;">Total:</td>
-                                <td>
+                                <td colspan="2">
                                     <asp:Label ID="lblTotal" runat="server"></asp:Label>
                                     <asp:HiddenField ID="hdnTotal" runat="server" />
                                 </td>
+                             
                             </tr>
                         </tfoot>
                     </table>

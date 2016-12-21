@@ -1,4 +1,4 @@
-CREATE procedure [dbo].[USP_EstimateStatusReportForWorkshop]            
+ALTER procedure [dbo].[USP_EstimateStatusReportForWorkshop]            
 
 (              
 
@@ -44,7 +44,7 @@ INNER JOIN PurchaseSource P ON P.PSId=m.PSId
 
 LEFT OUTER JOIN INCHARGE INC ON INC.InchargeId=M.PurchaseEmpID      
 
-WHERE E.IsApproved=1 AND m.PSId=@PsId AND E.ModifyOn >= @StartDate and E.ModifyOn <= @EndDate and M.PurchaseEmpID in (select * from [dbo].[Split](@Userid,',')) 
+WHERE E.IsApproved=1 AND m.PSId=@PsId AND E.ModifyOn >= @StartDate and E.ModifyOn <= @EndDate and M.PurchaseEmpID in (select * from [dbo].[Split](@Userid,',')) and M.DispatchStatus =1
 
 order by  E.EstId DESC      
 
