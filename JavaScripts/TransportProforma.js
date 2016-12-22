@@ -2,6 +2,9 @@
 var MaterialList = new Array();
 var MaterialObjectList;
 var MaterialList;
+var Amt = 0;
+var rate = 0;
+var qty = 0;
 
 $(document).ready(function () {
 
@@ -645,6 +648,846 @@ $(document).ready(function () {
             $("#txtBatteryInvertarCompany").prop('disabled', true);
         }
     });
+
+    $("#txtQty0").change(function () {
+        if ($("#txtQty0").val() != undefined) {
+            var value = $("#txtQty0").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty0").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty0").css('border-color', '');
+                    qty = $("#txtQty0").val();
+                    rate = $("#txtRate0").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount0").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty1").change(function () {
+        if ($("#txtQty1").val() != undefined) {
+            var value = $("#txtQty1").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty1").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty1").css('border-color', '');
+                    qty = $("#txtQty1").val();
+                    rate = $("#txtRate1").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount1").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty2").change(function () {
+        if ($("#txtQty2").val() != undefined) {
+            var value = $("#txtQty2").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty2").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty2").css('border-color', '');
+                    qty = $("#txtQty2").val();
+                    rate = $("#txtRate2").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount2").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty3").change(function () {
+        if ($("#txtQty3").val() != undefined) {
+            var value = $("#txtQty3").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty3").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty3").css('border-color', '');
+                    qty = $("#txtQty3").val();
+                    rate = $("#txtRate3").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount3").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty4").change(function () {
+        if ($("#txtQty4").val() != undefined) {
+            var value = $("#txtQty4").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty4").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty4").css('border-color', '');
+                    qty = $("#txtQty4").val();
+                    rate = $("#txtRate4").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount4").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty5").change(function () {
+        if ($("#txtQty5").val() != undefined) {
+            var value = $("#txtQty5").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty5").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty5").css('border-color', '');
+                    qty = $("#txtQty5").val();
+                    rate = $("#txtRate5").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount5").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty6").change(function () {
+        if ($("#txtQty6").val() != undefined) {
+            var value = $("#txtQty6").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty6").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty6").css('border-color', '');
+                    qty = $("#txtQty6").val();
+                    rate = $("#txtRate6").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount6").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty7").change(function () {
+        if ($("#txtQty7").val() != undefined) {
+            var value = $("#txtQty7").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty7").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty7").css('border-color', '');
+                    qty = $("#txtQty7").val();
+                    rate = $("#txtRate7").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount7").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty8").change(function () {
+        if ($("#txtQty8").val() != undefined) {
+            var value = $("#txtQty8").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty8").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty8").css('border-color', '');
+                    qty = $("#txtQty8").val();
+                    rate = $("#txtRate8").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount8").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty9").change(function () {
+        if ($("#txtQty9").val() != undefined) {
+            var value = $("#txtQty9").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty9").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty9").css('border-color', '');
+                    qty = $("#txtQty9").val();
+                    rate = $("#txtRate9").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount9").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty10").change(function () {
+        if ($("#txtQty10").val() != undefined) {
+            var value = $("#txtQty10").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty10").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty10").css('border-color', '');
+                    qty = $("#txtQty10").val();
+                    rate = $("#txtRate10").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount10").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty11").change(function () {
+        if ($("#txtQty11").val() != undefined) {
+            var value = $("#txtQty11").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty11").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty11").css('border-color', '');
+                    qty = $("#txtQty11").val();
+                    rate = $("#txtRate11").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount11").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty12").change(function () {
+        if ($("#txtQty12").val() != undefined) {
+            var value = $("#txtQty12").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty12").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty12").css('border-color', '');
+                    qty = $("#txtQty12").val();
+                    rate = $("#txtRate12").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount12").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty13").change(function () {
+        if ($("#txtQty13").val() != undefined) {
+            var value = $("#txtQty13").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty13").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty13").css('border-color', '');
+                    qty = $("#txtQty13").val();
+                    rate = $("#txtRate13").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount13").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty14").change(function () {
+        if ($("#txtQty14").val() != undefined) {
+            var value = $("#txtQty14").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty14").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty14").css('border-color', '');
+                    qty = $("#txtQty14").val();
+                    rate = $("#txtRate14").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount14").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty15").change(function () {
+        if ($("#txtQty15").val() != undefined) {
+            var value = $("#txtQty15").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty15").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty15").css('border-color', '');
+                    qty = $("#txtQty15").val();
+                    rate = $("#txtRate15").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount15").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty16").change(function () {
+        if ($("#txtQty16").val() != undefined) {
+            var value = $("#txtQty16").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty16").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty16").css('border-color', '');
+                    qty = $("#txtQty16").val();
+                    rate = $("#txtRate16").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount16").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty17").change(function () {
+        if ($("#txtQty17").val() != undefined) {
+            var value = $("#txtQty17").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty17").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty17").css('border-color', '');
+                    qty = $("#txtQty17").val();
+                    rate = $("#txtRate17").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount17").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty18").change(function () {
+        if ($("#txtQty18").val() != undefined) {
+            var value = $("#txtQty18").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty18").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty18").css('border-color', '');
+                    qty = $("#txtQty18").val();
+                    rate = $("#txtRate18").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount18").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQty19").change(function () {
+        if ($("#txtQty19").val() != undefined) {
+            var value = $("#txtQty19").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQty19").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQty19").css('border-color', '');
+                    qty = $("#txtQty19").val();
+                    rate = $("#txtRate19").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount19").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity0").change(function () {
+        if ($("#txtQuantity0").val() != undefined) {
+            var value = $("#txtQuantity0").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity0").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity0").css('border-color', '');
+                    qty = $("#txtQuantity0").val();
+                    rate = $("#txtPrice0").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount0").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity1").change(function () {
+        if ($("#txtQuantity1").val() != undefined) {
+            var value = $("#txtQuantity1").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity1").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity1").css('border-color', '');
+                    qty = $("#txtQuantity1").val();
+                    rate = $("#txtPrice1").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount1").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity2").change(function () {
+        if ($("#txtQuantity2").val() != undefined) {
+            var value = $("#txtQuantity2").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity2").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity2").css('border-color', '');
+                    qty = $("#txtQuantity2").val();
+                    rate = $("#txtPrice2").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount2").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity3").change(function () {
+        if ($("#txtQuantity3").val() != undefined) {
+            var value = $("#txtQuantity3").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity3").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity3").css('border-color', '');
+                    qty = $("#txtQuantity3").val();
+                    rate = $("#txtPrice3").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount3").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity4").change(function () {
+        if ($("#txtQuantity4").val() != undefined) {
+            var value = $("#txtQuantity4").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity4").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity4").css('border-color', '');
+                    qty = $("#txtQuantity4").val();
+                    rate = $("#txtPrice4").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount4").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity5").change(function () {
+        if ($("#txtQuantity5").val() != undefined) {
+            var value = $("#txtQuantity5").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity5").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity5").css('border-color', '');
+                    qty = $("#txtQuantity5").val();
+                    rate = $("#txtPrice5").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount5").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity6").change(function () {
+        if ($("#txtQuantity6").val() != undefined) {
+            var value = $("#txtQuantity6").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity6").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity6").css('border-color', '');
+                    qty = $("#txtQuantity6").val();
+                    rate = $("#txtPrice6").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount6").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity7").change(function () {
+        if ($("#txtQuantity7").val() != undefined) {
+            var value = $("#txtQuantity7").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity7").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity7").css('border-color', '');
+                    qty = $("#txtQuantity7").val();
+                    rate = $("#txtPrice7").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount7").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity8").change(function () {
+        if ($("#txtQuantity8").val() != undefined) {
+            var value = $("#txtQuantity8").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity8").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity8").css('border-color', '');
+                    qty = $("#txtQuantity8").val();
+                    rate = $("#txtPrice8").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount8").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity9").change(function () {
+        if ($("#txtQuantity9").val() != undefined) {
+            var value = $("#txtQuantity9").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity9").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity9").css('border-color', '');
+                    qty = $("#txtQuantity9").val();
+                    rate = $("#txtPrice9").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount9").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity10").change(function () {
+        if ($("#txtQuantity10").val() != undefined) {
+            var value = $("#txtQuantity10").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity10").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity10").css('border-color', '');
+                    qty = $("#txtQuantity10").val();
+                    rate = $("#txtPrice10").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount10").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity11").change(function () {
+        if ($("#txtQuantity11").val() != undefined) {
+            var value = $("#txtQuantity11").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity11").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity11").css('border-color', '');
+                    qty = $("#txtQuantity11").val();
+                    rate = $("#txtPrice11").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount11").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity12").change(function () {
+        if ($("#txtQuantity12").val() != undefined) {
+            var value = $("#txtQuantity12").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity12").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity12").css('border-color', '');
+                    qty = $("#txtQuantity12").val();
+                    rate = $("#txtPrice12").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount12").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity13").change(function () {
+        if ($("#txtQuantity13").val() != undefined) {
+            var value = $("#txtQuantity13").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity13").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity13").css('border-color', '');
+                    qty = $("#txtQuantity13").val();
+                    rate = $("#txtPrice13").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount13").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity14").change(function () {
+        if ($("#txtQuantity14").val() != undefined) {
+            var value = $("#txtQuantity14").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity14").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity14").css('border-color', '');
+                    qty = $("#txtQuantity14").val();
+                    rate = $("#txtPrice14").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount14").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity15").change(function () {
+        if ($("#txtQuantity15").val() != undefined) {
+            var value = $("#txtQuantity15").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity15").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity15").css('border-color', '');
+                    qty = $("#txtQuantity15").val();
+                    rate = $("#txtPrice15").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount15").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity16").change(function () {
+        if ($("#txtQuantity16").val() != undefined) {
+            var value = $("#txtQuantity16").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity16").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity16").css('border-color', '');
+                    qty = $("#txtQuantity16").val();
+                    rate = $("#txtPrice16").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount16").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity17").change(function () {
+        if ($("#txtQuantity17").val() != undefined) {
+            var value = $("#txtQuantity17").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity17").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity17").css('border-color', '');
+                    qty = $("#txtQuantity17").val();
+                    rate = $("#txtPrice17").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount17").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity18").change(function () {
+        if ($("#txtQuantity18").val() != undefined) {
+            var value = $("#txtQuantity18").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity18").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity18").css('border-color', '');
+                    qty = $("#txtQuantity18").val();
+                    rate = $("#txtPrice18").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount18").val(RoundAmt);
+                }
+            }
+        }
+    });
+
+    $("#txtQuantity19").change(function () {
+        if ($("#txtQuantity19").val() != undefined) {
+            var value = $("#txtQuantity19").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtQuantity19").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtQuantity19").css('border-color', '');
+                    qty = $("#txtQuantity19").val();
+                    rate = $("#txtPrice19").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount19").val(RoundAmt);
+                }
+            }
+        }
+    });
 });
 
 function BindAcademyByInchargeID(inchargeId) {
@@ -909,6 +1752,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#hdnMatID0").val(selectedMaterial.MatID);
                         $("#txtRate0").val(selectedMaterial.MatCost);
+                        $("#txtUnit0").val(selectedMaterial.Unit.UnitName);
                         $("#hdnUnitID0").val(selectedMaterial.Unit.UnitId);
                     }
                 }
@@ -921,6 +1765,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate1").val(selectedMaterial.MatCost);
+                        $("#txtUnit1").val(selectedMaterial.Unit.UnitName);
                      }
                 }
 
@@ -932,6 +1777,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate2").val(selectedMaterial.MatCost);
+                        $("#txtUnit2").val(selectedMaterial.Unit.UnitName);
                      }
                 }
 
@@ -943,7 +1789,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate3").val(selectedMaterial.MatCost);
-               
+                        $("#txtUnit3").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -955,6 +1801,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate4").val(selectedMaterial.MatCost);
+                        $("#txtUnit4").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -966,6 +1813,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate5").val(selectedMaterial.MatCost);
+                        $("#txtUnit5").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -977,6 +1825,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate6").val(selectedMaterial.MatCost);
+                        $("#txtUnit6").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -988,6 +1837,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate7").val(selectedMaterial.MatCost);
+                        $("#txtUnit7").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -999,6 +1849,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate8").val(selectedMaterial.MatCost);
+                        $("#txtUnit8").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1010,6 +1861,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate9").val(selectedMaterial.MatCost);
+                        $("#txtUnit9").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1021,6 +1873,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate10").val(selectedMaterial.MatCost);
+                        $("#txtUnit10").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1032,6 +1885,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate11").val(selectedMaterial.MatCost);
+                        $("#txtUnit11").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1043,6 +1897,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate12").val(selectedMaterial.MatCost);
+                        $("#txtUnit12").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1054,6 +1909,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate13").val(selectedMaterial.MatCost);
+                        $("#txtUnit13").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1065,6 +1921,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate14").val(selectedMaterial.MatCost);
+                        $("#txtUnit14").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1076,6 +1933,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate15").val(selectedMaterial.MatCost);
+                        $("#txtUnit15").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1087,6 +1945,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate16").val(selectedMaterial.MatCost);
+                        $("#txtUnit16").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1098,6 +1957,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate17").val(selectedMaterial.MatCost);
+                        $("#txtUnit17").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1109,6 +1969,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate18").val(selectedMaterial.MatCost);
+                        $("#txtUnit18").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1120,6 +1981,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                     if (selectedMaterial != undefined) {
                         $("#txtRate19").val(selectedMaterial.MatCost);
+                        $("#txtUnit19").val(selectedMaterial.Unit.UnitName);
                     }
                 }
 
@@ -1212,6 +2074,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice0").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit0").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1222,6 +2085,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice1").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit1").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1232,6 +2096,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice2").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit2").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1242,6 +2107,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice3").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit3").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1252,6 +2118,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice4").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit4").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1262,6 +2129,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice5").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit5").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1272,6 +2140,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice6").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit6").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1282,6 +2151,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice7").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit7").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1292,6 +2162,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice8").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit8").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1302,6 +2173,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice9").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit9").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1312,6 +2184,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice10").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit10").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1322,6 +2195,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice11").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit11").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1332,6 +2206,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice12").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit12").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1342,6 +2217,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice13").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit13").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1352,6 +2228,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice14").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit14").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1362,6 +2239,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice15").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit15").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1372,6 +2250,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice16").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit16").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1382,6 +2261,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice17").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit17").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1392,6 +2272,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice18").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit18").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1402,6 +2283,7 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
                         if (selectedMaterial != undefined) {
                             $("#txtPrice19").val(selectedMaterial.MatCost);
+                            $("#txtSerUnit19").val(selectedMaterial.Unit.UnitName);
                         }
                     }
                 }).change();
@@ -1644,6 +2526,86 @@ function ClearTextBox() {
     $("#txtBatteryGensetCompany").val("");
     $("#txtBatteryInvertarCompany").val("");
     $("#ddlBatteryTye").val("");
+    $("#txtSerAmount0").val("");
+    $("#txtSerAmount1").val("");
+    $("#txtSerAmount2").val("");
+    $("#txtSerAmount3").val("");
+    $("#txtSerAmount4").val("");
+    $("#txtSerAmount5").val("");
+    $("#txtSerAmount6").val("");
+    $("#txtSerAmount7").val("");
+    $("#txtSerAmount8").val("");
+    $("#txtSerAmount9").val("");
+    $("#txtSerAmount10").val("");
+    $("#txtSerAmount11").val("");
+    $("#txtSerAmount12").val("");
+    $("#txtSerAmount13").val("");
+    $("#txtSerAmount14").val("");
+    $("#txtSerAmount15").val("");
+    $("#txtSerAmount16").val("");
+    $("#txtSerAmount17").val("");
+    $("#txtSerAmount18").val("");
+    $("#txtSerAmount19").val("");
+    $("#txtAmount0").val("");
+    $("#txtAmount1").val("");
+    $("#txtAmount2").val("");
+    $("#txtAmount3").val("");
+    $("#txtAmount4").val("");
+    $("#txtAmount5").val("");
+    $("#txtAmount6").val("");
+    $("#txtAmount7").val("");
+    $("#txtAmount8").val("");
+    $("#txtAmount9").val("");
+    $("#txtAmount10").val("");
+    $("#txtAmount11").val("");
+    $("#txtAmount12").val("");
+    $("#txtAmount13").val("");
+    $("#txtAmount14").val("");
+    $("#txtAmount15").val("");
+    $("#txtAmount16").val("");
+    $("#txtAmount17").val("");
+    $("#txtAmount18").val("");
+    $("#txtAmount19").val("");
+    $("#txtUnit0").val("");
+    $("#txtUnit1").val("");
+    $("#txtUnit2").val("");
+    $("#txtUnit3").val("");
+    $("#txtUnit4").val("");
+    $("#txtUnit5").val("");
+    $("#txtUnit6").val("");;
+    $("#txtUnit7").val("");
+    $("#txtUnit8").val("");
+    $("#txtUnit9").val("");
+    $("#txtUnit10").val("");
+    $("#txtUnit11").val("");
+    $("#txtUnit12").val("");
+    $("#txtUnit13").val("");
+    $("#txtUnit14").val("");
+    $("#txtUnit15").val("");
+    $("#txtUnit16").val("");
+    $("#txtUnit17").val("");
+    $("#txtUnit18").val("");
+    $("#txtUnit19").val("");
+    $("#txtSerUnit0").val("");
+    $("#txtSerUnit1").val("");
+    $("#txtSerUnit2").val("");
+    $("#txtSerUnit3").val("");
+    $("#txtSerUnit4").val("");
+    $("#txtSerUnit5").val("");
+    $("#txtSerUnit6").val("");
+    $("#txtSerUnit7").val("");
+    $("#txtSerUnit8").val("");
+    $("#txtSerUnit9").val("");
+    $("#txtSerUnit10").val("");
+    $("#txtSerUnit11").val("");
+    $("#txtSerUnit19").val("");
+    $("#txtSerUnit12").val("");
+    $("#txtSerUnit13").val("");
+    $("#txtSerUnit14").val("");
+    $("#txtSerUnit15").val("");
+    $("#txtSerUnit16").val("");
+    $("#txtSerUnit17").val("");
+    $("#txtSerUnit18").val("");
 }
 
 function TotalGensetAmt() {

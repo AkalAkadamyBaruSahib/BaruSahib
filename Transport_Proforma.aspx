@@ -166,9 +166,11 @@
                                                         <thead>
                                                             <tr>
                                                                 <th style="width: 10%"><b>S.No</b></th>
-                                                                <th style="width: 50%"><b>PART NAME</b></th>
-                                                                <th style="width: 20%"><b>QUANTITY OF PARTS</b></th>
+                                                                <th style="width: 30%"><b>PART NAME</b></th>
+                                                                <th style="width: 10%"><b>UNIT</b></th>
+                                                                <th style="width: 10%"><b>QUANTITY OF PARTS</b></th>
                                                                 <th style="width: 20%"><b>PRICE</b></th>
+                                                                <th style="width: 20%"><b>AMOUNT</b></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tbodyService">
@@ -178,13 +180,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName0" id="txtMaterialName0" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit0" name="txtUnit0" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty0" name="txtQty0" type="text" />
+                                                                    <input id="txtQty0" name="txtQty0" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate0" name="txtRate0" type="text" />
+                                                                    <input id="txtRate0" name="txtRate0" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount0" name="txtAmount0" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr1">
@@ -193,13 +200,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName1" id="txtMaterialName1" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit1" name="txtUnit1" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty1" name="txtQty1" type="text" />
+                                                                    <input id="txtQty1" name="txtQty1" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate1" name="txtRate1" type="text" />
+                                                                    <input id="txtRate1" name="txtRate1" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount1" name="txtAmount1" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr5">
@@ -208,13 +220,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName2" id="txtMaterialName2" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit2" name="txtUnit2" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty2" name="txtQty2" type="text" />
+                                                                    <input id="txtQty2" name="txtQty2" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate2" name="txtRate2" type="text" />
+                                                                    <input id="txtRate2" name="txtRate2" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount2" name="txtAmount2" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr6">
@@ -223,13 +240,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName3" id="txtMaterialName3" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit3" name="txtUnit3" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty3" name="txtQty3" type="text" />
+                                                                    <input id="txtQty3" name="txtQty3" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate3" name="txtRate3" type="text" />
+                                                                    <input id="txtRate3" name="txtRate3" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount3" name="txtAmount3" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr7">
@@ -238,13 +260,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName4" id="txtMaterialName4" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit4" name="txtUnit4" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty4" name="txtQty4" type="text" />
+                                                                    <input id="txtQty4" name="txtQty4" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate4" name="txtRate4" type="text" />
+                                                                    <input id="txtRate4" name="txtRate4" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount4" name="txtAmount4" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr15">
@@ -253,13 +280,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName5" id="txtMaterialName5" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit5" name="txtUnit5" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty5" name="txtQty5" type="text" />
+                                                                    <input id="txtQty5" name="txtQty5" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate5" name="txtRate5" type="text" />
+                                                                    <input id="txtRate5" name="txtRate5" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount5" name="txtAmount5" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr16">
@@ -268,13 +300,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName6" id="txtMaterialName6" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit6" name="txtUnit6" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty6" name="txtQty6" type="text" />
+                                                                    <input id="txtQty6" name="txtQty6" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate6" name="txtRate6" type="text" />
+                                                                    <input id="txtRate6" name="txtRate6" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount6" name="txtAmount6" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr17">
@@ -283,13 +320,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName7" id="txtMaterialName7" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit7" name="txtUnit7" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty7" name="txtQty7" type="text" />
+                                                                    <input id="txtQty7" name="txtQty7" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate7" name="txtRate7" type="text" />
+                                                                    <input id="txtRate7" name="txtRate7" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount7" name="txtAmount7" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr20">
@@ -298,13 +340,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName8" id="txtMaterialName8" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit8" name="txtUnit8" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty8" name="txtQty8" type="text" />
+                                                                    <input id="txtQty8" name="txtQty8" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate8" name="txtRate8" type="text" />
+                                                                    <input id="txtRate8" name="txtRate8" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount8" name="txtAmount8" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr21">
@@ -313,13 +360,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName9" id="txtMaterialName9" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit9" name="txtUnit9" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty9" name="txtQty9" type="text" />
+                                                                    <input id="txtQty9" name="txtQty9" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate9" name="txtRate9" type="text" />
+                                                                    <input id="txtRate9" name="txtRate9" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount9" name="txtAmount9" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr22">
@@ -328,13 +380,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName10" id="txtMaterialName10" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit10" name="txtUnit10" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty10" name="txtQty10" type="text" />
+                                                                    <input id="txtQty10" name="txtQty10" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate10" name="txtRate10" type="text" />
+                                                                    <input id="txtRate10" name="txtRate10" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount10" name="txtAmount10" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr23">
@@ -343,13 +400,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName11" id="txtMaterialName11" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit11" name="txtUnit11" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty11" name="txtQty11" type="text" />
+                                                                    <input id="txtQty11" name="txtQty11" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate11" name="txtRate11" type="text" />
+                                                                    <input id="txtRate11" name="txtRate11" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount11" name="txtAmount11" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr24">
@@ -358,13 +420,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName12" id="txtMaterialName12" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit12" name="txtUnit12" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty12" name="txtQty12" type="text" />
+                                                                    <input id="txtQty12" name="txtQty12" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate12" name="txtRate12" type="text" />
+                                                                    <input id="txtRate12" name="txtRate12" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount12" name="txtAmount12" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr25">
@@ -373,13 +440,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input name="txtMaterialName13" id="txtMaterialName13" type="text" />
-
+                                                                </td>
+                                                                 <td>
+                                                                    <input id="txtUnit13" name="txtUnit13" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty13" name="txtQty13" type="text" />
+                                                                    <input id="txtQty13" name="txtQty13" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate13" name="txtRate13" type="text" />
+                                                                    <input id="txtRate13" name="txtRate13" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtAmount13" name="txtAmount13" type="text" style="width: 150px;" />
                                                                 </td>
                                                                 <tr id="tr26">
                                                                     <td>
@@ -387,13 +459,18 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="txtMaterialName14" id="txtMaterialName14" type="text" />
-
+                                                                    </td>
+                                                                     <td>
+                                                                    <input id="txtUnit14" name="txtUnit14" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtQty14" name="txtQty14" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtQty14" name="txtQty14" type="text" />
+                                                                        <input id="txtRate14" name="txtRate14" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtRate14" name="txtRate14" type="text" />
+                                                                        <input id="txtAmount14" name="txtAmount14" type="text" style="width: 150px;" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="tr34">
@@ -402,13 +479,18 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="txtMaterialName15" id="txtMaterialName15" type="text" />
-
+                                                                    </td>
+                                                                     <td>
+                                                                    <input id="txtUnit15" name="txtUnit15" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtQty15" name="txtQty15" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtQty15" name="txtQty15" type="text" />
+                                                                        <input id="txtRate15" name="txtRate15" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtRate15" name="txtRate15" type="text" />
+                                                                        <input id="txtAmount15" name="txtAmount15" type="text" style="width: 150px;" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="tr35">
@@ -417,13 +499,18 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="txtMaterialName16" id="txtMaterialName16" type="text" />
-
+                                                                    </td>
+                                                                     <td>
+                                                                    <input id="txtUnit16" name="txtUnit16" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtQty16" name="txtQty16" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtQty16" name="txtQty16" type="text" />
+                                                                        <input id="txtRate16" name="txtRate16" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtRate16" name="txtRate16" type="text" />
+                                                                        <input id="txtAmount16" name="txtAmount16" type="text" style="width: 150px;" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="tr36">
@@ -432,13 +519,18 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="txtMaterialName17" id="txtMaterialName17" type="text" />
-
+                                                                    </td>
+                                                                     <td>
+                                                                    <input id="txtUnit17" name="txtUnit17" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtQty17" name="txtQty17" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtQty17" name="txtQty17" type="text" />
+                                                                        <input id="txtRate17" name="txtRate17" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtRate17" name="txtRate17" type="text" />
+                                                                        <input id="txtAmount17" name="txtAmount17" type="text" style="width: 150px;" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="tr37">
@@ -447,13 +539,18 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="txtMaterialName18" id="txtMaterialName18" type="text" />
-
+                                                                    </td>
+                                                                     <td>
+                                                                    <input id="txtUnit18" name="txtUnit18" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtQty18" name="txtQty18" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtQty18" name="txtQty18" type="text" />
+                                                                        <input id="txtRate18" name="txtRate18" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtRate18" name="txtRate18" type="text" />
+                                                                        <input id="txtAmount18" name="txtAmount18" type="text" style="width: 150px;" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="tr38">
@@ -462,17 +559,22 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="txtMaterialName19" id="txtMaterialName19" type="text" />
-
+                                                                    </td>
+                                                                     <td>
+                                                                    <input id="txtUnit19" name="txtUnit19" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtQty19" name="txtQty19" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtQty19" name="txtQty19" type="text" />
+                                                                        <input id="txtRate19" name="txtRate19" type="text" style="width: 100px;" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtRate19" name="txtRate19" type="text" />
+                                                                        <input id="txtAmount19" name="txtAmount19" type="text" style="width: 150px;" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="tr32">
-                                                                    <td colspan="3">
+                                                                    <td colspan="5">
                                                                         <input type="button" id="btnGensetTotalAmt" value="TOTAL AMOUNT" style="margin-left: 350px;" class="btn btn-primary" />
                                                                     </td>
                                                                     <td>
@@ -680,57 +782,57 @@
                                                             <tr id="tr2">
                                                                 <td>MICROTEK</td>
                                                                 <td>
-                                                                    <input type="text" id="txtMocrotaxSize" name="txtMocrotaxSize" disabled="disabled"  required />
+                                                                    <input type="text" id="txtMocrotaxSize" name="txtMocrotaxSize" disabled="disabled" required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtMocrotax" name="txtMocrotax"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtMocrotax" name="txtMocrotax" disabled="disabled" required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMocrotaxPrice" name="txtMocrotaxPrice"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtMocrotaxPrice" name="txtMocrotaxPrice" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>TATA AMARON</td>
                                                                 <td>
-                                                                    <input type="text" id="txtAmaronSize" name="txtAmaronSize"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtAmaronSize" name="txtAmaronSize" disabled="disabled" required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtAmaron" name="txtAmaron"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtAmaron" name="txtAmaron" disabled="disabled" required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtAmaronPrice" name="txtAmaronPrice"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtAmaronPrice" name="txtAmaronPrice" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>EXIDE</td>
                                                                 <td>
-                                                                    <input type="text" id="txtExideSize" name="txtExideSize"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtExideSize" name="txtExideSize" disabled="disabled" required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtExide" name="txtExide"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtExide" name="txtExide" disabled="disabled" required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtExidePrice" name="txtExidePrice"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtExidePrice" name="txtExidePrice" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>OKAYA</td>
                                                                 <td>
-                                                                    <input type="text" id="txtMicroTechSize" name="txtMicroTechSize"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtMicroTechSize" name="txtMicroTechSize" disabled="disabled" required />
                                                                 </td>
 
                                                                 <td>
-                                                                    <input type="text" id="txtMicroTech" name="txtMicroTech"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtMicroTech" name="txtMicroTech" disabled="disabled" required />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMicroTechPrice" name="txtMicroTechPrice"  disabled="disabled"  required />
+                                                                    <input type="text" id="txtMicroTechPrice" name="txtMicroTechPrice" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -786,14 +888,14 @@
                                                             <td colspan="2">TYPE OF VEHICLES:<input type="text" disabled="disabled" id="txtTyreVehicleType" name="txtTyreVehicleType" style="float: right; margin-right: 70px;" required />
                                                             </td>
                                                         </tr>
-                                                         <tr>
+                                                        <tr>
                                                             <td>SEATED</td>
                                                             <td>
                                                                 <input type="text" disabled="disabled" id="txtTyreSeated" name="txtTyreSeated" required />
                                                             </td>
                                                             <td>MODEL</td>
                                                             <td>
-                                                                <input type="text" disabled="disabled" id="txtTyreModel" name="txtTyreModel"  required />
+                                                                <input type="text" disabled="disabled" id="txtTyreModel" name="txtTyreModel" required />
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -883,49 +985,49 @@
                                                             <tr id="tr4">
                                                                 <td>MRF TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtMrfRates" name="txtMrfRates" disabled="disabled"  required />
+                                                                    <input type="text" id="txtMrfRates" name="txtMrfRates" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMrfQty" name="txtMrfQty" disabled="disabled"  required />
+                                                                    <input type="text" id="txtMrfQty" name="txtMrfQty" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtMrfAmount" name="txtMrfAmount" disabled="disabled"  required />
+                                                                    <input type="text" id="txtMrfAmount" name="txtMrfAmount" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>APPOLO TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtApoloRates" name="txtApoloRates"  disabled="disabled"  required/>
+                                                                    <input type="text" id="txtApoloRates" name="txtApoloRates" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtApoloQty" name="txtApoloQty" disabled="disabled"  required />
+                                                                    <input type="text" id="txtApoloQty" name="txtApoloQty" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtApoloAmount" name="txtApoloAmount"  disabled="disabled"  required/>
+                                                                    <input type="text" id="txtApoloAmount" name="txtApoloAmount" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>CEAT TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtCeatRates" name="txtCeatRates" disabled="disabled"  required />
+                                                                    <input type="text" id="txtCeatRates" name="txtCeatRates" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtCeatQty" name="txtCeatQty" disabled="disabled"  required />
+                                                                    <input type="text" id="txtCeatQty" name="txtCeatQty" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtCeatAmount" name="txtCeatAmount" disabled="disabled"  required />
+                                                                    <input type="text" id="txtCeatAmount" name="txtCeatAmount" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>JK TYRES</td>
                                                                 <td>
-                                                                    <input type="text" id="txtJkRates" name="txtJkRates" disabled="disabled"  required />
+                                                                    <input type="text" id="txtJkRates" name="txtJkRates" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtJkQty" name="txtJkQty" disabled="disabled"  required />
+                                                                    <input type="text" id="txtJkQty" name="txtJkQty" disabled="disabled" required />
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="txtJkAmount" name="txtJkAmount" disabled="disabled"  required />
+                                                                    <input type="text" id="txtJkAmount" name="txtJkAmount" disabled="disabled" required />
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -1165,8 +1267,10 @@
                                                             <tr>
                                                                 <th style="width: 5%;"><b>S.No</b></th>
                                                                 <th style="width: 15%;"><b>PART NAME</b></th>
+                                                                <th style="width: 15%;"><b>UNIT</b></th>
                                                                 <th style="width: 15%;"><b>QUANTITY OF PARTS</b></th>
                                                                 <th style="width: 15%;"><b>PRICE</b></th>
+                                                                <th style="width: 15%;"><b>AMOUNT</b></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tbody1d">
@@ -1178,10 +1282,16 @@
                                                                     <input id="txtMaterial0" name="txtMaterial0" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity0" name="txtQuantity0" type="text" />
+                                                                    <input id="txtSerUnit0" name="txtSerUnit0" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice0" name="txtPrice0" type="text" />
+                                                                    <input id="txtQuantity0" name="txtQuantity0" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice0" name="txtPrice0" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount0" name="txtSerAmount0" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr8">
@@ -1192,10 +1302,16 @@
                                                                     <input id="txtMaterial1" name="txtMaterial1" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity1" name="txtQuantity1" type="text" />
+                                                                    <input id="txtSerUnit1" name="txtSerUnit1" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice1" name="txtPrice1" type="text" />
+                                                                    <input id="txtQuantity1" name="txtQuantity1" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice1" name="txtPrice1" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount1" name="txtSerAmount1" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr9">
@@ -1206,10 +1322,16 @@
                                                                     <input id="txtMaterial2" name="txtMaterial2" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity2" name="txtQuantity2" type="text" />
+                                                                    <input id="txtSerUnit2" name="txtSerUnit2" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice2" name="txtPrice2" type="text" />
+                                                                    <input id="txtQuantity2" name="txtQuantity2" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice2" name="txtPrice2" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount2" name="txtSerAmount2" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr10">
@@ -1220,10 +1342,16 @@
                                                                     <input id="txtMaterial3" name="txtMaterial3" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity3" name="txtQuantity3" type="text" />
+                                                                    <input id="txtSerUnit3" name="txtSerUnit3" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice3" name="txtPrice3" type="text" />
+                                                                    <input id="txtQuantity3" name="txtQuantity3" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice3" name="txtPrice3" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount3" name="txtSerAmount3" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr11">
@@ -1234,10 +1362,16 @@
                                                                     <input id="txtMaterial4" name="txtMaterial4" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity4" name="txtQuantity4" type="text" />
+                                                                    <input id="txtSerUnit4" name="txtSerUnit4" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice4" name="txtPrice4" type="text" />
+                                                                    <input id="txtQuantity4" name="txtQuantity4" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice4" name="txtPrice4" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount4" name="txtSerAmount4" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr12">
@@ -1248,10 +1382,16 @@
                                                                     <input id="txtMaterial5" name="txtMaterial5" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity5" name="txtQuantity5" type="text" />
+                                                                    <input id="txtSerUnit5" name="txtSerUnit5" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice5" name="txtPrice5" type="text" />
+                                                                    <input id="txtQuantity5" name="txtQuantity5" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice5" name="txtPrice5" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount5" name="txtSerAmount5" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr13">
@@ -1262,10 +1402,16 @@
                                                                     <input id="txtMaterial6" name="txtMaterial6" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity6" name="txtQuantity6" type="text" />
+                                                                    <input id="txtSerUnit6" name="txtSerUnit6" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice6" name="txtPrice6" type="text" />
+                                                                    <input id="txtQuantity6" name="txtQuantity6" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice6" name="txtPrice6" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount6" name="txtSerAmount6" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr14">
@@ -1276,10 +1422,16 @@
                                                                     <input id="txtMaterial7" name="txtMaterial7" type="text" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity7" name="txtQuantity7" type="text" />
+                                                                    <input id="txtSerUnit7" name="txtSerUnit7" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice7" name="txtPrice7" type="text" />
+                                                                    <input id="txtQuantity7" name="txtQuantity7" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice7" name="txtPrice7" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount7" name="txtSerAmount7" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr18">
@@ -1288,13 +1440,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial8" name="txtMaterial8" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity8" name="txtQuantity8" type="text" />
+                                                                    <input id="txtSerUnit8" name="txtSerUnit8" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice8" name="txtPrice8" type="text" />
+                                                                    <input id="txtQuantity8" name="txtQuantity8" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice8" name="txtPrice8" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount8" name="txtSerAmount8" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr19">
@@ -1303,13 +1460,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial9" name="txtMaterial9" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity9" name="txtQuantity9" type="text" />
+                                                                    <input id="txtSerUnit9" name="txtSerUnit9" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice9" name="txtPrice9" type="text" />
+                                                                    <input id="txtQuantity9" name="txtQuantity9" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice9" name="txtPrice9" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount9" name="txtSerAmount9" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr27">
@@ -1318,13 +1480,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial10" name="txtMaterial10" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity10" name="txtQuantity10" type="text" />
+                                                                    <input id="txtSerUnit10" name="txtSerUnit10" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice10" name="txtPrice10" type="text" />
+                                                                    <input id="txtQuantity10" name="txtQuantity10" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice10" name="txtPrice10" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount10" name="txtSerAmount10" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr28">
@@ -1333,13 +1500,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial11" name="txtMaterial11" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity11" name="txtQuantity11" type="text" />
+                                                                    <input id="txtSerUnit11" name="txtSerUnit11" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice11" name="txtPrice11" type="text" />
+                                                                    <input id="txtQuantity11" name="txtQuantity11" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice11" name="txtPrice11" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount11" name="txtSerAmount11" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr29">
@@ -1348,13 +1520,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial12" name="txtMaterial12" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity12" name="txtQuantity12" type="text" />
+                                                                    <input id="txtSerUnit12" name="txtSerUnit12" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice12" name="txtPrice12" type="text" />
+                                                                    <input id="txtQuantity12" name="txtQuantity12" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice12" name="txtPrice12" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount12" name="txtSerAmount12" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr30">
@@ -1363,13 +1540,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial13" name="txtMaterial13" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity13" name="txtQuantity13" type="text" />
+                                                                    <input id="txtSerUnit13" name="txtSerUnit13" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice13" name="txtPrice13" type="text" />
+                                                                    <input id="txtQuantity13" name="txtQuantity13" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice13" name="txtPrice13" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount13" name="txtSerAmount13" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr31">
@@ -1378,13 +1560,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial14" name="txtMaterial14" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity14" name="txtQuantity14" type="text" />
+                                                                    <input id="txtSerUnit14" name="txtSerUnit14" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice14" name="txtPrice14" type="text" />
+                                                                    <input id="txtQuantity14" name="txtQuantity14" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice14" name="txtPrice14" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount14" name="txtSerAmount14" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr39">
@@ -1393,13 +1580,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial15" name="txtMaterial15" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity15" name="txtQuantity15" type="text" />
+                                                                    <input id="txtSerUnit15" name="txtSerUnit15" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice15" name="txtPrice15" type="text" />
+                                                                    <input id="txtQuantity15" name="txtQuantity15" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice15" name="txtPrice15" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount15" name="txtSerAmount15" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr40">
@@ -1408,13 +1600,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial16" name="txtMaterial16" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity16" name="txtQuantity16" type="text" />
+                                                                    <input id="txtSerUnit16" name="txtSerUnit16" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice16" name="txtPrice16" type="text" />
+                                                                    <input id="txtQuantity16" name="txtQuantity16" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice16" name="txtPrice16" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount16" name="txtSerAmount16" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr41">
@@ -1423,13 +1620,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial17" name="txtMaterial17" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity17" name="txtQuantity17" type="text" />
+                                                                    <input id="txtSerUnit17" name="txtSerUnit17" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice17" name="txtPrice17" type="text" />
+                                                                    <input id="txtQuantity17" name="txtQuantity17" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice17" name="txtPrice17" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount17" name="txtSerAmount17" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr42">
@@ -1438,13 +1640,18 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial18" name="txtMaterial18" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity18" name="txtQuantity18" type="text" />
+                                                                    <input id="txtSerUnit18" name="txtSerUnit18" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice18" name="txtPrice18" type="text" />
+                                                                    <input id="txtQuantity18" name="txtQuantity18" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice18" name="txtPrice18" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount18" name="txtSerAmount18" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr43">
@@ -1453,17 +1660,22 @@
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtMaterial19" name="txtMaterial19" type="text" />
-
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQuantity19" name="txtQuantity19" type="text" />
+                                                                    <input id="txtSerUnit19" name="txtSerUnit19" type="text" style="width: 100px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtPrice19" name="txtPrice19" type="text" />
+                                                                    <input id="txtQuantity19" name="txtQuantity19" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtPrice19" name="txtPrice19" type="text" style="width: 100px;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input id="txtSerAmount19" name="txtSerAmount19" type="text" style="width: 150px;" />
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr33">
-                                                                <td colspan="3">
+                                                                <td colspan="5">
                                                                     <input type="button" id="btnServiceTotalAmt" value="TOTAL AMOUNT" style="margin-left: 350px;" class="btn btn-primary" />
                                                                 </td>
                                                                 <td>
