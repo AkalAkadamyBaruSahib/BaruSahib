@@ -22,9 +22,9 @@
         function validateFileDwg() {
             var uploadControl = document.getElementById('<%= fuDwgFile.ClientID%>').files[0].name;
             var ext = uploadControl.split('.').pop().toLowerCase();
-            if ($.inArray(ext, ['dwg']) == -1) {
+            if ($.inArray(ext, ['dwg','Zip','zip']) == -1) {
                 document.getElementById('<%= fuDwgFile.ClientID%>').value = '';
-                alert('Invalid extension! Please Upload the .dwg Files');
+                alert('Invalid extension! Please Upload the .dwg or zip Files');
                 return false;
             }
         }
@@ -32,9 +32,9 @@
         function validateFilePdf() {
             var uploadControl = document.getElementById('<%= fuPdf.ClientID%>').files[0].name;
              var ext = uploadControl.split('.').pop().toLowerCase();
-             if ($.inArray(ext, ['pdf']) == -1) {
+             if ($.inArray(ext, ['pdf', 'Zip', 'zip']) == -1) {
                  document.getElementById('<%= fuPdf.ClientID%>').value = '';
-                 alert('Invalid extension! Please Upload the .pdf Files');
+                 alert('Invalid extension! Please Upload the .pdf or zip Files');
                  return false;
              }
          }
@@ -135,7 +135,7 @@
                                 <tr>
                                     <td>
                                         <div class="control-group">
-                                            <label class="control-label" for="typeahead">Upload Auto Cad File(for record) Ex:.dwg</label>
+                                            <label class="control-label" for="typeahead">Upload Auto Cad File(for record) Ex:.dwg or .zip</label>
                                             <div class="controls">
                                                 <asp:FileUpload ID="fuDwgFile" runat="server" onchange="validateFileDwg();" />
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredfuDwgFile" ValidationGroup="drawing" ControlToValidate="fuDwgFile" ForeColor="Red" ErrorMessage="Please Upload Auto Cad File" Display="None"></asp:RequiredFieldValidator>
@@ -147,7 +147,7 @@
                                 <tr>
                                     <td>
                                         <div class="control-group">
-                                            <label class="control-label" for="typeahead">Upload PDF File. Ex:.pdf</label>
+                                            <label class="control-label" for="typeahead">Upload PDF File. Ex:.pdf or .zip</label>
                                             <div class="controls">
                                                 <asp:FileUpload ID="fuPdf" runat="server" onchange="validateFilePdf();" />
                                                 <asp:RequiredFieldValidator runat="server" ID="RequiredfuPdf" ValidationGroup="drawing" ControlToValidate="fuPdf" ForeColor="Red" ErrorMessage="Please Upload PDF File" Display="None"></asp:RequiredFieldValidator>

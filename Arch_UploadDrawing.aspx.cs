@@ -92,7 +92,7 @@ public partial class Arch_UploadDrawing : System.Web.UI.Page
             string FilePdfEx = System.IO.Path.GetExtension(fuPdf.FileName);
             String FPdfNam = System.IO.Path.GetFileNameWithoutExtension(fuPdf.FileName);
             Int64 i = 0;
-            if (FileDwgEx.Contains("dwg") && FilePdfEx.Contains("pdf"))
+            if ((FileDwgEx.Contains("dwg") || FileDwgEx.ToLower().Contains("zip")) && (FilePdfEx.Contains("pdf") || FilePdfEx.ToLower().Contains("zip")))
             {
                 fileDwgPath = "~/AutoCad/" + fileDwgname;
                 filePdfPath = "~/PDF/" + filePdfname;
