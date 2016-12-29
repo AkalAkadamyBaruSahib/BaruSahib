@@ -183,7 +183,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             //if (i != dsMatDetails.Tables[0].Rows.Count - 1)
             //{
             EstInfo += "<tr>";
-            EstInfo += "<td font-size:10px'>" + i + 1 + "</td>";
+            EstInfo += "<td font-size:10px'>" + (i + 1) + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
@@ -385,7 +385,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "</td>";
                     }
-                    ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Sanction Date:</b> " + Est.SanctionDate + "</td>";
+                    ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Sanction Date:</b> " + Est.ModifyOn + "</td>";
                     ZoneInfo += "<td class='center' width='25%'><b style='color:red;'>Sub Estimate:</b> " + Est.SubEstimate + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Academy:</b> " + Est.Academy.AcaName + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
