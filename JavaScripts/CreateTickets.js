@@ -394,11 +394,11 @@ function LoadAssignComplaints() {
                     }
 
                     if ($("input[id*='hdnUserType']").val() == "2") {
-                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'  class='btn btn-primary'>Update</a>");
                     }
                     else {
                         //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
-                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'  class='btn btn-primary'>Update</a>");
                     }
 
 
@@ -495,11 +495,11 @@ function LoadInProgressComplaints(IsRefresh) {
                         }
 
                         if ($("input[id*='hdnUserType']").val() == "2") {
-                            $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                            $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Update</a>");
                         }
                         else {
                             //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
-                            $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                            $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Update</a>");
                         }
 
 
@@ -592,7 +592,7 @@ function LoadCompleteComplaints(IsRefresh) {
                         $newRow.find("#feedback").html(adminLoanList[i].Feedback);
 
                         if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
-                            $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
+                            $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Feedback</a>");
                         }
 
                         if ($("input[id*='hdnUserType']").val() == "2") {
