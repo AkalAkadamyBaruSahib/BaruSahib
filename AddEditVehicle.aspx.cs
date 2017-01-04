@@ -323,6 +323,7 @@ public partial class AddVehicle : System.Web.UI.Page
         txtKm.Text = vehicle.KMPerDay.ToString();
         txtAverage.Text = vehicle.VehicleAverage.ToString();
         txtContractRate.Text = vehicle.VehicleContractRate.ToString();
+        chkCompanyOwned.Checked = vehicle.IsCompanyOwned.ToString() != string.Empty ? Convert.ToBoolean(vehicle.IsCompanyOwned.ToString()) : false;
         DisableControl();
     }
 
@@ -365,7 +366,7 @@ public partial class AddVehicle : System.Web.UI.Page
             if (isVehicleExists.Tables[0].Rows.Count == 0 || VehicleID > -1)
             {
 
-                long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + txtContractRate.Text + "," + txtAverage.Text);
+                long rowaffected = DAL.DalAccessUtility.ExecuteNonQuery("exec [USP_InsertUpdateVehicle] " + VehicleID + "," + ddlZone.SelectedValue + "," + ddlAcademy.SelectedValue + "," + ddlTransportType.SelectedValue + ",'" + VehicleNumber + "','" + OwnerName.Text + "','" + txtOwnerNo.Text + "','" + txtSitting.Text + "','" + NormsId + "',1," + chkTemp.Checked + ",'" + fileName + "','" + txtEngineNumber.Text.ToUpper() + "','" + txtChassisNumber.Text.ToUpper() + "','" + ddlMake.SelectedValue + "','" + ddlModel.SelectedValue + "'," + chkWrittenContract.Checked + ",'" + ddlPeriodOfContract.SelectedValue + "','" + txtContractDieselRate.Text + "','" + ddlOilSlab.SelectedValue + "','" + ddlFrontRight.SelectedValue + "','" + ddlFrontLeft.SelectedValue + "','" + rearR + "','" + rearL + "','" + txtKm.Text + "','" + rearR2 + "','" + rearL2 + "'," + ddlNumberOfTyres.SelectedValue + "," + txtContractRate.Text + "," + txtAverage.Text + "," + chkCompanyOwned.Checked);
 
                 if (VehicleID == -1)
                 {

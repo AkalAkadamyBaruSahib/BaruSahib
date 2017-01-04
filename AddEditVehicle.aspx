@@ -132,7 +132,7 @@
                                 </td>
                                 <td>Owner Mobile Number:
                                                     <br />
-                                    <asp:TextBox ID="txtOwnerNo" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtOwnerNo" runat="server"></asp:TextBox> <asp:CheckBox ID="chkCompanyOwned" runat="server" Text="<b>Is Vehicle Company Owned?</b>" />
                                 </td>
                             </tr>
                             <tr>
@@ -247,6 +247,11 @@
                                 <td>Vehicle Average:<br />
                                    <asp:TextBox ID="txtAverage" runat="server"></asp:TextBox>
                                    <asp:RequiredFieldValidator runat="server" Display="None" ValidationGroup="vehicle" ID="RequiredFieldValidator10" ControlToValidate="txtAverage" ErrorMessage="Please Enter the Vehicle Average" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
                                 </td>
                             </tr>
                         </table>
