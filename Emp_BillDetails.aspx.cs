@@ -31,14 +31,14 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         DataSet dsBill = new DataSet();
         dsBill = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminBillViewByBillId_V2 '" + ID + "'");
         lblBillNo.Text = dsBill.Tables[0].Rows[0]["SubBillId"].ToString();
-        //lblBillType.Text = dsBill.Tables[0].Rows[0]["BillTypeName"].ToString();
+        lblAgencyBillNo.Text = dsBill.Tables[0].Rows[0]["AgencyBillNumber"].ToString();
         lblChargeableTo.Text = dsBill.Tables[0].Rows[0]["BillType"].ToString();
-        lblBillDesc.Text = dsBill.Tables[0].Rows[0]["BillDescr"].ToString();
         lblAgencyName.Text = dsBill.Tables[0].Rows[0]["AgencyName"].ToString();
         lblBillDate.Text = dsBill.Tables[0].Rows[0]["BillDate"].ToString();
         lblGateEntry.Text = dsBill.Tables[0].Rows[0]["GateEntryNo"].ToString();
         lblZone.Text = dsBill.Tables[0].Rows[0]["ZoneName"].ToString();
         lblAca.Text = dsBill.Tables[0].Rows[0]["AcaName"].ToString();
+        aAgencyBill.HRef = "Bills/" + dsBill.Tables[0].Rows[0]["AgencyBill"].ToString();
 
         if (dsBill.Tables[0].Rows[0]["FirstVarifyStatus"].ToString() == "")
         {
@@ -54,7 +54,12 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         }
         else
         {
-            lblHqUser.Text = dsBill.Tables[0].Rows[0]["FirstVarify"].ToString();
+            DataTable ds1stVerfiName = new DataTable();
+            ds1stVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["FirstVarify"].ToString() + "'").Tables[0];
+            if (ds1stVerfiName != null && ds1stVerfiName.Rows.Count > 0)
+            {
+                lblHqUser.Text = ds1stVerfiName.Rows[0]["InName"].ToString();
+            }
             lblHqAppDate.Text = dsBill.Tables[0].Rows[0]["FirstVarifyOn"].ToString();
             lblHqRemark.Text = dsBill.Tables[0].Rows[0]["FirstVarifyRemark"].ToString();
         }
@@ -72,7 +77,7 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         }
         else
         {
-            DataSet ds2ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["SeccondVarify"].ToString() + "'");
+            DataSet ds2ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["SeccondVarify"].ToString() + "'");
             lbl2ndUser.Text = ds2ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
             lbl2ndAppOn.Text = dsBill.Tables[0].Rows[0]["SeccondVarifyOn"].ToString();
             lbl2ndRemark.Text = dsBill.Tables[0].Rows[0]["SecondVarifyRemark"].ToString();
@@ -87,7 +92,7 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         }
         else if (dsBill.Tables[0].Rows[0]["PaymentStatus"].ToString() == "0")
         {
-            DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
+            DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
             lbl3rdUser.Text = ds3ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
             lbl3rdAppOn.Text = dsBill.Tables[0].Rows[0]["ThirdVarifyOn"].ToString();
             //lblPayStatus.Text = "REJECTED";
@@ -106,7 +111,7 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         }
         else
         {
-            DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
+            DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
             lbl3rdUser.Text = ds3ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
             lbl3rdAppOn.Text = dsBill.Tables[0].Rows[0]["ThirdVarifyOn"].ToString();
             lblAccRemark.Text = dsBill.Tables[1].Rows[0]["Remark"].ToString();
@@ -130,7 +135,7 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         }
         else
         {
-            DataSet ds4ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["RecevingBy"].ToString() + "'");
+            DataSet ds4ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["RecevingBy"].ToString() + "'");
             lblRecUser.Text = ds4ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
             lblRecAppOn.Text = dsBill.Tables[0].Rows[0]["DateOfReceving"].ToString();
             lblRecVocNo.Text = dsBill.Tables[0].Rows[0]["ReciptNoByEmp"].ToString();
@@ -165,7 +170,7 @@ public partial class Emp_BillDetails : System.Web.UI.Page
                 BillInfo += "<td width='15%'>" + dsBill.Tables[2].Rows[i]["StockEntryNo"].ToString() + "</td>";
             }
             //BillInfo += "<td width='10%'>" + dsBill.Tables[2].Rows[i]["StockEntryNo"].ToString() + "</td>";
-            BillInfo += "<td width='10%'><a href='Emp_MaterialDetails.aspx?MatId=" + dsBill.Tables[2].Rows[i]["MatId"].ToString() + "'>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</a></td>";
+            BillInfo += "<td width='10%'>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</td>";
             BillInfo += "<td width='10%'>" + dsBill.Tables[2].Rows[i]["Qty"].ToString() + "</td>";
             BillInfo += "<td width='10%'>" + dsBill.Tables[2].Rows[i]["UnitName"].ToString() + "</td>";
             BillInfo += "<td width='10%'>" + dsBill.Tables[2].Rows[i]["Rate"].ToString() + "</td>";
@@ -199,5 +204,10 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         BillInfo += "</div>";
 
         divBillMaterialDetails.InnerHtml = BillInfo.ToString();
+    }
+    protected void btnPDFDownload_Click(object sender, EventArgs e)
+    {
+        string folderPath = Server.MapPath("Bills/CivilBillInvoice");
+        Utility.GeneratePDFCivilMaterialBill(Convert.ToInt32(Request.QueryString["BillId"].ToString()), folderPath);
     }
 }

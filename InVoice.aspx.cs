@@ -26,34 +26,32 @@ public partial class Example_InVoice : System.Web.UI.Page
         lblAca.Text = dsBill.Tables[0].Rows[0]["AcaName"].ToString();
         lblCreatedOn.Text = dsBill.Tables[0].Rows[0]["BillDate"].ToString();
         lblAgency.Text = dsBill.Tables[0].Rows[0]["AgencyName"].ToString();
-        lblDesc.Text = dsBill.Tables[0].Rows[0]["BillDescr"].ToString();
+
         divBillDetails.InnerHtml = string.Empty;
         string BillInfo = string.Empty;
-         BillInfo += "<table>";
-         BillInfo += "<tr>";
-         BillInfo += "<td><strong>Items</strong></td>";
-         BillInfo += "<td><strong>Qty</strong></td>";
-         BillInfo += "<td><strong>Unit Price</strong></td>";
-         BillInfo += "<td><strong>Amount</strong></td>";
-         BillInfo += "</tr>";
-         for (int i = 0; i < dsBill.Tables[2].Rows.Count; i++)
-         {
-             BillInfo += "<tr class='odd'>";
-             BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</td>";
-             BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["Qty"].ToString() + "</td>";
-             BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["Rate"].ToString() + "</td>";
-             BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["Amount"].ToString() + "</td>";
-             BillInfo += "</tr>";
-             BillInfo += "<tr>";
-         }
-         BillInfo += "<td>&nbsp;</td>";
-         BillInfo += "<td>&nbsp;</td>";
-         BillInfo += "<td><strong>Total</strong></td>";
-         BillInfo += "<td><strong>" + dsBill.Tables[0].Rows[0]["TotalAmount"].ToString() +"</strong></td>";
-         BillInfo += "</tr>";
-         BillInfo += "</table>";
+        BillInfo += "<table>";
+        BillInfo += "<tr>";
+        BillInfo += "<td><strong>Items</strong></td>";
+        BillInfo += "<td><strong>Qty</strong></td>";
+        BillInfo += "<td><strong>Unit Price</strong></td>";
+        BillInfo += "<td><strong>Amount</strong></td>";
+        BillInfo += "</tr>";
+        for (int i = 0; i < dsBill.Tables[2].Rows.Count; i++)
+        {
+            BillInfo += "<tr class='odd'>";
+            BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</td>";
+            BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["Qty"].ToString() + "</td>";
+            BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["Rate"].ToString() + "</td>";
+            BillInfo += "<td>" + dsBill.Tables[2].Rows[i]["Amount"].ToString() + "</td>";
+            BillInfo += "</tr>";
+            BillInfo += "<tr>";
+        }
+        BillInfo += "<td>&nbsp;</td>";
+        BillInfo += "<td>&nbsp;</td>";
+        BillInfo += "<td><strong>Total</strong></td>";
+        BillInfo += "<td><strong>" + dsBill.Tables[0].Rows[0]["TotalAmount"].ToString() + "</strong></td>";
+        BillInfo += "</tr>";
+        BillInfo += "</table>";
         divBillDetails.InnerHtml = BillInfo.ToString();
     }
-
-
 }

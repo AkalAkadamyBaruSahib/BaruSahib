@@ -45,7 +45,7 @@ public class Vehicles
     public int? NumberOfTypres { get; set; }
     public int? VehicleContractRate { get; set; }
     public decimal? VehicleAverage { get; set; }
-
+    public bool? IsCompanyOwned { get; set; }
 
 
     [ForeignKey("ZoneID")]

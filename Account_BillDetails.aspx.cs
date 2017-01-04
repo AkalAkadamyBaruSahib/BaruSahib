@@ -8,6 +8,7 @@ using System.Data;
 
 public partial class Account_BillDetails : System.Web.UI.Page
 {
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -20,6 +21,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
             }
             if (Request.QueryString["SubBillId"] != null)
             {
@@ -100,14 +102,24 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else if (dsBill.Tables[0].Rows[0]["FirstVarifyStatus"].ToString() == "0")
             {
-                lblHqUser.Text = dsBill.Tables[0].Rows[0]["FirstVarify"].ToString();
+                DataTable ds1stVerfiName = new DataTable();
+                ds1stVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["FirstVarify"].ToString() + "'").Tables[0];
+                if (ds1stVerfiName != null && ds1stVerfiName.Rows.Count > 0)
+                {
+                    lblHqUser.Text = ds1stVerfiName.Rows[0]["InName"].ToString();
+                }
                 lblHqAppDate.Text = dsBill.Tables[0].Rows[0]["FirstVarifyOn"].ToString();
                 lblHqRemark.Text = dsBill.Tables[0].Rows[0]["FirstVarifyRemark"].ToString();
                 lblHqStatus.Text = "REJECTED";
             }
             else
             {
-                lblHqUser.Text = dsBill.Tables[0].Rows[0]["FirstVarify"].ToString();
+                DataTable ds1stVerfiName = new DataTable();
+                ds1stVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["FirstVarify"].ToString() + "'").Tables[0];
+                if (ds1stVerfiName != null && ds1stVerfiName.Rows.Count > 0)
+                {
+                    lblHqUser.Text = ds1stVerfiName.Rows[0]["InName"].ToString();
+                }
                 lblHqAppDate.Text = dsBill.Tables[0].Rows[0]["FirstVarifyOn"].ToString();
                 lblHqRemark.Text = dsBill.Tables[0].Rows[0]["FirstVarifyRemark"].ToString();
                 lblHqStatus.Text = "VERIFIED";
@@ -121,7 +133,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else if (dsBill.Tables[0].Rows[0]["SecondVarifyStatus"].ToString() == "0")
             {
-                DataSet ds2ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["SeccondVarify"].ToString() + "'");
+                DataSet ds2ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["SeccondVarify"].ToString() + "'");
                 lbl2ndUser.Text = ds2ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
                 lbl2ndAppOn.Text = dsBill.Tables[0].Rows[0]["SeccondVarifyOn"].ToString();
                 lbl2ndRemark.Text = dsBill.Tables[0].Rows[0]["SecondVarifyRemark"].ToString();
@@ -129,7 +141,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else
             {
-                DataSet ds2ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["SeccondVarify"].ToString() + "'");
+                DataSet ds2ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["SeccondVarify"].ToString() + "'");
                 lbl2ndUser.Text = ds2ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
                 lbl2ndAppOn.Text = dsBill.Tables[0].Rows[0]["SeccondVarifyOn"].ToString();
                 lbl2ndRemark.Text = dsBill.Tables[0].Rows[0]["SecondVarifyRemark"].ToString();
@@ -143,7 +155,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else if (dsBill.Tables[0].Rows[0]["PaymentStatus"].ToString() == "0")
             {
-                DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
+                DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
                 lbl3rdUser.Text = ds3ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
                 lbl3rdAppOn.Text = dsBill.Tables[0].Rows[0]["ThirdVarifyOn"].ToString();
                 lblPayStatus.Text = "REJECTED";
@@ -162,7 +174,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else
             {
-                DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
+                DataSet ds3ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["ThirdVarifyBy"].ToString() + "'");
                 lbl3rdUser.Text = ds3ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
                 lbl3rdAppOn.Text = dsBill.Tables[0].Rows[0]["ThirdVarifyOn"].ToString();
                 lblPayStatus.Text = "VARIFIED";
@@ -191,7 +203,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else if (dsBill.Tables[0].Rows[0]["RecevingStatus"].ToString() == "0")
             {
-                DataSet ds4ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["RecevingBy"].ToString() + "'");
+                DataSet ds4ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["RecevingBy"].ToString() + "'");
                 lblRecUser.Text = ds4ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
                 lblRecAppOn.Text = dsBill.Tables[0].Rows[0]["DateOfReceving"].ToString();
                 lblRecVocNo.Text = dsBill.Tables[0].Rows[0]["ReciptNoByEmp"].ToString();
@@ -200,7 +212,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             }
             else
             {
-                DataSet ds4ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where LoginId='" + dsBill.Tables[0].Rows[0]["RecevingBy"].ToString() + "'");
+                DataSet ds4ndVerfiName = DAL.DalAccessUtility.GetDataInDataSet("select InName from Incharge where InchargeID='" + dsBill.Tables[0].Rows[0]["RecevingBy"].ToString() + "'");
                 lblRecUser.Text = ds4ndVerfiName.Tables[0].Rows[0]["InName"].ToString();
                 lblRecAppOn.Text = dsBill.Tables[0].Rows[0]["DateOfReceving"].ToString();
                 lblRecVocNo.Text = dsBill.Tables[0].Rows[0]["ReciptNoByEmp"].ToString();
@@ -288,7 +300,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             {
                 btnEdit.Visible = true;
                 btnSave.Visible = true;
-                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ThirdVarifyBy='"+ lblUser.Text +"',ThirdVarifyOn=GETDATE(),ThirdVarifyRemark=upper('"+ txtRemark.Text +"'),PaymentStatus=1 where SubBillId='" + id + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ThirdVarifyBy='"+ InchargeID +"',ThirdVarifyOn=GETDATE(),ThirdVarifyRemark=upper('"+ txtRemark.Text +"'),PaymentStatus=1 where SubBillId='" + id + "'");
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varify Successfully.');", true);
                 Response.Redirect("Account_BillStatus.aspx");
             }
@@ -313,7 +325,7 @@ public partial class Account_BillDetails : System.Web.UI.Page
             {
                 btnEdit.Visible = true;
                 btnSave.Visible = true;
-                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ThirdVarifyBy='" + lblUser.Text + "',ThirdVarifyOn=GETDATE(),ThirdVarifyRemark=upper('" + txtRemark.Text + "'),PaymentStatus=0 where SubBillId='" + id + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ThirdVarifyBy='" + InchargeID + "',ThirdVarifyOn=GETDATE(),ThirdVarifyRemark=upper('" + txtRemark.Text + "'),PaymentStatus=0 where SubBillId='" + id + "'");
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Reject Successfully.');", true);
                 Response.Redirect("Account_BillStatus.aspx");
             }

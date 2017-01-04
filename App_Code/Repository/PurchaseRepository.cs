@@ -181,11 +181,13 @@ public class PurchaseRepository
         return _context.PurchaseOrder.ToList();
     }
 
-    public void AddNewVendorInformation(VendorInfo vendorInfo)
+    public string AddNewVendorInformation(VendorInfo vendorInfo)
     {
         _context.Entry(vendorInfo).State = EntityState.Added;
         _context.SaveChanges();
 
+        VendorInfo vendorName = _context.VendorInfo.Where(v => v.ID == vendorInfo.ID).FirstOrDefault();
+        return vendorName.VendorName;
     }
 
     public List<VendorInfoDTO> LoadActiveVendorInformation(int VendorID)
@@ -206,13 +208,16 @@ public class PurchaseRepository
             vendorDTO.VendorName = v.VendorName;
             vendorDTO.VendorAddress = v.VendorAddress;
             vendorDTO.VendorContactNo = v.VendorContactNo;
-            vendorDTO.VendorState = v.VendorState;
-            vendorDTO.VendorCity = v.VendorCity;
+            vendorDTO.VendorState = v.VendorState.ToString();
+            vendorDTO.VendorCity = v.VendorCity.ToString();
             vendorDTO.VendorZip = v.VendorZip;
             vendorDTO.Active = v.Active;
-            vendorDTO.ModifyBy = v.ModifyBy;
+            vendorDTO.ModifyBy =  v.ModifyBy.ToString();
             vendorDTO.ModifyOn = v.ModifyOn.ToString();
             vendorDTO.CreatedOn = v.CreatedOn.ToString();
+            vendorDTO.BankName = v.BankName;
+            vendorDTO.IfscCode = v.IfscCode;
+            vendorDTO.AccountNumber = v.AccountNumber;
 
 
             dto.Add(vendorDTO);
@@ -237,13 +242,16 @@ public class PurchaseRepository
             vendorDTO.VendorName = v.VendorName;
             vendorDTO.VendorAddress = v.VendorAddress;
             vendorDTO.VendorContactNo = v.VendorContactNo;
-            vendorDTO.VendorState = v.VendorState;
-            vendorDTO.VendorCity = v.VendorCity;
+            vendorDTO.VendorState = v.VendorState.ToString();
+            vendorDTO.VendorCity = v.VendorCity.ToString();
             vendorDTO.VendorZip = v.VendorZip;
             vendorDTO.Active = v.Active;
-            vendorDTO.ModifyBy = v.ModifyBy;
+            vendorDTO.ModifyBy = v.ModifyBy.ToString();
             vendorDTO.ModifyOn = v.ModifyOn.ToString();
             vendorDTO.CreatedOn = v.CreatedOn.ToString();
+            vendorDTO.BankName = v.BankName;
+            vendorDTO.IfscCode = v.IfscCode;
+            vendorDTO.AccountNumber = v.AccountNumber;
 
             dto.Add(vendorDTO);
         }
@@ -263,9 +271,12 @@ public class PurchaseRepository
         dto.VendorName = vendorInfo.VendorName;
         dto.VendorAddress = vendorInfo.VendorAddress;
         dto.VendorContactNo = vendorInfo.VendorContactNo;
-        dto.VendorState = vendorInfo.VendorState;
-        dto.VendorCity = vendorInfo.VendorCity;
+        dto.VendorState = vendorInfo.VendorState.ToString();
+        dto.VendorCity = vendorInfo.VendorCity.ToString();
         dto.VendorZip = vendorInfo.VendorZip;
+        dto.BankName = vendorInfo.BankName;
+        dto.IfscCode = vendorInfo.IfscCode;
+        dto.AccountNumber = vendorInfo.AccountNumber;
 
         dto.Active = vendorInfo.Active;
 
@@ -305,13 +316,15 @@ public class PurchaseRepository
         newVendorInfo.VendorName = vendorInfo.VendorName;
         newVendorInfo.VendorAddress = vendorInfo.VendorAddress;
         newVendorInfo.VendorContactNo = vendorInfo.VendorContactNo;
-        newVendorInfo.VendorCity = vendorInfo.VendorCity;
-        newVendorInfo.VendorState = vendorInfo.VendorState;
+        newVendorInfo.VendorCity = Convert.ToInt32(vendorInfo.VendorCity);
+        newVendorInfo.VendorState = Convert.ToInt32(vendorInfo.VendorState);
         newVendorInfo.VendorZip = vendorInfo.VendorZip;
         newVendorInfo.CreatedOn = newVendorInfo.CreatedOn;
         newVendorInfo.ModifyOn = DateTime.Now;
         newVendorInfo.Active = true;
-
+        newVendorInfo.BankName = vendorInfo.BankName;
+        newVendorInfo.IfscCode = vendorInfo.IfscCode;
+        newVendorInfo.AccountNumber = vendorInfo.AccountNumber;
 
         newVendorInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
 
@@ -1248,5 +1261,15 @@ public class PurchaseRepository
                       .Where(x => x.EstimateAndMaterialOthersRelations.Any(er => er.PSId == PSID))
                       .OrderByDescending(e => e.ModifyOn).ToList();
         return ests;
+    }
+
+    public List<VendorInfoDTO> GetActiveVendor()
+    {
+        List<VendorInfoDTO> mt = new List<VendorInfoDTO>();
+        return mt = _context.VendorInfo.Where(x => x.Active == true).AsEnumerable().Select(x => new VendorInfoDTO
+        {
+            ID = x.ID,
+            VendorName = x.VendorName.Trim(),
+        }).OrderByDescending(m => m.VendorName).Reverse().ToList();
     }
 }

@@ -8,6 +8,8 @@ using System.Data;
 
 public partial class Audit_ViewBillDetailsForApproval : System.Web.UI.Page
 {
+
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -20,6 +22,7 @@ public partial class Audit_ViewBillDetailsForApproval : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
             }
             if (Request.QueryString["SubBillId"] != null)
             {
@@ -158,7 +161,7 @@ public partial class Audit_ViewBillDetailsForApproval : System.Web.UI.Page
             {
                 btnEdit.Visible = true;
                 btnSave.Visible = true;
-                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set SeccondVarify='" + lblUser.Text + "' , SeccondVarifyOn=GETDATE(),SecondVarifyRemark=upper('" + txtRemark.Text + "'),SecondVarifyStatus=1 where SubBillId='" + id + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set SeccondVarify='" + InchargeID + "' , SeccondVarifyOn=GETDATE(),SecondVarifyRemark=upper('" + txtRemark.Text + "'),SecondVarifyStatus=1 where SubBillId='" + id + "'");
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varify Successfully.');", true);
                 Response.Redirect("Audit_BillsForApproval.aspx");
             }
@@ -183,7 +186,7 @@ public partial class Audit_ViewBillDetailsForApproval : System.Web.UI.Page
             {
                 btnEdit.Visible = true;
                 btnSave.Visible = true;
-                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set SeccondVarify='" + lblUser.Text + "' , SeccondVarifyOn=GETDATE(),SecondVarifyRemark=upper('" + txtRemark.Text + "'),SecondVarifyStatus=0 where SubBillId='" + id + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set SeccondVarify='" + InchargeID + "' , SeccondVarifyOn=GETDATE(),SecondVarifyRemark=upper('" + txtRemark.Text + "'),SecondVarifyStatus=0 where SubBillId='" + id + "'");
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Reject Successfully.');", true);
                 Response.Redirect("Audit_BillsForApproval.aspx");
             }

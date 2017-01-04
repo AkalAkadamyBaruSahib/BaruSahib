@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
 {
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -21,6 +22,7 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
             }
             if (Request.QueryString["SubBillId"] != null)
             {
@@ -34,7 +36,6 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
                 GetUserProRemark(Request.QueryString["SubBillIdU"].ToString());
                 ShowBillDetails(Request.QueryString["SubBillIdU"].ToString());
             }
-
         }
     }
     protected void GetUserProRemark(string id)
@@ -47,16 +48,16 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         DataSet dsBill = new DataSet();
         dsBill = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminBillViewByBillId_V2 '"+ ID +"'");
         lblBillNo.Text = dsBill.Tables[0].Rows[0]["SubBillId"].ToString();
-        //lblBillType.Text = dsBill.Tables[0].Rows[0]["BillTypeName"].ToString();
         Session["EstId"] = dsBill.Tables[0].Rows[0]["EstId"].ToString();
         lblChargeableTo.Text = dsBill.Tables[0].Rows[0]["BillType"].ToString();
-        lblBillDesc.Text = dsBill.Tables[0].Rows[0]["BillDescr"].ToString();
         lblAgencyName.Text = dsBill.Tables[0].Rows[0]["AgencyName"].ToString();
         lblBillDate.Text = dsBill.Tables[0].Rows[0]["BillDate"].ToString();
         lblGateEntry.Text = dsBill.Tables[0].Rows[0]["GateEntryNo"].ToString();
         lblZone.Text = dsBill.Tables[0].Rows[0]["ZoneName"].ToString();
         lblAca.Text = dsBill.Tables[0].Rows[0]["AcaName"].ToString();
         hdnWorkAllotID.Value = dsBill.Tables[0].Rows[0]["WAID"].ToString();
+        lblAgencyBillNo.Text = dsBill.Tables[0].Rows[0]["AgencyBillNumber"].ToString();
+        aAgencyBill.HRef = "Bills/" + dsBill.Tables[0].Rows[0]["AgencyBill"].ToString();
         if (dsBill.Tables[0].Rows[0]["FirstVarifyStatus"].ToString() == "1")
         {
             divFinalButtons.Visible = false;
@@ -139,7 +140,7 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         else
         {
             string id = Request.QueryString["SubBillId"];
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + lblUser.Text + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=1 where SubBillId='" + id + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + InchargeID + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=1 where SubBillId='" + id + "'");
             DataSet dsContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
             DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
@@ -158,12 +159,12 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         else
         {
             string id = Request.QueryString["SubBillId"];
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + lblUser.Text + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=0 where SubBillId='" + id + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + InchargeID + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=0 where SubBillId='" + id + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
             DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
             string Msg = "" + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id + " is Rejected by ADMIN";
             DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id + "'");
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser.Text + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + InchargeID + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
             Response.Redirect("BillStatus.aspx");
         }
     }
@@ -176,7 +177,7 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         else
         {
             string id1 = Request.QueryString["SubBillIdU"];
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + lblUser.Text + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=1 where SubBillId='" + id1 + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + InchargeID + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=1 where SubBillId='" + id1 + "'");
             DAL.DalAccessUtility.ExecuteNonQuery("update BillProceedLog set UserProDate = null,UserProStatus=null,UserProUser=null,UserProRemark=null where BillId='" + id1 + "'");
             DataSet dsContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id1 + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
@@ -186,5 +187,10 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
             DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
             Response.Redirect("BillStatus.aspx");
         }
+    }
+    protected void btnPDFDownload_Click(object sender, EventArgs e)
+    {
+        string folderPath = Server.MapPath("Bills/CivilBillInvoice");
+        Utility.GeneratePDFCivilMaterialBill(Convert.ToInt32(Request.QueryString["SubBillId"].ToString()), folderPath);
     }
 }

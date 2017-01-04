@@ -134,7 +134,6 @@ public partial class Admin_AllBillDetails : System.Web.UI.Page
             ZoneInfo += "<tr><td><b>Bill No.</b> <a  href='Admin_BillDetailsAfterApproval.aspx?SubBillId=" + dsBillDetails.Tables[0].Rows[i]["SubBillId"].ToString() + "'><span class='label label-important' style='font-size: 15.998px;'>" + dsBillDetails.Tables[0].Rows[i]["SubBillId"].ToString() + "</spam></a></td></tr>";
             ZoneInfo += "<tr><td><b>Bill Date:</b> " + dsBillDetails.Tables[0].Rows[i]["BillDate"].ToString() + "</td></tr>";
             ZoneInfo += "<tr><td><b>Agency Name:</b> " + dsBillDetails.Tables[0].Rows[i]["AgencyName"].ToString() + "</td></tr>";
-            ZoneInfo += "<tr><td><b>Description:</b> " + dsBillDetails.Tables[0].Rows[i]["BillDescr"].ToString() + "</td></tr>";
             ZoneInfo += "</table></td>";
             ZoneInfo += "<td width='15%'> " + dsBillDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td>";
             ZoneInfo += "<td width='15%'> " + dsBillDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td>";

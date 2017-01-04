@@ -334,7 +334,7 @@ public static class Utility
     public static void SendNormsAlerts(DateTime alertDate, DataSet getAlertsInfo)
     {
         // color , grill , speed governer, incase of rash driving, condition of tyres , GPS,Women conducotr,camera
-        
+
         DataSet getNorms = new DataSet();
         DataSet dsEmployeeNumber = new DataSet();
         string numbers = string.Empty;
@@ -358,7 +358,7 @@ public static class Utility
 
                     numbers = String.Join(",", dsEmployeeNumber.Tables[0].AsEnumerable().Select(x => x.Field<string>("InMobile").ToString()).ToArray());
                     numbers += "," + AdminNumber;
-                    
+
                     if (dsEmployeeNumber.Tables[0].Select("UserTypeID = 14").Count() != 0)
                     {
                         smsBody = "Name of Academy: " + dsEmployeeNumber.Tables[0].Rows[0]["AcaName"].ToString() + ". Vehicle Number " + getAlertsInfo.Tables[0].Rows[i]["Number"].ToString() + ". TM Name " + (from table in dsEmployeeNumber.Tables[0].AsEnumerable() where table.Field<int>("UserTypeID") == 14 select table.Field<string>("InName")).First<string>() + ". Following Norms are not followed : [DocumentDetails]";
@@ -409,7 +409,7 @@ public static class Utility
                     }
                     else
                     {
-                          SendSMS(numbers, "Warning!! Vehicle" + getAlertsInfo.Tables[0].Rows[i]["Number"].ToString() + "does not follow any of the norms .Kindly fullfil the norm as soon as possible.");
+                        SendSMS(numbers, "Warning!! Vehicle" + getAlertsInfo.Tables[0].Rows[i]["Number"].ToString() + "does not follow any of the norms .Kindly fullfil the norm as soon as possible.");
                     }
                 }
                 else
@@ -435,7 +435,7 @@ public static class Utility
         using (StreamWriter sw = File.AppendText(filePath))
         {
             sw.WriteLine(text);
-        }	
+        }
 
     }
 
@@ -447,7 +447,7 @@ public static class Utility
 
         HtmlToPdf HtmlToPdf = new IronPdf.HtmlToPdf();
         PdfResource PDF = HtmlToPdf.RenderHtmlAsPdf(html);
-        
+
 
 
 
@@ -528,10 +528,135 @@ public static class Utility
         SendEmail(to, cc, body, attachments, subject);
     }
 
-    public static void getDataFromAPI()
+    public static VehicleAPIData[] getDataFromAPI(string startDate, string endDate, string vehicleNumber)
     {
-        string data = Utility.GetPageContent("http://fleetvts.com/attendance_json_api.php?name=HR 68 B 6688&from=2016-10-16&to=2016-10-18");
+        string data = Utility.GetPageContent("http://fleetvts.com/attendance_json_api.php?name=" + vehicleNumber + "&from=" + startDate + "&to=" + endDate);
         System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-        var data2 = serializer.Deserialize<VehicleAPIData[]>(data);
+        return serializer.Deserialize<VehicleAPIData[]>(data);
+    }
+
+    public class CookieAwareWebClient : WebClient
+    {
+        public CookieAwareWebClient()
+        {
+            CookieContainer = new CookieContainer();
+        }
+        public CookieContainer CookieContainer { get; private set; }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var request = (HttpWebRequest)base.GetWebRequest(address);
+            request.CookieContainer = CookieContainer;
+            return request;
+        }
+    }
+
+    public static void GeneratePDFCivilMaterialBill(int BillID, string folderPath)
+    {
+        string htmlCode = string.Empty;
+        Uri myuri = new Uri(HttpContext.Current.Request.Url.AbsoluteUri);
+        string appPath = HttpContext.Current.Request.ApplicationPath;
+
+        string pathQuery = myuri.PathAndQuery;
+        string FolderPath = myuri.ToString().Replace(pathQuery, "");
+        string hostName = FolderPath + appPath;
+
+        using (var client = new CookieAwareWebClient())
+        {
+            htmlCode = client.DownloadString(hostName + "/CivilGenerateBill.html");
+        }
+
+        DataTable dsBill = new DataTable();
+        dsBill = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminBillViewByBillId_V2 '" + BillID + "'").Tables[0];
+        if (dsBill != null && dsBill.Rows.Count > 0)
+        {
+
+            htmlCode = htmlCode.Replace("[CompanyName]", dsBill.Rows[0]["AgencyName"].ToString());
+            htmlCode = htmlCode.Replace("[Date]", DateTime.Now.ToString());
+            htmlCode = htmlCode.Replace("[DueDate]", dsBill.Rows[0]["BillDate"].ToString());
+            htmlCode = htmlCode.Replace("[InvoiceNumber]", BillID.ToString());
+            htmlCode = htmlCode.Replace("[ZoneName]", dsBill.Rows[0]["ZoneName"].ToString());
+            htmlCode = htmlCode.Replace("[AcademyName]", dsBill.Rows[0]["AcaName"].ToString());
+            htmlCode = htmlCode.Replace("[Grid]", Utility.getGridMaterial(Convert.ToInt32(BillID)));
+        }
+
+        var AgencyName = dsBill.Rows[0]["AgencyName"].ToString();
+        AgencyName = AgencyName.Replace(" ", "");
+
+        // pnlHtml.InnerHtml = htmlCode;
+
+
+        string fileName = "Civil_Material_Bill_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + AgencyName.Trim() + "_" + BillID + ".pdf";
+        Utility.GeneratePDF(htmlCode, fileName, folderPath);
+    }
+
+    public static string getGridMaterial(int BID)
+    {
+        string MaterialInfo = string.Empty;
+        decimal TotalAmount = 0;
+        decimal SubTotal = 0;
+        decimal totalIncludeVat = 0;
+        decimal totalAmonutwithouVat = 0;
+        decimal totalVat = 0;
+        DataSet dsBill = new DataSet();
+        dsBill = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminBillViewByBillId_V2 '" + BID + "'");
+        MaterialInfo += "<table border='1' style='width:100%'>";
+        MaterialInfo += "<thead>";
+        MaterialInfo += "<tr>";
+        MaterialInfo += "<th style='width: 30%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>DESCRIPTION</th>";
+        MaterialInfo += "<th style='width: 10%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>QUANTITY</th>";
+        MaterialInfo += "<th style='width: 15%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>UNIT PRICE</th>";
+        MaterialInfo += "<th style='width: 15%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>TOTAL excl. VAT</th>";
+        MaterialInfo += "<th style='width: 15%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>TOTAL incl. VAT</th>";
+        MaterialInfo += "<th style='width: 15%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>VAT</th>";
+        MaterialInfo += "</tr>";
+        MaterialInfo += "</thead>";
+        MaterialInfo += "<tbody>";
+        for (int i = 0; i < dsBill.Tables[2].Rows.Count; i++)
+        {
+            MaterialInfo += "<tr>";
+
+            MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</td>";
+            MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + dsBill.Tables[2].Rows[i]["Qty"].ToString() + "</td>";
+            MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + dsBill.Tables[2].Rows[i]["Rate"].ToString() + "</td>";
+            TotalAmount = Convert.ToDecimal(dsBill.Tables[2].Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dsBill.Tables[2].Rows[i]["Rate"].ToString());
+            TotalAmount = Math.Round(TotalAmount, 2);
+            MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + TotalAmount + "</td>";
+            totalAmonutwithouVat += TotalAmount;
+            if (dsBill.Tables[2].Rows[i]["Vat"].ToString() != "0.00")
+            {
+                SubTotal = (Convert.ToDecimal(TotalAmount) * Convert.ToDecimal(dsBill.Tables[2].Rows[i]["Vat"].ToString())) / 100;
+                totalIncludeVat = TotalAmount + SubTotal;
+                totalIncludeVat = Math.Round(totalIncludeVat, 2);
+                MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + totalIncludeVat + "</td>";
+                MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + dsBill.Tables[2].Rows[i]["Vat"].ToString() + "</td>";
+                totalVat += totalIncludeVat - TotalAmount;
+            }
+            else
+            {
+                MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + TotalAmount + "</td>";
+                MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + 0 + "</td>";
+                totalVat += 0;
+            }
+
+            MaterialInfo += "</tr>";
+        }
+        MaterialInfo += "</tbody>";
+        MaterialInfo += "<tfoot>";
+        MaterialInfo += "<tr>";
+        MaterialInfo += "<td  colspan='3' style='width: 35%; background-color: #CCCCCC; text-align: right; vertical-align: middle;'><b>SUM</b></td>";
+        MaterialInfo += "<td colspan='3' style='width: 10%; text-align: center;  vertical-align: middle;'>" + totalAmonutwithouVat + "</td>";
+        MaterialInfo += "</tr>";
+        MaterialInfo += "<tr>";
+        MaterialInfo += "<td  colspan='3' style='width: 35%; background-color: #CCCCCC; text-align: right; vertical-align: middle;'><b>VAT</b></td>";
+        MaterialInfo += "<td  colspan='3' style='width: 10%; text-align: center; vertical-align: middle;'>" + totalVat + "</td>";
+        MaterialInfo += "</tr>";
+        MaterialInfo += "<tr>";
+        MaterialInfo += "<td  colspan='3' style='width: 35%; background-color: #CCCCCC; text-align: right; vertical-align: middle;'><b>SUM Incl. VAT</b></td>";
+        MaterialInfo += "<td colspan='3' style='width: 10%; text-align: center; vertical-align: middle;'>" + (totalAmonutwithouVat + totalVat) + "</td>";
+        MaterialInfo += "</tr>";
+        MaterialInfo += "</tfoot>";
+        MaterialInfo += "</table>";
+        return MaterialInfo;
     }
 }

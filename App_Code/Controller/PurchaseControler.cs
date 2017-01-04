@@ -137,7 +137,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public void AddNewVendorInformation(VendorInfoDTO vendorInfo)
+    public string AddNewVendorInformation(VendorInfoDTO vendorInfo)
     {
 
         VendorInfo venInfo = new VendorInfo();
@@ -145,10 +145,14 @@ public class PurchaseControler : System.Web.Services.WebService
         venInfo.VendorAddress = vendorInfo.VendorAddress;
         venInfo.VendorName = vendorInfo.VendorName;
         venInfo.VendorContactNo = vendorInfo.VendorContactNo;
-        venInfo.VendorState = vendorInfo.VendorState;
+        venInfo.VendorState = Convert.ToInt32(vendorInfo.VendorState);
         venInfo.VendorZip = vendorInfo.VendorZip;
-        venInfo.VendorCity = vendorInfo.VendorCity;
+        venInfo.VendorCity = Convert.ToInt32(vendorInfo.VendorCity);
+        venInfo.BankName = vendorInfo.BankName;
+        venInfo.IfscCode = vendorInfo.IfscCode;
+        venInfo.AccountNumber = vendorInfo.AccountNumber;
         venInfo.ModifyOn = DateTime.Now;
+        venInfo.ModifyBy = Convert.ToInt32(vendorInfo.ModifyBy);
         venInfo.Active = vendorInfo.Active;
         venInfo.CreatedOn = DateTime.Now;
         venInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
@@ -172,7 +176,7 @@ public class PurchaseControler : System.Web.Services.WebService
         }
 
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        repository.AddNewVendorInformation(venInfo);
+        return repository.AddNewVendorInformation(venInfo);
     }
 
     [WebMethod]
@@ -424,4 +428,16 @@ public class PurchaseControler : System.Web.Services.WebService
         repository.ReceivedMaterial(EstID, InchargeID);
     }
 
+    [WebMethod]
+    public List<string> GetActiveVendorForAutoFill()
+    {
+        List<string> arrVendors = new List<string>();
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        List<VendorInfoDTO> vendors = repository.GetActiveVendor();
+        foreach (VendorInfoDTO dto in vendors)
+        {
+            arrVendors.Add(dto.VendorName.Trim());
+        }
+        return arrVendors;
+    }
 }

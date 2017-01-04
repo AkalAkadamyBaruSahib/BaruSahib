@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class Emp_BillWorkAllotWise : System.Web.UI.Page
 {
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -16,6 +17,7 @@ public partial class Emp_BillWorkAllotWise : System.Web.UI.Page
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
         }
 
         if (Session["billid"] != null)
@@ -47,7 +49,7 @@ public partial class Emp_BillWorkAllotWise : System.Web.UI.Page
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ReciptNoByEmp='" + txtRecipTNo.Text + "',DateOfReceving='" + txtDateOfRec.Text + "',RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='1',RecevingBy='" + lblUser.Text + "' where BillId='" + BillId + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ReciptNoByEmp='" + txtRecipTNo.Text + "',DateOfReceving='" + txtDateOfRec.Text + "',RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='1',RecevingBy='" + InchargeID + "' where BillId='" + BillId + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varify successfully.');", true);
             getBillDetails();
             Clr();
@@ -62,7 +64,7 @@ public partial class Emp_BillWorkAllotWise : System.Web.UI.Page
         ddlAllot.DataValueField = "WAId";
         ddlAllot.DataTextField = "WorkAllotName";
         ddlAllot.DataBind();
-        ddlAllot.Items.Insert(0, "Select Work Allot");
+        ddlAllot.Items.Insert(0, new ListItem("Select Work Allot","0"));
         ddlAllot.SelectedIndex = 0;
     }
     private void getBillDetails()
@@ -209,13 +211,13 @@ public partial class Emp_BillWorkAllotWise : System.Web.UI.Page
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='0',RecevingBy='" + lblUser.Text + "',DateOfReceving=getdate() where BillId='" + BillId + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='0',RecevingBy='" + InchargeID + "',DateOfReceving=getdate() where BillId='" + BillId + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Reject successfully.');", true);
             getBillDetails();
             Clr();
         }
     }
-  
+
     protected void ddlAllot_SelectedIndexChanged(object sender, EventArgs e)
     {
         pnlBillMonthDetails.Visible = true;
@@ -337,4 +339,5 @@ public partial class Emp_BillWorkAllotWise : System.Web.UI.Page
         ZoneInfo += "</div>";
         divAcademyDetails.InnerHtml = ZoneInfo.ToString();
     }
+
 }

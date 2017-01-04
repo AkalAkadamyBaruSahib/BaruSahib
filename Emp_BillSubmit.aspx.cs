@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Net;
+using IronPdf;
 public partial class Emp_BillSubmit : System.Web.UI.Page
 {
     private int BillID = -1;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -40,12 +43,14 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             }
            
         }
+
         if (Request.QueryString["BillID"] != null && Request.QueryString["AcaId"] != null)
         {
             BillID = int.Parse(Request.QueryString["BillID"]);
         }
 
     }
+
     private void SetInitialRowBiils()
     {
         DataTable dt = new DataTable();
@@ -80,6 +85,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         gvAddItems.DataBind();
 
     }
+
     private void AddNewRowToBillGrid()
     {
         int rowIndex = 0;
@@ -129,10 +135,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         {
             Response.Write("ViewState is null");
         }
-
-        //Set Previous Data on Postbacks
         SetBillPreviousData();
     }
+
     private void SetBillPreviousData()
     {
         int rowIndex = 0;
@@ -169,54 +174,58 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             }
         }
     }
+
     protected void BindNameOfWork(string id)
     {
-        DataSet dsWa = new DataSet();
-        dsWa = DAL.DalAccessUtility.GetDataInDataSet("select WAId,WorkAllotName from WorkAllot where AcaId ='" + id + "' and Active=1");
-        ddlNameOfWork.DataSource = dsWa;
-        ddlNameOfWork.DataValueField = "WAId";
-        ddlNameOfWork.DataTextField = "WorkAllotName";
-        ddlNameOfWork.DataBind();
-        ddlNameOfWork.Items.Insert(0, "Select Name Of Work");
-        ddlNameOfWork.SelectedIndex = 0;
+        DataTable dsWa = new DataTable();
+        dsWa = DAL.DalAccessUtility.GetDataInDataSet("select WAId,WorkAllotName from WorkAllot where AcaId ='" + id + "' and Active=1").Tables[0];
+        if (dsWa != null && dsWa.Rows.Count > 0)
+        {
+            ddlNameOfWork.DataSource = dsWa;
+            ddlNameOfWork.DataValueField = "WAId";
+            ddlNameOfWork.DataTextField = "WorkAllotName";
+            ddlNameOfWork.DataBind();
+            ddlNameOfWork.Items.Insert(0, new ListItem("--Select Name Of Work--", "0"));
+            ddlNameOfWork.SelectedIndex = 0;
+        }
     }
+
     protected void BindBillType()
     {
-        DataSet dsBillType = new DataSet();
-        dsBillType = DAL.DalAccessUtility.GetDataInDataSet("select BillTypeId,BillTypeName from BillType where Active=1");
-        ddlBillType.DataSource = dsBillType;
-        ddlBillType.DataValueField = "BillTypeId";
-        ddlBillType.DataTextField = "BillTypeName";
-        ddlBillType.DataBind();
-        ddlBillType.Items.Insert(0, "Select Bill Type");
-        ddlBillType.SelectedIndex = 0;
+        DataTable dsBillType = new DataTable();
+        dsBillType = DAL.DalAccessUtility.GetDataInDataSet("select BillTypeId,BillTypeName from BillType where Active=1").Tables[0];
+        if (dsBillType != null && dsBillType.Rows.Count > 0)
+        {
+            ddlBillType.DataSource = dsBillType;
+            ddlBillType.DataValueField = "BillTypeId";
+            ddlBillType.DataTextField = "BillTypeName";
+            ddlBillType.DataBind();
+            ddlNameOfWork.Items.Insert(0, new ListItem("--Select Bill Type--", "0"));
+            ddlBillType.SelectedIndex = 0;
+        }
     }
+
     protected void BindEstimate()
     {
         string AcaId = Request.QueryString["AcaId"];
-        DataSet dsAcademy = new DataSet();
-        dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateNo '" + AcaId + "'");
-        ddlEsimate.DataSource = dsAcademy;
-        ddlEsimate.DataValueField = "EstId";
-        ddlEsimate.DataTextField = "EstNo";
-        ddlEsimate.DataBind();
-        ddlEsimate.Items.Insert(0, "Select Estimate ");
-        ddlEsimate.SelectedIndex = 0;
+        DataTable dsAcademy = new DataTable();
+        dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateNo '" + AcaId + "'").Tables[0];
+        if (dsAcademy.Rows.Count > 0 && dsAcademy != null)
+        {
+            ddlEsimate.DataSource = dsAcademy;
+            ddlEsimate.DataValueField = "EstId";
+            ddlEsimate.DataTextField = "EstNo";
+            ddlEsimate.DataBind();
+            ddlEsimate.Items.Insert(0, new ListItem("--Select Estimate--", "0"));
+            ddlEsimate.SelectedIndex = 0;
+        }
     }
+
     protected void ddlBillType1_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlBillType1.SelectedValue == "1")
         {
-            //BindEstimate();
-            //ddlEsimate.Visible = true;
-            //lblChargeable.Visible = true;
-            //ddlBillType.Visible = false;
-            //pnlSanction.Visible = true;
-            //pnlNonSanction.Visible = false;
-            //btnAmtTotal.Visible = false;
-            //btnTtlSanctioned.Visible = true;
             pnlEstimateDetails.Visible = false;
-
             btnAmtTotal.Visible = false;
             pnlNonSanction.Visible = false;
             lblNameWork.Visible = true;
@@ -224,8 +233,6 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         }
         else if (ddlBillType1.SelectedValue == "2")
         {
-            txtBillDes.Text = "";
-            txtBillDes.Enabled = true;
             lblChargeable.Visible = true;
             lblNameWork.Visible = true;
             ddlBillType.Visible = true;
@@ -235,41 +242,39 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             pnlEstimateDetails.Visible = true;
             trMatSelect.Visible = false;
             btnAmtTotal.Visible = true;
-            btnTtlSanctioned.Visible = false;
+            divFinalButtons.Visible = true;
+
         }
         else
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Select Chargeable to.');", true);
         }
     }
+
     protected void BindMat()
     {
         DataSet dsAcademy = new DataSet();
         pnlEstimateDetails.Visible = false;
-        //dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowMatAndUnit '" + ddlEsimate.SelectedValue + "'");
-        //dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalance '" + ddlEsimate.SelectedValue + "','1'");
         dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalanceNew'" + ddlNameOfWork.SelectedValue + "','1'");
         if (dsAcademy.Tables[0].Rows.Count > 0)
         {
-            //pnlEstimateDetails.Visible = true;
+            GridView1.DataSource = dsAcademy;
+            GridView1.DataBind();
+            ViewState["MaterialBalance"] = dsAcademy.Tables[0];
         }
-
-        GridView1.DataSource = dsAcademy;
-        GridView1.DataBind();
-        ViewState["MaterialBalance"] = dsAcademy.Tables[0];
     }
+
     protected void ddlEsimate_SelectedIndexChanged(object sender, EventArgs e)
     {
         DataSet dsDes = new DataSet();
         dsDes = DAL.DalAccessUtility.GetDataInDataSet("SELECT Estimate.SubEstimate, WorkAllot.WorkAllotName FROM Estimate INNER JOIN WorkAllot ON Estimate.WAId = WorkAllot.WAId where EstId='" + ddlEsimate.SelectedValue + "'");
-        //txtBillDes.Enabled = false;
-        //txtBillDes.Text = dsDes.Tables[0].Rows[0]["SubEstimate"].ToString();
         trMatSelect.Visible = true;
         lblNameOfWork.Visible = true;
         lblNameWork.Visible = true;
         lblNameOfWork.Text = dsDes.Tables[0].Rows[0]["WorkAllotName"].ToString();
         BindMat();
     }
+
     protected void gvAddItems_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -285,19 +290,8 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             ddlMateType.SelectedIndex = 0;
         }
 
-        //if (e.Row.RowType == DataControlRowType.DataRow)
-        //{
-        //    DropDownList ddlUni = (DropDownList)e.Row.FindControl("ddlUnit");
-        //    DataSet dsUnit = new DataSet();
-        //    dsUnit = DAL.DalAccessUtility.GetDataInDataSet("SELECT UnitId,UnitName FROM Unit where Active=1");
-        //    ddlUni.DataSource = dsUnit;
-        //    ddlUni.DataValueField = "UnitId";
-        //    ddlUni.DataTextField = "UnitName";
-        //    ddlUni.DataBind();
-        //    ddlUni.Items.Insert(0, "Unit");
-        //    ddlUni.SelectedIndex = 0;
-        //}
     }
+
     protected void ddlMatType_SelectedIndexChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
@@ -325,6 +319,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             ddlMaterail.SelectedIndex = 0;
         }
     }
+
     protected void ddlMat_SelectedIndexChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
@@ -344,6 +339,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             txtItem.Visible = false;
         }
     }
+
     protected void txtRate_TextChanged(object sender, EventArgs e)
     {
         GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
@@ -357,10 +353,12 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         decimal am = qt * ra;
         lblAm.Text = am.ToString();
     }
+
     protected void ButtonAdd2_Click(object sender, EventArgs e)
     {
         AddNewRowToBillGrid();
     }
+
     protected void ddlBillType_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlBillType.SelectedValue == "1")
@@ -396,6 +394,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             //ddlNameOfWork.SelectedValue = "0";
         }
     }
+
     private void SetInitialRowEstimateDataLoad()
     {
         DataTable dt = new DataTable();
@@ -441,6 +440,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         gvAddItems2.DataBind();
 
     }
+
     protected void btnShowData_Click(object sender, EventArgs e)
     {
         //string data = "";
@@ -453,6 +453,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         dt.Columns.Add(new DataColumn("EstQty", typeof(string)));
         dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
         dt.Columns.Add(new DataColumn("BalQty", typeof(string)));
+
         foreach (GridViewRow row in GridView1.Rows)
         {
             if (row.RowType == DataControlRowType.DataRow)
@@ -472,6 +473,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                     dr["EstRate"] = row.Cells[4].Text;
                     dr["BalQty"] = row.Cells[5].Text;
                     dt.Rows.Add(dr);
+
                     //data = data + dr["MatName"] + ",";
                 }
                 //dr["UnitId"] = row.Cells[3].Text;
@@ -485,81 +487,13 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         SetInitialRowEstimateDataLoad();
         gvAddItems2.DataSource = dt;
         gvAddItems2.DataBind();
+
         trMatSelect.Visible = false;
         pnlEstimateDetails.Visible = true;
+        divFinalButtons.Visible = true;
         // pnlSanction.Visible = false;
     }
-    protected void txtQty_TextChanged(object sender, EventArgs e)
-    {
-        GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
-        TextBox txtQt = (TextBox)row.FindControl("txtQty");
-        //TextBox txtRa = (TextBox)row.FindControl("txtRate");
-        HiddenField lblMId = (HiddenField)row.FindControl("txtMatId");
-        decimal qt = Convert.ToDecimal(txtQt.Text);
-        //decimal ra = Convert.ToDecimal(txtRa.Text);
-        decimal mi = Convert.ToDecimal(lblMId.Value);
-        DataSet dsValidation = new DataSet();
-        //dsValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyAndRateValidation '" + lblMId.Text + "','" + ddlEsimate.SelectedValue + "','" + lblUser.Text + "',''");
-        //dsValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyAndRateValidation_New '" + ddlEsimate.SelectedValue + "','" + lblMId.Text + "','1'");
-        //decimal EstQty = Convert.ToDecimal(dsValidation.Tables[0].Rows[0]["EstBal"].ToString());
 
-        DataTable dtMaterialBalance = ViewState["MaterialBalance"] as DataTable;
-        var results = (from myRow in dtMaterialBalance.AsEnumerable()
-                       where myRow.Field<int>("MatID") == int.Parse(lblMId.Value)
-                       select myRow).ToList();
-
-
-        decimal EstQty = Convert.ToDecimal(results[0]["EstBal"].ToString());
-
-        if (EstQty < qt)
-        {
-            btnSave.Enabled = false;
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('You are entering more than estimate Quantity.');", true);
-            txtQt.Text = "";
-        }
-        else
-        {
-            btnSave.Enabled = true;
-        }
-
-    }
-    protected void txtRateSan_TextChanged(object sender, EventArgs e)
-    {
-        GridViewRow row = (GridViewRow)((TextBox)sender).Parent.Parent;
-        TextBox txtQt = (TextBox)row.FindControl("txtQty");
-        TextBox txtRa = (TextBox)row.FindControl("txtRateSan");
-        Label lblAm = (Label)row.FindControl("lblAmtSan");
-        HiddenField lblMId = (HiddenField)row.FindControl("txtMatId");
-        decimal qt = Convert.ToDecimal(txtQt.Text);
-        decimal ra = Convert.ToDecimal(txtRa.Text);
-        decimal mi = Convert.ToDecimal(lblMId.Value);
-        decimal am = qt * ra;
-        lblAm.Text = am.ToString();
-        DataSet dsValidation = new DataSet();
-        //dsValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyAndRateValidation '" + lblMId.Text + "','" + ddlEsimate.SelectedValue + "','" + lblUser.Text + "',''");
-        //dsValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyAndRateValidation_New '" + ddlEsimate.SelectedValue + "','" + lblMId.Text + "','1'");
-        //decimal EstRate = Convert.ToDecimal(dsValidation.Tables[0].Rows[0]["Rate"].ToString());
-
-        DataTable dtMaterialBalance = ViewState["MaterialBalance"] as DataTable;
-        var results = (from myRow in dtMaterialBalance.AsEnumerable()
-                       where myRow.Field<int>("MatID") == int.Parse(lblMId.Value)
-                       select myRow).ToList();
-
-
-        decimal EstRate = Convert.ToDecimal(results[0]["Rate"].ToString());
-
-
-        if (ra > EstRate)
-        {
-            btnSave.Enabled = false;
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('You are entering more than estimate Rate. ');", true);
-            txtRa.Text = "";
-        }
-        else
-        {
-            btnSave.Enabled = true;
-        }
-    }
     protected void btnAmtTotal_Click(object sender, EventArgs e)
     {
         decimal TtlAmt = 0;
@@ -572,265 +506,253 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         }
         lblEstimateCost.Text = Convert.ToString(TtlAmt);
     }
-    protected void btnTtlSanctioned_Click(object sender, EventArgs e)
+
+    protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        decimal TtlAmt = 0;
-        int rowindex = 0;
-        foreach (GridViewRow gvrow in gvAddItems2.Rows)
-        {
-            Label lblam = (Label)gvAddItems2.Rows[rowindex].FindControl("lblAmtSan");
-            TtlAmt = TtlAmt + Convert.ToDecimal(lblam.Text);
-            rowindex = rowindex + 1;
-        }
-        lblEstimateCost.Text = Convert.ToString(TtlAmt);
-    }
-    protected void btnSave_Click(object sender, EventArgs e)
-    {
-        btnTtlSanctioned_Click(btnTtlSanctioned, new EventArgs());
-        System.Threading.Thread.Sleep(1000);
         string AcaId = Request.QueryString["AcaId"];
+        var AgencyName = Request.Form["txtAgencyName"];
         DataSet dsZ = new DataSet();
         dsZ = DAL.DalAccessUtility.GetDataInDataSet("select ZoneId from Academy where AcaId='" + AcaId + "'");
         string ZoneId = dsZ.Tables[0].Rows[0]["ZoneId"].ToString();
         if (ddlBillType1.SelectedValue == "2")
         {
-            //if (ddlBillType.SelectedIndex == 0)
-            //{
-            //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Chargable To.');", true);
-            //}
-            if (txtBillDate.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Bill Date.');", true);
-            }
-            else if (txtGateEntryNo.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Gate Entry no.');", true);
-            }
+            string FileEx = System.IO.Path.GetExtension(fileAgencyBill.FileName);
+            AgencyName = AgencyName.Replace(" ", "");
+            string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx);
+            fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
+            string fileName = "VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx;
 
-            else if (txtAgencyName.Text == "")
+            if (BillID > 0)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Agency Name.');", true);
-            }
-            else if (lblEstimateCost.Text == "00.00")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please click on Total Amount Button');", true);
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "','" + txtAgenyBillNo.Text + "','" + fileName + "'");
             }
             else
             {
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "','" + txtAgenyBillNo.Text + "','" + fileName + "'");
+            }
 
-                if (BillID > 0)
+            string MaterialType, Material, Itm, Qty, Unit, Rate, Amount, StockEntryNo, Uni, vat;
+            decimal SubTotal = 0;
+            decimal totalIncludeVat = 0;
+            decimal TotalBillAmount = 0;
+            foreach (GridViewRow gvrow in gvAddItems.Rows)
+            {
+                DropDownList ddlmt = (DropDownList)gvrow.FindControl("ddlMatType");
+                DropDownList ddlma = (DropDownList)gvrow.FindControl("ddlMat");
+                TextBox txtItem = (TextBox)gvrow.FindControl("txtItmName");
+                TextBox txtqt = (TextBox)gvrow.FindControl("txtQty");
+                Label lblUn = (Label)gvrow.FindControl("lblNonSUnit");
+                TextBox txtUn = (TextBox)gvrow.FindControl("txtUnit");
+                TextBox txtra = (TextBox)gvrow.FindControl("txtRate");
+                Label lblam = (Label)gvrow.FindControl("lblAmt");
+                TextBox txtST = (TextBox)gvrow.FindControl("txtStocEntry");
+                TextBox txtva = (TextBox)gvrow.FindControl("txtVat");
+                CheckBox chkvat = (CheckBox)gvrow.FindControl("chkVat");
+
+                MaterialType = ddlmt.SelectedValue;
+                Material = ddlma.SelectedValue;
+                Itm = txtItem.Text;
+                Qty = txtqt.Text; Unit = lblUn.Text; Uni = txtUn.Text;
+                Rate = txtra.Text;
+                Amount = lblam.Text;
+                StockEntryNo = txtST.Text;
+                vat = txtva.Text;
+
+                decimal q = Convert.ToDecimal(Qty);
+                decimal r = Convert.ToDecimal(Rate);
+
+                decimal TotalAmount = q * r;
+
+                decimal totalVatIncluded = 0;
+
+                if (chkvat.Checked == false)
                 {
-                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','2','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'");
+                    SubTotal = (Convert.ToDecimal(TotalAmount) * Convert.ToDecimal(txtva)) / 100;
+                    totalIncludeVat = TotalAmount + SubTotal;
+                    totalIncludeVat = Math.Round(totalIncludeVat, 2);
+                    TotalBillAmount += totalIncludeVat;
+                    totalVatIncluded = Convert.ToDecimal(vat);
                 }
                 else
                 {
-                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'");
-                }
-
-                string MaterialType, Material, Itm, Qty, Unit, Rate, Amount, StockEntryNo, Uni;
-                int rowindex = 0;
-                foreach (GridViewRow gvrow in gvAddItems.Rows)
-                {
-                    DropDownList ddlmt = (DropDownList)gvAddItems.Rows[rowindex].FindControl("ddlMatType");
-                    MaterialType = ddlmt.SelectedValue;
-                    DropDownList ddlma = (DropDownList)gvAddItems.Rows[rowindex].FindControl("ddlMat");
-                    Material = ddlma.SelectedValue;
-                    TextBox txtItem = (TextBox)gvAddItems.Rows[rowindex].FindControl("txtItmName");
-                    Itm = txtItem.Text;
-                    TextBox txtqt = (TextBox)gvAddItems.Rows[rowindex].FindControl("txtQty");
-                    Qty = txtqt.Text;
-                    //DropDownList ddlun = (DropDownList)gvAddItems.Rows[rowindex].FindControl("ddlUnit");
-                    //Unit = ddlun.Text;
-                    Label lblUn = (Label)gvAddItems.Rows[rowindex].FindControl("lblNonSUnit");
-                    Unit = lblUn.Text;
-                    TextBox txtUn = (TextBox)gvAddItems.Rows[rowindex].FindControl("txtUnit");
-                    Uni = txtUn.Text;
-                    TextBox txtra = (TextBox)gvAddItems.Rows[rowindex].FindControl("txtRate");
-                    Rate = txtra.Text;
-                    Label lblam = (Label)gvAddItems.Rows[rowindex].FindControl("lblAmt");
-                    Amount = lblam.Text;
-                    TextBox txtST = (TextBox)gvAddItems.Rows[rowindex].FindControl("txtStocEntry");
-                    StockEntryNo = txtST.Text;
-                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMaterialAndUnitByUser '" + Uni + "','" + lblUser.Text + "','" + Itm + "','" + MaterialType + "'");
-                    if (txtItem.Text != "")
-                    {
-                        DataSet dsMUT = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatTypeId,UnitId from Material where MatName='" + Itm + "'");
-
-                        if (BillID > 0)
-                        {
-                            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "',''");
-                        }
-                        else
-                        {
-                            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "',''");
-                        }
-                    }
-                    else
-                    {
-                        DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + Unit + "'");
-                        if (BillID > 0)
-                        {
-                            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "',''");
-                        }
-                        else
-                        {
-                            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "',''");
-                        }
-                        
-                    }
-                    rowindex = rowindex + 1;
-                }
-                gvAddItems.DataSource = null;
-                gvAddItems.DataBind();
-                SetInitialRowBiils();
-
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Submitted Successfully.');", true);
-
-            }
-        }
-        else if (ddlBillType1.SelectedValue == "1")
-        {
-            //if (ddlBillType.SelectedIndex == 0)
-            //{
-            //    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Chargable To.');", true);
-            //}
-            if (txtBillDate.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Bill Date.');", true);
-            }
-            else if (txtBillDes.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Bill Description.');", true);
-            }
-
-            else if (txtGateEntryNo.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Gate Entry no.');", true);
-            }
-
-            else if (txtAgencyName.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Agency Name.');", true);
-            }
-            else if (lblEstimateCost.Text == "00.00")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please click on Total Amount Button');", true);
-            }
-            else
-            {
-                //DataSet dsNameOfWork = DAL.DalAccessUtility.GetDataInDataSet("select WAId from WorkAllot where WorkAllotName ='" + lblNameOfWork.Text + "'");
-                //DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + dsNameOfWork.Tables[0].Rows[0]["WAId"].ToString() + "'");
-
-
-                if (BillID > 0)
-                {
-                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','2','1','" + lblUser.Text + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'");
-                }
-                else
-                {
-                    DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'");
+                    totalIncludeVat = TotalAmount;
+                    TotalBillAmount += totalIncludeVat;
+                    totalVatIncluded = 0;
                 }
 
 
-                string MatId, Material, Qty, UnitId, UnitName, Rate, Amount, StockEntryNo, EstQty1, EstRate1;
-                int rowindex = 0;
-                foreach (GridViewRow gvrow in gvAddItems2.Rows)
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewMaterialAndUnitByUser '" + Uni + "','" + lblUser.Text + "','" + Itm + "','" + MaterialType + "'");
+                if (txtItem.Text != "")
                 {
-
-                    HiddenField lblMatId = (HiddenField)gvAddItems2.Rows[rowindex].FindControl("txtMatId");
-                    MatId = lblMatId.Value;
-                    Label lblMatName = (Label)gvAddItems2.Rows[rowindex].FindControl("txtMatName");
-                    Material = lblMatName.Text;
-
-                    TextBox txtqt = (TextBox)gvAddItems2.Rows[rowindex].FindControl("txtQty");
-                    Qty = txtqt.Text;
-                    //UnitId = gvAddItems2.Rows[0].Cells[4].Text;
-                    //UnitName = gvAddItems2.Rows[0].Cells[5].Text;
-                    HiddenField lblUnitId = (HiddenField)gvAddItems2.Rows[rowindex].FindControl("txtUnitId");
-                    UnitId = lblUnitId.Value;
-                    Label lblUnitName = (Label)gvAddItems2.Rows[rowindex].FindControl("txtUnitName");
-                    UnitName = lblUnitName.Text;
-                    TextBox txtra = (TextBox)gvAddItems2.Rows[rowindex].FindControl("txtRateSan");
-                    Rate = txtra.Text;
-                    Label lblam = (Label)gvAddItems2.Rows[rowindex].FindControl("lblAmtSan");
-                    Amount = lblam.Text;
-                    TextBox txtST = (TextBox)gvAddItems2.Rows[rowindex].FindControl("txtStockEntry");
-                    StockEntryNo = txtST.Text;
-                    Label lblEstQty = (Label)gvAddItems2.Rows[rowindex].FindControl("lblEstQty");
-                    EstQty1 = lblEstQty.Text;
-                    Label lblEstRate = (Label)gvAddItems2.Rows[rowindex].FindControl("lblEstRate");
-                    EstRate1 = lblam.Text;
-                    HiddenField hdnSno = (HiddenField)gvrow.FindControl("hdnSno");
-                    //DataSet dsQtyValidation = new DataSet();
-                    //dsQtyValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyValidation '" + MatId + "','" + ddlEsimate.SelectedValue + "'");
-                    //if (Convert.ToInt64(dsQtyValidation.Tables[0].Rows[0]["op"].ToString()) == 1)
-                    //{
-                    //   ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('You are entering more than estimate Quantity.');", true);
-                    //}
-                    //DataSet dsValidation = new DataSet();
-                    //dsValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyAndRateValidation '" + MatId + "','" + ddlEsimate.SelectedValue + "','" + lblUser.Text + "',''");
-                    //dsValidation = DAL.DalAccessUtility.GetDataInDataSet("exec USP_QtyAndRateValidation_New '" + ddlEsimate.SelectedValue + "','" + MatId + "','1'");
-                    //decimal EstQty = Convert.ToDecimal(dsValidation.Tables[0].Rows[0]["EstBal"].ToString());
-                    decimal q = Convert.ToDecimal(Qty);
-                    //decimal EstRate = Convert.ToDecimal(dsValidation.Tables[0].Rows[0]["Rate"].ToString());
-                    decimal r = Convert.ToDecimal(Rate);
-                    //if (EstQty < q)
-                    //{
-                    //   ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('You are entering more than estimate Quantity.');", true);
-
-                    //}
-                    //else if (EstRate < r)
-                    //{
-                    //   ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('You are entering more than estimate Rate.');", true);
-
-                    //}
-
-                    //else
-                    //{
+                    DataSet dsMUT = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatTypeId,UnitId from Material where MatName='" + Itm + "'");
 
                     if (BillID > 0)
                     {
-                        DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations " + hdnSno.Value + "," + BillID + ",'','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "'");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "','" + totalVatIncluded + "'");
                     }
                     else
                     {
-                        DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "'");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "','" + totalVatIncluded + "'");
                     }
-                    //}
-
-                    rowindex = rowindex + 1;
                 }
-                gvAddItems2.DataSource = null;
-                gvAddItems2.DataBind();
-                SetInitialRowEstimateDataLoad();
+                else
+                {
+                    DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + Unit + "'");
+                    if (BillID > 0)
+                    {
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "',''");
+                    }
+                    else
+                    {
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "',''");
+                    }
 
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Submitted Successfully.');", true);
+                }
+
             }
-        }
-        else
-        {
-            //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Select Chargeable to.');", true);
-        }
-        //select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='tani'
-        DataSet dsBillId = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'");
-        DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "'");
-        string msg = "New " + dsBillDetails.Tables[0].Rows[0]["BillType"].ToString() + " bill for " + dsBillDetails.Tables[0].Rows[0]["AcaName"].ToString() + " academy issued by Mr. " + dsBillDetails.Tables[0].Rows[0]["InName"].ToString() + ",  Bill No. is " + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + " ";
-        //DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser.Text + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','"+ Msg +"')";
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsgToAdmin '" + lblUser.Text + "','" + msg + "'");
-        Response.Redirect("Emp_BillDetails.aspx?BillId=" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "");
+            if (BillID > 0)
+            {
+                DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + BillID);
+            }
+            else
+            {
+                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'").Tables[0];
+                if (dsBill != null && dsBill.Rows.Count > 0)
+                {
+                    DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + dsBill.Rows[0]["NewBillId"].ToString());
+                }
+            }
+            gvAddItems.DataSource = null;
+            gvAddItems.DataBind();
+            SetInitialRowBiils();
 
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Submitted Successfully.');", true);
+        }
+        else if (ddlBillType1.SelectedValue == "1")
+        {
+            string FileEx = System.IO.Path.GetExtension(fileAgencyBill.FileName);
+            AgencyName = AgencyName.Replace(" ", "");
+            string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx);
+            fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
+            string fileName = "VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx;
+
+            if (BillID > 0)
+            {
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + lblUser.Text + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "'");
+            }
+            else
+            {
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "'");
+            }
+
+
+
+            string MatId, Material, Qty, UnitId, UnitName, Rate, StockEntryNo, EstQty1, vat;
+            decimal SubTotal = 0;
+            decimal totalIncludeVat = 0;
+            decimal TotalBillAmount = 0;
+            foreach (GridViewRow gvrow in gvAddItems2.Rows)
+            {
+                HiddenField lblMatId = (HiddenField)gvrow.FindControl("txtMatId");
+                Label lblMatName = (Label)gvrow.FindControl("txtMatName");
+                TextBox txtqt = (TextBox)gvrow.FindControl("txtQty");
+                HiddenField lblUnitId = (HiddenField)gvrow.FindControl("txtUnitId");
+                HiddenField lblUnitName = (HiddenField)gvrow.FindControl("txtUnitName");
+                TextBox txtra = (TextBox)gvrow.FindControl("txtRateSan");
+                Label lblam = (Label)gvrow.FindControl("lblAmtSan");
+                TextBox txtST = (TextBox)gvrow.FindControl("txtStockEntry");
+                Label lblEstQty = (Label)gvrow.FindControl("lblEstQty");
+                Label lblEstRate = (Label)gvrow.FindControl("lblEstRate");
+                HiddenField hdnSno = (HiddenField)gvrow.FindControl("hdnSno");
+                HiddenField hdnAmtSan = (HiddenField)gvrow.FindControl("hdnAmtSan");
+                TextBox txtva = (TextBox)gvrow.FindControl("txtVat");
+                CheckBox chkvat = (CheckBox)gvrow.FindControl("chkVat");
+                Label tAmt = (Label)gvrow.FindControl("lblTotalEstimateCost");
+
+                MatId = lblMatId.Value;
+                Material = lblMatName.Text;
+                Qty = txtqt.Text;
+                UnitId = lblUnitId.Value;
+                UnitName = lblUnitName.Value;
+                Rate = txtra.Text;
+                StockEntryNo = txtST.Text;
+                EstQty1 = lblEstQty.Text;
+                vat = txtva.Text;
+                decimal totalVatIncluded = 0;
+
+
+                decimal q = Convert.ToDecimal(Qty);
+                decimal r = Convert.ToDecimal(Rate);
+                decimal va = 0;
+
+                if (vat != string.Empty)
+                {
+                    va = Convert.ToDecimal(vat);
+                }
+
+                decimal TotalAmount = q * r;
+
+
+                if (chkvat.Checked == false)
+                {
+                    SubTotal = (TotalAmount * va) / 100;
+                    totalIncludeVat = TotalAmount + SubTotal;
+                    totalIncludeVat = Math.Round(totalIncludeVat, 2);
+                    TotalBillAmount += totalIncludeVat;
+                    totalVatIncluded = Convert.ToDecimal(vat);
+                }
+                else
+                {
+                    totalIncludeVat = TotalAmount;
+                    TotalBillAmount += totalIncludeVat;
+                    totalVatIncluded = 0;
+                }
+
+                if (BillID > 0)
+                {
+                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations " + hdnSno.Value + "," + BillID + ",'','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
+                }
+                else
+                {
+                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
+                }
+            }
+            if (BillID > 0)
+            {
+                DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + BillID);
+            }
+            else
+            {
+                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'").Tables[0];
+                if (dsBill != null && dsBill.Rows.Count > 0)
+                {
+                    DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + dsBill.Rows[0]["NewBillId"].ToString());
+                    hdnBillID.Value = dsBill.Rows[0]["NewBillId"].ToString();
+                }
+            }
+            gvAddItems2.DataSource = null;
+            gvAddItems2.DataBind();
+            SetInitialRowEstimateDataLoad();
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Submitted Successfully.');", true);
+
+        }
+
+        DataSet dsBillId = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'");
+
+        DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "'");
+
+        string msg = "New " + dsBillDetails.Tables[0].Rows[0]["BillType"].ToString() + " bill for " + dsBillDetails.Tables[0].Rows[0]["AcaName"].ToString() + " academy issued by Mr. " + dsBillDetails.Tables[0].Rows[0]["InName"].ToString() + ",  Bill No. is " + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + " ";
+
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsgToAdmin '" + lblUser.Text + "','" + msg + "'");
+
+        Response.Redirect("Emp_BillDetails.aspx?BillId=" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "");
     }
 
     protected void ddlNameOfWork_SelectedIndexChanged(object sender, EventArgs e)
     {
         DataSet dsDes = new DataSet();
         dsDes = DAL.DalAccessUtility.GetDataInDataSet("SELECT Estimate.SubEstimate, WorkAllot.WorkAllotName FROM Estimate INNER JOIN WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.WAId='" + ddlNameOfWork.SelectedValue + "'");
-        //txtBillDes.Enabled = false;
-        //txtBillDes.Text = dsDes.Tables[0].Rows[0]["SubEstimate"].ToString();
-        //trMatSelect.Visible = true;
-        //lblNameOfWork.Visible = true;
-        //lblNameWork.Visible = true;
-        //lblNameOfWork.Text = dsDes.Tables[0].Rows[0]["WorkAllotName"].ToString();
         trMatSelect.Visible = true;
         BindMat();
     }
@@ -842,16 +764,11 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
         ddlBillType1.Items.FindByText(dsBill.Tables[0].Rows[0]["BillType"].ToString()).Selected = true;
         ddlBillType1_SelectedIndexChanged(ddlBillType1, new EventArgs());
-        //lblBillType.Text = dsBill.Tables[0].Rows[0]["BillTypeName"].ToString();
         ddlNameOfWork.ClearSelection();
         ddlNameOfWork.Items.FindByValue(dsBill.Tables[0].Rows[0]["WAId"].ToString()).Selected = true;
-        txtBillDes.Text = dsBill.Tables[0].Rows[0]["BillDescr"].ToString();
-        txtAgencyName.Text = dsBill.Tables[0].Rows[0]["AgencyName"].ToString();
         txtBillDate.Text = dsBill.Tables[0].Rows[0]["BillDate"].ToString();
         txtGateEntryNo.Text = dsBill.Tables[0].Rows[0]["GateEntryNo"].ToString();
-
         GetAllMaterials(dsBill.Tables[0].Rows[0]["WAId"].ToString(), dsBill.Tables[2]);
-
     }
 
     private void GetAllMaterials(string WorkAllotID, DataTable dtBilledMaterials)
@@ -862,7 +779,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
         DataTable dt = new DataTable();
         DataRow dr = null;
-        
+
         dt.Columns.Add(new DataColumn("MatId", typeof(string)));
         dt.Columns.Add(new DataColumn("MatName", typeof(string)));
         dt.Columns.Add(new DataColumn("UnitId", typeof(string)));
@@ -880,7 +797,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
             dr = dt.NewRow();
 
-            
+
             dr["MatId"] = results[0]["MatId"].ToString();
             dr["MatName"] = results[0]["MatName"].ToString();
             dr["UnitId"] = results[0]["UnitId"].ToString();

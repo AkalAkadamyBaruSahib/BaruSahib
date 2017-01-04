@@ -70,6 +70,8 @@ namespace AkalAcademy
         public DbSet<State> State { get; set; }
         public DbSet<StudentDetail> StudentDetail { get; set; }
         public DbSet<viewMaterials> viewMaterials { get; set; }
+        public DbSet<DieselPetrolPrice> DieselPetrolPrice { get; set; }
+        public DbSet<VendorBillInformation> VendorBillInformation { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

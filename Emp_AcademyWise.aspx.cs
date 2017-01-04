@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class Emp_AcademyWise : System.Web.UI.Page
 {
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -19,6 +20,7 @@ public partial class Emp_AcademyWise : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
             }
 
             if (Session["billid"] != null)
@@ -63,7 +65,7 @@ public partial class Emp_AcademyWise : System.Web.UI.Page
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ReciptNoByEmp='" + txtRecipTNo.Text + "',DateOfReceving='" + txtDateOfRec.Text + "',RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='1',RecevingBy='" + lblUser.Text + "' where BillId='" + BillId + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ReciptNoByEmp='" + txtRecipTNo.Text + "',DateOfReceving='" + txtDateOfRec.Text + "',RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='1',RecevingBy='" + InchargeID + "' where BillId='" + BillId + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varify successfully.');", true);
             getBillDetails();
             Clr();
@@ -216,7 +218,7 @@ public partial class Emp_AcademyWise : System.Web.UI.Page
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='0',RecevingBy='" + lblUser.Text + "',DateOfReceving=getdate() where BillId='" + BillId + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set RecevingRemark=upper('" + txtRemark.Text + "'),RecevingStatus='0',RecevingBy='" + InchargeID + "',DateOfReceving=getdate() where BillId='" + BillId + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Reject successfully.');", true);
             getBillDetails();
             Clr();

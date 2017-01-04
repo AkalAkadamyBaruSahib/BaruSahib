@@ -12,18 +12,24 @@
     <!-- The styles -->
     <link href="css/bootstrap-united.css" rel="stylesheet">
     <style type="text/css">
-        body {
+        body
+        {
             padding-bottom: 40px;
         }
 
-        .sidebar-nav {
+        .sidebar-nav
+        {
             padding: 9px 0;
         }
 
-        .ui-autocomplete { position: absolute; cursor: default;z-index:30 !important;} 
-
+        .ui-autocomplete
+        {
+            position: absolute;
+            cursor: default;
+            z-index: 30 !important;
+        }
     </style>
-     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/charisma-app.css" rel="stylesheet">
     <link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
     <link href='css/fullcalendar.css' rel='stylesheet'>
@@ -129,12 +135,13 @@
                             <li><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status</span></a></li>
                             <li><a class="ajax-link" href="Emp_RejectedBills.aspx"><i class="icon-font"></i><span class="hidden-tablet">Rejected Bills</span></a></li>
                             <li><a class="ajax-link" href="Emp_GalleryView.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
-                            <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet"> Tickets</span></a></li>
+                            <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Tickets</span></a></li>
                             <li><a class="ajax-link" href="Emp_AddEstimate.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Upload Estimate</span></a></li>
                             <li><a class="ajax-link" href="Emp_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
                             <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx?IsLocal=1"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                             <li><a class="ajax-link" href="Emp_LocalMaterialReort.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
-                        
+                            <li><a class="ajax-link" href="Emp_AddVendor.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Create New Vendor</span></a></li>
+
                         </ul>
 
                     </div>
@@ -158,8 +165,8 @@
         <p class="pull-left">&copy; <a href="http://akalacademy.org/AA/" target="_blank">Akal Academy</a> 2016</p>
         <p class="pull-right">Powered by: <a href="http://akalacademy.org/AA/">AkalSoftwares</a></p>
     </footer>
-    
-  <script src="js/jquery-2.2.3.min.js"></script>
+
+    <script src="js/jquery-2.2.3.min.js"></script>
     <!-- jQuery UI -->
     <script src="js/jquery-ui-1.8.21.custom.min.js"></script>
     <script src="js/jquery-migrate-1.2.1.js"></script>

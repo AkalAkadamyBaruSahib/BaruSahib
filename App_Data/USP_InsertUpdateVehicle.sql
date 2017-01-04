@@ -2,7 +2,7 @@ ALTER procedure [dbo].[USP_InsertUpdateVehicle]
 (          
   @VehicleID INT         
  ,@ZoneID INT        
- ,@AcaID INT        
+  ,@AcaID INT        
  ,@TransportTypeID INT      
  ,@VehicleNo VARCHAR(200)        
  ,@OwnerName VARCHAR(200)     
@@ -30,450 +30,123 @@ ALTER procedure [dbo].[USP_InsertUpdateVehicle]
  ,@NumberOfTypres INT
  ,@VehicleContractRate INT
  ,@VehicleAverage DECIMAL
+ ,@IsCompanyOwned BIT
+
  )   
-
-
-
-  
-
-
-
 AS                      
-
-
-
 BEGIN      
-
-
-
 DECLARE @VecID INT          
-
-
-
 IF(@VehicleID >0)          
-
-
-
 BEGIN          
-
-
-
-    
-
-
-
-  UPDATE [dbo].[Vehicles] SET
-
-
-
-     
-
-
-
-  [TypeID] = @TransportTypeID      
-
-
-
+UPDATE [dbo].[Vehicles] SET
+       [TypeID] = @TransportTypeID      
  ,[Number] = @VehicleNo      
-
-
-
  ,[Sitter] = @Sitting      
-
-
-
  ,[OwnerName] = @OwnerName      
-
-
-
  ,[OwnerNumber] = @OwnerNumber      
-
-
-
  ,[IsApproved] = @IsApproved      
-
-
-
  ,[AcademyID] = @AcaID      
-
-
-
  ,[ZoneID] = @ZoneID      
-
-
-
  ,[ModifyOn] = getdate()    
-
-
-
  ,[IsTemporary] = @IsTemporary    
-
-
-
  ,[FileNumber] = @FileNumber  
-
-
-
  ,[EngineNumber] =@EngineNumber  
-
-
-
  ,[ChassisNumber] =@ChassisNumber  
-
-
-
  ,[Make] =@Make  
-
-
-
  ,[Model] =@Model  
-
-
-
  ,[WrittenContract] =@WrittenContract  
-
-
-
  ,[PeriodOfContract] =@PeriodOfContract  
-
-
-
  ,[ContractDieselRate] =@ContractDieselRate  
-
-
-
  ,[OilSlab] =@OilSlab  
-
-
-
  ,[FrontRightTyreCondition] =@FrontRightTyreCondition  
-
-
-
  ,[FrontLeftTyreCondition] =@FrontLeftTyreCondition  
-
-
-
  ,[RearRightTyreCondition] =@RearRightTyreCondition  
-
-
-
  ,[RearLeftTyreCondition] =@RearLeftTyreCondition  
-
-
-
  ,[KMPerDay]= @KMPerDay  
-
-
-
  ,[RearRightTyre2Condition]= @RearRightTyre2Condition  
-
-
-
  ,[RearLeftTyre2Condition]= @RearLeftTyre2Condition
-
-
-
  ,[NumberOfTypres]=@NumberOfTypres 
-
-
 ,[VehicleContractRate]=@VehicleContractRate 
-
-
-
  ,[VehicleAverage]=@VehicleAverage
-
-
-
-   
-
-
-
+ ,[IsCompanyOwned]=@IsCompanyOwned
  WHERE ID=@VehicleID      
-
-
-
-    
-
-
-
-        
-
-
-
-    
-
-
-
 DELETE FROM VechilesNormsRelation WHERE VehicleID=@VehicleID          
-
-
-
-
-
-
-
 INSERT INTO dbo.VechilesNormsRelation (VehicleID,NormID) SELECT @VehicleID,item  FROM dbo.Split(@Norms,',')   
-
-
-
-    
-
-
-
 END          
-
-
-
 ELSE          
-
-
-
 BEGIN          
-
-
-
-    
-
-
-
 INSERT INTO [dbo].[Vehicles]          
-
-
-
  ([TypeID]          
-
-
-
  ,[Number]          
-
-
-
  ,[Sitter]          
-
-
-
  ,[OwnerName]          
-
-
-
  ,[OwnerNumber]          
-
-
-
  ,[IsApproved]          
-
-
-
  ,[AcademyID]          
-
-
-
  ,[ZoneID]    
-
-
-
- ,IsTemporary    
-
-
-
- ,FileNumber    
-
-
-
- ,EngineNumber    
-
-
-
+,IsTemporary    
+,FileNumber    
+,EngineNumber    
  ,ChassisNumber    
-
-
-
- ,Make    
-
-
-
+,Make    
  ,Model    
-
-
-
  ,WrittenContract    
-
-
-
  ,PeriodOfContract    
-
-
-
- ,ContractDieselRate    
-
-
-
+,ContractDieselRate    
  ,OilSlab    
-
-
-
  ,FrontRightTyreCondition    
-
-
-
- ,FrontLeftTyreCondition    
-
-
-
+,FrontLeftTyreCondition    
  ,RearRightTyreCondition    
-
-
-
  ,RearLeftTyreCondition  
-
-
-
  ,KMPerDay
-
-
-
  ,RearRightTyre2Condition
-
-
-
- ,RearLeftTyre2Condition
-
-
-
+,RearLeftTyre2Condition
  ,NumberOfTypres
-
- ,VehicleContractRate 
-
-
-
- ,VehicleAverage)    
-
-
-
-         
-
-
-
+,VehicleContractRate 
+ ,VehicleAverage
+ ,IsCompanyOwned)    
 VALUES          
-
-
-
-    
-
-
-
  (@TransportTypeID          
-
-
-
  ,@VehicleNo          
-
-
-
  ,@Sitting          
-
-
-
  ,@OwnerName          
-
-
-
  ,@OwnerNumber          
-
-
-
  ,@IsApproved          
-
-
-
  ,@AcaID          
-
-
-
- ,@ZoneID    
-
-
-
+ ,@ZoneID   
  ,@IsTemporary    
-
-
-
- ,@FileNumber    
-
-
-
+,@FileNumber    
  ,@EngineNumber    
-
-
-
  ,@ChassisNumber    
-
-
-
  ,@Make    
-
-
-
  ,@Model    
-
-
-
  ,@WrittenContract    
-
-
-
  ,@PeriodOfContract    
-
-
-
  ,@ContractDieselRate    
-
-
-
  ,@OilSlab    
-
-
-
  ,@FrontRightTyreCondition    
-
-
-
  ,@FrontLeftTyreCondition    
-
-
-
  ,@RearRightTyreCondition    
-
-
-
  ,@RearLeftTyreCondition  
-
-
-
- ,@KMPerDay
-
-
-
+,@KMPerDay
  ,@RearRightTyre2Condition
-
-
-
- ,@RearLeftTyre2Condition
-
-
-
+,@RearLeftTyre2Condition
  ,@NumberOfTypres
+,@VehicleContractRate 
+ ,@VehicleAverage
+ ,@IsCompanyOwned)          
 
- ,@VehicleContractRate 
 
 
 
- ,@VehicleAverage)          
 
 
 
     
+
+
+
+
 
 
 
@@ -481,7 +154,15 @@ VALUES
 
 
 
+
+
+
+
 SET @VecID= (SELECT @@IDENTITY)        
+
+
+
+
 
 
 
@@ -489,7 +170,15 @@ SET @VecID= (SELECT @@IDENTITY)
 
 
 
+
+
+
+
 IF(@Norms!='')  
+
+
+
+
 
 
 
@@ -497,7 +186,15 @@ BEGIN
 
 
 
+
+
+
+
  INSERT INTO dbo.VechilesNormsRelation (VehicleID,NormID) SELECT @VecID,item  FROM dbo.Split(@Norms,',')  
+
+
+
+
 
 
 
@@ -505,11 +202,23 @@ END
 
 
 
+
+
+
+
     
 
 
 
+
+
+
+
 END          
+
+
+
+
 
 
 

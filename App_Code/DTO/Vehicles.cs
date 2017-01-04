@@ -63,6 +63,8 @@ public class VehiclesDTO
     public int? VehicleContractRate { get; set; }
 
     public decimal? VehicleAverage { get; set; }
+
+    public bool? IsCompanyOwned { get; set; }
 }
 
 public class VehicleIDAndNumber

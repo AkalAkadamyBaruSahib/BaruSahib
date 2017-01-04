@@ -184,7 +184,7 @@
                                 <ul>
                                     <li id="liLocalReort" runat="server"><a class="ajax-link" href="Admin_LocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
                                     <li id="liMohaliReort" runat="server"><a class="ajax-link" href="Admin_EstimatePendencyReport.aspx"><i></i><span class="hidden-tablet">Estimate Pendency Report</span></a></li>
-
+                                    <li id="li1" runat="server"><a class="ajax-link" href="Admin_StoreEstimateReceivedReport.aspx"><i></i><span class="hidden-tablet"> Store Received Estimate Report</span></a></li>
                                 </ul>
                             </li>
                             <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i> <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>

@@ -29,15 +29,21 @@ public class VendorInfo
 
     public DateTime? ModifyOn { get; set; }
 
-    public string ModifyBy { get; set; }
+    public int? ModifyBy { get; set; }
 
     public bool? Active { get; set; }
 
-    public string VendorState { get; set; }
+    public int VendorState { get; set; }
 
-    public string VendorCity { get; set; }
+    public int VendorCity { get; set; }
 
     public string VendorZip { get; set; }
+
+    public string BankName { get; set; }
+
+    public string IfscCode { get; set; }
+
+    public string AccountNumber { get; set; }
 
     public List<VendorMaterialRelation> VendorMaterialRelations { get; set; }
 

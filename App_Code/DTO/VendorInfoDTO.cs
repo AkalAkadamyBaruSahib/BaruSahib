@@ -30,6 +30,12 @@ public class VendorInfoDTO
 
     public string VendorZip { get; set; }
 
+    public string BankName { get; set; }
+
+    public string IfscCode { get; set; }
+
+    public string AccountNumber { get; set; }
+
 
 
     public List<VendorMaterialRelationDTO> VendorMaterialRelationDTO { get; set; }

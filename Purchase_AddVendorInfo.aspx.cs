@@ -11,7 +11,7 @@ public partial class Purchase_AddVendorInfo : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Page.Form.Attributes.Add("enctype", "multipart/form-data");
+       
     }
 
 }

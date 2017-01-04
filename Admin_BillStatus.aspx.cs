@@ -8,11 +8,11 @@ using System.Data;
 
 public partial class Admin_BillStatus : System.Web.UI.Page
 {
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -20,6 +20,7 @@ public partial class Admin_BillStatus : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
             }
 
             if (Session["billid"] != null)
@@ -160,7 +161,7 @@ public partial class Admin_BillStatus : System.Web.UI.Page
 
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ReciptNoByEmp='" + txtRecipTNo.Text + "',DateOfReceving='" + txtDateOfRec.Text + "',RecevingRemark='" + txtRemark.Text + "',RecevingStatus='1',RecevingBy='" + lblUser.Text + "' where SubBillId='" + BillId + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set ReciptNoByEmp='" + txtRecipTNo.Text + "',DateOfReceving='" + txtDateOfRec.Text + "',RecevingRemark='" + txtRemark.Text + "',RecevingStatus='1',RecevingBy='" + InchargeID + "' where SubBillId='" + BillId + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('City create successfully.');", true);
             getBillDetails();
             Clr();

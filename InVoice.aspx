@@ -84,12 +84,7 @@ tr.odd {
                  
               </td>
           </tr>
-           <tr>
-              <td colspan="2">
-                  Decription of Bill: <asp:Label ID="lblDesc" runat="server" Text="Academy Name requiremet of cement begs  dsfdsg sdf sedfvc se ew"></asp:Label>
-              </td>
-          </tr>
-      </table>
+       </table>
    
     <hr>
       <div id="divBillDetails" runat="server" >

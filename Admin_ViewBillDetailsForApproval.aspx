@@ -3,7 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script src="JavaScripts/WorkAllot.js"></script>
     <style type="text/css">
-        .hidden {
+        .hidden
+        {
             display: none;
         }
     </style>
@@ -23,6 +24,7 @@
                 <div class="box-content">
                     <form class="form-horizontal">
                         <fieldset>
+                            <legend></legend>
                             <table>
                                 <tr>
                                     <td>
@@ -45,7 +47,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td>
                                         <div class="control-group">
 
                                             <b>Bill No.</b>
@@ -54,20 +56,16 @@
                                             </div>
                                         </div>
                                     </td>
-
+                                    <td>
+                                        <div class="control-group">
+                                            <b>Gate Entry No.</b>
+                                            <div class="controls">
+                                                <asp:Label runat="server" ID="lblGateEntry" Text="Bill Type"></asp:Label>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
 
-                                <%-- <tr>
-                                            <td colspan="2">
-                                                <div class="control-group">
-                                                    <b>Bill Type</b>
-                                                    <div class="controls">
-                                                        <asp:Label runat="server" ID="lblBillType" Text="Bill Type"></asp:Label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                           
-                                        </tr>--%>
                                 <tr>
                                     <td>
                                         <div class="control-group">
@@ -105,20 +103,36 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td>
                                         <div class="control-group">
-                                            <b>Gate Entry No.</b>
+                                            <b>Agency Bill Number</b>
                                             <div class="controls">
-                                                <asp:Label runat="server" ID="lblGateEntry" Text="Bill Type"></asp:Label>
+                                                <asp:Label runat="server" ID="lblAgencyBillNo" Text="Bill Type"></asp:Label>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="control-group">
+                                            <b>Agency Bill</b>
+                                            <div class="controls">
+                                                <a href="#" id="aAgencyBill" runat="server" style="font-size: 13px;" target="_blank">BillCopy</a>
                                             </div>
                                         </div>
                                     </td>
 
                                 </tr>
-
                                 <tr>
                                     <td colspan="2" width="100%">
                                         <div id="divBillMaterialDetails" runat="server">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="100%" colspan="2">
+                                        <div class="controls">
+                                            <asp:Button ID="Button2" Style="float: right;" runat="server" OnClick="btnPDFDownload_Click" CssClass="btn btn-primary" Text="Download PDF" />
                                         </div>
                                     </td>
 
@@ -203,29 +217,29 @@
             <a class='btn btn-setting btn-round' href='Emp_BillStatus.aspx?SubBillId=" + dsBillDetails.Tables[0].Rows[i]["SubBillId"].ToString() + "'><span class='label label-important' style='font-size: 15.998px;' >Recive to Angency</span></a>--%>
             </div>
         </div>
-            <div class="modal hide fade" style="width: 900px; height: 580px;" id="myModal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h3>Work Allot Details</h3>
-                </div>
-                <div class="modal-body">
-                    <table id="grdMatDiscription" style="width: 750px" class="table table-striped table-bordered bootstrap-datatable datatable">
-                        <thead>
-                            <tr>
-                                <th>Bill No</th>
-                                <th>Agency Name</th>
-                                <th>Mat Name</th>
-                                <th>Quantity</th>
-                                <th>Rate</th>
-                                <th>Stock Entry No.</th>
-                                <th>Created On</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody"></tbody>
-                    </table>
-
-                </div>
+        <div class="modal hide fade" style="width: 900px; height: 580px;" id="myModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h3>Work Allot Details</h3>
             </div>
+            <div class="modal-body">
+                <table id="grdMatDiscription" style="width: 750px" class="table table-striped table-bordered bootstrap-datatable datatable">
+                    <thead>
+                        <tr>
+                            <th>Bill No</th>
+                            <th>Agency Name</th>
+                            <th>Mat Name</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>Stock Entry No.</th>
+                            <th>Created On</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
 
+            </div>
         </div>
+
+    </div>
 </asp:Content>
