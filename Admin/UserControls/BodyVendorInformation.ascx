@@ -46,6 +46,7 @@
                                         <label class="control-label" for="typeahead"><b>Vendor Name:</b></label>
                                         <div class="controls">
                                             <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
+                                            <input type="text" id="txtAgencyName" style="display:none;" />
                                             <asp:TextBox ID="txtVendorName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
                                             <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"
                                                 ControlToValidate="txtVendorName" ErrorMessage="Please enter the  Vendor Name" />
@@ -234,5 +235,5 @@
         <!--/span-->
 
     </div>
-
+   
 </div>

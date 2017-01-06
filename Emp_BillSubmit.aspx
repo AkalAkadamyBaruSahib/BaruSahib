@@ -32,7 +32,7 @@
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
                 </div>
-                   <%-- <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="civilBill" />--%>
+                <%-- <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="civilBill" />--%>
                 <div class="box-content">
                     <table>
                         <tr>
@@ -74,9 +74,9 @@
                                                     <asp:CheckBox ID="chkCtrl" runat="server" />
                                                     <asp:HiddenField ID="hdnMatID" Value='<%# Eval("MatId") %>' runat="server" />
                                                     <asp:HiddenField ID="hdnUnitId" Value='<%# Eval("UnitId") %>' runat="server" />
-                                                 </ItemTemplate>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="MatName" HeaderText="Mat Name" ItemStyle-Width="150"  />
+                                            <asp:BoundField DataField="MatName" HeaderText="Mat Name" ItemStyle-Width="150" />
                                             <asp:BoundField DataField="UnitName" HeaderText="Unit" ItemStyle-Width="0" />
                                             <asp:BoundField DataField="Quantity" HeaderText="Quantity" ItemStyle-Width="0" />
                                             <asp:BoundField DataField="Rate" HeaderText="Rate" ItemStyle-Width="0" />
@@ -98,18 +98,18 @@
                                                 <div id="menu-container0" style="position: absolute; width: 500px;"></div>
                                                 <br />
                                                 <br />
-                                                  <a href="#" id="aCreateNewVEndor" runat="server" style="float: right; margin-right: 96px; margin-top: -29px;" onclick="OpenVendorInfo();">Create New Agency</a>
+                                                <a href="#" id="aCreateNewVEndor" runat="server" style="float: right; margin-right: 96px; margin-top: -29px;" onclick="OpenVendorInfo();">Create New Agency</a>
                                             </td>
                                             <td>Agency Bill Number :
                                                 <asp:TextBox ID="txtAgenyBillNo" runat="server" Width="100px"></asp:TextBox>
-                                                <asp:RequiredFieldValidator ID="reqAgencyName" runat="server"  ControlToValidate="txtAgenyBillNo" ErrorMessage="Please enter Agency Bil Number." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="reqAgencyName" runat="server" ControlToValidate="txtAgenyBillNo" ErrorMessage="Please enter Agency Bil Number." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td>Bill Date :
                                                 <asp:TextBox ID="txtBillDate" runat="server" Width="100px" Style="float: left; margin-left: 90px; margin-right: -205px;" CssClass="input-xlarge datepicker"></asp:TextBox>
-                                                <asp:RequiredFieldValidator ID="reqBillDate" runat="server" style="float: right;  margin-right: 145px;" ControlToValidate="txtBillDate" ErrorMessage="Please enter Bill Date." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="reqBillDate" runat="server" Style="float: right; margin-right: 145px;" ControlToValidate="txtBillDate" ErrorMessage="Please enter Bill Date." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
                                             </td>
                                             <td>Agency Bill Upload :
                                                 <asp:FileUpload ID="fileAgencyBill" runat="server" />
@@ -121,7 +121,7 @@
                                         <tr>
                                             <td>Gate Entry No :
                                                 <asp:TextBox ID="txtGateEntryNo" runat="server" Width="100px"></asp:TextBox>
-                                                <asp:RequiredFieldValidator ID="reqGateEntryNo" runat="server"  ControlToValidate="txtGateEntryNo" ErrorMessage="Please enter Gate Entry No." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="reqGateEntryNo" runat="server" ControlToValidate="txtGateEntryNo" ErrorMessage="Please enter Gate Entry No." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
                                             </td>
                                         </tr>
                                         <tr>
@@ -198,16 +198,18 @@
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Quantity" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
-                                                                       <asp:TextBox ID="txtQty" runat="server" CssClass="span6 typeahead" Width="70px" ToolTip="Qty is not more than Estimate Qty"></asp:TextBox> 
-                                                                       <asp:RequiredFieldValidator ID="reqtxtQty" runat="server"  ControlToValidate="txtQty" style="float:right;margin-right: -6px; margin-top: -32px;" ErrorMessage="*"  ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
-                                                                       <span id="spnQty"  style="display:none; color:red;">Please enter Qty is less than Estimate Qty</span>
-                                                                      </ItemTemplate>
+                                                                    <asp:TextBox ID="txtQty" runat="server" CssClass="span6 typeahead" Width="70px" ToolTip="Qty is not more than Estimate Qty"></asp:TextBox>
+                                                                    <asp:RequiredFieldValidator ID="reqtxtQty" runat="server" ControlToValidate="txtQty" Style="float: right; margin-right: -6px; margin-top: -32px;" ErrorMessage="*" ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                                    <asp:RegularExpressionValidator ID="regxnumbervalidator" runat="server" ControlToValidate="txtQty" ForeColor="Red" ErrorMessage="Digit only" ValidationExpression="^[0-9]*$"></asp:RegularExpressionValidator>
+                                                                    <span id="spnQty" style="display: none; color: red;">Please enter Qty is less than Estimate Qty</span>
+                                                                </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Rate" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtRateSan" runat="server" CssClass="span6 typeahead" Width="70Px" ToolTip="Rate + Vat is not more than Estimate Rate" ></asp:TextBox>
-                                                                    <asp:RequiredFieldValidator ID="reqtxtRateSan" runat="server" ControlToValidate="txtRateSan" style="float:right;margin-right: -6px; margin-top: -32px;" ErrorMessage="*"  ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
-                                                                     <span id="spnRate" style="display:none;color:red;">Please enter Rate + Vat is less than Estimate Rate</span>
+                                                                    <asp:TextBox ID="txtRateSan" runat="server" CssClass="span6 typeahead" Width="70Px" ToolTip="Rate + Vat is not more than Estimate Rate"></asp:TextBox>
+                                                                    <asp:RequiredFieldValidator ID="reqtxtRateSan" runat="server" ControlToValidate="txtRateSan" Style="float: right; margin-right: -6px; margin-top: -32px;" ErrorMessage="*" ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                                    <asp:RegularExpressionValidator ID="regxRateSan" runat="server" ControlToValidate="txtRateSan" ForeColor="Red" ErrorMessage="Digit only"   ValidationExpression="^[0-9]*$"></asp:RegularExpressionValidator>
+                                                                    <span id="spnRate" style="display: none; color: red;">Please enter Rate + Vat is less than Estimate Rate</span>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="VAT Included" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
@@ -218,7 +220,7 @@
                                                             <asp:TemplateField HeaderText="Vat" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
                                                                     <asp:TextBox ID="txtVat" runat="server" CssClass="span6 typeahead" Width="70Px" Enabled="false"></asp:TextBox>
-                                                                      <span id="spnVat" style="display:none; color:red;">Please enter Rate + Vat is less than Estimate Rate</span>
+                                                                    <span id="spnVat" style="display: none; color: red;">Please enter Rate + Vat is less than Estimate Rate</span>
                                                                 </ItemTemplate>
                                                                 <FooterTemplate>
                                                                     <asp:Label ID="lblAmountFooter" runat="server" Text="Total Amount" ForeColor="Red" />
@@ -235,8 +237,8 @@
                                                             <asp:TemplateField HeaderText="Stock Entery No" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
                                                                     <asp:TextBox ID="txtStockEntry" runat="server" CssClass="span6 typeahead" Width="70Px"></asp:TextBox>
-                                                                    <asp:RequiredFieldValidator ID="reqtxtStockEntry" runat="server" ControlToValidate="txtStockEntry" style="float:right;margin-right: 15px; margin-top: -32px;" ErrorMessage="*"  ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
-                                                                 </ItemTemplate>
+                                                                    <asp:RequiredFieldValidator ID="reqtxtStockEntry" runat="server" ControlToValidate="txtStockEntry" Style="float: right; margin-right: 15px; margin-top: -32px;" ErrorMessage="*" ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                                </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Est Qty" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>

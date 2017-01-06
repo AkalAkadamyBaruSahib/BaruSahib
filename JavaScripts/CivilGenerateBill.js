@@ -44,7 +44,9 @@
 
         var totalAmt = 0;
 
-        if (rate == "") {
+        var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+
+        if (rate == "" || !rate.match(regex)) {
             row.find("input[id*='txtRateSan']").css('border-color', 'red');
             return false;
         }
@@ -116,7 +118,9 @@
 
         var qty = row.find("input[id*='txtQty']").val();
 
-        if (qty == "") {
+         var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+
+         if (qty == "" || !qty.match(regex)) {
             row.find("input[id*='txtQty']").css('border-color', 'red');
             return false;
         }

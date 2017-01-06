@@ -3,7 +3,7 @@ var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() ;
 
 $(document).ready(function () {
 
-    AutofillMaterialSearchBox();
+    //AutofillMaterialSearchBox();
 
     BindState();
     $("input[id*='btnSave']").click(function (e) {
