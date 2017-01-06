@@ -201,7 +201,7 @@
                                                                     <asp:TextBox ID="txtQty" runat="server" CssClass="span6 typeahead" Width="70px" ToolTip="Qty is not more than Estimate Qty"></asp:TextBox>
                                                                     <asp:RequiredFieldValidator ID="reqtxtQty" runat="server" ControlToValidate="txtQty" Style="float: right; margin-right: -6px; margin-top: -32px;" ErrorMessage="*" ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
                                                                       <span id="errMsgQty" style="display: none; color: red;">Digit only</span>
-                                                                      <span id="spnQty" style="display: none; color: red;">Please enter Qty is less than Bal Qty</span>
+                                                                      <span id="spnQty" style="display: none; color: red;">Qty should be less then BalQty.</span>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Rate" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">

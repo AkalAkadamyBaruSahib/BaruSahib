@@ -51,6 +51,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     {
         DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialForEmp_V2 '" + id + "'");
         string EstInfo = string.Empty;
+        decimal GrandTotal = 0;
         EstInfo += "<div style='width:100%; margin:20px; font-family:Calibri;'>";
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
@@ -113,13 +114,15 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Qty"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
-            EstInfo += "<td style='width:152px;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
+            var totalAmount = Convert.ToDecimal(dsValue.Tables[1].Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dsValue.Tables[1].Rows[i]["Rate"].ToString());
+            EstInfo += "<td style='width:152px;'>" + totalAmount + "</td>";
             EstInfo += "</tr>";
+            GrandTotal += totalAmount;
 
         }
         EstInfo += "<tr>";
         EstInfo += "<td></td><td></td><td></td><td></td><td><b>Total</b></td>";
-        EstInfo += "<td style='width:152px; font-weight:bold;'>" + dsValue.Tables[2].Rows[0]["Ttl"].ToString() + "</td>";
+        EstInfo += "<td style='width:152px; font-weight:bold;'>" + GrandTotal + "</td>";
         EstInfo += "</tr>";
         EstInfo += "</tbody>";
         EstInfo += "<tr>";
