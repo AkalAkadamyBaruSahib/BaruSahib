@@ -430,6 +430,7 @@ public class TransportUserRepository
         List<VehiclesDTO> mt = new List<VehiclesDTO>();
         return mt = _context.Vehicles.Where(v => v.AcademyID == AcaID && v.IsApproved == isApproved && (v.TypeID == (int)TypeEnum.TransportType.Contractual || v.TypeID == (int)TypeEnum.TransportType.DailyWages || v.TypeID == (int)TypeEnum.TransportType.Passengervehicle)).AsEnumerable().Select(x => new VehiclesDTO
         {
+
             ID = x.ID,
             Number = x.Number,
             OwnerName = x.OwnerName,
@@ -485,5 +486,9 @@ public class TransportUserRepository
     public VehicleEmployee GetVehicleEmployeeInfo(int VehicleID, int EmpType)
     {
         return _context.VehicleEmployee.Where(v => v.VehicleID == VehicleID && v.EmployeeType == EmpType && v.IsActive == true).FirstOrDefault();
+    }
+    public DieselPetrolPrice GetCurrentDieselRateByAcaID(int AcaID)
+    {
+        return _context.DieselPetrolPrice.Where(v => v.AcaID == AcaID).FirstOrDefault();
     }
 }

@@ -29,3 +29,9 @@ public class vehicle_attendance_detail
     public decimal route_end_km { get; set; }
     public int attendance { get; set; }
 }
+
+public class Vehicle_Calculated_data
+{
+    public decimal total_KM { get; set; }
+    public int vehicleAttendance { get; set; }
+}

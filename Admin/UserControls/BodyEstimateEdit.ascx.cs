@@ -67,25 +67,26 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.ModifyOn,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved,Estimate.FilePath,Estimate.FileNme  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
         lblEstimateNo.Text = dsEstimate1Details.Tables[0].Rows[0]["EstId"].ToString();
         lblZoneCode.Text = dsEstimate1Details.Tables[0].Rows[0]["ZoneName"].ToString();
-        //lblZoneCode.Text = dsEstimate1Details.Tables[0].Rows[0]["ZoId"].ToString();
         lblAcaCode.Text = dsEstimate1Details.Tables[0].Rows[0]["AcaName"].ToString();
-        //lblAcaCode.Text = dsEstimate1Details.Tables[0].Rows[0]["AcId"].ToString();
-        lblSubEstimate.Text = dsEstimate1Details.Tables[0].Rows[0]["SubEstimate"].ToString();
+        txtSubEstimate.Text = dsEstimate1Details.Tables[0].Rows[0]["SubEstimate"].ToString();
         lblTpeofWork.Text = dsEstimate1Details.Tables[0].Rows[0]["TypeWorkName"].ToString();
         lblSanctiondate.Text = dsEstimate1Details.Tables[0].Rows[0]["SanctionDate"].ToString();
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
         lblWorkName.Text = dsEstimate1Details.Tables[0].Rows[0]["WorkAllotName"].ToString();
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
         signedcopyView.Text = GetFileName(dsEstimate1Details.Tables[0].Rows[0]["FilePath"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["FileNme"].ToString());
-        //+ dsEstimate1Details.Tables[0].Rows[0]["FileNme"].ToString();
         BindWork(dsEstimate1Details.Tables[0].Rows[0]["AcaID"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["ZoneID"].ToString());
         ddlWorkType.ClearSelection();
+        BindTypeofWork();
+        ddlTypeOfWork.ClearSelection();
         try
         {
             ddlWorkType.Items.FindByText(lblWorkName.Text).Selected = true;
+            ddlTypeOfWork.Items.FindByText(lblTpeofWork.Text).Selected = true;
         }
         catch (Exception ex)
         { }
+        
         lblWorkName.Visible = false;
         tdWorkAllot.Visible = true;
         // divbtnupload.Visible = false;
@@ -208,7 +209,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             remark = "<span style='color:green'>" + txtRemark.Text + "</span>";
         }
 
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','0','0',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','" + txtSubEstimate.Text + "','" + ddlTypeOfWork.SelectedValue + "',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1,remarkByPurchase='' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
 
 
@@ -620,6 +621,21 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         decimal ra = Convert.ToDecimal(txtRa.Text);
         decimal am = qt * ra;
         lblAm.Text = string.Format("{0:#.00}", am.ToString());
+    }
+
+    protected void BindTypeofWork()
+    {
+        DataTable dsWork = new DataTable();
+        dsWork = DAL.DalAccessUtility.GetDataInDataSet("select TypeWorkId,TypeWorkName from TypeOfWork Where Active=1 order by TypeWorkName").Tables[0];
+        if (dsWork != null && dsWork.Rows.Count > 0)
+        {
+            ddlTypeOfWork.DataSource = dsWork;
+            ddlTypeOfWork.DataValueField = "TypeWorkId";
+            ddlTypeOfWork.DataTextField = "TypeWorkName";
+            ddlTypeOfWork.DataBind();
+            ddlTypeOfWork.Items.Insert(0, new ListItem("--Select Type of Work--", "0"));
+            ddlTypeOfWork.SelectedIndex = 0;
+        }
     }
 
 }

@@ -12,6 +12,7 @@
                     <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                 </div>
             </div>
+             <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="Sub" />
             <fieldset>
                 <div class="box-content">
                     <asp:UpdatePanel ID="UpdatePanel3" UpdateMode="Conditional" runat="server">
@@ -53,12 +54,10 @@
                                     <td width="50%">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead"></label>
-
                                             <div class="controls">
                                                 Zone:
-                                                    <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
+                                                <asp:Label runat="server" ID="lblZoneCode"></asp:Label>
                                             </div>
-
                                         </div>
                                     </td>
                                     <td width="50%">
@@ -68,53 +67,18 @@
                                                 Academy:
                                                     <asp:Label runat="server" ID="lblAcaCode"></asp:Label>
                                             </div>
-
                                         </div>
                                     </td>
-
                                 </tr>
                                 <tr>
-                                    <td colspan="2" runat="server" visible="false" id="tdWorkAllot">
+                                    <td width="50%" runat="server" visible="false" id="tdWorkAllot">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead"></label>
                                             <div class="controls">
                                                 Work Allot Name:
-                                                    <asp:DropDownList ID="ddlWorkType" Width="300px" runat="server"></asp:DropDownList>
-                                                <asp:RequiredFieldValidator ID="reqddlWorkType" runat="server" ValidationGroup="Sub" ControlToValidate="ddlWorkType" ForeColor="Red" ErrorMessage="Please Select the Work Allot Name"></asp:RequiredFieldValidator>
+                                                <asp:DropDownList ID="ddlWorkType" Width="300px" runat="server"></asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="reqddlWorkType" runat="server" Display="None" ValidationGroup="Sub" InitialValue="0" ControlToValidate="ddlWorkType" ForeColor="Red" ErrorMessage="Please Select the Work Allot Name."></asp:RequiredFieldValidator>
                                                 <asp:Label ID="lblWorkName" runat="server"></asp:Label>
-
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <%-- </ContentTemplate>
-                                                    </asp:UpdatePanel>--%>
-                                <tr>
-                                    <td width="50%" colspan="2">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                Sub Estimate:
-                                                    <asp:Label runat="server" ID="lblSubEstimate"></asp:Label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                Type Of work:
-                                                    <asp:Label runat="server" ID="lblTpeofWork"></asp:Label>
                                             </div>
                                         </div>
                                     </td>
@@ -122,8 +86,52 @@
                                         <div class="control-group">
                                             <label class="control-label" for="txtSanctionDate"></label>
                                             <div class="controls">
-                                                Sanction Date:
-                                                    <asp:Label ID="lblSanctiondate" runat="server"></asp:Label>
+                                                Sanction Date:<asp:Label ID="lblSanctiondate" runat="server"></asp:Label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                Sub Estimate:<asp:TextBox ID="txtSubEstimate" runat="server" Width="300px" Style="float: right; margin-right: 177px;"></asp:TextBox>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Display="None" runat="server" ValidationGroup="Sub" ControlToValidate="txtSubEstimate" ForeColor="Red" ErrorMessage="Please enter the Sub Estimate."></asp:RequiredFieldValidator>
+                                                <asp:Label runat="server" ID="lblSubEstimate"></asp:Label>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td width="50%">
+                                        <div class="control-group" id="divuploadfile" runat="server">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                Upload File:<asp:FileUpload ID="fuFile" runat="server" AllowMultiple="true" />
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                Type Of work:
+                                                <asp:DropDownList ID="ddlTypeOfWork" runat="server" Width="200px" Style="float: right; margin-right: 290px;"></asp:DropDownList>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" Display="None" ValidationGroup="Sub" InitialValue="0" ControlToValidate="ddlTypeOfWork" ForeColor="Red" ErrorMessage="Please Select the Type Of Work."></asp:RequiredFieldValidator>
+                                                <asp:Label runat="server" ID="lblTpeofWork" Visible="false"></asp:Label>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td width="50%">
+                                        <div class="control-group" id="div1" runat="server">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                View Estimate File:
+                                                <asp:Label ID="signedcopyView" runat="server" ForeColor="Red"></asp:Label>
                                             </div>
                                         </div>
                                     </td>
@@ -138,41 +146,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="50%">
-                                        <div class="control-group">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td width="50%">
-                                        <div class="control-group" id="divuploadfile" runat="server">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                Upload File
-                                                    <br />
-                                                <asp:FileUpload ID="fuFile" runat="server" AllowMultiple="true" />
-                                          
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td width="50%">
-                                        <div class="control-group" id="div1" runat="server">
-                                            <label class="control-label" for="typeahead"></label>
-                                            <div class="controls">
-                                                View Estimate File:
-                                                
-                                                <asp:Label ID="signedcopyView" runat="server" ForeColor="Red"></asp:Label>
-                                            </div>
-                                        </div>
-                                    </td>
 
                                 </tr>
 
@@ -214,7 +188,7 @@
                                                     <FooterTemplate>
                                                         <asp:ImageButton ID="imgbtnAdd" runat="server" ImageUrl="~/img/Images/AddNewitem.jpg" ValidationGroup="visitor" CommandName="AddNew" Width="30px" Height="30px" ToolTip="Add new User" />
                                                     </FooterTemplate>
-                                                    
+
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="EstmateId" Visible="false">
                                                     <EditItemTemplate>
@@ -238,7 +212,7 @@
                                                     <FooterTemplate>
                                                         <asp:DropDownList runat="server" Width="115Px" ID="ddlMatTIdFooter" OnSelectedIndexChanged="ddlMatTIdFooter_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                                     </FooterTemplate>
-                                                    
+
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Material">
                                                     <EditItemTemplate>
@@ -265,7 +239,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Qty">
                                                     <EditItemTemplate>
-                                                        <asp:TextBox ID="txtQty" Width="85Px" runat="server" Text='<%#Eval("Qty") %>' OnTextChanged="txtQty_TextChanged" AutoPostBack="true"/>
+                                                        <asp:TextBox ID="txtQty" Width="85Px" runat="server" Text='<%#Eval("Qty") %>' OnTextChanged="txtQty_TextChanged" AutoPostBack="true" />
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidatortxtQty" runat="server" ValidationGroup="visitor"
                                                             ControlToValidate="txtQty" ForeColor="Red" ErrorMessage="Please enter the Qty" />
                                                     </EditItemTemplate>
@@ -342,7 +316,7 @@
                                             </div>
                                         </div>
                                         <asp:Button ID="btnRejectEdit" runat="server" Text="Reject Bill" CssClass="btn btn-primary" ValidationGroup="Sub" OnClick="btnUpload_Click" />
-                                                <asp:Button ID="btnUpload" CssClass="btn btn-primary" Text="Save/Approved Changes" ValidationGroup="Sub" runat="server" OnClick="btnUpload_Click" />
+                                        <asp:Button ID="btnUpload" CssClass="btn btn-primary" Text="Save/Approved Changes" ValidationGroup="Sub" runat="server" OnClick="btnUpload_Click" />
                                         </div>
                                     </td>
                                 </tr>

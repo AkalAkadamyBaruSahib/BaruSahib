@@ -37,6 +37,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liEstimateNewEstimate.Visible = false;
             liCreateMaterial.Visible = false;
             liContractRate.Visible = false;
+            liBills.Visible = false;
         }
         else
         {
@@ -50,7 +51,6 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liEmployee.Visible = false;
             liVehicles.Visible = false;
             lireport.Visible = false;
-            liMaintenance.Visible = true;
             liDiesel.Visible = false;
             liEstimate.Visible = true;
             liContractRate.Visible = false;
@@ -60,8 +60,10 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liLocationAssign.Visible = false;
             liCreateMaterial.Visible = false;
             liContractRate.Visible = false;
-            liEstimateNewEstimate.Visible = true;
             liEstimateiewForEmp.Visible = false;
+
+            liMaintenance.Visible = true;
+            liEstimateNewEstimate.Visible = true;
 
  
         }

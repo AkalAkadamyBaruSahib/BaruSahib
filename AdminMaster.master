@@ -133,7 +133,7 @@
                                     <li><a class="ajax-link" href="Admin_Academy.aspx"><i></i><span class="hidden-tablet">Create Academy</span></a></li>
                                 </ul>
                             </li>
-                            <li id="liPurchaseSource" runat="server"><a class="ajax-link"><i class="icon-align-justify"></i><span class="hidden-tablet"><b>PURCHASE SOURCE</b></span></a>
+                            <li id="liPurchaseSource" runat="server" visible="false"><a class="ajax-link"><i class="icon-align-justify"></i><span class="hidden-tablet"><b>PURCHASE SOURCE</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="AddNewPurchaseSource.aspx"><i></i><span class="hidden-tablet">Create Purchase Source</span></a></li>
                                 </ul>
@@ -176,8 +176,8 @@
                                     <li id="liBill" runat="server"><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval</span></a></li>
                                     <li id="liBillStatus" runat="server"><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
                                     <li id="liBillDetail" runat="server"><a class="ajax-link" href="Admin_AllBillDetails.aspx"><i></i><span class="hidden-tablet">Bill Details</span></a></li>
-                                    <li id="liMaterialDisatch" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material To Dispatch</span></a></li>
-                                    <li id="liMaterialDisatchLocal" runat="server"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx?IsLocal=1"><i></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
+                                    <li id="liMaterialDisatch" runat="server" visible="false"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material To Dispatch</span></a></li>
+                                    <li id="liMaterialDisatchLocal" runat="server" visible="false"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx?IsLocal=1"><i></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                                 </ul>
                             </li>
                             <li id="liReort" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet"><b>REPORTS</b></span></a>
