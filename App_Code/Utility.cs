@@ -446,10 +446,10 @@ public static class Utility
 
 
         HtmlToPdf HtmlToPdf = new IronPdf.HtmlToPdf();
+        HtmlToPdf.PrintOptions.PaperSize = PdfPrintOptions.PdfPaperSize.A4;
+        HtmlToPdf.PrintOptions.Header.Spacing = 50;
+
         PdfResource PDF = HtmlToPdf.RenderHtmlAsPdf(html);
-
-
-
 
         var pdfBytes = PDF.BinaryData; //(new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(html);
 
@@ -669,25 +669,26 @@ public static class Utility
 
         grid += "<table style='width:100%;'>";
         grid += "<tr>";
-        grid += "<td style='padding:0px; text-align:left; width:100%' valign='top'>";
+        grid += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
         grid += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
         grid += "</td>";
-        grid += "<td style='text-align: right; width:100%;'>";
+        grid += "<td style='text-align: right; width:40%;'>";
         grid += "<br /><br />";
         grid += "<div style='font-style:italic; text-align: right;'>";
         grid += "Baru Shahib,";
         grid += "<br />Dist: Sirmaur";
         grid += "<br />Himachal Pradesh-173001";
-        grid += "</div>";
-        grid += "</td>";
-        grid += "</tr>";
-        grid += "<tr>";
-        grid += "<td style='text-align: left;width:100%;'>";
-        grid += "<h2>" + header + "</h2>";
         grid += "</td>";
         grid += "</tr>";
         grid += "</table>";
         grid += "<br /><br />";
+        grid += "<table style='width:100%;'>";
+        grid += "<tr>";
+        grid += "<td>";
+        grid += "<h2>" + header + "</h2>";
+        grid += "</td>";
+        grid += "</tr>";
+        grid += "</table>";
         grid += "<table border='1' style='width:100%'>";
         grid += "<thead>";
         grid += "<tr>";

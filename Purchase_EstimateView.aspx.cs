@@ -49,7 +49,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     }
     protected void GetPrint(string id)
     {
-        DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialForEmp_V2 '" + id + "'");
+        DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateDetailByEmp] " + id + "," + InchargeID);
         string EstInfo = string.Empty;
         decimal GrandTotal = 0;
         EstInfo += "<div style='width:100%; margin:20px; font-family:Calibri;'>";
@@ -91,15 +91,15 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Particular Details</div>";
+        EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Purchase Details Assigned to " + lblUser.Text + "</div>";
         EstInfo += "<br />";
         EstInfo += "<table style='width:100%; margin-top:20px;' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
         EstInfo += "<th>Material</th>";
         EstInfo += "<th>Source Type</th>";
-        EstInfo += "<th>Qty</th>";
-        EstInfo += "<th>Unit</th>";
+        EstInfo += "<th>EstQty</th>";
+        EstInfo += "<th>PurchaseQty</th>";
         EstInfo += "<th>Rate</th>";
         EstInfo += "<th style='width:152px;'>Amount</th>";
         EstInfo += "</tr>";
@@ -109,12 +109,12 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         {
 
             EstInfo += "<tr>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Qty"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
-            var totalAmount = Convert.ToDecimal(dsValue.Tables[1].Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dsValue.Tables[1].Rows[i]["Rate"].ToString());
+            var totalAmount = Convert.ToDecimal(dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString()) * Convert.ToDecimal(dsValue.Tables[1].Rows[i]["Rate"].ToString());
             EstInfo += "<td style='width:152px;'>" + totalAmount + "</td>";
             EstInfo += "</tr>";
             GrandTotal += totalAmount;

@@ -186,8 +186,8 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "<tr>";
         EstInfo += "<th>Material</th>";
         EstInfo += "<th>Source Type</th>";
-        EstInfo += "<th>Qty</th>";
-        EstInfo += "<th>Unit</th>";
+        EstInfo += "<th>EstQty</th>";
+        EstInfo += "<th>PurchaseQty</th>";
         EstInfo += "<th>Rate</th>";
         EstInfo += "<th style='width:152px;'>Amount</th>";
         EstInfo += "</tr>";
@@ -198,19 +198,19 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
             if (i != dsValue.Tables[1].Rows.Count)
             {
                 EstInfo += "<tr>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "</td>";
+                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Qty"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + "</td>";
+                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
+                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
-                EstInfo += "<td style='width:152px;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
+                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
                 EstInfo += "</tr>";
             }
             else
             {
                 EstInfo += "<tr>";
                 EstInfo += "<td></td><td></td><td></td><td></td><td><b>Total</b></td>";
-                EstInfo += "<td style='width:152px; font-weight:bold;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
+                EstInfo += "<td>" + dsValue.Tables[2].Rows[0]["Ttl"].ToString() + "</td>";
                 EstInfo += "</tr>";
             }
         }

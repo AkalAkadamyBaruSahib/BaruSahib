@@ -217,8 +217,8 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
         EstInfo += "<tr>";
         EstInfo += "<th><b>Material</b></th>";
         EstInfo += "<th><b>Source Type</b></th>";
-        EstInfo += "<th><b>Qty</b></th>";
-        EstInfo += "<th style='width:50px;'><b>Unit</b></th>";
+        EstInfo += "<th>EstQty</th>";
+        EstInfo += "<th>PurchaseQty</th>";
         EstInfo += "<th><b>Rate</b></th>";
         EstInfo += "<th style='width:150px;'><b>Amount</b></th>";
         EstInfo += "</tr>";
@@ -228,12 +228,12 @@ public partial class Admin_UserControls_EstimateViewAcademyWise : System.Web.UI.
         {
 
             EstInfo += "<tr>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Qty"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
-            EstInfo += "<td style='width:152px;'>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
             EstInfo += "</tr>";
 
         }
