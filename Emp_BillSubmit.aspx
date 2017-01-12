@@ -20,6 +20,7 @@
     <script src="JavaScripts/CivilGenerateBill.js"></script>
     <asp:HiddenField ID="hdnAmtSan" runat="server"></asp:HiddenField>
     <asp:HiddenField ID="hdnBillID" runat="server"></asp:HiddenField>
+     <asp:HiddenField ID="hdnVandorID" runat="server"></asp:HiddenField>
     <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
     <div id="content" class="span10">
         <div class="row-fluid sortable">
@@ -94,7 +95,7 @@
                                     <table>
                                         <tr>
                                             <td>Agency Name :
-                                                <input type="text" id="txtAgencyName" style="position: absolute; width: 150px;" name="txtAgencyName" required />
+                                                <input type="text" id="txtAgencyName" style="position: absolute; width: 150px;" name="txtAgencyName"  required />
                                                 <div id="menu-container0" style="position: absolute; width: 500px;"></div>
                                                 <br />
                                                 <br />

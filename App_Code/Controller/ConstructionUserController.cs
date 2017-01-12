@@ -29,4 +29,11 @@ public class ConstructionUserController : System.Web.Services.WebService
         ConstructionUserRepository constructionUserRepository = new ConstructionUserRepository(new DataContext());
         return constructionUserRepository.GetMaterialDetails(MatID, WorkAllotID);
     }
+
+    [WebMethod]
+    public List<Estimate> GetEstimateDetails(int WorkAllotID)
+    {
+        ConstructionUserRepository constructionUserRepository = new ConstructionUserRepository(new DataContext());
+        return constructionUserRepository.GetEstimateDetails(WorkAllotID);
+    }
 }

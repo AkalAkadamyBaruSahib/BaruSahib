@@ -592,7 +592,7 @@ public static class Utility
 
     public static string getGridMaterial(int BID)
     {
-        string MaterialInfo = string.Empty;
+       string MaterialInfo = string.Empty;
         decimal TotalAmount = 0;
         decimal SubTotal = 0;
         decimal totalIncludeVat = 0;
@@ -600,6 +600,7 @@ public static class Utility
         decimal totalVat = 0;
         DataSet dsBill = new DataSet();
         dsBill = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminBillViewByBillId_V2 '" + BID + "'");
+
         MaterialInfo += "<table border='1' style='width:100%'>";
         MaterialInfo += "<thead>";
         MaterialInfo += "<tr>";
@@ -614,6 +615,7 @@ public static class Utility
         MaterialInfo += "<tbody>";
         for (int i = 0; i < dsBill.Tables[2].Rows.Count; i++)
         {
+           
             MaterialInfo += "<tr>";
 
             MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</td>";
@@ -658,5 +660,61 @@ public static class Utility
         MaterialInfo += "</tfoot>";
         MaterialInfo += "</table>";
         return MaterialInfo;
+    }
+
+    public static string getPDFHTML(int numOfColumn, string[] columnName, int numOfRows, string header)
+    {
+        string grid = string.Empty;
+        string columnstr = string.Empty;
+
+        grid += "<table style='width:100%;'>";
+        grid += "<tr>";
+        grid += "<td style='padding:0px; text-align:left; width:100%' valign='top'>";
+        grid += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
+        grid += "</td>";
+        grid += "<td style='text-align: right; width:100%;'>";
+        grid += "<br /><br />";
+        grid += "<div style='font-style:italic; text-align: right;'>";
+        grid += "Baru Shahib,";
+        grid += "<br />Dist: Sirmaur";
+        grid += "<br />Himachal Pradesh-173001";
+        grid += "</div>";
+        grid += "</td>";
+        grid += "</tr>";
+        grid += "<tr>";
+        grid += "<td style='text-align: left;width:100%;'>";
+        grid += "<h2>" + header + "</h2>";
+        grid += "</td>";
+        grid += "</tr>";
+        grid += "</table>";
+        grid += "<br /><br />";
+        grid += "<table border='1' style='width:100%'>";
+        grid += "<thead>";
+        grid += "<tr>";
+
+        foreach (string str in columnName)
+        {
+            grid += "<th style='width: 30%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>" + str + "</th>";
+        }
+        grid += "</tr>";
+        grid += "</thead>";
+        grid += "<tbody>";
+
+        for (int i = 0; i < numOfRows; i++)
+        {
+            grid += "<tr>";
+
+            foreach (string str in columnName)
+            {
+                columnstr = str.Substring(0, 4) + i + str.Substring(4);
+                grid += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + columnstr + "</td>";
+            }
+            grid += "</tr>";
+        }
+        grid += "</tbody>";
+        grid += "</table>";
+    
+
+        return grid;
     }
 }

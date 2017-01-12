@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var MaterialObjectList;
+
+$(document).ready(function () {
     $("[id*=gvAddItems2] [id*=chkVat]").click(function () {
 
         var row = $(this).closest("tr");
@@ -245,7 +247,8 @@
         }
     });
 
-    AutofillVendorInfoSearchBox();
+    GetVendors();
+ 
 })
 
 function TotalAmount() {
@@ -271,16 +274,47 @@ function AutofillVendorInfoSearchBox() {
         url: "Services/PurchaseControler.asmx/GetActiveVendorForAutoFill",
         dataType: "json",
         success: function (result, textStatus) {
-            if (textStatus == "success") {
-              //  $("input['id*=txtAgency']").autocomplete({
+          
+                //  $("input['id*=txtAgency']").autocomplete({
                 $("#txtAgencyName").autocomplete({
                     source: result.d,
-                    appendTo: '#menu-container0'
+                    appendTo: '#menu-container0',
                 });
-            }
-        },
+
+            $("#txtAgencyName").on('autocompletechange change', function () {
+                    var Vname = $("#txtAgencyName").val();
+                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.VendorName == Vname })[0];
+                    if (selectedMaterial != undefined) {
+                        $("input[id*='hdnVandorID']").val(selectedMaterial.ID);
+                    }
+                }).change();
+       },
         error: function (result, textStatus) {
             alert(result.responseText);
         }
     });
 }
+
+function GetVendorObject() {
+    if (MaterialObjectList == undefined || MaterialObjectList.length == 0) {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "Services/PurchaseControler.asmx/GetActiveVendorObjectForAutoFill",
+            dataType: "json",
+            async: false,
+            success: function (result, textStatus) {
+                MaterialObjectList = result.d;
+            },
+            error: function (result, textStatus) {
+                alert(result.responseText);
+            }
+        })
+    }
+}
+
+function GetVendors() {
+    $.when(GetVendorObject()).done
+    (AutofillVendorInfoSearchBox());
+}
+

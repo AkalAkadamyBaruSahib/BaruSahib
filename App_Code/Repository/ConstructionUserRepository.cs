@@ -52,4 +52,13 @@ public class ConstructionUserRepository
         _context.MaterialRateApproved.Add(materialrateapproved);
         _context.SaveChanges();
     }
+    public view_BillSubmitedDetails GetEstimateAndBillCost(int worksAllotID,int AcademyID)
+    {
+        return _context.view_BillSubmitedDetails.Where(x => x.AcaId == AcademyID && x.WAId == worksAllotID && x.IsApproved == true).FirstOrDefault();
+    }
+    public List<Estimate> GetEstimateDetails(int WorkAllotID)
+    {
+        List<Estimate> EstCopy = _context.Estimate.Where(s => s.WAId == WorkAllotID && s.IsApproved == true).ToList();
+        return EstCopy;
+    }
 }

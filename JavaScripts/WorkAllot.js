@@ -1,4 +1,4 @@
-﻿
+﻿var grdBills;
 $(document).ready(function () {
 
    
@@ -76,4 +76,61 @@ function GetMaterialDetails(MatID) {
             alert(result.responseText)
         }
     });
+}
+
+function GetEstimateDetails(WorkAllotID) {
+
+    if (typeof grdBills != 'undefined') {
+        grdBills.fnClearTable();
+    }
+
+    var rowCount = $('#grdEstDiscription').find("#rowTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowTemplate").remove();
+    }
+    var rowTemplate = '<tr id="rowTemplate"><td id="EstNo"><td id="copy"></td></tr>';
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/ConstructionUserController.asmx/GetEstimateDetails",
+        data: JSON.stringify({WorkAllotID: parseInt(WorkAllotID) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbody").append(rowTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+
+                    var $newRow = $("#rowTemplate").clone();
+                    $newRow.find("#EstNo").html("<a target='_blank' href='" + adminLoanList[i].FilePath + "' >" + adminLoanList[i].EstId + "</a>");
+                    $newRow.find("#copy").html("<a target='_blank' href='" + adminLoanList[i].FilePath + "' >SignedCopy</a>");
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdEstDiscription > tbody");
+                    }
+
+                }
+                grdBills = $('#grdEstDiscription').DataTable(
+                    {
+                        "iDisplayLength": 12,
+                        "sPaginationType": "full_numbers",
+                        "aaSorting": [[2, 'desc']],
+                         "bDestroy": true
+                    });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+
+    $("#divViewbill").modal('show');
 }

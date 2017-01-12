@@ -440,4 +440,11 @@ public class PurchaseControler : System.Web.Services.WebService
         }
         return arrVendors;
     }
+
+    [WebMethod]
+    public List<VendorInfoDTO> GetActiveVendorObjectForAutoFill()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetActiveVendor();
+    }
 }

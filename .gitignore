@@ -2,6 +2,13 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/AutoCad
+/Bills
+/EstFile
+/Gallery
+/img
+/MaterialPics
+/PDF
 /AllotedWorkImage
 /SecurityAppointmentLetter
 /SecurityEmployeePhoto
@@ -9,6 +16,7 @@
 /SecurityFamilyRationCard
 /SecurityPCC
 /SecurityQualificationLetter
+/SliderTheme
 /StoreBill
 /TransportApplicationForm
 /TransportDLScanCopy
@@ -18,5 +26,10 @@
 /VisitorsAuthourityLetter
 /VisitorsPhoto
 /WorkshopBills
-/Bills
-/EstFiles
+/Bills/VendorBill
+/Bills/CivilBillInvoice  
+/Bills/VisitorReceipt
+/SecurityAppointmentLetter/TransferLetters
+/TransportApplicationForm/Proform
+
+

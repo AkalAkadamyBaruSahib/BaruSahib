@@ -16,7 +16,6 @@
             <div id="divEstimateDetails" runat="server"></div>
         </div>
     </div>
- 
 </div>
 </asp:Content>
 
