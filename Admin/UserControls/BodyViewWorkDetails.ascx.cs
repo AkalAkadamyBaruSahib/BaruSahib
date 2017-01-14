@@ -10,6 +10,7 @@ public partial class Admin_UserControls_BodyViewWorkDetails : System.Web.UI.User
 {
     private int WorkAllotID = -1;
     private int AcademyID = -1;
+    private int PSID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -17,6 +18,7 @@ public partial class Admin_UserControls_BodyViewWorkDetails : System.Web.UI.User
             if (Request.QueryString["WAID"] != null)
             {
                 WorkAllotID = int.Parse(Request.QueryString["WAID"]);
+                PSID = int.Parse(Request.QueryString["PSId"]);
                 hdnWorkAllotID.Value = WorkAllotID.ToString();
                 BindMaterialDetails();
             }
@@ -32,7 +34,7 @@ public partial class Admin_UserControls_BodyViewWorkDetails : System.Web.UI.User
     private void BindMaterialDetails()
     {
         DataSet dsAcademy = new DataSet();
-        dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalanceNew'" + WorkAllotID + "','1'");
+        dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalanceNew'" + WorkAllotID + "','" + PSID + "'");
         GridView1.DataSource = dsAcademy;
         GridView1.DataBind();
     }

@@ -363,7 +363,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
                 }
                 else
                 {
-                    ZoneInfo += "<tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>Total Bills Submited:-" + dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() + "</a></td></tr>";
+                    ZoneInfo += "<tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>Total Bills Submited:-" + dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() + "</a></td></tr>";
                 }
                 decimal BalAmount = Convert.ToDecimal(dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString()) - Convert.ToDecimal(dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString());
                 ZoneInfo += "<tr><td>Balance Amount:-" + BalAmount + "</td</tr>";

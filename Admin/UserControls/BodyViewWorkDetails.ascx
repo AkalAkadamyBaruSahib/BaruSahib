@@ -58,10 +58,10 @@
                 </thead>
                 <tbody id="tbody"></tbody>
             </table>
-
-        </div>
-    </div>
-    <div class="modal-footer">
+        </div> 
+        <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>
+    </div>
+   
 </div>

@@ -14,11 +14,22 @@ using iTextSharp.text.pdf;
 public partial class Purchase_EstimateView : System.Web.UI.Page
 {
     DataTable dt = new DataTable();
+
     DataRow dr;
+
     int InchargeID = -1;
+
     int UserType = -1;
+
+    public int ModuleID = -1;
+
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        if (Session["ModuleID"] != null)
+        {
+            ModuleID = int.Parse(Session["ModuleID"].ToString());
+        }
         if (Session["EmailId"] == null)
         {
             Response.Redirect("Default.aspx");
@@ -31,7 +42,6 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         }
         if (!Page.IsPostBack)
         {
-            //BindAcademy();
             getEstimateDetails(0);
         }
         
@@ -43,13 +53,21 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         if (Request.QueryString["EstId"] != null)
         {
             GetPrint(Request.QueryString["EstId"].ToString());
-
         }
        
     }
+
     protected void GetPrint(string id)
     {
-        DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateDetailByEmp] " + id + "," + InchargeID);
+        DataSet dsValue = new DataSet();
+        if (UserType == (int)TypeEnum.UserType.PURCHASE || UserType == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+        {
+            dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailByPurchaseAdmin " + id + "," + InchargeID);
+        }
+        else
+        {
+            dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateDetailByEmp] " + id + "," + InchargeID);
+        }
         string EstInfo = string.Empty;
         decimal GrandTotal = 0;
         EstInfo += "<div style='width:100%; margin:20px; font-family:Calibri;'>";
@@ -153,6 +171,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         Response.Write(pdfDoc);
         Response.End();
     }
+
     private void GetEstimateDetailsByClick(string id)
     {
         DataSet dsEstimateDetails = new DataSet();
@@ -223,6 +242,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         ZoneInfo += "</table>";
         divEstimateDetails.InnerHtml = ZoneInfo.ToString();
     }
+
     private void getEstimateDetails(int EstID)
     {
         DataSet dsEstimateDetails = new DataSet();
@@ -353,19 +373,17 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
-        DataSet ds = new DataSet();
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimate");
-        dt = ds.Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimateByPurchaser'" + InchargeID + "','" + UserType + "'").Tables[0];
         return dt;
     }
+
     protected DataTable BindDatatable2()
     {
         DataTable dt = new DataTable();
-        DataSet ds = new DataSet();
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterial");
-        dt = ds.Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialByPurchaser'" + InchargeID + "','" + UserType + "'").Tables[0];
         return dt;
     }
+
     protected void btnExecl_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -394,24 +412,6 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         Response.End();
     }
 
-    //protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    int acaID = int.Parse(ddlAcademy.SelectedValue);
-    //    getEstimateDetails(acaID);
-    //}
-
-    //private void BindAcademy()
-    //{
-    //    DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select * FROM Academy order by AcaName asc");
-    //    ddlAcademy.DataSource = dsBillDetails.Tables[0];
-    //    ddlAcademy.DataTextField = "AcaName";
-    //    ddlAcademy.DataValueField = "AcaID";
-    //    ddlAcademy.Items.Insert(0, new System.Web.UI.WebControls.ListItem("--All Academy--", "0"));
-    //    ddlAcademy.SelectedIndex = 0;
-    //    ddlAcademy.DataBind();
-
-    //}
-
     protected void btnExcel1_Click(object sender, EventArgs e)
     {
         System.Threading.Thread.Sleep(1000);
@@ -439,6 +439,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         }
         Response.End();
     }
+
     protected void btnEstSearch_Click(object sender, EventArgs e)
     {
         if (txtEstid.Text != string.Empty)
