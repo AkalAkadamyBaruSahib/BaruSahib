@@ -21,7 +21,7 @@
         <asp:Button ID="btnExecl" runat="server" Text="Estimate Statement" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" OnClick="btnExecl_Click" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate Statement Execl." data-rel="tooltip" Width="165px" />
         <asp:Button ID="btnExcel2" runat="server" Text="Estimate Material Statement" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate Statement with Material Details Execl" data-rel="tooltip" OnClick="btnExcel2_Click" Width="207px" />
         <asp:Button ID="btnNonApproved" runat="server" Text="View Non Approved Estimates" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" Font-Bold="True" ForeColor="Black" title="Click this button you get Estimate which are uploaded by user" data-rel="tooltip" OnClick="btnNonApproved_Click" Width="235px" />
-        Select Academy:
+        <asp:Label ID="lblAcaName" runat="server">Select Academy:</asp:Label>
         <asp:DropDownList ID="ddlAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged"></asp:DropDownList>
     </div>
     <div class="span10">

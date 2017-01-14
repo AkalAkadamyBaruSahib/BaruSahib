@@ -10,9 +10,28 @@ using System.Text.RegularExpressions;
 public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserControl
 {
     public static int InchargeID = -1;
+
+    private int _islocal = -1;
+
+    public int PurchaseSource
+    {
+        get
+        {
+            return _islocal;
+        }
+        set
+        {
+            _islocal = value;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        if (Request.QueryString["PSId"] != null)
+        {
+            PurchaseSource = Convert.ToInt32(Request.QueryString["PSId"].ToString());
+        }
+        if (!Page.IsPostBack)
         {
             if (Session["EmailId"] == null)
             {
@@ -21,7 +40,17 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
-                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString()); 
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
+                if (PurchaseSource == 1)
+                {
+                    div1st.Visible = false;
+                    lblWorkMsg.Text = "Local Material Details By Work Allot";
+                }
+                else
+                {
+                    div1st.Visible = true;
+                    lblWorkMsg.Text = "Work Allot Details";
+                }
               
             }
            if (Request.QueryString["WAId"] != null)
@@ -49,11 +78,11 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
            }
            else if (Request.QueryString["WAIDExcel"] != null)
            {
-               MaterialDetailByWorkAllotIDInExcel(Request.QueryString["WAIDExcel"].ToString());
+               MaterialDetailByWorkAllotIDInExcel(Request.QueryString["WAIDExcel"].ToString(), PurchaseSource);
            }
            else if (Request.QueryString["WAIDPdf"] != null)
            {
-               MaterialDetailByWorkAllotIDInPDF(Request.QueryString["WAIDPdf"].ToString());
+               MaterialDetailByWorkAllotIDInPDF(Request.QueryString["WAIDPdf"].ToString(), PurchaseSource);
            }
            else
            {
@@ -62,6 +91,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
            }
         }
     }
+
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
@@ -206,7 +236,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             string FileImgEx = System.IO.Path.GetExtension(fuImgeFile.FileName);
             String FImgNam = System.IO.Path.GetFileNameWithoutExtension(fuImgeFile.FileName);
             Int64 i = 0;
-            fileImgPath = "/AkalAcademy/AllotedWorkImage/" + fileImgName;
+            fileImgPath = "/AllotedWorkImage/" + fileImgName;
             i = DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewWorkAllot '','" + ddlZone.SelectedValue + "','" + ddlAcademy.SelectedValue + "','" + txtWorkAllot.Text + "','" + fileImgName + "','" + fileImgPath + "','1','" + InchargeID + "','1'");
             if (i > 0)
             {
@@ -249,7 +279,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         DataTable dsBillCost =new DataTable();
         view_BillSubmitedDetails BillDetail = new view_BillSubmitedDetails();
         ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
-        dsSateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowWorkAllotDetails_ByUser " + InchargeID + "," + (int)TypeEnum.PurchaseSourceID.Local);
+        dsSateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowWorkAllotDetails_ByUser " + InchargeID + "," + PurchaseSource);
         divAcademyDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -257,11 +287,20 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         ZoneInfo += "<tr>";
         ZoneInfo += "<th style='display:none;'></th>";
         ZoneInfo += "<th width='15%'>Zone & Academy</th>";
-        ZoneInfo += "<th width='25%'>Name of Work</th>";
-        ZoneInfo += "<th width='10%'>Image of Work</th>";
-        ZoneInfo += "<th width='10%'>Status</th>";
-        ZoneInfo += "<th width='25%'>Other Info</th>";
-        ZoneInfo += "<th width='20%'>Actions</th>";
+        ZoneInfo += "<th width='20%'>Name of Work</th>";
+        if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
+        {
+            ZoneInfo += "<th width='10%'>Image of Work</th>";
+            ZoneInfo += "<th width='10%'>Status</th>";
+        }
+        if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Local)
+        {
+            ZoneInfo += "<th width='25%'>Other Info</th>";
+        }
+        if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
+        {
+            ZoneInfo += "<th width='20%'>Actions</th>";
+        }
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -270,48 +309,72 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td style='display:none;'>1</td>";
-            ZoneInfo += "<td width='15%'><table><tr><td><b>Zone:</b> " + dsSateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr>";
-            ZoneInfo += " <tr><td><b>Academy:</b> " + dsSateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr>";
-            ZoneInfo += " <tr><td><a href='javascript: GetEstimateDetails(" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + ");'>Signed Copy</a></td></tr></table></td>";
-            ZoneInfo += "<td width='25%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr>";
-            ZoneInfo += " <tr><td><a href='Admin_WorkAllot.aspx?WAIDExcel=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>DOWNLOAD MATERIAL DETAIL(EXCEL)</a></td></tr>";
-            ZoneInfo += " <tr><td><a href='Admin_WorkAllot.aspx?WAIDPdf=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>DOWNLOAD MATERIAL DETAIL(PDF)</a></td></tr></table></td>";
-            ZoneInfo += "<td width='10%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
-            ZoneInfo += "<a  style='background:url(" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + ")'  href='" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + "'>";
-            ZoneInfo += "<img class='grayscale' width='75Px' height='75PX' src='" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + "' ></a></li></ul></td>";
-         
-            ZoneInfo += "<td class='center' width='10%'>";
-            if (dsSateDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
+            if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
             {
-                ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>";
+                ZoneInfo += "<td width='15%'><table><tr><td><b>Zone:</b> " + dsSateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr>";
+                ZoneInfo += "<tr><td><b>Academy:</b> " + dsSateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
             }
             else
             {
-                ZoneInfo += "<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>";
+                ZoneInfo += "<td width='15%'><table><tr><td><b>Zone:</b> " + dsSateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr>";
+                ZoneInfo += "<tr><td><b>Academy:</b> " + dsSateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr>";
+                ZoneInfo += "<tr><td><a href='javascript: GetEstimateDetails(" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + ");'>Signed Copy</a></td></tr></table></td>";
             }
-            ZoneInfo += "</td>";
-            if (dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString() == "0.00")
+            if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
             {
-                ZoneInfo += "<td class='center' width='25%'><table><tr><td>Total Estimate Cost:-" + dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString() + "</td></tr>";
+                ZoneInfo += "<td width='20%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr></table></td>";
             }
             else
             {
-                ZoneInfo += "<td class='center' width='25%'><table><tr><td><a href='EstimateViewDetail.aspx?WAIdEstimate=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'>Total Estimate Cost:-" + dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString() + "</a></td></tr>";
+                ZoneInfo += "<td width='20%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr>";
+                ZoneInfo += "<tr><td><a href='Admin_WorkAllot.aspx?WAIDExcel=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>DOWNLOAD MATERIAL DETAIL(EXCEL)</a></td></tr>";
+                ZoneInfo += "<tr><td><a href='Admin_WorkAllot.aspx?WAIDPdf=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>DOWNLOAD MATERIAL DETAIL(PDF)</a></td></tr></table></td>";
             }
-            if (dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() == "0.00")
+            if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
             {
-                ZoneInfo += "<tr><td>Total Bills Submited:-" + dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() + "</td></tr>";
+                ZoneInfo += "<td width='10%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
+                ZoneInfo += "<a style='background:url(" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + ")'  href='" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + "'>";
+                ZoneInfo += "<img class='grayscale' width='75Px' height='75PX' src='" + GetImageURL(dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString()) + "' ></a></li></ul></td>";
+
+                ZoneInfo += "<td class='center' width='10%'>";
+                if (dsSateDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
+                {
+                    ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>";
+                }
+                else
+                {
+                    ZoneInfo += "<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>";
+                }
+                ZoneInfo += "</td>";
             }
-            else {
-                ZoneInfo += "<tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>Total Bills Submited:-" + dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() + "</a></td></tr>";
+            if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Local)
+            {
+                if (dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString() == "0.00")
+                {
+                    ZoneInfo += "<td class='center' width='25%'><table><tr><td>Total Estimate Cost:-" + dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString() + "</td></tr>";
+                }
+                else
+                {
+                    ZoneInfo += "<td class='center' width='25%'><table><tr><td><a href='EstimateViewDetail.aspx?WAIdEstimate=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "&PSId=" + PurchaseSource + "'>Total Estimate Cost:-" + dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString() + "</a></td></tr>";
+                }
+                if (dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() == "0.00")
+                {
+                    ZoneInfo += "<tr><td>Total Bills Submited:-" + dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() + "</td></tr>";
+                }
+                else
+                {
+                    ZoneInfo += "<tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>Total Bills Submited:-" + dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString() + "</a></td></tr>";
+                }
+                decimal BalAmount = Convert.ToDecimal(dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString()) - Convert.ToDecimal(dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString());
+                ZoneInfo += "<tr><td>Balance Amount:-" + BalAmount + "</td</tr>";
+                ZoneInfo += "</table></td>";
             }
-            decimal BalAmount = Convert.ToDecimal(dsSateDetails.Tables[0].Rows[i]["EstimateCost"].ToString()) - Convert.ToDecimal(dsSateDetails.Tables[0].Rows[i]["BillCost"].ToString());
-            ZoneInfo += "<tr><td>Balance Amount:-" + BalAmount + "</td</tr>";
-            ZoneInfo += "</table></td>";
-          
-            ZoneInfo += "<td class='center' width='20%'><table><tr><td><a class='btn btn-success' href='Admin_WorkAllot.aspx?WAIdA=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'><i class='icon-zoom-in icon-white'></i> Active</a></td></tr>";
-            ZoneInfo += "<tr><td><a class='btn btn-info' href='Admin_WorkAllot.aspx?WAId=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'><i class='icon-edit icon-white'></i> Edit</a></td></tr>";
-            ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_WorkAllot.aspx?WAIdIA=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'><i class='icon-trash icon-white'></i> Inactive</a></td></tr></table></td>";
+            if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
+            {
+                ZoneInfo += "<td class='center' width='20%'><a class='btn btn-success' href='Admin_WorkAllot.aspx?WAIdA=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'><i class='icon-zoom-in icon-white'></i> Active</a>";
+                ZoneInfo += "<a class='btn btn-info' href='Admin_WorkAllot.aspx?WAId=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'><i class='icon-edit icon-white'></i> Edit</a>";
+                ZoneInfo += "<a class='btn btn-danger' href='Admin_WorkAllot.aspx?WAIdIA=" + dsSateDetails.Tables[0].Rows[i]["WAId"].ToString() + "'><i class='icon-trash icon-white'></i> Inactive</a></td>";
+            }
             ZoneInfo += "</tr>";
         }
         ZoneInfo += "</tbody>";
@@ -382,13 +445,13 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         BindWorkAllotDetails();
     }
 
-    protected void MaterialDetailByWorkAllotIDInExcel(string workAllotID)
+    protected void MaterialDetailByWorkAllotIDInExcel(string workAllotID, int PSID)
     {
         Response.ClearContent();
         Response.Buffer = true;
         Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "MaterialDetailReport.xls"));
         Response.ContentType = "application/ms-excel";
-        DataTable dt = BindMaterialDetail(Convert.ToInt32(workAllotID));
+        DataTable dt = BindMaterialDetail(Convert.ToInt32(workAllotID),PSID);
         string str = string.Empty;
         foreach (DataColumn dtcol in dt.Columns)
         {
@@ -411,60 +474,66 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
 
     }
 
-    protected DataTable BindMaterialDetail(int workAllotID)
+    protected DataTable BindMaterialDetail(int workAllotID, int PSID)
     {
         DataTable dsMaterial = new DataTable();
-        dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + (int)TypeEnum.PurchaseSourceID.Local + "'").Tables[0];
+        dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + PSID + "'").Tables[0];
         return dsMaterial;
     }
 
-    protected void MaterialDetailByWorkAllotIDInPDF(string workAllotID)
+    protected void MaterialDetailByWorkAllotIDInPDF(string workAllotID,int PSID)
     {
         string[] columnname = new string[] { "EstimateNo", "AgencyName", "MatName", "EstQTY", "EstRate", "EstAmount", "PurchasedQTY", "PurchasedRate" };
 
         DataTable dsMaterial = new DataTable();
+       
         string pdfhtml = string.Empty;
-        dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + (int)TypeEnum.PurchaseSourceID.Local + "'").Tables[0];
+        dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + PSID + "'").Tables[0];
 
-        pdfhtml = Utility.getPDFHTML(8, columnname, dsMaterial.Rows.Count, "Work Allot Name: " + dsMaterial.Rows[0]["WorkAllotName"].ToString());
-        string pattern=string.Empty;
-        string replace = string.Empty;
 
-        for (int i = 0; i < dsMaterial.Rows.Count; i++)
+        if (dsMaterial != null && dsMaterial.Rows.Count > 0)
         {
-            replace = dsMaterial.Rows[i]["EstimateNumber"].ToString();
-            pattern = columnname[0].Substring(0, 4) + i + columnname[0].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
-      
-            replace = dsMaterial.Rows[i]["AgencyName"].ToString();
-            pattern = columnname[1].Substring(0, 4) + i + columnname[1].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-            replace = dsMaterial.Rows[i]["MatName"].ToString();
-            pattern = columnname[2].Substring(0, 4) + i + columnname[2].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+            string pattern = string.Empty;
+            string replace = string.Empty;
 
-            replace = dsMaterial.Rows[i]["EstQuantity"].ToString();
-            pattern = columnname[3].Substring(0, 4) + i + columnname[3].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+            for (int i = 0; i < dsMaterial.Rows.Count; i++)
+            {
+                replace = dsMaterial.Rows[i]["EstimateNumber"].ToString();
+                pattern = columnname[0].Substring(0, 4) + i + columnname[0].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-            replace = dsMaterial.Rows[i]["EstRate"].ToString();
-            pattern = columnname[4].Substring(0, 4) + i + columnname[4].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+                replace = dsMaterial.Rows[i]["AgencyName"].ToString();
+                pattern = columnname[1].Substring(0, 4) + i + columnname[1].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-            replace = dsMaterial.Rows[i]["EstAmount"].ToString();
-            pattern = columnname[5].Substring(0, 4) + i + columnname[5].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+                replace = dsMaterial.Rows[i]["MatName"].ToString();
+                pattern = columnname[2].Substring(0, 4) + i + columnname[2].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-            replace = dsMaterial.Rows[i]["PurchasedQTY"].ToString();
-            pattern = columnname[6].Substring(0, 4) + i + columnname[6].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+                replace = dsMaterial.Rows[i]["EstQuantity"].ToString();
+                pattern = columnname[3].Substring(0, 4) + i + columnname[3].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-            replace = dsMaterial.Rows[i]["PurchasedRate"].ToString();
-            pattern = columnname[7].Substring(0, 4) + i + columnname[7].Substring(4); 
-            pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+                replace = dsMaterial.Rows[i]["EstRate"].ToString();
+                pattern = columnname[4].Substring(0, 4) + i + columnname[4].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
+                replace = dsMaterial.Rows[i]["EstAmount"].ToString();
+                pattern = columnname[5].Substring(0, 4) + i + columnname[5].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+
+                replace = dsMaterial.Rows[i]["PurchasedQTY"].ToString();
+                pattern = columnname[6].Substring(0, 4) + i + columnname[6].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+
+                replace = dsMaterial.Rows[i]["PurchasedRate"].ToString();
+                pattern = columnname[7].Substring(0, 4) + i + columnname[7].Substring(4);
+                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+
+            }
         }
+
         string folderPath = Server.MapPath("Bills");
         string fileName = "Material_Details_By_WorlAllot_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".pdf";
         Utility.GeneratePDF(pdfhtml, fileName, folderPath);

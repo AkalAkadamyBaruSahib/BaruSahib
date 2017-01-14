@@ -643,10 +643,12 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             getEstimateDetails(false, -1, true);
             ((Button)sender).Text = "View Approved Estimates";
             ddlAcademy.Visible = false;
+            lblAcaName.Visible = false;
         }
         else
         {
             ddlAcademy.Visible = true;
+            lblAcaName.Visible = true;
             IsApproved = true;
             IsItemRejected = false;
             ((Button)sender).Text = "View Non Approved Estimates";

@@ -10,13 +10,16 @@ public partial class EstimateViewDetail : System.Web.UI.Page
 {
     private int WorkAllotID = -1;
 
+    private int PurchaseSourceID = -1;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
         {
             if (Request.QueryString["WAIdEstimate"] != null)
             {
-                WorkAllotID = int.Parse(Request.QueryString["WAIdEstimate"]);
+                WorkAllotID = Convert.ToInt32(Request.QueryString["WAIdEstimate"]);
+                PurchaseSourceID = Convert.ToInt32(Request.QueryString["PsId"]);
                 hdnWorkAllotID.Value = WorkAllotID.ToString();
                 BindMaterialDetails();
             }
@@ -26,7 +29,7 @@ public partial class EstimateViewDetail : System.Web.UI.Page
     protected void BindMaterialDetails()
     {
         DataTable dsEstimate = new DataTable();
-        dsEstimate = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailByWorkAllot '" + hdnWorkAllotID.Value + "','" + (int)TypeEnum.PurchaseSourceID.Local + "'").Tables[0];
+        dsEstimate = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailByWorkAllot " + Convert.ToInt32(hdnWorkAllotID.Value) + "," + Convert.ToInt32(PurchaseSourceID)).Tables[0];
         if (dsEstimate != null && dsEstimate.Rows.Count > 0)
         {
             divEstimateDetails.InnerHtml = string.Empty;
@@ -53,7 +56,7 @@ public partial class EstimateViewDetail : System.Web.UI.Page
                 ZoneInfo += "<td><a href='Admin_ParticularEstimateView.aspx?EstId=" + dsEstimate.Rows[i]["EstId"].ToString() + "'>" + dsEstimate.Rows[i]["SubEstimate"].ToString() + "</a></td>";
                 ZoneInfo += "<td>" + dsEstimate.Rows[i]["ZoneName"].ToString() + "</td>";
                 ZoneInfo += "<td>" + dsEstimate.Rows[i]["AcaName"].ToString() + "</td>";
-                ZoneInfo += "<td width='20%'>" + dsEstimate.Rows[i]["EstmateCost"].ToString() + "</td>";
+                ZoneInfo += "<td width='20%'>" + dsEstimate.Rows[i]["EstimateCost"].ToString() + "</td>";
                 ZoneInfo += "</tr>";
             }
             ZoneInfo += "</tbody>";

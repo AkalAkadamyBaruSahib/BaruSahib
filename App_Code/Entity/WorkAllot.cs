@@ -29,11 +29,11 @@ public class WorkAllot
 
         public DateTime? CreateOn { get; set; }
 
-        public string CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         public DateTime? ModifyOn { get; set; }
 
-        public string ModifyBy { get; set; }
+        public int? ModifyBy { get; set; }
 
         public string ImageFileName { get; set; }
 
