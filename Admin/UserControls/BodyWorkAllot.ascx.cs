@@ -482,22 +482,21 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         return dsMaterial;
     }
 
-    protected void MaterialDetailByWorkAllotIDInPDF(string workAllotID,int PSID)
+    protected void MaterialDetailByWorkAllotIDInPDF(string workAllotID, int PSID)
     {
         string[] columnname = new string[] { "EstimateNo", "AgencyName", "MatName", "EstQTY", "EstRate", "EstAmount", "PurchasedQTY", "PurchasedRate" };
 
         DataTable dsMaterial = new DataTable();
-       
+
         string pdfhtml = string.Empty;
         dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + PSID + "'").Tables[0];
 
 
         if (dsMaterial != null && dsMaterial.Rows.Count > 0)
         {
-
+            pdfhtml = Utility.getPDFHTML(8, columnname, dsMaterial.Rows.Count, "Work Allot Name: " + dsMaterial.Rows[0]["WorkAllotName"].ToString());
             string pattern = string.Empty;
             string replace = string.Empty;
-
             for (int i = 0; i < dsMaterial.Rows.Count; i++)
             {
                 replace = dsMaterial.Rows[i]["EstimateNumber"].ToString();
@@ -534,10 +533,8 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
 
             }
         }
-
         string folderPath = Server.MapPath("Bills");
         string fileName = "Material_Details_By_WorlAllot_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".pdf";
         Utility.GeneratePDF(pdfhtml, fileName, folderPath);
-
     }
 }
