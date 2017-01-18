@@ -16,6 +16,14 @@ $(document).ready(function () {
         }
     });
 
+    $("input[id*=btnDownload]").click(function () {
+        var chks = $("[id*=repVehicle] [id*=chkvehicle]").is(":checked");
+        if (!chks) {
+            alert("Please select at least one checkbox..!");
+            return false;
+        }
+    });
+
 });
 
 function BindVehicles(acaID) {
@@ -38,23 +46,3 @@ function BindVehicles(acaID) {
         }
     });
 }
-$(function () {
-    $('input[name="chkvehicle"]').click(function () {
-        if ($('input[name="chkvehicle"]').length == $('input[name="chkvehicle"]:checked').length) {
-            $('input:checkbox[name="chkboxSelectAll"]').attr("checked", "checked");
-        }
-        else {
-            $('input:checkbox[name="chkboxSelectAll"]').removeAttr("checked");
-        }
-    });
-    $('input:checkbox[name="chkboxSelectAll"]').click(function () {
-        var slvals = []
-        if ($(this).is(':checked')) {
-            $('input[name="chkvehicle"]').attr("checked", true);
-        }
-        else {
-            $('input[name="chkvehicle"]').attr("checked", false);
-            slvals = null;
-        }
-    });
-})

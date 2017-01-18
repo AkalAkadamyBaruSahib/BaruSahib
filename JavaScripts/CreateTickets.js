@@ -32,8 +32,16 @@ $(document).ready(function () {
     });
 
     $("input[id$='btnSave']").click(function () {
-        SaveTicket();
-        return false;
+        if ($("#ddlStatus").val() == "In Progress") {
+            if (Page_ClientValidate("Comp")) {
+                SaveTicket();
+                return false;
+            }
+        }
+        else {
+            SaveTicket();
+            return false;
+        }
     });
 
 
@@ -53,6 +61,15 @@ $(document).ready(function () {
             $("#txtDays").hide();
         }
         
+    });
+
+    $("#ddlStatus").change(function () {
+        if ($(this).val() == "In Progress") {
+            $("input[id$='txtCompletionDate']").prop("disabled", false);
+        }
+        else {
+            $("input[id$='txtCompletionDate']").prop("disabled", true);
+        }
     });
 
   //  LoadComplaints1();

@@ -36,7 +36,7 @@ $(document).ready(function () {
         }
     });
 
-    //LoadActiveVendorInfo();
+    LoadActiveVendorInfo();
 
     $("input[id*='btnRemove']").click(function (e) {
         if ($("#lstMaterials").val() != null) {
@@ -137,6 +137,8 @@ function SaveVendor() {
         VendorInfo.BankName = $("input[id*='txtBankName']").val();
         VendorInfo.IfscCode = $("input[id*='txtIfscCode']").val();
         VendorInfo.AccountNumber = $("input[id*='txtAccountNumber']").val();
+        VendorInfo.PanNumber = $("input[id*='txtPanNumber']").val();
+        VendorInfo.TinNumber = $("input[id*='txtTinNumber']").val();
         VendorInfo.Active = true;
         VendorInfo.CreatedOn = strDate;
         VendorInfo.ModifyOn = strDate;
@@ -270,11 +272,15 @@ function GetVendorInfoToUpdate(vendorID) {
                 $("input[id*='txtVendorName']").val(rdata.VendorName);
                 $("input[id*='txtPhone']").val(rdata.VendorContactNo);
                 $("textarea[id*='txtAddress']").val(rdata.VendorAddress);
+                BindState();
+                BindCity(rdata.VendorState, rdata.VendorCity);
                 $("select[id*='drpState']").val(rdata.VendorState);
                 $("select[id*='drpCity']").val(rdata.VendorCity);
                 $("input[id*='txtZip']").val(rdata.VendorZip);
                 $("input[id*='txtBankName']").val(rdata.BankName);
                 $("input[id*='txtIfscCode']").val(rdata.IfscCode);
+                $("input[id*='txtPanNumber']").val(rdata.PanNumber);
+                $("input[id*='txtTinNumber']").val(rdata.TinNumber);
                 $("input[id*='txtAccountNumber']").val(rdata.AccountNumber);
                 $("input[id*='chkInactive']").prop("checked", rdata.Active);
                 for (var i = 0; i < rdata.VendorMaterialRelationDTO.length; i++) {
@@ -282,7 +288,7 @@ function GetVendorInfoToUpdate(vendorID) {
                 }
                 $("input[id*='btnSave'] ").hide();
                 $("input[id*='btnEdit'] ").show();
-            
+
             }
         },
         error: function (response) {
@@ -306,11 +312,13 @@ function UpdateVendorInformation() {
     VendorInfo.VendorZip = $("input[id*='txtZip']").val();
     VendorInfo.BankName = $("input[id*='txtBankName']").val();
     VendorInfo.IfscCode = $("input[id*='txtIfscCode']").val();
-    VendorInfo.AccountNumber = $("input[id*='txtAccountNumber']").val();
+    VendorInfo.AccountNumber = $("input[id*='txtPanNumber']").val();
+    VendorInfo.PanNumber = $("input[id*='txtIfscCode']").val();
+    VendorInfo.TinNumber = $("input[id*='txtTinNumber']").val();
     VendorInfo.Active = true;
     VendorInfo.CreatedOn = strDate;
     VendorInfo.ModifyOn = strDate;
-    VendorInfo.ModifyBy = "";
+    VendorInfo.ModifyBy = $("input[id*='hdnInchargeID']").val();
 
     var vendorMaterialRelations = new Array();
     $("#lstMaterials  option").each(function (index) {
@@ -452,6 +460,8 @@ function ClearTextBox() {
     $("input[id*='txtBankName']").val("");
     $("input[id*='txtIfscCode']").val("");
     $("input[id*='txtAccountNumber']").val("");
+    $("input[id*='txtPanNumber']").val("");
+    $("input[id*='txtTinNumber']").val("");
 }
 
 function BindState()
@@ -478,7 +488,7 @@ function BindState()
 
 }
 
-function BindCity(StateID) {
+function BindCity(StateID, CityID) {
     $("select[id*='drpCity'] option").each(function (index, option) {
         $(option).remove();
     });
@@ -496,7 +506,7 @@ function BindCity(StateID) {
                 $.each(Result, function (key, value) {
                 $("select[id*='drpCity']").append($("<option></option>").val(value.CityId).html(value.CityName));
                 });
-
+                $("select[id*='drpCity']").val(CityID);
             }
         },
         error: function (result, textStatus) {

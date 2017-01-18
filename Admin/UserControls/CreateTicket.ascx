@@ -143,8 +143,10 @@
         <tr id="trCompletionDate">
             <td>Tentative Date:- </td>
             <td>
-                <asp:TextBox ID="txtCompletionDate" Width="100px" runat="server" CssClass="input-xlarge datepicker"></asp:TextBox>
-            </td>
+                <asp:TextBox ID="txtCompletionDate" Width="100px" runat="server"  CssClass="input-xlarge datepicker" Enabled="false"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="reqCompletion" runat="server" ValidationGroup="Comp" ControlToValidate="txtCompletionDate" ForeColor="Red" ErrorMessage="*"></asp:RequiredFieldValidator>
+                 
+              </td>
             <%--<td><span id="spnCompletion">Date of Completion Ticket:- </span> </td>
             <td>
                 <asp:TextBox ID="txtCompletionDate" Width="100px" runat="server" CssClass="input-xlarge datepicker"></asp:TextBox>
@@ -174,7 +176,7 @@
         <tr>
             <td></td>
             <td colspan="3">
-                <asp:Button ID="btnSave" runat="server" Text="Save" />
+                <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="Comp" />
             </td>
         </tr>
     </table>

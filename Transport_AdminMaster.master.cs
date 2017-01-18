@@ -38,10 +38,12 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liCreateMaterial.Visible = false;
             liContractRate.Visible = false;
             liBills.Visible = false;
+           
         }
         else
         {
             liEstimateiewForEmp.Visible = false;
+            liBills.Visible = true;
             showUnApprovedEstimateCount();
         }
         

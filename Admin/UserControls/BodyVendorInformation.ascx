@@ -22,7 +22,7 @@
     <asp:HiddenField ID="hdnMaterialitems" runat="server" />
     <asp:HiddenField ID="hdnVendorID" runat="server" />
     <asp:HiddenField ID="hdnmaterialid" runat="server" />
-     <asp:HiddenField ID="hdnInchargeID" runat="server" />
+    <asp:HiddenField ID="hdnInchargeID" runat="server" />
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
@@ -38,7 +38,7 @@
                     <fieldset>
                         <legend></legend>
                         <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="vendor" />
-                 
+
                         <table>
                             <tr>
                                 <td width="50%">
@@ -46,7 +46,7 @@
                                         <label class="control-label" for="typeahead"><b>Vendor Name:</b></label>
                                         <div class="controls">
                                             <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-                                            <input type="text" id="txtAgencyName" style="display:none;" />
+                                            <input type="text" id="txtAgencyName" style="display: none;" />
                                             <asp:TextBox ID="txtVendorName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
                                             <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"
                                                 ControlToValidate="txtVendorName" ErrorMessage="Please enter the  Vendor Name" />
@@ -69,7 +69,7 @@
                                         <label class="control-label" for="typeahead"><b>Address:</b></label>
                                         <div class="controls">
                                             <asp:TextBox ID="txtAddress" runat="server" TextMode="MultiLine" CssClass="span6 typeahead" Height="60px" Width="300px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqAddress" ForeColor="Red"  ControlToValidate="txtAddress" ErrorMessage="Please enter the Address" />
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqAddress" ForeColor="Red" ControlToValidate="txtAddress" ErrorMessage="Please enter the Address" />
                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="visitor" Display="Dynamic" ControlToValidate="txtAddress" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z0-9 #,&()-.:/\n]*$"></asp:RegularExpressionValidator>
 
                                         </div>
@@ -82,9 +82,9 @@
                                         <label class="control-label" for="typeahead"><b>State</b></label>
                                         <div class="controls">
                                             <asp:DropDownList ID="drpState" runat="server" CssClass="span6 typeahead" Width="200px">
-                                                 <asp:ListItem Value="0">--Select State--</asp:ListItem>
+                                                <asp:ListItem Value="0">--Select State--</asp:ListItem>
                                             </asp:DropDownList>
-                                        
+
                                             <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vendor" ID="reqState" ForeColor="Red"
                                                 ControlToValidate="drpState" ErrorMessage="Please select the  State" />
                                         </div>
@@ -97,7 +97,7 @@
                                             <asp:DropDownList ID="drpCity" runat="server" CssClass="span6 typeahead" Width="200px">
                                                 <asp:ListItem Value="0">--Select City--</asp:ListItem>
                                             </asp:DropDownList>
-                                         
+
                                             <asp:RequiredFieldValidator Display="None" InitialValue="0" runat="server" ValidationGroup="vendor" ID="reqCity" ForeColor="Red"
                                                 ControlToValidate="drpCity" ErrorMessage="Please select The City" />
                                         </div>
@@ -108,8 +108,8 @@
                                         <label class="control-label" for="typeahead"><b>Zip Code</b></label>
                                         <div class="controls">
                                             <asp:TextBox ID="txtZip" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtZip" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid Zip Code!!! Enter the 6 digit only" ValidationExpression="[0-9]{6}"></asp:RegularExpressionValidator>
-                                                <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator1" ForeColor="Red"    ControlToValidate="txtZip" ErrorMessage="Please enter the Zip" />
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtZip" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid Zip Code!!! Enter the 6 digit only" ValidationExpression="[0-9]{6}"></asp:RegularExpressionValidator>
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator1" ForeColor="Red" ControlToValidate="txtZip" ErrorMessage="Please enter the Zip" />
                                         </div>
                                     </div>
                                 </td>
@@ -121,8 +121,8 @@
                                         <label class="control-label" for="typeahead"><b>Bank Name</b></label>
                                         <div class="controls">
                                             <asp:TextBox ID="txtBankName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
-                                                ControlToValidate="txtBankName" ErrorMessage="Please enter the  Bank Name" />
+                                            <%--<asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator3" ForeColor="Red"
+                                                ControlToValidate="txtBankName" ErrorMessage="Please enter the  Bank Name" />--%>
                                         </div>
                                     </div>
                                 </td>
@@ -132,8 +132,8 @@
                                         <div class="controls">
 
                                             <asp:TextBox ID="txtIfscCode" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator4" ForeColor="Red"
-                                                ControlToValidate="txtIfscCode" ErrorMessage="Please enter the IFSC Code" />
+                                            <%--<asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator4" ForeColor="Red"
+                                                ControlToValidate="txtIfscCode" ErrorMessage="Please enter the IFSC Code" />--%>
                                         </div>
                                     </div>
                                 </td>
@@ -142,12 +142,29 @@
                                         <label class="control-label" for="typeahead"><b>Account NUmber</b></label>
                                         <div class="controls">
                                             <asp:TextBox ID="txtAccountNumber" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator5" ForeColor="Red"
-                                                ControlToValidate="txtAccountNumber" ErrorMessage="Please enter the Account Number" />
+                                            <%--<asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="RequiredFieldValidator5" ForeColor="Red"
+                                                ControlToValidate="txtAccountNumber" ErrorMessage="Please enter the Account Number" />--%>
                                         </div>
                                     </div>
                                 </td>
-
+                            </tr>
+                            <tr>
+                                <td width="50%">
+                                    <div class="control-group">
+                                        <label class="control-label" for="typeahead"><b>PAN Number</b></label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtPanNumber" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td width="50%">
+                                    <div class="control-group">
+                                        <label class="control-label" for="typeahead"><b>TIN Number</b></label>
+                                        <div class="controls">
+                                            <asp:TextBox ID="txtTinNumber" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             <tr style="display: none;">
                                 <td>
@@ -182,7 +199,7 @@
 
                         <div class="form-actions">
                             <input type="button" id="btnSave" value="Save" class="btn btn-primary" />
-                         <%-- <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" OnClientClick=" return SaveVendor();" CssClass="btn btn-primary" />--%>
+                            <%-- <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vendor" OnClientClick=" return SaveVendor();" CssClass="btn btn-primary" />--%>
                             <asp:Button ID="btnEdit" runat="server" Text="Edit" ValidationGroup="vendor" CssClass="btn btn-primary" />
                         </div>
                     </fieldset>
@@ -193,7 +210,7 @@
         <!--/span-->
     </div>
 
-    <div class="row-fluid sortable" style="display:none;">
+    <div class="row-fluid sortable" id="vendorMainbox" runat="server">
         <div class="box span12">
             <div class="box-header well" data-original-title>
                 <h2><i class="icon-user"></i>Vendor Details</h2>
@@ -203,9 +220,9 @@
                     <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                 </div>
             </div>
-            <div class="box-content">
-                <div id="divMatDetails" runat="server">
-                    <div id="divVendorDetails" runat="server">
+            <div class="box-content" >
+                <div id="divMatDetails">
+                    <div id="divVendorDetails">
                         <table>
                             <tr>
                                 <td style="float: right; margin-left: 830px; margin-top: -4px;">
@@ -235,5 +252,5 @@
         <!--/span-->
 
     </div>
-   
+
 </div>

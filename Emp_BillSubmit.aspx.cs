@@ -10,9 +10,10 @@ using IronPdf;
 public partial class Emp_BillSubmit : System.Web.UI.Page
 {
     private int BillID = -1;
-
+    private int inchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
-    {
+    { 
+        inchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
         if (!IsPostBack)
         {
             if (Session["EmailId"] == null)
@@ -22,6 +23,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+               
             }
             if (Request.QueryString["AcaId"] != null)
             {
@@ -524,11 +526,11 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
             if (BillID > 0)
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "','" + txtAgenyBillNo.Text + "','" + fileName + "','" + hdnVandorID.Value + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1'," + inchargeID + ",'" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "','" + txtAgenyBillNo.Text + "','" + fileName + "','" + hdnVandorID.Value + "'");
             }
             else
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "','" + txtAgenyBillNo.Text + "','" + fileName + "','" + hdnVandorID.Value + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1'," + inchargeID + ",'" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "','" + txtAgenyBillNo.Text + "','" + fileName + "','" + hdnVandorID.Value + "'");
             }
 
             string MaterialType, Material, Itm, Qty, Unit, Rate, Amount, StockEntryNo, Uni, vat;
@@ -588,11 +590,11 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
                     if (BillID > 0)
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "','" + totalVatIncluded + "'");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + inchargeID + "','2','1','','" + StockEntryNo + "','" + totalVatIncluded + "'");
                     }
                     else
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "','" + totalVatIncluded + "'");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + inchargeID + "','1','1','','" + StockEntryNo + "','" + totalVatIncluded + "'");
                     }
                 }
                 else
@@ -600,11 +602,11 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                     DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + Unit + "'");
                     if (BillID > 0)
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "',''");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + inchargeID + "','2','1','','" + StockEntryNo + "',''");
                     }
                     else
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "',''");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + dsUnitId.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + inchargeID + "','1','1','','" + StockEntryNo + "',''");
                     }
 
                 }
@@ -616,7 +618,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             }
             else
             {
-                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'").Tables[0];
+                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + inchargeID + "'").Tables[0];
                 if (dsBill != null && dsBill.Rows.Count > 0)
                 {
                     DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + dsBill.Rows[0]["NewBillId"].ToString());
@@ -638,11 +640,11 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
             if (BillID > 0)
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + lblUser.Text + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "','" + hdnVandorID.Value + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "','" + hdnVandorID.Value + "'");
             }
             else
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "','" + hdnVandorID.Value + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "','" + hdnVandorID.Value + "'");
             }
 
 
@@ -710,11 +712,11 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
                 if (BillID > 0)
                 {
-                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations " + hdnSno.Value + "," + BillID + ",'','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + lblUser.Text + "','2','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
+                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations " + hdnSno.Value + "," + BillID + ",'','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + inchargeID + "','2','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
                 }
                 else
                 {
-                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
+                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + inchargeID + "','1','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
                 }
             }
             if (BillID > 0)
@@ -723,7 +725,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             }
             else
             {
-                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'").Tables[0];
+                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + inchargeID + "'").Tables[0];
                 if (dsBill != null && dsBill.Rows.Count > 0)
                 {
                     DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + dsBill.Rows[0]["NewBillId"].ToString());
@@ -738,7 +740,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
         }
 
-        DataSet dsBillId = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + lblUser.Text + "'");
+        DataSet dsBillId = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + inchargeID + "'");
 
         DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "'");
 

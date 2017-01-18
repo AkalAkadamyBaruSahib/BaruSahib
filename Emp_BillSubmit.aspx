@@ -299,7 +299,7 @@
                 <h3>Create New Agency</h3>
             </div>
             <div class="modal-body" style="width: 1000px;">
-                <uc1:BodyVendorInformation runat="server" ID="BodyVendorInformation" />
+                <uc1:BodyVendorInformation runat="server" ID="BodyVendorInformation" IsOpenInPopUP="true" />
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>

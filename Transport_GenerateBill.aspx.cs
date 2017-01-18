@@ -36,6 +36,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
             decimal TotalBillAmount = 0;
             int TotalFine = 0;
             decimal totalRunningKMOnSchoolRoute = 0;
+            decimal totalWorkingDays = 0;
             bool CompanyOwned = false;
             var MisingDocumentName = string.Empty;
             var MisingNormsName = string.Empty;
@@ -215,40 +216,56 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
                     TotalFine = Fine;
                     var AcaID = getVehicleInfo.AcademyID;
 
+
                     if (flag == true)
                     {
-
                         Vehicle_Calculated_data vehicle_Calculated_data = GetVehicleTotalRunningKM(getVehicleInfo.Number);
                         totalRunningKMOnSchoolRoute = vehicle_Calculated_data.total_KM;
-
+                        totalWorkingDays = vehicle_Calculated_data.vehicleAttendance;
                         TotalBillAmount = generateBill(getVehicleInfo, vehicle_Calculated_data);
-
-                        dr = dataTable.NewRow();
-                        dr["VehicleNumber"] = getVehicleInfo.Number;
-                        dr["AcademyName"] = getVehicleInfo.Academy.AcaName;
-                        dr["OwnerName"] = getVehicleInfo.OwnerName;
-                        dr["OwnerNumber"] = getVehicleInfo.OwnerNumber;
-                        //dr["DocumentName"] = MisingDocumentName;
-                        dr["NormsName"] = MisingNormsName;
-                        dr["Fine"] = TotalFine;
-                        if (CompanyOwned == true)
-                        {
-                            dr["TDS"] = "2%";
-                        }
-                        else
-                        {
-                            dr["TDS"] = "1%";
-                        }
-                        dr["TotalPayAmount"] = (TotalBillAmount - TotalFine);
-                        dr["TotalKmRunning"] = totalRunningKMOnSchoolRoute;
-                        getIncharge = user.GetUsersByAcademyID(getVehicleInfo.AcademyID, 14).FirstOrDefault();
-                        if (getIncharge != null)
-                        {
-                            dr["TransportManager"] = getIncharge.InName;
-                            dr["MobileNumber"] = getIncharge.InMobile;
-                        }
-                        dataTable.Rows.Add(dr);
                     }
+                    dr = dataTable.NewRow();
+                    dr["VehicleNumber"] = getVehicleInfo.Number;
+                    dr["AcademyName"] = getVehicleInfo.Academy.AcaName;
+                    dr["OwnerName"] = getVehicleInfo.OwnerName;
+                    dr["OwnerNumber"] = getVehicleInfo.OwnerNumber;
+                    dr["DocumentName"] = MisingDocumentName;
+                    dr["NormsName"] = MisingNormsName;
+                    dr["Fine"] = TotalFine;
+                    if (CompanyOwned == true)
+                    {
+                        dr["TDS"] = "2%";
+                    }
+                    else
+                    {
+                        dr["TDS"] = "1%";
+                    }
+                    dr["TotalKmRunning"] = totalRunningKMOnSchoolRoute;
+                    dr["NoOfWorkingDays"] = totalWorkingDays;
+                    if (flag == true && TotalBillAmount != 0)
+                    {
+                        dr["TotalPayAmount"] = (TotalBillAmount - TotalFine);
+                    }
+                    else if (flag == true && totalRunningKMOnSchoolRoute == 0)
+                    {
+                        dr["TotalPayAmount"] = "GPS are not Working";
+                    }
+                    else if (flag == true && TotalBillAmount == 0)
+                    {
+                        dr["TotalPayAmount"] = "Vehicle Information are not Completely Updated";
+                    }
+                    else if (flag == false)
+                    {
+                        dr["TotalPayAmount"] = "No Amount Due Becuase of Missing Docs";
+                    }
+
+                    getIncharge = user.GetUsersByAcademyID(getVehicleInfo.AcademyID, 14).FirstOrDefault();
+                    if (getIncharge != null)
+                    {
+                        dr["TransportManager"] = getIncharge.InName;
+                        dr["MobileNumber"] = getIncharge.InMobile;
+                    }
+                    dataTable.Rows.Add(dr);
                 }
             }
         }
@@ -269,14 +286,22 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
 
         var apiData = Utility.getDataFromAPI(strtDate, endDate, vehicleNumber);
         Vehicle_Calculated_data vehicle_Calculated_data = new Vehicle_Calculated_data();
-        decimal totalKM = 0;
-        foreach (vehicle_attendance_detail data in apiData[0].vehicle_attendance_detail)
+
+        if (apiData[0].vehicle_attendance_detail != null)
         {
-            if (data.attendance == 1)
+            foreach (vehicle_attendance_detail data in apiData[0].vehicle_attendance_detail)
             {
-                vehicle_Calculated_data.total_KM += (data.route_start_km - data.route_end_km);
-                vehicle_Calculated_data.vehicleAttendance += data.attendance;
+                if (data.attendance == 1)
+                {
+                    vehicle_Calculated_data.total_KM += (data.route_start_km - data.route_end_km);
+                    vehicle_Calculated_data.vehicleAttendance += data.attendance;
+                }
             }
+        }
+        else
+        {
+            vehicle_Calculated_data.total_KM = 0;
+            vehicle_Calculated_data.vehicleAttendance = 0;
         }
         return vehicle_Calculated_data;
     }
@@ -306,6 +331,7 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindVehicleByAcdemyId();
+        btnDownload.Visible = true;
     }
 
     public void BindVehicleByAcdemyId()
@@ -328,15 +354,16 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
         dt.Columns.Add(new DataColumn("AcademyName", typeof(string)));
         dt.Columns.Add(new DataColumn("OwnerName", typeof(string)));
         dt.Columns.Add(new DataColumn("OwnerNumber", typeof(string)));
-        //dt.Columns.Add(new DataColumn("DocumentName", typeof(string)));
+        dt.Columns.Add(new DataColumn("DocumentName", typeof(string)));
         dt.Columns.Add(new DataColumn("NormsName", typeof(string)));
         dt.Columns.Add(new DataColumn("TransportManager", typeof(string)));
         dt.Columns.Add(new DataColumn("MobileNumber", typeof(string)));
         dt.Columns.Add(new DataColumn("Fine", typeof(string)));
         dt.Columns.Add(new DataColumn("TDS", typeof(string)));
         dt.Columns.Add(new DataColumn("TotalKmRunning", typeof(string)));
+        dt.Columns.Add(new DataColumn("NoOfWorkingDays", typeof(string)));
         dt.Columns.Add(new DataColumn("TotalPayAmount", typeof(string)));
-
+     
         return dt;
     }
 
@@ -400,104 +427,119 @@ public partial class TranspportGenerateBill : System.Web.UI.Page
 
             bool IsDieselRateIncreaseMore = false;
 
-            decimal dieselRatebySevenOilSlab = (contractDieselRate * 7) / 100;   // 7% of diesel rate 
-            decimal dieselRatebyForteenOilSlab = (contractDieselRate * 14) / 100; // 14% of diesel rate 
-            decimal dieselRatebyTwentyOneOilSlab = (contractDieselRate * 21) / 100; // 21% of diesel rate 
-
-            decimal dieselRateInSeven = contractDieselRate + dieselRatebySevenOilSlab;
-            decimal dieselRateInForteen = contractDieselRate + dieselRatebyForteenOilSlab;
-            decimal dieselRateInTwentyOne = contractDieselRate + dieselRatebyTwentyOneOilSlab;
-
-            decimal extraKMAmount = 0;
-            decimal extraKMAndOilSlabAmount = 0;
-
-            IsDieselRateIncreaseMore = currentDieselRate >= dieselRateInSeven ? true : false;
-
-            // Total Km Should run in working days according to contract
-            totalRunningKMAccordingToContract = (contractKM * numOfWorkingDays);
-
-            // Step1:- Get Total Running KM of bus : totalRunningKMOnSchoolRoute 
-
-            if (!IsDieselRateIncreaseMore)
+            if (contractDieselRate != 0)
             {
-                if (totalRunningKMOnSchoolRoute == totalRunningKMAccordingToContract)
+                decimal dieselRatebySevenOilSlab = (contractDieselRate * 7) / 100;   // 7% of diesel rate 
+                decimal dieselRatebyForteenOilSlab = (contractDieselRate * 14) / 100; // 14% of diesel rate 
+                decimal dieselRatebyTwentyOneOilSlab = (contractDieselRate * 21) / 100; // 21% of diesel rate 
+
+                decimal dieselRateInSeven = contractDieselRate + dieselRatebySevenOilSlab;
+                decimal dieselRateInForteen = contractDieselRate + dieselRatebyForteenOilSlab;
+                decimal dieselRateInTwentyOne = contractDieselRate + dieselRatebyTwentyOneOilSlab;
+
+                decimal extraKMAmount = 0;
+                decimal extraKMAndOilSlabAmount = 0;
+
+                IsDieselRateIncreaseMore = currentDieselRate >= dieselRateInSeven ? true : false;
+
+                // Total Km Should run in working days according to contract
+                if (contractKM != 0)
                 {
-                    extraRunningKM = totalRunningKMOnSchoolRoute;
-                    billAmount = contractRate;
+
+                    totalRunningKMAccordingToContract = (contractKM * numOfWorkingDays);
+
+                    // Step1:- Get Total Running KM of bus : totalRunningKMOnSchoolRoute 
+                    if (totalRunningKMAccordingToContract != 0)
+                    {
+                        if (contractRate != 0)
+                        {
+                            if (vehicleAverage != 0)
+                            {
+                                if (!IsDieselRateIncreaseMore)
+                                {
+                                    if (totalRunningKMOnSchoolRoute == totalRunningKMAccordingToContract)
+                                    {
+                                        extraRunningKM = totalRunningKMOnSchoolRoute;
+                                        billAmount = contractRate;
+                                    }
+                                    else if (totalRunningKMOnSchoolRoute > totalRunningKMAccordingToContract)
+                                    {
+                                        // Step2:- if total running KM is 
+                                        extraRunningKM = totalRunningKMOnSchoolRoute - totalRunningKMAccordingToContract;
+                                        extraKMAmount = (extraRunningKM / vehicleAverage) * currentDieselRate;
+                                        billAmount = contractRate + extraKMAmount;
+                                    }
+                                    else
+                                    {
+                                        extraRunningKM = totalRunningKMAccordingToContract - totalRunningKMOnSchoolRoute;
+                                        extraKMAmount = (extraRunningKM / vehicleAverage) * currentDieselRate;
+                                        billAmount = contractRate - extraKMAmount;
+                                    }
+                                    // billAmount: Total amount according to KMrunning
+                                }
+                                else
+                                {
+                                    if (totalRunningKMOnSchoolRoute > totalRunningKMAccordingToContract)
+                                    {
+
+                                        extraRunningKM = totalRunningKMOnSchoolRoute - totalRunningKMAccordingToContract;
+                                        extraKMAndOilSlabAmount = (extraRunningKM / vehicleAverage) * currentDieselRate;
+
+                                        if (currentDieselRate <= dieselRateInSeven)
+                                        {
+                                            extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebySevenOilSlab;
+                                            billAmount = contractRate + extraKMAmount + extraKMAndOilSlabAmount;
+                                        }
+                                        else if (currentDieselRate > dieselRateInSeven && currentDieselRate <= dieselRateInForteen)
+                                        {
+                                            extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyForteenOilSlab;
+                                            billAmount = contractRate + extraKMAmount + extraKMAndOilSlabAmount;
+                                        }
+                                        else
+                                        {
+                                            extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyTwentyOneOilSlab;
+                                            billAmount = contractRate + extraKMAmount + extraKMAndOilSlabAmount;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (currentDieselRate <= dieselRateInSeven)
+                                        {
+                                            extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebySevenOilSlab;
+                                            billAmount = contractRate + extraKMAmount;
+                                        }
+                                        else if (currentDieselRate > dieselRateInSeven && currentDieselRate <= dieselRateInForteen)
+                                        {
+                                            extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyForteenOilSlab;
+                                            billAmount = contractRate + extraKMAmount;
+                                        }
+                                        else
+                                        {
+                                            extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyTwentyOneOilSlab;
+                                            billAmount = contractRate + extraKMAmount;
+                                        }
+                                    }
+                                }
+                            }
+
+                            bool CompanyOwned = Convert.ToBoolean(getVehicleInfo.IsCompanyOwned);
+
+                            decimal tdsAmount = 0;
+
+                            if (CompanyOwned == true)
+                            {
+                                tdsAmount = (billAmount * 2) / 100;
+                                billAmount = billAmount + tdsAmount;
+                            }
+                            else
+                            {
+                                tdsAmount = (billAmount * 1) / 100;
+                                billAmount = billAmount + tdsAmount;
+                            }
+                        }
+                    }
                 }
-                else if (totalRunningKMOnSchoolRoute > totalRunningKMAccordingToContract)
-                {
-                    // Step2:- if total running KM is 
-                    extraRunningKM = totalRunningKMOnSchoolRoute - totalRunningKMAccordingToContract;
-                    extraKMAmount = (extraRunningKM / vehicleAverage) * currentDieselRate;
-                    billAmount = contractRate + extraKMAmount;
-                }
-                else
-                {
-                    extraRunningKM = totalRunningKMAccordingToContract - totalRunningKMOnSchoolRoute;
-                    extraKMAmount = (extraRunningKM / vehicleAverage) * currentDieselRate;
-                    billAmount = contractRate - extraKMAmount;
-                }
-                // billAmount: Total amount according to KMrunning
             }
-            else
-            {
-                if (totalRunningKMOnSchoolRoute > totalRunningKMAccordingToContract)
-                {
-
-                    extraRunningKM = totalRunningKMOnSchoolRoute - totalRunningKMAccordingToContract;
-                    extraKMAndOilSlabAmount = (extraRunningKM / vehicleAverage) * currentDieselRate;
-
-                    if (currentDieselRate <= dieselRateInSeven)
-                    {
-                        extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebySevenOilSlab;
-                        billAmount = contractRate + extraKMAmount + extraKMAndOilSlabAmount;
-                    }
-                    else if (currentDieselRate > dieselRateInSeven && currentDieselRate <= dieselRateInForteen)
-                    {
-                        extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyForteenOilSlab;
-                        billAmount = contractRate + extraKMAmount + extraKMAndOilSlabAmount;
-                    }
-                    else
-                    {
-                        extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyTwentyOneOilSlab;
-                        billAmount = contractRate + extraKMAmount + extraKMAndOilSlabAmount;
-                    }
-                }
-                else
-                {
-                    if (currentDieselRate <= dieselRateInSeven)
-                    {
-                        extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebySevenOilSlab;
-                        billAmount = contractRate + extraKMAmount;
-                    }
-                    else if (currentDieselRate > dieselRateInSeven && currentDieselRate <= dieselRateInForteen)
-                    {
-                        extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyForteenOilSlab;
-                        billAmount = contractRate + extraKMAmount;
-                    }
-                    else
-                    {
-                        extraKMAmount = (totalRunningKMAccordingToContract / vehicleAverage) * dieselRatebyTwentyOneOilSlab;
-                        billAmount = contractRate + extraKMAmount;
-                    }
-                }
-            }
-        }
-
-        bool CompanyOwned = Convert.ToBoolean(getVehicleInfo.IsCompanyOwned);
-
-        decimal tdsAmount = 0;
-
-        if (CompanyOwned == true)
-        {
-            tdsAmount = (billAmount * 2) / 100;
-            billAmount = billAmount + tdsAmount;
-        }
-        else
-        {
-            tdsAmount = (billAmount * 1) / 100;
-            billAmount = billAmount + tdsAmount;
         }
         return billAmount;
     }

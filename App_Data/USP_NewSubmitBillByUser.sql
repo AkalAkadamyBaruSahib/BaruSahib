@@ -1,4 +1,4 @@
-CREATE procedure [dbo].[USP_NewSubmitBillByUser]                              
+ALTER procedure [dbo].[USP_NewSubmitBillByUser]                              
 
 
 
@@ -86,7 +86,7 @@ CREATE procedure [dbo].[USP_NewSubmitBillByUser]
 
 
 
-@CreatedModifyBy as nvarchar(50),                  
+@CreatedModifyBy as int,                  
 
 
 
@@ -218,8 +218,7 @@ insert into SubmitBillByUser(ChargetoBillTyId,BillDate,GateEntryNo,StockEntryNo,
 
 
 
-values(@BillTYpeIdChargeableTo,@BillDate,upper(@GateEntyNo),upper(@StockEnteryNo),upper(@AgencyName),upper(@Remark),@Active,GETDATE(),@CreatedModifyBy,@EstId,@AcaId,@ZoneId,@NatureOfBill,@BillTypeText,@NameOfWork,@VendorBillPath,@VendorBillNumber,@VendorI
-D)        
+values(@BillTYpeIdChargeableTo,@BillDate,upper(@GateEntyNo),upper(@StockEnteryNo),upper(@AgencyName),upper(@Remark),@Active,GETDATE(),@CreatedModifyBy,@EstId,@AcaId,@ZoneId,@NatureOfBill,@BillTypeText,@NameOfWork,@VendorBillPath,@VendorBillNumber,@VendorID)        
 
                       
 
@@ -317,8 +316,7 @@ begin
 
 
 
-update SubmitBillByUser set BillType=@BillTypeText,BillDate=@BillDate,GateEntryNo=upper(@GateEntyNo),StockEntryNo=upper(@StockEnteryNo),AgencyName=upper(@AgencyName),Remark=upper(@Remark),Active=@Active,VendorBillPath=@VendorBillPath,VendorBillNumber=@Ven
-dorBillNumber,VendorID=@VendorID,ModifyOn=GETDATE(), FirstVarify = NULL,  
+update SubmitBillByUser set BillType=@BillTypeText,BillDate=@BillDate,GateEntryNo=upper(@GateEntyNo),StockEntryNo=upper(@StockEnteryNo),AgencyName=upper(@AgencyName),Remark=upper(@Remark),Active=@Active,VendorBillPath=@VendorBillPath,VendorBillNumber=@VendorBillNumber,VendorID=@VendorID,ModifyOn=GETDATE(), FirstVarify = NULL,  
 
 FirstVarifyOn = NULL,  
 

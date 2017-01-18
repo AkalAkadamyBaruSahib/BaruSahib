@@ -218,6 +218,14 @@ public class PurchaseRepository
             vendorDTO.BankName = v.BankName;
             vendorDTO.IfscCode = v.IfscCode;
             vendorDTO.AccountNumber = v.AccountNumber;
+            if (v.PanNumber != null)
+            {
+                vendorDTO.PanNumber = v.PanNumber.ToString();
+            }
+            if (v.TinNumber != null)
+            {
+                vendorDTO.TinNumber = v.TinNumber.ToString();
+            }
 
 
             dto.Add(vendorDTO);
@@ -252,6 +260,14 @@ public class PurchaseRepository
             vendorDTO.BankName = v.BankName;
             vendorDTO.IfscCode = v.IfscCode;
             vendorDTO.AccountNumber = v.AccountNumber;
+            if (v.PanNumber != null)
+            {
+                vendorDTO.PanNumber = v.PanNumber.ToString();
+            }
+            if (v.TinNumber != null)
+            {
+                vendorDTO.TinNumber = v.TinNumber.ToString();
+            }
 
             dto.Add(vendorDTO);
         }
@@ -277,6 +293,14 @@ public class PurchaseRepository
         dto.BankName = vendorInfo.BankName;
         dto.IfscCode = vendorInfo.IfscCode;
         dto.AccountNumber = vendorInfo.AccountNumber;
+        if (vendorInfo.PanNumber != null)
+        {
+            dto.PanNumber = vendorInfo.PanNumber.ToString();
+        }
+        if (vendorInfo.TinNumber != null)
+        {
+            dto.TinNumber = vendorInfo.TinNumber.ToString();
+        }
 
         dto.Active = vendorInfo.Active;
 
@@ -325,6 +349,8 @@ public class PurchaseRepository
         newVendorInfo.BankName = vendorInfo.BankName;
         newVendorInfo.IfscCode = vendorInfo.IfscCode;
         newVendorInfo.AccountNumber = vendorInfo.AccountNumber;
+        newVendorInfo.PanNumber = vendorInfo.PanNumber;
+        newVendorInfo.TinNumber = vendorInfo.TinNumber;
 
         newVendorInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
 

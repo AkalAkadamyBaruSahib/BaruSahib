@@ -9,6 +9,7 @@ using System.Data;
 public partial class Emp_SubmitMicsBill : System.Web.UI.Page
 {
     decimal m = 0;
+    private int inchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -20,6 +21,7 @@ public partial class Emp_SubmitMicsBill : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                inchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
             }
             if (Request.QueryString["AcaId"] != null)
             {
@@ -341,7 +343,7 @@ public partial class Emp_SubmitMicsBill : System.Web.UI.Page
             }
             else
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','"+ ddlNameOfWork.SelectedValue +"'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + inchargeID + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + ddlNameOfWork.SelectedValue + "'");
                 
                 string MaterialType, Material, Itm, Qty, Unit, Rate, Amount, StockEntryNo, Uni;
                 int rowindex = 0;
@@ -369,11 +371,11 @@ public partial class Emp_SubmitMicsBill : System.Web.UI.Page
                     if (txtItem.Text != "")
                     {
                         DataSet dsMUT = DAL.DalAccessUtility.GetDataInDataSet("select MatId,MatTypeId,UnitId from Material where MatName='" + Itm + "'");
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "',''");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + dsMUT.Tables[0].Rows[0]["MatTypeId"].ToString() + "','" + dsMUT.Tables[0].Rows[0]["MatId"].ToString() + "','" + Itm + "','" + Qty + "','" + dsMUT.Tables[0].Rows[0]["UnitId"].ToString() + "','" + Rate + "','" + Amount + "','" + inchargeID + "','1','1','','" + StockEntryNo + "',''");
                     }
                     else
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + Unit + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "',''");
+                        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','" + MaterialType + "','" + Material + "','" + Itm + "','" + Qty + "','" + Unit + "','" + Rate + "','" + Amount + "','" + inchargeID + "','1','1','','" + StockEntryNo + "',''");
                     }
                     rowindex = rowindex + 1;
                 }
@@ -407,7 +409,7 @@ public partial class Emp_SubmitMicsBill : System.Web.UI.Page
             else
             {
                 DataSet dsNameOfWork = DAL.DalAccessUtility.GetDataInDataSet("select WAId from WorkAllot where WorkAllotName ='"+ lblNameOfWork.Text +"'");
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + lblUser.Text + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + dsNameOfWork.Tables[0].Rows[0]["WAId"].ToString() + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + txtAgencyName.Text + "','" + txtBillDes.Text + "','" + lblEstimateCost.Text + "','" + txtRemark.Text + "','1','1','" + inchargeID + "','" + ddlEsimate.SelectedValue + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedItem.Text + "','" + dsNameOfWork.Tables[0].Rows[0]["WAId"].ToString() + "'");
                 string MatId, Material, Qty, UnitId, UnitName, Rate, Amount, StockEntryNo;
                 int rowindex = 0;
                 foreach (GridViewRow gvrow in gvAddItems2.Rows)
@@ -455,7 +457,7 @@ public partial class Emp_SubmitMicsBill : System.Web.UI.Page
                     
                     else
                     {
-                        DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + Amount + "','" + lblUser.Text + "','1','1','','" + StockEntryNo + "','" + ddlEsimate.SelectedValue + "'");
+                        DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + Amount + "','" + inchargeID + "','1','1','','" + StockEntryNo + "','" + ddlEsimate.SelectedValue + "'");
                     }
                     
                    

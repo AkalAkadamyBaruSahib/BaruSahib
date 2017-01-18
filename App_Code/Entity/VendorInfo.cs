@@ -45,6 +45,10 @@ public class VendorInfo
 
     public string AccountNumber { get; set; }
 
+    public string PanNumber { get; set; }
+
+    public string TinNumber { get; set; }
+
     public List<VendorMaterialRelation> VendorMaterialRelations { get; set; }
 
 }

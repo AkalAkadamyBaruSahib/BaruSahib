@@ -17,14 +17,19 @@
                     Select Academy:
                     <asp:DropDownList ID="ddlAcademy" AutoPostBack="true" runat="server" OnSelectedIndexChanged="ddlAcademy_SelectedIndexChanged">
                         <asp:ListItem Text="--Select Academy--" Selected="True" Value="0"></asp:ListItem>
-                    </asp:DropDownList>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="reqddlAcademy" InitialValue="0" runat="server" ControlToValidate="ddlAcademy" ForeColor="Red" ErrorMessage="*" ValidationGroup="bill"></asp:RequiredFieldValidator>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:Label ID="lblmsg" runat="server"></asp:Label>
                     Start Date:
-                <asp:TextBox ID="txtStartDate" runat="server" CssClass="input-xlarge datepicker" Width="150px"></asp:TextBox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="txtStartDate" runat="server" CssClass="input-xlarge datepicker" Width="150px"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtStartDate" ForeColor="Red" ErrorMessage="*" ValidationGroup="bill"></asp:RequiredFieldValidator>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     End Date:
                       <asp:TextBox ID="txtEndDate" runat="server" CssClass="input-xlarge datepicker" Width="150px"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtEndDate" ForeColor="Red" ErrorMessage="*" ValidationGroup="bill"></asp:RequiredFieldValidator>
                 </div>
-             </div>
+            </div>
         </div>
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -61,7 +66,7 @@
                     </asp:GridView>
                 </div>
             </div>
-            <asp:Button ID="btnDownload" runat="server" Text="Generate Bill" OnClientClick="test();" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
+            <asp:Button ID="btnDownload" runat="server" Visible="false" Text="Generate Bill" ValidationGroup="bill"  CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="235px" />
         </div>
     </div>
 </asp:Content>

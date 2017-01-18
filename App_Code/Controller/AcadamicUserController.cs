@@ -97,17 +97,31 @@ public class AcadamicUserController : System.Web.Services.WebService {
       //  acadamicUserRepository.SaveComplaintTicket();
 
         string sql =string.Empty;
-        if (UserType != (int)TypeEnum.UserType.ADMIN)
+        if (UserType == (int)TypeEnum.UserType.ACADEMIC)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
             "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by CreatedOn desc";
         }
-        else
+        else if (UserType == (int)TypeEnum.UserType.ADMIN)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
             "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' order by CreatedOn desc";
+        }
+        else if (UserType == (int)TypeEnum.UserType.CONSTRUCTION)
+        {
+            sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description," +
+                    "ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn," +
+                    "ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
+                    "from ComplaintTickets ct " +
+                    "INNER JOIN Academy ac on ac.AcaId=ct.AcaID " +
+                    "INNER JOIN Zone z on ct.ZoneID=z.ZoneId " +
+                    "WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by CreatedOn desc";
+            //sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
+            // ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
+            // "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by CreatedOn desc";
+
         }
 
         System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
@@ -122,7 +136,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
             ticket.Description = dsDegisDetails.Tables[0].Rows[i]["Description"].ToString();
             ticket.CreatedBy = dsDegisDetails.Tables[0].Rows[i]["CreatedBy"].ToString();
             ticket.CreatedOn = Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["CreatedOn"].ToString()).ToString();
-            ticket.AssignedTo = dsDegisDetails.Tables[0].Rows[i]["AssignedTo"].ToString();
+            //ticket.AssignedTo = dsDegisDetails.Tables[0].Rows[i]["AssignedTo"].ToString();
             if (!string.IsNullOrEmpty(dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString()))
             {
                 ticket.CompletionDate = String.Format(String.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["ModifyOn"]))); //dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString();

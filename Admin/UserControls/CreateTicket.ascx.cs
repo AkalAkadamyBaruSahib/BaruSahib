@@ -12,6 +12,7 @@ public partial class Admin_UserControls_CreateTicket : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
+            Page.Form.Attributes.Add("enctype", "multipart/form-data");
             txtuserID.Value = Session["InchargeID"].ToString();
             hdnUserType.Value = Session["UserTypeID"].ToString();
             hdnLoginID.Value = Session["EmailId"].ToString();

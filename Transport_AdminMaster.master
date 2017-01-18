@@ -20,7 +20,7 @@
             padding: 9px 0;
         }
     </style>
-    
+
     <link href="css/charisma-app.css" rel="stylesheet" />
     <link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
     <link href='css/fullcalendar.css' rel='stylesheet' />
@@ -131,8 +131,8 @@
                                     <li><a class="ajax-link" href="Transport_ReportDetails.aspx"><i></i><span class="hidden-tablet">Reports</span></a></li>
                                 </ul>
                             </li>
-                            <li id="liBills" runat="server"><a class="dropmenu" href="#"><i>
-                                <img src="img/Bill1.png" /></i><span class="hidden-tablet"><b> BILLS</b></span></a>
+                            <li id="liBills" runat="server" visible="false"><a class="dropmenu" href="#"><i>
+                                <img src="img/Bill1.png" /></i><span class="hidden-tablet"><b>BILLS</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Transport_GenerateBill.aspx"><i></i><span class="hidden-tablet">Generate eBill</span></a></li>
                                 </ul>

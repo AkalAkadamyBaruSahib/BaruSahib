@@ -10,6 +10,7 @@ public partial class AcademicMaster : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        int InchargeID = -1;
         if (Session["EmailId"] == null)
         {
             Response.Redirect("Default.aspx");
@@ -17,9 +18,10 @@ public partial class AcademicMaster : System.Web.UI.MasterPage
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
         }
         DataSet dsUser = new DataSet();
-        dsUser = DAL.DalAccessUtility.GetDataInDataSet(" exec USP_UserCount '" + lblUser.Text + "'");
+        dsUser = DAL.DalAccessUtility.GetDataInDataSet("exec USP_UserCount '" + InchargeID + "'");
         lblUserName.Text = dsUser.Tables[0].Rows[0]["InName"].ToString();
         lblWorkCount.Text = dsUser.Tables[1].Rows[0]["workAllot"].ToString();
         lblBillStatus.Text = dsUser.Tables[2].Rows[0]["Co"].ToString();

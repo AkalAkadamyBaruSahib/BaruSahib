@@ -150,6 +150,8 @@ public class PurchaseControler : System.Web.Services.WebService
         venInfo.VendorCity = Convert.ToInt32(vendorInfo.VendorCity);
         venInfo.BankName = vendorInfo.BankName;
         venInfo.IfscCode = vendorInfo.IfscCode;
+        venInfo.PanNumber = vendorInfo.PanNumber;
+        venInfo.TinNumber = vendorInfo.TinNumber;
         venInfo.AccountNumber = vendorInfo.AccountNumber;
         venInfo.ModifyOn = DateTime.Now;
         venInfo.ModifyBy = Convert.ToInt32(vendorInfo.ModifyBy);

@@ -36,6 +36,10 @@ public class VendorInfoDTO
 
     public string AccountNumber { get; set; }
 
+    public string PanNumber { get; set; }
+
+    public string TinNumber { get; set; }
+
 
 
     public List<VendorMaterialRelationDTO> VendorMaterialRelationDTO { get; set; }
