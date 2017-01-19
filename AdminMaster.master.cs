@@ -96,7 +96,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
         DataTable PendingCompliants = new DataTable();
 
         DateTime date = DateTime.Now.AddDays(-2);
-        PendingCompliants = DAL.DalAccessUtility.GetDataInDataSet("Select * from ComplaintTickets Where CreatedOn < '" + date + "' and Status='Assigned'").Tables[0];
+        PendingCompliants = DAL.DalAccessUtility.GetDataInDataSet("exec AutoGeneratePendingCompliantReport'" + date + "'").Tables[0];
         if (PendingCompliants != null)
         {
             FileName = "PendingCompliants" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls";
