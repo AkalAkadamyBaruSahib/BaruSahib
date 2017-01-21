@@ -153,7 +153,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             ZoneInfo += "<td style='display:none;'>1</td>";
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone:</b> " + dsSateDetails.Tables[0].Rows[i]["ZoneName"].ToString() + "</td></tr>";
             ZoneInfo += " <tr><td><b>Academy:</b> " + dsSateDetails.Tables[0].Rows[i]["AcaName"].ToString() + "</td></tr></table></td>";
-            ZoneInfo += "<td width='20%'><a href='ViewAdminWorkDetails.aspx?WAID='" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + ">" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td>";
+            ZoneInfo += "<td width='20%'><a href='ViewAdminWorkDetails.aspx?WAID='" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td>";
             ZoneInfo += "<td width='10%'><ul class='thumbnails gallery><li id='image-1' class='thumbnail'>";
             ZoneInfo += "<a  style='background:url(" + dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString() + ")'  href='" + dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString() + "'>";
             ZoneInfo += "<img class='grayscale' width='75Px' height='75PX' src='" + dsSateDetails.Tables[0].Rows[i]["ImageFilePath"].ToString() + "' ></a></li></ul></td>";
@@ -322,11 +322,11 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             }
             if (PurchaseSource == (int)TypeEnum.PurchaseSourceID.Mohali)
             {
-                ZoneInfo += "<td width='20%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr></table></td>";
+                ZoneInfo += "<td width='20%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr></table></td>";
             }
             else
             {
-                ZoneInfo += "<td width='20%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr>";
+                ZoneInfo += "<td width='20%'><table><tr><td><a href='ViewAdminWorkDetails.aspx?WAID=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>" + dsSateDetails.Tables[0].Rows[i]["WorkAllotName"].ToString() + "</a></td></tr>";
                 ZoneInfo += "<tr><td><a href='Admin_WorkAllot.aspx?WAIDExcel=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>DOWNLOAD MATERIAL DETAIL(EXCEL)</a></td></tr>";
                 ZoneInfo += "<tr><td><a href='Admin_WorkAllot.aspx?WAIDPdf=" + dsSateDetails.Tables[0].Rows[i]["WAID"].ToString() + "&PSId=" + PurchaseSource + "'>DOWNLOAD MATERIAL DETAIL(PDF)</a></td></tr></table></td>";
             }
@@ -385,7 +385,10 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
     private string GetImageURL(string path)
     {
         string newImagePath = string.Empty;
-        newImagePath = path.Substring(13);
+        if (path != string.Empty)
+        {
+            newImagePath = path.Substring(13);
+        }
         return newImagePath;
     }
 

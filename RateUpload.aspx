@@ -60,28 +60,29 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <asp:Button ID="btnloadMaterials" Text="Load" Width="60px" Height="30px" CssClass="btn btn-primary" runat="server" OnClick="btnloadMaterials_Click" />
+                                            <asp:Button ID="btnloadMaterials" Text="Load Material to Update Rate" Height="30px" CssClass="btn btn-primary" runat="server" OnClick="btnloadMaterials_Click" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" width="100%" align="left">
-                                            <asp:GridView ID="grvMaterialDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" Width="100px" ForeColor="#333333" GridLines="None" Style="text-align: left" OnRowDataBound="grvMaterialDetails_RowDataBound" OnRowDeleting="grvMaterialDetails_RowDeleting">
+                                            <asp:GridView ID="grvMaterialDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" Width="90%" ForeColor="#333333" GridLines="None" Style="text-align: left" OnRowDeleting="grvMaterialDetails_RowDeleting" OnRowDataBound="grvMaterialDetails_RowDataBound">
                                                 <Columns>
                                                     <asp:BoundField DataField="RowNumber" HeaderText="SNo" />
                                                     <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:DropDownList runat="server" ID="ddlMatType" Width="200Px" AutoPostBack="true" OnSelectedIndexChanged="ddlMatType_SelectedIndexChanged"></asp:DropDownList>
+                                                            <asp:Label ID="lblMaterialType" runat="server" Width="200Px"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:DropDownList runat="server" ID="ddlMat" Width="300Px" AutoPostBack="true" OnSelectedIndexChanged="ddlMat_SelectedIndexChanged"></asp:DropDownList>
+                                                            <asp:Label ID="lblMaterial" runat="server" Width="300Px"></asp:Label>
+                                                            <asp:HiddenField ID="hdbMatID" runat="server"></asp:HiddenField>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Unit" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Unit" ItemStyle-Width="250px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:DropDownList runat="server" ID="ddlUnit" Width="200Px" AutoPostBack="true"></asp:DropDownList>
-                                                            <%-- <asp:TextBox ID="lblUnit" runat="server" CssClass="span6 typeahead" Width="200Px"></asp:TextBox>--%>
+                                                            <asp:DropDownList ID="ddlUnit" runat="server" Width="100Px"></asp:DropDownList>
+                                                            <asp:Label runat="server" ID="lblUnit" Visible="false" Width="200Px"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Price/Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
@@ -89,7 +90,9 @@
                                                             <asp:TextBox ID="txtRate" runat="server" CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                     <asp:CommandField ShowDeleteButton="True" />
+                                                  <asp:TemplateField  ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    </asp:TemplateField>
+                                                    <asp:CommandField ShowDeleteButton="True" ControlStyle-ForeColor="Red" HeaderText="Action"  />
                                                 </Columns>
                                                 <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
                                                 <RowStyle BackColor="#EFF3FB" />
@@ -102,8 +105,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                       <td>
-                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Save" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" />
+                                        <td>
+                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" />
                                         </td>
                                     </tr>
                                 </table>

@@ -187,7 +187,8 @@ public class TypeEnum
     }
     public enum AutoGenerateReportType : int
     {
-        PendingReport = 1
+        PendingReport = 1,
+        CompliantReport =2
     }
     public enum ComplaintTicketStatus : int
     {

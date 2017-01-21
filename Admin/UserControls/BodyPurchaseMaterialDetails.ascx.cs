@@ -108,9 +108,9 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        EstInfo += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
+        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: right; width:40%;'>";
+        EstInfo += "<td style='text-align: right; width:30%;'>";
         EstInfo += "<br /><br />";
         EstInfo += "<div style='font-style:italic; text-align: right;'>";
         EstInfo += "Baru Shahib,";
@@ -122,10 +122,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='font-size:10px; margin-top:10px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "</div>";
+        EstInfo += "<div style='font-size:30px; margin-top:10px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "</div>";
         EstInfo += "<table style='width:100%; margin-top:20px;'>";
         EstInfo += "<tr>";
-        EstInfo += "<td style='padding:0px; text-align:left;font-size:10px' valign='top'>";
+        EstInfo += "<td style='padding:0px; text-align:left;font-size:15px' valign='top'>";
         EstInfo += "<p>";
         EstInfo += "Estimate No: " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "<br />";
         EstInfo += "Academy: " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
@@ -137,23 +137,23 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='width:100%; font-size:15px; font-weight:bold; text-align:center;'>Material Dispatch Details</div>";
+        EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Material Dispatch Details</div>";
         EstInfo += "<br />";
         EstInfo += "<table style='width:100%; margin-top:20px;font-size:10px' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
-        EstInfo += "<th><b>Sr. No.</b></th>";
-        EstInfo += "<th><b>Material</b></th>";
-        EstInfo += "<th><b>Source Type</b></th>";
-        EstInfo += "<th><b>Qty</b></th>";
-        EstInfo += "<th><b>Unit</b></th>";
-        EstInfo += "<th><b>Rate</b></th>";
+        EstInfo += "<th class='font-size:13px;' ><b>Sr. No.</b></th>";
+        EstInfo += "<th class='font-size:13px;width:20%'><b>Material</b></th>";
+        EstInfo += "<th class='font-size:13px;'><b>Source Type</b></th>";
+        EstInfo += "<th class='font-size:13px;'><b>Qty</b></th>";
+        EstInfo += "<th class='font-size:13px;'><b>Unit</b></th>";
+        EstInfo += "<th class='font-size:13px;'><b>Rate</b></th>";
         if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
         {
             EstInfo += "<th width='20%'><b>Purchase Officer</b></th>";
         }
-        EstInfo += "<th><b>" + HeaderText + "</b></th>";
-        EstInfo += "<th><b>Remark</b></th>";
+        EstInfo += "<th class='font-size:13px;'><b>" + HeaderText + "</b></th>";
+        EstInfo += "<th class='font-size:13px;'><b>Remark</b></th>";
         EstInfo += "</tr>";
         EstInfo += "</thead>";
         EstInfo += "<tbody>";
@@ -183,24 +183,24 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             //if (i != dsMatDetails.Tables[0].Rows.Count - 1)
             //{
             EstInfo += "<tr>";
-            EstInfo += "<td font-size:10px'>" + (i + 1) + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
+            EstInfo += "<td font-size:13px'>" + (i + 1) + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
             if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
             {
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>";
                 EstInfo += "<table>";
-                EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:5px'> <b>Name:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeName"].ToString() + " </td></tr>";
+                EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:13px'> <b>Name:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeName"].ToString() + " </td></tr>";
                 if (dsMatDetails.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() == "1/1/1900 12:00:00 AM")
                 {
-                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:5px'><b>Assigned Date:</b> </td></tr>";
+                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:13px'><b>Assigned Date:</b> </td></tr>";
                 }
                 else
                 {
-                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:5px'><b>Assigned Date:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() + "</td></tr>";
+                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:13px'><b>Assigned Date:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() + "</td></tr>";
                 }
                 EstInfo += "</table>";
                 EstInfo += "</td>";
@@ -209,20 +209,20 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             if (dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() != string.Empty && dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() == "")
             {
                 HeaderText = "Tantative Date";
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() + "</td>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() + "</td>";
             }
             else
             {
                 HeaderText = "Purchase Date";
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
             }
             if (dsMatDetails.Tables[0].Rows[i]["remarkByPurchase"].ToString() == string.Empty)
             {
-                EstInfo += "<td style='color:darkred;text-align:left;font-size:10px'> </td>";
+                EstInfo += "<td style='color:darkred;text-align:left;font-size:13px'> </td>";
             }
             else
             {
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:10px'>" + dsMatDetails.Tables[0].Rows[i]["remarkByPurchase"].ToString() + "</td>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:13px'>" + dsMatDetails.Tables[0].Rows[i]["remarkByPurchase"].ToString() + "</td>";
             }
             EstInfo += "</tr>";
         }
@@ -239,22 +239,23 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        Response.ContentType = "application/pdf";
-        Response.AddHeader("content-disposition", "attachment;filename=MaterialDispatch_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
+        //Response.ContentType = "application/pdf";
         //Response.AddHeader("content-disposition", "attachment;filename=MaterialDispatch_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
-        Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        StringWriter sw = new StringWriter();
-        HtmlTextWriter hw = new HtmlTextWriter(sw);
-        pnlPdf.RenderControl(hw);
-        StringReader sr = new StringReader(sw.ToString());
-        Document pdfDoc = new Document(PageSize.A4, 0, 0, 0, 0);
-        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        pdfDoc.Open();
-        htmlparser.Parse(sr);
-        pdfDoc.Close();
-        Response.Write(pdfDoc);
-        Response.End();
+        //Response.AddHeader("content-disposition", "attachment;filename=MaterialDispatch_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
+        Utility.GeneratePDF(pnlPdf.InnerHtml, dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf", "");
+        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        //StringWriter sw = new StringWriter();
+        //HtmlTextWriter hw = new HtmlTextWriter(sw);
+        //pnlPdf.RenderControl(hw);
+        //StringReader sr = new StringReader(sw.ToString());
+        //Document pdfDoc = new Document(PageSize.A4, 0, 0, 0, 0);
+        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        //pdfDoc.Open();
+        //htmlparser.Parse(sr);
+        //pdfDoc.Close();
+        //Response.Write(pdfDoc);
+        //Response.End();
     }
 
     private void getPurchaseMaterialsDetailsDetails(int AcaID, int PSID)

@@ -15,7 +15,7 @@
         }
     }
 
-   </script>
+</script>
 <script type="text/javascript">
     function ClientSideClick2(myButton) {
         // Client side validation
@@ -47,8 +47,13 @@
         return ret;
     }
 </script>
+
+
 <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
 <div class="box span10">
+    <asp:HiddenField ID="hdnMaterialType" runat="server" />
+    <asp:HiddenField ID="hdnMaterialID" runat="server" />
+
     <div class="box-header well" data-original-title>
         <h2><i class="icon-user"></i>Material Details for
                 <asp:Label ID="lblZoneName" runat="server"></asp:Label>
@@ -73,18 +78,22 @@
                         <asp:HiddenField runat="server" ID="txtMatID" Value='<%#Eval("MatID") %>' />
                         <asp:HiddenField runat="server" ID="hdnMatTypeID" Value='<%#Eval("MatTypeID") %>' />
                         <asp:HiddenField runat="server" ID="txtUnitID" Value='<%#Eval("UnitID") %>' />
+                        <asp:HiddenField runat="server" ID="hdnRate" Value='<%#Eval("Rate") %>' />
+
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField  DataField="MatName" HeaderText="MatName" />
+                <asp:BoundField DataField="MatName" HeaderText="MatName" />
                 <asp:BoundField DataField="UnitName" HeaderText="UnitName" />
                 <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
-                <asp:BoundField DataField="PurchaseQty" HeaderText="Purchased Qty" />
-                <asp:TemplateField HeaderText="Purchase">
+                <asp:BoundField DataField="PurchaseQty" HeaderText="Already Purchased Qty" />
+                <asp:TemplateField HeaderText="PurchaseQty">
                     <ItemTemplate>
                         <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty"></asp:TextBox>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="Rate">
+                <asp:BoundField DataField="Rate" HeaderText="EstRate" />
+
+                <asp:TemplateField HeaderText="Purchased Rate">
                     <ItemTemplate>
                         <asp:TextBox runat="server" Width="100px" ID="txtRate"></asp:TextBox>
                         <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*"
@@ -93,9 +102,9 @@
                         <asp:HiddenField runat="server" ID="hdnPurchaseQty" Value='<%#Eval("PurchaseQty") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
-                  <asp:TemplateField HeaderText="Direct Purchase">
+                <asp:TemplateField HeaderText="Direct Purchase">
                     <ItemTemplate>
-                        <asp:CheckBox ID="chkDirectPurchase" runat="server" Checked="false" Visible="false" ToolTip="Direct Purchase"/>
+                        <asp:CheckBox ID="chkDirectPurchase" runat="server" Checked="false" Visible="false" ToolTip="Direct Purchase" />
                     </ItemTemplate>
                 </asp:TemplateField>
 
@@ -103,7 +112,8 @@
                     <ItemTemplate>
                         <asp:Label runat="server" ID="txtDispatchDate" Text='<%# Eval("DispatchDate") %>' Visible="false" Style="display: none;"></asp:Label>
                         <asp:Button runat="server" ID="btnDispatch" CssClass="btn btn-primary" OnClientClick=" if (Page_ClientValidate()) { var gvcheck = document.getElementById('<%= gvMaterailDetailForPurchase.ClientID %>'); if ($('td :checkbox', gvcheck).prop('checked') == true) {if (Page_ClientValidate()) {  if (confirm('Are you sure you want to send this Material Directly?'))
-                        return true; else return false; } } }"  data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Purchase Material" CommandName="DispatchDate" CommandArgument='<%#Eval("Sno") %>' />
+                        return true; else return false; } } }"
+                            data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Purchase Material" CommandName="DispatchDate" CommandArgument='<%#Eval("Sno") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -111,49 +121,49 @@
 
         <asp:GridView runat="server" AutoGenerateColumns="false" DataKeyNames="EstId" ID="gvWorkShopMaterial"
             class="table table-striped table-bordered bootstrap-datatable datatable" Visible="false" OnRowDataBound="gvWorkShopMaterial_RowDataBound">
-           
+
             <Columns>
                 <asp:TemplateField HeaderText="SNO">
                     <ItemTemplate>
                         <%# Container.DataItemIndex+1 %>
-                         <asp:HiddenField runat="server" ID="hdnEstID" Value='<%#Eval("EstID") %>' />
+                        <asp:HiddenField runat="server" ID="hdnEstID" Value='<%#Eval("EstID") %>' />
                         <asp:HiddenField runat="server" ID="hdnMatID" Value='<%#Eval("MatID") %>' />
                         <asp:HiddenField runat="server" ID="hdnSno" Value='<%#Eval("Sno") %>' />
                         <asp:HiddenField runat="server" ID="hdnUnitID" Value='<%#Eval("UnitID") %>' />
                         <asp:HiddenField runat="server" ID="hdnDispatchQty" Value='<%#Eval("DispatchQty") %>' />
-                          <asp:HiddenField runat="server" ID="hdnInStoreQty" Value='<%#Eval("InStoreQty") %>' />
-                             <asp:HiddenField runat="server" ID="hdnQty" Value='<%#Eval("Qty") %>' />
+                        <asp:HiddenField runat="server" ID="hdnInStoreQty" Value='<%#Eval("InStoreQty") %>' />
+                        <asp:HiddenField runat="server" ID="hdnQty" Value='<%#Eval("Qty") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Material Name">
                     <ItemTemplate>
-                     <asp:Label ID="lblMatName" runat="server" Text='<%# Eval("MatName")+ "(" + Eval("UnitName") +")"%>'></asp:Label>
+                        <asp:Label ID="lblMatName" runat="server" Text='<%# Eval("MatName")+ "(" + Eval("UnitName") +")"%>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                 <asp:TemplateField HeaderText="Required Qty">
+                <asp:TemplateField HeaderText="Required Qty">
                     <ItemTemplate>
-                     <asp:Label ID="lblRequiredQty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label>
+                        <asp:Label ID="lblRequiredQty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                  <asp:TemplateField HeaderText="Rate">
+                <asp:TemplateField HeaderText="Rate">
                     <ItemTemplate>
-                   <asp:Label ID="lblRate" runat="server" Text='<%#Eval("AkalWorkshopRate") %>'></asp:Label>
+                        <asp:Label ID="lblRate" runat="server" Text='<%#Eval("AkalWorkshopRate") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                 <asp:TemplateField HeaderText="InStoreQty">
+                <asp:TemplateField HeaderText="InStoreQty">
                     <ItemTemplate>
-                      <asp:Label runat="server" Width="100px" ID="lblInStoreQty" Text='<%#Eval("InStoreQty") %>'></asp:Label>
+                        <asp:Label runat="server" Width="100px" ID="lblInStoreQty" Text='<%#Eval("InStoreQty") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                  <asp:TemplateField HeaderText="AlreadyDispatchQty">
+                <asp:TemplateField HeaderText="AlreadyDispatchQty">
                     <ItemTemplate>
-                      <asp:Label runat="server" Width="100px" ID="lblAlreadyDispatchQty" Text='<%#Eval("DispatchQty") %>'></asp:Label>
+                        <asp:Label runat="server" Width="100px" ID="lblAlreadyDispatchQty" Text='<%#Eval("DispatchQty") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                 <asp:TemplateField HeaderText="DispatchQty">
+                <asp:TemplateField HeaderText="DispatchQty">
                     <ItemTemplate>
                         <asp:TextBox runat="server" Width="100px" ID="txtDispatchQty"></asp:TextBox>
-                      </ItemTemplate>
+                    </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Dispatch Material">
                     <ItemTemplate>
@@ -163,4 +173,20 @@
             </Columns>
         </asp:GridView>
     </div>
+
+    <div id="divUpdateRate" style="display: none;width:500px" >
+        <table id="tblUpdateRate" style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Purchased rate can not greater then Estimate Rate. Please Approve your 
+                            Rate from Purchase Committee first. Click here to update rate: <a id="aRateUpdateLink" style="color: red" href="#">Update Rate Link</a></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
+

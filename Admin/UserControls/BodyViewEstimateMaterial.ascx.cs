@@ -144,6 +144,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 TextBox txtRate = (TextBox)gvRow.FindControl("txtRate");
                 TextBox txtPurchaseQty = (TextBox)gvRow.FindControl("txtPurchaseQty");
                 HiddenField hdnPurchaseQty = (HiddenField)gvRow.FindControl("hdnPurchaseQty");
+                HiddenField hdnRate = (HiddenField)gvRow.FindControl("hdnRate");
                 CheckBox chkDirectPurchase = (CheckBox)gvRow.FindControl("chkDirectPurchase");
                 if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                 {
@@ -162,6 +163,11 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 if (txtRate.Text == string.Empty)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter rate before dispatch.');", true);
+                }
+                else if (Convert.ToDecimal(txtRate.Text) > Convert.ToDecimal(hdnRate.Value))
+                {
+                     Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + ");", true);
+                   // Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "OpenUpdateRatePopUp();", true);
                 }
                 else
                 {

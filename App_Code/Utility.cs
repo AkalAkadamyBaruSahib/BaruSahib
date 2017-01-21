@@ -453,7 +453,10 @@ public static class Utility
 
         var pdfBytes = PDF.BinaryData; //(new NReco.PdfGenerator.HtmlToPdfConverter()).GeneratePdf(html);
 
-        PDF.SaveAs(folderPath + "\\" + fileName);
+        if (folderPath != string.Empty)
+        {
+            PDF.SaveAs(folderPath + "\\" + fileName);
+        }
         //FileStream fs = new FileStream(folderPath + "\\" + fileName, FileMode.OpenOrCreate);
         //fs.Write(pdfBytes, 0, pdfBytes.Length);
         //fs.Close();

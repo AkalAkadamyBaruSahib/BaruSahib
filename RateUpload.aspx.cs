@@ -9,23 +9,41 @@ using System.Web.UI.WebControls;
 public partial class RateUpload : System.Web.UI.Page
 {
     public static int UserTypeID = -1;
+
+    public int MatTypeID { get; set; }
+    public int MatID { get; set; }
+
     protected void Page_Load(object sender, EventArgs e)
     {
+
         if (!IsPostBack)
         {
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
             }
-            
+
             if (Session["UserTypeID"] != null)
             {
                 UserTypeID = int.Parse(Session["UserTypeID"].ToString());
             }
+
             BindListMaterialTypes();
+            if (Request.QueryString["MatTypeID"] != null && Request.QueryString["MatID"] != null)
+            {
+                MatTypeID = Convert.ToInt32(Request.QueryString["MatTypeID"].ToString());
+                MatID = Convert.ToInt32(Request.QueryString["MatID"].ToString());
+                lstMaterialTypes.SelectedValue = MatTypeID.ToString();
+                lstMaterialTypes_SelectedIndexChanged(lstMaterialTypes, new EventArgs());
+                lstMaterials.SelectedValue = MatID.ToString();
+
+                btnloadMaterials_Click(btnloadMaterials, new EventArgs());
+
+
+            }
         }
     }
-    
+
     private void BindListMaterialName()
     {
         DataSet dsMat = new DataSet();
@@ -78,15 +96,15 @@ public partial class RateUpload : System.Web.UI.Page
             {
                 for (int i = 1; i <= dtCurrentTable.Rows.Count; i++)
                 {
-                    DropDownList box2 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[1].FindControl("ddlMatType");
-                    DropDownList box3 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("ddlMat");
+                    Label box2 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[1].FindControl("lblMaterialType");
+                    Label box3 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("lblMaterial");
                     DropDownList box4 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[3].FindControl("ddlUnit");
                     TextBox box5 = (TextBox)grvMaterialDetails.Rows[rowIndex].Cells[4].FindControl("txtRate");
                     drCurrentRow = dtCurrentTable.NewRow();
                     drCurrentRow["RowNumber"] = i + 1;
 
-                    dtCurrentTable.Rows[i - 1]["Col1"] = box2.SelectedValue;
-                    dtCurrentTable.Rows[i - 1]["Col2"] = box3.SelectedValue;
+                    dtCurrentTable.Rows[i - 1]["Col1"] = box2.Text;
+                    dtCurrentTable.Rows[i - 1]["Col2"] = box3.Text;
                     dtCurrentTable.Rows[i - 1]["Col3"] = box4.SelectedValue;
                     dtCurrentTable.Rows[i - 1]["Col4"] = box5.Text;
                     rowIndex++;
@@ -115,15 +133,14 @@ public partial class RateUpload : System.Web.UI.Page
             {
                 for (int i = 0; i < grvMaterialDetails.Rows.Count; i++)
                 {
-                    DropDownList box2 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[1].FindControl("ddlMatType");
-                    DropDownList box3 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("ddlMat");
+                    Label box2 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[1].FindControl("lblMaterialType");
+                    Label box3 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("lblMaterial");
                     DropDownList box4 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[3].FindControl("ddlUnit");
                     TextBox box5 = (TextBox)grvMaterialDetails.Rows[rowIndex].Cells[4].FindControl("txtRate");
-                  
 
-                    box2.SelectedValue = dt.Rows[i]["Col1"].ToString();
-                     BindMaterialTypes(box2, box3);
-                    box3.SelectedIndex = box3.Items.IndexOf(box3.Items.FindByValue(dt.Rows[i]["Col2"].ToString().Trim()));
+
+                    box2.Text = dt.Rows[i]["Col1"].ToString();
+                    box3.Text = dt.Rows[i]["Col2"].ToString().Trim();
                     BindUnit(box3, box4);
                     box4.SelectedIndex = box4.Items.IndexOf(box4.Items.FindByValue(dt.Rows[i]["Col3"].ToString().Trim()));
                     box5.Text = dt.Rows[i]["Col4"].ToString();
@@ -169,8 +186,8 @@ public partial class RateUpload : System.Web.UI.Page
 
         for (int i = 0; i < grvMaterialDetails.Rows.Count; i++)
         {
-            DropDownList box2 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("ddlMatType");
-            DropDownList box3 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[3].FindControl("ddlMat");
+            Label box2 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("lblMaterialType");
+            Label box3 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[3].FindControl("lblMaterial");
             DropDownList box4 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[5].FindControl("ddlUnit");
             TextBox box5 = (TextBox)grvMaterialDetails.Rows[rowIndex].Cells[6].FindControl("txtRate");
 
@@ -178,9 +195,9 @@ public partial class RateUpload : System.Web.UI.Page
             DataRow dr = null;
             dr = dt.NewRow();
             dr["RowNumber"] = rowIndex + 1;
-            dr["Col1"] = box2.SelectedIndex;
-            dr["Col2"] = box3.SelectedIndex;
-            dr["Col3"] = box4.SelectedIndex;
+            dr["Col1"] = box2.Text;
+            dr["Col2"] = box3.Text;
+            dr["Col3"] = box4.SelectedValue;
             dr["Col4"] = box5.Text;
             dt.Rows.Add(dr);
             rowIndex++;
@@ -189,65 +206,10 @@ public partial class RateUpload : System.Web.UI.Page
         dt = null;
     }
 
-    protected void grvMaterialDetails_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            DropDownList ddlMateType = (DropDownList)e.Row.FindControl("ddlMatType");
-            DataSet dsMatType = new DataSet();
-
-            dsMatType = ViewState["dsMatType"] as DataSet;
-            if (dsMatType == null)
-            {
-                dsMatType = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 and MatTypeName<>'OTHERS'");
-                ViewState["dsMatType"] = dsMatType;
-            }
-            ddlMateType.DataSource = dsMatType;
-            ddlMateType.DataValueField = "MatTypeId";
-            ddlMateType.DataTextField = "MatTypeName";
-            ddlMateType.DataBind();
-            ddlMateType.Items.Insert(0, "Material Type");
-            ddlMateType.SelectedIndex = 0;
-        }
-
-    }
-
-    protected void ddlMatType_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
-        DropDownList ddlMateType = (DropDownList)row.FindControl("ddlMatType");
-        DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMat");
-        BindMaterialTypes(ddlMateType, ddlMaterail);
-    }
-
-    protected void ddlMat_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        GridViewRow row = (GridViewRow)((DropDownList)sender).Parent.Parent;
-        DropDownList ddlMaterail = (DropDownList)row.FindControl("ddlMat");
-        DropDownList ddlUnit = (DropDownList)row.FindControl("ddlUnit");
-        TextBox Rate = (TextBox)row.FindControl("txtRate");
-
-        DataSet dsMatRate = new DataSet();
-        dsMatRate = DAL.DalAccessUtility.GetDataInDataSet("Select MatCost from Material where MatId ='" + ddlMaterail.SelectedValue + "'");
-        Rate.Text = dsMatRate.Tables[0].Rows[0]["MatCost"].ToString();
-        BindUnit(ddlMaterail, ddlUnit);
-   }
-
-    public void BindUnit(DropDownList Materrial, DropDownList Unit)
-    {
-        DataSet dsMat = new DataSet();
-        dsMat = DAL.DalAccessUtility.GetDataInDataSet("select distinct U.UnitName,U.UnitId from Unit U inner join  Material M  on M.UnitId = U.UnitId");
-        Unit.DataSource = dsMat;
-        Unit.DataValueField = "UnitId";
-        Unit.DataTextField = "UnitName";
-        Unit.DataBind();
-    }
-
     private void SetDefaultMaterialTypes()
     {
-        DataTable dtCurrentTable = (DataTable)ViewState["CurrentTable"];
-        DropDownList ddlMatType = null;
-        DropDownList ddlMat = null;
+        Label ddlMatType = null;
+        Label ddlMat = null;
         DropDownList ddlUnit = null;
         string values = String.Join(", ", lstMaterials.Items.Cast<ListItem>()
                                                  .Where(i => i.Selected)
@@ -267,26 +229,25 @@ public partial class RateUpload : System.Web.UI.Page
                 AddNewRow();
             }
 
-            ddlMatType = new DropDownList();
-            ddlMat = new DropDownList();
-            ddlMatType = (DropDownList)grvMaterialDetails.Rows[indexValue].Cells[2].FindControl("ddlMatType");
-            ddlMat = (DropDownList)grvMaterialDetails.Rows[indexValue].Cells[3].FindControl("ddlMat");
+            ddlMatType = new Label();
+            ddlMat = new Label();
+            ddlMatType = (Label)grvMaterialDetails.Rows[indexValue].Cells[2].FindControl("lblMaterialType");
+            ddlMat = (Label)grvMaterialDetails.Rows[indexValue].Cells[3].FindControl("lblMaterial");
             ddlUnit = (DropDownList)grvMaterialDetails.Rows[indexValue].Cells[4].FindControl("ddlUnit");
 
             DataSet dsMat = new DataSet();
-            dsMat = DAL.DalAccessUtility.GetDataInDataSet("select mt.MatTypeId from Material m inner join MaterialType mt on mt.MatTypeId = m.MatTypeId where m.MatId = " + IDs[i] + "");
+            dsMat = DAL.DalAccessUtility.GetDataInDataSet("select mt.MatTypeName,m.MatName from Material m inner join MaterialType mt on mt.MatTypeId = m.MatTypeId where m.MatId = " + IDs[i] + "");
 
-            ddlMatType.ClearSelection();
-            ddlMatType.Items.FindByValue(dsMat.Tables[0].Rows[0]["MatTypeId"].ToString()).Selected = true;
-            ddlMatType_SelectedIndexChanged(ddlMatType, new EventArgs());
+            ddlMatType.Text = dsMat.Tables[0].Rows[0]["MatTypeName"].ToString();
+            ddlMat.Text = dsMat.Tables[0].Rows[0]["MatName"].ToString();
 
-            ddlMat.ClearSelection();
-            ddlMat.Items.FindByValue(IDs[i].Trim().ToString()).Selected = true;
-            ddlMat_SelectedIndexChanged(ddlMat, new EventArgs());
+            //DataSet dsUMat = new DataSet();
+            //dsUMat = DAL.DalAccessUtility.GetDataInDataSet("select U.UnitName from Unit U Inner Join Material M On U.UnitID = M.UnitID where M.Matid = '" + IDs[i] + "'");
+            //ddlUnit.Text = dsUMat.Tables[0].Rows[0]["UnitName"].ToString();
 
             ddlUnit.ClearSelection();
             DataSet dsUMat = new DataSet();
-            dsUMat = DAL.DalAccessUtility.GetDataInDataSet("select Matid,UnitId from Material where Matid = '" + ddlMat.SelectedValue + "'");
+            dsUMat = DAL.DalAccessUtility.GetDataInDataSet("select Matid,UnitId from Material where Matid = '" + IDs[i] + "'");
             ddlUnit.ClearSelection();
             ddlUnit.Items.FindByValue(dsUMat.Tables[0].Rows[0]["UnitId"].ToString()).Selected = true;
 
@@ -321,12 +282,9 @@ public partial class RateUpload : System.Web.UI.Page
         bool sflag = true;
         foreach (GridViewRow row in grvMaterialDetails.Rows)
         {
-            DropDownList ddlMatType = (DropDownList)row.FindControl("ddlMatType");
-            DropDownList ddlMat = (DropDownList)row.FindControl("ddlMat");
-            DropDownList ddlUnit = (DropDownList)row.FindControl("ddlUnit");
             TextBox txtRate = (TextBox)row.FindControl("txtRate");
 
-            if (ddlMatType.SelectedValue == "Material Type" || ddlMat.SelectedValue == "Material" || txtRate.Text == "" || ddlUnit.SelectedValue == "")
+            if (txtRate.Text == "")
             {
                 sflag = false;
                 break;
@@ -349,29 +307,34 @@ public partial class RateUpload : System.Web.UI.Page
         {
             material = new Material();
 
-            DropDownList ddlmt = (DropDownList)gvrow.FindControl("ddlMatType");
-            DropDownList ddlma = (DropDownList)gvrow.FindControl("ddlMat");
+            Label ddlmt = (Label)gvrow.FindControl("lblMaterialType");
+            Label ddlma = (Label)gvrow.FindControl("lblMaterial");
             DropDownList ddlunit = (DropDownList)gvrow.FindControl("ddlUnit");
             TextBox txtra = (TextBox)gvrow.FindControl("txtRate");
 
             Unit = ddlunit.SelectedValue;
-            Material = ddlma.SelectedValue;
-            MaterialType = ddlmt.SelectedValue;
+            Material = ddlma.Text;
+            MaterialType = ddlmt.Text;
 
             Rate = txtra.Text;
 
             materialnonapprovedrate = new MaterialNonApprovedRate();
-            Material = ddlma.SelectedValue;
+            Material = ddlma.Text;
             Rate = txtra.Text;
-            materialnonapprovedrate.MatID = int.Parse(Material);
-            materialnonapprovedrate.Rate = decimal.Parse(Rate);
-            materialnonapprovedrate.CreatedBy = InchargeID;
-            materialnonapprovedrate.CreatedOn = DateTime.Now;
-            DAL.DalAccessUtility.ExecuteNonQuery("Update Material set IsRateApproved= 0 where MatId = '" + Material + "'");
-            ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
-            repo.SaveMaterial(materialnonapprovedrate);
-         }
-       
+            if (Rate != "")
+            {
+                DataTable dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select MatID from Material  where MatName = '" + Material + "'").Tables[0];
+
+                materialnonapprovedrate.MatID = int.Parse(dsMat.Rows[0]["MatID"].ToString());
+                materialnonapprovedrate.Rate = decimal.Parse(Rate);
+                materialnonapprovedrate.CreatedBy = InchargeID;
+                materialnonapprovedrate.CreatedOn = DateTime.Now;
+                DAL.DalAccessUtility.ExecuteNonQuery("Update Material set UnitID='" + Unit + "' IsRateApproved= 0 where MatName = '" + Material + "'");
+                ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
+                repo.SaveMaterial(materialnonapprovedrate);
+            }
+        }
+
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Rate Upload Successfully.');", true);
 
         grvMaterialDetails.DataSource = null;
@@ -416,15 +379,15 @@ public partial class RateUpload : System.Web.UI.Page
             {
                 for (int i = 1; i <= dtCurrentTable.Rows.Count; i++)
                 {
-                    DropDownList box2 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("ddlMatType");
-                    DropDownList box3 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[3].FindControl("ddlMat");
+                    Label box2 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[2].FindControl("lblMaterialType");
+                    Label box3 = (Label)grvMaterialDetails.Rows[rowIndex].Cells[3].FindControl("lblMaterial");
                     DropDownList box4 = (DropDownList)grvMaterialDetails.Rows[rowIndex].Cells[4].FindControl("ddlUnit");
                     TextBox box5 = (TextBox)grvMaterialDetails.Rows[rowIndex].Cells[5].FindControl("txtRate");
-                  drCurrentRow = dtCurrentTable.NewRow();
+                    drCurrentRow = dtCurrentTable.NewRow();
                     drCurrentRow["RowNumber"] = i + 1;
 
-                    dtCurrentTable.Rows[i - 1]["Col1"] = box2.SelectedValue;
-                    dtCurrentTable.Rows[i - 1]["Col2"] = box3.SelectedValue;
+                    dtCurrentTable.Rows[i - 1]["Col1"] = box2.Text;
+                    dtCurrentTable.Rows[i - 1]["Col2"] = box3.Text;
                     dtCurrentTable.Rows[i - 1]["Col3"] = box4.SelectedValue;
                     dtCurrentTable.Rows[i - 1]["Col4"] = box5.Text;
                     rowIndex++;
@@ -436,6 +399,34 @@ public partial class RateUpload : System.Web.UI.Page
         {
             Response.Write("ViewState is null");
         }
-      
+
+    }
+
+
+    protected void grvMaterialDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            DropDownList ddlUnit = (DropDownList)e.Row.FindControl("ddlUnit");
+
+            DataTable dsUnit = DAL.DalAccessUtility.GetDataInDataSet("select UnitId,UnitName from Unit where Active=1").Tables[0];
+            if (dsUnit != null && dsUnit.Rows.Count > 0)
+            {
+                ddlUnit.DataSource = dsUnit;
+                ddlUnit.DataValueField = "UnitId";
+                ddlUnit.DataTextField = "UnitName";
+                ddlUnit.DataBind();
+            }
+        }
+    }
+
+    public void BindUnit(Label Material, DropDownList Unit)
+    {
+        DataSet dsMat = new DataSet();
+        dsMat = DAL.DalAccessUtility.GetDataInDataSet("select distinct U.UnitName,U.UnitId from Unit U inner join  Material M  on M.UnitId = U.UnitId");
+        Unit.DataSource = dsMat;
+        Unit.DataValueField = "UnitId";
+        Unit.DataTextField = "UnitName";
+        Unit.DataBind();
     }
 }

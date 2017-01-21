@@ -71,14 +71,14 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         string EstInfo = string.Empty;
         decimal GrandTotal = 0;
         EstInfo += "<div style='width:100%; margin:20px; font-family:Calibri;'>";
-        EstInfo += "<table style='width:100%;'>";
+        EstInfo += "<table style='width:100%;' border='0' >";
         EstInfo += "<tr>";
-        EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        EstInfo += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
+        EstInfo += "<td style='padding:0px; text-align:left; width:30%' valign='top'>";
+        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: right; width:40%;'>";
+        EstInfo += "<td style='text-align: right;'>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='font-style:italic; text-align: right;'>";
+        EstInfo += "<div style='font-style:italic; text-align: right; float: right; margin-right: 10px;'>";
         EstInfo += "Baru Shahib,";
         EstInfo += "<br />Dist: Sirmaur";
         EstInfo += "<br />Himachal Pradesh-173001";
@@ -88,33 +88,30 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='font-size:25px; margin-top:20px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["WorkAllotName"].ToString() + "</div>";
-        EstInfo += "<table style='width:100%; margin-top:20px;'>";
+        EstInfo += "<div style='font-size:30px; margin-top:20px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["WorkAllotName"].ToString() + "</div>";
+        EstInfo += "<table style='width:100%; margin-top:20px;' border='0'>";
         EstInfo += "<tr>";
-        EstInfo += "<td style='padding:0px; text-align:left;' valign='top'>";
-        EstInfo += "<p>";
-        EstInfo += "Estimate No: " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "<br />";
-        EstInfo += "Zone:" + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "<br />";
-        EstInfo += "Estimate Title: " + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "<br />";
-        EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
-        EstInfo += "</p>";
+        EstInfo += "<td style='padding:0px; text-align:left;font-size:15px' valign='top'>";
+        EstInfo += "Estimate No: <b> " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "</b><br />";
+        EstInfo += "Zone: <b>" + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "</b><br />";
+        EstInfo += "Estimate Title:<b> " + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "</b><br />";
+        EstInfo += "Sanction Date:<b> " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() + "</b>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: right;'>";
-        EstInfo += "<p style='text-align: right;'>";
-        EstInfo += "Academy: " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
-        EstInfo += "Type of Work: " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "<br />";
-        EstInfo += "Estimate Cost: " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString();
-        EstInfo += "</p>";
+        EstInfo += "<td style='text-align: right; float: right; margin-right: 20px;'>";
+        EstInfo += "Academy:<b> " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "</b><br />";
+        EstInfo += "Type of Work:<b> " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "</b><br />";
+        EstInfo += "Estimate Cost: <b> " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString() + "</b>";
         EstInfo += "</td>";
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Purchase Details Assigned to " + lblUser.Text + "</div>";
         EstInfo += "<br />";
-        EstInfo += "<table style='width:100%; margin-top:20px;' border='1'>";
+        EstInfo += "<table style='width:100%; margin-top:20px;font-size:13px;border-color:black' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
-        EstInfo += "<th>Material</th>";
+        EstInfo += "<th>Sr.No</th>";
+        EstInfo += "<th>Material Name</th>";
         EstInfo += "<th>Source Type</th>";
         EstInfo += "<th>EstQty</th>";
         EstInfo += "<th>PurchaseQty</th>";
@@ -127,6 +124,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         {
 
             EstInfo += "<tr>";
+            EstInfo += "<td>" + (i + 1) + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
@@ -155,21 +153,23 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        Response.ContentType = "application/pdf";
-        Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
-        Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        StringWriter sw = new StringWriter();
-        HtmlTextWriter hw = new HtmlTextWriter(sw);
-        pnlPdf.RenderControl(hw);
-        StringReader sr = new StringReader(sw.ToString());
-        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 50f, 10f);
-        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        pdfDoc.Open();
-        htmlparser.Parse(sr);
-        pdfDoc.Close();
-        Response.Write(pdfDoc);
-        Response.End();
+        //Response.ContentType = "application/pdf";
+        //Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
+        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        //StringWriter sw = new StringWriter();
+        //HtmlTextWriter hw = new HtmlTextWriter(sw);
+        //pnlPdf.RenderControl(hw);
+        //StringReader sr = new StringReader(sw.ToString());
+        //Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 50f, 10f);
+        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        //pdfDoc.Open();
+        //htmlparser.Parse(sr);
+        //pdfDoc.Close();
+        //Response.Write(pdfDoc);
+        //Response.End();
+
+        Utility.GeneratePDF(pnlPdf.InnerHtml, dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf", string.Empty);
     }
 
     private void GetEstimateDetailsByClick(string id)

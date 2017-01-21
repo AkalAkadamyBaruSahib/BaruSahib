@@ -76,9 +76,16 @@
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
+                                                     <asp:TemplateField HeaderText="New Rate By" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblNewRateCreatedBy" runat="server" Text='<%# Eval("InName") %>' CssClass="span6 typeahead" Width="200Px"></asp:Label>
+                                                        </ItemTemplate>
+                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Action" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="btn_Approved" Text="Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" />
+                                                            <asp:Button ID="btn_Approved" Text="Rate Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
