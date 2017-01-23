@@ -36,6 +36,7 @@
                         <asp:UpdatePanel ID="updpanel2" runat="server">
                             <ContentTemplate>
                                 <table style="width: 100%" border="0">
+                                     <asp:Label ID="lblUser" Visible="false" runat="server"></asp:Label>
                                     <tr>
                                         <td width="50%">
                                             <div class="control-group">
@@ -71,12 +72,13 @@
                                                     <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblMaterialType" runat="server" Width="200Px"></asp:Label>
+                                                            <asp:HiddenField ID="hdnMatType" runat="server" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblMaterial" runat="server" Width="300Px"></asp:Label>
-                                                            <asp:HiddenField ID="hdbMatID" runat="server"></asp:HiddenField>
+                                                            <asp:HiddenField ID="hdnMatID" runat="server"></asp:HiddenField>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Unit" ItemStyle-Width="250px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">

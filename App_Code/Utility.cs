@@ -34,9 +34,13 @@ public static class Utility
         mail.Subject = subject;
 
         mail.Body = body;
-        foreach (Attachment att in attachments)
+        if (attachments != null)
         {
-            mail.Attachments.Add(att);
+            foreach (Attachment att in attachments)
+            {
+                mail.Attachments.Add(att);
+            }
+
         }
 
         mail.IsBodyHtml = true;
@@ -529,6 +533,11 @@ public static class Utility
         attachments.Add(att);
 
         SendEmail(to, cc, body, attachments, subject);
+    }
+
+    public static void SendEmailWithoutAttachments(string to, string cc, string body, string subject)
+    {
+        SendEmail(to, cc, body, null, subject);
     }
 
     public static VehicleAPIData[] getDataFromAPI(string startDate, string endDate, string vehicleNumber)

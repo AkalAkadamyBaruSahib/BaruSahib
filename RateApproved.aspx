@@ -38,7 +38,7 @@
                                       <asp:Label ID="lblUser" Visible="false" runat="server"></asp:Label>
                                     <tr>
                                         <td width="100%" align="left">
-                                            <asp:GridView ID="grvNonApprovedRateDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" Width="100px" ForeColor="#333333" GridLines="None" Style="text-align: left">
+                                            <asp:GridView ID="grvNonApprovedRateDetails" runat="server" Width="100%" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4"  ForeColor="#333333" GridLines="None" Style="text-align: left">
                                                 <Columns>
                                                     <%--  <asp:BoundField DataField="RowNumber" HeaderText="SNo" />--%>
                                                     <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
