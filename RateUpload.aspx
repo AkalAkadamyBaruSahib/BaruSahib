@@ -54,7 +54,7 @@
                                                 <div class="controls">
                                                     Select Material Items
                                                     <br />
-                                                    <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" SelectionMode="Multiple" runat="server"></asp:ListBox>
+                                                    <asp:ListBox ID="lstMaterials" Height="150px" Width="400px" runat="server"></asp:ListBox>
                                                 </div>
                                             </div>
                                         </td>
@@ -108,7 +108,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" />
+                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" OnClientClick="ClientSideClick(this)"  UseSubmitBehavior="false"/>
                                         </td>
                                     </tr>
                                 </table>

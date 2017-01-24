@@ -1,6 +1,6 @@
 ﻿var d = new Date();
 var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() ;
-
+var grdMatDiscription;
 $(document).ready(function () {
 
     //AutofillMaterialSearchBox();
@@ -8,8 +8,8 @@ $(document).ready(function () {
     BindState();
     $("input[id*='btnSave']").click(function (e) {
         if (Page_ClientValidate("vendor")) {
-            SaveVendor();
-        }
+            ValidationDuplicateVendor();
+         }
     });
    
     $("input[id*='btnadd']").click(function (e) {
@@ -122,11 +122,8 @@ function RejectMaterialItems() {
 }
 
 function SaveVendor() {
-  
-        var params = new Object();
-
+      var params = new Object();
         var VendorInfo = new Object();
-
         VendorInfo.ID = 0;
         VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
         VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
@@ -220,7 +217,7 @@ function LoadActiveVendorInfo() {
                     }
                   
                     var $newRow = $("#rowTemplate").clone();
-                    $newRow.find("#vendorName").html(adminLoanList[i].VendorName);
+                    $newRow.find("#vendorName").html("<table><tr><td><a href='#' onclick='GetAgencyMaterialDetail(" + adminLoanList[i].ID + ")'>" + adminLoanList[i].VendorName + "</a></td></tr></table>");
                     $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><tr><td><b>State:</b> " + adminLoanList[i].VendorState + "</td></tr><tr><td><b>City:</b> " + adminLoanList[i].VendorCity + "</td></tr><tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
                     $newRow.find("#contactNo").html(adminLoanList[i].VendorContactNo);
                     $newRow.find("#status").html("<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>");
@@ -537,3 +534,98 @@ function AutofillVendorInfoSearchBox() {
     });
 }
 
+function ValidationDuplicateVendor() {
+    var vendorName = $("input[id*='txtVendorName']").val();
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetDuplicateVendor",
+        data: JSON.stringify({ VendorName: vendorName }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+                    alert("Vendor Name already exits");
+                    return false;
+                }
+                else {
+                    SaveVendor();
+                }
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+
+function GetAgencyMaterialDetail(vendorID) {
+
+
+    $("input[id*='hdnVendormaterialID']").val(vendorID);
+    /*create/distroy grid for the new search*/
+    if (typeof grdMatDiscription != 'undefined') {
+        grdMatDiscription.fnClearTable();
+    }
+
+    var rowCount = $('#grdMatDiscription').find("#vendorTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#vendorTemplate").remove();
+    }
+
+    var rowTemplate = '<tr id="vendorTemplate"><td id="billNo"></td><td id="agencyname"></td><td id="workallotname"></td><td id="matname"></td><td id="totalamount"></td><td id="createdby"></td><td id="createdon"></td></tr>';
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetAgencyMaterialDetails",
+        data: JSON.stringify({ VendorID: vendorID }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#agencymaterialtable").append(rowTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+
+                    var $newRow = $("#vendorTemplate").clone();
+                    $newRow.find("#billNo").html(adminLoanList[i].SubBillId);
+                    $newRow.find("#agencyname").html(adminLoanList[i].VendorName);
+                    $newRow.find("#workallotname").html(adminLoanList[i].WorkAllotName);
+                    $newRow.find("#matname").html(adminLoanList[i].MatName);
+                    $newRow.find("#totalamount").html(adminLoanList[i].TotalAmount);
+                    $newRow.find("#createdby").html(adminLoanList[i].InName);
+                    $newRow.find("#createdon").html(getJsonDate(adminLoanList[i].CreatedOn));
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#vendorTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdMatDiscription > tbody");
+                    }
+
+                }
+                grdMatDiscription = $('#grdMatDiscription').DataTable();
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+
+    $("#divVendorMaterial").modal('show');
+}
+function getJsonDate(strDate) {
+    var displayDate = "";
+    if (strDate != null) {
+        var date = new Date(parseInt(strDate.substr(6)));
+        // format display date (e.g. 04/10/2012)
+        displayDate = $.datepicker.formatDate("mm/dd/yy", date);
+    }
+    return displayDate;
+}

@@ -449,4 +449,18 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetActiveVendor();
     }
+
+    [WebMethod]
+    public List<VendorInfo> GetDuplicateVendor(string VendorName)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetDuplicateVendor(VendorName);
+    }
+
+    [WebMethod]
+    public List<GetBillDetailsByVendorID> GetAgencyMaterialDetails(int VendorID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetAgencyMaterialDetails(VendorID);
+    }
 }

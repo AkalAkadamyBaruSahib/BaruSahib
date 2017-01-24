@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using AkalAcademy;
@@ -212,7 +213,7 @@ public class PurchaseRepository
             vendorDTO.VendorCity = v.VendorCity.ToString();
             vendorDTO.VendorZip = v.VendorZip;
             vendorDTO.Active = v.Active;
-            vendorDTO.ModifyBy =  v.ModifyBy.ToString();
+            vendorDTO.ModifyBy = v.ModifyBy.ToString();
             vendorDTO.ModifyOn = v.ModifyOn.ToString();
             vendorDTO.CreatedOn = v.CreatedOn.ToString();
             vendorDTO.BankName = v.BankName;
@@ -628,7 +629,7 @@ public class PurchaseRepository
         //   .Include(x => x.EstimateAndMaterialOthersRelations)
         //   .OrderByDescending(e => e.ModifyOn).ToList();
         //return ests;
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.IsReceived == false)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -636,7 +637,7 @@ public class PurchaseRepository
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.DispatchStatus != 1)
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
@@ -655,52 +656,52 @@ public class PurchaseRepository
 
     public List<Estimate> EstimateViewForWorkshopPurchase(int PSID, int UserTypeID, int InchargeID, int PurchaseEmpID)
     {
-       DateTime dt1 = DateTime.Now.AddDays(-60);
-       var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
-            .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+        DateTime dt1 = DateTime.Now.AddDays(-60);
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
+             .Include(z => z.Zone)
+             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
-       List<Estimate> estimates = new List<Estimate>();
-       if (PurchaseEmpID == 0)
-       {
-           foreach (Estimate e in ests)
-           {
-               var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID == 0)
-                   .Include(m => m.Material)
-                   .Include(u => u.Unit)
-                   .Include(i => i.Incharge)
-                   .Include(p => p.PurchaseSource).ToList();
+        List<Estimate> estimates = new List<Estimate>();
+        if (PurchaseEmpID == 0)
+        {
+            foreach (Estimate e in ests)
+            {
+                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID == 0)
+                    .Include(m => m.Material)
+                    .Include(u => u.Unit)
+                    .Include(i => i.Incharge)
+                    .Include(p => p.PurchaseSource).ToList();
 
-               e.SanctionDate = e.ModifyOn;
+                e.SanctionDate = e.ModifyOn;
 
-               if (estimateRelation.Count > 0)
-               {
-                   e.EstimateAndMaterialOthersRelations = estimateRelation;
-                   estimates.Add(e);
-               }
-           }
-       }
-       else
-       {
-           foreach (Estimate e in ests)
-           {
-               var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID != 0)
-                   .Include(m => m.Material)
-                   .Include(u => u.Unit)
-                   .Include(i => i.Incharge)
-                   .Include(p => p.PurchaseSource).ToList();
+                if (estimateRelation.Count > 0)
+                {
+                    e.EstimateAndMaterialOthersRelations = estimateRelation;
+                    estimates.Add(e);
+                }
+            }
+        }
+        else
+        {
+            foreach (Estimate e in ests)
+            {
+                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID != 0)
+                    .Include(m => m.Material)
+                    .Include(u => u.Unit)
+                    .Include(i => i.Incharge)
+                    .Include(p => p.PurchaseSource).ToList();
 
-               e.SanctionDate = e.ModifyOn;
+                e.SanctionDate = e.ModifyOn;
 
-               if (estimateRelation.Count > 0)
-               {
-                   e.EstimateAndMaterialOthersRelations = estimateRelation;
-                   estimates.Add(e);
-               }
-           }
-       }
-       ests = null;
-       return estimates;
+                if (estimateRelation.Count > 0)
+                {
+                    e.EstimateAndMaterialOthersRelations = estimateRelation;
+                    estimates.Add(e);
+                }
+            }
+        }
+        ests = null;
+        return estimates;
     }
 
     public List<Estimate> EstimateViewForWorkshopPurchaseByAcaID(int PSID, int UserTypeID, int InchargeID, int AcaID, int PurchaseEmpID)
@@ -759,7 +760,7 @@ public class PurchaseRepository
 
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.IsReceived==false)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -879,7 +880,7 @@ public class PurchaseRepository
     {
         DateTime dt1 = DateTime.Now.AddDays(-180);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID && e.ModifyOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID && e.ModifyOn >= dt1 && e.IsReceived == false)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -887,7 +888,7 @@ public class PurchaseRepository
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.DispatchStatus != 1)
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
@@ -908,7 +909,7 @@ public class PurchaseRepository
     {
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID && e.IsReceived == false)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 
@@ -1297,5 +1298,36 @@ public class PurchaseRepository
             ID = x.ID,
             VendorName = x.VendorName.Trim(),
         }).OrderByDescending(m => m.VendorName).Reverse().ToList();
+    }
+
+    public List<VendorInfo> GetDuplicateVendor(string VendorName)
+    {
+        return _context.VendorInfo.Where(x => x.VendorName == VendorName).ToList();
+    }
+
+    public List<GetBillDetailsByVendorID> GetAgencyMaterialDetails(int VendorID)
+    {
+        Hashtable param = new Hashtable();
+        param.Add("VendorID", VendorID);
+
+        SqlDataReader reader = DAL.DalAccessUtility.GetDataInDataReader("GetBillDetailsByVendorID", param);
+        List<GetBillDetailsByVendorID> getBillDetailsByVendorIDs = new List<GetBillDetailsByVendorID>();
+
+        GetBillDetailsByVendorID getBillDetailsByVendorID = null;
+        while (reader.Read())
+        {
+            getBillDetailsByVendorID = new GetBillDetailsByVendorID();
+            getBillDetailsByVendorID.VendorName = (string)reader["VendorName"];
+            getBillDetailsByVendorID.SubBillId = (int)reader["SubBillId"];
+            getBillDetailsByVendorID.WorkAllotName = (string)reader["WorkAllotName"];
+            getBillDetailsByVendorID.TotalAmount = (decimal)reader["TotalAmount"];
+            getBillDetailsByVendorID.MatName = (string)reader["MatName"];
+            getBillDetailsByVendorID.InName = (string)reader["InName"];
+            getBillDetailsByVendorID.CreatedOn = (DateTime)reader["CreatedOn"];
+            getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
+        }
+        reader.Close();
+
+        return getBillDetailsByVendorIDs;
     }
 }

@@ -23,6 +23,7 @@
     <asp:HiddenField ID="hdnVendorID" runat="server" />
     <asp:HiddenField ID="hdnmaterialid" runat="server" />
     <asp:HiddenField ID="hdnInchargeID" runat="server" />
+    <asp:HiddenField ID="hdnVendormaterialID" runat="server" />
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
@@ -220,7 +221,7 @@
                     <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                 </div>
             </div>
-            <div class="box-content" >
+            <div class="box-content">
                 <div id="divMatDetails">
                     <div id="divVendorDetails">
                         <table>
@@ -253,4 +254,30 @@
 
     </div>
 
+    <div class="modal hide fade" style="width: 900px; height: 300px;" id="divVendorMaterial">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Agency Material Details</h3>
+        </div>
+        <div class="modal-body">
+            <table id="grdMatDiscription" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                <thead>
+                    <tr>
+                        <th>Bill No</th>
+                        <th>Agency Name</th>
+                        <th>Work Allot Name</th>
+                        <th>Mat Name</th>
+                        <th>Total Amount</th>
+                         <th>Created By</th>
+                         <th>Created On</th>
+                     </tr>
+                </thead>
+                <tbody id="agencymaterialtable">
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <input id="btnclose" value="Close" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
+        </div>
+    </div>
 </div>

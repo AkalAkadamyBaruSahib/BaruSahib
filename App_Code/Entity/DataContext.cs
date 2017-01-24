@@ -73,6 +73,8 @@ namespace AkalAcademy
         public DbSet<DieselPetrolPrice> DieselPetrolPrice { get; set; }
         public DbSet<VendorBillInformation> VendorBillInformation { get; set; }
         public DbSet<view_BillSubmitedDetails> view_BillSubmitedDetails { get; set; }
+        public DbSet<SubmitBillByUser> SubmitBillByUser { get; set; }
+        public DbSet<SubmitBillByUserAndMaterialOthersRelation> SubmitBillByUserAndMaterialOthersRelation { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

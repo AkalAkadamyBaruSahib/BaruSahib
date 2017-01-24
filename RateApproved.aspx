@@ -17,6 +17,7 @@
                 myButton.value = "Please Wait...";
             }
             return true;
+      
         }
     </script>
     <div id="content" class="span10">
@@ -85,7 +86,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Action" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="btn_Approved" Text="Rate Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" />
+                                                            <asp:Button ID="btn_Approved" Text="Rate Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)"  UseSubmitBehavior="false"/>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
@@ -111,5 +112,19 @@
             </div>
         </div>
     </div>
+
+    <div style="display: none" id="progress">
+    <table style="text-align: center">
+        <tr>
+            <td style="text-align: center">
+                <img src="img/animated.gif" />
+            </td>
+        </tr>
+        <tr>
+            <td>Wait while estimate is uploading....
+            </td>
+        </tr>
+    </table>
+</div>
 </asp:Content>
 

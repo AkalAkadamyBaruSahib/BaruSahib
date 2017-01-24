@@ -196,4 +196,10 @@ public class TypeEnum
         InProgres = 2,
         Completed = 3,
     }
+
+    public enum BillType : int
+    {
+        Sanctioned = 1,
+        NonSanctioned = 2
+    }
 }
