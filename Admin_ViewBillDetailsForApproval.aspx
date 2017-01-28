@@ -77,9 +77,9 @@
                                     </td>
                                     <td>
                                         <div class="control-group">
-                                            <b>Decription of Bill</b>
+                                            <b>Date Of Submission</b>
                                             <div class="controls">
-                                                <asp:Label runat="server" ID="lblBillDesc" Text="Bill Type"></asp:Label>
+                                                <asp:Label runat="server" ID="lblBillDate" Text="Bill Type"></asp:Label>
                                             </div>
                                         </div>
                                     </td>
@@ -95,22 +95,15 @@
                                     </td>
                                     <td>
                                         <div class="control-group">
-                                            <b>Date Of Submission</b>
-                                            <div class="controls">
-                                                <asp:Label runat="server" ID="lblBillDate" Text="Bill Type"></asp:Label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="control-group">
                                             <b>Agency Bill Number</b>
                                             <div class="controls">
                                                 <asp:Label runat="server" ID="lblAgencyBillNo" Text="Bill Type"></asp:Label>
                                             </div>
                                         </div>
                                     </td>
+
+                                </tr>
+                                <tr>
 
                                     <td>
                                         <div class="control-group">

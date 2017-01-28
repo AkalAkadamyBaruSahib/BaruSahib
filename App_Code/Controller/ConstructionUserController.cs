@@ -36,4 +36,34 @@ public class ConstructionUserController : System.Web.Services.WebService
         ConstructionUserRepository constructionUserRepository = new ConstructionUserRepository(new DataContext());
         return constructionUserRepository.GetEstimateDetails(WorkAllotID);
     }
+    [WebMethod]
+    public int SaveCivilBillDetail(SubmitBillByUser SubmitBillByUser)
+    {
+
+        SubmitBillByUser.ModifyOn = DateTime.UtcNow;
+        SubmitBillByUser.CreatedOn = DateTime.UtcNow;
+
+        foreach (SubmitBillByUserAndMaterialOthersRelation relation in SubmitBillByUser.SubmitBillByUserAndMaterialOthersRelation)
+        {
+            relation.CreatedOn = DateTime.UtcNow;
+            relation.ModifyOn = DateTime.UtcNow;
+        }
+        ConstructionUserRepository repository = new ConstructionUserRepository(new AkalAcademy.DataContext());
+        return repository.SaveCivilBillDetail(SubmitBillByUser);
+    }
+
+    [WebMethod]
+    public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID)
+    {
+        ConstructionUserRepository constructionUserRepository = new ConstructionUserRepository(new DataContext());
+        return constructionUserRepository.BillSumitRateCondition(AcademyID, BillTypeID);
+    }
+
+    [WebMethod]
+    public SubmitBillByUser GetNonSanctionedBillDetailByBillID(int BillID)
+    {
+        ConstructionUserRepository repository = new ConstructionUserRepository(new AkalAcademy.DataContext());
+        return repository.GetNonSanctionedBillDetailByBillID(BillID);
+    }
+
 }

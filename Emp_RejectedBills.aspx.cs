@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class Emp_RejectedBills : System.Web.UI.Page
 {
+    private int inchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -19,6 +20,7 @@ public partial class Emp_RejectedBills : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
+                inchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
             }
             getBillDetails();
         }
@@ -29,7 +31,7 @@ public partial class Emp_RejectedBills : System.Web.UI.Page
         //DataSet dsZone = new DataSet();
         //dsZone = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ZoneIdByLoginId '" + lblUser.Text + "'");
         DataSet dsBillDetails = new DataSet();
-        dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_BillRejectedDEtails4User '" + lblUser.Text + "'");
+        dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_BillRejectedDEtails4User '" + inchargeID + "'");
         divAcademyDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";

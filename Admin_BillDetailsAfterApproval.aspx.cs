@@ -33,7 +33,11 @@ public partial class Admin_BillDetailsAfterApproval : System.Web.UI.Page
         dsBill = DAL.DalAccessUtility.GetDataInDataSet("exec USP_AdminBillViewByBillId_V2 '" + ID + "'");
         lblBillNo.Text = dsBill.Tables[0].Rows[0]["SubBillId"].ToString();
         //lblBillType.Text = dsBill.Tables[0].Rows[0]["BillTypeName"].ToString();
-        lblChargeableTo.Text = dsBill.Tables[0].Rows[0]["BillType"].ToString();
+        if (dsBill.Tables[0].Rows[0]["BillType"].ToString() == ((int)TypeEnum.BillType.Sanctioned).ToString())
+        { lblChargeableTo.Text = "Sanctioned"; }
+        else
+        { lblChargeableTo.Text = "Non Sanctioned"; }
+        
         lblAgencyName.Text = dsBill.Tables[0].Rows[0]["AgencyName"].ToString();
         lblBillDate.Text = dsBill.Tables[0].Rows[0]["BillDate"].ToString();
         lblGateEntry.Text = dsBill.Tables[0].Rows[0]["GateEntryNo"].ToString();

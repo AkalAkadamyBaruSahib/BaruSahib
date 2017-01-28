@@ -91,7 +91,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "<div style='font-size:30px; margin-top:20px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["WorkAllotName"].ToString() + "</div>";
         EstInfo += "<table style='width:100%; margin-top:20px;' border='0'>";
         EstInfo += "<tr>";
-        EstInfo += "<td style='padding:0px; text-align:left;font-size:15px' valign='top'>";
+        EstInfo += "<td style='padding:0px; text-align:left;font-size:20px' valign='top'>";
         EstInfo += "Estimate No: <b> " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "</b><br />";
         EstInfo += "Zone: <b>" + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "</b><br />";
         EstInfo += "Estimate Title:<b> " + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "</b><br />";
@@ -107,16 +107,16 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "<br /><br />";
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Purchase Details Assigned to " + lblUser.Text + "</div>";
         EstInfo += "<br />";
-        EstInfo += "<table style='width:100%; margin-top:20px;font-size:13px;border-color:black' border='1'>";
+        EstInfo += "<table style='width:100%; margin-top:20px;font-size:16px;border-color:black' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
-        EstInfo += "<th>Sr.No</th>";
-        EstInfo += "<th>Material Name</th>";
-        EstInfo += "<th>Source Type</th>";
-        EstInfo += "<th>EstQty</th>";
-        EstInfo += "<th>PurchaseQty</th>";
-        EstInfo += "<th>Rate</th>";
-        EstInfo += "<th style='width:152px;'>Amount</th>";
+        EstInfo += "<th style='font-size:16px;'>Sr.No</th>";
+        EstInfo += "<th style='font-size:16px;'>Material Name</th>";
+        EstInfo += "<th style='font-size:16px;'>Source Type</th>";
+        EstInfo += "<th style='font-size:16px;'>EstQty</th>";
+        EstInfo += "<th style='font-size:16px;'>PurchaseQty</th>";
+        EstInfo += "<th style='font-size:16px;'>Rate</th>";
+        EstInfo += "<th style='width:152px;font-size:16px;'>Amount</th>";
         EstInfo += "</tr>";
         EstInfo += "</thead>";
         EstInfo += "<tbody>";
@@ -124,27 +124,27 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         {
 
             EstInfo += "<tr>";
-            EstInfo += "<td>" + (i + 1) + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
+            EstInfo += "<td style='font-size:15px;'>" + (i + 1) + "</td>";
+            EstInfo += "<td style='font-size:15px;'>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
+            EstInfo += "<td style='font-size:15px;'>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
+            EstInfo += "<td style='font-size:15px;'>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
+            EstInfo += "<td style='font-size:15px;'>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
+            EstInfo += "<td style='font-size:15px;'>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
             var totalAmount = Convert.ToDecimal(dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString()) * Convert.ToDecimal(dsValue.Tables[1].Rows[i]["Rate"].ToString());
-            EstInfo += "<td style='width:152px;'>" + totalAmount + "</td>";
+            EstInfo += "<td style='width:152px;font-size:15px;'>" + totalAmount + "</td>";
             EstInfo += "</tr>";
             GrandTotal += totalAmount;
 
         }
         EstInfo += "<tr>";
-        EstInfo += "<td></td><td></td><td></td><td></td><td><b>Total</b></td>";
-        EstInfo += "<td style='width:152px; font-weight:bold;'>" + GrandTotal + "</td>";
+        EstInfo += "<td></td><td></td><td></td><td></td><td></td><td style='font-size:16px;'><b>Total</b></td>";
+        EstInfo += "<td style='width:152px; font-weight:bold;font-size:15px;'>" + GrandTotal + "</td>";
         EstInfo += "</tr>";
         EstInfo += "</tbody>";
         EstInfo += "<tr>";
         EstInfo += "</table>";
         EstInfo += "<br />";
-        EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;'>&copy; The Kalgidhar Socity All Rights Reserved</div>";
+        EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;font-size:16px;'>&copy; The Kalgidhar Socity All Rights Reserved</div>";
         EstInfo += "</div>";
 
         dt.Columns.Add("HtmlContent");
@@ -153,23 +153,9 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        //Response.ContentType = "application/pdf";
-        //Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
-        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        //StringWriter sw = new StringWriter();
-        //HtmlTextWriter hw = new HtmlTextWriter(sw);
-        //pnlPdf.RenderControl(hw);
-        //StringReader sr = new StringReader(sw.ToString());
-        //Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 50f, 10f);
-        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        //pdfDoc.Open();
-        //htmlparser.Parse(sr);
-        //pdfDoc.Close();
-        //Response.Write(pdfDoc);
-        //Response.End();
+        string FileName = "EstimateView_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf";
 
-        Utility.GeneratePDF(pnlPdf.InnerHtml, dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf", string.Empty);
+        Utility.GeneratePDF(pnlPdf.InnerHtml, FileName, string.Empty);
     }
 
     private void GetEstimateDetailsByClick(string id)

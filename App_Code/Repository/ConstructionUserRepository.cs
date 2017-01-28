@@ -52,7 +52,7 @@ public class ConstructionUserRepository
         _context.MaterialRateApproved.Add(materialrateapproved);
         _context.SaveChanges();
     }
-    public view_BillSubmitedDetails GetEstimateAndBillCost(int worksAllotID,int AcademyID)
+    public view_BillSubmitedDetails GetEstimateAndBillCost(int worksAllotID, int AcademyID)
     {
         return _context.view_BillSubmitedDetails.Where(x => x.AcaId == AcademyID && x.WAId == worksAllotID && x.IsApproved == true).FirstOrDefault();
     }
@@ -60,5 +60,110 @@ public class ConstructionUserRepository
     {
         List<Estimate> EstCopy = _context.Estimate.Where(s => s.WAId == WorkAllotID && s.IsApproved == true).ToList();
         return EstCopy;
+    }
+    public int SaveCivilBillDetail(SubmitBillByUser SubmitBillByUser)
+    {
+        if (SubmitBillByUser.SubBillId > 0)
+        {
+            _context.SubmitBillByUserAndMaterialOthersRelation.RemoveRange(_context.SubmitBillByUserAndMaterialOthersRelation.Where(v => v.SubBillId == SubmitBillByUser.SubBillId));
+
+            SubmitBillByUser submitBill = _context.SubmitBillByUser.Where(v => v.SubBillId == SubmitBillByUser.SubBillId).Include(r => r.SubmitBillByUserAndMaterialOthersRelation).FirstOrDefault();
+            submitBill.ZoneId = SubmitBillByUser.ZoneId;
+            submitBill.AcaId = SubmitBillByUser.AcaId;
+            submitBill.ChargetoBillTyId = SubmitBillByUser.ChargetoBillTyId;
+            submitBill.BillDate = SubmitBillByUser.BillDate;
+            submitBill.GateEntryNo = SubmitBillByUser.GateEntryNo;
+            submitBill.VendorID = SubmitBillByUser.VendorID;
+            submitBill.AgencyName = SubmitBillByUser.AgencyName;
+            submitBill.CreatedBy = SubmitBillByUser.CreatedBy;
+            submitBill.ModifyBy = SubmitBillByUser.ModifyBy;
+            submitBill.Active = SubmitBillByUser.Active;
+            submitBill.BillType = SubmitBillByUser.BillType;
+            submitBill.VendorBillNumber = SubmitBillByUser.VendorBillNumber;
+            submitBill.TotalAmount = SubmitBillByUser.TotalAmount;
+
+            if (SubmitBillByUser.VendorBillPath != null)
+            {
+                submitBill.VendorBillPath = SubmitBillByUser.VendorBillPath;
+            }
+
+            submitBill.SubmitBillByUserAndMaterialOthersRelation = new List<SubmitBillByUserAndMaterialOthersRelation>();
+            SubmitBillByUserAndMaterialOthersRelation submitBillByUserAndMaterialOthersRelation;
+            foreach (SubmitBillByUserAndMaterialOthersRelation rm in SubmitBillByUser.SubmitBillByUserAndMaterialOthersRelation)
+            {
+                submitBillByUserAndMaterialOthersRelation = new SubmitBillByUserAndMaterialOthersRelation();
+                submitBillByUserAndMaterialOthersRelation.SubBillId = rm.SubBillId;
+                submitBillByUserAndMaterialOthersRelation.MatId = rm.MatId;
+                submitBillByUserAndMaterialOthersRelation.MatTypeId = rm.MatTypeId;
+                submitBillByUserAndMaterialOthersRelation.Qty = rm.Qty;
+                submitBillByUserAndMaterialOthersRelation.Rate = rm.Rate;
+                submitBillByUserAndMaterialOthersRelation.UnitName = rm.UnitName;
+                submitBillByUserAndMaterialOthersRelation.ItemName = rm.ItemName;
+                submitBillByUserAndMaterialOthersRelation.Remark = rm.Remark;
+                submitBillByUserAndMaterialOthersRelation.UnitId = rm.UnitId;
+                submitBillByUserAndMaterialOthersRelation.CreatedBy = rm.CreatedBy;
+                submitBillByUserAndMaterialOthersRelation.ModifyBy = rm.ModifyBy;
+                submitBillByUserAndMaterialOthersRelation.Active = rm.Active;
+                submitBillByUserAndMaterialOthersRelation.Vat = rm.Vat;
+                submitBillByUserAndMaterialOthersRelation.Amount = rm.Amount;
+                submitBill.SubmitBillByUserAndMaterialOthersRelation.Add(submitBillByUserAndMaterialOthersRelation);
+            }
+
+            _context.Entry(submitBill).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+        else
+        {
+            _context.SubmitBillByUser.Add(SubmitBillByUser);
+            _context.SaveChanges();
+
+        }
+        return SubmitBillByUser.SubBillId;
+    }
+    public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID)
+    {
+        DateTime date = DateTime.Now;
+        var firstDateOfMonth = new DateTime(date.Year, date.Month, 1);
+        var lastDateOfMonth = firstDateOfMonth.AddMonths(1).AddDays(-1);
+
+        decimal? receivedQty = (from S in _context.SubmitBillByUser
+                                join SMR in _context.SubmitBillByUserAndMaterialOthersRelation on S.SubBillId equals SMR.SubBillId
+                                where S.AcaId == AcademyID && SMR.CreatedOn >= firstDateOfMonth && SMR.CreatedOn <= lastDateOfMonth && S.BillType == BillTypeID
+                                select (decimal?)SMR.Amount).Sum();
+        return receivedQty;
+    }
+
+    public SubmitBillByUser GetNonSanctionedBillDetailByBillID(int BillID)
+    {
+        SubmitBillByUser bill = _context.SubmitBillByUser.Where(v => v.SubBillId == BillID).Include(r => r.SubmitBillByUserAndMaterialOthersRelation).FirstOrDefault();
+        SubmitBillByUser dto = new SubmitBillByUser();
+        dto.SubBillId = bill.SubBillId;
+        dto.AgencyName = bill.AgencyName;
+        dto.GateEntryNo = bill.GateEntryNo;
+        dto.BillDate = bill.BillDate;
+        dto.BillType = bill.BillType;
+        dto.VendorBillNumber = bill.VendorBillNumber;
+        dto.VendorBillPath = bill.VendorBillPath;
+
+        List<SubmitBillByUserAndMaterialOthersRelation> SubmitBillAndMaterialRelation = new List<SubmitBillByUserAndMaterialOthersRelation>();
+
+        SubmitBillByUserAndMaterialOthersRelation SubmitBillByUserAndMaterial;
+        foreach (SubmitBillByUserAndMaterialOthersRelation rm in bill.SubmitBillByUserAndMaterialOthersRelation)
+        {
+            SubmitBillByUserAndMaterial = new SubmitBillByUserAndMaterialOthersRelation();
+            SubmitBillByUserAndMaterial.SubBillId = rm.SubBillId;
+            SubmitBillByUserAndMaterial.MatId = rm.MatId;
+            SubmitBillByUserAndMaterial.UnitId = rm.UnitId;
+            SubmitBillByUserAndMaterial.Qty = rm.Qty;
+            SubmitBillByUserAndMaterial.Amount = rm.Amount;
+            SubmitBillByUserAndMaterial.Rate = rm.Rate;
+            SubmitBillByUserAndMaterial.ItemName = rm.ItemName;
+            SubmitBillByUserAndMaterial.UnitName = rm.UnitName;
+            SubmitBillAndMaterialRelation.Add(SubmitBillByUserAndMaterial);
+        }
+
+        dto.SubmitBillByUserAndMaterialOthersRelation = SubmitBillAndMaterialRelation;
+        return dto;
+   
     }
 }

@@ -254,7 +254,7 @@
 
     </div>
 
-    <div class="modal hide fade" style="width: 900px; height: 300px;" id="divVendorMaterial">
+    <div class="modal hide fade" style="width: 900px; height: 350px;" id="divVendorMaterial">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Agency Material Details</h3>

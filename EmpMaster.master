@@ -140,7 +140,7 @@
                             <li><a class="ajax-link" href="Emp_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
                             <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx?IsLocal=1"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status For Local</span></a></li>
                             <li><a class="ajax-link" href="Emp_LocalMaterialReort.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
-                            <li><a class="ajax-link" href="Emp_AddVendor.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Create New Vendor</span></a></li>
+                            <li><a class="ajax-link" href="Emp_AddVendor.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Vendor Information</span></a></li>
 
                         </ul>
 

@@ -61,7 +61,7 @@ public class SubmitBillByUser
 
     public string SecondVarifyRemark { get; set; }
 
-    public string BillType { get; set; }
+    public int? BillType { get; set; }
 
     public int? ChargetoBillTyId { get; set; }
 
