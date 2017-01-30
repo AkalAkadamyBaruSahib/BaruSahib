@@ -218,7 +218,7 @@ function LoadActiveVendorInfo() {
                   
                     var $newRow = $("#rowTemplate").clone();
                     $newRow.find("#vendorName").html("<table><tr><td><a href='#' onclick='GetAgencyMaterialDetail(" + adminLoanList[i].ID + ")'>" + adminLoanList[i].VendorName + "</a></td></tr></table>");
-                    $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><tr><td><b>State:</b> " + adminLoanList[i].VendorState + "</td></tr><tr><td><b>City:</b> " + adminLoanList[i].VendorCity + "</td></tr><tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
+                    $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
                     $newRow.find("#contactNo").html(adminLoanList[i].VendorContactNo);
                     $newRow.find("#status").html("<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>");
                     $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='VendorInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr></table>");
@@ -407,7 +407,7 @@ function LoadInActiveVendorInfo() {
 
                     var $newRow = $("#rowTemplate").clone();
                     $newRow.find("#vendorName").html(adminLoanList[i].VendorName);
-                    $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><tr><td><b>State:</b> " + adminLoanList[i].VendorState + "</td></tr><tr><td><b>City:</b> " + adminLoanList[i].VendorCity + "</td></tr><tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
+                    $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
                     $newRow.find("#contactNo").html(adminLoanList[i].VendorContactNo);
                     if (adminLoanList[i].Active == true) {
                         $newRow.find("#status").html("<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>");

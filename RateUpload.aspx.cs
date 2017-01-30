@@ -397,11 +397,11 @@ public partial class RateUpload : System.Web.UI.Page
         string to = "itmoahli@barusahib.org";//"csmavi@gmail.com";
         if (MaterialTypeID == "49") // Transport Material
         {
-            cc = "akaltransport@barusahib.org";
+        //    cc = "akaltransport@barusahib.org";
         }
         else // Construction Material
         {
-             cc = "akalconstruction@barusahib.org";
+          //   cc = "akalconstruction@barusahib.org";
         }
        
         try
