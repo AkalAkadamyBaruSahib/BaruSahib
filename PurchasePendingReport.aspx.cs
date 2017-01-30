@@ -50,11 +50,11 @@ public partial class PurchasePendingReport : System.Web.UI.Page
 
         if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.PURCHASECOMMITTEE))
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PendingStatusForPurchaser] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PendingStatusForPurchaser] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.Mohali + "'").Tables[0];
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_DispatchExcelForPurchaser] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','2','" + UserID + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_DispatchExcelForPurchaser] '" + txtfirstDate.Text + "','" + txtlastDate.Text + "','" + (int)TypeEnum.PurchaseSourceID.Mohali + "','" + UserID + "'").Tables[0];
         }
         return dt;
 

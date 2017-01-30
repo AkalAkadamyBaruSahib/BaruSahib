@@ -13,16 +13,22 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
     private string lbEstId;
     public static int InchargeID = -1;
     public int ModuleID = -1;
+    public int AcaID { get; set; }
+    public bool IsApprove { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
+
         if (Session["ModuleID"] != null)
         {
             ModuleID = int.Parse(Session["ModuleID"].ToString());
+            AcaID = Request.QueryString["AcaID"] != null ? int.Parse(Request.QueryString["AcaID"].ToString()) : 0;
+            IsApprove = Request.QueryString["isApproved"] != null ? Convert.ToBoolean(Request.QueryString["isApproved"].ToString()) : true;
         }
+
         if (!IsPostBack)
         {
             Page.Form.Attributes.Add("enctype", "multipart/form-data");
-
+            
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -32,6 +38,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 lblUser.Text = Session["EmailId"].ToString();
                 UserTypeID = int.Parse(Session["UserTypeID"].ToString());
                 InchargeID = int.Parse(Session["InchargeID"].ToString());
+                
             }
 
             if (UserTypeID != 1)
@@ -50,11 +57,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             {
                 Response.Redirect("Emp_Home.aspx");
             }
-            else
-            {
-                Request.QueryString["EstId"].ToString();
-                //GetEstimateDetails(Request.QueryString["EstId"].ToString());
-            }
+            
         }
 
     }
@@ -215,7 +218,21 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
         if (UserTypeID == (int)(TypeEnum.UserType.ADMIN))
         {
-            Response.Redirect("Admin_EstimateView.aspx");
+            if (AcaID > 0)
+            {
+                Response.Redirect("Admin_EstimateView.aspx?AcaID=" + AcaID);
+            }
+            else
+            {
+                if (IsApprove == false)
+                {
+                    Response.Redirect("Admin_EstimateView.aspx?isApproved=" + IsApprove);
+                }
+                else
+                {
+                    Response.Redirect("Admin_EstimateView.aspx");
+                }
+            }
         }
         else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTADMIN))
         {

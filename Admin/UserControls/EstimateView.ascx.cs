@@ -19,6 +19,8 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     private bool IsItemRejected = false;
     public string InchargeID = string.Empty;
     public int ModuleID = -1;
+    public int AcaID { get; set;}
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["ModuleID"] != null)
@@ -39,23 +41,29 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             if (Request.QueryString["Del"] == null)
             {
                 BindAcademy();
-                if (Session["UserTypeID"].ToString() == "21")
+                if (Request.QueryString["isApproved"] != null)
                 {
-                    getEstimateDetails(false, -1, true);
-                    btnNonApproved.Visible = false;
+                    ddlAcademy.Visible = false;
+                    lblAcaName.Visible = false;
+                    IsItemRejected = false;
+                    btnNonApproved.Text = "View Approved Estimates";
+                    getEstimateDetails(false, -1,false);
                 }
                 else
                 {
                     getEstimateDetails(true, -1, false);
                 }
-
             }
         }
         if (Request.QueryString["AcaId"] != null)
         {
-            GetEstimateDetailsByClick(Request.QueryString["AcaId"].ToString());
-            btnExcel2.Visible = false;
-            btnExecl.Visible = false;
+            AcaID = Convert.ToInt32(Request.QueryString["AcaId"].ToString());
+            ddlAcademy.SelectedValue = AcaID.ToString();
+            ddlAcademy_SelectedIndexChanged(ddlAcademy, new EventArgs());
+            
+            //GetEstimateDetailsByClick(Request.QueryString["AcaId"].ToString());
+            btnExcel2.Visible = true;
+            btnExecl.Visible = true;
         }
         if (Request.QueryString["Print"] != null)
         {
@@ -364,7 +372,14 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='box span12'>";
         ZoneInfo += "<div class='box-header well' data-original-title>";
-        ZoneInfo += "<h2><i class='icon-user'></i> Estimate List</h2>";
+        if (isApproved == true)
+        {
+            ZoneInfo += "<h2><i class='icon-user'></i>Approved Estimate List</h2>";
+        }
+        else
+        {
+            ZoneInfo += "<h2><i class='icon-user'></i> NonApproved Estimate List</h2>";
+        }
         ZoneInfo += "<div class='box-icon'>";
         //ZoneInfo += "<a href='#' class='btn btn-setting btn-round'><i class='icon-cog'></i></a>";
         ZoneInfo += "<a href='#' class='btn btn-minimize btn-round'><i class='icon-chevron-up'></i></a>";
@@ -437,7 +452,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                 }
                 else
                 {
-                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&AcaID=" + AcaID + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                 }
             }
             else
@@ -471,7 +486,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     }
                     else
                     {
-                        ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                        ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&isApproved=" + isApproved + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='Admin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                     }
                 }
             }
@@ -669,8 +684,8 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
 
     protected void ddlAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
-        int acaID = int.Parse(ddlAcademy.SelectedValue);
-        getEstimateDetails(IsApproved, acaID, IsItemRejected);
+        AcaID = int.Parse(ddlAcademy.SelectedValue);
+        getEstimateDetails(IsApproved, AcaID, IsItemRejected);
     }
 
     private void BindAcademy()

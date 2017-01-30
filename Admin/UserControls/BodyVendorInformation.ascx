@@ -49,8 +49,8 @@
                                             <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
                                             <input type="text" id="txtAgencyName" style="display: none;" />
                                             <asp:TextBox ID="txtVendorName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"
-                                                ControlToValidate="txtVendorName" ErrorMessage="Please enter the  Vendor Name" />
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vendor" Display="Dynamic" ControlToValidate="txtVendorName" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z ]+$"></asp:RegularExpressionValidator>
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"  ControlToValidate="txtVendorName" ErrorMessage="Please enter the  Vendor Name" />
                                         </div>
                                     </div>
                                 </td>

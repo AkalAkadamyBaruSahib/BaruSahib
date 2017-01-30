@@ -379,6 +379,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         {
             string FileEx = System.IO.Path.GetExtension(fileAgencyBill.FileName);
             AgencyName = AgencyName.Replace(" ", "");
+            AgencyName = AgencyName.Replace("/", "");
             string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx);
             fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
             string fileName = "VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx;
