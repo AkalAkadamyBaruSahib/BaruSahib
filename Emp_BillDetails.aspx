@@ -119,6 +119,10 @@
                                         <div class="controls">
                                             <asp:Button ID="btnPDFDownload" style="float:right;" runat="server" OnClick="btnPDFDownload_Click" CssClass="btn btn-primary" Text="Download PDF" />
                                         </div>
+                                        <div class="controls">
+                                            
+                                            <asp:Button ID="btnAddNewBill" style="float:right;" runat="server" OnClick="btnAddNewBill_Click" CssClass="btn btn-primary" Text="Add New Bill" />
+                                        </div>
                                     </td>
 
                                 </tr>

@@ -213,7 +213,7 @@
                                                 <asp:Panel ID="pnlSanction" runat="server">
                                                     <asp:GridView runat="server" ID="gvAddItems2" AutoGenerateColumns="false" DataKeyNames="MatId" ShowFooter="true" class="table table-striped table-bordered bootstrap-datatable datatable">
                                                         <Columns>
-                                                            <asp:TemplateField HeaderText="MatName(UnitName)" ItemStyle-Width="250px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                            <asp:TemplateField HeaderText="MatName(UnitName)" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
                                                                     <asp:HiddenField ID="hdnSno" runat="server" />
                                                                     <asp:HiddenField ID="txtMatId" Value='<%# Eval("MatId") %>' runat="server" />
@@ -238,21 +238,21 @@
                                                                     <span id="spnRate" style="display: none; color: red;">Rate should be less then Est. Rate (Rate+VAT)</span>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="VAT Included" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                            <asp:TemplateField HeaderText="VAT Included" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
                                                                     <asp:CheckBox ID="chkVat" runat="server" Checked="true"></asp:CheckBox>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Vat" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                            <asp:TemplateField HeaderText="Vat" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtVat" runat="server" CssClass="span6 typeahead" Width="70Px" Enabled="false"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtVat" runat="server" CssClass="span6 typeahead" Width="40Px" Enabled="false"></asp:TextBox>
                                                                     <span id="spnVat" style="display: none; color: red;">Rate should be less then Est. Rate (Rate+VAT)</span>
                                                                 </ItemTemplate>
                                                                 <FooterTemplate>
                                                                     <asp:Label ID="lblAmountFooter" runat="server" Text="Total Amount" ForeColor="Red" />
                                                                 </FooterTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Amount" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                            <asp:TemplateField HeaderText="Amount" ItemStyle-Width="90px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
                                                                     <asp:Label ID="lblAmtSan" Text="0.00" runat="server"></asp:Label>
                                                                 </ItemTemplate>

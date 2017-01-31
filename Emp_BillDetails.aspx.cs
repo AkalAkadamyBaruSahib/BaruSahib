@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 using System.Data;
 public partial class Emp_BillDetails : System.Web.UI.Page
 {
+    public static int AcaID { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -39,7 +39,7 @@ public partial class Emp_BillDetails : System.Web.UI.Page
         lblZone.Text = dsBill.Tables[0].Rows[0]["ZoneName"].ToString();
         lblAca.Text = dsBill.Tables[0].Rows[0]["AcaName"].ToString();
         aAgencyBill.HRef = "Bills/" + dsBill.Tables[0].Rows[0]["AgencyBill"].ToString();
-
+        AcaID = Convert.ToInt32(dsBill.Tables[0].Rows[0]["AcaID"].ToString());
         if (dsBill.Tables[0].Rows[0]["FirstVarifyStatus"].ToString() == "")
         {
             lblHqUser.Text = "Not Varified";
@@ -209,5 +209,9 @@ public partial class Emp_BillDetails : System.Web.UI.Page
     {
         string folderPath = Server.MapPath("Bills/CivilBillInvoice");
         Utility.GeneratePDFCivilMaterialBill(Convert.ToInt32(Request.QueryString["BillId"].ToString()), folderPath);
+    }
+    protected void btnAddNewBill_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Emp_BillSubmit.aspx?AcaId=" + AcaID);
     }
 }

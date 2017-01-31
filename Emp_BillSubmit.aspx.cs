@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Net;
 using IronPdf;
+using System.Globalization;
 public partial class Emp_BillSubmit : System.Web.UI.Page
 {
     private int BillID = -1;
@@ -48,6 +49,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             {
                 BillID = int.Parse(Request.QueryString["BillID"]);
                 ShowBillDetails(Request.QueryString["BillID"].ToString());
+                btnSubmit.Visible = true;
             }
            
         }
@@ -134,7 +136,6 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             trRemarks.Visible = false;
             btnShowData.Visible = false;
             ddlNameOfWork.Visible = false;
-            btnSubmit.Visible = false;
         }
         else
         {
@@ -548,6 +549,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
     {
         DataSet dsAcademy = new DataSet();
         pnlEstimateDetails.Visible = false;
+        btnSubmit.Visible = true;
         dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalanceNew'" + WorkAllotID + "','1'");
 
         DataTable dt = new DataTable();
@@ -587,7 +589,8 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         gvAddItems2.DataBind();
 
         double balanceQuantity = 0;
-
+        double totalAmount = 0;
+        CultureInfo hindi = new CultureInfo("hi-IN");
         foreach (GridViewRow gvrow in gvAddItems2.Rows)
         {
 
@@ -596,16 +599,23 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                            select myRow).ToList();
 
             balanceQuantity = double.Parse(((Label)gvrow.FindControl("lblBalQty")).Text);
-            if (balanceQuantity > double.Parse(results[0]["Qty"].ToString()))
-            {
-                ((TextBox)gvrow.FindControl("txtQty")).Text = results[0]["Qty"].ToString();
-            }
+
+            ((TextBox)gvrow.FindControl("txtQty")).Text = results[0]["Qty"].ToString();
             ((TextBox)gvrow.FindControl("txtRateSan")).Text = results[0]["Rate"].ToString();
             ((TextBox)gvrow.FindControl("txtStockEntry")).Text = results[0]["StockEntryNo"].ToString();
-            ((Label)gvrow.FindControl("lblAmtSan")).Text = results[0]["Amount"].ToString();
+            ((Label)gvrow.FindControl("lblAmtSan")).Text = string.Format(hindi, "{0:C}", Convert.ToDouble(results[0]["Amount"]));
+
+            totalAmount += Convert.ToDouble(results[0]["Amount"]);
+
             ((HiddenField)gvrow.FindControl("hdnSno")).Value = results[0]["sno"].ToString();
         }
 
+        ((Label)gvAddItems2.FooterRow.FindControl("lblTotalEstimateCost")).Text = string.Format(hindi, "{0:C}", totalAmount);
+        
+        if (ddlBillType1.SelectedValue == ((int)TypeEnum.BillType.Sanctioned).ToString())
+        {
+            divFinalButtons.Visible = true;
+        }
         pnlNonSanction.Visible = false;
         btnAmtTotal.Visible = false;
         trMatSelect.Visible = false;
