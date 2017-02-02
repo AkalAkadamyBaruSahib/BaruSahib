@@ -87,9 +87,10 @@
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="MatName" HeaderText="Mat Name" ItemStyle-Width="150" />
                                             <asp:BoundField DataField="UnitName" HeaderText="Unit" ItemStyle-Width="0" />
-                                            <asp:BoundField DataField="Quantity" HeaderText="Quantity" ItemStyle-Width="0" />
-                                            <asp:BoundField DataField="Rate" HeaderText="Rate" ItemStyle-Width="0" />
+                                            <asp:BoundField DataField="Quantity" HeaderText="Required Quantity" ItemStyle-Width="0" />
+                                            <asp:BoundField DataField="BillQty" HeaderText="Purchased Quantity" ItemStyle-Width="0" />
                                             <asp:BoundField DataField="EstBal" HeaderText="Estimate Balance" ItemStyle-Width="0" />
+                                            <asp:BoundField DataField="Rate" HeaderText="Rate" ItemStyle-Width="0" />
                                         </Columns>
                                     </asp:GridView>
                                     <asp:Button ID="btnShowData" runat="server" Text="Add Material" CssClass="btn btn-primary" OnClick="btnShowData_Click" />
@@ -271,14 +272,19 @@
                                                                     <asp:Label ID="lblEstQty" runat="server" CssClass="span6 typeahead" Width="70Px" Text='<%# Bind("EstQty") %>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Est Rate" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                            <asp:TemplateField HeaderText="Pur Qty" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
-                                                                    <asp:Label ID="lblEstRate" runat="server" CssClass="span6 typeahead" Width="70Px" Text='<%# Bind("EstRate") %>'></asp:Label>
+                                                                    <asp:Label ID="lblPurQty" runat="server" CssClass="span6 typeahead" Width="70Px" Text='<%# Bind("PurQty") %>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Bal Qty" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                                 <ItemTemplate>
                                                                     <asp:Label ID="lblBalQty" runat="server" CssClass="span6 typeahead" Width="70Px" Text='<%# Bind("BalQty") %>'></asp:Label>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Est Rate" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                                <ItemTemplate>
+                                                                    <asp:Label ID="lblEstRate" runat="server" CssClass="span6 typeahead" Width="70Px" Text='<%# Bind("EstRate") %>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                         </Columns>

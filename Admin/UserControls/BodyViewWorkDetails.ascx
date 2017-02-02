@@ -30,15 +30,16 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:BoundField DataField="UnitName" HeaderText="Unit" />
-                        <asp:BoundField DataField="Quantity" HeaderText="Quantity" />
-                        <asp:BoundField DataField="Rate" HeaderText="Rate" />
-                        <asp:BoundField DataField="EstBal" HeaderText="Estimate Balance" />
+                        <asp:BoundField DataField="Quantity" HeaderText="Required Qty" />
+                        <asp:BoundField DataField="BillQty" HeaderText="Purchased Qty" />
+                        <asp:BoundField DataField="EstBal" HeaderText="Balance Qty" />
+                        <asp:BoundField DataField="Rate" HeaderText="Purchase Rate" />
                     </Columns>
                 </asp:GridView>
             </div>
         </div>
     </div>
-    <div class="modal hide fade" style="width: 900px; height: 580px;" id="myModal">
+    <div class="modal hide fade" style="width: 900px;" id="myModal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Work Allot Details</h3>
@@ -50,8 +51,8 @@
                         <th>Bill No</th>
                         <th>Agency Name</th>
                         <th>Mat Name</th>
-                        <th>Quantity</th>
-                        <th>Rate</th>
+                        <th>Bill Quantity</th>
+                        <th>Bill Rate</th>
                         <th>Stock Entry No.</th>
                         <th>Created On</th>
                     </tr>
@@ -60,7 +61,7 @@
             </table>
         </div> 
         <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
     </div>
     </div>
    

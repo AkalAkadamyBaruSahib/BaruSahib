@@ -49,7 +49,6 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             {
                 BillID = int.Parse(Request.QueryString["BillID"]);
                 ShowBillDetails(Request.QueryString["BillID"].ToString());
-                btnSubmit.Visible = true;
             }
            
         }
@@ -282,8 +281,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         dt.Columns.Add(new DataColumn("Amount", typeof(string)));
         dt.Columns.Add(new DataColumn("Remark", typeof(string)));
         dt.Columns.Add(new DataColumn("EstQty", typeof(string)));
-        dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
+        dt.Columns.Add(new DataColumn("PurQty", typeof(string)));
         dt.Columns.Add(new DataColumn("BalQty", typeof(string)));
+        dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
 
 
         dr = dt.NewRow();
@@ -299,8 +299,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         dr["Amount"] = "";
         dr["Remark"] = "";
         dr["EstQty"] = "";
-        dr["EstRate"] = "";
+        dr["PurQty"] = "";
         dr["BalQty"] = "";
+        dr["EstRate"] = "";
 
         dt.Rows.Add(dr);
 
@@ -322,8 +323,10 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         dt.Columns.Add(new DataColumn("UnitId", typeof(string)));
         dt.Columns.Add(new DataColumn("UnitName", typeof(string)));
         dt.Columns.Add(new DataColumn("EstQty", typeof(string)));
-        dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
+        dt.Columns.Add(new DataColumn("PurQty", typeof(string)));
         dt.Columns.Add(new DataColumn("BalQty", typeof(string)));
+        dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
+        
 
         foreach (GridViewRow row in GridView1.Rows)
         {
@@ -341,8 +344,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                     dr["UnitId"] = hdnUnitId.Value;
                     dr["UnitName"] = row.Cells[2].Text;
                     dr["EstQty"] = row.Cells[3].Text;
-                    dr["EstRate"] = row.Cells[4].Text;
+                    dr["PurQty"] = row.Cells[4].Text;
                     dr["BalQty"] = row.Cells[5].Text;
+                    dr["EstRate"] = row.Cells[6].Text;
                     dt.Rows.Add(dr);
 
                     //data = data + dr["MatName"] + ",";
