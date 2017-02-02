@@ -564,8 +564,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         dt.Columns.Add(new DataColumn("UnitId", typeof(string)));
         dt.Columns.Add(new DataColumn("UnitName", typeof(string)));
         dt.Columns.Add(new DataColumn("EstQty", typeof(string)));
-        dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
+        dt.Columns.Add(new DataColumn("PurQty", typeof(string)));
         dt.Columns.Add(new DataColumn("BalQty", typeof(string)));
+        dt.Columns.Add(new DataColumn("EstRate", typeof(string)));
 
 
         for (int i = 0; i < dtBilledMaterials.Rows.Count; i++)
@@ -582,8 +583,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             dr["UnitId"] = results[0]["UnitId"].ToString();
             dr["UnitName"] = results[0]["UnitName"].ToString();
             dr["EstQty"] = results[0]["Quantity"].ToString();
-            dr["EstRate"] = results[0]["Rate"].ToString();
+            dr["PurQty"] = results[0]["BillQty"].ToString();
             dr["BalQty"] = results[0]["EstBal"].ToString();
+            dr["EstRate"] = results[0]["Rate"].ToString();
             dt.Rows.Add(dr);
         }
 
