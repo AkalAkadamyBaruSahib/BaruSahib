@@ -4,6 +4,10 @@ var grdMatDiscription;
 $(document).ready(function () {
 
     //AutofillMaterialSearchBox();
+    if ($("input[id*='hdnAcaID']").val() == undefined) {
+      
+        LoadActiveVendorInfo();
+    }
 
     BindState();
     $("input[id*='btnSave']").click(function (e) {
@@ -36,7 +40,8 @@ $(document).ready(function () {
         }
     });
 
-    LoadActiveVendorInfo();
+   
+   
 
     $("input[id*='btnRemove']").click(function (e) {
         if ($("#lstMaterials").val() != null) {
