@@ -175,6 +175,7 @@
                             <li id="liBilldata" runat="server"><a class="ajax-link" href="#"><i><img src="img/Bill1.png" /></i><span class="hidden-tablet"><b>BILLS</b></span></a>
                                 <ul>
                                     <li id="liBill" runat="server"><a class="ajax-link" href="Admin_BillForApproval.aspx"><i></i><span class="hidden-tablet">Bills for Approval</span></a></li>
+                                    <li id="li2" runat="server"><a class="ajax-link" href="Admin_RejectedBills.aspx"><i></i><span class="hidden-tablet">Rejected Bills</span></a></li>
                                     <li id="liBillStatus" runat="server"><a class="ajax-link" href="BillStatus.aspx"><i></i><span class="hidden-tablet">Bill Status</span></a></li>
                                     <li id="liBillDetail" runat="server"><a class="ajax-link" href="Admin_AllBillDetails.aspx"><i></i><span class="hidden-tablet">Bill Details</span></a></li>
                                     <li id="liMaterialDisatch" runat="server" visible="false"><a class="ajax-link" href="Admin_MatDispatchStatus.aspx"><i></i><span class="hidden-tablet">Material To Dispatch</span></a></li>

@@ -130,7 +130,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "Estimate No: " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "<br />";
         EstInfo += "Academy: " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
         EstInfo += "Zone: " + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "<br />";
-        EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
+        EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() + "<br />";
+        EstInfo += "Approved By: " + dsValue.Tables[0].Rows[0]["InName"].ToString() + "(" + dsValue.Tables[0].Rows[0]["InMobile"].ToString() + ")";
         EstInfo += "</p>";
         EstInfo += "</td>";
 
@@ -139,20 +140,20 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<br /><br />";
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Material Dispatch Details</div>";
         EstInfo += "<br />";
-        EstInfo += "<table style='width:100%; margin-top:20px;font-size:10px' border='1'>";
+        EstInfo += "<table style='width:99%; margin-top:20px;font-size:18px' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
-        EstInfo += "<th style='font-size:16px;' ><b>Sr. No.</b></th>";
-        EstInfo += "<th style='font-size:16px;width:20%'><b>Material</b></th>";
-        EstInfo += "<th style='font-size:16px;'><b>Source Type</b></th>";
-        EstInfo += "<th style='font-size:16px;'><b>Qty</b></th>";
-        EstInfo += "<th style='font-size:16px;'><b>Unit</b></th>";
-        EstInfo += "<th style='font-size:16px;'><b>Rate</b></th>";
+        EstInfo += "<th style='font-size:18px;' ><b>Sr. No.</b></th>";
+        EstInfo += "<th style='font-size:18px;width:20%'><b>Material</b></th>";
+        EstInfo += "<th style='font-size:18px;'><b>Source Type</b></th>";
+        EstInfo += "<th style='font-size:18px;'><b>Qty</b></th>";
+        EstInfo += "<th style='font-size:18px;'><b>Unit</b></th>";
+        EstInfo += "<th style='font-size:18px;'><b>Rate</b></th>";
         if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
         {
-            EstInfo += "<th width='20%' style='font-size:16px;'><b>Purchase Officer</b></th>";
+            EstInfo += "<th width='20%' style='font-size:18px;'><b>Purchase Officer</b></th>";
         }
-        EstInfo += "<th style='font-size:16px;'><b>" + HeaderText + "</b></th>";
+        EstInfo += "<th style='font-size:18px;'><b>" + HeaderText + "</b></th>";
         EstInfo += "</tr>";
         EstInfo += "</thead>";
         EstInfo += "<tbody>";
@@ -182,24 +183,24 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             //if (i != dsMatDetails.Tables[0].Rows.Count - 1)
             //{
             EstInfo += "<tr>";
-            EstInfo += "<td style='font-size:16px'>" + (i + 1) + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
+            EstInfo += "<td style='font-size:18px'>" + (i + 1) + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
+            EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
             if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
             {
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>";
                 EstInfo += "<table>";
-                EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:15px'> <b>Name:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeName"].ToString() + " </td></tr>";
+                EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:18px'> <b>Name:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeName"].ToString() + " </td></tr>";
                 if (dsMatDetails.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() == "1/1/1900 12:00:00 AM")
                 {
-                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:15px'><b>Assigned Date:</b> </td></tr>";
+                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:18px'><b>Assigned Date:</b> </td></tr>";
                 }
                 else
                 {
-                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:15px'><b>Assigned Date:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() + "</td></tr>";
+                    EstInfo += "<tr><td style='padding:0px; text-align:left;font-size:18px'><b>Assigned Date:</b> " + dsMatDetails.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() + "</td></tr>";
                 }
                 EstInfo += "</table>";
                 EstInfo += "</td>";
@@ -208,12 +209,12 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             if (dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() != string.Empty && dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() == "")
             {
                 HeaderText = "Tantative Date";
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() + "</td>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["TantiveDate"].ToString() + "</td>";
             }
             else
             {
                 HeaderText = "Purchase Date";
-                EstInfo += "<td style='padding:0px; text-align:left;font-size:15px'>" + dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
             }
             EstInfo += "</tr>";
         }
@@ -221,7 +222,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<tr>";
         EstInfo += "</table>";
         EstInfo += "<br />";
-        EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;font-size:16px;'>&copy; The Kalgidhar Society All Rights Reserved</div>";
+        EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;font-size:18px;'>&copy; The Kalgidhar Society All Rights Reserved</div>";
         EstInfo += "</div>";
 
         dt.Columns.Add("HtmlContent");
@@ -475,6 +476,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                     {
                                         ZoneInfo += "<tr><td style='color:darkred;'><b>Assigned Date:</b> " + material.EmployeeAssignDateTime + "</td></tr>";
                                     }
+                                    ZoneInfo += "<tr><td> <b>Purchase Date:</b> " + material.DispatchDate + " </td></tr>";
                                     ZoneInfo += "</table>";
                                     ZoneInfo += "</td>";
                                 }

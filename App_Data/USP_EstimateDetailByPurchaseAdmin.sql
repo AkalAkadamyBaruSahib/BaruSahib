@@ -1,56 +1,18 @@
-CREATE PROCEDURE [dbo].[USP_EstimateDetailByPurchaseAdmin]   
-
-
-
+ALTER PROCEDURE [dbo].[USP_EstimateDetailByPurchaseAdmin]   
 (  
-
-
-
 @EstId INT,
-
-
-
 @UserID INT  
-
-
-
 )  
-
-
-
 AS  
-
-
-
 BEGIN  
-
-
-
 SELECT     Estimate.EstId, CONVERT(NVARCHAR(20), Estimate.ModifyOn, 107) AS SanctionDate, Zone.ZoneName, Academy.AcaName, WorkAllot.WorkAllotName,   
-
-
-
-                      Estimate.SubEstimate, TypeOfWork.TypeWorkName, Estimate.EstmateCost  
-
-
-
+           Estimate.SubEstimate, TypeOfWork.TypeWorkName, Estimate.EstmateCost,Incharge.InName,Incharge.InMobile  
 FROM         Estimate INNER JOIN  
-
-
-
-                      TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  
-
-
-
-                      WorkAllot ON Estimate.WAId = WorkAllot.WAId INNER JOIN  
-
-
-
-                      Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN  
-
-
-
-                      Zone ON Estimate.ZoneId = Zone.ZoneId  
+             TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  
+             WorkAllot ON Estimate.WAId = WorkAllot.WAId INNER JOIN  
+             Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN  
+              Zone ON Estimate.ZoneId = Zone.ZoneId  INNER JOIN
+	     Incharge ON Incharge.InchargeId  = Estimate.ModifyBy
 
 
 
@@ -66,11 +28,11 @@ WHERE     (Estimate.EstId = @EstId)
 
 
 
-
-
-
-
 SELECT     Estimate.EstId,  Material.MatName, PurchaseSource.PSName,EstimateAndMaterialOthersRelations.Qty AS EstQty,   
+
+
+
+
 
 
 
@@ -78,7 +40,15 @@ SELECT     Estimate.EstId,  Material.MatName, PurchaseSource.PSName,EstimateAndM
 
 
 
+
+
+
+
                       EstimateAndMaterialOthersRelations.Remark,MaterialType.MatTypeName
+
+
+
+
 
 
 
@@ -94,7 +64,15 @@ FROM         Estimate INNER JOIN
 
 
 
+
+
+
+
                       MaterialType ON EstimateAndMaterialOthersRelations.MatTypeId = MaterialType.MatTypeId INNER JOIN  
+
+
+
+
 
 
 
@@ -102,11 +80,23 @@ FROM         Estimate INNER JOIN
 
 
 
+
+
+
+
                       PurchaseSource ON EstimateAndMaterialOthersRelations.PSId = PurchaseSource.PSId INNER JOIN  
 
 
 
+
+
+
+
                       Unit ON EstimateAndMaterialOthersRelations.UnitId = Unit.UnitId  
+
+
+
+
 
 
 
@@ -127,5 +117,35 @@ SELECT SUM(Amount) as Ttl from EstimateAndMaterialOthersRelations where EstId=@E
 
 
 END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
