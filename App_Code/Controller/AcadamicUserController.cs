@@ -97,7 +97,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
       //  acadamicUserRepository.SaveComplaintTicket();
 
         string sql =string.Empty;
-        if (UserType == (int)TypeEnum.UserType.ACADEMIC)
+        if (UserType == (int)TypeEnum.UserType.ACADEMIC )
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
@@ -109,7 +109,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
             "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' order by CreatedOn desc";
         }
-        else if (UserType == (int)TypeEnum.UserType.CONSTRUCTION)
+        else if (UserType == (int)TypeEnum.UserType.CONSTRUCTION || UserType == (int)TypeEnum.UserType.COMPLAINT)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description," +
                     "ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn," +

@@ -8,9 +8,10 @@ using System.Data;
 
 public partial class Emp_Home : System.Web.UI.Page
 {
+    private int UserTypeID { get; set; }
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        
         if (Session["EmailId"] == null)
         {
             Response.Redirect("Default.aspx");
@@ -18,6 +19,7 @@ public partial class Emp_Home : System.Web.UI.Page
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         }
 
         BindZoneDetails();
@@ -109,7 +111,10 @@ public partial class Emp_Home : System.Web.UI.Page
         ZoneInfo += "<th width='20%'>Academy</th>";
         ZoneInfo += "<th width='20%'>Location</th>";
         ZoneInfo += "<th width='10%'>Status</th>";
-        ZoneInfo += "<th width='50%'>Actions</th>";
+        if (UserTypeID != (int)TypeEnum.UserType.COMPLAINT)
+        {
+            ZoneInfo += "<th width='50%'>Actions</th>";
+        }
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -138,23 +143,26 @@ public partial class Emp_Home : System.Web.UI.Page
             ZoneInfo += "</table>";
            // ZoneInfo += "<span class='label label-success' title='Active' style='font-size: 15.998px;'>" + dsAcaDetails.Tables[0].Rows[i]["StatusTypeName"].ToString() + "</span>";
             ZoneInfo += "</td>"; Session["AcaId"] = dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString();
-            ZoneInfo += "<td class='center' width='50%' align='center'>";
-            ZoneInfo += "<a class='btn btn-info' href='Emp_DrawingView.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
-            ZoneInfo += "<i class='icon-edit icon-white'></i>Drawings";
-            ZoneInfo += "</a>  ";
-            //ZoneInfo += "<a class='btn btn-info' href='Emp_MaterialView.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
-            ////ZoneInfo += "<a class='btn btn-info' href='Emp_MaterialView.aspx'>";
-            //ZoneInfo += "<i class='icon-edit icon-white'></i>MAS Account";
-            //ZoneInfo += "</a>  ";
-            ZoneInfo += "<a class='btn btn-info' href='Emp_EstimateView.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
-            ZoneInfo += "<i class='icon-edit icon-white'></i>Estimates";
-            ZoneInfo += "</a>  ";
-            ZoneInfo += "<a class='btn btn-info' href='Emp_BillSubmit.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
-            ZoneInfo += "<i class='icon-edit icon-white'></i>Submit Bills";
-            ZoneInfo += "</a>  ";
-            //ZoneInfo += "<a class='btn btn-info' href='Emp_BillSubmit.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
-            //ZoneInfo += "<i class='icon-edit icon-white'></i>Bill ";
-            //ZoneInfo += "</a>  ";
+            if (UserTypeID != (int)TypeEnum.UserType.COMPLAINT)
+            {
+                ZoneInfo += "<td class='center' width='50%' align='center'>";
+                ZoneInfo += "<a class='btn btn-info' href='Emp_DrawingView.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
+                ZoneInfo += "<i class='icon-edit icon-white'></i>Drawings";
+                ZoneInfo += "</a>  ";
+                //ZoneInfo += "<a class='btn btn-info' href='Emp_MaterialView.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
+                ////ZoneInfo += "<a class='btn btn-info' href='Emp_MaterialView.aspx'>";
+                //ZoneInfo += "<i class='icon-edit icon-white'></i>MAS Account";
+                //ZoneInfo += "</a>  ";
+                ZoneInfo += "<a class='btn btn-info' href='Emp_EstimateView.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
+                ZoneInfo += "<i class='icon-edit icon-white'></i>Estimates";
+                ZoneInfo += "</a>  ";
+                ZoneInfo += "<a class='btn btn-info' href='Emp_BillSubmit.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
+                ZoneInfo += "<i class='icon-edit icon-white'></i>Submit Bills";
+                ZoneInfo += "</a>  ";
+                //ZoneInfo += "<a class='btn btn-info' href='Emp_BillSubmit.aspx?AcaId=" + dsAcaDetails.Tables[0].Rows[i]["AcaId"].ToString() + "'>";
+                //ZoneInfo += "<i class='icon-edit icon-white'></i>Bill ";
+                //ZoneInfo += "</a>  ";
+            }
             ZoneInfo += "</td>";
             ZoneInfo += "</tr>";
         }

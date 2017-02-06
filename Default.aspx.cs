@@ -76,7 +76,7 @@ public partial class _Default : System.Web.UI.Page
                 {
                     Response.Redirect("AdminHome.aspx");
                 }
-                else if (inchrge.UserTypeId == 2)
+                else if (inchrge.UserTypeId == 2 || inchrge.UserTypeId==(int)TypeEnum.UserType.COMPLAINT)
                 {
                     Response.Redirect("Emp_Home.aspx");
                 }

@@ -79,7 +79,8 @@ public class TypeEnum
         TRANSPORTSUBADMIN = 29,
         WORKSHOPEMPLOYEE = 30,
         SECURITYSUPERVISOR = 31,
-        RECEPTIONADMIN = 32
+        RECEPTIONADMIN = 32,
+        COMPLAINT = 33
     }
     public enum TransportNormsType : int
     {
