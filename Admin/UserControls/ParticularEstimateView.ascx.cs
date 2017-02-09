@@ -227,20 +227,7 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        Response.ContentType = "application/pdf";
-        Response.AddHeader("content-disposition", "attachment;filename=PdfReport.pdf");
-        Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        StringWriter sw = new StringWriter();
-        HtmlTextWriter hw = new HtmlTextWriter(sw);
-        pnlPdf.RenderControl(hw);
-        StringReader sr = new StringReader(sw.ToString());
-        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 50f, 10f);
-        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        pdfDoc.Open();
-        htmlparser.Parse(sr);
-        pdfDoc.Close();
-        Response.Write(pdfDoc);
-        Response.End();
+        Utility.GeneratePDF(pnlPdf.InnerHtml, "PdfReport.pdf", string.Empty);
+        
     }
 }

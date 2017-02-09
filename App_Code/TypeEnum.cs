@@ -15,7 +15,7 @@ public class TypeEnum
 		//
 	}
 
-
+    
     public enum Module : int
     {
         Purchase = 1,
@@ -36,6 +36,13 @@ public class TypeEnum
         Conductor = 2
     }
 
+    public enum MatTypeID : int
+    {
+        TRANSPORTMATERIAL = 1,
+        ELECTRICALMATERIAL = 2,
+        MOTORSANDPUMPS = 3,
+        EXTERNALELECTRICALWORK = 4
+    }
 
     public enum TransportDocumentType : int
     {

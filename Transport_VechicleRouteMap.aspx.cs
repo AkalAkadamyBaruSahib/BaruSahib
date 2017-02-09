@@ -95,7 +95,7 @@ public partial class Transport_VechicleRouteMap : System.Web.UI.Page
                     vechiclesroutemap.ZoneID = Convert.ToInt32(drpZoneName.SelectedValue);
                     vechiclesroutemap.AcaID = Convert.ToInt32(drpAcaName.SelectedValue);
                     vechiclesroutemap.RouteNo = txtRouteNo.Text;
-                    vechiclesroutemap.VehicleNumber = item.Value;
+                    vechiclesroutemap.VehicleNumber =  int.Parse(item.Value);
                     TransportUserRepository repo = new TransportUserRepository(new AkalAcademy.DataContext());
                     repo.AddVechiclesRouteMap(vechiclesroutemap);
                 }
@@ -119,7 +119,7 @@ public partial class Transport_VechicleRouteMap : System.Web.UI.Page
         "FROM " +
         "VechiclesRouteMap VR " +
         "INNER JOIN Vehicles V on V.ID = VR.VehicleNumber " +
-        "where VR.RouteNo=[RouteNo] AND VR.AcaID=[AcaID] " +
+        "where VR.RouteNo='[RouteNo]' AND VR.AcaID=[AcaID] " +
         "SELECT @VehicleNumbers AS Number ";
 
         string replaceQuery = string.Empty;
@@ -151,6 +151,7 @@ public partial class Transport_VechicleRouteMap : System.Web.UI.Page
             replaceQuery = replaceQuery.Replace("[AcaID]", dsRouteDetails.Tables[0].Rows[i]["AcaID"].ToString());
 
             dsNumbers = DAL.DalAccessUtility.GetDataInDataSet(replaceQuery);
+            if (dsNumbers.Tables.Count > 0)
             {
                 ZoneInfo += "<td width='20%'>" + dsNumbers.Tables[0].Rows[0]["Number"].ToString() + "</td>";
             }

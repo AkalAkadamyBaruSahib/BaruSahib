@@ -329,7 +329,7 @@ function DeleteTicket(ticketID) {
 function LoadControls() {
     var userType = $("input[id*='hdnUserType']").val();
 
-    if (userType == 2) {
+    if (userType == 2 || userType == 33) {
         if ($("#ddlComplaintType").val() != "") {
             $("#ddlComplaintType").prop("disabled", true);
         }
@@ -344,7 +344,7 @@ function LoadControls() {
         $("#spnApproved").hide();
         $("#ddlApproved").hide();
     }
-    else if (userType != 2 && userType != 1) {
+    else if (userType != 2 && userType != 1 && userType == 33) {
         $("#trCompletionDate").hide();
         $("#trComments").hide();
         $("#trStatus").hide();

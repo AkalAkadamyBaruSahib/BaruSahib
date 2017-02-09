@@ -25,6 +25,6 @@ public class VechiclesRouteMap
 
     public int ZoneID { get; set; }
 
-    public string VehicleNumber { get; set; }
+    public int VehicleNumber { get; set; }
 
 }
