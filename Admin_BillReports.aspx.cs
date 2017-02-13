@@ -68,12 +68,12 @@ public partial class Admin_BillReports : System.Web.UI.Page
 
         string pdfhtml = string.Empty;
 
-        dsBills = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetApprocedBillDetails] " + ddlAcademy.SelectedValue + "'" + txtfirstDate.Text + "','" + txtlastDate.Text + "'").Tables[0];
+        dsBills = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetApprocedBillDetails] " + ddlAcademy.SelectedValue + ", '" + txtfirstDate.Text + "','" + txtlastDate.Text + "'").Tables[0];
 
 
         if (dsBills != null && dsBills.Rows.Count > 0)
         {
-            pdfhtml = Utility.getPDFHTML(8, columnname, dsBills.Rows.Count, "Approved Bill Details");
+            pdfhtml = Utility.getPDFHTML(8, columnname, dsBills.Rows.Count, "Approved Bill Details of " + ddlAcademy.SelectedItem.Text);
             string pattern = string.Empty;
             string replace = string.Empty;
             for (int i = 0; i < dsBills.Rows.Count; i++)
@@ -86,20 +86,20 @@ public partial class Admin_BillReports : System.Web.UI.Page
                 pattern = columnname[1].Substring(0, 4) + i + columnname[1].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-                replace = dsBills.Rows[i]["MatName"].ToString();
+                //replace = dsBills.Rows[i]["MatName"].ToString();
+                //pattern = columnname[2].Substring(0, 4) + i + columnname[2].Substring(4);
+                //pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
+
+                replace = dsBills.Rows[i]["TotalAmount"].ToString();
                 pattern = columnname[2].Substring(0, 4) + i + columnname[2].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-                replace = dsBills.Rows[i]["TotalAmount"].ToString();
+                replace = dsBills.Rows[i]["AgencyName"].ToString();
                 pattern = columnname[3].Substring(0, 4) + i + columnname[3].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-                replace = dsBills.Rows[i]["AgencyName"].ToString();
-                pattern = columnname[4].Substring(0, 4) + i + columnname[4].Substring(4);
-                pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
-
                 replace = dsBills.Rows[i]["BillType"].ToString();
-                pattern = columnname[5].Substring(0, 4) + i + columnname[5].Substring(4);
+                pattern = columnname[4].Substring(0, 4) + i + columnname[4].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
             }
