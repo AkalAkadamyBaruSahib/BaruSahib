@@ -62,7 +62,7 @@ public partial class Admin_BillReports : System.Web.UI.Page
 
     protected void MaterialDetailByWorkAllotIDInPDF()
     {
-        string[] columnname = new string[] { "SubBillId", "BillDate", "TotalAmount", "AgencyName", "BillType" };
+        string[] columnname = new string[] { "SubBillId", "BillDate", "AgencyName", "BillType", "TotalAmount" };
 
         DataTable dsBills = new DataTable();
 
@@ -90,15 +90,16 @@ public partial class Admin_BillReports : System.Web.UI.Page
                 //pattern = columnname[2].Substring(0, 4) + i + columnname[2].Substring(4);
                 //pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-                replace = dsBills.Rows[i]["TotalAmount"].ToString();
+                replace = dsBills.Rows[i]["AgencyName"].ToString();
                 pattern = columnname[2].Substring(0, 4) + i + columnname[2].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-                replace = dsBills.Rows[i]["AgencyName"].ToString();
+
+                replace = dsBills.Rows[i]["BillType"].ToString();
                 pattern = columnname[3].Substring(0, 4) + i + columnname[3].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
-                replace = dsBills.Rows[i]["BillType"].ToString();
+                replace = dsBills.Rows[i]["TotalAmount"].ToString();
                 pattern = columnname[4].Substring(0, 4) + i + columnname[4].Substring(4);
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 

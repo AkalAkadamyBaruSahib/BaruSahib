@@ -448,7 +448,6 @@ public static class Utility
         HttpContext.Current.Response.ContentType = "application/pdf";
         HttpContext.Current.Response.AddHeader("content-disposition", "attachment;filename=" + fileName);
 
-
         HtmlToPdf HtmlToPdf = new IronPdf.HtmlToPdf();
         HtmlToPdf.PrintOptions.PaperSize = PdfPrintOptions.PdfPaperSize.A4;
         HtmlToPdf.PrintOptions.Header.Spacing = 50;
@@ -639,7 +638,7 @@ public static class Utility
         grid += "<table style='width:100%;'>";
         grid += "<tr>";
         grid += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        grid += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
+        grid += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
         grid += "</td>";
         grid += "<td style='text-align: right; width:40%;'>";
         grid += "<br /><br />";

@@ -298,7 +298,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     {
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimate'" + ModuleID + "'");
+        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimate'" + ModuleID + "', 1");
         dt = ds.Tables[0];
         return dt;
     }
@@ -336,6 +336,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
         dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateViewForAdmin '" + ModuleID + "','" + InchargeID + "'");
+        //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailForAdmin'" + ModuleID + "','" + InchargeID + "'");
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
 
         if (AcaID > 0)
@@ -615,14 +616,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     {
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterial '" + ModuleID + "'");
+        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterial '" + ModuleID + "',1");
         dt = ds.Tables[0];
         return dt;
     }
 
     protected void btnExcel2_Click(object sender, EventArgs e)
     {
-        System.Threading.Thread.Sleep(1000);
         Response.ClearContent();
         Response.Buffer = true;
         Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Estimate.xls"));
