@@ -36,6 +36,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             lblUser.Text = Session["EmailId"].ToString();
             InchargeID = Session["InchargeID"].ToString();
         }
+
         if (!Page.IsPostBack)
         {
             if (Request.QueryString["Del"] == null)
@@ -62,8 +63,8 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             ddlAcademy_SelectedIndexChanged(ddlAcademy, new EventArgs());
             
             //GetEstimateDetailsByClick(Request.QueryString["AcaId"].ToString());
-            btnExcel2.Visible = true;
-            btnExecl.Visible = true;
+            btnEstimateMaterialStatement.Visible = true;
+            btnEstimateStatement.Visible = true;
         }
         if (Request.QueryString["Print"] != null)
         {
@@ -79,15 +80,10 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
 
     private void DeleteEstimate(string p)
     {
-        //DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateAndMaterialOthersRelations WHERE Estid=" + p);
-        //DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM EstimateStatus WHERE Estid=" + p);
-        //DAL.DalAccessUtility.ExecuteNonQuery("DELETE FROM Estimate WHERE Estid=" + p);
-
         DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate SET IsActive=0,ModifyBy=" + InchargeID + ",ModifyOn='" + DateTime.Now + "' WHERE Estid=" + p);
 
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Estimate has been deleted Successfully.');", true);
         getEstimateDetails(false, -1, true);
-        //throw new NotImplementedException();
     }
 
     protected void GetPrint(string id)
@@ -298,14 +294,20 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     {
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimate'" + ModuleID + "', 1");
+        if (ViewState["IsApproved"] == null)
+        {
+            ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimate'" + ModuleID + "', 1");
+        }
+        else
+        {
+            ds = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ExcelEstimate'" + ModuleID + "', 0");
+        }
         dt = ds.Tables[0];
         return dt;
     }
 
     protected void btnExecl_Click(object sender, EventArgs e)
     {
-        System.Threading.Thread.Sleep(1000);
         Response.ClearContent();
         Response.Buffer = true;
         Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Estimate.xls"));
@@ -363,6 +365,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                               select mytable);
             }
         }
+
         DataTable dtapproved = new DataTable();
         if (dtApproved.Count() > 0)
         {
@@ -656,17 +659,23 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             IsApproved = false;
             IsItemRejected = true;
             getEstimateDetails(false, -1, true);
+            btnEstimateMaterialStatement.Visible = false;
             ((Button)sender).Text = "View Approved Estimates";
+            btnEstimateStatement.Text = "Download Non Estimate Statement";
             ddlAcademy.Visible = false;
             lblAcaName.Visible = false;
+            ViewState["IsApproved"] = 0;
         }
         else
         {
             ddlAcademy.Visible = true;
             lblAcaName.Visible = true;
+            btnEstimateMaterialStatement.Visible = true;
+            btnEstimateStatement.Text = "Download Estimate Statement";
             IsApproved = true;
             IsItemRejected = false;
             ((Button)sender).Text = "View Non Approved Estimates";
+            ViewState["IsApproved"] = 1;
             if (ModuleID == ((int)(TypeEnum.Module.Transport)))
             {
                 Response.Redirect("Transport_EstimateView.aspx");
