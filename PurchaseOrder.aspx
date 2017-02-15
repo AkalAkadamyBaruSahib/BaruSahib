@@ -186,9 +186,11 @@
                                     <td style="width: 382px;">
                                         <div style="height: 65px;">
                                             M/S<asp:Label ID="lblName" runat="server" Style="margin-top: -18px; margin-left: 31px;"></asp:Label>
-                                            <asp:HiddenField ID="hdnVendorName" runat="server"/><br />
+                                            <asp:HiddenField ID="hdnVendorName" runat="server" />
+                                            <br />
                                             <asp:Label ID="lblVendorAddress" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnVendorAddress" runat="server" /><br />
+                                            <asp:HiddenField ID="hdnVendorAddress" runat="server" />
+                                            <br />
                                             <asp:Label ID="lblCity" runat="server"></asp:Label>
                                             <asp:HiddenField ID="hdnCity" runat="server" />
                                         </div>
@@ -200,15 +202,18 @@
                                                 <option value="0">-Select Billing Address--</option>
                                             </select>
                                         </div>
-                                      </td>
+                                    </td>
                                     <td style="width: 480px;">
                                         <div style="height: 50px;">
                                             <asp:Label ID="lblTrustName" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnTrustName" runat="server" /><br />
+                                            <asp:HiddenField ID="hdnTrustName" runat="server" />
+                                            <br />
                                             <asp:Label ID="lblAdress" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnDeliveryAddress" runat="server" /><br />
+                                            <asp:HiddenField ID="hdnDeliveryAddress" runat="server" />
+                                            <br />
                                             <asp:Label ID="lblPhoneNo" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnDeliveryPhoneNo" runat="server" /><br />
+                                            <asp:HiddenField ID="hdnDeliveryPhoneNo" runat="server" />
+                                            <br />
 
                                         </div>
                                     </td>
@@ -269,12 +274,16 @@
                                         </div>
                                         <div>
                                             <asp:Label ID="lblBillingName" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnBillingName" runat="server" /><br />
+                                            <asp:HiddenField ID="hdnBillingName" runat="server" />
+                                            <br />
                                             <asp:Label ID="lblBillingAddres" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnBillingAddres" runat="server" /><br />
+                                            <asp:HiddenField ID="hdnBillingAddres" runat="server" />
+                                            <br />
                                             <asp:Label ID="lblBillingPhone" runat="server"></asp:Label>
-                                            <asp:HiddenField ID="hdnBillingPhone" runat="server" /><br />
-                                        </div><br />
+                                            <asp:HiddenField ID="hdnBillingPhone" runat="server" />
+                                            <br />
+                                        </div>
+                                        <br />
                                         <label id="lblContact" style="color: #cc3300"><u><b>Contact Person:-</b></u></label>
                                         <asp:TextBox ID="txtcontact" Style="margin-top: -36px; margin-left: 128px; width: 117px;" runat="server"></asp:TextBox>
                                     </td>

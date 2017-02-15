@@ -89,14 +89,14 @@ function BindEstimate(inchargeId) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetEstimateNumberList",
-        data: JSON.stringify({ InchargeID: parseInt(inchargeId) }),
+        data: JSON.stringify({ purchaseSourceID: 3, inchargeID: parseInt(inchargeId) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
                 $.each(Result, function (key, value) {
                     $("#drpEstimate").append($("<option></option>").val(value.EstId).html(value.EstId));
-                   
+
                 });
             }
         },

@@ -151,9 +151,21 @@ public class PurchaseRepository
         return _context.VendorInfo.ToList();
     }
 
-    public List<Estimate> GetEstimateNumberList(int InchargeID)
+    public List<Estimate> GetEstimateNumberList(int inchargeID, int purchaseSourceID)
     {
-        var estimates = _context.Estimate.Where(e => e.IsApproved == true && e.EstimateAndMaterialOthersRelations.Any(er => er.PSId == 3 && er.DispatchStatus == 1 && er.PurchaseEmpID == InchargeID)).ToList();
+        List<Estimate> estimates = new List<Estimate>();
+
+        DateTime getdate = DateTime.Now.AddDays(-30);
+
+        if (inchargeID > 0)
+        {
+            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 1 && er.PurchaseEmpID == inchargeID)).ToList();
+        }
+        else
+        {
+            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= getdate && e.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 1)).ToList();
+        }
+
         return estimates;
     }
 

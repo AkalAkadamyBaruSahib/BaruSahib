@@ -172,6 +172,7 @@ function BindEstimate() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetEstimateNumberList",
+        data: JSON.stringify({ purchaseSourceID: 3, inchargeID: 0 }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
