@@ -489,6 +489,8 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
     {
         string[] columnname = new string[] { "EstimateNo", "AgencyName", "MatName", "EstQTY", "EstRate", "EstAmount", "PurchasedQTY", "PurchasedRate" };
 
+        string[] columnWidths = new string[] { "20", "20", "20", "5", "5", "10", "10", "10" };
+
         DataTable dsMaterial = new DataTable();
 
         string pdfhtml = string.Empty;
@@ -497,7 +499,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
 
         if (dsMaterial != null && dsMaterial.Rows.Count > 0)
         {
-            pdfhtml = Utility.getPDFHTML(8, columnname, dsMaterial.Rows.Count, "Work Allot Name: " + dsMaterial.Rows[0]["WorkAllotName"].ToString());
+            pdfhtml = Utility.getPDFHTML(8, columnname, dsMaterial.Rows.Count, "Work Allot Name: " + dsMaterial.Rows[0]["WorkAllotName"].ToString(), columnWidths);
             string pattern = string.Empty;
             string replace = string.Empty;
             for (int i = 0; i < dsMaterial.Rows.Count; i++)

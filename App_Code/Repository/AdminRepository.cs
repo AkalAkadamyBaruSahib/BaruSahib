@@ -33,7 +33,7 @@ public class AdminRepository
             acaAssignToEmployee.AcaId = aca.AcaID;
             acaAssignToEmployee.EmpId = InchargeID;
             acaAssignToEmployee.ZoneId = aca.ZoneId;
-            acaAssignToEmployee.Active =true;
+            acaAssignToEmployee.Active = true;
             acaAssignToEmployee.CreatedOn = DateTime.Now;
             acaAssignToEmployee.CreatedBy = "ADMIN";
             _context.AcademyAssignToEmployee.Add(acaAssignToEmployee);

@@ -62,7 +62,9 @@ public partial class Admin_BillReports : System.Web.UI.Page
 
     protected void MaterialDetailByWorkAllotIDInPDF()
     {
-        string[] columnname = new string[] { "SubBillId", "BillDate", "AgencyName", "BillType", "TotalAmount" };
+        string[] columnname = new string[] { "SubBillId", "BillNo", "BillDate", "AgencyName", "BillType", "TotalAmount" };
+
+        string[] columnWidths = new string[] { "10", "10", "20", "20", "20", "20" };
 
         DataTable dsBills = new DataTable();
 
@@ -70,10 +72,9 @@ public partial class Admin_BillReports : System.Web.UI.Page
 
         dsBills = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_GetApprocedBillDetails] " + ddlAcademy.SelectedValue + ", '" + txtfirstDate.Text + "','" + txtlastDate.Text + "'").Tables[0];
 
-
         if (dsBills != null && dsBills.Rows.Count > 0)
         {
-            pdfhtml = Utility.getPDFHTML(8, columnname, dsBills.Rows.Count, "Approved Bill Details of " + ddlAcademy.SelectedItem.Text);
+            pdfhtml = Utility.getPDFHTML(6, columnname, dsBills.Rows.Count, "Approved Bill Details of " + ddlAcademy.SelectedItem.Text, columnWidths);
             string pattern = string.Empty;
             string replace = string.Empty;
             for (int i = 0; i < dsBills.Rows.Count; i++)

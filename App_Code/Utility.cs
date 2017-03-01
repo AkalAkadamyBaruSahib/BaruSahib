@@ -630,7 +630,7 @@ public static class Utility
         return MaterialInfo;
     }
 
-    public static string getPDFHTML(int numOfColumn, string[] columnName, int numOfRows, string header)
+    public static string getPDFHTML(int numOfColumn, string[] columnName, int numOfRows, string header, string[] columnWidths)
     {
         string grid = string.Empty;
         string columnstr = string.Empty;
@@ -661,9 +661,12 @@ public static class Utility
         grid += "<thead>";
         grid += "<tr>";
 
+        int columnWidth = 0;
+
         foreach (string str in columnName)
         {
-            grid += "<th style='width: 30%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>" + str + "</th>";
+            grid += "<th style='width:" + columnWidths[columnWidth] + "%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>" + str + "</th>";
+            columnWidth++;
         }
         grid += "</tr>";
         grid += "</thead>";
@@ -673,10 +676,12 @@ public static class Utility
         {
             grid += "<tr>";
 
+            columnWidth = 0;
             foreach (string str in columnName)
             {
                 columnstr = str.Substring(0, 4) + i + str.Substring(4);
-                grid += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + columnstr + "</td>";
+                grid += "<td style='width: " + columnWidths[columnWidth] + "%; text-align: center; vertical-align: middle;'>" + columnstr + "</td>";
+                columnWidth++;
             }
             grid += "</tr>";
         }
