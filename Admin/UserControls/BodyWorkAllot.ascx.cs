@@ -499,7 +499,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
 
         if (dsMaterial != null && dsMaterial.Rows.Count > 0)
         {
-            pdfhtml = Utility.getPDFHTML(8, columnname, dsMaterial.Rows.Count, "Work Allot Name: " + dsMaterial.Rows[0]["WorkAllotName"].ToString(), columnWidths);
+            pdfhtml = Utility.getPDFHTML(8, columnname, dsMaterial.Rows.Count, "Work Allot Name: " + dsMaterial.Rows[0]["WorkAllotName"].ToString(), columnWidths, false);
             string pattern = string.Empty;
             string replace = string.Empty;
             for (int i = 0; i < dsMaterial.Rows.Count; i++)

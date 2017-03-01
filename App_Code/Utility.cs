@@ -630,7 +630,7 @@ public static class Utility
         return MaterialInfo;
     }
 
-    public static string getPDFHTML(int numOfColumn, string[] columnName, int numOfRows, string header, string[] columnWidths)
+    public static string getPDFHTML(int numOfColumn, string[] columnName, int numOfRows, string header, string[] columnWidths, bool footarRow)
     {
         string grid = string.Empty;
         string columnstr = string.Empty;
@@ -670,6 +670,18 @@ public static class Utility
         }
         grid += "</tr>";
         grid += "</thead>";
+        if (footarRow)
+        {
+            grid += "<tfoot>";
+            grid += "<tr>";
+            grid += "<td colspan='" + (numOfColumn - 1) + "'><div style='text-align:right'><b>Total:</b></div>";
+            grid += "</td>";
+            grid += "<td><div style='text-align:center'><b>[Total]</b></div>";
+            grid += "</td>";
+            grid += "</tr>";
+            grid += "</tfoot>";
+
+        }
         grid += "<tbody>";
 
         for (int i = 0; i < numOfRows; i++)
@@ -687,7 +699,8 @@ public static class Utility
         }
         grid += "</tbody>";
         grid += "</table>";
-    
+
+        
 
         return grid;
     }
