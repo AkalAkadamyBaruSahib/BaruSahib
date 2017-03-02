@@ -8,6 +8,7 @@ using System.Data;
 using System.Net;
 using IronPdf;
 using System.Globalization;
+using System.Collections;
 public partial class Emp_BillSubmit : System.Web.UI.Page
 {
     private int BillID = -1;
@@ -387,7 +388,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             AgencyName = AgencyName.Replace("/", "");
             string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx);
             fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
-            string fileName = "VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx;
+            string fileName = "VendorBill/" + AgencyName.Trim() + "_" + BillID + FileEx;
 
             if (BillID > 0)
             {
@@ -395,7 +396,31 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             }
             else
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser '','" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','1','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedValue + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "','" + hdnVandorID.Value + "'");
+                Hashtable param = new Hashtable();
+                param.Add("SubBillId", string.Empty);
+                param.Add("BillTYpeIdChargeableTo", ddlBillType1.SelectedValue);
+                param.Add("BillDate", txtBillDate.Text);
+                param.Add("GateEntyNo", txtGateEntryNo.Text);
+                param.Add("StockEnteryNo", string.Empty);
+                param.Add("AgencyName", AgencyName);
+                param.Add("Remark", txtRemark.Text);
+                param.Add("type", 1);
+                param.Add("Active", 1);
+                param.Add("CreatedModifyBy", inchargeID);
+                param.Add("EstId", string.Empty);
+                param.Add("AcaId", AcaId);
+                param.Add("ZoneId", ZoneId);
+                param.Add("NatureOfBill", string.Empty);
+                param.Add("BillTypeText", ddlBillType1.SelectedValue);
+                param.Add("NameOfWork", ddlNameOfWork.SelectedValue);
+                param.Add("VendorBillNumber", txtAgenyBillNo.Text);
+                param.Add("VendorBillPath", fileName);
+                param.Add("VendorID", hdnVandorID.Value);
+
+                int billID = DAL.DalAccessUtility.GetDataInScaler("USP_NewSubmitBillByUser", param);
+
+                fileName = "VendorBill/" + AgencyName.Trim() + "_" + billID + FileEx;
+                DAL.DalAccessUtility.ExecuteNonQuery("Update SubmitBillByUser set VendorBillPath='" + fileName + "' where SubBillId=" + billID);
             }
 
 

@@ -13,11 +13,9 @@ public partial class ChangePassword : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        DataSet dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct EmailId from Login where EmailId='" + txtLoginId.Text + "'");
         DataSet dsOldPwd = DAL.DalAccessUtility.GetDataInDataSet("select UserPwd from Incharge where LoginId='" + txtLoginId.Text + "'");
-        if (dsExist.Tables[0].Rows.Count > 0)
+        if (dsOldPwd.Tables[0].Rows.Count > 0)
         {
-            
             if (txtLoginId.Text == "")
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Login ID.');", true);

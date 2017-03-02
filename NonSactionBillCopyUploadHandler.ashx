@@ -17,12 +17,13 @@ public class NonSactionBillCopyUploadHandler : IHttpHandler
             string databasePath = string.Empty;
             var file = context.Request.Files;
             var billID = context.Request.QueryString["BillId"];
+            var agencyName = context.Request.QueryString["agencyname"];
             for (int i = 0; i < file.Count; i++)
             {
 
                 string ext = System.IO.Path.GetExtension(file[i].FileName).Trim();
 
-                string strFileName = DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ext;
+                string strFileName = agencyName + "_" + billID + ext;
 
                 fileName = System.IO.Path.Combine(path, strFileName);
 

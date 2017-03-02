@@ -767,6 +767,7 @@ function SaveNonSanctionData() {
     SubmitBillByUser.SubmitBillByUserAndMaterialOthersRelation = submitBillByUserAndMaterialOthersRelation;
     params.SubmitBillByUser = SubmitBillByUser;
 
+    var agencyName = SubmitBillByUser.AgencyName;
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -776,7 +777,7 @@ function SaveNonSanctionData() {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 $("input[id*='hdnSubBillID']").val(result.d);
-                AgencyBillCopyUpload(result.d);
+                AgencyBillCopyUpload(result.d, agencyName);
             }
         },
         error: function (result, textStatus) {
@@ -785,7 +786,7 @@ function SaveNonSanctionData() {
     });
 }
 
-function AgencyBillCopyUpload(billid) {
+function AgencyBillCopyUpload(billid,agencyName) {
     var files = $("input[id*='fileAgencyBill']")[0].files;
 
     var data = new FormData();
@@ -794,7 +795,7 @@ function AgencyBillCopyUpload(billid) {
     }
 
     $.ajax({
-        url: "NonSactionBillCopyUploadHandler.ashx?BillID=" + billid,
+        url: "NonSactionBillCopyUploadHandler.ashx?BillID=" + billid + "&agencyname=" + agencyName,
         type: "POST",
         async: false,
         data: data,
