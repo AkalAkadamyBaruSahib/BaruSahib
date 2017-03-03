@@ -136,6 +136,8 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             trRemarks.Visible = false;
             btnShowData.Visible = false;
             ddlNameOfWork.Visible = false;
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "msg", "BillSumitRateCondition();", true);
         }
         else
         {

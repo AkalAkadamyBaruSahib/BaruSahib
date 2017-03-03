@@ -564,7 +564,7 @@ function ClearData(cntID) {
     $("#txtMaterialName" + cntID).val("");
     $("#txtRate" + cntID).val("");
     $("#lblUnit" + cntID).text("");
-    $("#txtRemarks" + cntID).val("");
+    $("#txtTotal" + cntID).val("");
     $("#txtQty" + cntID).val("");
     $("#spnMaterialTypeID" + cntID).text("");
 }
@@ -601,7 +601,7 @@ function AddMaterialRow() {
             '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
             '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
             '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
-            '<td><input id="txtRemarks' + cntM + '" name="txtRemarks' + cntM + '" value="" type="text"class="span6 typeahead" style="width:200px;"/></td>' +
+            '<td><span id="txtTotal' + cntM + '" name="txtTotal' + cntM + '" class="span6 typeahead" /></td>' +
             '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /><input type="hidden" id="hdnMaterialTypeName' + cntM + '" /></td></tr>');
 
         BindPurchaseSource(cntM);
@@ -671,7 +671,7 @@ function Validation() {
 }
 
 function TotalEstimateAmt() {
-    BillSumitRateCondition();
+    //BillSumitRateCondition();
     if (Validation()) {
         var tablelength = $("#tbody2").children('tr').length;
         var Amt = 0;
@@ -751,7 +751,7 @@ function SaveNonSanctionData() {
             }
             SubmitBillByUserAndMaterialOthersRelation.UnitName = $("#lblUnit" + i).text();
             SubmitBillByUserAndMaterialOthersRelation.ItemName = $("#txtMaterialName" + i).val();
-            SubmitBillByUserAndMaterialOthersRelation.Remark = $("#txtRemarks" + i).val();
+            SubmitBillByUserAndMaterialOthersRelation.Remark = "";
             SubmitBillByUserAndMaterialOthersRelation.UnitId = $("#hdnUnitID" + i).val();
             SubmitBillByUserAndMaterialOthersRelation.CreatedBy = $("input[id*='hdnInchargeID']").val();
             SubmitBillByUserAndMaterialOthersRelation.ModifyBy = $("input[id*='hdnInchargeID']").val();
@@ -829,15 +829,15 @@ function BillSumitRateCondition() {
                 var billingAmount = 0;
                 billingAmount = parseFloat(Amount) + parseFloat(totalBillingAmount);
                 if (totalBillingAmount == 5000 && billingAmount > 5000) {
-                    $("#spnmsg").html("You already submitted bills for Rs 5000 for this month. Now you can not submit more bills for this month.");
+                    $("#spnmsg").html("You have already submitted bills for Rs 5000 for this month now you can not submit more bills for this month.");
                     return false;
                 }
                 else if (totalBillingAmount < 5000 && billingAmount > 5000) {
-                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month., Now you can submit bills up to Rs" + (parseFloat(5000) - parseFloat(totalBillingAmount)) + ".");
+                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month now you can submit bills up to Rs" + (parseFloat(5000) - parseFloat(totalBillingAmount)) + ".");
                     return false;
                 }
                 else {
-                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month., Now you can submit bills up to Rs" + (parseFloat(5000) - parseFloat(totalBillingAmount)) + ".");
+                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month now you can submit bills up to Rs" + (parseFloat(5000) - parseFloat(totalBillingAmount)) + ".");
                     return false;
                 }
                 return true;
@@ -955,7 +955,7 @@ function AddUpdateMaterialRow() {
         '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
         '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
         '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
-        '<td><input id="txtRemarks' + cntM + '" name="txtRemarks' + cntM + '" value="" type="text"class="span6 typeahead" style="width:200px;"/></td>' +
+        '<td><span id="txtTotal' + cntM + '" name="txtTotal' + cntM + '" class="span6 typeahead" style="width:200px;"/></td>' +
         '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /><input type="hidden" id="hdnMaterialTypeName' + cntM + '" /></td></tr>');
 
     BindPurchaseSource(cntM);

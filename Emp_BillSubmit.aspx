@@ -154,7 +154,7 @@
                                                                 <th style="color: #cc3300; width: 120px;">Quantity</th>
                                                                 <th style="color: #cc3300; width: 50px;">Unit</th>
                                                                 <th style="color: #cc3300; width: 100px">Rate</th>
-                                                                <th style="color: #cc3300; width: 200px">Remarks</th>
+                                                                <th style="color: #cc3300; width: 200px">Total</th>
                                                                 <th style="color: #cc3300; width: 75px;">Action</th>
                                                             </tr>
                                                         </thead>
@@ -188,7 +188,7 @@
                                                                     <input id="txtRate0" type="text" style="width: 80px;" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRemarks0" type="text" class="span6 typeahead" style="width: 200px;" />
+                                                                    <span id="txtTotal0" class="span6 typeahead" ></span>
                                                                 </td>
                                                                 <td>
                                                                     <a href="javascript:void(0);" id="aAddNewRow0" onclick="AddMaterialRow();"><b>Add Row</b></a>
