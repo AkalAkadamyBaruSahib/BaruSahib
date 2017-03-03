@@ -94,10 +94,11 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         tdWorkAllot.Visible = true;
         // divbtnupload.Visible = false;
         //divuploadfile.Visible = false;
-        if (hdnIsApproved.Value == "True")
-        {
-            gvDetails.ShowFooter = false;
-        }
+
+        //if (hdnIsApproved.Value == "True")
+        //{
+        //    gvDetails.ShowFooter = false;
+        //}
 
     }
 
@@ -374,7 +375,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
             TextBox txQty = (TextBox)gvDetails.FooterRow.FindControl("txtQtyFooter");
             TextBox txRate = (TextBox)gvDetails.FooterRow.FindControl("txtRateFooter");
-            DropDownList dlSt = (DropDownList)gvDetails.FooterRow.FindControl("ddlPsFooter");
+            DropDownList ddlPsFooter = (DropDownList)gvDetails.FooterRow.FindControl("ddlPsFooter");
             Label lbUnit = (Label)gvDetails.FooterRow.FindControl("lblUnitFooter");
             if (lbUnit.Text == null)
             {
@@ -385,7 +386,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + lbUnit.Text + "'");
                 int uId = Convert.ToInt32(dsUnitId.Tables[0].Rows[0]["UnitId"].ToString());
                 Label lbAmt = (Label)gvDetails.FooterRow.FindControl("lblAmtFooter");
-                DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + dlSt.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',0)");
+                DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + ddlPsFooter.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',0)");
                 DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + id + "'");
                 DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + id + "'");
                 GetEstimateDetails();
@@ -424,13 +425,21 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
 
         DataTable dsSourcTypef = new DataTable();
-        if (ddlMateType.SelectedValue == "83")
+
+        if (hdnIsApproved.Value.ToLower() == "false")
         {
-            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+            if (ddlMateType.SelectedValue == "83")
+            {
+                dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+            }
+            else
+            {
+                dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId!=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+            }
         }
         else
         {
-            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId!=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1 AND psid=" + (int)TypeEnum.PurchaseSourceID.Local).Tables[0];
         }
         if (dsSourcTypef != null)
         {
@@ -492,10 +501,17 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 order by MatTypeName asc");
         }
         DataSet dsSourcTypef = new DataSet();
-        dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
-        DataSet dsremarks = new DataSet();
-        //dsremarks = DAL.DalAccessUtility.GetDataInDataSet("select remarkByPurchase from EstimateAndMaterialOthersRelations where Active=1");
 
+        if (hdnIsApproved.Value.ToLower() == "false")
+        {
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
+        }
+        else
+        {
+            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1 AND psid=" + (int)TypeEnum.PurchaseSourceID.Local);
+        }
+        
+        DataSet dsremarks = new DataSet();
 
         if (e.Row.RowType == DataControlRowType.Footer)
         {
@@ -518,6 +534,8 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             ddlSourceTypef.DataBind();
             ddlSourceTypef.Items.Insert(0, "Source Type");
             ddlSourceTypef.SelectedIndex = 0;
+
+        
 
         }
         else if (e.Row.RowType == DataControlRowType.DataRow)
