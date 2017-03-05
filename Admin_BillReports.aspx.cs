@@ -107,7 +107,10 @@ public partial class Admin_BillReports : System.Web.UI.Page
                 pdfhtml = Regex.Replace(pdfhtml, pattern, replace);
 
 
-                totalAmount += Convert.ToDecimal(dsBills.Rows[i]["TotalAmount"].ToString());
+                if (!string.IsNullOrEmpty(dsBills.Rows[i]["TotalAmount"].ToString()))
+                {
+                    totalAmount += Convert.ToDecimal(dsBills.Rows[i]["TotalAmount"].ToString());
+                }
             }
 
             pdfhtml = pdfhtml.Replace("[Total]", totalAmount.ToString());
