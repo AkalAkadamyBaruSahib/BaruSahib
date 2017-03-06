@@ -11,7 +11,7 @@ using System.Globalization;
 using System.Collections;
 public partial class Emp_BillSubmit : System.Web.UI.Page
 {
-    private int BillID = -1;
+    private int billID = -1;
     private int inchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {  
@@ -48,7 +48,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
             if (Request.QueryString["BillID"] != null && Request.QueryString["AcaId"] != null)
             {
-                BillID = int.Parse(Request.QueryString["BillID"]);
+                billID = int.Parse(Request.QueryString["BillID"]);
                 ShowBillDetails(Request.QueryString["BillID"].ToString());
             }
            
@@ -56,7 +56,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
 
         if (Request.QueryString["BillID"] != null && Request.QueryString["AcaId"] != null)
         {
-            BillID = int.Parse(Request.QueryString["BillID"]);
+            billID = int.Parse(Request.QueryString["BillID"]);
         }
 
     }
@@ -383,16 +383,10 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         string ZoneId = dsZ.Tables[0].Rows[0]["ZoneId"].ToString();
         if (ddlBillType1.SelectedValue == ((int)TypeEnum.BillType.Sanctioned).ToString())
         {
-            string FileEx = System.IO.Path.GetExtension(fileAgencyBill.FileName);
-            AgencyName = AgencyName.Replace(" ", "");
-            AgencyName = AgencyName.Replace("/", "");
-            string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + txtAgenyBillNo.Text + FileEx);
-            fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
-            string fileName = "VendorBill/" + AgencyName.Trim() + "_" + BillID + FileEx;
-
-            if (BillID > 0)
+            if (billID > 0)
             {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + BillID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedValue + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + fileName + "','" + hdnVandorID.Value + "'");
+                string fileName = UploadFiles(ref AgencyName);
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + billID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedValue + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + string.Empty + "','" + hdnVandorID.Value + "'");
             }
             else
             {
@@ -414,15 +408,13 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                 param.Add("BillTypeText", ddlBillType1.SelectedValue);
                 param.Add("NameOfWork", ddlNameOfWork.SelectedValue);
                 param.Add("VendorBillNumber", txtAgenyBillNo.Text);
-                param.Add("VendorBillPath", fileName);
+                param.Add("VendorBillPath", string.Empty);
                 param.Add("VendorID", hdnVandorID.Value);
 
-                int billID = DAL.DalAccessUtility.GetDataInScaler("USP_NewSubmitBillByUser", param);
-
-                fileName = "VendorBill/" + AgencyName.Trim() + "_" + billID + FileEx;
+                billID = DAL.DalAccessUtility.GetDataInScaler("USP_NewSubmitBillByUser", param);
+                string fileName = UploadFiles(ref AgencyName);
                 DAL.DalAccessUtility.ExecuteNonQuery("Update SubmitBillByUser set VendorBillPath='" + fileName + "' where SubBillId=" + billID);
             }
-
 
             string MatId, Material, Qty, UnitId, UnitName, Rate, StockEntryNo, EstQty1, vat;
             decimal SubTotal = 0;
@@ -485,45 +477,48 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                     totalVatIncluded = 0;
                 }
 
-                if (BillID > 0)
+                if (!String.IsNullOrEmpty(hdnSno.Value) && int.Parse(hdnSno.Value) > 0)
                 {
-                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations " + hdnSno.Value + "," + BillID + ",'','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + inchargeID + "','2','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
+                    DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations " + hdnSno.Value + "," + billID + ",'','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + inchargeID + "','2','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
                 }
                 else
                 {
                     DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewSubmitBillByUserAndMaterialOthersRelations '','','','" + MatId + "','" + Material + "','" + Qty + "','" + UnitId + "','" + Rate + "','" + totalIncludeVat + "','" + inchargeID + "','1','1','','" + StockEntryNo + "','" + ddlNameOfWork.SelectedValue + "','" + totalVatIncluded + "'");
                 }
             }
-            if (BillID > 0)
+
+            if (billID > 0)
             {
-                DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + BillID);
+                DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + billID);
+                hdnBillID.Value = billID.ToString();
             }
-            else
-            {
-                DataTable dsBill = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + inchargeID + "'").Tables[0];
-                if (dsBill != null && dsBill.Rows.Count > 0)
-                {
-                    DAL.DalAccessUtility.GetDataInDataSet("update SubmitBillByUser set TotalAmount=" + TotalBillAmount + " where SubBillId=" + dsBill.Rows[0]["NewBillId"].ToString());
-                    hdnBillID.Value = dsBill.Rows[0]["NewBillId"].ToString();
-                }
-            }
+
             gvAddItems2.DataSource = null;
             gvAddItems2.DataBind();
             SetInitialRowEstimateDataLoad();
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Submitted Successfully.');", true);
-
-            DataSet dsBillId = DAL.DalAccessUtility.GetDataInDataSet("select MAX(SubBillId)as NewBillId from SubmitBillByUser where CreatedBy='" + hdnInchargeID.Value + "'");
-
-            DataSet dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "'");
-
-            string msg = "New " + dsBillDetails.Tables[0].Rows[0]["BillType"].ToString() + " bill for " + dsBillDetails.Tables[0].Rows[0]["AcaName"].ToString() + " academy issued by Mr. " + dsBillDetails.Tables[0].Rows[0]["InName"].ToString() + ",  Bill No. is " + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + " ";
-
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsgToAdmin '" + lblUser.Text + "','" + msg + "'");
-
-            Response.Redirect("Emp_BillDetails.aspx?BillId=" + dsBillId.Tables[0].Rows[0]["NewBillId"].ToString() + "");
+            Response.Redirect("Emp_BillDetails.aspx?BillId=" + billID + "");
         }
     }
+
+    private string UploadFiles(ref string AgencyName)
+    {
+        string fileName = string.Empty;
+        int fileCount = 0;
+        foreach (HttpPostedFile file in fileAgencyBill.PostedFiles)
+        {
+            fileCount++;
+            string FileEx = System.IO.Path.GetExtension(file.FileName);
+            AgencyName = AgencyName.Replace(" ", "");
+            AgencyName = AgencyName.Replace("/", "");
+            string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + billID + "_" + fileCount + FileEx);
+            fileName += "VendorBill/" + AgencyName.Trim() + "_" + billID + FileEx + ";";
+            fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
+        }
+
+        return fileName.Substring(0, fileName.Length - 1);
+    }
+
     protected void ddlNameOfWork_SelectedIndexChanged(object sender, EventArgs e)
     {
         DataSet dsDes = new DataSet();

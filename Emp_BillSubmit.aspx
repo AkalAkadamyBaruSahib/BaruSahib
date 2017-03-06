@@ -122,7 +122,7 @@
                                                 <asp:RequiredFieldValidator ID="reqBillDate" runat="server" Style="float: right; margin-right: 145px;" ControlToValidate="txtBillDate" ErrorMessage="Please enter Bill Date." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
                                             </td>
                                             <td>Agency Bill Upload :
-                                                <asp:FileUpload ID="fileAgencyBill" runat="server" />
+                                                <asp:FileUpload ID="fileAgencyBill" AllowMultiple="true" runat="server" />
                                                   <div id="afileVendorBillPath" style="display:none;"></div>
                                                 <a href="#" runat="server" id="afilePath" visible="false" style="font-size: 13px;" target="_blank">Bill Copy</a>
                                                  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="fileAgencyBill" ErrorMessage="Please Upload the Agency Bill." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
