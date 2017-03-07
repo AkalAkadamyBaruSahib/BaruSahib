@@ -102,7 +102,7 @@
                                         <div class="control-group">
                                             <b>Agency Bill</b>
                                             <div class="controls">
-                                                <a href="#" id="aAgencyBill" runat="server" style="font-size: 13px;" target="_blank">BillCopy</a>
+                                                <asp:Label ID="aAgencyBill" runat="server" ForeColor="Red"></asp:Label>
                                             </div>
                                         </div>
                                     </td>

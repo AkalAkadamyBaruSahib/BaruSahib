@@ -1,4 +1,4 @@
-CREATE procedure [dbo].[USP_EstimateMaterialViewForEmp_ByEmployeeID]       
+ALTER procedure [dbo].[USP_EstimateMaterialViewForEmp_ByEmployeeID]       
 (                
 @estId as int,                
 @PsId as int,    
@@ -9,8 +9,9 @@ begin
 SELECT     Estimate.EstId, EstimateAndMaterialOthersRelations.PSId, 
 Material.MatName,Material.MatTypeID,Material.MatID, Unit.UnitName,Unit.UnitId, 
 EstimateAndMaterialOthersRelations.Qty, CONVERT(nvarchar(20),         
-EstimateAndMaterialOthersRelations.TantiveDate, 107) AS TantiveDate,CONVERT(nvarchar(20), EstimateAndMaterialOthersRelations.DispatchDate, 107)AS DispatchDate, EstimateAndMaterialOthersRelations.remarkByPurchase,EstimateAndMaterialOthersRelations.DispatchStatus,         
-EstimateAndMaterialOthersRelations.Sno,
+EstimateAndMaterialOthersRelations.TantiveDate, 107) AS TantiveDate,CONVERT(nvarchar(20), EstimateAndMaterialOthersRelations.DispatchDate, 107)AS DispatchDate, EstimateAndMaterialOthersRelations.remarkByPurchase,
+EstimateAndMaterialOthersRelations.DispatchStatus,         
+EstimateAndMaterialOthersRelations.Sno,EstimateAndMaterialOthersRelations.Rate,
 ISNULL(EstimateAndMaterialOthersRelations.PurchaseQty,0.00) AS PurchaseQty
 FROM         Estimate INNER JOIN 
              EstimateAndMaterialOthersRelations ON 

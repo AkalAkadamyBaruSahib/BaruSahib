@@ -64,7 +64,7 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         lblAca.Text = dsBill.Tables[0].Rows[0]["AcaName"].ToString();
         hdnWorkAllotID.Value = dsBill.Tables[0].Rows[0]["WAID"].ToString();
         lblAgencyBillNo.Text = dsBill.Tables[0].Rows[0]["AgencyBillNumber"].ToString();
-        aAgencyBill.HRef = "Bills/" + dsBill.Tables[0].Rows[0]["AgencyBill"].ToString();
+        aAgencyBill.Text = GetFileName(dsBill.Tables[0].Rows[0]["AgencyBill"].ToString(), dsBill.Tables[0].Rows[0]["AgencyName"].ToString());
         if (dsBill.Tables[0].Rows[0]["FirstVarifyStatus"].ToString() == "1")
         {
             divFinalButtons.Visible = false;
@@ -199,5 +199,19 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
     {
         string folderPath = Server.MapPath("Bills/CivilBillInvoice");
         Utility.GeneratePDFCivilMaterialBill(Convert.ToInt32(Request.QueryString["SubBillId"].ToString()), folderPath);
+    }
+    private string GetFileName(string filepaths, string fileName)
+    {
+        string anchorLink = string.Empty;
+        string[] filePath = filepaths.Split(';');
+        int count = 0;
+        foreach (string path in filePath)
+        {
+            count++;
+            anchorLink += "<a href= Bills/" + path + " target='_blank'>" + fileName + "_" + count + "</a> , ";
+        }
+
+        return anchorLink.Substring(0, anchorLink.Length - 3);
+
     }
 }

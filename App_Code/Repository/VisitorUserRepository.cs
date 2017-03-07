@@ -491,4 +491,24 @@ public class VisitorUserRepository
         StudentDetail visitor = _context.StudentDetail.Where(v => v.AdmissionNumber == AdmissionNumber).FirstOrDefault();
         return visitor;
     }
+
+    public void AddNewStudents(StudentDetail student)
+    {
+        _context.Entry(student).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+    public void UpdateStudentsInfo(StudentDetail student)
+    {
+       StudentDetail stu = _context.StudentDetail.Where(v => v.ID == student.ID).FirstOrDefault();
+        stu.ID = student.ID;
+        stu.ContactNo = student.ContactNo;
+        stu.Class = student.Class;
+        stu.StudentName = student.StudentName;
+        stu.CountryID = student.CountryID;
+        stu.StateID = student.StateID;
+        stu.CityID = student.CityID;
+        
+        _context.Entry(stu).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
 }

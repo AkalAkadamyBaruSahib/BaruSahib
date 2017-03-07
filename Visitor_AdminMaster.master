@@ -125,6 +125,7 @@
                                 <ul>
                                     <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorType=1"><span class="hidden-tablet">Add New Visitor</span></a></li>
                                     <li><a class="ajax-link" href="Visitor_AddNew.aspx?VisitorType=2"><span class="hidden-tablet">Add Permanent Employee</span></a></li>
+                                     <li><a class="ajax-link" href="AddNewStudentInfo.aspx"><span class="hidden-tablet">Add New Student</span></a></li>
                                 </ul>
                             </li>
                            

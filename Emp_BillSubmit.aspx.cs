@@ -507,6 +507,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
     {
         string fileName = string.Empty;
         int fileCount = 0;
+        
         foreach (HttpPostedFile file in fileAgencyBill.PostedFiles)
         {
             fileCount++;
@@ -514,8 +515,8 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             AgencyName = AgencyName.Replace(" ", "");
             AgencyName = AgencyName.Replace("/", "");
             string vendorBillpath = Server.MapPath("~/Bills/VendorBill/" + AgencyName.Trim() + "_" + billID + "_" + fileCount + FileEx);
-            fileName += "VendorBill/" + AgencyName.Trim() + "_" + billID + FileEx + ";";
-            fileAgencyBill.PostedFile.SaveAs(vendorBillpath);
+            fileName += "VendorBill/" + AgencyName.Trim() + "_" + billID + "_" + fileCount + FileEx + ";";
+            file.SaveAs(vendorBillpath);
         }
 
         return fileName.Substring(0, fileName.Length - 1);
