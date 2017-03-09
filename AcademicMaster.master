@@ -126,17 +126,17 @@
                     <div class="well nav-collapse sidebar-nav">
                         <ul class="nav nav-tabs nav-stacked main-menu">
                             <li class="nav-header hidden-tablet">Main</li>
-                            <li><a class="ajax-link" href="Emp_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
-                            <li><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted(<asp:Label ID="lblWorkCount" runat="server" ForeColor="Red" Text="10"></asp:Label>)</span></a></li>
-                            <li><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate(<asp:Label ID="lblEstimate" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status</span></a></li>
-                            <li><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet">Stock</span></a></li>
+                            <li id="liHome" runat="server"><a class="ajax-link" href="AcademicUserHome.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
+                            <li id="liWork" runat="server"><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted(<asp:Label ID="lblWorkCount" runat="server" ForeColor="Red" Text="10"></asp:Label>)</span></a></li>
+                            <li id="liEstimate" runat="server"><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate(<asp:Label ID="lblEstimate" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <li id="liDispatchStatusForLocal" runat="server"><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status</span></a></li>
+                            <li id="liStock" runat="server"><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet">Stock</span></a></li>
                             <%--<li><a class="ajax-link" href="Emp_DrawingView.aspx"><i class="icon-font"></i><span class="hidden-tablet"> Drawings</span></a></li>--%>
-                            <li><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="Emp_RejectedBills.aspx"><i class="icon-font"></i><span class="hidden-tablet">Rejected Bills(<asp:Label ID="lblRejBills" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="Emp_GalleryView.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
-                            <li><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Compalaint Tickets(<asp:Label ID="lblTicketCount" runat="server" ForeColor="Red" Text="10"></asp:Label>)</span></a></li>
-                            <li><a class="ajax-link" href="Academic_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
+                            <li id="liBillStatus" runat="server"><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <li id="LiReject" runat="server"><a class="ajax-link" href="Emp_RejectedBills.aspx"><i class="icon-font"></i><span class="hidden-tablet">Rejected Bills(<asp:Label ID="lblRejBills" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
+                            <li id="liGallary" runat="server"><a class="ajax-link" href="Emp_GalleryView.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
+                            <li id="liComplaints" runat="server"><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Compalaint Tickets</span></a></li>
+                            <li id="liViewMaterial" runat="server"><a class="ajax-link" href="Academic_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
 
                         </ul>
 

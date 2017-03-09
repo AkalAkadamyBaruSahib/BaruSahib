@@ -4,10 +4,13 @@ var grdCompletedTicket;
 var TicketCreatedBy = null;
 
 var _Page_tabToSelect = 0;
+var d = new Date();
+var currentDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
 
 $(document).ready(function () {
     $.fn.dataTableExt.sErrMode = 'throw';
 
+    LoadAssignComplaints();
     var $tabs = $("#tabs").tabs();
     $("#tabs").tabs({
         select: function(event, ui) {
@@ -15,14 +18,14 @@ $(document).ready(function () {
                 LoadAssignComplaints();
             }
             if (ui.index == 1) {
-                LoadInProgressComplaints(false);
+                LoadInProgressComplaints(true);
             }
             if (ui.index == 2) {
-                LoadCompleteComplaints(false);
+                LoadCompleteComplaints(true);
             }
         }
     });
-    LoadAssignComplaints();
+    
 
     $("input[id$='btnNewTicket']").click(function () {
         LoadControls();
@@ -52,7 +55,7 @@ $(document).ready(function () {
     
 
     $("#ddlSeverity").change(function () {
-        if ($(this).val() == "2") {
+        if ($(this).val() == "Regular") {
             $("#txtDays").val("");
             $("#txtDays").show();
         }
@@ -72,6 +75,11 @@ $(document).ready(function () {
         }
     });
 
+    if ($("input[id*='hdnUserType']").val() == "10")
+    {
+        $("#btnNewTicket").show();
+    }
+
   //  LoadComplaints1();
 });
 
@@ -88,7 +96,7 @@ function SaveTicket() {
 
     if (ComplaintTickets.ID == "0") {
         ComplaintTickets.CreatedBy = $("input[id*='txtuserID']").val();
-        ComplaintTickets.Severity = $('#ddlSeverity option:selected').text();
+        ComplaintTickets.Severity = $('#ddlSeverity option:selected').val();
         ComplaintTickets.SeverityDays = $("#txtDays").val();
         params.isAdd = 1;
     }
@@ -225,7 +233,6 @@ function LoadComplaints() {
     });
 }
 
-
 function LoadFeedBack(ticketID)
 {
     $("input[id*='hdnID']").val(ticketID);
@@ -234,17 +241,16 @@ function LoadFeedBack(ticketID)
     return false;
 }
 
-
 function SaveFeedback(ticketID, sfeedback) {
 
     var sfeedback = $('#ddlfeedback option:selected').text();
     var ticketID = $("input[id*='hdnID']").val();
-
+    
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/AcadamicUserController.asmx/SaveTicketFeedback",
-        data: JSON.stringify({ ID: ticketID, feedback: sfeedback }),
+        data: JSON.stringify({ ID: ticketID, feedback: sfeedback}),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -261,7 +267,6 @@ function SaveFeedback(ticketID, sfeedback) {
     return false;
 }
 
-
 function LoadData(ticketID) {
 
     $("input[id*='hdnID']").val(ticketID);
@@ -274,11 +279,9 @@ function LoadData(ticketID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var adminLoanList = result.d;
-                $("textarea[id*='txtComments']").focus();
                 $('#ddlComplaintType').val(adminLoanList.ComplaintType);
                 $("textarea[id*='txtBody']").val(adminLoanList.Description);
                 $("#ddlStatus").val(adminLoanList.StatusID);
-                $("textarea[id*='txtComments']").val(adminLoanList.Comments);
                 $("input[id*='txtCompletionDate']").val(adminLoanList.TentativeDate);
                 $("#ddlSeverity").val(adminLoanList.Severity);
                 if (adminLoanList.Severity == "Regular") {
@@ -299,7 +302,6 @@ function LoadData(ticketID) {
     });
     return false;
 }
-
 
 function DeleteTicket(ticketID) {
 
@@ -324,7 +326,6 @@ function DeleteTicket(ticketID) {
 
     return false;
 }
-
 
 function LoadControls() {
     var userType = $("input[id*='hdnUserType']").val();
@@ -354,7 +355,6 @@ function LoadControls() {
     }
 }
 
-
 function LoadAssignComplaints() {
 
     var UserType = $("input[id$='hdnUserType']").val();
@@ -370,7 +370,7 @@ function LoadAssignComplaints() {
         $("#rowTemplate").remove();
     }
 
-    var rowTemplate = '<tr id="rowTemplate"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+    var rowTemplate = '<tr id="rowTemplate"><td id="TicketID"></td><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
 
     var LoginID = $("input[id$='hdnLoginID']").val();
     var Status = "Assigned";
@@ -398,6 +398,7 @@ function LoadAssignComplaints() {
 
                     var $newRow = $("#rowTemplate").clone();
 
+                    $newRow.find("#TicketID").html("ComplaintID_" + adminLoanList[i].ID);
                     $newRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
                     $newRow.find("#Discription").html(adminLoanList[i].Description);
                     $newRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
@@ -406,18 +407,21 @@ function LoadAssignComplaints() {
                     $newRow.find("#Status").html(adminLoanList[i].Status);
                     $newRow.find("#feedback").html(adminLoanList[i].Feedback);
 
-                    if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                    if ($("input[id*='hdnUserType']").val() == "10" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
                         $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
                     }
 
-                    if ($("input[id*='hdnUserType']").val() == "2") {
+                    if ($("input[id*='hdnUserType']").val() == "33") {
                         $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'  class='btn btn-primary'>Update</a>");
                     }
                     else {
                         //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
-                        $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'  class='btn btn-primary'>Update</a>");
+                        $newRow.find("#edit").html("");
                     }
 
+                    //if (adminLoanList[i].CreatedOn < currentDate) {
+                    //    $("#rowTemplate").css('background-color', 'Red');
+                    //}
 
                     $newRow.addClass(className);
                     $newRow.show();
@@ -452,7 +456,6 @@ function LoadAssignComplaints() {
     });
 }
 
-
 function LoadInProgressComplaints(IsRefresh) {
 
     var UserType = $("input[id$='hdnUserType']").val();
@@ -471,7 +474,7 @@ function LoadInProgressComplaints(IsRefresh) {
             $("#progresRow").remove();
         }
 
-        var progresRow = '<tr id="progresRow"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+        var progresRow = '<tr id="progresRow"><td id="TicketID"></td><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
 
         var LoginID = $("input[id$='hdnLoginID']").val();
         var Status = "In Progress";
@@ -499,6 +502,7 @@ function LoadInProgressComplaints(IsRefresh) {
 
                         var $newProgresRow = $("#progresRow").clone();
 
+                        $newProgresRow.find("#TicketID").html("ComplaintID_" + adminLoanList[i].ID);
                         $newProgresRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
                         $newProgresRow.find("#Discription").html(adminLoanList[i].Description);
                         $newProgresRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
@@ -507,18 +511,17 @@ function LoadInProgressComplaints(IsRefresh) {
                         $newProgresRow.find("#Status").html(adminLoanList[i].Status);
                         $newProgresRow.find("#feedback").html(adminLoanList[i].Feedback);
 
-                        if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                        if ($("input[id*='hdnUserType']").val() == "10" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
                             $newProgresRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
                         }
 
-                        if ($("input[id*='hdnUserType']").val() == "2") {
+                        if ($("input[id*='hdnUserType']").val() == "33") {
                             $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Update</a>");
                         }
                         else {
                             //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
-                            $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Update</a>");
+                            $newProgresRow.find("#edit").html("");
                         }
-
 
                         $newProgresRow.addClass(className);
                         $newProgresRow.show();
@@ -568,12 +571,11 @@ function LoadCompleteComplaints(IsRefresh) {
             grdCompletedTicket.fnClearTable();
         }
 
-
         for (var i = 0; i < rowCount; i++) {
             $("#rowTemplate").remove();
         }
 
-        var rowTemplate = '<tr id="rowTemplate"><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
+        var rowTemplate = '<tr id="rowCompTemplate"><td id="TicketID"></td><td id="ZoneAca"></td><td id="Discription"></td><td id="CreatedOn"></td><td id="TantativeDate"></td><td id="CompletionDate"></td><td id="Status"></td><td id="feedback"></td><td id="edit"></td></tr>';
 
         var LoginID = $("input[id$='hdnLoginID']").val();
         var Status = "Completed";
@@ -584,7 +586,7 @@ function LoadCompleteComplaints(IsRefresh) {
             url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
             data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
             dataType: "json",
-            async:false,
+            async: false,
             success: function (result, textStatus) {
                 if (textStatus == "success") {
                     var adminLoanList = result.d;
@@ -598,8 +600,9 @@ function LoadCompleteComplaints(IsRefresh) {
                             className = "ReportGridAlternatingItem";
                         }
 
-                        var $newRow = $("#rowTemplate").clone();
+                        var $newRow = $("#rowCompTemplate").clone();
 
+                        $newRow.find("#TicketID").html("ComplaintID_" + adminLoanList[i].ID);
                         $newRow.find("#ZoneAca").html("<table><tr><td><b>Zone:</b> " + adminLoanList[i].Zone + "</td></tr><tr><td><b>Academy:</b> " + adminLoanList[i].Academy + "</td></tr></table>");
                         $newRow.find("#Discription").html(adminLoanList[i].Description);
                         $newRow.find("#CreatedOn").html(adminLoanList[i].CreatedOn);
@@ -608,23 +611,23 @@ function LoadCompleteComplaints(IsRefresh) {
                         $newRow.find("#Status").html(adminLoanList[i].Status);
                         $newRow.find("#feedback").html(adminLoanList[i].Feedback);
 
-                        if ($("input[id*='hdnUserType']").val() != "2" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
+                        if ($("input[id*='hdnUserType']").val() == "10" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
                             $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Feedback</a>");
                         }
 
-                        if ($("input[id*='hdnUserType']").val() == "2") {
-                            $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                        if ($("input[id*='hdnUserType']").val() == "10") {
+                            $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Update</a>");
                         }
                         else {
                             //$newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a> / <a href='#' onclick='DeleteTicket(" + adminLoanList[i].ID + ")'>Delete</a>");
-                            $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'>Update</a>");
+                            $newRow.find("#edit").html("");
                         }
 
 
                         $newRow.addClass(className);
                         $newRow.show();
                         if (i == 0) {
-                            $("#rowTemplate").replaceWith($newRow);
+                            $("#rowCompTemplate").replaceWith($newRow);
                         }
                         else {
                             $newRow.appendTo("#grdCompletedTicket > tbody");
@@ -655,3 +658,4 @@ function LoadCompleteComplaints(IsRefresh) {
         });
     }
 }
+

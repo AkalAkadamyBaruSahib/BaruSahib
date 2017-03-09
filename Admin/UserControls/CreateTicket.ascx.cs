@@ -17,6 +17,7 @@ public partial class Admin_UserControls_CreateTicket : System.Web.UI.UserControl
             hdnUserType.Value = Session["UserTypeID"].ToString();
             hdnLoginID.Value = Session["EmailId"].ToString();
             hdnUserID.Value = Session["InchargeID"].ToString();
+            hdnUserName.Value = Session["InName"].ToString();
         }
     }
     protected void btnDownload_Click(object sender, EventArgs e)

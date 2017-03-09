@@ -29,7 +29,31 @@ public class UsersRepository
         return _context.Incharge.Where(x => x.UserTypeId == UserTypeID).ToList();
     }
 
+    public Incharge GetInchargeByUserTypeAndAcaID(int userTypeID, int acaID)
+    {
+        var incharges = (from aae in _context.AcademyAssignToEmployee
+                         join x in _context.Incharge on aae.EmpId equals x.InchargeId
+                         where x.UserTypeId == userTypeID && aae.AcaId == acaID
+                        // where x.UserTypeId.ToString().Contains(userTypeID.ToString()) && aae.AcaId == acaID
+                         select new
+                         {
+                             InchargeId = x.InchargeId,
+                             InMobile = x.InMobile,
+                             InName = x.InName,
+                             LoginId = x.LoginId,
+                             UserTypeId = x.UserTypeId
 
+                         }).AsEnumerable().Select(x => new Incharge
+                         {
+                             InchargeId = x.InchargeId,
+                             InMobile = x.InMobile,
+                             InName = x.InName,
+                             LoginId = x.LoginId,
+                             UserTypeId = x.UserTypeId
+                         }).FirstOrDefault();
+
+        return incharges;
+    }
 
 
     public System.Data.DataTable GetInchargeByInchargeID(int ID)

@@ -12,9 +12,11 @@ using AkalAcademy;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 [System.Web.Script.Services.ScriptService]
-public class AcadamicUserController : System.Web.Services.WebService {
+public class AcadamicUserController : System.Web.Services.WebService
+{
 
-    public AcadamicUserController () {
+    public AcadamicUserController()
+    {
 
         //Uncomment the following line if using designed components 
         //InitializeComponent(); 
@@ -24,12 +26,19 @@ public class AcadamicUserController : System.Web.Services.WebService {
     public string SaveComplaintTicket(ComplaintTickets complaintTickets, int isAdd, int InchageID, int UserTypeID)
     {
         UsersRepository usersRepository = new UsersRepository(new DataContext());
+        Incharge dsComplintUserID = new Incharge();
+        Incharge dsConstructionUserID = new Incharge();
+        Incharge dsAcaUserID = new Incharge();
         //List<Incharge> Inchage = usersRepository.GetUsersByUserType(2);
         string ErrorMsg = string.Empty;
+        System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
+        dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT DISTINCT AcademyAssignToEmployee.ZoneId,AcademyAssignToEmployee.AcaID,Academy.AcaName,Incharge.InName,Incharge.LoginId FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId INNER JOIN Academy ON AcademyAssignToEmployee.AcaId = Academy.AcaId where AcademyAssignToEmployee.Active=1 and  Incharge.InchargeID='" + InchageID + "'");
 
         if (complaintTickets.ID == 0)
         {
-            complaintTickets.AssignedTo = 3;
+            dsComplintUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.COMPLAINT), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+
+            complaintTickets.AssignedTo = dsComplintUserID.InchargeId; // it should be assign to complaint user
             complaintTickets.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             complaintTickets.Status = "Assigned";
             ErrorMsg = "Complaint has been created and assigned to sewa daar.";
@@ -47,18 +56,176 @@ public class AcadamicUserController : System.Web.Services.WebService {
             ErrorMsg = "Completion Date can not more then a week, Email has been sent to Admin for approval.";
         }
 
-        System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
-        dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet("SELECT DISTINCT AcademyAssignToEmployee.ZoneId,AcademyAssignToEmployee.AcaID FROM AcademyAssignToEmployee INNER JOIN Incharge ON AcademyAssignToEmployee.EmpId = Incharge.InchargeId where AcademyAssignToEmployee.Active=1 and  Incharge.InchargeID='" + InchageID + "'");
-
+     
+        //Complatin User
         complaintTickets.ZoneID = int.Parse(dsDegisDetails.Tables[0].Rows[0]["ZoneID"].ToString());
         complaintTickets.AcaID = int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString());
 
         AcadamicUserRepository acadamicUserRepository = new AcadamicUserRepository(new DataContext());
         acadamicUserRepository.SaveComplaintTicket(complaintTickets);
 
+        if (complaintTickets.Status == "In Progress" || complaintTickets.Status == "Completed")
+        {
+            Comments comnts = new Comments();
+            comnts.PrimaryID = complaintTickets.ID;
+            comnts.Comment = complaintTickets.Comments;
+            comnts.CommentType = (int)TypeEnum.CommentType.Complaint;
+            comnts.CreatedBy = InchageID;
+            comnts.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+
+            acadamicUserRepository.SaveComments(comnts);
+        }
 
         ComplaintTicketsSMS(InchageID, UserTypeID, complaintTickets.CreatedBy);
 
+        
+       // Complaint User
+        dsComplintUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.COMPLAINT), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+        //SewaDaar
+        dsConstructionUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.CONSTRUCTION), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+        //AcademuicUser
+        dsAcaUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.ACADEMIC), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+  
+       if (UserTypeID == Convert.ToInt32(TypeEnum.UserType.ACADEMIC) && complaintTickets.Feedback==null)
+        {
+            string MsgInfo = string.Empty;
+            MsgInfo += "<table style='width:100%;'>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
+            MsgInfo += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
+            MsgInfo += "</td>";
+            MsgInfo += "<td style='text-align: right; width:40%;'>";
+            MsgInfo += "<br /><br />";
+            MsgInfo += "<div style='font-style:italic; text-align: right;'>";
+            MsgInfo += "Baru Shahib,";
+            MsgInfo += "<br />Dist: Sirmaur";
+            MsgInfo += "<br />Himachal Pradesh-173001";
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "</table>";
+            MsgInfo += "<table border='1' style='width:100%'>";
+            MsgInfo += "<tbody>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Academy:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo +=  dsDegisDetails.Tables[0].Rows[0]["AcaName"].ToString();
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Complaint Type:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += complaintTickets.ComplaintType;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Description:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += complaintTickets.Description;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Created By:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += dsDegisDetails.Tables[0].Rows[0]["InName"].ToString();
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "</tbody>";
+            MsgInfo += "</table>";
+
+            string FileName = string.Empty;
+            string to = "itmohali@barusahib.org";
+            string cc = string.Empty;
+            //string to = dsComplintUserID.LoginId;
+            //string cc = dsConstructionUserID.LoginId + ";" + dsComplintUserID.LoginId;
+       
+            try
+            {
+                //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Complaint has been created");
+            }
+            catch { }
+            finally
+            {
+
+            }
+        }
+        else
+        {
+            string MsgInfo = string.Empty;
+            MsgInfo += "<table style='width:100%;'>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
+            MsgInfo += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
+            MsgInfo += "</td>";
+            MsgInfo += "<td style='text-align: right; width:40%;'>";
+            MsgInfo += "<br /><br />";
+            MsgInfo += "<div style='font-style:italic; text-align: right;'>";
+            MsgInfo += "Baru Shahib,";
+            MsgInfo += "<br />Dist: Sirmaur";
+            MsgInfo += "<br />Himachal Pradesh-173001";
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "</table>";
+            MsgInfo += "<table border='1' style='width:100%'>";
+            MsgInfo += "<tbody>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Academy:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += dsDegisDetails.Tables[0].Rows[0]["AcaName"].ToString();
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Comments:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += complaintTickets.Comments ;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Completed On:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += complaintTickets.TentativeDate;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Status:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += complaintTickets.Status;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "</tbody>";
+            MsgInfo += "</table>";
+
+            string FileName = string.Empty;
+            string to = "itmohali@barusahib.org";
+            string cc = string.Empty;
+            //string to = dsAcaUserID.LoginId;
+            //string cc = dsConstructionUserID.LoginId;
+            try
+            {
+               //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "Complaint has been updated");
+            }
+            catch { }
+            finally
+            {
+
+            }
+        }
         return ErrorMsg;
     }
 
@@ -91,23 +258,23 @@ public class AcadamicUserController : System.Web.Services.WebService {
     }
 
     [WebMethod]
-    public List<DTO.Ticket> GetComplaintTickets(int UserType,int InchargeID,string complaintStatus)
+    public List<DTO.Ticket> GetComplaintTickets(int UserType, int InchargeID, string complaintStatus)
     {
         AcadamicUserRepository acadamicUserRepository = new AcadamicUserRepository(new DataContext());
-      //  acadamicUserRepository.SaveComplaintTicket();
+        //  acadamicUserRepository.SaveComplaintTicket();
 
-        string sql =string.Empty;
-        if (UserType == (int)TypeEnum.UserType.ACADEMIC )
+        string sql = string.Empty;
+        if (UserType == (int)TypeEnum.UserType.ACADEMIC)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
-            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by CreatedOn desc";
+            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by  ct.CreatedOn desc";
         }
         else if (UserType == (int)TypeEnum.UserType.ADMIN)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
-            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' order by CreatedOn desc";
+            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' order by ct.CreatedOn desc";
         }
         else if (UserType == (int)TypeEnum.UserType.CONSTRUCTION || UserType == (int)TypeEnum.UserType.COMPLAINT)
         {
@@ -117,13 +284,8 @@ public class AcadamicUserController : System.Web.Services.WebService {
                     "from ComplaintTickets ct " +
                     "INNER JOIN Academy ac on ac.AcaId=ct.AcaID " +
                     "INNER JOIN Zone z on ct.ZoneID=z.ZoneId " +
-                    "WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by CreatedOn desc";
-            //sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
-            // ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
-            // "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by CreatedOn desc";
-
+                    "WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by ct.CreatedOn desc";
         }
-
         System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
         dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet(sql);
 
@@ -160,7 +322,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
 
             if (DateTime.Now.AddDays(2) >= Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["CreatedOn"].ToString()) &&
             string.IsNullOrEmpty(dsDegisDetails.Tables[0].Rows[i]["TentativeDate"].ToString()) &&
-                dsDegisDetails.Tables[0].Rows[i]["Status"].ToString()=="Assigned")
+                dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() == "Assigned")
             {
                 ticket.Status = "<span style='color:orange'><b>" + dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() + "</b></span>";
             }
@@ -190,16 +352,16 @@ public class AcadamicUserController : System.Web.Services.WebService {
         ticket.Comments = dsDegisDetails.Tables[0].Rows[0]["Comments"].ToString();
         ticket.ComplaintType = dsDegisDetails.Tables[0].Rows[0]["ComplaintType"].ToString();
         ticket.Status = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();
-        ticket.StatusID = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();   
-      
+        ticket.StatusID = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();
 
-        if (DateTime.Now.AddDays(2)>=Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[0]["CreatedOn"].ToString()) &&
+
+        if (DateTime.Now.AddDays(2) >= Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[0]["CreatedOn"].ToString()) &&
             string.IsNullOrEmpty(dsDegisDetails.Tables[0].Rows[0]["TentativeDate"].ToString()))
         {
             ticket.Status = "<span forcolor='orange'>" + dsDegisDetails.Tables[0].Rows[0]["Status"].ToString() + "</span>";
         }
 
-        
+
 
         ticket.Zone = dsDegisDetails.Tables[0].Rows[0]["ZoneName"].ToString();
         ticket.Academy = dsDegisDetails.Tables[0].Rows[0]["AcaName"].ToString();
@@ -221,8 +383,7 @@ public class AcadamicUserController : System.Web.Services.WebService {
         AcadamicUserRepository acadamicUserRepository = new AcadamicUserRepository(new DataContext());
         acadamicUserRepository.SaveTicketFeedback(ID, feedback);
     }
-
-
+   
     [WebMethod]
     public void DeleteTicket(int ID)
     {
@@ -230,8 +391,4 @@ public class AcadamicUserController : System.Web.Services.WebService {
         acadamicUserRepository.DeleteTicket(ID);
         //'';
     }
-
-
-    
-
 }

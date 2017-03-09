@@ -75,6 +75,7 @@ namespace AkalAcademy
         public DbSet<view_BillSubmitedDetails> view_BillSubmitedDetails { get; set; }
         public DbSet<SubmitBillByUser> SubmitBillByUser { get; set; }
         public DbSet<SubmitBillByUserAndMaterialOthersRelation> SubmitBillByUserAndMaterialOthersRelation { get; set; }
+        public DbSet<Comments> Comments { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

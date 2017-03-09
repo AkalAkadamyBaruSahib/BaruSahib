@@ -96,8 +96,9 @@ public partial class AdminMaster : System.Web.UI.MasterPage
         string FileName = string.Empty;
         DataTable PendingCompliants = new DataTable();
 
-        DateTime date = DateTime.Now.AddDays(-2);
-        PendingCompliants = DAL.DalAccessUtility.GetDataInDataSet("exec AutoGeneratePendingCompliantReport'" + date + "'").Tables[0];
+        DateTime date = DateTime.Now.AddDays(3);
+        PendingCompliants = DAL.DalAccessUtility.GetDataInDataSet("exec AutoGenerateAllPendingCompliantReport'" + date + "'").Tables[0];
+
         if (PendingCompliants != null)
         {
             FileName = "PendingCompliants" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls";
@@ -106,11 +107,11 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             PendingCompliants.TableName = FileName;
             PendingCompliants.WriteXml(FilePath);
 
-            string to = "akalconstruction@barusahib.org";
+            string to = string.Empty; //"akalconstruction@barusahib.org";
             string cc = string.Empty;
             try
             {
-                Utility.SendEmailUsingAttachments(FilePath, to, cc, msg, "Pending Compliants");
+               // Utility.SendEmailUsingAttachments(FilePath, to, cc, msg, "All Pending Compliants");
             }
             catch { }
             finally

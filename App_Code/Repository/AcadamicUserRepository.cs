@@ -13,9 +13,9 @@ public class AcadamicUserRepository
     private DataContext _context;
 
     public AcadamicUserRepository(DataContext context)
-	{
-		   _context = context;
-	}
+    {
+        _context = context;
+    }
 
     public void SaveComplaintTicket(ComplaintTickets ticket)
     {
@@ -23,7 +23,7 @@ public class AcadamicUserRepository
         {
             ComplaintTickets Isticket = _context.ComplaintTickets.Where(x => x.ID == ticket.ID).FirstOrDefault();
             Isticket.CompletionDate = ticket.CompletionDate;
-            Isticket.Comments = ticket.Comments;
+           // Isticket.Comments = ticket.Comments;
             Isticket.Status = ticket.Status;
             Isticket.IsApproved = ticket.IsApproved;
             Isticket.IsApprovedRequired = ticket.IsApprovedRequired;
@@ -45,6 +45,7 @@ public class AcadamicUserRepository
             _context.Entry(ticket).State = EntityState.Added;
         }
         int rowAffected = _context.SaveChanges();
+    
     }
 
     public void SaveTicketFeedback(int ID, string feedback)
@@ -66,5 +67,9 @@ public class AcadamicUserRepository
         _context.SaveChanges();
     }
 
-
+    public void SaveComments(Comments comnts)
+    {
+        _context.Entry(comnts).State = EntityState.Added;
+        _context.SaveChanges();
+    }
 }

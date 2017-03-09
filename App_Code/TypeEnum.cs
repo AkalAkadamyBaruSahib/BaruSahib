@@ -36,6 +36,13 @@ public class TypeEnum
         Conductor = 2
     }
 
+    public enum CommentType : int
+    {
+        Complaint = 1,
+        Estimate = 2,
+        Purchase =3
+    }
+
     public enum MatTypeID : int
     {
         TRANSPORTMATERIAL = 1,
