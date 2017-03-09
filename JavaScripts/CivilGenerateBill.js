@@ -61,13 +61,13 @@ $(document).ready(function () {
 
         var regex = new RegExp(/^\+?[0-9(),.-]+$/);
 
-        if (rate == "" || !rate.match(regex) || rate < 0) {
+        if (rate == "" || !rate.match(regex) || rate <= 0) {
             row.find("input[id*='txtRateSan']").css('border-color', 'red');
             row.find("input[id*='txtRateSan']").val("");
             row.find("#errMsg").show();
             return false;
         }
-        else if (qty == "") {
+        else if (qty == "" || qty == "0") {
             row.find("input[id*='txtQty']").css('border-color', 'red');
             return false;
         }
