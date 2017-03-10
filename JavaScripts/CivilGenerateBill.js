@@ -292,6 +292,8 @@ function TotalAmount() {
     var totalAmt = 0;
     for (var i = 0 ; i < (tablelength) ; i++) {
         var Amt = $("[id*='lblAmtSan_" + i + "']").text();
+        Amt = Amt.replace("₹", "");
+        Amt = Amt.replace(",", "");
         if (Amt != "") {
             totalAmt = parseFloat(totalAmt) + parseFloat(Amt);
         }

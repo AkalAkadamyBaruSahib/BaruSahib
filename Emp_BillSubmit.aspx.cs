@@ -389,6 +389,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             {
                 string fileName = UploadFiles(ref AgencyName);
                 DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + billID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedValue + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + string.Empty + "','" + hdnVandorID.Value + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("Update SubmitBillByUser set VendorBillPath='" + fileName + "' where SubBillId=" + billID);
             }
             else
             {
