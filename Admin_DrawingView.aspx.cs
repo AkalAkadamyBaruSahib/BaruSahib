@@ -36,6 +36,10 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             {
                 ApprovedDrawing(Request.QueryString["DwgIdIA"].ToString());
             }
+            else if (Request.QueryString["DwgIdD"] != null)
+            {
+                DeleteDrawing(Request.QueryString["DwgIdD"].ToString());
+            }
             else
             {
                 if (Session["UserTypeID"].ToString() == "21")
@@ -138,6 +142,15 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing deactive successfully.');", true);
 
     }
+
+    protected void DeleteDrawing(string ID)
+    {
+        DAL.DalAccessUtility.GetDataInDataSet("Delete From Drawing where DwgID=" + ID);
+        BindAllDrawing(false, -1);
+        //BindDrawing();
+        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing Delete successfully.');", true);
+
+    }
     protected void ActiveDrawing(string ID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewDrawingProc '" + ID + "','','','','','','','','','','','','4','1',1,0");
@@ -172,9 +185,9 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
         ZoneInfo += "<th width='5%'></th>";
-        ZoneInfo += "<th width='50%'>Drawing Details</th>";
+        ZoneInfo += "<th width='40%'>Drawing Details</th>";
         ZoneInfo += "<th width='25%'>Drawing File</th>";
-        ZoneInfo += "<th width='25%'>Action</th>";
+        ZoneInfo += "<th width='35%'>Action</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -182,7 +195,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td><input type='checkbox' id='chkdrwing" + i + "' drwingPath='../" + dtZoneDetails.Rows[i]["PdfFilePath"].ToString() + "' /></td>";
-            ZoneInfo += "<td width='50%'>";
+            ZoneInfo += "<td width='40%'>";
             ZoneInfo += "<table>";
             ZoneInfo += "<tr>";
             ZoneInfo += "<td>Zone: " + dtZoneDetails.Rows[i]["ZoneName"].ToString() + "</td>";
@@ -214,7 +227,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             ZoneInfo += "<tr><td>Uploaded Date: " + dtZoneDetails.Rows[i]["CreatedOn"].ToString() + "</a></td></tr>";
             ZoneInfo += "<tr><td>Uploaded By: " + dtZoneDetails.Rows[i]["InName"].ToString() + "</a></td></tr></table></td>";
             ZoneInfo += "</td>";
-            ZoneInfo += "<td class='center' width='20%'>";
+            ZoneInfo += "<td class='center' width='35%'>";
             if (IsApproved)
             {
                 ZoneInfo += "<a class='btn btn-success' href='Admin_DrawingView.aspx?DwgIdA=" + dtZoneDetails.Rows[i]["DwgId"].ToString() + "'>";
@@ -225,6 +238,9 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             }
             else
             {
+                ZoneInfo += "<a class='btn btn-danger' href='Admin_DrawingView.aspx?DwgIdD=" + dtZoneDetails.Rows[i]["DwgId"].ToString() + "'>";
+                ZoneInfo += "<i class='icon-trash-in icon-white'></i>Delete ";
+                ZoneInfo += "</a>";
                 ZoneInfo += "<a class='btn btn-danger' href='Admin_DrawingView.aspx?DwgIdIA=" + dtZoneDetails.Rows[i]["DwgId"].ToString() + "&IsApproved=1'>";
                 ZoneInfo += "<i class='icon-trash icon-white'></i> Approved";
                 ZoneInfo += "</a>";
