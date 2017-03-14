@@ -321,7 +321,7 @@ function LoadVisitorByVisitorID(visitorID) {
 
                 }
                 $("input[id*='btnSave'] ").val("Update");
-            
+
                 if (msg.VisitorTypeID == 1) {
                     EnableDisabledValidator();
                     $("[id$='divVisitorInfo']").show();
@@ -334,6 +334,40 @@ function LoadVisitorByVisitorID(visitorID) {
 
                 if (msg.PurposeOfVisit == "Parents Meeting") {
                     $("#divAdminsnNo").show();
+                }
+                if ($("input[id*='hdnUserType']").val() == "22") {
+                    $("input[id*='txtName']").prop('disabled', true);
+                    $("input[id*='txtnoofperson']").prop('disabled', true);
+                    $("input[id*='txtNoOfFemale']").prop('disabled', true);
+                    $("input[id*='txtNoOfChildren']").prop('disabled', true);
+                    $("input[id*='txtvehicle']").prop('disabled', true);
+                    $("select[id*='ddlpurpose']").prop('disabled', true);
+                    $("select[id*='drpProofType']").prop('disabled', true);
+                    $("select[id*='drpNumberOfDays']").prop('disabled', true);
+                    $("input[id*='txtContactNumber']").prop('disabled', true);
+                    $("textarea[id*='txtAddress']").prop('disabled', true);
+                    $("#drpbuilding").prop('disabled', true);
+                    $("select[id*='drpCountry']").prop('disabled', true);
+                    $("select[id*='drpState']").prop('disabled', true);
+                    $("select[id*='drpCity']").prop('disabled', true);
+                    $("input[id*='txtReference']").prop('disabled', true);
+                    $("select[id*='ddlRoomRent']").prop('disabled', true);
+                    $("input[id*='txtAdmissionNo']").prop('disabled', true);
+                    $("input[id*='txtDlNumber']").prop('disabled', true);
+                    $("input[id*='txtPrmntName']").prop('disabled', true);
+                    $("select[id*='drpProofType']").prop('disabled', true);
+                    $("input[id*='txtPrmntContactNo']").prop('disabled', true);
+                    $("textarea[id*='txtPrmntAddress']").prop('disabled', true);
+                    $("#divPrmntBuilding").prop('disabled', true);
+                    $("select[id*='ddlntypeofvisitor']").prop('disabled', true);
+                    $("select[id*='ddlroomservice']").prop('disabled', true);
+                    $("select[id*='ddlelectricitybill']").prop('disabled', true);
+                    $("select[id*='ddlPrmntIdntity']").prop('disabled', true);
+                    $("select[id*='ddlPrmntCountry']").prop('disabled', true);
+                    $("select[id*='ddlPrmntState']").prop('disabled', true);
+                    $("select[id*='ddlPrmntCity']").prop('disabled', true);
+                    $("select[id*='drpPrmntBuilding']").prop('disabled', true);
+
                 }
             }
         },

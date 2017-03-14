@@ -135,7 +135,7 @@
         <asp:HiddenField ID="hdnBuildingID" runat="server" />
         <asp:HiddenField ID="hdnVisitorID" runat="server" />
         <asp:HiddenField ID="hdnVisitorType" runat="server" />
-
+          <asp:HiddenField ID="hdnUserType" runat="server" />
         <div class="row-fluid sortable" runat="server" id="divAllotment">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -314,6 +314,7 @@
                                                     <asp:ListItem Text="" Value="-1">--Select One--</asp:ListItem>
                                                     <asp:ListItem Text="Free" Value="0"></asp:ListItem>
                                                     <asp:ListItem Text="100" Value="100"></asp:ListItem>
+                                                    <asp:ListItem Text="200" Value="200"></asp:ListItem>
                                                     <asp:ListItem Text="500" Value="500"></asp:ListItem>
                                                 </asp:DropDownList>
                                             </div>
@@ -356,6 +357,10 @@
                                                     <asp:ListItem Text="Samagam" Value="Samagam"></asp:ListItem>
                                                     <asp:ListItem Text="Sports Meet" Value="Sports Meet"></asp:ListItem>
                                                     <asp:ListItem Text="Training" Value="Training"></asp:ListItem>
+                                                    <asp:ListItem Text="Night Stay" Value="Night Stay"></asp:ListItem>
+                                                    <asp:ListItem Text="Interview" Value="Interview"></asp:ListItem>
+                                                    <asp:ListItem Text="Exam" Value="Exam"></asp:ListItem>
+                                                    <asp:ListItem Text="Hospital" Value="Hospital"></asp:ListItem>
                                                     <asp:ListItem Text="Others" Value="Others"></asp:ListItem>
                                                 </asp:DropDownList>
                                                 <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="visitor" ID="RequiredFieldValidator5"

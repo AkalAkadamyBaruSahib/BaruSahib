@@ -172,6 +172,8 @@ function LoadVisitorByVisitorID(visitorID) {
                 if (msg.PurposeOfVisit == "Parents Meeting") {
                     $("#divAdminsnNo").show();
                 }
+
+            
             }
         },
         error: function (response) {
@@ -229,8 +231,14 @@ function LoadVisitorsByVisitorTypeID(selectedValue) {
                     else if (adminLoanList[i].VisitorTypeID == 2) {
                         visitorType = "Sewadar";
                     }
-                    else {
+                    else if (adminLoanList[i].VisitorTypeID == 3) {
                         visitorType = "Employee";
+                    }
+                    else if (adminLoanList[i].VisitorTypeID == 4) {
+                        visitorType = "Staff";
+                    }
+                    else{
+                        visitorType = "Volunteer";
                     }
                     var $newRow = $("#rowTemplate").clone();
                     $newRow.find("#Name").html("<table><tr><td><ul class='thumbnails gallery><li id='image-1' class='thumbnail'><a target='_blank' style='background:url(" + adminLoanList[i].VisitorsPhoto + ")'  href='" + adminLoanList[i].VisitorsPhoto + "'><img class='grayscale' width='75Px' height='75PX' src='" + adminLoanList[i].VisitorsPhoto + "' ></a></li></ul> </td></tr><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + visitorType + ")</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].ContactNumber + "</td></tr><tr><td><b>Address:</b> " + adminLoanList[i].VisitorAddress + "</td></tr></table>");
@@ -238,19 +246,14 @@ function LoadVisitorsByVisitorTypeID(selectedValue) {
                     $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
                     $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
                     var url = location.href.substring(0, location.href.lastIndexOf("/") + 1);
-                    if ($("input[id*='hdnUserType']").val() == 32) {
-                        if (adminLoanList[i].IdentificationPath != "") {
-                            $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
-                        }
-                        else {
-                            $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
-                        }
+                    if (adminLoanList[i].IdentificationPath != "") {
+                        $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
                     }
                     else {
-                        if (adminLoanList[i].IdentificationPath != "") {
-                            $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr></table>");
-                        }
+                        $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
                     }
+                 
+                  
                     //                    $newRow.addClass(className);
                     $newRow.show();
                     if (i == 0) {

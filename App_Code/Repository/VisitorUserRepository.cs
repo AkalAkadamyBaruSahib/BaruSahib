@@ -334,72 +334,123 @@ public class VisitorUserRepository
         //declate all properties
     }
 
-    public void UpdateVisitor(Visitors visitor)
+    public void UpdateVisitor(Visitors visitor, int Usertype)
     {
         _context.VisitorRoomNumbers.RemoveRange(_context.VisitorRoomNumbers.Where(v => v.VisitorID == visitor.ID));
 
-
-        Visitors newVisitor = _context.Visitors.Where(v => v.ID == visitor.ID)
-            .Include(r => r.VisitorRoomNumbers)
-            .FirstOrDefault();
-
-        newVisitor.Name = visitor.Name;
-        newVisitor.TotalNoOfMen = visitor.TotalNoOfMen;
-        newVisitor.TotalNoOfWomen = visitor.TotalNoOfWomen;
-        newVisitor.TotalNoOfChildren = visitor.TotalNoOfChildren;
-        newVisitor.PurposeOfVisit = visitor.PurposeOfVisit;
-        newVisitor.VehicleNo = visitor.VehicleNo;
-        newVisitor.Identification = visitor.Identification;
-        if (visitor.IdentificationPath != "")
+        Visitors newVisitor = _context.Visitors.Where(v => v.ID == visitor.ID).Include(r => r.VisitorRoomNumbers).FirstOrDefault();
+        if (Usertype == (int)TypeEnum.UserType.FrontDesk)
         {
-            newVisitor.IdentificationPath = visitor.IdentificationPath;
+            newVisitor.TimePeriodTo = visitor.TimePeriodTo;
+            newVisitor.TimePeriodFrom = visitor.TimePeriodFrom;
+
+            string MsgInfo = string.Empty;
+            MsgInfo += "<table style='width:100%;'>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
+            MsgInfo += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
+            MsgInfo += "</td>";
+            MsgInfo += "<td style='text-align: right; width:40%;'>";
+            MsgInfo += "<br /><br />";
+            MsgInfo += "<div style='font-style:italic; text-align: right;'>";
+            MsgInfo += "Baru Shahib,";
+            MsgInfo += "<br />Dist: Sirmaur";
+            MsgInfo += "<br />Himachal Pradesh-173001";
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "</table>";
+            MsgInfo += "<table border='1' style='width:100%'>";
+            MsgInfo += "<tbody>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>CheckIn Date:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += visitor.TimePeriodTo;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>CheckOut Date:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += visitor.TimePeriodFrom;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "</tbody>";
+            MsgInfo += "</table>";
+
+            string FileName = string.Empty;
+            string to = "itmohali@barusahib.org";
+            string cc = string.Empty;
+
+            try
+            {
+                Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Changes are Updated In Visitor");
+            }
+            catch { }
+            finally
+            {
+
+            }
         }
-        newVisitor.NoOfDaysToStay = visitor.NoOfDaysToStay;
-        newVisitor.ContactNumber = visitor.ContactNumber;
-        newVisitor.CreatedOn = visitor.CreatedOn;
-        newVisitor.VisitorAddress = visitor.VisitorAddress;
-        newVisitor.BuildingID = visitor.BuildingID;
-        newVisitor.VisitorTypeID = visitor.VisitorTypeID;
-        newVisitor.CreatedBy = visitor.CreatedBy;
-        newVisitor.ModifyBy = visitor.ModifyBy;
-        newVisitor.ModifyOn = visitor.ModifyOn;
-        if (visitor.VisitorsPhoto != "")
+        else
         {
-            newVisitor.VisitorsPhoto = visitor.VisitorsPhoto;
+            newVisitor.Name = visitor.Name;
+            newVisitor.TotalNoOfMen = visitor.TotalNoOfMen;
+            newVisitor.TotalNoOfWomen = visitor.TotalNoOfWomen;
+            newVisitor.TotalNoOfChildren = visitor.TotalNoOfChildren;
+            newVisitor.PurposeOfVisit = visitor.PurposeOfVisit;
+            newVisitor.VehicleNo = visitor.VehicleNo;
+            newVisitor.Identification = visitor.Identification;
+            if (visitor.IdentificationPath != "")
+            {
+                newVisitor.IdentificationPath = visitor.IdentificationPath;
+            }
+            newVisitor.NoOfDaysToStay = visitor.NoOfDaysToStay;
+            newVisitor.ContactNumber = visitor.ContactNumber;
+            newVisitor.CreatedOn = visitor.CreatedOn;
+            newVisitor.VisitorAddress = visitor.VisitorAddress;
+            newVisitor.BuildingID = visitor.BuildingID;
+            newVisitor.VisitorTypeID = visitor.VisitorTypeID;
+            newVisitor.CreatedBy = visitor.CreatedBy;
+            newVisitor.ModifyBy = visitor.ModifyBy;
+            newVisitor.ModifyOn = visitor.ModifyOn;
+            if (visitor.VisitorsPhoto != "")
+            {
+                newVisitor.VisitorsPhoto = visitor.VisitorsPhoto;
+            }
+
+            if (visitor.VisitorsAuthorityLetter != "")
+            {
+                newVisitor.VisitorsAuthorityLetter = visitor.VisitorsAuthorityLetter;
+            }
+
+            newVisitor.RoomRent = visitor.RoomRent;
+            newVisitor.ElectricityBill = visitor.ElectricityBill;
+            newVisitor.State = visitor.State;
+            newVisitor.Country = visitor.Country;
+            newVisitor.City = visitor.City;
+            newVisitor.IsActive = visitor.IsActive;
+            newVisitor.VisitorReference = visitor.VisitorReference;
+            newVisitor.RoomRentType = visitor.RoomRentType;
+
+            //   newVisitor
+
+            //declate all properties
+
+            newVisitor.VisitorRoomNumbers = new List<VisitorRoomNumbers>();
+            VisitorRoomNumbers visitorRoom;
+            foreach (VisitorRoomNumbers rm in visitor.VisitorRoomNumbers)
+            {
+                visitorRoom = new VisitorRoomNumbers();
+                visitorRoom.VisitorID = newVisitor.ID;
+                visitorRoom.RoomNumberID = rm.RoomNumberID;
+                visitorRoom.CreatedOn = DateTime.Now;
+
+                newVisitor.VisitorRoomNumbers.Add(visitorRoom);
+            }
         }
-
-        if (visitor.VisitorsAuthorityLetter != "")
-        {
-            newVisitor.VisitorsAuthorityLetter = visitor.VisitorsAuthorityLetter;
-        }
-        newVisitor.TimePeriodTo = visitor.TimePeriodTo;
-        newVisitor.TimePeriodFrom = visitor.TimePeriodFrom;
-        newVisitor.RoomRent = visitor.RoomRent;
-        newVisitor.ElectricityBill = visitor.ElectricityBill;
-        newVisitor.State = visitor.State;
-        newVisitor.Country = visitor.Country;
-        newVisitor.City = visitor.City;
-        newVisitor.IsActive = visitor.IsActive;
-        newVisitor.VisitorReference = visitor.VisitorReference;
-        newVisitor.RoomRentType = visitor.RoomRentType;
-
-        //   newVisitor
-
-        //declate all properties
-
-        newVisitor.VisitorRoomNumbers = new List<VisitorRoomNumbers>();
-        VisitorRoomNumbers visitorRoom;
-        foreach (VisitorRoomNumbers rm in visitor.VisitorRoomNumbers)
-        {
-            visitorRoom = new VisitorRoomNumbers();
-            visitorRoom.VisitorID = newVisitor.ID;
-            visitorRoom.RoomNumberID = rm.RoomNumberID;
-            visitorRoom.CreatedOn = DateTime.Now;
-
-            newVisitor.VisitorRoomNumbers.Add(visitorRoom);
-        }
-
-
         _context.Entry(newVisitor).State = EntityState.Modified;
         _context.SaveChanges();
     }

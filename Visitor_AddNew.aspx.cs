@@ -30,6 +30,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        hdnUserType.Value = Session["UserTypeID"].ToString();
         if (!Page.IsPostBack)
         {
             if (Session["InchargeID"] != null)
@@ -280,10 +281,18 @@ public partial class Visitor_AddNew : System.Web.UI.Page
               
                
                 visitor.Identification = drpProofType.SelectedValue;
-
-                visitor.State = int.Parse(drpState.SelectedValue);
-                visitor.Country = int.Parse(drpCountry.SelectedValue);
-                visitor.City = int.Parse(drpCity.SelectedValue);
+                if (drpState.SelectedValue != null)
+                {
+                    visitor.State = int.Parse(drpState.SelectedValue);
+                }
+                if (drpCountry.SelectedValue != null)
+                {
+                    visitor.Country = int.Parse(drpCountry.SelectedValue);
+                }
+                if (drpCity.SelectedValue != null)
+                {
+                    visitor.City = int.Parse(drpCity.SelectedValue);
+                }
                 visitor.IsActive = true;
                 visitor.AdmissionNumber = txtAdmissionNo.Text;
                 visitor.VisitorReference = txtReference.Text;
@@ -422,7 +431,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             else
             {
 
-                repo.UpdateVisitor(visitor);
+                repo.UpdateVisitor(visitor,Convert.ToInt32(hdnUserType.Value));
             }
             ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Record Saved Successfully');</script>", false);
             Response.Redirect("ViewVisitors.aspx");
