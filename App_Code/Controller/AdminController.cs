@@ -12,9 +12,11 @@ using System.Web.Services;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 [System.Web.Script.Services.ScriptService]
-public class AdminController : System.Web.Services.WebService {
+public class AdminController : System.Web.Services.WebService
+{
 
-    public AdminController () {
+    public AdminController()
+    {
 
         //Uncomment the following line if using designed components 
         //InitializeComponent(); 
@@ -49,7 +51,7 @@ public class AdminController : System.Web.Services.WebService {
             int bytesRead;
             while ((bytesRead = HttpContext.Current.Request.InputStream.Read(bytes, 0, bytes.Length)) > 0)
             {
-                
+
                 fs.Write(bytes, 0, bytesRead);
             }
         }
@@ -122,7 +124,7 @@ public class AdminController : System.Web.Services.WebService {
             int bytesRead;
             while ((bytesRead = HttpContext.Current.Request.InputStream.Read(bytes, 0, bytes.Length)) > 0)
             {
-                
+
                 fs.Write(bytes, 0, bytesRead);
             }
         }
@@ -175,7 +177,10 @@ public class AdminController : System.Web.Services.WebService {
         }
 
     }
-
-
-   
+    [WebMethod]
+    public EstiamteChart GetEstimateChartData()
+    {
+        AdminRepository repo = new AdminRepository(new AkalAcademy.DataContext());
+        return repo.GetEstimateChartData();
+    }
 }

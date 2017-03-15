@@ -50,6 +50,10 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     btnNonApproved.Text = "View Approved Estimates";
                     getEstimateDetails(false, -1,false);
                 }
+                else if (Request.QueryString["fromChartNonApproved"] != null)
+                {
+                    btnNonApproved_Click(btnNonApproved, new EventArgs());
+                }
                 else
                 {
                     getEstimateDetails(true, -1, false);

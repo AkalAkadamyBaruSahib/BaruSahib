@@ -34,7 +34,7 @@ public class UsersRepository
         var incharges = (from aae in _context.AcademyAssignToEmployee
                          join x in _context.Incharge on aae.EmpId equals x.InchargeId
                          where x.UserTypeId == userTypeID && aae.AcaId == acaID
-                        // where x.UserTypeId.ToString().Contains(userTypeID.ToString()) && aae.AcaId == acaID
+                         // where x.UserTypeId.ToString().Contains(userTypeID.ToString()) && aae.AcaId == acaID
                          select new
                          {
                              InchargeId = x.InchargeId,

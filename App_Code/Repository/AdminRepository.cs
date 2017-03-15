@@ -64,4 +64,14 @@ public class AdminRepository
         _context.Entry(purchasesource).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public EstiamteChart GetEstimateChartData()
+    {
+        EstiamteChart estimateChart = new EstiamteChart();
+        estimateChart.ApprovedEstimates = _context.Estimate.Where(x => x.IsApproved == true).Count();
+        estimateChart.NonApprovedEstimates = _context.Estimate.Where(x => x.IsApproved == false).Count();
+        estimateChart.TotalEstimates = _context.Estimate.Count();
+
+        return estimateChart;
+    }
 }
