@@ -1,0 +1,315 @@
+CREATE proc viewGetBillIDsByWorkAllot
+
+
+
+
+
+
+
+@WaId INT 
+
+
+
+
+
+
+
+AS
+
+
+
+
+
+
+
+BEGIN
+
+
+
+
+
+
+
+--DECLARE @WaId INT=210
+
+--IF OBJECT_ID('tempdb..#yourtable') IS NOT NULL
+
+--BEGIN
+
+--  --DROP TABLE ##CLIENTS_KEYWORD
+
+--drop table #yourtable
+
+--END
+
+--  /*Then it exists*/
+
+--CREATE table #yourtable
+
+--    ([Value] DECIMAL(16,2), [ColumnName] int)
+
+--;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+--INSERT INTO #yourtable
+
+
+
+
+
+
+
+--    ([Value],[ColumnName])
+
+
+
+
+
+
+
+SELECT   SUM(qty), SB.SubBillId  from [dbo].[SubmitBillByUserAndMaterialOthersRelation] SBR
+
+
+
+
+
+
+
+INNER JOIN [dbo].[SubmitBillByUser] SB on SB.[SubBillId]=SBR.[SubBillId]
+
+
+
+
+
+
+
+WHERE WAId=@WaId GROUp by sb.SubBillId
+
+
+
+
+
+
+
+--;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--DECLARE @cols AS NVARCHAR(MAX),
+
+
+
+
+
+
+
+--    @query  AS NVARCHAR(MAX)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--select @cols = STUFF((SELECT ',' + QUOTENAME(ColumnName) 
+
+
+
+
+
+
+
+--                    from #yourtable
+
+
+
+
+
+
+
+--                    group by ColumnName
+
+
+
+
+
+
+
+                   
+
+
+
+
+
+
+
+--            FOR XML PATH(''), TYPE
+
+
+
+
+
+
+
+--            ).value('.', 'NVARCHAR(MAX)') 
+
+
+
+
+
+
+
+--        ,1,1,'')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--set @query = N'SELECT ' + @cols + N' from 
+
+
+
+
+
+
+
+--             (
+
+
+
+
+
+
+
+--                select value, ColumnName
+
+
+
+
+
+
+
+--                from #yourtable
+
+
+
+
+
+
+
+--            ) x
+
+
+
+
+
+
+
+--            pivot 
+
+
+
+
+
+
+
+--            (
+
+
+
+
+
+
+
+--                max(value)
+
+
+
+
+
+
+
+--                for ColumnName in (' + @cols + N')
+
+
+
+
+
+
+
+--            ) p '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--exec sp_executesql @query;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+END

@@ -40,6 +40,7 @@
     <link rel="shortcut icon" href="img/favicon.ico">
     <script src="js/jquery-2.2.3.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
+     <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
 </head>
 
 <body>
@@ -188,6 +189,7 @@
                                     <li id="li3" runat="server"><a class="ajax-link" href="Admin_BillReports.aspx"><i></i><span class="hidden-tablet">Submit Bill Report</span></a></li>
                                     <li id="liMohaliReort" runat="server"><a class="ajax-link" href="Admin_EstimatePendencyReport.aspx"><i></i><span class="hidden-tablet">Estimate Pendency Report</span></a></li>
                                     <li id="li1" runat="server"><a class="ajax-link" href="Admin_StoreEstimateReceivedReport.aspx"><i></i><span class="hidden-tablet"> Store Received Estimate Report</span></a></li>
+                                    <li id="li4" runat="server"><a class="ajax-link" href="Admin_MaterialBillQuantityReport.aspx"><i></i><span class="hidden-tablet">Material Bill Quantity Report</span></a></li>
                                 </ul>
                             </li>
                             <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i> <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
@@ -312,7 +314,11 @@
     <script src="js/jquery.history.js"></script>
     <!-- application script for Charisma demo -->
     <script src="js/charisma.js"></script>
-
-
+     <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").searchable();
+        });
+    </script>
 </body>
 </html>

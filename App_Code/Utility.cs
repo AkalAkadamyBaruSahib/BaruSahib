@@ -560,7 +560,7 @@ public static class Utility
 
     public static string getGridMaterial(int BID)
     {
-       string MaterialInfo = string.Empty;
+        string MaterialInfo = string.Empty;
         decimal TotalAmount = 0;
         decimal SubTotal = 0;
         decimal totalIncludeVat = 0;
@@ -583,7 +583,7 @@ public static class Utility
         MaterialInfo += "<tbody>";
         for (int i = 0; i < dsBill.Tables[2].Rows.Count; i++)
         {
-           
+
             MaterialInfo += "<tr>";
 
             MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + dsBill.Tables[2].Rows[i]["MatName"].ToString() + "</td>";
@@ -700,8 +700,9 @@ public static class Utility
         grid += "</tbody>";
         grid += "</table>";
 
-        
+
 
         return grid;
     }
+
 }
