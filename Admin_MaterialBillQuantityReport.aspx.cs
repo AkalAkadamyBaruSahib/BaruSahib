@@ -111,6 +111,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
     private DataTable BillDetailDataTable(int waID)
     {
         DataTable dt = new DataTable();
+        AddColumns(ref dt, "Sr.No");
         AddColumns(ref dt, "Name Of Material");
         AddColumns(ref dt, "Estimate Rate");
         DataTable dtEstimateColumns = DAL.DalAccessUtility.GetDataInDataSet("exec [viewGetEstimateByWorkAllot] " + waID).Tables[0];
@@ -181,6 +182,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
                 decimal BillQty = 0;
                 decimal EstimateQty = 0;
                 dr = dataTable.NewRow();
+                dr[0] = i + 1;
                 dr["Name Of Material"] = dsDes.Rows[i]["MatName"].ToString();
                 dr["Estimate Rate"] = dsDes.Rows[i]["Rate"].ToString();
 

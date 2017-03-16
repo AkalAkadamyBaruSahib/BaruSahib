@@ -1,8 +1,9 @@
 ﻿
 
 $(document).ready(function () {
-    $.when(DrawChart()).then(hideAtag());
-});
+    $.when(DrawChart(), DrawDrawingChart()).then(hideAtag());
+
+    });
 
 function hideAtag()
 {
@@ -59,3 +60,42 @@ function onClick(e) {
         location.href = "Admin_EstimateView.aspx?fromChartNonApproved=1";
     }
 }
+
+function DrawDrawingChart() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/AdminController.asmx/GetDrawingChartData",
+        dataType: "json",
+        async: false,
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+
+                var chart = new CanvasJS.Chart("divDrawingChart", {
+                    title: {
+                        text: "All Academy Drawings"
+                    },
+                    data: [
+                    {
+                        type: "column",
+                        dataPoints: [
+                            { label: "Total", y: Result.TotalDrawings },
+                            { label: "Approved", y: Result.ApprovedDrawings },
+                            { label: "NotApproved", y: Result.NonApprovedDrawings }
+                        ],
+                        click: DrawingButton_onClick
+                    }
+                    ]
+                });
+                chart.render();
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function DrawingButton_onClick()
+{ }

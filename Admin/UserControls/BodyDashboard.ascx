@@ -6,3 +6,4 @@
     }
 </style>
 <div id="chartContainer" style="height: 300px; width: 300px;"></div>
+<div id="divDrawingChart" style="height: 300px; width: 300px;"></div>

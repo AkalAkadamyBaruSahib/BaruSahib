@@ -74,4 +74,14 @@ public class AdminRepository
 
         return estimateChart;
     }
+
+    public DrawingChart GetDrawingChartData()
+    {
+        DrawingChart drawingChart = new DrawingChart();
+        drawingChart.ApprovedDrawings = _context.Drawing.Where(x => x.IsApproved == true).Count();
+        drawingChart.NonApprovedDrawings = _context.Drawing.Where(x => x.IsApproved == false).Count();
+        drawingChart.TotalDrawings = _context.Drawing.Count();
+
+        return drawingChart;
+    } 
 }

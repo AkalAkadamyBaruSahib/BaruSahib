@@ -183,4 +183,11 @@ public class AdminController : System.Web.Services.WebService
         AdminRepository repo = new AdminRepository(new AkalAcademy.DataContext());
         return repo.GetEstimateChartData();
     }
+
+    [WebMethod]
+    public DrawingChart GetDrawingChartData()
+    {
+        AdminRepository repo = new AdminRepository(new AkalAcademy.DataContext());
+        return repo.GetDrawingChartData();
+    }
 }
