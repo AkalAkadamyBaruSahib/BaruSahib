@@ -408,9 +408,21 @@ public class PurchaseRepository
         return _context.MaterialType.OrderBy(x => x.MatTypeName).ToList();
     }
 
-    public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
+    public List<MaterialsDTO> GetBindMaterialNameByMaterialType(int MatTypeID)
     {
-        return _context.Material.Where(x => x.MatTypeId == MatTypeID && x.Active == 1).OrderBy(x => x.MatName).ToList();
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        mt = _context.Material.Include(u => u.Unit).Include(x => x.MaterialType).Where(m => m.Active == 1 && m.MatTypeId == MatTypeID).AsEnumerable().Select(x => new MaterialsDTO
+        {
+            MatID = x.MatId,
+            MatName = x.MatName.Trim(),
+            MatCost = x.MatCost,
+            AkalWorkshopRate = x.AkalWorkshopRate,
+            LocalRate = x.LocalRate,
+            Unit = x.Unit,
+            MatTypeID = x.MatTypeId,
+        }).OrderByDescending(m => m.MatName).Reverse().ToList();
+
+        return mt;
     }
 
     public List<Material> GeMaterialInformation(int MaterialID)
@@ -768,11 +780,11 @@ public class PurchaseRepository
     public List<Estimate> EstimateViewForPurchaseByEmployeeID(int PSID, int UserTypeID, int InchargeID, int DispatchStatus)
     {
 
-        DateTime dt1 = DateTime.Now.AddDays(-30);
+        //DateTime dt1 = DateTime.Now.AddDays(-30);
 
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.IsReceived==false)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived==false)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
 

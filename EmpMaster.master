@@ -45,6 +45,7 @@
     <link rel="shortcut icon" href="img/favicon.ico">
     <script src="js/jquery-2.2.3.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
+    <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
 </head>
 <body>
     <!-- topbar starts -->
@@ -92,8 +93,7 @@
                             <i class="icon-user"></i>
                             <span class="hidden-phone">
                                 <asp:Label ID="lblUser" runat="server"></asp:Label>
-                            <span class="caret"></span>
-                        </a>
+                                <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Profile</a></li>
                             <li class="divider"></li>
@@ -229,5 +229,11 @@
     <script src="js/jquery.history.js"></script>
     <!-- application script for Charisma demo -->
     <script src="js/charisma.js"></script>
+    <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").searchable();
+        });
+    </script>
 </body>
 </html>

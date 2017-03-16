@@ -211,11 +211,11 @@
                         <thead>
                             <tr>
                                 <th style="color: #cc3300; width: 30px;">Sr No</th>
-                                <th style="color: #cc3300; width: 140px;">Source Type</th>
-                                <th style="color: #cc3300; width: 250px;">MaterialName</th>
                                 <th style="color: #cc3300; width: 180px;">Material Type</th>
-                                <th style="color: #cc3300; width: 120px;">Quantity</th>
-                                <th style="color: #cc3300; width: 50px;"">Unit</th>
+                                <th style="color: #cc3300; width: 270px;">MaterialName</th>
+                                <th style="color: #cc3300; width: 50px;">Unit</th>
+                                <th style="color: #cc3300; width: 100px;">Quantity</th>
+                                <th style="color: #cc3300; width: 140px;">Source Type</th>
                                 <th style="color: #cc3300; width: 100px">Rate</th>
                                 <th style="color: #cc3300; width: 200px">Remarks</th>
                                 <th style="color: #cc3300; width: 75px;">Action</th>
@@ -226,36 +226,39 @@
                                 <td>
                                     <span id="spn0">1</span>
                                 </td>
-                                 <td>
-                                    <select id="ddlSourceType0" onchange="SourceType_ChangeEvent(0);"  style="width: 150px;">
-                                        <option value="0">Select Source Type</option>
+                                <td>
+                                    <select id="ddlMaterialType0"  style="width: 150px;">
+                                        <option value="0">Select Material Type</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input id="txtMaterialName0" name="txtMaterialName1" style="position:absolute; width: 200px;" onblur="MaterialTextBox_ChangeEvent(0);" type="text" class="span6 typeahead" />
-                                    <br /><br />
-                                    <div id="menu-container0" style="position:absolute; width: 500px;"></div>
-
-                                </td>
-                               <td>
-                                     <span id="spnMaterialTypeID0"></span>
+                                    <input id="txtMaterialName0" name="txtMaterialName1" style="position: absolute; width: 200px;" onblur="MaterialTextBox_ChangeEvent(0);" type="text" class="span6 typeahead" />
+                                    <br />
+                                    <br />
+                                    <div id="menu-container0" style="position: absolute; width: 500px;"></div>
+                                </td> 
+                                <td>
+                                    <label id="lblUnit0"></label>
                                 </td>
                                 <td>
                                     <input id="txtQty0" type="text" style="width: 80px;" />
                                 </td>
                                 <td>
-                                    <label id="lblUnit0"></label>
+                                    <select id="ddlSourceType0"  style="width: 150px;">
+                                        <option value="0">Select Source Type</option>
+                                    </select>
                                 </td>
                                 <td>
                                     <input id="txtRate0" type="text" style="width: 80px;" />
                                 </td>
                                 <td>
-                                    <input id="txtRemarks0"  type="text" class="span6 typeahead" style="width: 200px;" />
+                                    <input id="txtRemarks0" type="text" class="span6 typeahead" style="width: 200px;" />
                                 </td>
                                 <td>
                                     <a href="javascript:void(0);" id="aAddNewRow0" onclick="AddMaterialRow();"><b>Add Row</b></a>
                                     <a href="javascript:void(0);" id="aDeleteRow0" onclick="removeRow(0);"><b>Delete</b></a>
                                     <input type="hidden" id="hdnMatID0" /><input type="hidden" id="hdnMatTypeID0" /><input type="hidden" id="hdnUnitID0" />
+                                    <input type="hidden" id="hdnMatCost0" /><input type="hidden" id="hdnLocalCost0" /><input type="hidden" id="hdnAkalWorkshopCost0" />
                                 </td>
                             </tr>
                         </tbody>

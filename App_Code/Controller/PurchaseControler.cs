@@ -226,10 +226,23 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<Material> GetBindMaterialNameByMaterialType(int MatTypeID)
+    public List<MaterialsDTO> GetMatDetailByMaterialType(int MatTypeID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetBindMaterialNameByMaterialType(MatTypeID);
+    }
+
+    [WebMethod]
+    public List<string> GetBindMaterialNameByMaterialType(int MatTypeID)
+    {
+        List<string> arrMaterials = new List<string>();
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        List<MaterialsDTO> materials = repository.GetBindMaterialNameByMaterialType(MatTypeID);
+        foreach (MaterialsDTO dto in materials)
+        {
+            arrMaterials.Add(dto.MatName.Trim());
+        }
+        return arrMaterials;
     }
 
     [WebMethod]
@@ -463,4 +476,5 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetAgencyMaterialDetails(VendorID);
     }
+
 }
