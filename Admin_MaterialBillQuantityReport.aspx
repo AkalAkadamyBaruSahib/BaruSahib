@@ -18,9 +18,7 @@
                         <tbody>
                             <tr>
                                 <td>Select Zone:
-                            
-                                    
-                                </td>
+                               </td>
                                 <td>
                                     <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged" Style="margin-right: 830px; float: right;">
                                         <asp:ListItem Value="0">--Select Zone--</asp:ListItem>

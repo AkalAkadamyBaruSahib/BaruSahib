@@ -47,6 +47,10 @@ public partial class Admin_DrawingView : System.Web.UI.Page
                     BindAllDrawing(false, -1);
                     btnNonApproved.Visible = false;
                 }
+                else if (Request.QueryString["fromChartNonApproved"] != null)
+                {
+                    btnNonApproved_Click(btnNonApproved, new EventArgs());
+                }
                 else
                 {
                     BindAllDrawing(true, -1);

@@ -16,9 +16,9 @@ public class SubmitBillChart
 {
     public int TotalLocalPurchased { get; set; }
 
-    public int? ApprovedEstimates { get; set; }
+    public int? ApprovedBills { get; set; }
 
-    public int? NonApprovedEstimates { get; set; }
+    public int? NonApprovedBills { get; set; }
 }
 
 public class DrawingChart

@@ -139,26 +139,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
 
     protected DataTable GetBillReportByNameOFWork()
     {
-        
-        //CreateExcelDoc excell_app = new CreateExcelDoc();
-        ////creates the main header
-        //excell_app.createHeaders(5, 2, "Total of Products", "B5", "D5", 2, "YELLOW", true, 10, "n");
-        ////creates subheaders
-        //excell_app.createHeaders(6, 2, "Sold Product", "B6", "B6", 0, "GRAY", true, 10, "");
-        //excell_app.createHeaders(6, 3, "", "C6", "C6", 0, "GRAY", true, 10, "");
-        //excell_app.createHeaders(6, 4, "Initial Total", "D6", "D6", 0, "GRAY", true, 10, "");
-        ////add Data to cells
-        //excell_app.addData(7, 2, "114287", "B7", "B7", "#,##0");
-        //excell_app.addData(7, 3, "", "C7", "C7", "");
-        //excell_app.addData(7, 4, "129121", "D7", "D7", "#,##0");
-        ////add percentage row
-        //excell_app.addData(8, 2, "", "B8", "B8", "");
-        //excell_app.addData(8, 3, "=B7/D7", "C8", "C8", "0.0%");
-        //excell_app.addData(8, 4, "", "D8", "D8", "");
-        ////add empty divider
-        //excell_app.createHeaders(9, 2, "", "B9", "D9", 2, "GAINSBORO", true, 10, "");
-
-
+     
         DataRow dr = null;
 
         DataTable dsDes = new DataTable();
@@ -194,7 +175,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
                 {
                     if (dsDes.Rows[i]["MatId"].ToString() == dtEstimateQtyDetail.Rows[j]["MatId"].ToString())
                     {
-                        dr["Est No. " + dtEstimateQtyDetail.Rows[j]["EstId"].ToString()] = dtEstimateQtyDetail.Rows[j]["Qty"].ToString();
+                        dr["Est No. " + dtEstimateQtyDetail.Rows[j]["EstId"].ToString()] = dtEstimateQtyDetail.Rows[j]["Qty"].ToString() == string.Empty ? "0" : dtEstimateQtyDetail.Rows[j]["Qty"].ToString();
                         EstimateQty += Convert.ToDecimal(dtEstimateQtyDetail.Rows[j]["Qty"].ToString());
                     }
                 }
@@ -203,7 +184,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
                 {
                     if (dsDes.Rows[i]["MatId"].ToString() == dtSubmitBillQtyDetail.Rows[k]["MatId"].ToString())
                     {
-                        dr["Bill No. " + dtSubmitBillQtyDetail.Rows[k]["SubBillId"].ToString()] = dtSubmitBillQtyDetail.Rows[k]["Qty"].ToString();
+                        dr["Bill No. " + dtSubmitBillQtyDetail.Rows[k]["SubBillId"].ToString()] = dtSubmitBillQtyDetail.Rows[k]["Qty"].ToString() == string.Empty ? "0" : dtSubmitBillQtyDetail.Rows[k]["Qty"].ToString();
                         BillQty += Convert.ToDecimal(dtSubmitBillQtyDetail.Rows[k]["Qty"].ToString());
                     }
                 }
@@ -214,5 +195,52 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
             }
         }
         return dataTable;
+    }
+
+    private void GenerateFile()
+    {
+
+        CreateExcelDoc excell_app = new CreateExcelDoc();
+        //creates the main header
+        excell_app.createHeaders(1, 4, "TOTAL LOCAL ESTIMATE COST", "D1", "F1", 2, "YELLOW", true, 10, "n");
+        //creates subheaders
+        excell_app.createHeaders(2, 4, "TOTAL BILL SUBMITTED", "D2", "F2", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(3,4, "BALANCE COST", "D3", "F3", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(3, 1, "NAME OF ACADEMY", "A3", "A3", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(4, 1, "NAME OF WORK", "A4", "A4", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(5, 1, "", "A5", "K5", 2, "GAINSBORO", true, 10, "");
+        excell_app.createHeaders(6,1, "ESTIMATES", "C6", "C6", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(7, 1, "EST NO.1 Total", "A7", "A7", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(7, 2, "ESTIMATE SUBHEAD", "B7", "B7", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(7, 3, "COST", "C7", "C7", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(8, 1, "", "A5", "K5", 2, "GAINSBORO", true, 10, "");
+        excell_app.createHeaders(9, 1, "DETAILS", "A9", "K9", 0, "GRAY", true, 10, "");
+
+        excell_app.createHeaders(10, 1, "NAME OF MATERIAL", "A10", "A10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 2, "ESTIMATE RATE", "B10", "B10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 3, "EST NO.1", "C10", "C10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 4, "EST NO.2", "D10", "D10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 5, "EST NO.3", "E10", "E10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 6, "EST NO.4", "F10", "F10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 7, "BILL NO.1", "G10", "G10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 8, "BILL NO.2", "H10", "H10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 9, "BILL NO.3", "I10", "I10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 10, "BILL NO.4", "J10", "J10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 11, "BALANCE QTY", "K11", "K11", 0, "GRAY", true, 10, "");
+
+        excell_app.createHeaders(3, 4, "Initial Total", "D6", "D6", 0, "GRAY", true, 10, "");
+        //add Data to cells
+        excell_app.addData(5, 2, "114287", "B7", "B7", "#,##0");
+        excell_app.addData(7, 3, "", "C7", "C7", "");
+        excell_app.addData(7, 4, "129121", "D7", "D7", "#,##0");
+        //add percentage row
+        excell_app.addData(8, 2, "", "B8", "B8", "");
+        excell_app.addData(8, 3, "=B7/D7", "C8", "C8", "0.0%");
+        excell_app.addData(8, 4, "", "D8", "D8", "");
+        //add empty divider
+        excell_app.createHeaders(9, 2, "", "B9", "D9", 2, "GAINSBORO", true, 10, "");
+
+
+    
     }
 }

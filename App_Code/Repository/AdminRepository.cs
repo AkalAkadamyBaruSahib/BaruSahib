@@ -83,5 +83,15 @@ public class AdminRepository
         drawingChart.TotalDrawings = _context.Drawing.Count();
 
         return drawingChart;
-    } 
+    }
+
+    public SubmitBillChart GetSubmitBillChartData()
+    {
+        SubmitBillChart submitBillChart = new SubmitBillChart();
+        submitBillChart.ApprovedBills = _context.SubmitBillByUser.Where(x => x.FirstVarifyStatus == null || x.FirstVarifyStatus == 1).Count();
+        submitBillChart.NonApprovedBills = _context.SubmitBillByUser.Where(x => x.FirstVarifyStatus == 0).Count();
+        submitBillChart.TotalLocalPurchased = _context.SubmitBillByUser.Count();
+
+        return submitBillChart;
+    }
 }
