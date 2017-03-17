@@ -163,11 +163,13 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
 
         DataTable dsDes = new DataTable();
 
+        DataTable dsRate = new DataTable();
+
         int WAID = Convert.ToInt16(ddlNameOfWork.SelectedValue);
         int AcaID = Convert.ToInt16(ddlAcademy.SelectedValue);
 
 
-        dsDes = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct ER.Qty, M.MatName,Max(ER.Rate) As Rate,ER.MatId  from EstimateAndMaterialOthersRelations ER INNER JOIN Estimate E on E.EstId=ER.EstId INNER JOIN Material M on M.MatId = ER.MatId WHERE E.WAId='" + ddlNameOfWork.SelectedValue + "'and E.AcaId ='" + ddlAcademy.SelectedValue + "' and ER.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and E.IsApproved=1 group by ER.Rate,ER.Qty,M.MatName,ER.MatId").Tables[0];
+        dsDes = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct M.MatName,M.MatId From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId  INNER JOIN WorkAllot WA ON WA.WAId=ES.WAId INNER JOIN Material M ON EM.MatId = M.MatId  WHERE WA.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1").Tables[0];
 
         DataTable dataTable = BillDetailDataTable(WAID);
 
@@ -179,12 +181,14 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         {
             for (int i = 0; i < dsDes.Rows.Count; i++)
             {
+                dsRate = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Max(EM.Rate) As Rate From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId  WHERE ES.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1 and EM.MatId='" + dsDes.Rows[i]["MatId"].ToString() + "'").Tables[0];
+
                 decimal BillQty = 0;
                 decimal EstimateQty = 0;
                 dr = dataTable.NewRow();
                 dr[0] = i + 1;
                 dr["Name Of Material"] = dsDes.Rows[i]["MatName"].ToString();
-                dr["Estimate Rate"] = dsDes.Rows[i]["Rate"].ToString();
+                dr["Estimate Rate"] = dsRate.Rows[0]["Rate"].ToString();
 
                 for (int j = 0; j < dtEstimateQtyDetail.Rows.Count; j++)
                 {
