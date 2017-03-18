@@ -653,9 +653,9 @@ public class PurchaseRepository
         //   .Include(x => x.EstimateAndMaterialOthersRelations)
         //   .OrderByDescending(e => e.ModifyOn).ToList();
         //return ests;
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.IsReceived == false)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && e.IsReceived == false)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
@@ -666,7 +666,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-            e.SanctionDate = e.ModifyOn;
+          //  e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -696,8 +696,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                e.SanctionDate = e.ModifyOn;
-
+               
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -715,7 +714,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                e.SanctionDate = e.ModifyOn;
+               
 
                 if (estimateRelation.Count > 0)
                 {
@@ -745,8 +744,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                e.SanctionDate = e.ModifyOn;
-
+                
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -764,8 +762,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                e.SanctionDate = e.ModifyOn;
-
+                
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -786,7 +783,7 @@ public class PurchaseRepository
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived==false)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
 
         foreach (Estimate e in ests)
@@ -797,7 +794,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-            e.SanctionDate = e.ModifyOn;
+            //e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -830,8 +827,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -860,8 +856,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-            e.SanctionDate = e.ModifyOn;
-
+         
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -888,8 +883,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -904,9 +898,9 @@ public class PurchaseRepository
     {
         DateTime dt1 = DateTime.Now.AddDays(-180);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID && e.ModifyOn >= dt1 && e.IsReceived == false)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID && e.SanctionDate >= dt1 && e.IsReceived == false)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
@@ -917,8 +911,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-            e.SanctionDate = e.ModifyOn;
-
+          
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -935,7 +928,7 @@ public class PurchaseRepository
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID && e.IsReceived == false)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         foreach (Estimate e in ests)
         {
@@ -944,8 +937,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -975,8 +967,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1001,8 +992,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1029,8 +1019,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1087,8 +1076,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                e.SanctionDate = e.ModifyOn;
-
+               
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1146,8 +1134,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1174,8 +1161,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-            e.SanctionDate = e.ModifyOn;
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1353,5 +1339,11 @@ public class PurchaseRepository
         reader.Close();
 
         return getBillDetailsByVendorIDs;
+    }
+
+    public void AddEstimateChangeInfo(EstimateLog log)
+    {
+        _context.EstimateLog.Add(log);
+        _context.SaveChanges();
     }
 }

@@ -333,7 +333,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 ZoneInfo += "<div class='row-fluid sortable'>";
                 ZoneInfo += "<div class='box span12'>";
                 ZoneInfo += "<div class='box-header well' data-original-title>";
-                ZoneInfo += "<marquee behavior='scroll' direction='left'>Below Estimates are only for last 30 days. Older Estimates can be track through Reports/Search By Academy/Estimate Search window</h1></marquee>";
+                if (UserTypeID != (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
+                {
+                    ZoneInfo += "<marquee behavior='scroll' direction='left'>Below Estimates are only for last 30 days. Older Estimates can be track through Reports/Search By Academy/Estimate Search window</h1></marquee>";
+                }
                 //ZoneInfo += "<div class='box-icon'>";
                 //ZoneInfo += "<a href='#' class='btn btn-minimize btn-round'><i class='icon-chevron-up'></i></a>";
                 //ZoneInfo += "<a href='#' class='btn btn-close btn-round'><i class='icon-remove'></i></a>";
@@ -353,8 +356,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<tr>";
                     ZoneInfo += "<td style='display:none;'>1</td>";
                     ZoneInfo += "<td>";
+                    ZoneInfo += "<div class='panel panel-default'>";
+                    ZoneInfo += "<div class='panel-heading'>";
                     ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
+                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img src='http://localhost:64367/Barusahib/img/Images/AddNewitem.jpg' style='max-width: 25px;'/></a></td>";
                     if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "<br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath, Est.FileNme) + "</td>";
@@ -363,7 +369,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "</td>";
                     }
-                    ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Sanction Date:</b> " + Est.ModifyOn + "</td>";
+
+                    ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Sanction Date:</b> " + Est.SanctionDate + "</td>";
                     ZoneInfo += "<td class='center' width='25%'><b style='color:red;'>Sub Estimate:</b> " + Est.SubEstimate + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Academy:</b> " + Est.Academy.AcaName + "</td>";
                     ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
@@ -399,8 +406,12 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     }
                     ZoneInfo += "</tr>";
                     ZoneInfo += "</table>";
+                    ZoneInfo += "</div>";
+                    ZoneInfo += "</div>";
+                    ZoneInfo += "<div id='"+Est.EstId+"'  class='panel-collapse collapse'>";
+                    ZoneInfo += "<div  class='panel-body'>";
                     ZoneInfo += "<table border='1' class='table table-striped table-bordered bootstrap-datatable datatable'>";
-                    ZoneInfo += "<tr style='color:Green;'>";
+                    ZoneInfo += "<tr style='color:Green;'";
                     ZoneInfo += "<th width='5%'><b>Sr. No.</b></th>";
                     ZoneInfo += "<th width='20%'>Material Name</th>";
                     ZoneInfo += "<th width='2%'>Unit</th>";
@@ -506,6 +517,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                 }
                 ZoneInfo += "</tbody>";
                 ZoneInfo += "</table>";
+                ZoneInfo += "</div>";
+                ZoneInfo += "</div>";
                 ZoneInfo += "</div>";
                 ZoneInfo += "</div>";
                 ZoneInfo += "</div>";

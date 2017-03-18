@@ -1,4 +1,4 @@
-CREATE procedure [dbo].[USP_EmpEstimateAcaWise]    
+ALTER procedure [dbo].[USP_EmpEstimateAcaWise]    
 
 (    
 
@@ -18,7 +18,7 @@ SELECT DISTINCT Estimate.EstId, Estimate.ZoneId,ISNULL(Estimate.IsApproved,1) AS
 
 ISNULL(Estimate.IsRejected,0) AS IsRejected,Z.ZoneName,A.AcaName, Estimate.SubEstimate, 
 
-CONVERT(nvarchar(20), Estimate.ModifyOn, 107) AS SanctionDate, Estimate.EstmateCost, 
+CONVERT(nvarchar(20), Estimate.SanctionDate, 107) AS SanctionDate, Estimate.EstmateCost, 
 
 Estimate.AcaId, WorkAllot.WorkAllotName,ISNULL(Estimate.IsItemRejected,0) AS IsItemRejected      
 

@@ -1,18 +1,40 @@
 ALTER PROCEDURE [dbo].[USP_EstimateDetailByPurchaseAdmin]   
+
 (  
+
 @EstId INT,
+
 @UserID INT  
+
 )  
+
 AS  
+
 BEGIN  
-SELECT     Estimate.EstId, CONVERT(NVARCHAR(20), Estimate.ModifyOn, 107) AS SanctionDate, Zone.ZoneName, Academy.AcaName, WorkAllot.WorkAllotName,   
+
+SELECT     Estimate.EstId, CONVERT(NVARCHAR(20), Estimate.SanctionDate, 107) AS SanctionDate, Zone.ZoneName, Academy.AcaName, WorkAllot.WorkAllotName,   
+
            Estimate.SubEstimate, TypeOfWork.TypeWorkName, Estimate.EstmateCost,Incharge.InName,Incharge.InMobile  
+
 FROM         Estimate INNER JOIN  
+
              TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  
+
              WorkAllot ON Estimate.WAId = WorkAllot.WAId INNER JOIN  
+
              Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN  
+
               Zone ON Estimate.ZoneId = Zone.ZoneId  INNER JOIN
+
 	     Incharge ON Incharge.InchargeId  = Estimate.ModifyBy
+
+
+
+
+
+
+
+
 
 
 
@@ -28,7 +50,23 @@ WHERE     (Estimate.EstId = @EstId)
 
 
 
+
+
+
+
+
+
+
+
 SELECT     Estimate.EstId,  Material.MatName, PurchaseSource.PSName,EstimateAndMaterialOthersRelations.Qty AS EstQty,   
+
+
+
+
+
+
+
+
 
 
 
@@ -44,7 +82,23 @@ SELECT     Estimate.EstId,  Material.MatName, PurchaseSource.PSName,EstimateAndM
 
 
 
+
+
+
+
+
+
+
+
                       EstimateAndMaterialOthersRelations.Remark,MaterialType.MatTypeName
+
+
+
+
+
+
+
+
 
 
 
@@ -60,7 +114,23 @@ FROM         Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
                       EstimateAndMaterialOthersRelations ON Estimate.EstId = EstimateAndMaterialOthersRelations.EstId INNER JOIN  
+
+
+
+
+
+
+
+
 
 
 
@@ -76,7 +146,23 @@ FROM         Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
                       Material ON EstimateAndMaterialOthersRelations.MatId = Material.MatId INNER JOIN  
+
+
+
+
+
+
+
+
 
 
 
@@ -92,7 +178,23 @@ FROM         Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
                       Unit ON EstimateAndMaterialOthersRelations.UnitId = Unit.UnitId  
+
+
+
+
+
+
+
+
 
 
 
@@ -108,6 +210,14 @@ WHERE     Estimate.EstId = @EstId AND EstimateAndMaterialOthersRelations.PSId=2
 
 
 
+
+
+
+
+
+
+
+
 SELECT SUM(Amount) as Ttl from EstimateAndMaterialOthersRelations where EstId=@EstId AND PSId=2
 
 
@@ -116,7 +226,47 @@ SELECT SUM(Amount) as Ttl from EstimateAndMaterialOthersRelations where EstId=@E
 
 
 
+
+
+
+
+
+
+
+
 END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

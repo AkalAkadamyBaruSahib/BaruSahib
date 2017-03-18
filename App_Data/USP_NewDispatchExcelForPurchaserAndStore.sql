@@ -15,12 +15,12 @@ SELECT distinct  EstId
     			,[EstimateQuantity]
 				,[PurchaseQuantity]
 				,ReceivedStoreQuantity
-				,DispatchQuantity
+    			,DispatchQuantity
 				,[StorePendingQuantity]
 				,[DirectPurchasedQty]
      			,Rate AS [PerItemRate]
 				,Amount AS [TotalAmount]
-				,CreatedOnDate
+     			,CreatedOnDate
     			,EmployeeAssignDate
 				,PurchaseDate
 				,PurchaserName
@@ -29,10 +29,11 @@ SELECT distinct  EstId
 				[EmployeeDispatchStatus]
          		 from EstimateReport WHERE PSId=@PsId 
 AND IsApproved=1  AND IsReceived=0
+AND  SanctionDate >= @Firstdate and SanctionDate <= @SecondDate
 
 
 
-AND ModifyOn >= @Firstdate and ModifyOn <= @SecondDate
+
 
 
 

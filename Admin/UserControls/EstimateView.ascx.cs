@@ -120,7 +120,14 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "Estimate No: " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "<br />";
         EstInfo += "Zone:" + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "<br />";
         EstInfo += "Estimate Title: " + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "<br />";
-        EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
+        if (dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() == string.Empty)
+        {
+            EstInfo += "Sanction Date: Not Sanctioned";
+        }
+        else
+        {
+            EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
+        }
         EstInfo += "</p>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right;'>";
@@ -359,7 +366,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             {
                 dtApproved = (from mytable in dsEstimateDetails.Tables[0].AsEnumerable()
                               where mytable.Field<bool>("IsApproved") == isApproved && (mytable.Field<bool>("IsItemRejected") == false) &&
-                              mytable.Field<DateTime>("ModifyOn") >= DateTime.Now.AddDays(-30)
+                              mytable.Field<DateTime?>("CreatedOn") >= DateTime.Now.AddDays(-30)
                               select mytable);
             }
             else
@@ -445,7 +452,14 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                 ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='Admin_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
             }
             ZoneInfo += "<tr><td><b>Work Name:</b> " + dtapproved.Rows[i]["WorkAllotName"].ToString() + "</td></tr>";
-            ZoneInfo += "<tr><td><b>Sanction Date:</b> " + dtapproved.Rows[i]["dt"].ToString() + "</td></tr>";
+            if (dtapproved.Rows[i]["dt"].ToString() == string.Empty)
+            {
+                ZoneInfo += "<tr><td><b>Sanction Date:</b> Not Sanctioned</td></tr>";
+            }
+            else
+            {
+                ZoneInfo += "<tr><td><b>Sanction Date:</b> " + dtapproved.Rows[i]["dt"].ToString() + "</td></tr>";
+            }
             //if (!isApproved)
             //{
             if (isApproved)

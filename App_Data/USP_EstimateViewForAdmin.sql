@@ -1,6 +1,24 @@
 ALTER procedure [dbo].[USP_EstimateViewForAdmin]           
 
+
+
+
+
+
+
 (
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -8,7 +26,31 @@ ALTER procedure [dbo].[USP_EstimateViewForAdmin]
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 @InchargeID as int                    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -16,7 +58,31 @@ ALTER procedure [dbo].[USP_EstimateViewForAdmin]
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 AS
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -24,7 +90,31 @@ BEGIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 IF(@InchargeID=84)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32,11 +122,47 @@ BEGIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 SELECT    DISTINCT Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.EstmateCost,ISNULL(Estimate.IsItemRejected,0) AS IsItemRejected,
 
 
 
-          ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.ModifyOn, 107) AS dt, 
+
+
+
+
+
+
+
+
+
+
+
+
+          ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.SanctionDate, 107) AS dt, 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -44,7 +170,31 @@ SELECT    DISTINCT Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.Estm
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 FROM      Estimate INNER JOIN              
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -52,7 +202,31 @@ FROM      Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 		  INNER JOIN Academy ON Estimate.AcaId = Academy.AcaId
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,7 +234,31 @@ FROM      Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 	      INNER JOIN AcademyAssignToEmployee AAE ON AAE.AcaId = Academy.AcaId
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,7 +266,31 @@ FROM      Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 WHERE     Estimate.IsActive =1  and AAE.EmpId=@InchargeID 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,11 +298,59 @@ WHERE     Estimate.IsActive =1  and AAE.EmpId=@InchargeID
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 order by  Estimate.ModifyOn desc    
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -92,7 +362,31 @@ ELSE IF(@InchargeID=32 or @InchargeID=111)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 BEGIN   
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -100,7 +394,31 @@ SELECT    DISTINCT Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.Estm
 
 
 
-          ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.ModifyOn, 107) AS dt, 
+
+
+
+
+
+
+
+
+
+
+
+
+          ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.SanctionDate, 107) AS dt, 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -108,7 +426,31 @@ SELECT    DISTINCT Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.Estm
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 FROM      Estimate INNER JOIN              
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -116,7 +458,31 @@ FROM      Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
   		  INNER JOIN Academy ON Estimate.AcaId = Academy.AcaId
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -124,7 +490,31 @@ FROM      Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
           INNER JOIN AcademyAssignToEmployee AAE ON AAE.AcaId = Academy.AcaId
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -132,7 +522,31 @@ FROM      Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 WHERE     Estimate.IsActive =1  and AAE.EmpId=@InchargeID 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -140,7 +554,31 @@ WHERE     Estimate.IsActive =1  and AAE.EmpId=@InchargeID
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 order by  Estimate.ModifyOn desc    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,7 +586,31 @@ END
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ELSE
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -156,11 +618,47 @@ BEGIN
 
 
 
-SELECT  DISTINCT Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.EstmateCost,ISNULL(Estimate.IsItemRejected,0) AS IsItemRejected,
 
 
 
-        ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.ModifyOn, 107) AS dt, 
+
+
+
+
+
+
+
+
+
+SELECT   Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.EstmateCost,ISNULL(Estimate.IsItemRejected,0) AS IsItemRejected,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ISNULL(Estimate.IsApproved,1) AS IsApproved,ISNULL(Estimate.IsRejected,0) AS IsRejected, CONVERT(VARCHAR(20), Estimate.SanctionDate, 107) AS dt, 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,7 +666,31 @@ SELECT  DISTINCT Estimate.EstId,Academy.AcaId,Estimate.CreatedOn,Estimate.Estmat
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 FROM    Estimate INNER JOIN              
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -176,7 +698,31 @@ FROM    Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
         INNER JOIN Academy ON Estimate.AcaId = Academy.AcaId
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -184,7 +730,31 @@ FROM    Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
         INNER JOIN AcademyAssignToEmployee AAE ON AAE.AcaId = Academy.AcaId
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -192,7 +762,31 @@ FROM    Estimate INNER JOIN
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 WHERE   Estimate.IsActive =1 and  Estimate.ModuleID = @ModuleID and AAE.EmpId=@InchargeID
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -200,11 +794,47 @@ WHERE   Estimate.IsActive =1 and  Estimate.ModuleID = @ModuleID and AAE.EmpId=@I
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 		and EMR.MatTypeId not in(22,48,35,49,50)
 
 
 
-order by  Estimate.ModifyOn desc    
+
+
+
+
+
+
+
+
+
+
+
+
+order by  Estimate.SanctionDate desc    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -212,7 +842,31 @@ order by  Estimate.ModifyOn desc
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 END         
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

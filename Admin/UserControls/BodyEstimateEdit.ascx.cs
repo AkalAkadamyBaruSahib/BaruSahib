@@ -67,7 +67,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         string id = Request.QueryString["EstId"].ToString();
         DataSet dsEstimate1Details = new DataSet();
         //dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetails  '" + ID + "'");
-        dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.ModifyOn,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved,Estimate.FilePath,Estimate.FileNme  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
+        dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.SanctionDate,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved,Estimate.FilePath,Estimate.FileNme  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
         lblEstimateNo.Text = dsEstimate1Details.Tables[0].Rows[0]["EstId"].ToString();
         lblZoneCode.Text = dsEstimate1Details.Tables[0].Rows[0]["ZoneName"].ToString();
         lblAcaCode.Text = dsEstimate1Details.Tables[0].Rows[0]["AcaName"].ToString();
@@ -213,7 +213,27 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             remark = "<span style='color:green'>" + txtRemark.Text + "</span>";
         }
 
+        
+
         DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','" + txtSubEstimate.Text + "','" + ddlTypeOfWork.SelectedValue + "',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
+        DataSet dssnctiondate = new DataSet();
+        dssnctiondate = DAL.DalAccessUtility.GetDataInDataSet("Select SanctionDate,IsApproved from Estimate where Estid='" + Request.QueryString["EstId"].ToString() + "'");
+        if (dssnctiondate.Tables[0].Rows[0]["IsApproved"].ToString() == "True" && dssnctiondate.Tables[0].Rows[0]["SanctionDate"].ToString() == "")
+        {
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set SanctionDate ='" + DateTime.Now + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
+        }
+        else
+        {
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set  ModifyOn='" + DateTime.Now + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
+            EstimateLog log = new EstimateLog();
+            log.EstimateNumber = Convert.ToInt32(Request.QueryString["EstId"].ToString());
+            log.ModifyBy = int.Parse(Session["InchargeID"].ToString());
+            log.ModifyOn = DateTime.Now;
+
+            PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+            repo.AddEstimateChangeInfo(log);
+        }
+      
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1,remarkByPurchase='' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
 
 
