@@ -53,6 +53,7 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
 
 
     }
+
     private void getEstimateWithParticularDetails(string ID)
     {
         DataSet dsAcaDetails = new DataSet();
@@ -136,15 +137,16 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         ZoneInfo += "</div>";
         divEstimateMaterailView.InnerHtml = ZoneInfo.ToString();
     }
+
     protected void btnPdf_Click(object sender, EventArgs e)
     {
         DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialForEmp_V2 '" + Request.QueryString["EstId"].ToString() + "'");
         string EstInfo = string.Empty;
-        EstInfo += "<div style='width:100%; margin:20px; font-family:Calibri;'>";
+        EstInfo += "<div style='width:99%; margin:20px; font-family:Calibri;'>";
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        EstInfo += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
+        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right; width:40%;'>";
         EstInfo += "<br /><br />";
@@ -169,7 +171,7 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
         EstInfo += "</p>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: right;'>";
+        EstInfo += "<td style='text-align: left;'>";
         EstInfo += "<p style='text-align: right;'>";
         EstInfo += "Academy: " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
         EstInfo += "Type of Work: " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "<br />";
@@ -181,13 +183,13 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "<br /><br />";
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Particular Details</div>";
         EstInfo += "<br />";
-        EstInfo += "<table style='width:100%; margin-top:20px;' border='1'>";
+        EstInfo += "<table style='width:99%; margin-top:20px;' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
+        EstInfo += "<th>MaterialType</th>";
         EstInfo += "<th>Material</th>";
         EstInfo += "<th>Source Type</th>";
         EstInfo += "<th>EstQty</th>";
-        EstInfo += "<th>PurchaseQty</th>";
         EstInfo += "<th>Rate</th>";
         EstInfo += "<th style='width:152px;'>Amount</th>";
         EstInfo += "</tr>";
@@ -198,10 +200,10 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
             if (i != dsValue.Tables[1].Rows.Count)
             {
                 EstInfo += "<tr>";
+                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatTypeName"].ToString() + "</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
-                EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
                 EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
                 EstInfo += "</tr>";
@@ -227,7 +229,7 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        Utility.GeneratePDF(pnlPdf.InnerHtml, "PdfReport.pdf", string.Empty);
+        Utility.GeneratePDF(pnlPdf.InnerHtml, "EstimateDetails:" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf", string.Empty);
         
     }
 }

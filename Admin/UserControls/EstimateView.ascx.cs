@@ -94,11 +94,11 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     {
         DataSet dsValue = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateWithMaterialForEmp_V2 '" + id + "'");
         string EstInfo = string.Empty;
-        EstInfo += "<div style='width:100%;font-family:Calibri;'>";
+        EstInfo += "<div style='width:99%;font-family:Calibri;'>";
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        EstInfo += "<img src='http://barusahib.org/wp-content/uploads/2013/06/Logo.png' style='width:100%;' />";
+        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right; width:40%;'>";
         EstInfo += "<br /><br />";
@@ -130,7 +130,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         }
         EstInfo += "</p>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: right;'>";
+        EstInfo += "<td style='text-align: left;'>";
         EstInfo += "<p style='text-align: right;'>";
         EstInfo += "Academy: " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
         EstInfo += "Type of Work: " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "<br />";
@@ -142,13 +142,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<br /><br />";
         EstInfo += "<div style='width:100%; font-size:15px; font-weight:bold; text-align:center;'>Estimate Particular Details</div>";
         EstInfo += "<br />";
-        EstInfo += "<table style='width:100%; margin-top:15px;' border='1'>";
+        EstInfo += "<table style='width:99%; margin-top:15px;' border='1'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
+        EstInfo += "<th><b>Material Type</b></th>";
         EstInfo += "<th><b>Material</b></th>";
         EstInfo += "<th><b>Source Type</b></th>";
         EstInfo += "<th>EstQty</th>";
-        EstInfo += "<th>PurchaseQty</th>";
         EstInfo += "<th><b>Rate</b></th>";
         EstInfo += "<th style='width:152px;'><b>Amount</b></th>";
         EstInfo += "</tr>";
@@ -158,11 +158,11 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         {
 
             EstInfo += "<tr>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatTypeName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PurchaseQty"].ToString() + "</td>";
-            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
+           EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
             EstInfo += "</tr>";
 

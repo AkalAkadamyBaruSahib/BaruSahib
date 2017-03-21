@@ -185,7 +185,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
     private string getSqlString()
     {
         string sql = string.Empty;
-        sql = "SELECT distinct V.Name AS [Visitor Name], VT.VisitorType,V.ContactNumber,V.VisitorAddress,CO.CountryName,S.StateName,C.CityName,V.PurposeOfVisit,V.RoomRent,V.AdmissionNumber, " +
+        sql = "SELECT distinct V.Name AS [Visitor Name], VT.VisitorType,V.ContactNumber,V.VisitorAddress,CO.CountryName,S.StateName,C.CityName,V.PurposeOfVisit,V.RoomRent AS LangerSewa,V.AdmissionNumber, " +
             "V.VisitorReference,V.VehicleNo,V.Identification,V.TimePeriodFrom As CheckIn,V.TimePeriodTo As CheckOut FROM Visitors V  INNER JOIN VisitorType VT ON VT.ID= V.VisitorTypeID " +
             "INNER JOIN Country CO ON CO.CountryId = V.Country	INNER JOIN State S ON S.StateId = V.State INNER JOIN City C ON C.CityId = V.City WHERE V.VisitorTypeID=" + (int)TypeEnum.VisitoryType.Visitor;
 

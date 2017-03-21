@@ -343,6 +343,9 @@ public class VisitorUserRepository
         {
             newVisitor.TimePeriodTo = visitor.TimePeriodTo;
             newVisitor.TimePeriodFrom = visitor.TimePeriodFrom;
+            newVisitor.BuildingID = visitor.BuildingID;
+
+            DataTable dsRoom = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Name From BuildingName Where ID='" + visitor.BuildingID + "'").Tables[0];
 
             string MsgInfo = string.Empty;
             MsgInfo += "<table style='width:100%;'>";
@@ -361,6 +364,14 @@ public class VisitorUserRepository
             MsgInfo += "</table>";
             MsgInfo += "<table border='1' style='width:100%'>";
             MsgInfo += "<tbody>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Building Name:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += dsRoom.Rows[0]["Name"].ToString();
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
             MsgInfo += "<tr>";
             MsgInfo += "<td>";
             MsgInfo += "<b>CheckIn Date:</b>";
@@ -438,23 +449,22 @@ public class VisitorUserRepository
             //   newVisitor
 
             //declate all properties
-
-            newVisitor.VisitorRoomNumbers = new List<VisitorRoomNumbers>();
-            VisitorRoomNumbers visitorRoom;
-            foreach (VisitorRoomNumbers rm in visitor.VisitorRoomNumbers)
-            {
-                visitorRoom = new VisitorRoomNumbers();
-                visitorRoom.VisitorID = newVisitor.ID;
-                visitorRoom.RoomNumberID = rm.RoomNumberID;
-                visitorRoom.CreatedOn = DateTime.Now;
-
-                newVisitor.VisitorRoomNumbers.Add(visitorRoom);
-            }
         }
+        newVisitor.VisitorRoomNumbers = new List<VisitorRoomNumbers>();
+        VisitorRoomNumbers visitorRoom;
+        foreach (VisitorRoomNumbers rm in visitor.VisitorRoomNumbers)
+        {
+            visitorRoom = new VisitorRoomNumbers();
+            visitorRoom.VisitorID = newVisitor.ID;
+            visitorRoom.RoomNumberID = rm.RoomNumberID;
+            visitorRoom.CreatedOn = DateTime.Now;
+
+            newVisitor.VisitorRoomNumbers.Add(visitorRoom);
+        }
+
         _context.Entry(newVisitor).State = EntityState.Modified;
         _context.SaveChanges();
     }
-
     public List<Visitors> GetUnCheckOutVisitor(DateTime date, bool isActive)
     {
 

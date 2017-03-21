@@ -71,7 +71,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         string EstInfo = string.Empty;
         decimal GrandTotal = 0;
         EstInfo += "<div style='width:100%; margin:20px; font-family:Calibri;'>";
-        EstInfo += "<table style='width:100%;' border='0' >";
+        EstInfo += "<table style='width:99%;' border='0' >";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:30%' valign='top'>";
         EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
@@ -89,7 +89,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
         EstInfo += "<div style='font-size:30px; margin-top:20px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["WorkAllotName"].ToString() + "</div>";
-        EstInfo += "<table style='width:100%; margin-top:20px;' border='0'>";
+        EstInfo += "<table style='width:99%; margin-top:20px;' border='0'>";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left;font-size:20px' valign='top'>";
         EstInfo += "Estimate No: <b> " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "</b><br />";
@@ -98,10 +98,12 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "Sanction Date:<b> " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() + "</b><br />";
         EstInfo += "Approved By:<b>" + dsValue.Tables[0].Rows[0]["InName"].ToString() + "(" + dsValue.Tables[0].Rows[0]["InMobile"].ToString() + ")</b>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: right; float: right; margin-right: 20px;'>";
+        EstInfo += "<td style='text-align: left;'>";
+        EstInfo += "<p style='text-align: right;'>";
         EstInfo += "Academy:<b> " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "</b><br />";
         EstInfo += "Type of Work:<b> " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "</b><br />";
         EstInfo += "Estimate Cost: <b> " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString() + "</b>";
+        EstInfo += "</p>";
         EstInfo += "</td>";
         EstInfo += "</tr>";
         EstInfo += "</table>";

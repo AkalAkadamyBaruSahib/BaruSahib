@@ -309,7 +309,7 @@
                                         </td>
                                         <td>
                                             <div class="span6 typeahead">
-                                                <label class="control-label" for="typeahead">Room Rent:</label>
+                                                <label class="control-label" for="typeahead">Langer Sewa:</label>
                                                 <asp:DropDownList ID="ddlRoomRent" runat="server">
                                                     <asp:ListItem Text="" Value="-1">--Select One--</asp:ListItem>
                                                     <asp:ListItem Text="Free" Value="0"></asp:ListItem>

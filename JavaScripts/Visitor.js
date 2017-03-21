@@ -346,7 +346,6 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("select[id*='drpNumberOfDays']").prop('disabled', true);
                     $("input[id*='txtContactNumber']").prop('disabled', true);
                     $("textarea[id*='txtAddress']").prop('disabled', true);
-                    $("#drpbuilding").prop('disabled', true);
                     $("select[id*='drpCountry']").prop('disabled', true);
                     $("select[id*='drpState']").prop('disabled', true);
                     $("select[id*='drpCity']").prop('disabled', true);
@@ -358,7 +357,6 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("select[id*='drpProofType']").prop('disabled', true);
                     $("input[id*='txtPrmntContactNo']").prop('disabled', true);
                     $("textarea[id*='txtPrmntAddress']").prop('disabled', true);
-                    $("#divPrmntBuilding").prop('disabled', true);
                     $("select[id*='ddlntypeofvisitor']").prop('disabled', true);
                     $("select[id*='ddlroomservice']").prop('disabled', true);
                     $("select[id*='ddlelectricitybill']").prop('disabled', true);
@@ -366,8 +364,7 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("select[id*='ddlPrmntCountry']").prop('disabled', true);
                     $("select[id*='ddlPrmntState']").prop('disabled', true);
                     $("select[id*='ddlPrmntCity']").prop('disabled', true);
-                    $("select[id*='drpPrmntBuilding']").prop('disabled', true);
-
+           
                 }
             }
         },
