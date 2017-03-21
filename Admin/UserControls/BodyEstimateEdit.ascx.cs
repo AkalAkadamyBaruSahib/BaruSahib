@@ -73,7 +73,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         lblAcaCode.Text = dsEstimate1Details.Tables[0].Rows[0]["AcaName"].ToString();
         txtSubEstimate.Text = dsEstimate1Details.Tables[0].Rows[0]["SubEstimate"].ToString();
         lblTpeofWork.Text = dsEstimate1Details.Tables[0].Rows[0]["TypeWorkName"].ToString();
-        lblSanctiondate.Text = dsEstimate1Details.Tables[0].Rows[0]["SanctionDate"].ToString();
+        lblCreatedOn.Text = dsEstimate1Details.Tables[0].Rows[0]["CreatedOn"].ToString();
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
         lblWorkName.Text = dsEstimate1Details.Tables[0].Rows[0]["WorkAllotName"].ToString();
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
@@ -213,27 +213,18 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             remark = "<span style='color:green'>" + txtRemark.Text + "</span>";
         }
 
-        
-
         DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','" + txtSubEstimate.Text + "','" + ddlTypeOfWork.SelectedValue + "',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
-        DataSet dssnctiondate = new DataSet();
-        dssnctiondate = DAL.DalAccessUtility.GetDataInDataSet("Select SanctionDate,IsApproved from Estimate where Estid='" + Request.QueryString["EstId"].ToString() + "'");
-        if (dssnctiondate.Tables[0].Rows[0]["IsApproved"].ToString() == "True" && dssnctiondate.Tables[0].Rows[0]["SanctionDate"].ToString() == "")
+
+        if (hdnIsApproved.Value.ToLower() == "false")
         {
             DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set SanctionDate ='" + DateTime.Now + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
         }
         else
         {
             DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set  ModifyOn='" + DateTime.Now + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
-            EstimateLog log = new EstimateLog();
-            log.EstimateNumber = Convert.ToInt32(Request.QueryString["EstId"].ToString());
-            log.ModifyBy = int.Parse(Session["InchargeID"].ToString());
-            log.ModifyOn = DateTime.Now;
-
-            PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
-            repo.AddEstimateChangeInfo(log);
         }
-      
+
+        EventLog();
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set IsApproved = 1,remarkByPurchase='' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
 
 
@@ -261,9 +252,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         }
         else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
         {
-
             Response.Redirect("WorkshopAdmin_EstimateView.aspx");
-
         }
         else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTMANAGER) || UserTypeID == (int)(TypeEnum.UserType.BACKOFFICE) || UserTypeID == (int)(TypeEnum.UserType.TRANSPORTINCHARGE))
         {
@@ -273,6 +262,16 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         {
             Response.Redirect("Emp_EstimateAcademyWise.aspx");
         }
+    }
+
+    private void EventLog()
+    {
+        EstimateLog log = new EstimateLog();
+        log.EstimateNumber = Convert.ToInt32(Request.QueryString["EstId"].ToString());
+        log.ModifyBy = int.Parse(Session["InchargeID"].ToString());
+        log.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+        repo.AddEstimateChangeInfo(log);
     }
 
     protected void ddlMatTId_SelectedIndexChanged(object sender, EventArgs e)
@@ -339,7 +338,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         //lbAmt.Text = (Convert.ToDecimal(txQty.Text) * Convert.ToDecimal(txRate.Text)).ToString();
         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set MatTypeId='" + dlMatT.SelectedValue + "',MatId='" + dlMat.SelectedValue + "',Qty='" + txQty.Text + "',Rate='" + txRate.Text + "',PSId='" + dlSt.SelectedValue + "',UnitId='" + uId + "',Amount='" + lbAmt.Text + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',remarkByPurchase='" + txRemarks.Text + "' where Sno='" + Sno + "'");
         DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + lbEstId.Text + "'");
-        DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + lbEstId.Text + "'");
+        DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "' where EstId='" + lbEstId.Text + "'");
         gvDetails.EditIndex = -1;
         GetEstimateDetails();
         BindGrid();

@@ -645,28 +645,19 @@ public class PurchaseRepository
 
     public List<Estimate> EstimateViewForPurchase(int PSID, int UserTypeID, int InchargeID)
     {
-        DateTime dt1 = DateTime.Now.AddDays(-7);
-
-        //var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.EstimateAndMaterialOthersRelations.All(r => r.PSId == PSID))
-        //   .Include(z => z.Zone)
-        //   .Include(a => a.Academy)
-        //   .Include(x => x.EstimateAndMaterialOthersRelations)
-        //   .OrderByDescending(e => e.ModifyOn).ToList();
-        //return ests;
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && e.IsReceived == false)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived == false)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
+            .Include(a => a.Academy).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.DispatchStatus != 1)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID == 0)
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-          //  e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -675,7 +666,7 @@ public class PurchaseRepository
             }
         }
         ests = null;
-        return estimates;
+        return estimates.OrderByDescending(e => e.SanctionDate).ToList();
     }
 
     public List<Estimate> EstimateViewForWorkshopPurchase(int PSID, int UserTypeID, int InchargeID, int PurchaseEmpID)
@@ -776,9 +767,6 @@ public class PurchaseRepository
 
     public List<Estimate> EstimateViewForPurchaseByEmployeeID(int PSID, int UserTypeID, int InchargeID, int DispatchStatus)
     {
-
-        //DateTime dt1 = DateTime.Now.AddDays(-30);
-
         List<Estimate> estimates = new List<Estimate>();
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived==false)
@@ -793,8 +781,6 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-
-            //e.SanctionDate = e.ModifyOn;
 
             if (estimateRelation.Count > 0)
             {
@@ -906,7 +892,7 @@ public class PurchaseRepository
 
         foreach (Estimate e in ests)
         {
-            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.DispatchStatus != 1)
+            var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId && er.PurchaseEmpID == 0)
                 .Include(m => m.Material)
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)

@@ -151,6 +151,7 @@
                     <option value="Assigned">Assigned</option>
                     <option value="In Progress">In Progres</option>
                     <option value="Completed">Completed</option>
+                  <%--  <option value="ReOpen">Reopen</option>--%>
                 </select></td>
         </tr>
         <tr id="trCompletionDate">
@@ -195,10 +196,10 @@
             </td>
             <td>
                 <select id="ddlfeedback" class="dropdown">
-                    <option value="Not done">Not done</option>
-                    <option value="Good">Good</option>
-                    <option value="Very Good">Very Good</option>
-                    <option value="Exelent">Exelent</option>
+                    <option value="Done with Satisfaction">Done with Satisfaction</option>
+                    <option value="Completed but not statisfied">Completed but not statisfied</option>
+                    <option value="Completed but Problem is still there">Completed but Problem is still there</option>
+                    <option value="No Response from Supervisior">No Response from Supervisior</option>
                 </select></td>
         </tr>
         <tr>

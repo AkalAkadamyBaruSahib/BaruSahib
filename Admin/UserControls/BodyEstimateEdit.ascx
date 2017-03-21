@@ -86,7 +86,7 @@
                                         <div class="control-group">
                                             <label class="control-label" for="txtSanctionDate"></label>
                                             <div class="controls">
-                                                Sanction Date:<asp:Label ID="lblSanctiondate" runat="server"></asp:Label>
+                                                Created On:<asp:Label ID="lblCreatedOn" runat="server"></asp:Label>
                                             </div>
                                         </div>
                                     </td>

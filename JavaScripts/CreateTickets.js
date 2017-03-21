@@ -66,6 +66,8 @@ $(document).ready(function () {
         
     });
 
+   
+
     $("#ddlStatus").change(function () {
         if ($(this).val() == "In Progress") {
             $("input[id$='txtCompletionDate']").prop("disabled", false);
@@ -269,6 +271,13 @@ function SaveFeedback(ticketID, sfeedback) {
 
 function LoadData(ticketID) {
 
+    //if ($("input[id*='hdnUserType']").val() == "10") {
+
+    //    $("#ddlStatus").prop('disabled', false);
+    //    $('#ddlStatus').find('option').remove().end();
+    //    $("select[id*='ddlStatus']").append($("<option></option>").val("ReOpen").html("ReOpen"));
+    //}
+
     $("input[id*='hdnID']").val(ticketID);
     $.ajax({
         type: "POST",
@@ -441,7 +450,7 @@ function LoadAssignComplaints() {
                         "bPaginate": true,
                         "iDisplayLength": 12,
                         "sPaginationType": "full_numbers",
-                        "aaSorting": [[2, 'desc']],
+                        "aaSorting": [[3, 'desc']],
                         "bAutoWidth": false,
                         "bLengthChange": false,
                         "language": {
@@ -540,7 +549,7 @@ function LoadInProgressComplaints(IsRefresh) {
                             "bPaginate": true,
                             "iDisplayLength": 12,
                             "sPaginationType": "full_numbers",
-                            "aaSorting": [[2, 'desc']],
+                            "aaSorting": [[3, 'desc']],
                             "bAutoWidth": false,
                             "bLengthChange": false,
                             "language": {
@@ -641,7 +650,7 @@ function LoadCompleteComplaints(IsRefresh) {
                             "bPaginate": true,
                             "iDisplayLength": 12,
                             "sPaginationType": "full_numbers",
-                            "aaSorting": [[2, 'desc']],
+                            "aaSorting": [[3, 'desc']],
                             "bAutoWidth": false,
                             "bLengthChange": false,
                             "language": {

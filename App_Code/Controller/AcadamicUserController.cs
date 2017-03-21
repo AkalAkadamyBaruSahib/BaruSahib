@@ -268,13 +268,13 @@ public class AcadamicUserController : System.Web.Services.WebService
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
-            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by  ct.CreatedOn desc";
+            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId  WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by ct.ID desc";
         }
         else if (UserType == (int)TypeEnum.UserType.ADMIN)
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
-            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId WHERE ct.status='" + complaintStatus + "' order by ct.CreatedOn desc";
+            "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId  WHERE ct.status='" + complaintStatus + "' order by ct.ID desc";
         }
         else if (UserType == (int)TypeEnum.UserType.CONSTRUCTION || UserType == (int)TypeEnum.UserType.COMPLAINT)
         {
@@ -283,13 +283,14 @@ public class AcadamicUserController : System.Web.Services.WebService
                     "ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
                     "from ComplaintTickets ct " +
                     "INNER JOIN Academy ac on ac.AcaId=ct.AcaID " +
-                    "INNER JOIN Zone z on ct.ZoneID=z.ZoneId " +
-                    "WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by ct.CreatedOn desc";
+                    "INNER JOIN Zone z on ct.ZoneID=z.ZoneId  " +
+                    "WHERE ct.status='" + complaintStatus + "' and ct.AcaID in(Select AcaID from AcademyAssignToEmployee where EmpId = " + InchargeID + ") order by ct.ID desc";
         }
         System.Data.DataSet dsDegisDetails = new System.Data.DataSet();
         dsDegisDetails = DAL.DalAccessUtility.GetDataInDataSet(sql);
 
         List<DTO.Ticket> tickets = new List<DTO.Ticket>();
+
         DTO.Ticket ticket = null;
         for (int i = 0; i < dsDegisDetails.Tables[0].Rows.Count; i++)
         {
@@ -301,9 +302,9 @@ public class AcadamicUserController : System.Web.Services.WebService
             //ticket.AssignedTo = dsDegisDetails.Tables[0].Rows[i]["AssignedTo"].ToString();
             if (!string.IsNullOrEmpty(dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString()))
             {
-                ticket.CompletionDate = String.Format(String.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["ModifyOn"]))); //dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString();
+                ticket.CompletionDate = Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["ModifyOn"]).ToString(); //dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString();
             }
-            ticket.Comments = dsDegisDetails.Tables[0].Rows[i]["Comments"].ToString();
+            //  ticket.Comments = dsDegisDetails.Tables[0].Rows[i]["Comments"].ToString();
             ticket.ComplaintType = dsDegisDetails.Tables[0].Rows[i]["ComplaintType"].ToString();
             ticket.Status = "<span style='color:green'><b>" + dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() + "</b></span>";
             ticket.Zone = dsDegisDetails.Tables[0].Rows[i]["ZoneName"].ToString();
@@ -315,7 +316,7 @@ public class AcadamicUserController : System.Web.Services.WebService
                 {
                     ticket.Status = "<span style='color:red'><b>" + dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() + "</b></span>";
                 }
-                ticket.TentativeDate = String.Format(String.Format("{0:MM/dd/yyyy}", Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["TentativeDate"]))); //dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString();
+                ticket.TentativeDate = Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[i]["TentativeDate"]).ToString(); //dsDegisDetails.Tables[0].Rows[i]["ModifyOn"].ToString();
             }
             ticket.Severity = dsDegisDetails.Tables[0].Rows[i]["Severity"].ToString();
             ticket.SeverityDays = dsDegisDetails.Tables[0].Rows[i]["SeverityDays"].ToString();
@@ -326,6 +327,7 @@ public class AcadamicUserController : System.Web.Services.WebService
             {
                 ticket.Status = "<span style='color:orange'><b>" + dsDegisDetails.Tables[0].Rows[i]["Status"].ToString() + "</b></span>";
             }
+
             tickets.Add(ticket);
         }
 
@@ -349,7 +351,7 @@ public class AcadamicUserController : System.Web.Services.WebService
         ticket.CreatedOn = Convert.ToDateTime(dsDegisDetails.Tables[0].Rows[0]["CreatedOn"].ToString()).ToString();
         ticket.AssignedTo = dsDegisDetails.Tables[0].Rows[0]["AssignedTo"].ToString();
         ticket.CompletionDate = dsDegisDetails.Tables[0].Rows[0]["ModifyOn"].ToString();
-        ticket.Comments = dsDegisDetails.Tables[0].Rows[0]["Comments"].ToString();
+       // ticket.Comments = dsDegisDetails.Tables[0].Rows[0]["Comments"].ToString();
         ticket.ComplaintType = dsDegisDetails.Tables[0].Rows[0]["ComplaintType"].ToString();
         ticket.Status = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();
         ticket.StatusID = dsDegisDetails.Tables[0].Rows[0]["Status"].ToString();

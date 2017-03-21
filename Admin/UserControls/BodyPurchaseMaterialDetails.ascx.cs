@@ -360,7 +360,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<div class='panel-heading'>";
                     ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
-                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img src='http://localhost:64367/Barusahib/img/Images/AddNewitem.jpg' style='max-width: 25px;'/></a></td>";
+                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img src='img/Images/AddNewitem.jpg' style='max-width: 25px;'/></a></td>";
                     if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "<br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath, Est.FileNme) + "</td>";

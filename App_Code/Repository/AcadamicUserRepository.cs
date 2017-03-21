@@ -30,7 +30,7 @@ public class AcadamicUserRepository
             Isticket.Description = ticket.Description;
             if (Isticket.Status == "Completed")
             {
-                Isticket.CompletionDate = DateTime.Now;
+                Isticket.CompletionDate = Utility.GetLocalDateTime(DateTime.UtcNow);
             }
             else
             {
