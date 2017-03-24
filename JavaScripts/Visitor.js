@@ -26,9 +26,9 @@ $(document).ready(function () {
     $("#aPrmnentRoomNumber").hide();
     $("input[id*='hdnBuildingID']").val()
   
-    //$("input[id*='txtfirstDate']").datepicker({
-    //    maxDate: 0
-    //});
+    $("input[id*='txtfirstDate']").datepicker({
+        minDate: 0
+    });
     $("input[id*='txtlastDate']").datepicker({
         minDate: 0
     });
@@ -131,7 +131,7 @@ function EnableDisabledValidator()
             var vldGrp = null;
             if (Page_Validators[i] != null) {
                 if (Page_Validators[i].controltovalidate == $("input[id*='fileUploadIdentity']")[0].id
-                    || Page_Validators[i].controltovalidate == $("input[id*='fileUploadphoto']")[0].id || Page_Validators[i].controltovalidate == $("input[id*='fileUploadPrmntPhoto']")[0].id) {
+                    || Page_Validators[i].controltovalidate == $("input[id*='fileUploadphoto']")[0].id) {
                     ValidatorEnable(Page_Validators[i], false);
                 };
             }

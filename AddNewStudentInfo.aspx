@@ -73,7 +73,7 @@
                                         </td>
                                         <td style="width: 40%">
                                             <label class="control-label" for="typeahead">Addresss </label>
-                                            <asp:TextBox ID="txtAddress" runat="server" CssClass="span6 typeahead"></asp:TextBox>
+                                            <asp:TextBox ID="txtAddress" runat="server" CssClass="span6 typeahead" TextMode="MultiLine"></asp:TextBox>
                                             <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="student" ID="RequiredtxtAddress" ControlToValidate="txtAddress" ErrorMessage="Please enter the Address" />
                                         </td>
 

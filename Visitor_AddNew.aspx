@@ -369,7 +369,7 @@
                                         </td>
                                         <td>
                                             <div class="span6 typeahead">
-                                                <label class="control-label" cssclass="span6 typeahead" for="typeahead">Time Period For Stay:</label>
+                                                <label class="control-label" cssclass="span6 typeahead" for="typeahead">Time Period For Stay:</label><br />
                                                 <label class="control-label" for="typeahead">From:</label>
                                                 <asp:TextBox runat="server" ID="txtfirstDate" CssClass="input-xlarge datepicker" Style="width: 70px;"></asp:TextBox>
                                                 <label class="control-label" for="typeahead">To:</label>
@@ -536,7 +536,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <label class="control-label" for="typeahead">Time Period For Stay:</label>
+                                            <label class="control-label" for="typeahead">Time Period For Stay:</label><br />
                                             <div class="control-group">
                                                 <label class="control-label" for="typeahead">From:</label>
                                                 <asp:TextBox runat="server" ID="txtprmntTo" CssClass="input-xlarge datepicker" Style="width: 70px; height: 20px;"></asp:TextBox>
