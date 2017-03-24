@@ -360,7 +360,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<div class='panel-heading'>";
                     ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
-                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img src='img/Images/AddNewitem.jpg' style='max-width: 25px;'/></a></td>";
+                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img id='imgPlus' src='img/Images/AddNewitem.jpg' style='max-width: 25px;'/><img id='imgMinus' src='img/minus.gif' style='max-width: 25px;display:none;'/></a></td>";
+                   
                     if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
                         ZoneInfo += "<td width='20%'><b style='color:red;'>Estimate No:</b> " + Est.EstId + "<br/><b style='color:red;'>Estimate File:</b> " + GetFileName(Est.FilePath, Est.FileNme) + "</td>";
@@ -412,7 +413,8 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<div  class='panel-body'>";
                     ZoneInfo += "<table border='1' class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr style='color:Green;'";
-                    ZoneInfo += "<th width='5%'><b>Sr. No.</b></th>";
+                    ZoneInfo += "<th width='5%'><b></b></th>";
+                    ZoneInfo += "<th width='5%'><b>Sr.No.</b></th>";
                     ZoneInfo += "<th width='20%'>Material Name</th>";
                     ZoneInfo += "<th width='2%'>Unit</th>";
                     ZoneInfo += "<th width='2%'>Quantity</th>";

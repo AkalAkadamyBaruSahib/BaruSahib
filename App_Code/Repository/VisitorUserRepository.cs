@@ -377,7 +377,7 @@ public class VisitorUserRepository
             MsgInfo += "<b>CheckIn Date:</b>";
             MsgInfo += "</td>";
             MsgInfo += "<td>";
-            MsgInfo += visitor.TimePeriodTo;
+            MsgInfo += visitor.TimePeriodFrom;
             MsgInfo += "</td>";
             MsgInfo += "</tr>";
             MsgInfo += "<tr>";
@@ -385,14 +385,14 @@ public class VisitorUserRepository
             MsgInfo += "<b>CheckOut Date:</b>";
             MsgInfo += "</td>";
             MsgInfo += "<td>";
-            MsgInfo += visitor.TimePeriodFrom;
+            MsgInfo += visitor.TimePeriodTo;
             MsgInfo += "</td>";
             MsgInfo += "</tr>";
             MsgInfo += "</tbody>";
             MsgInfo += "</table>";
 
             string FileName = string.Empty;
-            string to = "itmohali@barusahib.org";
+            string to = "bhupinder@barusahib.org";
             string cc = string.Empty;
 
             try

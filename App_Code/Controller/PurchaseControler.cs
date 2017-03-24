@@ -270,6 +270,10 @@ public class PurchaseControler : System.Web.Services.WebService
     [WebMethod]
     public int SaveEstimateDetail(Estimate estimate)
     {
+        if (estimate.IsApproved == true)
+        {
+            estimate.SanctionDate = DateTime.UtcNow;
+        }
         estimate.CreatedOn = DateTime.UtcNow;
 
         foreach (EstimateAndMaterialOthersRelations relation in estimate.EstimateAndMaterialOthersRelations)

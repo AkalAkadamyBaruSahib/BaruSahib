@@ -143,7 +143,7 @@ public class PurchaseRepository
 
     public List<PurchaseSource> GetPurchaseSource()
     {
-        return _context.PurchaseSource.ToList();
+        return _context.PurchaseSource.OrderBy(x => x.PSName).ToList();
     }
 
     public List<VendorInfo> GetVendorsNameList()
@@ -665,6 +665,7 @@ public class PurchaseRepository
                 estimates.Add(e);
             }
         }
+
         ests = null;
         return estimates.OrderByDescending(e => e.SanctionDate).ToList();
     }
@@ -672,9 +673,9 @@ public class PurchaseRepository
     public List<Estimate> EstimateViewForWorkshopPurchase(int PSID, int UserTypeID, int InchargeID, int PurchaseEmpID)
     {
         DateTime dt1 = DateTime.Now.AddDays(-60);
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1)
              .Include(z => z.Zone)
-             .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
         if (PurchaseEmpID == 0)
@@ -722,7 +723,7 @@ public class PurchaseRepository
     {
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId == AcaID)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
         if (PurchaseEmpID == 0)
@@ -799,9 +800,9 @@ public class PurchaseRepository
 
         var assignAcademies = _context.AcademyAssignToEmployee.Where(a => a.EmpId == inchargeID).Select(s => s.AcaId).ToList();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && assignAcademies.Contains(e.AcaId))
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && assignAcademies.Contains(e.AcaId))
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
@@ -830,7 +831,7 @@ public class PurchaseRepository
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
@@ -858,9 +859,9 @@ public class PurchaseRepository
         DateTime dt1 = DateTime.Now.AddDays(-30);
 
         List<Estimate> estimates = new List<Estimate>();
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1 && e.CreatedBy == InchargeID)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && e.CreatedBy == InchargeID)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         foreach (Estimate e in ests)
         {
@@ -897,13 +898,14 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-          
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
                 estimates.Add(e);
             }
         }
+
         ests = null;
         return estimates;
     }
@@ -939,9 +941,9 @@ public class PurchaseRepository
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.ModifyOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
@@ -993,7 +995,7 @@ public class PurchaseRepository
     {
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId >= AcaID)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.ModifyOn).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
 
@@ -1161,7 +1163,7 @@ public class PurchaseRepository
 
     public List<MaterialType> GetActiveMaterialTypes()
     {
-        return _context.MaterialType.Where(m => m.Active == 1).ToList();
+        return _context.MaterialType.Where(m => m.Active == 1).OrderBy(x=>x.MatTypeName).ToList();
     }
 
     public void ReceivedMaterial(int EstID, int InchargeID)

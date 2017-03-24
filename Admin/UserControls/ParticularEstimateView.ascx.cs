@@ -42,7 +42,14 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         lblAcaCode.Text = dsEstimate1Details.Tables[0].Rows[0]["AcId"].ToString();
         lblSubEstimate.Text = dsEstimate1Details.Tables[0].Rows[0]["SubEstimate"].ToString();
         lblTypeOfWork.Text = dsEstimate1Details.Tables[0].Rows[0]["TypeWorkName"].ToString();
-        lblSanctionDate.Text = dsEstimate1Details.Tables[0].Rows[0]["SanctionDate"].ToString();
+        if (dsEstimate1Details.Tables[0].Rows[0]["SanctionDate"].ToString() == "")
+        {
+            lblSanctionDate.Text = "Not Sanctioned";
+        }
+        else
+        {
+            lblSanctionDate.Text = dsEstimate1Details.Tables[0].Rows[0]["SanctionDate"].ToString();
+        }
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
         hdnIsItemRejected.Value = dsEstimate1Details.Tables[0].Rows[0]["IsItemRejected"].ToString();
