@@ -193,18 +193,18 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 {
                     visitor.RoomRent = 0;
                 }
+
                 if (string.IsNullOrEmpty(txtfirstDate.Text))
                 {
                     visitor.TimePeriodFrom = Utility.GetLocalDateTime(System.DateTime.UtcNow);
                 }
                 else
                 {
-                    DateTime serverTime = Convert.ToDateTime(txtfirstDate.Text);
-                    DateTime utcTime = serverTime.ToUniversalTime();
+                    var date = Convert.ToDateTime(txtfirstDate.Text).ToShortDateString();
+                    var time = DateTime.Now.TimeOfDay.ToString();
 
-                    TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-                    DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi);
-                    visitor.TimePeriodFrom = localTime;
+                    DateTime datetime = Convert.ToDateTime(date + " " + time);
+                    visitor.TimePeriodFrom = Utility.GetLocalDateTime(datetime.ToUniversalTime());
                 }
                 if (string.IsNullOrEmpty(txtlastDate.Text))
                 {
@@ -369,12 +369,11 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 }
                 else
                 {
-                    DateTime serverTime = Convert.ToDateTime(txtprmntFrom.Text);
-                    DateTime utcTime = serverTime.ToUniversalTime();
+                    var date = Convert.ToDateTime(txtprmntFrom.Text).ToShortDateString();
+                    var time = DateTime.Now.TimeOfDay.ToString();
 
-                    TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-                    DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi);
-                    visitor.TimePeriodFrom = localTime;
+                    DateTime datetime = Convert.ToDateTime(date + " " + time);
+                    visitor.TimePeriodFrom = Utility.GetLocalDateTime(datetime.ToUniversalTime());
                 }
                 if (string.IsNullOrEmpty(txtprmntTo.Text))
                 {

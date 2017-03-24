@@ -192,6 +192,7 @@ public class TypeEnum
         VisitorsReportByPlaces = 3,
         PermanentRoomDetailReport = 4,
         ViewBookedRoomList = 5,
+        RoomStatus = 6
     }
     public enum TransportProformaType : int
     {
@@ -203,7 +204,8 @@ public class TypeEnum
     public enum AutoGenerateReportType : int
     {
         PendingReport = 1,
-        CompliantReport =2
+        VisitorRoomStatus = 2,
+        CompliantReport = 3
     }
     public enum ComplaintTicketStatus : int
     {

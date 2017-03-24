@@ -131,7 +131,20 @@ function EnableDisabledValidator()
             var vldGrp = null;
             if (Page_Validators[i] != null) {
                 if (Page_Validators[i].controltovalidate == $("input[id*='fileUploadIdentity']")[0].id
-                    || Page_Validators[i].controltovalidate == $("input[id*='fileUploadphoto']")[0].id) {
+                    || Page_Validators[i].controltovalidate == $("input[id*='fileUploadphoto']")[0].id || Page_Validators[i].controltovalidate == $("input[id*='fileUploadPrmntPhoto']")[0].id) {
+                    ValidatorEnable(Page_Validators[i], false);
+                };
+            }
+        }
+    };
+}
+
+function EnableDisabledPermantValidator() {
+    if (typeof Page_Validators != 'undefined') {
+        for (i = 0; i <= Page_Validators.length; i++) {
+            var vldGrp = null;
+            if (Page_Validators[i] != null) {
+                if (Page_Validators[i].controltovalidate == $("input[id*='fileUploadPrmntPhoto']")[0].id) {
                     ValidatorEnable(Page_Validators[i], false);
                 };
             }
@@ -328,6 +341,7 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("[id$='divPrmanent']").hide();
                 }
                 else {
+                    EnableDisabledPermantValidator();
                     $("[id$='divVisitorInfo']").hide();
                     $("[id$='divPrmanent']").show();
                 }
@@ -336,7 +350,6 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("#divAdminsnNo").show();
                 }
                 if ($("input[id*='hdnUserType']").val() == "22") {
-                    $("input[id*='txtName']").prop('disabled', true);
                     $("input[id*='txtnoofperson']").prop('disabled', true);
                     $("input[id*='txtNoOfFemale']").prop('disabled', true);
                     $("input[id*='txtNoOfChildren']").prop('disabled', true);
@@ -344,8 +357,6 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("select[id*='ddlpurpose']").prop('disabled', true);
                     $("select[id*='drpProofType']").prop('disabled', true);
                     $("select[id*='drpNumberOfDays']").prop('disabled', true);
-                    $("input[id*='txtContactNumber']").prop('disabled', true);
-                    $("textarea[id*='txtAddress']").prop('disabled', true);
                     $("select[id*='drpCountry']").prop('disabled', true);
                     $("select[id*='drpState']").prop('disabled', true);
                     $("select[id*='drpCity']").prop('disabled', true);
@@ -353,10 +364,7 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("select[id*='ddlRoomRent']").prop('disabled', true);
                     $("input[id*='txtAdmissionNo']").prop('disabled', true);
                     $("input[id*='txtDlNumber']").prop('disabled', true);
-                    $("input[id*='txtPrmntName']").prop('disabled', true);
                     $("select[id*='drpProofType']").prop('disabled', true);
-                    $("input[id*='txtPrmntContactNo']").prop('disabled', true);
-                    $("textarea[id*='txtPrmntAddress']").prop('disabled', true);
                     $("select[id*='ddlntypeofvisitor']").prop('disabled', true);
                     $("select[id*='ddlroomservice']").prop('disabled', true);
                     $("select[id*='ddlelectricitybill']").prop('disabled', true);

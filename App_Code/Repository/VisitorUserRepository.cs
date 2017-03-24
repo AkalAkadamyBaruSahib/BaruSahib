@@ -337,13 +337,17 @@ public class VisitorUserRepository
     public void UpdateVisitor(Visitors visitor, int Usertype)
     {
         _context.VisitorRoomNumbers.RemoveRange(_context.VisitorRoomNumbers.Where(v => v.VisitorID == visitor.ID));
+        _context.SaveChanges();
 
         Visitors newVisitor = _context.Visitors.Where(v => v.ID == visitor.ID).Include(r => r.VisitorRoomNumbers).FirstOrDefault();
         if (Usertype == (int)TypeEnum.UserType.FrontDesk)
         {
-            newVisitor.TimePeriodTo = visitor.TimePeriodTo;
+            newVisitor.Name = visitor.Name;
+            newVisitor.ContactNumber = visitor.ContactNumber;
+            newVisitor.TimePeriodTo = visitor.CreatedOn;
             newVisitor.TimePeriodFrom = visitor.TimePeriodFrom;
             newVisitor.BuildingID = visitor.BuildingID;
+            newVisitor.VisitorAddress = visitor.VisitorAddress;
 
             DataTable dsRoom = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Name From BuildingName Where ID='" + visitor.BuildingID + "'").Tables[0];
 
@@ -366,6 +370,30 @@ public class VisitorUserRepository
             MsgInfo += "<tbody>";
             MsgInfo += "<tr>";
             MsgInfo += "<td>";
+            MsgInfo += "<b>Visitor Name:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += visitor.Name;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Visitor Contact Number:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += visitor.ContactNumber;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
+            MsgInfo += "<b>Visitor Address:</b>";
+            MsgInfo += "</td>";
+            MsgInfo += "<td>";
+            MsgInfo += visitor.VisitorAddress;
+            MsgInfo += "</td>";
+            MsgInfo += "</tr>";
+            MsgInfo += "<tr>";
+            MsgInfo += "<td>";
             MsgInfo += "<b>Building Name:</b>";
             MsgInfo += "</td>";
             MsgInfo += "<td>";
@@ -377,7 +405,7 @@ public class VisitorUserRepository
             MsgInfo += "<b>CheckIn Date:</b>";
             MsgInfo += "</td>";
             MsgInfo += "<td>";
-            MsgInfo += visitor.TimePeriodFrom;
+            MsgInfo += visitor.CreatedOn;
             MsgInfo += "</td>";
             MsgInfo += "</tr>";
             MsgInfo += "<tr>";
@@ -392,12 +420,12 @@ public class VisitorUserRepository
             MsgInfo += "</table>";
 
             string FileName = string.Empty;
-            string to = "bhupinder@barusahib.org";
+            //     string to = "bhupinder@barusahib.org";
             string cc = string.Empty;
 
             try
             {
-                Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Changes are Updated In Visitor");
+                //    Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Changes are Updated In Visitor");
             }
             catch { }
             finally
@@ -446,9 +474,6 @@ public class VisitorUserRepository
             newVisitor.VisitorReference = visitor.VisitorReference;
             newVisitor.RoomRentType = visitor.RoomRentType;
 
-            //   newVisitor
-
-            //declate all properties
         }
         newVisitor.VisitorRoomNumbers = new List<VisitorRoomNumbers>();
         VisitorRoomNumbers visitorRoom;
@@ -465,6 +490,7 @@ public class VisitorUserRepository
         _context.Entry(newVisitor).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
     public List<Visitors> GetUnCheckOutVisitor(DateTime date, bool isActive)
     {
 

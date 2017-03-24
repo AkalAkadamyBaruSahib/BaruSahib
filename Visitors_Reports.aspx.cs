@@ -37,6 +37,10 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportBookedRoomList.xls"));
         }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "RoomStatus.xls"));
+        }
         else
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PermanentRoomDetails.xls"));
@@ -71,11 +75,11 @@ public partial class Visitors_Reports : System.Web.UI.Page
         from = txtCheckInDate.Text == string.Empty ? DateTime.MinValue.ToShortDateString() : txtCheckInDate.Text;
         if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetVisitorsReports '" + txtCheckInDate.Text + "','" + txtCheckOutDate.Text + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetVisitorsReports] '" + txtCheckInDate.Text + "','" + txtCheckOutDate.Text + "'").Tables[0];
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString())
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetVacantRoomListByBuilding '" + drpBuildingName.SelectedValue + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetVacantRoomListByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
         {
@@ -83,7 +87,11 @@ public partial class Visitors_Reports : System.Web.UI.Page
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString())
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetBookedRoomListByBuilding '" + drpBuildingName.SelectedValue + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetBookedRoomListByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString())
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomStatusByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
         else
         {
@@ -91,7 +99,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
         }
         return dt;
     }
-
+    
     protected void BindBuildingName()
     {
         DataTable dtBuilding = new DataTable();
@@ -162,7 +170,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
             divEmptyRooms.Visible = false;
             divPlaces.Visible = false;
         }
-        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
         {
             divCheckInDate.Visible = false;
             divEmptyRooms.Visible = true;

@@ -70,8 +70,7 @@
                     <asp:DropDownList ID="drpFilterData" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFilterData_SelectedIndexChanged">
                         <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
                         <asp:ListItem Text="According Date" Value="1"></asp:ListItem>
-                        <asp:ListItem Text="View Vacant Room List" Value="2"></asp:ListItem>
-                        <asp:ListItem Text="View Booked Room List" Value="5"></asp:ListItem>
+                        <asp:ListItem Text="Room Status Report" Value="6"></asp:ListItem>
                         <asp:ListItem Text="Visitors Report By Places" Value="3"></asp:ListItem>
                         <asp:ListItem Text="Permanent Room Detail Report" Value="4"></asp:ListItem>
                     </asp:DropDownList> 
