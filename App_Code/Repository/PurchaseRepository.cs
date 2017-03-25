@@ -1049,9 +1049,9 @@ public class PurchaseRepository
     public List<Estimate> EstimateDetailByEstId(int EstID, int PSID, int UserTypeId, int UserId)
     {
         List<Estimate> estimates = new List<Estimate>();
-        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.PURCHASE) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN) || (UserTypeId == (int)TypeEnum.UserType.PURCHASECOMMITTEE))
+        if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN))
         {
-            var ests = _context.Estimate.Where(e => e.EstId == EstID)
+            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsActive==true)
                 .Include(z => z.Zone)
                 .Include(a => a.Academy).ToList();
 
@@ -1064,7 +1064,31 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-               
+
+                if (estimateRelation.Count > 0)
+                {
+                    e.EstimateAndMaterialOthersRelations = estimateRelation;
+                    estimates.Add(e);
+                }
+            }
+            ests = null;
+        }
+        else if (UserTypeId == (int)TypeEnum.UserType.PURCHASE || (UserTypeId == (int)TypeEnum.UserType.PURCHASECOMMITTEE))
+        {
+            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsApproved == true && e.IsActive == true)
+             .Include(z => z.Zone)
+             .Include(a => a.Academy).ToList();
+
+
+            foreach (Estimate e in ests)
+            {
+                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                    .Include(m => m.Material)
+                    .Include(u => u.Unit)
+                    .Include(i => i.Incharge)
+                    .Include(p => p.PurchaseSource).ToList();
+
+
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1075,7 +1099,7 @@ public class PurchaseRepository
         }
         else
         {
-            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsApproved == true)
+            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsApproved == true && e.IsActive == true)
                .Include(z => z.Zone)
                .Include(a => a.Academy).ToList();
 
