@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using Microsoft.Office.Interop.Excel;
+using System.Web;
+using System.IO;
 
 public class CreateExcelDoc
 {
@@ -25,9 +27,12 @@ public class CreateExcelDoc
         try
         {
             app = new Application();
-            app.Visible = true;
+            app.Visible = false;
             workbook = app.Workbooks.Add(1);
             worksheet = (Worksheet)workbook.Sheets[1];
+
+
+            //workbook.Close();
         }
         catch (Exception e)
         {
@@ -87,5 +92,29 @@ public class CreateExcelDoc
         workSheet_range = worksheet.get_Range(cell1, cell2);
         workSheet_range.Borders.Color = System.Drawing.Color.Black.ToArgb();
         workSheet_range.NumberFormat = format;
+    }
+
+    public void closeExcel()
+    {
+        string currentDateTime = "Bills_Report" + DateTime.Now.ToString("yyyyMMddHHmmss");
+        string path = HttpContext.Current.Server.MapPath("Bills" + "\\" + currentDateTime + ".xlsx");
+        workbook.SaveAs(path);
+        workbook.Close();
+        app.DisplayAlerts = false;
+        app.Quit();
+
+        FileInfo file = new FileInfo(path);
+        if (file.Exists)
+        {
+            HttpContext.Current.Response.Clear();
+            HttpContext.Current.Response.ClearHeaders();
+            HttpContext.Current.Response.ClearContent();
+            HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=" + currentDateTime + ".xlsx");
+            HttpContext.Current.Response.AddHeader("Content-Type", "application/Excel");
+            HttpContext.Current.Response.ContentType = "application/vnd.xls";
+            HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
+            HttpContext.Current.Response.WriteFile(file.FullName);
+            HttpContext.Current.Response.End();
+        }
     }
 }

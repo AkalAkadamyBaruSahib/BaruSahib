@@ -358,9 +358,9 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     ZoneInfo += "<td>";
                     ZoneInfo += "<div class='panel panel-default'>";
                     ZoneInfo += "<div class='panel-heading'>";
-                    ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
+                    ZoneInfo += "<table id='tblmat' class='table table-striped table-bordered bootstrap-datatable datatable'>";
                     ZoneInfo += "<tr>";
-                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img id='imgPlus' src='img/Images/AddNewitem.jpg' style='max-width: 25px;'/><img id='imgMinus' src='img/minus.gif' style='max-width: 25px;display:none;'/></a></td>";
+                    ZoneInfo += "<td><a data-toggle='collapse' data-parent='#accordion' href='#" + Est.EstId + "'><img id='imgPlus" + Est.EstId + "' onclick='imagesChanges(" + Est.EstId + ")' src='img/Images/AddNewitem.jpg' style='max-width: 25px;'/><img id='imgMinus" + Est.EstId + "' onclick='imagesMinusChanges(" + Est.EstId + ")'  src='img/minus.gif' style='max-width: 18px;display:none;'/></a></td>";
                    
                     if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN) || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                     {
