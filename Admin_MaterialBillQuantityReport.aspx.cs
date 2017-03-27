@@ -71,14 +71,42 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         BindNameOfWork();
     }
 
-    //protected DataTable BindDatatable()
-    //{
-    //    DataTable dt = new DataTable();
-    //    DataSet ds = new DataSet();
-    //    dt = GenerateFile();
-    //    return dt;
+    protected DataTable BindDatatable()
+    {
+        DataTable dt = new DataTable();
+        DataSet ds = new DataSet();
+        dt = GetBillReportByNameOFWork();
+        return dt;
 
-    //}
+    }
+
+
+    protected void btnDownload_Click(object sender, EventArgs e)
+    {
+        Response.ClearContent();
+        Response.Buffer = true;
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "BillQuantityReportByNameOFWork(" + ddlNameOfWork.SelectedItem + ").xls"));
+        Response.ContentType = "application/ms-excel";
+        DataTable dt = BindDatatable();
+        string str = string.Empty;
+        foreach (DataColumn dtcol in dt.Columns)
+        {
+            Response.Write(str + dtcol.ColumnName);
+            str = "\t";
+        }
+        Response.Write("\n");
+        foreach (DataRow dr in dt.Rows)
+        {
+            str = "";
+            for (int j = 0; j < dt.Columns.Count; j++)
+            {
+                Response.Write(str + Convert.ToString(dr[j]));
+                str = "\t";
+            }
+            Response.Write("\n");
+        }
+        Response.End();
+    }
 
     private DataTable BillDetailDataTable(int waID)
     {
@@ -111,7 +139,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
 
     protected DataTable GetBillReportByNameOFWork()
     {
-     
+
         DataRow dr = null;
 
         DataTable dsDes = new DataTable();
@@ -169,207 +197,48 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         return dataTable;
     }
 
-    protected void btnDownload_Click(object sender, EventArgs e)
+    private void GenerateFile()
     {
-        DataTable dsDes = new DataTable();
-        DataTable dsRate = new DataTable();
 
-        int WAID = Convert.ToInt16(ddlNameOfWork.SelectedValue);
-        int AcaID = Convert.ToInt16(ddlAcademy.SelectedValue);
-
-        int rowNum = 0;
-
-
-        DataTable dtMaterials = GetBillReportByNameOFWork();
-
-        DataTable dsEstimateCost = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct SUM(distinct ER.Amount) As EstimateCost FROM Estimate E Inner JOIn EstimateAndMaterialOthersRelations ER on ER.EstId=E.EstId WHERE E.WAId='" + ddlNameOfWork.SelectedValue + "'and E.AcaId ='" + ddlAcademy.SelectedValue + "' and ER.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and E.IsApproved=1").Tables[0];
-
-        DataTable dsPurchaseCost = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct SUM(SE.Amount) AS PurchaseCost FROM SubmitBillByUser S INNER JOIN SubmitBillByUserAndMaterialOthersRelation SE ON S.SubBillId = SE.SubBillId WHERE S.WAId='" + ddlNameOfWork.SelectedValue + "' AND ISNULL(S.FirstVarifyStatus,-1) != 0 AND ISNULL(S.SecondVarifyStatus,-1) != 0  and S.AcaId='" + ddlAcademy.SelectedValue + "'").Tables[0];
-
-
-        dsDes = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct M.MatName,M.MatId,WA.WorkAllotName,A.AcaName From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId INNER JOIN Academy A ON A.AcaId=ES.AcaId  INNER JOIN WorkAllot WA ON WA.WAId=ES.WAId INNER JOIN Material M ON EM.MatId = M.MatId  WHERE WA.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1").Tables[0];
         CreateExcelDoc excell_app = new CreateExcelDoc();
-
-
         //creates the main header
-
-        rowNum = rowNum + 1; //1
-        excell_app.createHeaders(rowNum, 4, "TOTAL LOCAL ESTIMATE COST:-", "D1", "F1", 2, "Turquoise", true, 10, "n");
-        excell_app.addData(rowNum, 7, dsEstimateCost.Rows[0]["EstimateCost"].ToString(), "G1", "G1", "");
+        excell_app.createHeaders(1, 4, "TOTAL LOCAL ESTIMATE COST", "D1", "F1", 2, "YELLOW", true, 10, "n");
         //creates subheaders
-        rowNum = rowNum + 1; //2
-        excell_app.createHeaders(rowNum, 4, "TOTAL BILL SUBMITTED:-", "D2", "F2", 0, "Turquoise", true, 10, "");
-        if (dsPurchaseCost.Rows[0]["PurchaseCost"].ToString() == string.Empty)
-        {
-            excell_app.addData(rowNum, 7, "0", "G2", "G2", "");
-        }
-        else
-        {
-            excell_app.addData(rowNum, 7, dsPurchaseCost.Rows[0]["PurchaseCost"].ToString(), "G2", "G2", "");
-        }
+        excell_app.createHeaders(2, 4, "TOTAL BILL SUBMITTED", "D2", "F2", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(3, 4, "BALANCE COST", "D3", "F3", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(3, 1, "NAME OF ACADEMY", "A3", "A3", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(4, 1, "NAME OF WORK", "A4", "A4", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(5, 1, "", "A5", "K5", 2, "GAINSBORO", true, 10, "");
+        excell_app.createHeaders(6, 1, "ESTIMATES", "C6", "C6", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(7, 1, "EST NO.1 Total", "A7", "A7", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(7, 2, "ESTIMATE SUBHEAD", "B7", "B7", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(7, 3, "COST", "C7", "C7", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(8, 1, "", "A5", "K5", 2, "GAINSBORO", true, 10, "");
+        excell_app.createHeaders(9, 1, "DETAILS", "A9", "K9", 0, "GRAY", true, 10, "");
 
-        rowNum = rowNum + 1; //3
-        excell_app.createHeaders(rowNum, 4, "BALANCE COST:-", "D3", "F3", 0, "Turquoise", true, 10, "");
-        excell_app.createHeaders(rowNum, 1, "NAME OF ACADEMY:-", "A3", "A3", 0, "Turquoise", true, 10, "");
-        excell_app.addData(rowNum, 2, dsDes.Rows[0]["AcaName"].ToString(), "B3", "B3", "");
-        decimal balanceCost = 0;
-        if (dsPurchaseCost.Rows[0]["PurchaseCost"].ToString() == string.Empty)
-        {
-            balanceCost = Convert.ToDecimal(dsEstimateCost.Rows[0]["EstimateCost"].ToString());
-        }
-        else
-        {
-            balanceCost = Convert.ToDecimal(dsEstimateCost.Rows[0]["EstimateCost"].ToString()) - Convert.ToDecimal(dsPurchaseCost.Rows[0]["PurchaseCost"].ToString());
-        }
-        excell_app.addData(rowNum, 7, balanceCost.ToString(), "G3", "G3", "");
+        excell_app.createHeaders(10, 1, "NAME OF MATERIAL", "A10", "A10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 2, "ESTIMATE RATE", "B10", "B10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 3, "EST NO.1", "C10", "C10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 4, "EST NO.2", "D10", "D10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 5, "EST NO.3", "E10", "E10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 6, "EST NO.4", "F10", "F10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 7, "BILL NO.1", "G10", "G10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 8, "BILL NO.2", "H10", "H10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 9, "BILL NO.3", "I10", "I10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 10, "BILL NO.4", "J10", "J10", 0, "GRAY", true, 10, "");
+        excell_app.createHeaders(10, 11, "BALANCE QTY", "K11", "K11", 0, "GRAY", true, 10, "");
 
-        rowNum = rowNum + 1; //4
-        excell_app.createHeaders(rowNum, 1, "NAME OF WORK:-", "A4", "A4", 0, "Turquoise", true, 10, "");
-        excell_app.addData(rowNum, 2, dsDes.Rows[0]["WorkAllotName"].ToString(), "B4", "B4", "");
+        excell_app.createHeaders(3, 4, "Initial Total", "D6", "D6", 0, "GRAY", true, 10, "");
+        //add Data to cells
+        excell_app.addData(5, 2, "114287", "B7", "B7", "#,##0");
+        excell_app.addData(7, 3, "", "C7", "C7", "");
+        excell_app.addData(7, 4, "129121", "D7", "D7", "#,##0");
+        //add percentage row
+        excell_app.addData(8, 2, "", "B8", "B8", "");
+        excell_app.addData(8, 3, "=B7/D7", "C8", "C8", "0.0%");
+        excell_app.addData(8, 4, "", "D8", "D8", "");
+        //add empty divider
+        excell_app.createHeaders(9, 2, "", "B9", "D9", 2, "GAINSBORO", true, 10, "");
 
-        rowNum = rowNum + 1; //5
-        excell_app.createHeaders(rowNum, 1, "", getAlphabeticCharacter(1) + rowNum, getAlphabeticCharacter(dtMaterials.Columns.Count) + rowNum, 2, "GAINSBORO", true, 10, "");
-
-        rowNum = rowNum + 1; //6
-        excell_app.createHeaders(rowNum, 1, "ESTIMATES", "A6", "C6", 0, "PeachPuff", true, 10, "");
-
-        rowNum = rowNum + 1; //7
-        excell_app.createHeaders(rowNum, 1, "EST NO.", "A7", "A7", 0, "YELLOW", true, 10, "");
-        excell_app.createHeaders(rowNum, 2, "ESTIMATE SUBHEAD", "B7", "B7", 0, "YELLOW", true, 10, "");
-        excell_app.createHeaders(rowNum, 3, "COST", "C7", "C7", 0, "YELLOW", true, 10, "");
-
-        rowNum = rowNum + 1;
-
-        DataTable dsEstimate = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Es.EstId,Es.SubEstimate,Es.EstmateCost From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId  WHERE  ES.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1").Tables[0];
-        for (int x = 0; x < dsEstimate.Rows.Count; x++)
-        {
-            excell_app.addData(rowNum, 1, dsEstimate.Rows[x]["EstId"].ToString(), "A" + rowNum, "A" + rowNum, "");
-            excell_app.addData(rowNum, 2, dsEstimate.Rows[x]["SubEstimate"].ToString(), "B" + rowNum, "B" + rowNum, "");
-            excell_app.addData(rowNum, 3, dsEstimate.Rows[x]["EstmateCost"].ToString(), "C" + rowNum, "C" + rowNum, "");
-            rowNum = rowNum + 1;
-        }
-
-        excell_app.createHeaders(rowNum, 1, "", getAlphabeticCharacter(1) + rowNum, getAlphabeticCharacter(dtMaterials.Columns.Count) + rowNum, 2, "GAINSBORO", true, 10, "");
-
-        rowNum = rowNum + 1;
-
-        excell_app.createHeaders(rowNum, 1, "DETAILS", getAlphabeticCharacter(1) + rowNum, getAlphabeticCharacter(dtMaterials.Columns.Count) + rowNum, 2, "PeachPuff", true, 10, "");
-
-        rowNum = rowNum + 1;
-
-        int col = 1;
-        foreach (DataColumn dtcol in dtMaterials.Columns)
-        {
-            excell_app.createHeaders(rowNum, col, dtcol.ColumnName, getAlphabeticCharacter(col) + rowNum, getAlphabeticCharacter(col) + rowNum, 0, "YELLOW", true, 10, "");
-            col += 1;
-        }
-
-        rowNum = rowNum + 1;
-        for (int i = 0; i < dtMaterials.Rows.Count; i++)
-        {
-
-            int dataCol = 1;
-            for (int j = 1; j <= dtMaterials.Columns.Count; j++)
-            {
-
-                excell_app.createHeaders(rowNum, j, dtMaterials.Rows[i][(j - 1)].ToString(), getAlphabeticCharacter(dataCol) + rowNum, getAlphabeticCharacter(dataCol) + rowNum, 0, "WHITE", true, 10, "");
-                dataCol += 1;
-            }
-            rowNum += 1;
-        }
-        excell_app.closeExcel();
-    }
-
-
- 
-    private string getAlphabeticCharacter(int num)
-    {
-        string character = string.Empty;
-
-        switch (num)
-        {
-            case 1:
-                character = "A";
-                break;
-            case 2:
-                character = "B";
-                break;
-            case 3:
-                character = "C";
-                break;
-            case 4:
-                character = "D";
-                break;
-            case 5:
-                character = "E";
-                break;
-            case 6:
-                character = "F";
-                break;
-            case 7:
-                character = "G";
-                break;
-            case 8:
-                character = "H";
-                break;
-            case 9:
-                character = "I";
-                break;
-            case 10:
-                character = "J";
-                break;
-            case 11:
-                character = "K";
-                break;
-            case 12:
-                character = "L";
-                break;
-            case 13:
-                character = "M";
-                break;
-            case 14:
-                character = "N";
-                break;
-            case 15:
-                character = "O";
-                break;
-            case 16:
-                character = "P";
-                break;
-            case 17:
-                character = "Q";
-                break;
-            case 18:
-                character = "R";
-                break;
-            case 19:
-                character = "S";
-                break;
-            case 20:
-                character = "T";
-                break;
-            case 21:
-                character = "U";
-                break;
-            case 22:
-                character = "V";
-                break;
-            case 23:
-                character = "W";
-                break;
-            case 24:
-                character = "X";
-                break;
-            case 25:
-                character = "Y";
-                break;
-            case 26:
-                character = "Z";
-                break;
-            default:
-                break;
-        }
-
-        return character;
     }
 }
