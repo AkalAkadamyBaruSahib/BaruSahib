@@ -1111,8 +1111,7 @@ public class PurchaseRepository
                     .Include(u => u.Unit)
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
-
-                e.SanctionDate = e.ModifyOn;
+ 
 
                 if (estimateRelation.Count > 0)
                 {

@@ -28,8 +28,8 @@ public partial class Visitor_Home : System.Web.UI.Page
             RoomStatus.TableName = FileName;
             RoomStatus.WriteXml(FilePath);
 
-            string to = "jagjit@barusahib.org";
-            string cc = "bhupinder@barusahib.org";
+            string cc = "jagjit@barusahib.org";
+            string to = "bhupinder@barusahib.org,harkrishan.s.sidhu@gmail.com";
             try
             {
                 Utility.SendEmailUsingAttachments(FilePath, to, cc, msg, "Akal Software Room status Report.");
