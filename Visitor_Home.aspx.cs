@@ -18,7 +18,7 @@ public partial class Visitor_Home : System.Web.UI.Page
         string FileName = string.Empty;
         DataTable RoomStatus = new DataTable();
 
-        RoomStatus = DAL.DalAccessUtility.GetDataInDataSet("exec GetRoomStatusByBuilding'-1'").Tables[0];
+        RoomStatus = DAL.DalAccessUtility.GetDataInDataSet("exec AutoGenerateRoomStatusReport '-1'").Tables[0];
 
         if (RoomStatus != null)
         {

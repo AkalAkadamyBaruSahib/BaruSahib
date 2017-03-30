@@ -68,9 +68,9 @@ public class AdminRepository
     public EstiamteChart GetEstimateChartData()
     {
         EstiamteChart estimateChart = new EstiamteChart();
-        estimateChart.ApprovedEstimates = _context.Estimate.Where(x => x.IsApproved == true).Count();
-        estimateChart.NonApprovedEstimates = _context.Estimate.Where(x => x.IsApproved == false).Count();
-        estimateChart.TotalEstimates = _context.Estimate.Count();
+        estimateChart.ApprovedEstimates = _context.Estimate.Where(x => x.IsApproved == true && x.IsActive == true && x.ModuleID == (int)TypeEnum.Module.Purchase).Count();
+        estimateChart.NonApprovedEstimates = _context.Estimate.Where(x => x.IsApproved == false && x.IsActive == true && x.ModuleID == (int)TypeEnum.Module.Purchase).Count();
+        estimateChart.TotalEstimates = _context.Estimate.Where(x => x.IsActive == true && x.ModuleID == (int)TypeEnum.Module.Purchase).Count();
 
         return estimateChart;
     }
@@ -78,9 +78,9 @@ public class AdminRepository
     public DrawingChart GetDrawingChartData()
     {
         DrawingChart drawingChart = new DrawingChart();
-        drawingChart.ApprovedDrawings = _context.Drawing.Where(x => x.IsApproved == true).Count();
-        drawingChart.NonApprovedDrawings = _context.Drawing.Where(x => x.IsApproved == false).Count();
-        drawingChart.TotalDrawings = _context.Drawing.Count();
+        drawingChart.ApprovedDrawings = _context.Drawing.Where(x => x.IsApproved == true && x.Active == 1).Count();
+        drawingChart.NonApprovedDrawings = _context.Drawing.Where(x => x.IsApproved == false && x.Active == 1).Count();
+        drawingChart.TotalDrawings = _context.Drawing.Where(x => x.Active == 1).Count();
 
         return drawingChart;
     }
@@ -93,5 +93,15 @@ public class AdminRepository
         submitBillChart.TotalLocalPurchased = _context.SubmitBillByUser.Count();
 
         return submitBillChart;
+    }
+    public void AddNewRoleByUserID(UserRole role)
+    {
+        _context.UserRole.Add(role);
+        _context.SaveChanges();
+    }
+
+   public List<Role> GetUserRole()
+    {
+        return _context.Role.ToList();
     }
 }

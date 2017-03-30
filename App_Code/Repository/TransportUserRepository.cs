@@ -491,4 +491,8 @@ public class TransportUserRepository
     {
         return _context.DieselPetrolPrice.Where(v => v.AcaID == AcaID).FirstOrDefault();
     }
+    public List<UserRole> GetUserRoleByInchargeID(int UserID)
+    {
+        return _context.UserRole.Where(x => x.UserID == UserID).ToList();
+    }
 }

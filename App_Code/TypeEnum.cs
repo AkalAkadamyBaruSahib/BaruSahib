@@ -24,6 +24,13 @@ public class TypeEnum
         Workshop = 4
     }
 
+    public enum UserRole : int
+    {
+        Complaint = 1,
+        TransportMaintenance = 2,
+        TransportVehicleMaintenance = 3
+    }
+
     public enum TransportEmployeeType : int
     {
         FamilyMember = 1,

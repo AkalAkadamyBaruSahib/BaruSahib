@@ -169,6 +169,11 @@
                                     <li id="liVSearch" runat="server"><a class="ajax-link" href="Transport_VehicleSearch.aspx"><i></i><span class="hidden-tablet">Vehicle Search</span></a></li>
                                 </ul>
                             </li>
+                            <li id="liComplaints" runat="server" visible="false" ><a class="ajax-link" ><i><img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
+                                <ul>
+                                    <li id="liComplaintsTickets" runat="server"><a class="ajax-link" href="Transport_CreateTicket.aspx"><i></i><span class="hidden-tablet">Complaint Tickets</span></a></li>
+                                </ul>
+                            </li>
 
                         </ul>
                     </div>

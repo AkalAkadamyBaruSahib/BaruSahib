@@ -6,11 +6,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.Office.Interop.Excel;
+using System.Data;
 
 public partial class Transport_AdminMaster : System.Web.UI.MasterPage
 {
     public int AdminType = -1;
     public int UserType = -1;
+    private int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -20,14 +22,9 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
         else
         {
             lblUserName.Text = Session["InName"].ToString();
-            if (Session["AdminType"] != null)
-            {
-                AdminType = Convert.ToInt16(Session["AdminType"].ToString());
-            }
             UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
+            InchargeID = int.Parse(Session["InchargeID"].ToString());
         }
-
-
         if (UserType != (int)TypeEnum.UserType.TRANSPORTADMIN)
         {
             liDesignation.Visible = false;
@@ -38,7 +35,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liCreateMaterial.Visible = false;
             liContractRate.Visible = false;
             liBills.Visible = false;
-           
+
         }
         else
         {
@@ -46,48 +43,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liBills.Visible = true;
             showUnApprovedEstimateCount();
         }
-        
-
-        if (AdminType == (int)TypeEnum.SubAdminName.TransportMaintenance)
-        {
-            liEmployee.Visible = false;
-            liVehicles.Visible = false;
-            lireport.Visible = false;
-            liDiesel.Visible = false;
-            liEstimate.Visible = true;
-            liContractRate.Visible = false;
-            liDesignation.Visible = false;
-            liDepartment.Visible = false;
-            liCreateEditEmployee.Visible = false;
-            liLocationAssign.Visible = false;
-            liCreateMaterial.Visible = false;
-            liContractRate.Visible = false;
-            liEstimateiewForEmp.Visible = false;
-
-            liMaintenance.Visible = true;
-            liEstimateNewEstimate.Visible = true;
-
- 
-        }
-        else if(AdminType == (int)TypeEnum.SubAdminName.TransportVehicleMaintenance)
-        {
-            liEmployee.Visible = true;
-            liVehicles.Visible = true;
-            lireport.Visible = true;
-            liMaintenance.Visible = false;
-            liDiesel.Visible = false;
-            liEstimate.Visible = false;
-            liContractRate.Visible = false;
-            liDesignation.Visible = false;
-            liDepartment.Visible = false;
-            liCreateEditEmployee.Visible = false;
-            liEstimateNewEstimate.Visible = false;
-            liCreateMaterial.Visible = false;
-            liContractRate.Visible = false;
-
-        }
-        
-     
+        ShowLinks();
     }
     private void showUnApprovedEstimateCount()
     {
@@ -97,10 +53,63 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             spnViewEstimate.InnerText = spnViewEstimate.InnerText + " (" + repository.GetUnApprovedEstimates((int)TypeEnum.Module.Transport) + ")";
         }
     }
+
     protected void lbLogOut_Click(object sender, EventArgs e)
     {
         Session.Abandon();
         Session.Clear();
         Response.Redirect("~/Default.aspx");
+    }
+
+    private void ShowLinks()
+    {
+        List<UserRole> role = new List<UserRole>();
+        TransportUserRepository repo = new TransportUserRepository(new AkalAcademy.DataContext());
+        role = repo.GetUserRoleByInchargeID(InchargeID);
+        if (role != null && role.Count!=0)
+        {
+            var userTransportMaintRole = role.Where(document => document.RoleID == (int)TypeEnum.UserRole.TransportMaintenance).FirstOrDefault();
+            if (userTransportMaintRole != null)
+            {
+                liEmployee.Visible = false;
+                liVehicles.Visible = false;
+                lireport.Visible = false;
+                liDiesel.Visible = false;
+                liEstimate.Visible = true;
+                liContractRate.Visible = false;
+                liDesignation.Visible = false;
+                liDepartment.Visible = false;
+                liCreateEditEmployee.Visible = false;
+                liLocationAssign.Visible = false;
+                liCreateMaterial.Visible = false;
+                liContractRate.Visible = false;
+                liEstimateiewForEmp.Visible = false;
+                liMaintenance.Visible = true;
+                liEstimateNewEstimate.Visible = true;
+            }
+            var userTransportVehicleRole = role.Where(document => document.RoleID == (int)TypeEnum.UserRole.TransportVehicleMaintenance).FirstOrDefault();
+            if (userTransportVehicleRole != null)
+            {
+                liEmployee.Visible = true;
+                liVehicles.Visible = true;
+                lireport.Visible = true;
+                liMaintenance.Visible = false;
+                liDiesel.Visible = false;
+                liEstimate.Visible = false;
+                liContractRate.Visible = false;
+                liDesignation.Visible = false;
+                liDepartment.Visible = false;
+                liCreateEditEmployee.Visible = false;
+                liEstimateNewEstimate.Visible = false;
+                liCreateMaterial.Visible = false;
+                liContractRate.Visible = false;
+
+            }
+            var userComplaintRole = role.Where(document => document.RoleID == (int)TypeEnum.UserRole.Complaint).FirstOrDefault();
+            if (userComplaintRole != null)
+            {
+                liComplaints.Visible = true;
+            }
+        }
     }
 }

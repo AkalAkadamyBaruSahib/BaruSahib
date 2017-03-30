@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Collections;
 
 
 public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
@@ -23,12 +24,13 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
                 Response.Redirect("Default.aspx");
             }
             else
-            {
+            { 
                 lblUser.Text = Session["EmailId"].ToString();
             }
 
             BindInchargeDetails();
             BindDesignation();
+            BindUserRole();
             BindUserType();
             btnEdit.Visible = false;
             BindDepartment();
@@ -81,19 +83,27 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
     private void getInchargeDetails(string ID)
     {
         DataSet dsCouDetails = new DataSet();
-        dsCouDetails = DAL.DalAccessUtility.GetDataInDataSet(" select InName,InMobile,LoginId,UserPwd,DepId,DesigId,UserTypeId from Incharge where InchargeId='" + ID + "' and Active=1");
+        dsCouDetails = DAL.DalAccessUtility.GetDataInDataSet("Select InName,InMobile,LoginId,UserPwd,DepId,DesigId,UserTypeId,U.RoleID FROM Incharge  LEFT OUTER JOIN UserRole U ON U.UserID = Incharge.InchargeId WHERE InchargeId='" + ID + "' and Active=1");
         if (dsCouDetails.Tables[0].Rows.Count > 0)
         {
             txtName.Text = dsCouDetails.Tables[0].Rows[0]["InName"].ToString();
             txtMob.Text = dsCouDetails.Tables[0].Rows[0]["InMobile"].ToString();
             txtLoginId.Text = dsCouDetails.Tables[0].Rows[0]["LoginId"].ToString();
             txtUserPwd.Text = dsCouDetails.Tables[0].Rows[0]["UserPwd"].ToString();
-            BindDepartment();
-            ddlDept.SelectedIndex = ddlDept.Items.IndexOf(ddlDept.Items.FindByValue(dsCouDetails.Tables[0].Rows[0]["DepId"].ToString().Trim()));
-            BindDesignation();
-            ddlDesig.SelectedIndex = ddlDesig.Items.IndexOf(ddlDesig.Items.FindByValue(dsCouDetails.Tables[0].Rows[0]["DesigId"].ToString().Trim()));
-            BindUserType();
-            ddlUserType.SelectedIndex = ddlUserType.Items.IndexOf(ddlUserType.Items.FindByValue(dsCouDetails.Tables[0].Rows[0]["UserTypeId"].ToString().Trim()));
+            ddlDept.SelectedValue = dsCouDetails.Tables[0].Rows[0]["DepId"].ToString();
+            ddlDesig.SelectedValue = dsCouDetails.Tables[0].Rows[0]["DesigId"].ToString();
+            ddlUserType.SelectedValue = dsCouDetails.Tables[0].Rows[0]["UserTypeId"].ToString();
+            if (dsCouDetails.Tables[0].Rows[0]["RoleID"] != null)
+            {
+                foreach (ListItem item in chkUserRole.Items)
+                {
+                    var foundId = dsCouDetails.Tables[0].Select("RoleID= '" + item.Value + "'");
+                    if (foundId.Length > 0)
+                    {
+                        item.Selected = true;
+                    }
+                }
+            }
         }
     }
     protected void BindInchargeDetails()
@@ -139,8 +149,8 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             }
 
             ZoneInfo += "</table></td>";
-            
-            
+
+
             ZoneInfo += "<td class='center'>";
             if (dsDegisDetails.Tables[0].Rows[i]["Active"].ToString() == "1")
             {
@@ -152,7 +162,7 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             }
             ZoneInfo += "</td>";
 
-            
+
 
 
             ZoneInfo += "<td class='center'>";
@@ -175,13 +185,8 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             //ZoneInfo += "<i class='icon-edit icon-white'></i> Edit Location";
             //ZoneInfo += "</a>";
             ZoneInfo += "</td>";
-
-
-
-
-            
             ZoneInfo += "</tr>";
-            
+
         }
         ZoneInfo += "</tbody>";
         ZoneInfo += "</table>";
@@ -204,42 +209,39 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
         }
         else
         {
-            if (txtName.Text == "")
+            Hashtable param = new Hashtable();
+            param.Add("InId", string.Empty);
+            param.Add("InName", txtName.Text);
+            param.Add("InMob", txtMob.Text);
+            param.Add("desigId", ddlDesig.SelectedValue);
+            param.Add("DeptId", ddlDept.SelectedValue);
+            param.Add("CreatedBy", lblUser.Text);
+            param.Add("type", 1);
+            param.Add("Active", 1);
+            param.Add("LoginId", txtLoginId.Text);
+            param.Add("UserPwd", txtUserPwd.Text);
+            param.Add("userType", ddlUserType.SelectedValue);
+            param.Add("moduleID", ModuleID);
+            int InchargeID = DAL.DalAccessUtility.GetDataInScaler("USP_NewInchargeProc", param);
+
+            UserRole role = null;
+            foreach (ListItem chk in chkUserRole.Items)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge name.');", true);
+                if (chk.Selected == true)
+                {
+                    role = new UserRole();
+                    role.UserID = InchargeID;
+                    role.RoleID = Convert.ToInt32(chk.Value);
+                    AdminRepository repo = new AdminRepository(new AkalAcademy.DataContext());
+                    if (role.ID == 0)
+                    {
+                        repo.AddNewRoleByUserID(role);
+                    }
+                }
             }
-            if (txtMob.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge Mobile.');", true);
-            }
-            if (ddlDept.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Incharge Department.');", true);
-            }
-            if (ddlDesig.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Incharge Designation.');", true);
-            }
-            if (ddlUserType.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select User Type.');", true);
-            }
-            if (txtLoginId.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge Login Id.');", true);
-            }
-            if (txtUserPwd.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge Password.');", true);
-            }
-            else
-            {
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewInchargeProc '','" + txtName.Text + "','" + txtMob.Text + "','" + ddlDesig.SelectedValue + "','" + ddlDept.SelectedValue + "','" + lblUser.Text + "','1','1','" + txtLoginId.Text + "','" + txtUserPwd.Text + "','" + ddlUserType.SelectedValue + "','" + ModuleID + "'");
-                //DAL.DalAccessUtility.ExecuteNonQuery("insert into StockRegister(AcaId,MatId,CreatedBy) values(0,0,'" + ddlEmpl.SelectedItem.Text + "')");
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Create Successfully.');", true);
-                BindInchargeDetails();
-                Clr();
-            }
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge Create Successfully.');", true);
+            BindInchargeDetails();
+            Clr();
         }
     }
     protected void Clr()
@@ -248,6 +250,8 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
         txtName.Text = "";
         ddlDept.SelectedIndex = 0;
         ddlDesig.SelectedIndex = 0;
+        ddlUserType.SelectedIndex = 0;
+        chkUserRole.ClearSelection();
         txtUserPwd.Text = "";
         txtLoginId.Text = "";
     }
@@ -262,80 +266,83 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
         }
         else
         {
-            if (txtName.Text == "")
+            string InId = Request.QueryString["InchargeId"];
+            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewInchargeProc '" + InId + "','" + txtName.Text + "','" + txtMob.Text + "','','','" + lblUser.Text + "','2','1','" + txtLoginId.Text + "','" + txtUserPwd.Text + "','" + ddlUserType.SelectedValue + "','" + ModuleID + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("Delete From UserRole where UserID='" + Convert.ToInt32(InId) + "'");
+            UserRole role = null;
+            foreach (ListItem chk in chkUserRole.Items)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge name.');", true);
+                if (chk.Selected == true)
+                {
+                    role = new UserRole();
+                    role.UserID = Convert.ToInt32(InId);
+                    role.RoleID = Convert.ToInt32(chk.Value);
+                    AdminRepository repo = new AdminRepository(new AkalAcademy.DataContext());
+                    repo.AddNewRoleByUserID(role);
+                }
             }
-            if (txtMob.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge Mobile.');", true);
-            }
-            if (ddlDept.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Incharge Department.');", true);
-            }
-            if (ddlDesig.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select Incharge Designation.');", true);
-            }
-            if (ddlUserType.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please select User Type.');", true);
-            }
-            if (txtLoginId.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge Login Id.');", true);
-            }
-            if (txtUserPwd.Text == "")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter Incharge Password.');", true);
-            }
-            else
-            {
-                string InId = Request.QueryString["InchargeId"];
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewInchargeProc '" + InId + "','" + txtName.Text + "','" + txtMob.Text + "','','','" + lblUser.Text + "','2','1','" + txtLoginId.Text + "','" + txtUserPwd.Text + "','" + ddlUserType.SelectedValue + "','" + ModuleID + "'");
-                BindInchargeDetails();
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge edit Successfully.');", true);
-                Clr();
-            }
-        }
 
+            BindInchargeDetails();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Incharge edit Successfully.');", true);
+            Clr();
+        }
     }
     protected void BindDesignation()
     {
-        DataSet dsDesgis = new DataSet();
-        dsDesgis = DAL.DalAccessUtility.GetDataInDataSet("select DesgId,Designation from Designation where Active=1 and ModuleID=" + ModuleID + " order by Designation asc");
-        ddlDesig.DataSource = dsDesgis;
-        ddlDesig.DataValueField = "DesgId";
-        ddlDesig.DataTextField = "Designation";
-        ddlDesig.DataBind();
-        ddlDesig.Items.Insert(0, "Select");
-        ddlDesig.SelectedIndex = 0;
+        DataTable dsDesgis = new DataTable();
+        dsDesgis = DAL.DalAccessUtility.GetDataInDataSet("select DesgId,Designation from Designation where Active=1 and ModuleID=" + ModuleID + " order by Designation asc").Tables[0];
+        if (dsDesgis != null && dsDesgis.Rows.Count > 0)
+        {
+            ddlDesig.DataSource = dsDesgis;
+            ddlDesig.DataValueField = "DesgId";
+            ddlDesig.DataTextField = "Designation";
+            ddlDesig.DataBind();
+            ddlDesig.Items.Insert(0, new ListItem("--Select Designation--", "0"));
+        }
     }
     protected void BindDepartment()
     {
-        DataSet dsDept = new DataSet();
-        dsDept = DAL.DalAccessUtility.GetDataInDataSet("select DepId,department from Department where Active=1 and ModuleID=" + ModuleID + " order by department asc");
-        ddlDept.DataSource = dsDept;
-        ddlDept.DataValueField = "DepId";
-        ddlDept.DataTextField = "department";
-        ddlDept.DataBind();
-        ddlDept.Items.Insert(0, "Select");
-        ddlDept.SelectedIndex = 0;
+        DataTable dsDept = new DataTable();
+        dsDept = DAL.DalAccessUtility.GetDataInDataSet("select DepId,department from Department where Active=1 and ModuleID=" + ModuleID + " order by department asc").Tables[0];
+        if (dsDept != null && dsDept.Rows.Count > 0)
+        {
+            ddlDept.DataSource = dsDept;
+            ddlDept.DataValueField = "DepId";
+            ddlDept.DataTextField = "department";
+            ddlDept.DataBind();
+            ddlDept.Items.Insert(0, new ListItem("--Select Department--", "0"));
+        }
     }
     protected void BindUserType()
     {
-        DataSet dsUsType = new DataSet();
-        dsUsType = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId,UserTypeName from UserType where Active=1 and ModuleID=" + ModuleID + " order by UserTypeName asc");
-        ddlUserType.DataSource = dsUsType;
-        ddlUserType.DataValueField = "UserTypeId";
-        ddlUserType.DataTextField = "UserTypeName";
-        ddlUserType.DataBind();
-        ddlUserType.Items.Insert(0, "Select");
-        ddlUserType.SelectedIndex = 0;
+        DataTable dsUsType = new DataTable();
+        dsUsType = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId,UserTypeName from UserType where Active=1 and ModuleID=" + ModuleID + " order by UserTypeName asc").Tables[0];
+        if (dsUsType != null && dsUsType.Rows.Count > 0)
+        {
+            ddlUserType.DataSource = dsUsType;
+            ddlUserType.DataValueField = "UserTypeId";
+            ddlUserType.DataTextField = "UserTypeName";
+            ddlUserType.DataBind();
+            ddlUserType.Items.Insert(0, new ListItem("--Select User Type--", "0"));
+        }
+     
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
         Clr();
+    }
+
+    protected void BindUserRole()
+    {
+        List<Role> dsUsRole = new List<Role>();
+        AdminRepository repo = new AdminRepository(new AkalAcademy.DataContext());
+        dsUsRole = repo.GetUserRole();
+        if (dsUsRole != null)
+        {
+            chkUserRole.DataSource = dsUsRole;
+            chkUserRole.DataValueField = "ID";
+            chkUserRole.DataTextField = "RoleName";
+            chkUserRole.DataBind();
+        }
     }
 }

@@ -383,12 +383,11 @@ function LoadAssignComplaints() {
 
     var LoginID = $("input[id$='hdnLoginID']").val();
     var Status = "Assigned";
-
-    $.ajax({
+   $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
-        data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
+        data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status, RoleID: 1 }),
         dataType: "json",
         async: false,
         success: function (result, textStatus) {
@@ -419,8 +418,8 @@ function LoadAssignComplaints() {
                     if ($("input[id*='hdnUserType']").val() == "10" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
                         $newRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
                     }
-
-                    if ($("input[id*='hdnUserType']").val() == "33") {
+                    //14- TRANSPORT MANAGER,15-BACK OFFICE,17-TRANSPORT INCHARGE,19-TRANSPORT TRAINEE,33-COMPLAINTS
+                    if ($("input[id*='hdnUserType']").val() == "33" || $("input[id*='hdnUserType']").val() == "14" || $("input[id*='hdnUserType']").val() == "15" || $("input[id*='hdnUserType']").val() == "13") {
                         $newRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")'  class='btn btn-primary'>Update</a>");
                     }
                     else {
@@ -487,12 +486,13 @@ function LoadInProgressComplaints(IsRefresh) {
 
         var LoginID = $("input[id$='hdnLoginID']").val();
         var Status = "In Progress";
+       
 
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
-            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
+            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status, RoleID: 1 }),
             dataType: "json",
             async: false,
             success: function (result, textStatus) {
@@ -523,8 +523,8 @@ function LoadInProgressComplaints(IsRefresh) {
                         if ($("input[id*='hdnUserType']").val() == "10" && adminLoanList[i].Status.indexOf("Completed") > -1 && adminLoanList[i].Feedback == "") {
                             $newProgresRow.find("#feedback").html("<a href='#' onclick='LoadFeedBack(" + adminLoanList[i].ID + ")'>Feedback</a>");
                         }
-
-                        if ($("input[id*='hdnUserType']").val() == "33") {
+                        //14- TRANSPORT MANAGER,15-BACK OFFICE,17-TRANSPORT INCHARGE,19-TRANSPORT TRAINEE,33-COMPLAINTS
+                        if ($("input[id*='hdnUserType']").val() == "33" || $("input[id*='hdnUserType']").val() == "14" || $("input[id*='hdnUserType']").val() == "15" || $("input[id*='hdnUserType']").val() == "13") {
                             $newProgresRow.find("#edit").html("<a href='#' onclick='LoadData(" + adminLoanList[i].ID + ")' class='btn btn-primary'>Update</a>");
                         }
                         else {
@@ -588,12 +588,12 @@ function LoadCompleteComplaints(IsRefresh) {
 
         var LoginID = $("input[id$='hdnLoginID']").val();
         var Status = "Completed";
-
+       
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "Services/AcadamicUserController.asmx/GetComplaintTickets",
-            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status }),
+            data: JSON.stringify({ UserType: parseInt(UserType), InchargeID: parseInt(InchargeID), complaintStatus: Status, RoleID: 1 }),
             dataType: "json",
             async: false,
             success: function (result, textStatus) {
