@@ -36,11 +36,13 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liContractRate.Visible = false;
             liBills.Visible = false;
 
+
         }
         else
         {
             liEstimateiewForEmp.Visible = false;
             liBills.Visible = true;
+            liComplaints.Visible = true;
             showUnApprovedEstimateCount();
         }
         ShowLinks();
@@ -86,6 +88,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
                 liEstimateiewForEmp.Visible = false;
                 liMaintenance.Visible = true;
                 liEstimateNewEstimate.Visible = true;
+                liComplaints.Visible = false;
             }
             var userTransportVehicleRole = role.Where(document => document.RoleID == (int)TypeEnum.UserRole.TransportVehicleMaintenance).FirstOrDefault();
             if (userTransportVehicleRole != null)
@@ -103,6 +106,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
                 liEstimateNewEstimate.Visible = false;
                 liCreateMaterial.Visible = false;
                 liContractRate.Visible = false;
+                liComplaints.Visible = false;
 
             }
             var userComplaintRole = role.Where(document => document.RoleID == (int)TypeEnum.UserRole.Complaint).FirstOrDefault();

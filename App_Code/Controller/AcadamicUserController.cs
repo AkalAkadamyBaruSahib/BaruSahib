@@ -264,19 +264,19 @@ public class AcadamicUserController : System.Web.Services.WebService
         //  acadamicUserRepository.SaveComplaintTicket();
 
         string sql = string.Empty;
-        if (UserType == (int)TypeEnum.UserType.ACADEMIC && RoleID == Convert.ToInt32(TypeEnum.UserRole.Complaint.ToString())) 
+        if (UserType == (int)TypeEnum.UserType.ACADEMIC) 
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
             "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId  WHERE ct.CreatedBy = " + InchargeID + " and ct.status='" + complaintStatus + "' order by ct.ID desc";
         }
-        else if (UserType == (int)TypeEnum.UserType.ADMIN && RoleID == Convert.ToInt32(TypeEnum.UserRole.Complaint.ToString())) 
+        else if (UserType == (int)TypeEnum.UserType.ADMIN || UserType == (int)TypeEnum.UserType.TRANSPORTADMIN) 
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description,ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn" +
             ",(select InName from Incharge where InchargeId= ct.AssignedTo) AS AssignedTo,ISNULL(CONVERT(VARCHAR(19),ct.CompletionDate),'') AS ModifyOn,ct.Comments,ct.status,ct.Image,ct.ComplaintType " +
             "from ComplaintTickets ct LEFT OUTER JOIN Academy ac on ac.AcaId=ct.AcaID INNER JOIN Zone z on ct.ZoneID=z.ZoneId  WHERE ct.status='" + complaintStatus + "' order by ct.ID desc";
         }
-        else if ((RoleID == (int)(TypeEnum.UserRole.Complaint)) && (UserType == (int)TypeEnum.UserType.CONSTRUCTION || UserType == (int)TypeEnum.UserType.TRANSPORTMANAGER || UserType == (int)TypeEnum.UserType.BACKOFFICE || UserType == (int)TypeEnum.UserType.TRANSPORTADMIN)) 
+        else if (UserType == (int)(TypeEnum.UserType.COMPLAINT) || (UserType == (int)TypeEnum.UserType.CONSTRUCTION || UserType == (int)TypeEnum.UserType.TRANSPORTMANAGER || UserType == (int)TypeEnum.UserType.BACKOFFICE)) 
         {
             sql = "select ct.SeverityDays,ct.Severity,ct.FeedBack,ct.TentativeDate,ac.AcaName,z.ZoneName,ct.ID,ct.Description," +
                     "ct.CreatedBy,CONVERT(VARCHAR(19),ct.CreatedOn) AS CreatedOn," +

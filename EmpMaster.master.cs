@@ -9,6 +9,7 @@ using System.Data;
 public partial class EmpMaster : System.Web.UI.MasterPage
 {
     private int _UserTypeID { get; set; }
+    private int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["EmailId"] == null)
@@ -19,6 +20,7 @@ public partial class EmpMaster : System.Web.UI.MasterPage
         {
             lblUser.Text = Session["EmailId"].ToString();
             _UserTypeID = int.Parse(Session["UserTypeID"].ToString());
+            InchargeID = int.Parse(Session["InchargeID"].ToString());
             LoadLinks();
         }
        
@@ -32,6 +34,18 @@ public partial class EmpMaster : System.Web.UI.MasterPage
     }
     private void LoadLinks()
     {
+        List<UserRole> role = new List<UserRole>();
+        TransportUserRepository repo = new TransportUserRepository(new AkalAcademy.DataContext());
+        role = repo.GetUserRoleByInchargeID(InchargeID);
+        if (role != null && role.Count != 0)
+        {
+            var userComplaintRole = role.Where(document => document.RoleID == (int)TypeEnum.UserRole.Complaint).FirstOrDefault();
+            if (userComplaintRole != null)
+            {
+                liComplaints.Visible = true;
+            }
+        }
+
         if (_UserTypeID == (int)TypeEnum.UserType.COMPLAINT)
         {
             liBillStatus.Visible = false;

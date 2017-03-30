@@ -47,7 +47,6 @@ public partial class AdminMaster : System.Web.UI.MasterPage
         {
             liAcademy.Visible = false;
             liComplaints.Visible = false;
-            liEmployee.Visible = false;
             liDrawingUploadDrawing.Visible = false;
             liFAQs.Visible = false;
             liFeedback.Visible = false;
@@ -64,6 +63,9 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liBillDetail.Visible = false;
             liMaterialDisatchLocal.Visible = false;
             liBilldata.Visible = false;
+            liDsignation.Visible = false;
+            liDepartment.Visible = false;
+            liLocation.Visible = false;
         }
         else if (AdminType == (int)TypeEnum.SubAdminName.Barusahib)
         {
