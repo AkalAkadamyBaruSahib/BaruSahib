@@ -467,10 +467,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<VendorInfo> GetDuplicateVendor(string VendorName)
+    public List<VendorInfo> GetDuplicateVendor(string VendorName, string VendorPhone)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetDuplicateVendor(VendorName);
+        return repository.GetDuplicateVendor(VendorName, VendorPhone);
     }
 
     [WebMethod]

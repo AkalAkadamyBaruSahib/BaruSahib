@@ -1,16 +1,17 @@
 ﻿var d = new Date();
 var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" +  d.getFullYear() ;
 var grdMatDiscription;
+var tblVendorDetail;
 $(document).ready(function () {
 
     //AutofillMaterialSearchBox();
     if ($("input[id*='hdnAcaID']").val() == undefined) {
-      
         LoadActiveVendorInfo();
     }
 
     BindState();
-    $("input[id*='btnSave']").click(function (e) {
+
+    $("input[id$='btnSave']").click(function (e) {
         if (Page_ClientValidate("vendor")) {
             ValidationDuplicateVendor();
          }
@@ -56,6 +57,15 @@ $(document).ready(function () {
     {
         BindCity($(this).val());
     })
+
+    $("input[id*='btnSaveVendor']").click(function (e) {
+        SaveVendor();
+    });
+
+    $("#btnclos").click(function (e) {
+        ClearTextBox();
+        $('#divAlreadyExitVendor').modal('hide');
+    });
 });
 
 function AddItemToList() {
@@ -127,64 +137,64 @@ function RejectMaterialItems() {
 }
 
 function SaveVendor() {
-      var params = new Object();
-        var VendorInfo = new Object();
-        VendorInfo.ID = 0;
-        VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
-        VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
-        VendorInfo.VendorAddress = $("textarea[id*='txtAddress']").val();
-        VendorInfo.VendorState = $("select[id*='drpState']").val();
-        VendorInfo.VendorCity = $("select[id*='drpCity']").val();
-        VendorInfo.VendorZip = $("input[id*='txtZip']").val();
-        VendorInfo.BankName = $("input[id*='txtBankName']").val();
-        VendorInfo.IfscCode = $("input[id*='txtIfscCode']").val();
-        VendorInfo.AccountNumber = $("input[id*='txtAccountNumber']").val();
-        VendorInfo.PanNumber = $("input[id*='txtPanNumber']").val();
-        VendorInfo.TinNumber = $("input[id*='txtTinNumber']").val();
-        VendorInfo.Active = true;
-        VendorInfo.CreatedOn = strDate;
-        VendorInfo.ModifyOn = strDate;
-        VendorInfo.ModifyBy = $("input[id*='hdnInchargeID']").val();
+    var params = new Object();
+    var VendorInfo = new Object();
+    VendorInfo.ID = 0;
+    VendorInfo.VendorName = $("input[id*='txtVendorName']").val();
+    VendorInfo.VendorContactNo = $("input[id*='txtPhone']").val();
+    VendorInfo.VendorAddress = $("textarea[id*='txtAddress']").val();
+    VendorInfo.VendorState = $("select[id*='drpState']").val();
+    VendorInfo.VendorCity = $("select[id*='drpCity']").val();
+    VendorInfo.VendorZip = $("input[id*='txtZip']").val();
+    VendorInfo.BankName = $("input[id*='txtBankName']").val();
+    VendorInfo.IfscCode = $("input[id*='txtIfscCode']").val();
+    VendorInfo.AccountNumber = $("input[id*='txtAccountNumber']").val();
+    VendorInfo.PanNumber = $("input[id*='txtPanNumber']").val();
+    VendorInfo.TinNumber = $("input[id*='txtTinNumber']").val();
+    VendorInfo.Active = true;
+    VendorInfo.CreatedOn = strDate;
+    VendorInfo.ModifyOn = strDate;
+    VendorInfo.ModifyBy = $("input[id*='hdnInchargeID']").val();
 
-        var vendorMaterialRelations = new Array();
-
-
-        $("#lstMaterials  option").each(function (index) {
-            var VendorMaterialRelation = new Object();
-            VendorMaterialRelation.VendorID = 0;
-            VendorMaterialRelation.MatID = 0;
-            VendorMaterialRelation.CreatedOn = strDate;
-            VendorMaterialRelation.ModifyOn = strDate;
-            VendorMaterialRelation.MatType = 0;
-            VendorMaterialRelation.MatName = $(this).text();
-
-            vendorMaterialRelations.push(VendorMaterialRelation);
-        });
-
-        VendorInfo.VendorMaterialRelationDTO = vendorMaterialRelations;
+    var vendorMaterialRelations = new Array();
 
 
-        params.vendorInfo = VendorInfo;
+    //$("#lstMaterials  option").each(function (index) {
+    //    var VendorMaterialRelation = new Object();
+    //    VendorMaterialRelation.VendorID = 0;
+    //    VendorMaterialRelation.MatID = 0;
+    //    VendorMaterialRelation.CreatedOn = strDate;
+    //    VendorMaterialRelation.ModifyOn = strDate;
+    //    VendorMaterialRelation.MatType = 0;
+    //    VendorMaterialRelation.MatName = $(this).text();
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "Services/PurchaseControler.asmx/AddNewVendorInformation",
-            data: JSON.stringify(params),
-            dataType: "json",
-            success: function (result, textStatus) {
-                if (textStatus == "success") {
-                     $("#txtAgencyName").val(result.d);
-                    AutofillVendorInfoSearchBox();
-                    ClearTextBox();
-                    $("#divVendorInformation").modal('hide');
-                }
-            },
-            error: function (result, textStatus) {
-                alert(result.responseText)
+    //    vendorMaterialRelations.push(VendorMaterialRelation);
+    //});
+
+    VendorInfo.VendorMaterialRelationDTO = vendorMaterialRelations;
+
+
+    params.vendorInfo = VendorInfo;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/AddNewVendorInformation",
+        data: JSON.stringify(params),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                $("#txtAgencyName").val(result.d);
+                AutofillVendorInfoSearchBox();
+                ClearTextBox();
+                $("#divVendorInformation").modal('hide');
             }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText)
+        }
 
-        });
+    });
 
 }
 
@@ -541,22 +551,51 @@ function AutofillVendorInfoSearchBox() {
 
 function ValidationDuplicateVendor() {
     var vendorName = $("input[id*='txtVendorName']").val();
+    var phoneNo = $("input[id*='txtPhone']").val();
+
+    if (typeof tblVendorDetail != 'undefined') {
+        tblVendorDetail.fnClearTable();
+    }
+
+    var rowCount = $('#tblVendorDetail').find("#vendorTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#vendorTemplate").remove();
+    }
+
+    var VendorTemplate = '<tr id="vendorTemplate"><td id="vendorName"></td><td id="vendorPhone"></td><td id="vendorAddress"></td></tr>';
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetDuplicateVendor",
-        data: JSON.stringify({ VendorName: vendorName }),
+        data: JSON.stringify({ VendorName: vendorName, VendorPhone: phoneNo }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var adminLoanList = result.d;
                 if (adminLoanList.length > 0) {
-                    alert("Vendor Name already exits");
-                    return false;
+                    $('#divAlreadyExitVendor').modal('show');
+                    $("#tblAlreadySavedVendor").append(VendorTemplate);
+
+                    for (var i = 0; i < adminLoanList.length; i++) {
+
+                        var $newRow = $("#vendorTemplate").clone();
+                        $newRow.find("#vendorName").html(adminLoanList[i].VendorName);
+                        $newRow.find("#vendorPhone").html(adminLoanList[i].VendorContactNo);
+                        $newRow.find("#vendorAddress").html(adminLoanList[i].VendorAddress);
+                        $newRow.show();
+                        if (i == 0) {
+                            $("#vendorTemplate").replaceWith($newRow);
+                        }
+                        else {
+                            $newRow.appendTo("#tblVendorDetail > tbody");
+                        }
+                    }
                 }
                 else {
                     SaveVendor();
                 }
+                tblVendorDetail = $('#tblVendorDetail').DataTable();
             }
         },
         error: function (result, textStatus) {
@@ -625,6 +664,7 @@ function GetAgencyMaterialDetail(vendorID) {
 
     $("#divVendorMaterial").modal('show');
 }
+
 function getJsonDate(strDate) {
     var displayDate = "";
     if (strDate != null) {

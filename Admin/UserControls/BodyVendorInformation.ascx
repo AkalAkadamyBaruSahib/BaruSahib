@@ -50,7 +50,7 @@
                                             <input type="text" id="txtAgencyName" style="display: none;" />
                                             <asp:TextBox ID="txtVendorName" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vendor" Display="Dynamic" ControlToValidate="txtVendorName" ErrorMessage="Special Character are Invalid!!!" ForeColor="Red" ValidationExpression="^[a-zA-Z ]+$"></asp:RegularExpressionValidator>
-                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red"  ControlToValidate="txtVendorName" ErrorMessage="Please enter the  Vendor Name" />
+                                            <asp:RequiredFieldValidator Display="None" runat="server" ValidationGroup="vendor" ID="reqName" ForeColor="Red" ControlToValidate="txtVendorName" ErrorMessage="Please enter the  Vendor Name" />
                                         </div>
                                     </div>
                                 </td>
@@ -268,9 +268,9 @@
                         <th>Work Allot Name</th>
                         <th>Mat Name</th>
                         <th>Total Amount</th>
-                         <th>Created By</th>
-                         <th>Created On</th>
-                     </tr>
+                        <th>Created By</th>
+                        <th>Created On</th>
+                    </tr>
                 </thead>
                 <tbody id="agencymaterialtable">
                 </tbody>
@@ -278,6 +278,29 @@
         </div>
         <div class="modal-footer">
             <input id="btnclose" value="Close" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
+        </div>
+    </div>
+    <div class="modal hide fade" style="width: 800px; height: 400px;" id="divAlreadyExitVendor">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Already Exit Vendor Details</h3>
+        </div>
+        <div class="modal-body">
+            <table id="tblVendorDetail" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                <thead>
+                    <tr>
+                        <th>Vendor Name</th>
+                        <th>Vendor Contact No</th>
+                        <th>Vendor Address</th>
+                    </tr>
+                </thead>
+                <tbody id="tblAlreadySavedVendor">
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <input id="btnSaveVendor" value="Save" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
+            <input id="btnclos" value="Dont Save" style="width: 70px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>
 </div>

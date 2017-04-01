@@ -1321,9 +1321,37 @@ public class PurchaseRepository
         }).OrderByDescending(m => m.VendorName).Reverse().ToList();
     }
 
-    public List<VendorInfo> GetDuplicateVendor(string VendorName)
+    public List<VendorInfo> GetDuplicateVendor(string VendorName, string VendorPhone)
     {
-        return _context.VendorInfo.Where(x => x.VendorName == VendorName).ToList();
+        System.Data.DataSet dsVendor = new System.Data.DataSet();
+
+        string[] vendornames = VendorName.ToLower().Split(' ');
+        string sql=string.Empty;
+
+        sql = "Select distinct * from VendorInfo where VendorContactNo = '" + VendorPhone + "' OR ";
+        foreach (string str in vendornames)
+        {
+            if (!str.Contains("m/s") && !str.Contains("ltd") && !str.Contains("pvt"))
+            {
+                sql += "vendorname like  '%" + str + "%' OR ";
+            }
+        }
+        sql = sql.Substring(0, sql.Length - 3);
+
+        dsVendor = DAL.DalAccessUtility.GetDataInDataSet(sql);
+
+        List<VendorInfo> getBillDetailsByVendorIDs = new List<VendorInfo>();
+
+        VendorInfo getBillDetailsByVendorID = null;
+            for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
+            {
+                getBillDetailsByVendorID = new VendorInfo();
+                getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
+                getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
+                getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
+                getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
+            }
+        return getBillDetailsByVendorIDs;
     }
 
     public List<GetBillDetailsByVendorID> GetAgencyMaterialDetails(int VendorID)

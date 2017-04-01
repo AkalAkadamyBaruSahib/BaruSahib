@@ -160,11 +160,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 lbl.Attributes.Add("style", "display:blockp;");
                 DisDate.Attributes.Add("style", "display:none;");
 
-                if (txtRate.Text == string.Empty)
-                {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please enter rate before dispatch.');", true);
-                }
-                else if (Convert.ToDecimal(txtRate.Text) > Convert.ToDecimal(hdnRate.Value))
+                if (Convert.ToDecimal(txtRate.Text) > Convert.ToDecimal(hdnRate.Value))
                 {
                     var PurchasedQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);
                     var estCost = Convert.ToDecimal(txtRate.Text) * PurchasedQty;
@@ -172,14 +168,14 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
 
                     if (Convert.ToInt16(hdnMatTypeID.Value) == 53 || Convert.ToInt16(hdnMatTypeID.Value) == 52)
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "' where Sno='" + Sno + "'");
+                        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                     }
                     else if (Convert.ToInt16(txtMatID.Value) == 844 || Convert.ToInt16(txtMatID.Value) == 2387)
                     {
                         if (Convert.ToDecimal(txtRate.Text) <= ExtraRate)
                         {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         }
                         else
@@ -220,7 +216,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             var estimateCost = Convert.ToDecimal(txtRate.Text) * PurchaseQty;
 
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         }
                     }
@@ -235,12 +231,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                             var estimateCost = Convert.ToDecimal(txtRate.Text) * PurchaseQty;
                             if ((PurchaseQty >= Qty && PurchaseQty <= TotalSteelWoodTileQuantity) || (PurchaseQty <= Qty && PurchaseQty >= TotalLessSteelWoodTileQuantit))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ", Amount=" + estimateCost + ", DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ", Amount=" + estimateCost + ", DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
@@ -256,12 +252,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             if ((PurchaseQty >= Qty && PurchaseQty <= ExtraQty) || (PurchaseQty <= Qty && PurchaseQty >= LessExtraQty))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
@@ -319,6 +315,13 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
             {
                 chkDirectPurchase.Visible = true;
             }
+
+            Button btnDispatch = e.Row.FindControl("btnDispatch") as Button;
+            HiddenField hdnVendorName = e.Row.FindControl("hdnVendorName") as HiddenField;
+            TextBox txtRate = e.Row.FindControl("txtRate") as TextBox;
+            TextBox txtPurchaseQty = e.Row.FindControl("txtPurchaseQty") as TextBox;
+            
+            btnDispatch.OnClientClick = "return OnClientClick(" + hdnVendorName.ClientID + ");";
         }
     }
     protected void btnDispatchWorkshop_Click(object sender, EventArgs e)

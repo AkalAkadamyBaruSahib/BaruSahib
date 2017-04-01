@@ -1,22 +1,30 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BodyViewEstimateMaterial.ascx.cs" Inherits="Admin_UserControls_BodyViewEstimateMaterial" %>
 <script type="text/javascript">
-    function OnClientClick() {
-        // Client side validation
+    function OnClientClick(hiddenfiled) {
         if (Page_ClientValidate()) {
             var gvcheck = document.getElementById('<%= gvMaterailDetailForPurchase.ClientID %>');
-            if ($('td :checkbox', gvcheck).prop("checked") == true) {
+            if ($('td :checkbox', gvcheck).prop('checked') == true) {
                 if (Page_ClientValidate()) {
                     if (confirm('Are you sure you want to send this Material Directly?'))
-                        return true;
-                    else
-                        return false;
+                        return true; else return false;
                 }
+            }
+            var link = document.getElementById('aVendorLink');
+            if ($("input[id*='hdnVandorID']").val() != "") {
+                return true;
+            }
+            else {
+                window.alert('Please click on the select vendor');
+                return false;
             }
         }
     }
-
 </script>
 <script type="text/javascript">
+
+    function postValue(txtbox) {
+        $("input[id*='hdnVandorID']").val($(txtbox).val());
+    }
     function ClientSideClick2(myButton) {
         // Client side validation
         if (typeof (Page_ClientValidate) == 'function') {
@@ -53,8 +61,8 @@
 <div class="box span10">
     <asp:HiddenField ID="hdnMaterialType" runat="server" />
     <asp:HiddenField ID="hdnMaterialID" runat="server" />
-
-    <div class="box-header well" data-original-title>
+    <asp:HiddenField ID="hdnVandorID" runat="server" />
+    <div class="box-header well">
         <h2><i class="icon-user"></i>Material Details for
                 <asp:Label ID="lblZoneName" runat="server"></asp:Label>
             |
@@ -79,11 +87,20 @@
                         <asp:HiddenField runat="server" ID="hdnMatTypeID" Value='<%#Eval("MatTypeID") %>' />
                         <asp:HiddenField runat="server" ID="txtUnitID" Value='<%#Eval("UnitID") %>' />
                         <asp:HiddenField runat="server" ID="hdnRate" Value='<%#Eval("Rate") %>' />
-
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="MatName" HeaderText="MatName" />
-                <asp:BoundField DataField="UnitName" HeaderText="UnitName" />
+                <asp:TemplateField HeaderText="MatName">
+                    <ItemTemplate>
+                        <asp:Label ID="lblMatName" runat="server" Text='<%# Eval("MatName")+ "(" + Eval("UnitName") +")"%>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="VendorName">
+                    <ItemTemplate>
+                        <a href="#" id="aVendorLink" onclick="linkClicked = true">Select Vendor</a>
+                        <input type="text" id="txtVendorName" onblur="postValue(this);" name="txtVendorName" style="display: none;" required disabled="disabled" />
+                        <asp:HiddenField ID="hdnVendorName" runat="server"/>
+                    </ItemTemplate>
+                </asp:TemplateField>
                 <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
                 <asp:BoundField DataField="PurchaseQty" HeaderText="Already Purchased Qty" />
                 <asp:TemplateField HeaderText="PurchaseQty">
@@ -95,9 +112,10 @@
 
                 <asp:TemplateField HeaderText="Purchased Rate">
                     <ItemTemplate>
-                        <asp:TextBox runat="server" Width="100px" ID="txtRate"></asp:TextBox>
-                        <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*"
-                            ControlToValidate="txtRate" />
+                        <asp:TextBox runat="server" Width="100px" ID="txtRate" required="required" Enabled="false" ></asp:TextBox>
+                        <span id="errMsg" style="color:red;display:none;" >*</span>
+                     <%--     <asp:RequiredFieldValidator ID="reqRate" runat="server"  ForeColor="Red" ErrorMessage="*" ControlToValidate="txtRate"  ValidationGroup="purchaseRate"/>
+                    --%>    <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*" ControlToValidate="txtRate" />
                         <asp:HiddenField runat="server" ID="txtEstID" Value='<%#Eval("EstID") %>' />
                         <asp:HiddenField runat="server" ID="hdnPurchaseQty" Value='<%#Eval("PurchaseQty") %>' />
                     </ItemTemplate>
@@ -111,9 +129,8 @@
                 <asp:TemplateField HeaderText="Purchase Date">
                     <ItemTemplate>
                         <asp:Label runat="server" ID="txtDispatchDate" Text='<%# Eval("DispatchDate") %>' Visible="false" Style="display: none;"></asp:Label>
-                        <asp:Button runat="server" ID="btnDispatch" CssClass="btn btn-primary" OnClientClick=" if (Page_ClientValidate()) { var gvcheck = document.getElementById('<%= gvMaterailDetailForPurchase.ClientID %>'); if ($('td :checkbox', gvcheck).prop('checked') == true) {if (Page_ClientValidate()) {  if (confirm('Are you sure you want to send this Material Directly?'))
-                        return true; else return false; } } }"
-                            data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Purchase Material" CommandName="DispatchDate" CommandArgument='<%#Eval("Sno") %>' />
+                        <asp:Button runat="server" ID="btnDispatch" CssClass="btn btn-primary" data-rel="tooltip" data-original-title="Click To Dispatch Material" 
+                            Text="Purchase Material" CommandName="DispatchDate" CommandArgument='<%#Eval("Sno") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -167,20 +184,22 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Dispatch Material">
                     <ItemTemplate>
-                        <asp:Button runat="server" ID="btnDispatchWorkshop" CssClass="btn btn-primary" data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Dispatch Material" CommandArgument='<%#Eval("Sno") %>' OnClick="btnDispatchWorkshop_Click" />
+                        <asp:Button runat="server" ID="btnDispatchWorkshop" CssClass="btn btn-primary"  data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Dispatch Material" CommandArgument='<%#Eval("Sno") %>' OnClick="btnDispatchWorkshop_Click" />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
     </div>
 
-    <div id="divUpdateRate" style="display: none;width:500px" >
+    <div id="divUpdateRate" style="display: none; width: 500px">
         <table id="tblUpdateRate" style="width: 100%;">
             <tbody>
                 <tr>
                     <td>
-                        <p>Purchased rate can not greater then Estimate Rate. Please Approve your 
-                            Rate from Purchase Committee first. Click here to update rate: <a id="aRateUpdateLink" style="color: red" href="#">Update Rate Link</a></p>
+                        <p>
+                            Purchased rate can not greater then Estimate Rate. Please Approve your 
+                            Rate from Purchase Committee first. Click here to update rate: <a id="aRateUpdateLink" style="color: red" href="#">Update Rate Link</a>
+                        </p>
                     </td>
                 </tr>
             </tbody>
