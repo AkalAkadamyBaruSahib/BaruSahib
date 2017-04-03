@@ -157,6 +157,7 @@ public class PurchaseControler : System.Web.Services.WebService
         venInfo.ModifyBy = Convert.ToInt32(vendorInfo.ModifyBy);
         venInfo.Active = vendorInfo.Active;
         venInfo.CreatedOn = DateTime.Now;
+        venInfo.AltrenatePhoneNumber = vendorInfo.AltrenatePhoneNumber;
         venInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
 
         VendorMaterialRelation vendorMaterialRelation = new VendorMaterialRelation();
@@ -467,10 +468,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<VendorInfo> GetDuplicateVendor(string VendorName, string VendorPhone)
+    public List<VendorInfo> GetDuplicateVendor(string vendorName, string vendorMobilePhone, string vendorLandlinePhone)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetDuplicateVendor(VendorName, VendorPhone);
+        return repository.GetDuplicateVendor(vendorName, vendorMobilePhone, vendorLandlinePhone);
     }
 
     [WebMethod]

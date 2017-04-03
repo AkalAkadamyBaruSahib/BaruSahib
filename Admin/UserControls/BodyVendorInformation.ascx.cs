@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 public partial class Admin_UserControls_BodyVendorInformation : System.Web.UI.UserControl
 {
     private bool _IsPopUP = false;
-
+    public static int UserTypeID = -1;
     public bool IsOpenInPopUP
     {
         get
@@ -42,6 +42,7 @@ public partial class Admin_UserControls_BodyVendorInformation : System.Web.UI.Us
             {
                 lblUser.Text = Session["InName"].ToString();
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
+                hdnUserType.Value = Session["UserTypeID"].ToString();
             }
         }
     }

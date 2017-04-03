@@ -231,6 +231,7 @@ public class PurchaseRepository
             vendorDTO.BankName = v.BankName;
             vendorDTO.IfscCode = v.IfscCode;
             vendorDTO.AccountNumber = v.AccountNumber;
+            vendorDTO.AltrenatePhoneNumber = v.AltrenatePhoneNumber;
             if (v.PanNumber != null)
             {
                 vendorDTO.PanNumber = v.PanNumber.ToString();
@@ -273,6 +274,7 @@ public class PurchaseRepository
             vendorDTO.BankName = v.BankName;
             vendorDTO.IfscCode = v.IfscCode;
             vendorDTO.AccountNumber = v.AccountNumber;
+            vendorDTO.AltrenatePhoneNumber = v.AltrenatePhoneNumber;
             if (v.PanNumber != null)
             {
                 vendorDTO.PanNumber = v.PanNumber.ToString();
@@ -316,7 +318,7 @@ public class PurchaseRepository
         }
 
         dto.Active = vendorInfo.Active;
-
+        dto.AltrenatePhoneNumber = vendorInfo.AltrenatePhoneNumber;
         dto.VendorMaterialRelationDTO = new List<VendorMaterialRelationDTO>();
         VendorMaterialRelationDTO vendorMatRel;
         DataSet dsmat = new DataSet();
@@ -364,7 +366,7 @@ public class PurchaseRepository
         newVendorInfo.AccountNumber = vendorInfo.AccountNumber;
         newVendorInfo.PanNumber = vendorInfo.PanNumber;
         newVendorInfo.TinNumber = vendorInfo.TinNumber;
-
+        newVendorInfo.AltrenatePhoneNumber = vendorInfo.AltrenatePhoneNumber;
         newVendorInfo.VendorMaterialRelations = new List<VendorMaterialRelation>();
 
         VendorMaterialRelation vendorMaterialRelation = new VendorMaterialRelation();
@@ -1321,14 +1323,23 @@ public class PurchaseRepository
         }).OrderByDescending(m => m.VendorName).Reverse().ToList();
     }
 
-    public List<VendorInfo> GetDuplicateVendor(string VendorName, string VendorPhone)
+    public List<VendorInfo> GetDuplicateVendor(string vendorName, string vendorMobilePhone, string vendorLandlinePhone)
     {
         System.Data.DataSet dsVendor = new System.Data.DataSet();
 
-        string[] vendornames = VendorName.ToLower().Split(' ');
+        string[] vendornames = vendorName.ToLower().Split(' ');
+        string[] vendorcontact = vendorMobilePhone.Trim().Split(',');
+
         string sql=string.Empty;
 
-        sql = "Select distinct * from VendorInfo where VendorContactNo = '" + VendorPhone + "' OR ";
+        sql = "Select distinct * from VendorInfo where VendorContactNo = '" + vendorLandlinePhone + "' OR ";
+
+        foreach (string str in vendorcontact)
+        {
+            sql += "AltrenatePhoneNumber like  '%" + str + "%' OR ";
+        }
+        
+
         foreach (string str in vendornames)
         {
             if (!str.Contains("m/s") && !str.Contains("ltd") && !str.Contains("pvt"))
@@ -1336,6 +1347,8 @@ public class PurchaseRepository
                 sql += "vendorname like  '%" + str + "%' OR ";
             }
         }
+
+
         sql = sql.Substring(0, sql.Length - 3);
 
         dsVendor = DAL.DalAccessUtility.GetDataInDataSet(sql);

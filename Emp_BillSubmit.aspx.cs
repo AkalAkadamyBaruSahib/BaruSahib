@@ -14,10 +14,14 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
     private int billID = -1;
     private int inchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
-    {  
-       inchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
+    {
+        if (Session["InchargeID"] == null)
+        {
+            Response.Redirect("Default.aspx");
+        }
+        inchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
         if (!IsPostBack)
-        { 
+        {
             Page.Form.Attributes.Add("enctype", "multipart/form-data");
             if (Session["EmailId"] == null)
             {
@@ -26,9 +30,9 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
-                hdnInchargeID.Value = Session["InchargeID"].ToString(); 
-               
-               
+                hdnInchargeID.Value = Session["InchargeID"].ToString();
+
+
             }
             if (Request.QueryString["AcaId"] != null)
             {
@@ -38,7 +42,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                 hdnZoneID.Value = dsZone.Rows[0]["ZoneId"].ToString();
             }
 
-         
+
             BindBillType();
             ddlNameOfWork.Visible = false;
             ddlBillType.Visible = false;
@@ -51,17 +55,14 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                 billID = int.Parse(Request.QueryString["BillID"]);
                 ShowBillDetails(Request.QueryString["BillID"].ToString());
             }
-           
+
         }
 
         if (Request.QueryString["BillID"] != null && Request.QueryString["AcaId"] != null)
         {
             billID = int.Parse(Request.QueryString["BillID"]);
         }
-
     }
-
-    
 
     protected void BindNameOfWork(string id)
     {
@@ -371,6 +372,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         pnlSanction.Visible = true;
         divFinalButtons.Visible = true;
         btnSubmit.Visible = true;
+        Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetVendors();", true);
         // pnlSanction.Visible = false;
     }
 
@@ -388,7 +390,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             if (billID > 0)
             {
                 string fileName = UploadFiles(ref AgencyName);
-                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + billID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedValue + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + string.Empty + "','" + hdnVandorID.Value + "'");
+                DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewSubmitBillByUser " + billID + ",'" + ddlBillType1.SelectedValue + "','" + txtBillDate.Text + "','" + txtGateEntryNo.Text + "','','" + AgencyName + "','" + txtRemark.Text + "','2','1','" + inchargeID + "','" + -1 + "','" + AcaId + "','" + ZoneId + "','','" + ddlBillType1.SelectedValue + "','" + ddlNameOfWork.SelectedValue + "'," + txtAgenyBillNo.Text + ",'" + string.Empty + "','" + hdnVandorID.Value + "','" + Utility.GetLocalDateTime(System.DateTime.UtcNow) + "'");
                 DAL.DalAccessUtility.ExecuteNonQuery("Update SubmitBillByUser set VendorBillPath='" + fileName + "' where SubBillId=" + billID);
             }
             else
@@ -413,6 +415,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                 param.Add("VendorBillNumber", txtAgenyBillNo.Text);
                 param.Add("VendorBillPath", string.Empty);
                 param.Add("VendorID", hdnVandorID.Value);
+                param.Add("CreatedOn", Utility.GetLocalDateTime(System.DateTime.UtcNow));
 
                 billID = DAL.DalAccessUtility.GetDataInScaler("USP_NewSubmitBillByUser", param);
                 string fileName = UploadFiles(ref AgencyName);

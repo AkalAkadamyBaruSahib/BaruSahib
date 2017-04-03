@@ -167,11 +167,11 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         {
             string id = Request.QueryString["SubBillId"];
             DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + InchargeID + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=0 where SubBillId='" + id + "'");
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
-            DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
-            string Msg = "" + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id + " is Rejected by ADMIN";
-            DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id + "'");
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + InchargeID + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
+            // ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
+            //  DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
+            // string Msg = "" + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id + " is Rejected by ADMIN";
+            //DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id + "'");
+            // DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + InchargeID + "','" + dsMsgContent.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
             Response.Redirect("BillStatus.aspx");
         }
     }
@@ -208,7 +208,7 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         foreach (string path in filePath)
         {
             count++;
-            anchorLink += "<a href= Bills/" + path + " target='_blank'>" + fileName + "_" + count + "</a> , ";
+            anchorLink += "<a href= 'Bills/" + path + "' target='_blank'>" + fileName + "_" + count + "</a> , ";
         }
 
         return anchorLink.Substring(0, anchorLink.Length - 3);

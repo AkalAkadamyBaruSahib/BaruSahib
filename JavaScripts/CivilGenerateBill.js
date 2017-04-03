@@ -14,6 +14,7 @@ var MaterialObject;
 
 
 $(document).ready(function () {
+
     $("[id*=gvAddItems2] [id*=chkVat]").click(function () {
 
         var row = $(this).closest("tr");
@@ -61,7 +62,7 @@ $(document).ready(function () {
 
         var regex = new RegExp(/^\+?[0-9(),.-]+$/);
 
-        if (rate == "" || !rate.match(regex) || rate <= 0) {
+        if (rate == "" || !rate.match(regex) || rate == "0") {
             row.find("input[id*='txtRateSan']").css('border-color', 'red');
             row.find("input[id*='txtRateSan']").val("");
             row.find("#errMsg").show();
@@ -138,7 +139,7 @@ $(document).ready(function () {
 
         var regex = new RegExp(/^\+?[0-9(),.-]+$/);
 
-        if (qty == "" || !qty.match(regex) || qty < 0) {
+        if (qty == "" || !qty.match(regex) || qty == "0") {
             row.find("input[id*='txtQty']").css('border-color', 'red');
             row.find("input[id*='txtQty']").val("");
             row.find("#errMsgQty").show();
@@ -264,12 +265,10 @@ $(document).ready(function () {
         TotalEstimateAmt();
     });
 
-    GetVendors();
-
-
     if ($("select[id*='ddlBillType1']").val() == 2) {
         GetMaterialObjectList();
         GetPurchaseSource();
+        GetVendors();
         $("#aDeleteRow0").hide();
         $("#btnSubmitApprovel").show();
     }
@@ -285,8 +284,20 @@ $(document).ready(function () {
             }
         }
     });
-});
 
+    $("input[id*='btnSubmit']").click(function (e) {
+        if ($("#txtAgencyName").val() != undefined) {
+            var vendorname = $("#txtAgencyName").val();
+            var ValidateMaterial = $.grep(MaterialObjectList, function (e) { return e.VendorName == vendorname })[0];
+            if (ValidateMaterial == undefined) {
+                alert("Vendor not Exit.Please create a new vendor.");
+                $("#txtAgencyName").val("");
+                return false;
+            }
+        }
+    });
+
+});
 function TotalAmount() {
     var tablelength = $("[id*=gvAddItems2] tr").length;
     var totalAmt = 0;
@@ -495,64 +506,6 @@ function fixSerialNumber() {
     }
 }
 
-function Validation() {
-
-    var tablelength = $("#tbody2").children('tr').length;
-    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
-        if ($("#ddlSourceType" + i).val() == "undefined" || $("#ddlSourceType" + i).val() == "0") {
-            $("#ddlSourceType" + i).css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#ddlSourceType" + i).css('border-color', '');
-        }
-
-        if ($("#txtMaterialName" + i).val() == "" || $("#txtMaterialName" + i).val() == "0") {
-            $("#txtMaterialName" + i).css('border-color', 'red');
-            return false;
-        }
-        else {
-            if ($("#txtMaterialName" + i).val() != undefined) {
-                var Matname = $("#txtMaterialName" + i).val();
-                var ValidateMaterial = $.grep(MaterialObject, function (e) { return e.MatName == Matname })[0];
-                if (ValidateMaterial == undefined) {
-                    $("#txtMaterialName" + i).css('border-color', 'red');
-                    $("#txtMaterialName" + i).val("");
-                    $("#hdnMatID" + i).val("");
-                    return false;
-                }
-                else {
-                    $("#txtMaterialName" + i).css('border-color', '');
-                }
-            }
-        }
-
-        if ($("#hdnMatID" + i).val() == "undefined" || $("#hdnMatID" + i).val() == "") {
-            $("#txtMaterialName" + i).css('border-color', 'red');
-            $("#txtMaterialName" + i).val("");
-            return false;
-        }
-        else {
-            $("#txtMaterialName" + i).css('border-color', '');
-        }
-
-        if ($("#txtQty" + i).val() != undefined) {
-            var value = $("#txtQty" + i).val()
-            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
-
-            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == "0" || !value.match(regex)) {
-                $("#txtQty" + i).css('border-color', 'red');
-                return false;
-            }
-            else {
-                $("#txtQty" + i).css('border-color', '');
-            }
-        }
-
-    }
-    return true;
-}
-
 function removeRow(removeNum) {
     $('#tr' + removeNum).remove();
     delItems = delItems + 1;
@@ -624,9 +577,19 @@ function AddMaterialRow() {
 }
 
 function Validation() {
- 
+    if ($("#txtAgencyName").val() != undefined) {
+        var vendorname = $("#txtAgencyName").val();
+        var ValidateMaterial = $.grep(MaterialObjectList, function (e) { return e.VendorName == vendorname })[0];
+        if (ValidateMaterial == undefined) {
+            alert("Vendor not Exit.Please create a new vendor.");
+            $("#txtAgencyName").val("");
+            return false;
+        }
+    }
+
     var tablelength = $("#tbody2").children('tr').length;
     for (var i = 0 ; i < (tablelength + delItems) ; i++) {
+
         if ($("#ddlSourceType" + i).val() == "undefined" || $("#ddlSourceType" + i).val() == "0") {
             $("#ddlSourceType" + i).css('border-color', 'red');
             return false;
@@ -665,6 +628,18 @@ function Validation() {
             }
             else {
                 $("#txtQty" + i).css('border-color', '');
+            }
+        }
+        if ($("#txtRate" + i).val() != undefined) {
+            var value = $("#txtRate" + i).val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+
+            if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == "0" || !value.match(regex)) {
+                $("#txtRate" + i).css('border-color', 'red');
+                return false;
+            }
+            else {
+                $("#txtRate" + i).css('border-color', '');
             }
         }
 

@@ -151,6 +151,7 @@ function SaveVendor() {
     VendorInfo.AccountNumber = $("input[id*='txtAccountNumber']").val();
     VendorInfo.PanNumber = $("input[id*='txtPanNumber']").val();
     VendorInfo.TinNumber = $("input[id*='txtTinNumber']").val();
+    VendorInfo.AltrenatePhoneNumber = $("input[id*='txtAltrenatePhone']").val();
     VendorInfo.Active = true;
     VendorInfo.CreatedOn = strDate;
     VendorInfo.ModifyOn = strDate;
@@ -188,6 +189,10 @@ function SaveVendor() {
                 AutofillVendorInfoSearchBox();
                 ClearTextBox();
                 $("#divVendorInformation").modal('hide');
+                if ($("input[id*='hdnAcaID']").val() == undefined) {
+                    alert("Record has been Saved successfully");
+                    LoadActiveVendorInfo();
+                }
             }
         },
         error: function (result, textStatus) {
@@ -236,7 +241,12 @@ function LoadActiveVendorInfo() {
                     $newRow.find("#vendorAddress").html("<table><tr><td><b>Vendor Address :</b> " + adminLoanList[i].VendorAddress + "</td></tr><tr><td><b>Zip:</b> " + adminLoanList[i].VendorZip + "</td></tr></table>");
                     $newRow.find("#contactNo").html(adminLoanList[i].VendorContactNo);
                     $newRow.find("#status").html("<span class='label label-success' title='Active' style='font-size: 15.998px;'>Active</span>");
-                    $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='VendorInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr></table>");
+                    if ($("input[id*='hdnUserType']").val() == 23) {
+                        $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='VendorInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr></table>");
+                    }
+                    else {
+                        $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr></table>");
+                    }
                     $newRow.addClass(className);
                     $newRow.show();
 
@@ -295,6 +305,8 @@ function GetVendorInfoToUpdate(vendorID) {
                 $("input[id*='txtTinNumber']").val(rdata.TinNumber);
                 $("input[id*='txtAccountNumber']").val(rdata.AccountNumber);
                 $("input[id*='chkInactive']").prop("checked", rdata.Active);
+                $("input[id*='txtAltrenatePhone']").val(rdata.AltrenatePhoneNumber);
+              
                 for (var i = 0; i < rdata.VendorMaterialRelationDTO.length; i++) {
                     $("#lstMaterials").append($("<option></option>").val(rdata.VendorMaterialRelationDTO[i].MatId).html(rdata.VendorMaterialRelationDTO[i].MatName));
                 }
@@ -327,6 +339,7 @@ function UpdateVendorInformation() {
     VendorInfo.AccountNumber = $("input[id*='txtPanNumber']").val();
     VendorInfo.PanNumber = $("input[id*='txtIfscCode']").val();
     VendorInfo.TinNumber = $("input[id*='txtTinNumber']").val();
+    VendorInfo.AltrenatePhoneNumber = $("input[id*='txtAltrenatePhone']").val();
     VendorInfo.Active = true;
     VendorInfo.CreatedOn = strDate;
     VendorInfo.ModifyOn = strDate;
@@ -430,7 +443,13 @@ function LoadInActiveVendorInfo() {
                     else {
                         $newRow.find("#status").html("<span class='label label-important' title='Inactive' style='font-size: 15.998px;'>InActive</span>");
                     }
-                    $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='VendorInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr></table>");
+                    if ($("input[id*='hdnUserType']").val() == 23) {
+                        $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='VendorInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr></table>");
+                    }
+                    else {
+                        $newRow.find("#action").html("<table><tr><td><a href='#' onclick='GetVendorInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr></table>");
+                    }
+
                     $newRow.addClass(className);
                     $newRow.show();
 
@@ -474,6 +493,7 @@ function ClearTextBox() {
     $("input[id*='txtAccountNumber']").val("");
     $("input[id*='txtPanNumber']").val("");
     $("input[id*='txtTinNumber']").val("");
+    $("input[id*='txtAltrenatePhone']").val("");
 }
 
 function BindState()
@@ -552,6 +572,7 @@ function AutofillVendorInfoSearchBox() {
 function ValidationDuplicateVendor() {
     var vendorName = $("input[id*='txtVendorName']").val();
     var phoneNo = $("input[id*='txtPhone']").val();
+    var mobilePhone = $("input[id*='txtAltrenatePhone']").val();
 
     if (typeof tblVendorDetail != 'undefined') {
         tblVendorDetail.fnClearTable();
@@ -568,7 +589,7 @@ function ValidationDuplicateVendor() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetDuplicateVendor",
-        data: JSON.stringify({ VendorName: vendorName, VendorPhone: phoneNo }),
+        data: JSON.stringify({ vendorName: vendorName, vendorMobilePhone: mobilePhone, vendorLandlinePhone: phoneNo }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {

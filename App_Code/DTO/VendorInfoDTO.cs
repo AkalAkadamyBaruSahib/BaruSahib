@@ -40,7 +40,7 @@ public class VendorInfoDTO
 
     public string TinNumber { get; set; }
 
-
+    public string AltrenatePhoneNumber { get; set; }
 
     public List<VendorMaterialRelationDTO> VendorMaterialRelationDTO { get; set; }
 }

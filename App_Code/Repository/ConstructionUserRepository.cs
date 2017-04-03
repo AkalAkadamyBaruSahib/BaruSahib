@@ -122,14 +122,13 @@ public class ConstructionUserRepository
     }
     public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID)
     {
-        DateTime date = DateTime.Now;
+        DateTime date = Utility.GetLocalDateTime(DateTime.UtcNow);
         var firstDateOfMonth = new DateTime(date.Year, date.Month, 1);
         var lastDateOfMonth = firstDateOfMonth.AddMonths(1).AddDays(-1);
 
         decimal? receivedQty = (from S in _context.SubmitBillByUser
-                                join SMR in _context.SubmitBillByUserAndMaterialOthersRelation on S.SubBillId equals SMR.SubBillId
-                                where S.AcaId == AcademyID && SMR.CreatedOn >= firstDateOfMonth && SMR.CreatedOn <= lastDateOfMonth && S.BillType == BillTypeID
-                                select (decimal?)SMR.Amount).Sum();
+                                where S.AcaId == AcademyID && S.CreatedOn >= firstDateOfMonth && S.CreatedOn <= lastDateOfMonth && S.BillType == BillTypeID
+                                select (decimal?)S.TotalAmount).Sum();
         return receivedQty;
     }
 
