@@ -237,7 +237,7 @@ public class PurchaseControler : System.Web.Services.WebService
     public List<MaterialsDTO> GetBindMaterialByMaterialName(string matName)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetBindMaterialByMaterialName(matName);
+        return repository.GetBindMaterialByMaterialName(matName.Trim());
     }
 
     [WebMethod]
