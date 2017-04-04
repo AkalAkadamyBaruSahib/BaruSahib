@@ -6,6 +6,7 @@ using System.Data;
 using AkalAcademy;
 using System.Web.Script.Serialization;
 using System.Data.Entity;
+using System.IO;
 /// <summary>
 /// Summary description for ConstructionUserRepository
 /// </summary>
@@ -163,6 +164,20 @@ public class ConstructionUserRepository
 
         dto.SubmitBillByUserAndMaterialOthersRelation = SubmitBillAndMaterialRelation;
         return dto;
-   
+ 
+    }
+
+    public void GetBillDetailToDelete(int subBillID)
+    {
+        _context.SubmitBillByUserAndMaterialOthersRelation.RemoveRange(_context.SubmitBillByUserAndMaterialOthersRelation.Where(v => v.SubBillId == subBillID));
+        _context.SaveChanges();
+
+        SubmitBillByUser delBillinfo = _context.SubmitBillByUser.Where(v => v.SubBillId == subBillID).FirstOrDefault();
+        if (File.Exists(HttpContext.Current.Server.MapPath("Bills/") + delBillinfo.VendorBillPath))
+        {
+            File.Delete(HttpContext.Current.Server.MapPath("Bills/") + delBillinfo.VendorBillPath);
+        }
+        _context.Entry(delBillinfo).State = EntityState.Deleted;
+        _context.SaveChanges();
     }
 }

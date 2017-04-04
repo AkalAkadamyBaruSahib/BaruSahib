@@ -288,7 +288,7 @@
             <input id="btnclose" value="Close" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
         </div>
     </div>
-    <div class="modal hide fade" style="width: 800px; height: 400px;" id="divAlreadyExitVendor">
+    <div class="modal hide fade" style="width: 800px; height: 600px;" id="divAlreadyExitVendor">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Already Exit Vendor Details</h3>

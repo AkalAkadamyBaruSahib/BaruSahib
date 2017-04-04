@@ -29,6 +29,10 @@ public partial class Emp_BillStatus : System.Web.UI.Page
             {
                 getBillID(Session["billid"].ToString());
             }
+            if (Request.QueryString["DltBillID"] != null)
+            {
+                DeleteBill();
+            }
             getBillDetails();
         }
     }
@@ -74,6 +78,7 @@ public partial class Emp_BillStatus : System.Web.UI.Page
         ZoneInfo += "<th width='13%'>Audit Activity</th>";
         ZoneInfo += "<th width='13%'>Account Activity</th>";
         ZoneInfo += "<th width='13%'>Reciving</th>";
+        ZoneInfo += "<th width='13%'>Action</th>";
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
         ZoneInfo += "<tbody>";
@@ -152,6 +157,15 @@ public partial class Emp_BillStatus : System.Web.UI.Page
             {
                 //ZoneInfo += "<a  href='Emp_BillStatus.aspx?SubBillId=" + dsBillDetails.Tables[0].Rows[i]["SubBillId"].ToString() + "'>";
                 ZoneInfo += "<span class='label label-important' style='font-size: 15.998px;background-color: Red;' title='Rajected Date: " + dsBillDetails.Tables[0].Rows[i]["DateOfRecevi"].ToString() + "&#x0aRemark: " + dsBillDetails.Tables[0].Rows[i]["RecevingRemark"].ToString() + " '>Rejected</span></a>  ";
+            }
+
+            if (dsBillDetails.Tables[0].Rows[i]["HQStatus"].ToString() == "")
+            {
+                ZoneInfo += "<td width='13%'><a class='label label-important' href='Emp_BillStatus.aspx?DltBillID=" + dsBillDetails.Tables[0].Rows[i]["SubBillId"].ToString() + "'>Delete</a></td>";
+            }
+            else
+            {
+                ZoneInfo += "<td></td>";
             }
             ZoneInfo += "</td>";
             ZoneInfo += "</tr>";
@@ -281,4 +295,13 @@ public partial class Emp_BillStatus : System.Web.UI.Page
         }
         Response.End();
     }
+
+    public void DeleteBill()
+    {
+        int subBillID = int.Parse(Request.QueryString["DltBillID"].ToString());
+        ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
+        repo.GetBillDetailToDelete(subBillID);
+        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Delete successfully.');", true);
+    }
+
 }
