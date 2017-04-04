@@ -427,6 +427,24 @@ public class PurchaseRepository
         return mt;
     }
 
+    public List<MaterialsDTO> GetBindMaterialByMaterialName(string matName)
+    {
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        mt = _context.Material.Include(u => u.Unit).Include(x => x.MaterialType).Where(m => m.Active == 1 && m.MatName == matName).AsEnumerable().Select(x => new MaterialsDTO
+        {
+            MatID = x.MatId,
+            MatName = x.MatName.Trim(),
+            MatCost = x.MatCost,
+            AkalWorkshopRate = x.AkalWorkshopRate,
+            LocalRate = x.LocalRate,
+            Unit = x.Unit,
+            MaterialType =x.MaterialType,
+            MatTypeID = x.MatTypeId,
+        }).OrderByDescending(m => m.MatName).Reverse().ToList();
+
+        return mt;
+    }
+
     public List<Material> GeMaterialInformation(int MaterialID)
     {
         return _context.Material.Where(x => x.MatId == MaterialID).ToList();

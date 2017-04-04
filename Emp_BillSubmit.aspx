@@ -179,7 +179,7 @@
                                                                     <span id="spnMaterialTypeID0"></span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtQty0" type="text" style="width: 80px;" />
+                                                                    <input id="txtQty0" type="text" onchange="Qty_ChangeEvent(0);" style="width: 80px;" />
                                                                 </td>
                                                                 <td>
                                                                     <label id="lblUnit0"></label>

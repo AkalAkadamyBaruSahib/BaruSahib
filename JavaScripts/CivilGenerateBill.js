@@ -1,4 +1,4 @@
-﻿var MaterialObjectList;
+﻿var VendorObjectList;
 var MaterialList = new Array();
 var SnoIds;
 var MaterialList;
@@ -266,7 +266,8 @@ $(document).ready(function () {
     });
 
     if ($("select[id*='ddlBillType1']").val() == 2) {
-        GetMaterialObjectList();
+        AutofillMaterialSearchBox(0);
+       // GetMaterialObjectList();
         GetPurchaseSource();
         GetVendors();
         $("#aDeleteRow0").hide();
@@ -288,7 +289,7 @@ $(document).ready(function () {
     $("input[id*='btnSubmit']").click(function (e) {
         if ($("#txtAgencyName").val() != undefined) {
             var vendorname = $("#txtAgencyName").val();
-            var ValidateMaterial = $.grep(MaterialObjectList, function (e) { return e.VendorName == vendorname })[0];
+            var ValidateMaterial = $.grep(VendorObjectList, function (e) { return e.VendorName == vendorname })[0];
             if (ValidateMaterial == undefined) {
                 alert("Vendor not Exit.Please create a new vendor.");
                 $("#txtAgencyName").val("");
@@ -330,7 +331,7 @@ function AutofillVendorInfoSearchBox() {
 
             $("#txtAgencyName").on('autocompletechange change', function () {
                     var Vname = $("#txtAgencyName").val();
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.VendorName == Vname })[0];
+                    var selectedMaterial = $.grep(VendorObjectList, function (e) { return e.VendorName == Vname })[0];
                     if (selectedMaterial != undefined) {
                         $("input[id*='hdnVandorID']").val(selectedMaterial.ID);
                     }
@@ -343,7 +344,7 @@ function AutofillVendorInfoSearchBox() {
 }
 
 function GetVendorObject() {
-    if (MaterialObjectList == undefined || MaterialObjectList.length == 0) {
+    if (VendorObjectList == undefined || VendorObjectList.length == 0) {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -351,7 +352,7 @@ function GetVendorObject() {
             dataType: "json",
             async: false,
             success: function (result, textStatus) {
-                MaterialObjectList = result.d;
+                VendorObjectList = result.d;
             },
             error: function (result, textStatus) {
                 alert(result.responseText);
@@ -392,101 +393,84 @@ function BindPurchaseSource(cntID) {
 }
 
 // Step1 :- Get All Active Materials and Create MaterialObjectList Object
-function GetMaterialObjectList() {
-   // $("#progress").modal('show');
-    if (MaterialObject == undefined || MaterialObject.length == 0) {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "Services/PurchaseControler.asmx/GetActiveMaterials",
-            dataType: "json",
-            async: false,
-            success: function (result, textStatus) {
-                if (result.d != undefined && result.d.length > 0) {
-                    MaterialObject = result.d;
-                    if (MaterialObject != undefined && MaterialObject.length > 0) {
-                        GetMaterialsForAutoFill();
+//function GetMaterialObjectList() {
+//   // $("#progress").modal('show');
+//    if (MaterialObject == undefined || MaterialObject.length == 0) {
+//        $.ajax({
+//            type: "POST",
+//            contentType: "application/json; charset=utf-8",
+//            url: "Services/PurchaseControler.asmx/GetActiveMaterials",
+//            dataType: "json",
+//            async: false,
+//            success: function (result, textStatus) {
+//                if (result.d != undefined && result.d.length > 0) {
+//                    MaterialObject = result.d;
+//                    if (MaterialObject != undefined && MaterialObject.length > 0) {
+//                        GetMaterialsForAutoFill();
                         
-                    }
-                }
-            },
-            error: function (result, textStatus) {
-                alert(result.responseText);
-            }
-        })
-    }
-    //else {
-    //    $("#progress").dialog('close');
-    //}
-}
+//                    }
+//                }
+//            },
+//            error: function (result, textStatus) {
+//                alert(result.responseText);
+//            }
+//        })
+//    }
+//    //else {
+//    //    $("#progress").dialog('close');
+//    //}
+//}
 
 // Step2 :- Get Workshop and Non Workshop Material Objects
-function GetMaterialsForAutoFill() {
+//function GetMaterialsForAutoFill() {
 
-    var tempArray = $.grep(MaterialObject, function (e) { return e.MatTypeID != 83 }); //83 Live // 75 Local
+//    var tempArray = $.grep(MaterialObject, function (e) { return e.MatTypeID != 83 }); //83 Live // 75 Local
 
-    $.each(tempArray, function (index, value) {
-        NonWorkshopMaterialList.push(value.MatName);
-    });
+//    $.each(tempArray, function (index, value) {
+//        NonWorkshopMaterialList.push(value.MatName);
+//    });
 
-    // Workshop Material Object
-    tempArray = $.grep(MaterialObject, function (e) { return e.MatTypeID == 83 }); //83 Live // 75 Local
+//    // Workshop Material Object
+//    tempArray = $.grep(MaterialObject, function (e) { return e.MatTypeID == 83 }); //83 Live // 75 Local
 
-    $.each(tempArray, function (index, value) {
-        WorkshopMaterialList.push(value.MatName);
-    });
-  //  $("#progress").modal('hide');
-}
+//    $.each(tempArray, function (index, value) {
+//        WorkshopMaterialList.push(value.MatName);
+//    });
+//  //  $("#progress").modal('hide');
+//}
 
-//Step3 autofill Materials
-function SourceType_ChangeEvent(id) {
-    ClearData(id);
-    var isWorkshopMaterial = false;
-    if ($("#ddlSourceType" + id).val() == 3) {
-        isWorkshopMaterial = true;
-    }
-
-    if (isWorkshopMaterial) {
-        $("#txtMaterialName" + id).autocomplete({
-            source: WorkshopMaterialList,
-            appendTo: '#menu-container0',
-            appendTo: '#menu-container' + id
-        });
-    } else {
-        $("#txtMaterialName" + id).autocomplete({
-            source: NonWorkshopMaterialList,
-            appendTo: '#menu-container0',
-            appendTo: '#menu-container' + id
-        });
-    }
+function Qty_ChangeEvent(cntID) {
+    var rate = $("#txtRate" + cntID).val();
+    var qty = $("#txtQty" + cntID).val();
+    $("#txtTotal" + cntID).text(rate * qty);
 
 }
 
-// Step4 ChangeEvent
+function SourceType_ChangeEvent(cntID) {
+    ClearData(cntID);
+}
+
 function MaterialTextBox_ChangeEvent(cntID) {
-
     var Matname = $("#txtMaterialName" + cntID).val();
-
-    var selectedMaterial = $.grep(MaterialObject, function (e) { return e.MatName == Matname })[0];
-
-    if (selectedMaterial != undefined) {
-        $("#hdnMatID" + cntID).val(selectedMaterial.MatID);
-        $("#lblUnit" + cntID).text(selectedMaterial.Unit.UnitName);
-        $("#hdnUnitID" + cntID).val(selectedMaterial.Unit.UnitId);
-        $("#spnMaterialTypeID" + cntID).text(selectedMaterial.MaterialType.MatTypeName);
-        $("#hdnMatTypeID" + cntID).val(selectedMaterial.MaterialType.MatTypeId);
-        $("#hdnMaterialTypeName" + cntID).val(selectedMaterial.MaterialType.MatTypeName);
+    var selectedMaterial = GetSelectedMaterial(Matname);
+    if (selectedMaterial.length > 0) {
+        $("#hdnMatID" + cntID).val(selectedMaterial[0].MatID);
+        $("#lblUnit" + cntID).text(selectedMaterial[0].Unit.UnitName);
+        $("#hdnUnitID" + cntID).val(selectedMaterial[0].Unit.UnitId);
+        $("#spnMaterialTypeID" + cntID).text(selectedMaterial[0].MaterialType.MatTypeName);
+        $("#hdnMatTypeID" + cntID).val(selectedMaterial[0].MaterialType.MatTypeId);
+        $("#hdnMaterialTypeName" + cntID).val(selectedMaterial[0].MaterialType.MatTypeName);
 
         var drpSourceType = $("#ddlSourceType" + cntID).val();
         if (selectedMaterial != undefined) {
             if (drpSourceType == "2") {
-                $("#txtRate" + cntID).val(selectedMaterial.MatCost);
+                $("#txtRate" + cntID).val(selectedMaterial[0].MatCost);
             }
             else if (drpSourceType == "1") {
-                $("#txtRate" + cntID).val(selectedMaterial.LocalRate);
+                $("#txtRate" + cntID).val(selectedMaterial[0].LocalRate);
             }
             else if (drpSourceType == "3") {
-                $("#txtRate" + cntID).val(selectedMaterial.AkalWorkshopRate);
+                $("#txtRate" + cntID).val(selectedMaterial[0].AkalWorkshopRate);
             }
             else {
                 $("#txtRate" + cntID).val('0.00');
@@ -515,7 +499,6 @@ function removeRow(removeNum) {
 }
 
 function ClearData(cntID) {
-
     $("#txtMaterialName" + cntID).val("");
     $("#txtRate" + cntID).val("");
     $("#lblUnit" + cntID).text("");
@@ -550,15 +533,16 @@ function AddMaterialRow() {
 
     if (Validation()) {
         $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
-            '<td> <select id="ddlSourceType' + cntM + '" onchange="SourceType_ChangeEvent(' + cntM + ');" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
+            '<td> <select id="ddlSourceType' + cntM + '" name="ddlSourceType' + cntM + '" style="width:150px;" onchange="SourceType_ChangeEvent(' + cntM + ');" ><option value="0">Select Source Type</option></select></td>' +
            '<td><input id="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /><br/><div id="menu-container' + cntM + '" style="position:absolute; width:500px;"></div></td>' +
             '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
-            '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+            '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" onchange="Qty_ChangeEvent(' + cntM + ');" /></td>' +
             '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
             '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
             '<td><span id="txtTotal' + cntM + '" name="txtTotal' + cntM + '" class="span6 typeahead" /></td>' +
             '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /><input type="hidden" id="hdnMaterialTypeName' + cntM + '" /></td></tr>');
 
+        AutofillMaterialSearchBox(cntM);
         BindPurchaseSource(cntM);
         fixSerialNumber();
 
@@ -579,7 +563,7 @@ function AddMaterialRow() {
 function Validation() {
     if ($("#txtAgencyName").val() != undefined) {
         var vendorname = $("#txtAgencyName").val();
-        var ValidateMaterial = $.grep(MaterialObjectList, function (e) { return e.VendorName == vendorname })[0];
+        var ValidateMaterial = $.grep(VendorObjectList, function (e) { return e.VendorName == vendorname })[0];
         if (ValidateMaterial == undefined) {
             alert("Vendor not Exit.Please create a new vendor.");
             $("#txtAgencyName").val("");
@@ -605,8 +589,8 @@ function Validation() {
         else {
             if ($("#txtMaterialName" + i).val() != undefined) {
                 var Matname = $("#txtMaterialName" + i).val();
-                var ValidateMaterial = $.grep(MaterialObject, function (e) { return e.MatName == Matname })[0];
-                if (ValidateMaterial == undefined) {
+                var ValidateMaterial = GetSelectedMaterial(Matname);
+                if (ValidateMaterial.length == 0) {
                     $("#txtMaterialName" + i).css('border-color', 'red');
                     $("#txtMaterialName" + i).val("");
                     $("#hdnMatID" + i).val("");
@@ -642,6 +626,8 @@ function Validation() {
                 $("#txtRate" + i).css('border-color', '');
             }
         }
+
+        $("#txtTotal" + i).text(($("#txtRate" + i).val()) * ($("#txtQty" + i).val()));
 
     }
     return true;
@@ -847,7 +833,7 @@ function ValidationAmount() {
 function LoadNonSanctionedBillDetailByBillID(billID) {
     $("input[id*='hdnUpdateBillID']").val(billID);
     $("#btnSubmitApprovel").show();
-    GetMaterialObjectList();
+    AutofillMaterialSearchBox(0);
     GetPurchaseSource();
     $("#aDeleteRow0").hide();
     $.ajax({
@@ -887,22 +873,22 @@ function LoadNonSanctionedBillDetailByBillID(billID) {
                     if (matrow > 0) {
                         AddUpdateMaterialRow();
                     }
-                    SourceType_ChangeEvent(i);
+                   // SourceType_ChangeEvent(i);
                     $("#ddlSourceType" + matrow).val(1);
                     $("#txtMaterialName" + matrow).val(msg.SubmitBillByUserAndMaterialOthersRelation[i].ItemName);
                     $("#txtQty" + matrow).val(msg.SubmitBillByUserAndMaterialOthersRelation[i].Qty);
                     $("#txtRate" + matrow).val(msg.SubmitBillByUserAndMaterialOthersRelation[i].Rate);
                     $("#lblUnit" + matrow).text(msg.SubmitBillByUserAndMaterialOthersRelation[i].UnitName);
-                
+                    $("#txtTotal" + matrow).text((msg.SubmitBillByUserAndMaterialOthersRelation[i].Qty) * (msg.SubmitBillByUserAndMaterialOthersRelation[i].Rate));
 
-                    var selectedMaterial = $.grep(MaterialObject, function (e) { return e.MatName == $("#txtMaterialName" + i).val() })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#hdnMatID" + matrow).val(selectedMaterial.MatID);
-                        $("#lblUnit" + matrow).text(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID" + matrow).val(selectedMaterial.Unit.UnitId);
-                        $("#spnMaterialTypeID" + matrow).text(selectedMaterial.MaterialType.MatTypeName);
-                        $("#hdnMatTypeID" + matrow).val(selectedMaterial.MaterialType.MatTypeId);
-                        $("#hdnMaterialTypeName" + matrow).val(selectedMaterial.MaterialType.MatTypeName);
+                    var selectedMaterial = GetSelectedMaterial(msg.SubmitBillByUserAndMaterialOthersRelation[i].ItemName);
+                    if (selectedMaterial.length > 0) {
+                        $("#hdnMatID" + matrow).val(selectedMaterial[0].MatID);
+                        $("#lblUnit" + matrow).text(selectedMaterial[0].Unit.UnitName);
+                        $("#hdnUnitID" + matrow).val(selectedMaterial[0].Unit.UnitId);
+                        $("#spnMaterialTypeID" + matrow).text(selectedMaterial[0].MaterialType.MatTypeName);
+                        $("#hdnMatTypeID" + matrow).val(selectedMaterial[0].MaterialType.MatTypeId);
+                        $("#hdnMaterialTypeName" + matrow).val(selectedMaterial[0].MaterialType.MatTypeName);
                     }
                     matrow = parseInt(matrow) + 1;
                 }
@@ -926,10 +912,10 @@ function getJsonDate(strDate) {
 
 function AddUpdateMaterialRow() {
     $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
-        '<td> <select id="ddlSourceType' + cntM + '" onchange="SourceType_ChangeEvent(' + cntM + ');" name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
+        '<td> <select id="ddlSourceType' + cntM + '"  name="ddlSourceType' + cntM + '" style="width:150px;" onchange="SourceType_ChangeEvent(' + cntM + '); ><option value="0">Select Source Type</option></select></td>' +
        '<td><input id="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /><br/><div id="menu-container' + cntM + '" style="position:absolute; width:500px;"></div></td>' +
         '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
-        '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+        '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" onchange="Qty_ChangeEvent(' + cntM + ');"/></td>' +
         '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
         '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
         '<td><span id="txtTotal' + cntM + '" name="txtTotal' + cntM + '" class="span6 typeahead" style="width:200px;"/></td>' +
@@ -937,6 +923,8 @@ function AddUpdateMaterialRow() {
 
     BindPurchaseSource(cntM);
     fixSerialNumber();
+    AutofillMaterialSearchBox(cntM);
+    GetVendors();
 
     $("#aDeleteRow" + cntM).hide();
 
@@ -948,4 +936,43 @@ function AddUpdateMaterialRow() {
         $("#aDeleteRow0").show();
     }
     cntM++;
+}
+
+function AutofillMaterialSearchBox(cnt) {
+    var dataSrc;
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetActiveMaterialsForAutoFill",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                $("#txtMaterialName" + cnt).autocomplete({
+                    source: result.d,
+                    appendTo: '#menu-container' + cnt,
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+
+
+}
+
+function GetSelectedMaterial(materialName) {
+    $.ajax({
+        type: "POST",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetBindMaterialByMaterialName",
+        data: JSON.stringify({ matName: materialName }),
+        dataType: "json",
+        success: function (responce) {
+            MaterialList = responce.d;
+        }
+    });
+    return MaterialList;
+
 }
