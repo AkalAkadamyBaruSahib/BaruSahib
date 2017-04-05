@@ -294,12 +294,12 @@
             <h3>Already Exit Vendor Details</h3>
         </div>
         <div class="modal-body">
-            <table id="tblVendorDetail" class='table table-striped table-bordered bootstrap-datatable datatable'>
+            <table id="tblVendorDetail" width="100%" class='table table-striped table-bordered bootstrap-datatable datatable'>
                 <thead>
                     <tr>
-                        <th>Vendor Name</th>
-                        <th>Vendor Contact No</th>
-                        <th>Vendor Address</th>
+                        <th style="color: #cc3300; width: 30%">Vendor Name</th>
+                        <th style="color: #cc3300; width:30%">Vendor Contact No</th>
+                        <th style="color: #cc3300; width:40%">Vendor Address</th>
                     </tr>
                 </thead>
                 <tbody id="tblAlreadySavedVendor">

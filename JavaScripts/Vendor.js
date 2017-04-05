@@ -611,7 +611,15 @@ function ValidationDuplicateVendor() {
                         else {
                             $newRow.appendTo("#tblVendorDetail > tbody");
                         }
+                        $("#tblVendorDetail").removeAttr("style");
                     }
+                    tblVendorDetail = $('#tblVendorDetail').DataTable(
+                    {
+                        "bPaginate": false,
+                        "bDestroy": true,
+                        "bFilter": false,
+                        "bInfo": false,
+                    });
                 }
                 else {
                     SaveVendor();

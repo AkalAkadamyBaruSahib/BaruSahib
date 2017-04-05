@@ -488,4 +488,11 @@ public class PurchaseControler : System.Web.Services.WebService
         return repository.GetAgencyMaterialDetails(VendorID);
     }
 
+
+    [WebMethod]
+    public List<view_BillsApprovalForAdmin> GetBillForApprovalDetails(int acaID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBillForApprovalDetails(acaID);
+    }
 }
