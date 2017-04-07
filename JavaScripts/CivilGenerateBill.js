@@ -297,6 +297,16 @@ $(document).ready(function () {
             }
         }
     });
+  
+      $("input[id*=btnShowData]").click(function () {
+          var chks = $("[id*=GridView1] [id*=chkCtrl]").is(":checked");
+          if (!chks) {
+              alert("Please select at least one Material..!");
+              return false;
+          }
+    });
+
+
 
 });
 function TotalAmount() {
@@ -790,17 +800,23 @@ function BillSumitRateCondition() {
                 var Amount = $("input[id*='hdnAmount']").val() == "" ? 0 : parseFloat($("input[id*='hdnAmount']").val());
                 $("input[id*='hdnTotalAmount']").val(totalBillingAmount);
                 var billingAmount = 0;
+                var Amt = 0;
+                var RoundAmt = 0;
                 billingAmount = parseFloat(Amount) + parseFloat(totalBillingAmount);
                 if (totalBillingAmount == 5000 && billingAmount > 5000) {
                     $("#spnmsg").html("You have already submitted bills for Rs 5000 for this month now you can not submit more bills for this month.");
                     return false;
                 }
                 else if (totalBillingAmount < 5000 && billingAmount > 5000) {
-                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month now you can submit bills up to Rs" + (parseFloat(5000) - parseFloat(totalBillingAmount)) + ".");
+                    Amt = (parseFloat(5000) - parseFloat(totalBillingAmount));
+                    RoundAmt = Amt.toFixed(2);
+                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month now you can submit bills up to Rs" + RoundAmt + ".");
                     return false;
                 }
                 else {
-                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month now you can submit bills up to Rs" + (parseFloat(5000) - parseFloat(totalBillingAmount)) + ".");
+                    Amt = (parseFloat(5000) - parseFloat(totalBillingAmount));
+                    RoundAmt = Amt.toFixed(2);
+                    $("#spnmsg").html("You already submitted bills for Rs " + totalBillingAmount + " for this month now you can submit bills up to Rs" + RoundAmt + ".");
                     return false;
                 }
                 return true;

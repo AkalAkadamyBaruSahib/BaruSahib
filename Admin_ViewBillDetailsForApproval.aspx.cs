@@ -148,12 +148,12 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
         {
             string id = Request.QueryString["SubBillId"];
             DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + InchargeID + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=1 where SubBillId='" + id + "'");
-            DataSet dsContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
+            //DataSet dsContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
-            DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
-            string Msg = "" + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id + " is varified by ADMIN";
-            DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id + "'");
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser.Text + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
+            //DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id + "'");
+            //string Msg = "" + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id + " is varified by ADMIN";
+            //DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id + "'");
+            //DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser.Text + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
             Response.Redirect("BillStatus.aspx");
         }
     }
@@ -186,12 +186,12 @@ public partial class Admin_ViewBillDetailsForApproval : System.Web.UI.Page
             string id1 = Request.QueryString["SubBillIdU"];
             DAL.DalAccessUtility.ExecuteNonQuery("update SubmitBillByUser set FirstVarify='" + InchargeID + "' , FirstVarifyOn=GETDATE(),FirstVarifyRemark=upper('" + txtRemark.Text + "'),FirstVarifyStatus=1 where SubBillId='" + id1 + "'");
             DAL.DalAccessUtility.ExecuteNonQuery("update BillProceedLog set UserProDate = null,UserProStatus=null,UserProUser=null,UserProRemark=null where BillId='" + id1 + "'");
-            DataSet dsContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id1 + "'");
+            //DataSet dsContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id1 + "'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Bill Varified Successfully.');", true);
-            DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id1 + "'");
-            string Msg = "Proceed " + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id1 + " is varified again by ADMIN";
-            DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id1 + "'");
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
+            //DataSet dsMsgContent = DAL.DalAccessUtility.GetDataInDataSet("exec USP_MsgContent '" + id1 + "'");
+            //string Msg = "Proceed " + dsMsgContent.Tables[0].Rows[0]["BillType"].ToString() + " Bill No. " + id1 + " is varified again by ADMIN";
+            //DataSet dsCreatedBy = DAL.DalAccessUtility.GetDataInDataSet("select CreatedBy from SubmitBillByUser where SubBillId='" + id1 + "'");
+            //DAL.DalAccessUtility.ExecuteNonQuery("exec USP_SendMsg '" + lblUser + "','" + dsCreatedBy.Tables[0].Rows[0]["CreatedBy"].ToString() + "','" + Msg + "'");
             Response.Redirect("BillStatus.aspx");
         }
     }

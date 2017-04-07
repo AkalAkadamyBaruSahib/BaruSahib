@@ -34,4 +34,11 @@ public class view_BillsApprovalForAdmin
 
     public DateTime CreatedOn { get; set; }
 
+    public int? SecondVarifyStatus { get; set; }
+
+    public int? PaymentStatus { get; set; }
+
+    public int? RecevingStatus { get; set; }
+
+
 }

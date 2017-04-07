@@ -164,7 +164,7 @@ public class PurchaseRepository
         else
         {
 
-            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 1)).ToList();
+            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 1)).ToList(); 
         }
 
         return estimates;
@@ -175,9 +175,34 @@ public class PurchaseRepository
         return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID && x.DispatchStatus == 1).ToList();
     }
 
-    public List<VendorInfo> GetVendorAddress(int VendorID)
+    public List<VendorInfo> GetVendorAddress(int snoID)
     {
-        return _context.VendorInfo.Where(x => x.ID == VendorID).ToList();
+        var vendors = (from EMR in _context.EstimateAndMaterialOthersRelations
+                         join x in _context.VendorInfo on EMR.VendorId equals x.ID
+                       where EMR.Sno == snoID
+                         select new
+                         {
+                             ID = x.ID,
+                             VendorName = x.VendorName,
+                             VendorAddress = x.VendorAddress,
+                             VendorContactNo = x.VendorContactNo,
+                             VendorCity = x.VendorCity,
+                             VendorState = x.VendorState,
+                             VendorZip = x.VendorZip,
+
+                         }).AsEnumerable().Select(x => new VendorInfo
+                         {
+                             ID = x.ID,
+                             VendorName = x.VendorName,
+                             VendorAddress = x.VendorAddress,
+                             VendorContactNo = x.VendorContactNo,
+                             VendorCity = x.VendorCity,
+                             VendorState = x.VendorState,
+                             VendorZip = x.VendorZip,
+                         }).OrderByDescending(m => m.VendorName).Reverse().ToList();
+
+
+        return vendors;
     }
 
     public List<POBillingAddress> GetDeliveryAddressList()
@@ -439,7 +464,7 @@ public class PurchaseRepository
             AkalWorkshopRate = x.AkalWorkshopRate,
             LocalRate = x.LocalRate,
             Unit = x.Unit,
-            MaterialType = x.MaterialType,
+            MaterialType =x.MaterialType,
             MatTypeID = x.MatTypeId,
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
 
@@ -709,7 +734,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-
+               
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -727,7 +752,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-
+               
 
                 if (estimateRelation.Count > 0)
                 {
@@ -757,7 +782,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-
+                
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -775,7 +800,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-
+                
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -791,7 +816,7 @@ public class PurchaseRepository
     {
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived == false)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived==false)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
@@ -835,7 +860,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -864,7 +889,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-
+         
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -891,7 +916,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -946,7 +971,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -976,7 +1001,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1001,7 +1026,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1028,7 +1053,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1072,7 +1097,7 @@ public class PurchaseRepository
         List<Estimate> estimates = new List<Estimate>();
         if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN))
         {
-            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsActive == true)
+            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsActive==true)
                 .Include(z => z.Zone)
                 .Include(a => a.Academy).ToList();
 
@@ -1132,7 +1157,7 @@ public class PurchaseRepository
                     .Include(u => u.Unit)
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
-
+ 
 
                 if (estimateRelation.Count > 0)
                 {
@@ -1166,7 +1191,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1193,7 +1218,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-
+           
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1207,7 +1232,7 @@ public class PurchaseRepository
 
     public List<MaterialType> GetActiveMaterialTypes()
     {
-        return _context.MaterialType.Where(m => m.Active == 1).OrderBy(x => x.MatTypeName).ToList();
+        return _context.MaterialType.Where(m => m.Active == 1).OrderBy(x=>x.MatTypeName).ToList();
     }
 
     public void ReceivedMaterial(int EstID, int InchargeID)
@@ -1349,7 +1374,7 @@ public class PurchaseRepository
         string[] vendornames = vendorName.ToLower().Split(' ');
         string[] vendorcontact = vendorMobilePhone.Trim().Split(',');
 
-        string sql = string.Empty;
+        string sql=string.Empty;
 
         sql = "Select distinct * from VendorInfo where VendorContactNo = '" + vendorLandlinePhone + "' OR ";
 
@@ -1357,7 +1382,7 @@ public class PurchaseRepository
         {
             sql += "AltrenatePhoneNumber like  '%" + str + "%' OR ";
         }
-
+        
 
         foreach (string str in vendornames)
         {
@@ -1375,14 +1400,14 @@ public class PurchaseRepository
         List<VendorInfo> getBillDetailsByVendorIDs = new List<VendorInfo>();
 
         VendorInfo getBillDetailsByVendorID = null;
-        for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
-        {
-            getBillDetailsByVendorID = new VendorInfo();
-            getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
-            getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
-            getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
-            getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
-        }
+            for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
+            {
+                getBillDetailsByVendorID = new VendorInfo();
+                getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
+                getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
+                getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
+                getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
+            }
         return getBillDetailsByVendorIDs;
     }
 
@@ -1430,6 +1455,15 @@ public class PurchaseRepository
             DateTime dt = Utility.GetLocalDateTime(DateTime.UtcNow.AddDays(-30));
             bills = _context.view_BillsApprovalForAdmin.Where(x => x.FirstVarifyStatus == null && x.CreatedOn >= dt).OrderByDescending(e => e.SubBillId).ToList();
         }
+        return bills;
+    }
+
+    public List<view_BillsApprovalForAdmin> GetBillStatusDetails()
+    {
+        List<view_BillsApprovalForAdmin> bills = new List<view_BillsApprovalForAdmin>();
+        DateTime dt = Utility.GetLocalDateTime(DateTime.UtcNow.AddDays(-30));
+
+        bills = _context.view_BillsApprovalForAdmin.Where(x => x.CreatedOn >= dt).OrderByDescending(e => e.SubBillId).ToList();
         return bills;
     }
 }

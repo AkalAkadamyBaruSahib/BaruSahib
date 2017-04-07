@@ -109,10 +109,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<VendorInfo> GetVendorAddress(int VendorID)
+    public List<VendorInfo> GetVendorAddress(int snoID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetVendorAddress(VendorID);
+        return repository.GetVendorAddress(snoID);
     }
 
     [WebMethod]
@@ -494,5 +494,12 @@ public class PurchaseControler : System.Web.Services.WebService
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetBillForApprovalDetails(acaID);
+    }
+
+    [WebMethod]
+    public List<view_BillsApprovalForAdmin> GetBillStatusDetails()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBillStatusDetails();
     }
 }
