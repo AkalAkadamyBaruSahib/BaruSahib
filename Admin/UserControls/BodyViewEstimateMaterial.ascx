@@ -10,12 +10,14 @@
                 }
             }
             var link = document.getElementById('aVendorLink');
-            if ($("input[id*='hdnVandorID']").val() != "") {
-                return true;
-            }
-            else {
-                window.alert('Please click on the select vendor');
-                return false;
+            if (hiddenfiled.value != "53") {
+                if ($("input[id*='hdnVandorID']").val() != "") {
+                    return true;
+                }
+                else {
+                    window.alert('Please click on the select vendor');
+                    return false;
+                }
             }
         }
     }

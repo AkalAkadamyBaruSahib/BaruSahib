@@ -21,6 +21,7 @@ public partial class Visitor_AdminMaster : System.Web.UI.MasterPage
             lblUser.Text = Session["EmailId"].ToString();
             UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
             InchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
+            lblUserName.Text = Session["InName"].ToString();
         }
         if (UserType != (int)TypeEnum.UserType.RECEPTIONADMIN)
         {

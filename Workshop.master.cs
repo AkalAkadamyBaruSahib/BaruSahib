@@ -17,6 +17,7 @@ public partial class Workshop : System.Web.UI.MasterPage
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            lblUserName.Text = Session["InName"].ToString();
         }
 
         DataSet dsCount = new DataSet();

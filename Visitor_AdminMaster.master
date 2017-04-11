@@ -80,7 +80,7 @@
                             <i class="icon-user"></i>
                             <span class="hidden-phone">
                                 <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-                                <asp:Label ID="lblUserName" runat="server" Text="Incharge"></asp:Label></span>
+                                <asp:Label ID="lblUserName" runat="server"></asp:Label></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">

@@ -320,8 +320,9 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
             HiddenField hdnVendorName = e.Row.FindControl("hdnVendorName") as HiddenField;
             TextBox txtRate = e.Row.FindControl("txtRate") as TextBox;
             TextBox txtPurchaseQty = e.Row.FindControl("txtPurchaseQty") as TextBox;
-            
-            btnDispatch.OnClientClick = "return OnClientClick(" + hdnVendorName.ClientID + ");";
+            HiddenField hdnMatTypeID = e.Row.FindControl("hdnMatTypeID") as HiddenField;
+
+            btnDispatch.OnClientClick = "return OnClientClick(" + hdnMatTypeID.ClientID + ");";
         }
     }
     protected void btnDispatchWorkshop_Click(object sender, EventArgs e)

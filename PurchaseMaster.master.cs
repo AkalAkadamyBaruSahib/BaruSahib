@@ -17,6 +17,7 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         else
         {
             lblUser.Text = Session["EmailId"].ToString();
+            lblUserName.Text = Session["Inname"].ToString();
             UserTypeID = int.Parse(Session["UserTypeID"].ToString());
         }
         if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASE).ToString())
@@ -26,6 +27,7 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASECOMMITTEE).ToString())
         {
             liRateApproved.Visible = true;
+            liPurchaseOrder.Visible = true;
         }
         else
         {

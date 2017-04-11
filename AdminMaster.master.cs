@@ -24,7 +24,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             else
             {
                 lblUser.Text = Session["EmailId"].ToString();
-                lblUserName.Text = Session["EmailId"].ToString();
+                lblUserName.Text = Session["Inname"].ToString();
                 UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
                 AdminType = Convert.ToInt16(Session["AdminType"].ToString());
             }

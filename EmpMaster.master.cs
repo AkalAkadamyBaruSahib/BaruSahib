@@ -18,7 +18,7 @@ public partial class EmpMaster : System.Web.UI.MasterPage
         }
         else
         {
-            lblUser.Text = Session["EmailId"].ToString();
+            lblUser.Text = Session["InName"].ToString();
             _UserTypeID = int.Parse(Session["UserTypeID"].ToString());
             InchargeID = int.Parse(Session["InchargeID"].ToString());
             LoadLinks();
