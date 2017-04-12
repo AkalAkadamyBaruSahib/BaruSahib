@@ -109,7 +109,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<VendorInfo> GetVendorAddress(int snoID)
+    public List<VendorInfo> GetVendorAddress(string snoID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetVendorAddress(snoID);
@@ -299,6 +299,13 @@ public class PurchaseControler : System.Web.Services.WebService
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetZone();
+    }
+
+    [WebMethod]
+    public List<BucketName> GetBucketName(int inchargeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBucketName(inchargeID);
     }
 
     [WebMethod]
@@ -502,4 +509,62 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetBillStatusDetails();
     }
+    [WebMethod]
+    public List<MaterialsDTO> GetActiveMaterialsByMatTypeID(int MatTypeID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetActiveMaterialsByMatTypeID(MatTypeID);
+    }
+
+    [WebMethod]
+    public string AddNewBucketInformation(BucketName bucketName)
+    {
+        foreach (EstimateBucketMaterialRelation relation in bucketName.EstimateBucketMaterialRelation)
+        {
+            relation.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        }
+
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.AddNewBucketInformation(bucketName);
+    }
+
+    [WebMethod]
+    public List<EstimateBucketDTO> GetBucketInformation()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBucketInformation();
+    }
+    [WebMethod]
+    public BucketName GetBucketInfoToUpdate(int estBucketID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBucketInfoToUpdate(estBucketID);
+    }
+
+    [WebMethod]
+    public string UpdateBucketInformation(BucketName bucketName)
+    {
+        foreach (EstimateBucketMaterialRelation relation in bucketName.EstimateBucketMaterialRelation)
+        {
+            relation.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        }
+
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.UpdateBucketInformation(bucketName);
+    }
+
+    [WebMethod]
+    public BucketName GetBucketInfoByBucketID(int buckID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBucketInfoByBucketID(buckID);
+    }
+
+    [WebMethod]
+    public List<MaterialsDTO> GetBindMaterialByMaterialID(int matID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBindMaterialByMaterialID(matID);
+    }
+
 }

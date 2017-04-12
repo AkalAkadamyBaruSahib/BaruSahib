@@ -155,7 +155,7 @@ public class PurchaseRepository
     {
         List<Estimate> estimates = new List<Estimate>();
 
-        DateTime getdate = DateTime.Now.AddDays(-90);
+        DateTime getdate = DateTime.Now.AddDays(-60);
 
         if (inchargeID > 0)
         {
@@ -164,7 +164,7 @@ public class PurchaseRepository
         else
         {
 
-            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 1)).ToList(); 
+            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).ToList(); 
         }
 
         return estimates;
@@ -172,37 +172,40 @@ public class PurchaseRepository
 
     public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
     {
-        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID && x.DispatchStatus == 1).ToList();
+        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID).ToList();
     }
 
-    public List<VendorInfo> GetVendorAddress(int snoID)
+    public List<VendorInfo> GetVendorAddress(string snoID)
     {
-        var vendors = (from EMR in _context.EstimateAndMaterialOthersRelations
-                         join x in _context.VendorInfo on EMR.VendorId equals x.ID
-                       where EMR.Sno == snoID
-                         select new
-                         {
-                             ID = x.ID,
-                             VendorName = x.VendorName,
-                             VendorAddress = x.VendorAddress,
-                             VendorContactNo = x.VendorContactNo,
-                             VendorCity = x.VendorCity,
-                             VendorState = x.VendorState,
-                             VendorZip = x.VendorZip,
+        System.Data.DataSet dsVendor = new System.Data.DataSet();
+        string[] snoNumbers = snoID.Split(',');
 
-                         }).AsEnumerable().Select(x => new VendorInfo
-                         {
-                             ID = x.ID,
-                             VendorName = x.VendorName,
-                             VendorAddress = x.VendorAddress,
-                             VendorContactNo = x.VendorContactNo,
-                             VendorCity = x.VendorCity,
-                             VendorState = x.VendorState,
-                             VendorZip = x.VendorZip,
-                         }).OrderByDescending(m => m.VendorName).Reverse().ToList();
+        string sql = string.Empty;
 
+        sql = "Select distinct * from EstimateAndMaterialOthersRelations EMR INNER JOIN VendorInfo V ON EMR.VendorId = V.ID where ";
 
-        return vendors;
+        foreach (string str in snoNumbers)
+        {
+            sql += "EMR.Sno like  '%" + str + "%' OR ";
+        }
+    
+
+        sql = sql.Substring(0, sql.Length - 3);
+
+        dsVendor = DAL.DalAccessUtility.GetDataInDataSet(sql);
+
+        List<VendorInfo> getBillDetailsByVendorIDs = new List<VendorInfo>();
+
+        VendorInfo getBillDetailsByVendorID = null;
+            for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
+            {
+                getBillDetailsByVendorID = new VendorInfo();
+                getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
+                getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
+                getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
+                getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
+            }
+        return getBillDetailsByVendorIDs;
     }
 
     public List<POBillingAddress> GetDeliveryAddressList()
@@ -487,6 +490,11 @@ public class PurchaseRepository
     public List<Zone> GetZone()
     {
         return _context.Zone.ToList();
+    }
+
+    public List<BucketName> GetBucketName(int inchargeID)
+    {
+        return _context.BucketName.ToList();
     }
 
     public List<Academy> GetAcademybyZoneID(int ZoneID)
@@ -1462,8 +1470,148 @@ public class PurchaseRepository
     {
         List<view_BillsApprovalForAdmin> bills = new List<view_BillsApprovalForAdmin>();
         DateTime dt = Utility.GetLocalDateTime(DateTime.UtcNow.AddDays(-30));
-
         bills = _context.view_BillsApprovalForAdmin.Where(x => x.CreatedOn >= dt).OrderByDescending(e => e.SubBillId).ToList();
         return bills;
     }
+
+    public List<EstimateBucketDTO> GetBucketInformation()
+    {
+        List<BucketName> bucket = _context.BucketName.OrderByDescending(e => e.BucketID).ToList();
+        List<EstimateBucketDTO> dto = new List<EstimateBucketDTO>();
+        EstimateBucketDTO bucketDTO = null;
+       
+
+        foreach (BucketName v in bucket)
+        {
+            bucketDTO = new EstimateBucketDTO();
+            bucketDTO.BucketID = Convert.ToInt32(v.BucketID);
+            bucketDTO.BucketName = v.Name;
+
+            var buckettype = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName from Material M Inner Join EstimateBucketMaterialRelation E On E.MatID = M.MatID  Where E.BucketID='" + v.BucketID + "'");
+            if (buckettype != null && buckettype.Tables != null && buckettype.Tables.Count > 0 && buckettype.Tables[0].Rows.Count > 0)
+            {
+                var  materialName = string.Empty;
+                //  bucketDTO.BucketName = buckettype.Tables[0].Rows[0]["BucketName"].ToString();
+                for (int i = 0; i < buckettype.Tables[0].Rows.Count; i++)
+                {
+                    if (materialName == null || !materialName.Contains(buckettype.Tables[0].Rows[i]["MatName"].ToString()))
+                    {
+                        materialName += buckettype.Tables[0].Rows[i]["MatName"].ToString() + ",";
+                    }
+                }
+                bucketDTO.MatName = materialName.Substring(0, materialName.Length - 1);
+            }
+            dto.Add(bucketDTO);
+        }
+
+        return dto;
+    }
+
+    public string AddNewBucketInformation(BucketName bucketName)
+    {
+        _context.Entry(bucketName).State = EntityState.Added;
+        _context.SaveChanges();
+
+        return bucketName.BucketID.ToString();
+    }
+
+
+    public string UpdateBucketInformation(BucketName bucketName)
+    {
+        _context.EstimateBucketMaterialRelation.RemoveRange(_context.EstimateBucketMaterialRelation.Where(v => v.BucketID == bucketName.BucketID));
+        _context.SaveChanges();
+
+          BucketName bucket = _context.BucketName.Where(v => v.BucketID == bucketName.BucketID).Include(r => r.EstimateBucketMaterialRelation) .FirstOrDefault();
+
+        bucket.Name = bucketName.Name;
+     
+        bucket.EstimateBucketMaterialRelation = new List<EstimateBucketMaterialRelation>();
+        EstimateBucketMaterialRelation estimateBucketMaterialRelation;
+        foreach (EstimateBucketMaterialRelation rm in bucketName.EstimateBucketMaterialRelation)
+        {
+            estimateBucketMaterialRelation = new EstimateBucketMaterialRelation();
+            estimateBucketMaterialRelation.BucketID = rm.BucketID;
+            estimateBucketMaterialRelation.MatID = rm.MatID;
+            estimateBucketMaterialRelation.MatTypeID = rm.MatTypeID;
+            estimateBucketMaterialRelation.InchargeID = rm.InchargeID;
+            estimateBucketMaterialRelation.CreatedOn = rm.CreatedOn;
+        
+            bucket.EstimateBucketMaterialRelation.Add(estimateBucketMaterialRelation);
+        }
+
+        _context.Entry(bucket).State = EntityState.Modified;
+        _context.SaveChanges();
+
+        return bucketName.BucketID.ToString();
+    }
+
+
+
+    public BucketName GetBucketInfoToUpdate(int estBucketID)
+    {
+        BucketName bucketInfo = _context.BucketName.Where(v => v.BucketID == estBucketID).Include(e => e.EstimateBucketMaterialRelation).FirstOrDefault();
+
+        BucketName dto = new BucketName();
+
+        dto.BucketID = Convert.ToInt32(bucketInfo.BucketID);
+        dto.Name = bucketInfo.Name;
+
+        dto.EstimateBucketMaterialRelation = new List<EstimateBucketMaterialRelation>();
+        EstimateBucketMaterialRelation bucketMatRel;
+        DataSet dsmat = new DataSet();
+        foreach (EstimateBucketMaterialRelation rm in bucketInfo.EstimateBucketMaterialRelation)
+        {
+            bucketMatRel = new EstimateBucketMaterialRelation();
+
+            bucketMatRel.ID = rm.ID;
+            bucketMatRel.BucketID = rm.BucketID;
+            bucketMatRel.MatID = rm.MatID;
+            bucketMatRel.MatTypeID = rm.MatTypeID;
+            bucketMatRel.CreatedOn = rm.CreatedOn;
+            bucketMatRel.InchargeID = rm.InchargeID;
+            dto.EstimateBucketMaterialRelation.Add(bucketMatRel);
+        }
+
+        return dto;
+    }
+    public BucketName GetBucketInfoByBucketID(int buckID)
+    {
+        BucketName bill = _context.BucketName.Where(v => v.BucketID == buckID).Include(x => x.EstimateBucketMaterialRelation).FirstOrDefault();
+        BucketName dto = new BucketName();
+        dto.BucketID = bill.BucketID;
+
+        List<EstimateBucketMaterialRelation> EstimateBucketMaterial = new List<EstimateBucketMaterialRelation>();
+
+        EstimateBucketMaterialRelation estimateBucketMaterialRelation;
+        foreach (EstimateBucketMaterialRelation rm in bill.EstimateBucketMaterialRelation)
+        {
+            estimateBucketMaterialRelation = new EstimateBucketMaterialRelation();
+            estimateBucketMaterialRelation.BucketID = rm.BucketID;
+            estimateBucketMaterialRelation.MatID = rm.MatID;
+            estimateBucketMaterialRelation.MatTypeID = rm.MatTypeID;
+            EstimateBucketMaterial.Add(estimateBucketMaterialRelation);
+        }
+
+        dto.EstimateBucketMaterialRelation = EstimateBucketMaterial;
+        return dto;
+    }
+
+    public List<MaterialsDTO> GetBindMaterialByMaterialID(int matID)
+    {
+        List<MaterialsDTO> mt = new List<MaterialsDTO>();
+        mt = _context.Material.Include(u => u.Unit).Include(x => x.MaterialType).Where(m => m.Active == 1 && m.MatId == matID).AsEnumerable().Select(x => new MaterialsDTO
+        {
+            MatID = x.MatId,
+            MatName = x.MatName.Trim(),
+            MatCost = x.MatCost,
+            AkalWorkshopRate = x.AkalWorkshopRate,
+            LocalRate = x.LocalRate,
+            Unit = x.Unit,
+            MaterialType = x.MaterialType,
+            MatTypeID = x.MatTypeId,
+        }).OrderByDescending(m => m.MatName).Reverse().ToList();
+
+        return mt;
+    }
+
 }

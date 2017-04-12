@@ -39,15 +39,16 @@ public partial class PurchaseOrder : System.Web.UI.Page
     public void getHTML()
     {
         string htmlCode = string.Empty;
-
-
         Uri myuri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
+        string appPath = HttpContext.Current.Request.ApplicationPath;
 
         string pathQuery = myuri.PathAndQuery;
-        string hostName = myuri.ToString().Replace(pathQuery, "");
+        string FolderPath = myuri.ToString().Replace(pathQuery, "");
+        string hostName = FolderPath + appPath;
+
         using (var client = new CookieAwareWebClient())
         {
-            htmlCode = client.DownloadString(hostName + "/Barusahib/PurchaseOrderTemplate.html");
+            htmlCode = client.DownloadString(hostName + "/PurchaseOrderTemplate.html");
         }
 
         htmlCode = htmlCode.Replace("[Vendor]", hdnVendorName.Value + "" + hdnVendorAddress.Value + "" + hdnCity.Value);
@@ -58,22 +59,32 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[DATE]", hdnCurrentDate.Value);
         htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
         htmlCode = htmlCode.Replace("[Excise]", hdnExciseStatus.Value);
+        if (txtExcise.Text == "")
+        {
+            htmlCode = htmlCode.Replace("[ExciseTextBox]", "INCLUDED");
+        }
+        else
+        {
+            htmlCode = htmlCode.Replace("[ExciseTextBox]", txtExcise.Text);
+        }
         htmlCode = htmlCode.Replace("[VAT/CST]", txtvat.Text);
-        htmlCode = htmlCode.Replace("[Payment]", txtpayment.Text);
-        htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
-        htmlCode = htmlCode.Replace("[Authorised]", txtAuthorised.Text);
+        //htmlCode = htmlCode.Replace("[Payment]", txtpayment.Text);
         htmlCode = htmlCode.Replace("[SubTotal]", hdnSubTotal.Value);
         htmlCode = htmlCode.Replace("[GrandTotal]", hdnGrandTotal.Value);
         htmlCode = htmlCode.Replace("[Freight]", hdnFreight.Value);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
+        htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
         htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
         pnlHtml.InnerHtml = htmlCode;
 
-        Utility.GeneratePDF(htmlCode, "abc.pdf", string.Empty);
+        hdnIndentNo.Value = hdnIndentNo.Value.Replace(',', '_');
+
+        var fileName = "PurchaseOrder_" + txtPO.Text.Trim() + ".pdf";
+
+        string pathToSave = Server.MapPath("Bills") + "//PurchaseOrder";
+
+        Utility.GeneratePDF(htmlCode, fileName, pathToSave);
     }
-
-    
-
 
     protected void btnpdf_Click(object sender, EventArgs e)
     {
@@ -83,9 +94,9 @@ public partial class PurchaseOrder : System.Web.UI.Page
     public string getGrid()
     {
         DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,EMR.Sno,EMR.Qty,EMR.Rate from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         string MaterialInfo = string.Empty;
-        MaterialInfo += "<table style='width:100%'>";
+        MaterialInfo += "<table style='width:100%' border='1'>";
         MaterialInfo += "<thead>";
         MaterialInfo += "<tr>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Sr.No</th>";
@@ -97,7 +108,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         MaterialInfo += "</tr>";
         MaterialInfo += "</thead>";
         MaterialInfo += "<tbody>";
-        
+        hdnIndentNo.Value = string.Empty;
         for (int i = 0; i < dt.Rows.Count; i++)
         {
             string description = Request.Form["txtdescription" + i];
@@ -111,9 +122,15 @@ public partial class PurchaseOrder : System.Web.UI.Page
             SubTotal = Math.Round(SubTotal, 2);
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             MaterialInfo += "</tr>";
+            if (!hdnIndentNo.Value.Contains(dt.Rows[i]["EstID"].ToString()))
+            {
+                hdnIndentNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
+            }
         }
         MaterialInfo += "</tbody>";
         MaterialInfo += "</table>";
+
+        hdnIndentNo.Value = hdnIndentNo.Value.Substring(0, hdnIndentNo.Value.Length - 1);
 
         return MaterialInfo;
     }

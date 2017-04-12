@@ -23,6 +23,7 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASE).ToString())
         {
             liReport.Visible = true;
+            liPurchaseOrder.Visible = true;
         }
         else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASECOMMITTEE).ToString())
         {

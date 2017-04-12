@@ -6,16 +6,18 @@ var MaterialList;
 var selectedMaterialList = new Array();
 var sum = 0;
 var listVal = "";
+var selectedEstList = new Array();
 
 $(document).ready(function () {
    
-    BindVendors();
+    $("select").searchable();
+
+    //BindVendors();
     BindEstimate();
     BindCurrentDate();
     BindDeliveryAddress();
     BindPONumber();
    
-    $("#rowExcise").hide();
     $("[id$='lblIndentNo']").html($("select[id*='drpEstimate']").val());
     $("[id$='lblExciseStatus']").html('NA');
     $("[id$='lblVatStatus']").html('0%');
@@ -23,11 +25,14 @@ $(document).ready(function () {
     $("#drpEstimate").change(function (e) {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($(this).val());
-        listVal += $(this).val() + ",";
-        var EstVal = listVal.substr(0, listVal.length - 1);
-        $("[id$='lblIndentNo']").html(EstVal);
-        $("input[id*='hdnIndentNo']").val(EstVal);
+
+        if ($.inArray($(this).val(), $("input[id*='hdnIndentNo']").val().split('_')) == -1) {
+            listVal += $(this).val() + "_";
+            var EstVal = listVal.substr(0, listVal.length - 1);
+            $("input[id*='hdnIndentNo']").val(EstVal);
+        }
     });
+
     $("input[id*='btnLoad']").click(function (e) {
         LoadPurchaseOrderInfo(selectedMaterialList);
         $("input[id*='hdnItemsLength']").val("");
@@ -39,7 +44,10 @@ $(document).ready(function () {
         }
         SnoValue = SnoValue.substr(0,SnoValue.length - 1);
         $("input[id*='hdnItemsLength']").val(SnoValue);
-        
+        GetVendorAddress(SnoValue);
+        if (selectedMaterialList.length > 0) {
+            $("[id$='lblIndentNo']").html($("input[id*='hdnIndentNo']").val())
+        }
         $("#divUploadMaterial").modal('hide');
     });
     $("input[id*='btntest']").click(function (e) {
@@ -48,10 +56,12 @@ $(document).ready(function () {
     });
     $("#chkExcise").change(function () {
         if (this.checked) {
-            $("#rowExcise").show();
+            $("input[id*='txtExcise']").show();
+            $("input[id*='txtExcise']").prop('disabled', false);
         }
         else {
-            $("#rowExcise").hide();
+            $("input[id*='txtExcise']").hide();
+            $("input[id*='txtExcise']").prop('disabled', true);
         }
     });
   
@@ -61,9 +71,9 @@ $(document).ready(function () {
         $("input[id*='hdnVatStatus']").val(vatValue);
         Calcution();
     });
-    $("#drpVendor").change(function () {
-        GetVendorAddress($(this).val());
-    });
+    //$("#drpVendor").change(function () {
+    //    GetVendorAddress($(this).val());
+    //});
     $("#drpDeliveryAddress").change(function () {
         GetDeliveryAddressInfo($(this).val());
     });
@@ -101,13 +111,19 @@ function Calcution() {
 
 }
 
-function RemoveItem(chkbox) {
+function RemoveItem(chkbox, sno) {
     var SnoIds = ($(chkbox).attr("emrid"));
+    var Material = $.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0];
     if ($(chkbox).is(':checked')) {
-        selectedMaterialList.push($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
+        selectedMaterialList.push(Material);
     }
     else {
-        selectedMaterialList.pop($.grep(MaterialList, function (e) { return e.Sno == SnoIds; })[0]);
+        var selectedMaterialListNew = selectedMaterialList.filter(function (item) {
+            return item.Sno != sno;
+        });
+
+        selectedMaterialList = selectedMaterialListNew;
+        LoadWorkshopBillInfo(selectedMaterialList);
     }
 }
 
@@ -172,7 +188,7 @@ function BindEstimate() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetEstimateNumberList",
-        data: JSON.stringify({ purchaseSourceID: 3, inchargeID: 0 }),
+        data: JSON.stringify({ purchaseSourceID:2, inchargeID: 0 }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -219,10 +235,10 @@ function GetMaterialList(selectedValue) {
                     $newRow.find("#srno").html(count);
                     $newRow.find("#materialname").html(MaterialList[i].Material.MatName);
                     if (IsMaterialAlreadySelected(MaterialList[i].Sno)) {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange = 'RemoveItem(this)' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
+                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange = 'RemoveItem($(this)," + MaterialList[i].Sno + ")' checked='true' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
                     }
                     else {
-                        $newRow.find("#chkmaterial").html("<table><tr><td style='float: right; width :150px;'><input type='checkbox' onchange='RemoveItem(this)' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' style' width: 16px;height: 16px;'></td></tr></table>");
+                        $newRow.find("#chkmaterial").html("<input type='checkbox' onchange='RemoveItem($(this)," + MaterialList[i].Sno + ")' id='chkItem_" + i + "' name='chkItem_" + i + "' EMRID='" + MaterialList[i].Sno + "' />");
                     }
                     count++;
                     $newRow.show();
@@ -254,7 +270,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
     for (var i = 0; i < rowCount; i++) {
         $("#rowTemplate").remove();
     }
-    var rowTemplate = '<tr id="rowTemplate"><td id="srno">abc</td><td id="qty">abc</td><td id="description">abc</td><td id="details">cc</td><td id="unitprice"></td><td id="linetotal"></td></tr>';
+    var rowTemplate = '<tr id="rowTemplate"><td id="srno">abc</td><td id="qty">abc</td><td style="width:360px" id="description">abc</td><td id="details">cc</td><td id="unitprice"></td><td id="linetotal"></td></tr>';
 
     var adminLoanList = selectedMaterialList;
     if (adminLoanList.length > 0) {
@@ -270,8 +286,8 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         }
         var $newRow = $("#rowTemplate").clone();
         $newRow.find("#srno").html(count);
-        $newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].Qty + "</label></td></tr></table>");
-        $newRow.find("#description").html("<table><tr><td><textarea name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea></td></tr></table>");
+        $newRow.find("#qty").html(adminLoanList[i].Qty);
+        $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
         $newRow.find("#details").html(adminLoanList[i].Material.MatName);
         $newRow.find("#unitprice").html(adminLoanList[i].Rate);
         var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
@@ -293,14 +309,10 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
 
     grdTicketDiscription = $('#grid').DataTable(
         {
-            "bPaginate": true,
-            "iDisplayLength": 12,
-            "sPaginationType": "full_numbers",
-            "aaSorting": [[2, 'desc']],
-            "bAutoWidth": false,
-            "bLengthChange": false,
-            "bDestroy": true
-
+            "bPaginate": false,
+            "bDestroy": true,
+            "bFilter": false,
+            "bInfo": false,
         });
     TotalAmt();
 }
@@ -311,20 +323,24 @@ function GetVendorAddress(selectedValue) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetVendorAddress",
-        data: JSON.stringify({ VendorID: parseInt(selectedValue) }),
+        data: JSON.stringify({ snoID: selectedValue }),
         dataType: "json",
-        success: function (responce) {
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
 
-            var msg = responce.d;
-            var vendorinfo = msg[0].VendorName + "(" + msg[0].VendorContactNo + ")";
-            $("span[id*='lblName']").text(vendorinfo);
-            $("[id$='lblVendorAddress']").html(msg[0].VendorAddress);
-            cityname = msg[0].VendorCity + "-" + msg[0].VendorZip + "," + msg[0].VendorState;
-            $("[id$='lblCity']").html(cityname);
+                    for (var i = 0; i < adminLoanList.length; i++) {
+                        var vendorinfo = adminLoanList[i].VendorName + "(" + adminLoanList[i].VendorContactNo + ")";
+                        $("span[id*='lblName']").text(vendorinfo);
+                        $("[id$='lblVendorAddress']").html(adminLoanList[i].VendorAddress);
+                        $("input[id*='hdnVendorName']").val(vendorinfo);
+                        $("input[id*='hdnVendorAddress']").val(adminLoanList[i].VendorAddress);
 
-            $("input[id*='hdnVendorName']").val(vendorinfo);
-            $("input[id*='hdnVendorAddress']").val(msg[0].VendorAddress);
-            $("input[id*='hdnCity']").val(cityname);
+                    }
+                }
+            }
+         //  $("input[id*='hdnCity']").val(cityname);
         },
         error: function (result, textStatus) {
             alert(result.responseText)
@@ -375,15 +391,16 @@ function GetDeliveryAddressInfo(selectedValue) {
         success: function (responce) {
 
             var msg = responce.d;
+            if (msg.length > 0) {
                 $("[id$='lblTrustName']").html(msg[0].TrustName);
-                cityname = msg[0].Address + "," + msg[0].City + "-" + "(" + msg[0].State + ")" + "," + msg[0].Zipcode;
+                cityname = msg[0].Address;
                 $("[id$='lblAdress']").html(cityname);
                 $("[id$='lblPhoneNo']").html(msg[0].PhoneNumber);
 
                 $("input[id*='hdnTrustName']").val(msg[0].TrustName);
                 $("input[id*='hdnDeliveryAddress']").val(cityname);
                 $("input[id*='hdnDeliveryPhoneNo']").val(msg[0].PhoneNumber);
-            
+            }
         },
         error: function (result, textStatus) {
             alert(result.responseText)
@@ -421,17 +438,17 @@ function GetBillingAddressInfo(selectedValue) {
 
             var msg = responce.d;
 
-           
+            if (msg.length > 0) {
                 cityname = msg[0].Address;
                 $("[id$='lblBillingName']").html(cityname);
-                var fulladree = msg[0].City + "(" + msg[0].State + ")" + "," + msg[0].Zipcode;
-                $("[id$='lblBillingAddres']").html(fulladree);
+                //var fulladree = msg[0].city + "(" + msg[0].state + ")" + "," + msg[0].zipcode;
+                //$("[id$='lblbillingaddres']").html(fulladree);
                 $("[id$='lblBillingPhone']").html(msg[0].PhoneNumber);
 
                 $("input[id*='hdnBillingName']").val(cityname);
-                $("input[id*='hdnBillingAddres']").val(fulladree);
+                // $("input[id*='hdnBillingAddres']").val(fulladree);
                 $("input[id*='hdnBillingPhone']").val(msg[0].PhoneNumber);
-          
+            }
         },
         error: function (result, textStatus) {
             alert(result.responseText)

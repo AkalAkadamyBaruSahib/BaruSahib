@@ -80,7 +80,8 @@ namespace AkalAcademy
         public DbSet<UserRole> UserRole { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<view_BillsApprovalForAdmin> view_BillsApprovalForAdmin { get; set; }
-        
+        public DbSet<EstimateBucketMaterialRelation> EstimateBucketMaterialRelation { get; set; }
+        public DbSet<BucketName> BucketName { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
