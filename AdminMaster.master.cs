@@ -65,7 +65,6 @@ public partial class AdminMaster : System.Web.UI.MasterPage
             liBilldata.Visible = false;
             liDsignation.Visible = false;
             liDepartment.Visible = false;
-            liLocation.Visible = false;
         }
         else if (AdminType == (int)TypeEnum.SubAdminName.Barusahib)
         {

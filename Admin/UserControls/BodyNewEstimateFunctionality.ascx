@@ -77,6 +77,17 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div class="control-group">
+                                    <label id="Label1"  class="control-label" for="typeahead">Load Material From Bucket</label>
+                                    <div class="controls">
+                                   <select id="ddlLoadBucket" onchange="ddlLoadBucket_onchange(this);">
+                                       <option value="0">--Select Bucket--</option>
+                                   </select>                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                         <tr id="trZone" runat="server">
                             <td width="50%">
                                 <div class="control-group">

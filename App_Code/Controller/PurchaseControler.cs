@@ -109,10 +109,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<VendorInfo> GetVendorAddress(string snoID)
+    public List<VendorInfo> GetVendorAddress(int vendorID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetVendorAddress(snoID);
+        return repository.GetVendorAddress(vendorID);
     }
 
     [WebMethod]
@@ -130,7 +130,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<PurchaseOrder> GetPONumber()
+    public List<PurchaseOrderDetail> GetPONumber()
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetPONumber();
@@ -517,7 +517,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string AddNewBucketInformation(BucketName bucketName)
+    public void AddNewBucketInformation(BucketName bucketName)
     {
         foreach (EstimateBucketMaterialRelation relation in bucketName.EstimateBucketMaterialRelation)
         {
@@ -525,7 +525,7 @@ public class PurchaseControler : System.Web.Services.WebService
         }
 
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.AddNewBucketInformation(bucketName);
+        repository.AddNewBucketInformation(bucketName);
     }
 
     [WebMethod]
@@ -542,7 +542,7 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string UpdateBucketInformation(BucketName bucketName)
+    public void UpdateBucketInformation(BucketName bucketName)
     {
         foreach (EstimateBucketMaterialRelation relation in bucketName.EstimateBucketMaterialRelation)
         {
@@ -550,7 +550,7 @@ public class PurchaseControler : System.Web.Services.WebService
         }
 
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.UpdateBucketInformation(bucketName);
+        repository.UpdateBucketInformation(bucketName);
     }
 
     [WebMethod]
@@ -566,5 +566,10 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetBindMaterialByMaterialID(matID);
     }
-
+    [WebMethod]
+    public void BucketInfoToDelete(int bucketID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        repository.BucketInfoToDelete(bucketID);
+    }
 }

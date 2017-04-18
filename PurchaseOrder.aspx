@@ -66,6 +66,7 @@
         <asp:HiddenField ID="hdnEstimateID" runat="server" />
         <asp:HiddenField ID="hdnSelectedItems" runat="server" />
         <asp:HiddenField ID="hdnItemsLength" runat="server" />
+         <asp:HiddenField ID="hdnVendorID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -104,6 +105,11 @@
                             <tr>
                                 <td>
                                     <label class="control-label" for="typeahead" style="color: #cc3300; font-weight: bold;"><b>Vendor:</b></label>
+                                    <div class="controls">
+                                        <select id="drpVendor">
+                                            <option value="0">--Select Vendor--</option>
+                                        </select>
+                                    </div>
                                 </td>
                                 <td style="width: 382px;">
                                     <div style="height: 65px;">
@@ -243,7 +249,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td colspan="2" style="height: 30px;text-align:center">
+                                    <td colspan="2" style="height: 30px; text-align: center">
                                         <asp:Button ID="btnpdf" runat="server" Width="250px" CssClass="btn btn-primary" OnClick="btnpdf_Click" Text="Click to Generate PDF" ValidationGroup="po" />
                                     </td>
                                 </tr>

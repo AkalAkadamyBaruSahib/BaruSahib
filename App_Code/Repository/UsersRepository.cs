@@ -56,6 +56,32 @@ public class UsersRepository
     }
 
 
+    public Incharge GetInchargeByUserRoleAndAcaID(int roleID, int acaID)
+    {
+        var incharges = (from aae in _context.AcademyAssignToEmployee
+                         join e in _context.UserRole on aae.EmpId equals e.UserID
+                         join x in _context.Incharge on aae.EmpId equals x.InchargeId
+                         where e.RoleID == roleID && aae.AcaId == acaID
+                         select new
+                         {
+                             InchargeId = x.InchargeId,
+                             InMobile = x.InMobile,
+                             InName = x.InName,
+                             LoginId = x.LoginId,
+                             UserTypeId = x.UserTypeId
+
+                         }).AsEnumerable().Select(x => new Incharge
+                         {
+                             InchargeId = x.InchargeId,
+                             InMobile = x.InMobile,
+                             InName = x.InName,
+                             LoginId = x.LoginId,
+                             UserTypeId = x.UserTypeId
+                         }).FirstOrDefault();
+
+        return incharges;
+    }
+
     public System.Data.DataTable GetInchargeByInchargeID(int ID)
     {
         System.Data.DataSet dsInchargeDetails = new System.Data.DataSet();

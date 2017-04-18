@@ -101,7 +101,8 @@ public class TypeEnum
         WORKSHOPEMPLOYEE = 30,
         SECURITYSUPERVISOR = 31,
         RECEPTIONADMIN = 32,
-        COMPLAINT = 33
+        COMPLAINT = 33,
+        ELECTRICAL=34
     }
     public enum TransportNormsType : int
     {

@@ -12,7 +12,7 @@ $(document).ready(function () {
    
     $("select").searchable();
 
-    //BindVendors();
+    BindVendors();
     BindEstimate();
     BindCurrentDate();
     BindDeliveryAddress();
@@ -23,13 +23,15 @@ $(document).ready(function () {
     $("[id$='lblVatStatus']").html('0%');
    
     $("#drpEstimate").change(function (e) {
-        $("#divUploadMaterial").modal('show');
-        GetMaterialList($(this).val());
+        if ($(this).val() != 0) {
+            $("#divUploadMaterial").modal('show');
+            GetMaterialList($(this).val());
 
-        if ($.inArray($(this).val(), $("input[id*='hdnIndentNo']").val().split('_')) == -1) {
-            listVal += $(this).val() + "_";
-            var EstVal = listVal.substr(0, listVal.length - 1);
-            $("input[id*='hdnIndentNo']").val(EstVal);
+            if ($.inArray($(this).val(), $("input[id*='hdnIndentNo']").val().split('_')) == -1) {
+                listVal += $(this).val() + "_";
+                var EstVal = listVal.substr(0, listVal.length - 1);
+                $("input[id*='hdnIndentNo']").val(EstVal);
+            }
         }
     });
 
@@ -44,7 +46,7 @@ $(document).ready(function () {
         }
         SnoValue = SnoValue.substr(0,SnoValue.length - 1);
         $("input[id*='hdnItemsLength']").val(SnoValue);
-        GetVendorAddress(SnoValue);
+      //  GetVendorAddress(SnoValue);
         if (selectedMaterialList.length > 0) {
             $("[id$='lblIndentNo']").html($("input[id*='hdnIndentNo']").val())
         }
@@ -71,9 +73,14 @@ $(document).ready(function () {
         $("input[id*='hdnVatStatus']").val(vatValue);
         Calcution();
     });
-    //$("#drpVendor").change(function () {
-    //    GetVendorAddress($(this).val());
-    //});
+
+    $("#drpVendor").change(function () {
+        if ($(this).val() != 0) {
+            GetVendorAddress($(this).val());
+            $("input[id*='hdnVendorID']").val($(this).val());
+        }
+    });
+
     $("#drpDeliveryAddress").change(function () {
         GetDeliveryAddressInfo($(this).val());
     });
@@ -323,7 +330,7 @@ function GetVendorAddress(selectedValue) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetVendorAddress",
-        data: JSON.stringify({ snoID: selectedValue }),
+        data: JSON.stringify({ vendorID: parseInt(selectedValue) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {

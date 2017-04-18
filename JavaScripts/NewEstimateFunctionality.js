@@ -10,6 +10,7 @@ var SourceTypeList;
 var MaterialTypeList;
 var materialType;
 var MaterialTypeIntransport;
+var BucketTypeList;
 
 
 $(document).ready(function () {
@@ -75,6 +76,7 @@ $(document).ready(function () {
     GetPurchaseSource();
     $("#aDeleteRow0").hide();
     GetMaterialType();
+    GetBucket($("input[id*='hdnInchargeID']").val());
 });
 
 function BindZone() {
@@ -650,9 +652,115 @@ function GetMaterialObjectList() {
  
 }
 
+function GetBucket(inchargeID) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetBucketName",
+        data: JSON.stringify({ inchargeID: parseInt(inchargeID) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            BucketTypeList = result.d;
+            $.each(BucketTypeList, function (key, value) {
+                $("#ddlLoadBucket").append($("<option></option>").val(value.BucketID).html(value.Name));
+            });
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
 
+function ddlLoadBucket_onchange(ddl) {
+    GetBucketInfoByBucketID(parseInt($(ddl).val()));
+}
 
+function GetBucketInfoByBucketID(bucketID) {
+      $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetBucketInfoByBucketID",
+        data: JSON.stringify({ buckID: bucketID }),
+        dataType: "json",
+        success: function (responce) {
 
+            var msg = responce.d;
+            var cuntID = 0;
+            if (msg != undefined) {
+
+                var matrow = 0;
+                for (var i = 0; i < msg.EstimateBucketMaterialRelation.length; i++) {
+                    if (matrow > 0) {
+                        AddUpdateMaterialRow();
+                    }
+                    var selectedMaterial = GetSelectedMaterial(msg.EstimateBucketMaterialRelation[i].MatID);
+                    if (selectedMaterial.length > 0) {
+                        $("#hdnMatID" + cuntID).val(selectedMaterial[0].MatID);
+                        $("#lblUnit" + cuntID).text(selectedMaterial[0].Unit.UnitName);
+                        $("#hdnUnitID" + cuntID).val(selectedMaterial[0].Unit.UnitId);
+                        $("#hdnMatTypeID" + cuntID).val(selectedMaterial[0].MatTypeID);
+                        $("#hdnMatCost" + cuntID).val(selectedMaterial[0].MatCost);
+                        $("#hdnLocalCost" + cuntID).val(selectedMaterial[0].LocalRate);
+                        $("#hdnAkalWorkshopCost" + cuntID).val(selectedMaterial[0].AkalWorkshopRate);
+                        $("#txtMaterialName" + cuntID).val(selectedMaterial[0].MatName);
+                        $("#ddlMaterialType" + cuntID).val(selectedMaterial[0].MatTypeID);
+
+                    }
+               
+                    cuntID = parseInt(cuntID) + 1;
+                    matrow = parseInt(matrow) + 1;
+                }
+            }
+        },
+        error: function (response) {
+            alert(response.status + '' + response.textStatus);
+        }
+    });
+}
+
+function GetSelectedMaterial(materialID) {
+    $.ajax({
+        type: "POST",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetBindMaterialByMaterialID",
+        data: JSON.stringify({ matID: materialID }),
+        dataType: "json",
+        success: function (responce) {
+            MaterialList = responce.d;
+        }
+    });
+    return MaterialList;
+
+}
+
+function AddUpdateMaterialRow() {
+
+    $('#tblEstimateMatDetail tr').last().after('<tr id="tr' + cntM + '"><td><span id="spn' + cntM + '">' + (cntM + 1) + '</span></td>' +
+      '<td> <select id="ddlMaterialType' + cntM + '"  name="ddlMaterialType' + cntM + '" style="width:150px;" ><option value="0">Select Material Type</option></select></td>' +
+      '<td><input id="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');" name="txtMaterialName' + cntM + '" value="" type="text" style="width:200px;" /><br/><div id="menu-container' + cntM + '" style="position:absolute; width:500px;"></div></td>' +
+      '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
+      '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+      '<td> <select id="ddlSourceType' + cntM + '"  name="ddlSourceType' + cntM + '" style="width:150px;" ><option value="0">Select Source Type</option></select></td>' +
+      '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+      '<td><input id="txtRemarks' + cntM + '" name="txtRemarks' + cntM + '" value="" type="text"class="span6 typeahead" style="width:200px;"/></td>' +
+      '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" />   <input type="hidden" id="hdnMatCost' + cntM + '" /><input type="hidden" id="hdnLocalCost' + cntM + '" /><input type="hidden" id="hdnAkalWorkshopCost' + cntM + '" /></td></tr>');
+
+    BindPurchaseSource(cntM);
+    BindMaterialType(cntM);
+    fixSerialNumber();
+
+    $("#aDeleteRow" + cntM).hide();
+
+    if (cntM > 0) {
+        var cntR = cntM - 1;
+        $("#aAddNewRow" + cntR).hide();
+        $("#aDeleteRow" + cntR).show();
+        $("#aAddNewRow0").hide();
+        $("#aDeleteRow0").show();
+    }
+    cntM++;
+}
 
 
 

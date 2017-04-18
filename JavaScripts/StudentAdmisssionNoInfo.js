@@ -30,7 +30,7 @@ function GetVisitorInfoByAdminsnNumber(admissionNo) {
                 $("input[id*='txtFatherName']").val(msg.FatherName);
                 $("input[id*='txtClass']").val(msg.Class);
                 $("select[id*='drpCountry']").val(msg.CountryID);
-                $("input[id*='txtAddress']").val(msg.Address);
+                $("textarea[id*='txtAddress']").val(msg.Address);
                 BindState(msg.CountryID, msg.StateID, msg.CityID);
                 $("input[id*='txtContactNumber']").val(msg.ContactNo);
             }

@@ -36,10 +36,17 @@ public class AcadamicUserController : System.Web.Services.WebService
 
         if (complaintTickets.ID == 0)
         {
-            dsComplintUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.COMPLAINT), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
-
-            complaintTickets.AssignedTo = dsComplintUserID.InchargeId; // it should be assign to complaint user
-            complaintTickets.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+            if (InchageID == 83)
+            {
+                dsComplintUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.COMPLAINT), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+                complaintTickets.AssignedTo = dsComplintUserID.InchargeId;
+            }
+            else
+            {
+                dsComplintUserID = usersRepository.GetInchargeByUserRoleAndAcaID(Convert.ToInt32(TypeEnum.UserRole.Complaint), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+                complaintTickets.AssignedTo = dsComplintUserID.InchargeId; // it should be assign to complaint user
+            }
+             complaintTickets.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             complaintTickets.Status = "Assigned";
             ErrorMsg = "Complaint has been created and assigned to sewa daar.";
         }
@@ -80,7 +87,14 @@ public class AcadamicUserController : System.Web.Services.WebService
 
         
        // Complaint User
-        dsComplintUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.COMPLAINT), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+        if (InchageID == 83)
+        {
+            dsComplintUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.COMPLAINT), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+        }
+        else
+        {
+            dsComplintUserID = usersRepository.GetInchargeByUserRoleAndAcaID(Convert.ToInt32(TypeEnum.UserRole.Complaint), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
+        }
         //SewaDaar
         dsConstructionUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.CONSTRUCTION), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
         //AcademuicUser

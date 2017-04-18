@@ -148,7 +148,7 @@ public class PurchaseRepository
 
     public List<VendorInfo> GetVendorsNameList()
     {
-        return _context.VendorInfo.ToList();
+        return _context.VendorInfo.Where(x => x.Active == true).ToList();
     }
 
     public List<Estimate> GetEstimateNumberList(int inchargeID, int purchaseSourceID)
@@ -175,37 +175,39 @@ public class PurchaseRepository
         return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID).ToList();
     }
 
-    public List<VendorInfo> GetVendorAddress(string snoID)
+    public List<VendorInfo> GetVendorAddress(int vendorID)
     {
-        System.Data.DataSet dsVendor = new System.Data.DataSet();
-        string[] snoNumbers = snoID.Split(',');
+        return _context.VendorInfo.Where(x => x.ID == vendorID).ToList();
 
-        string sql = string.Empty;
+        //System.Data.DataSet dsVendor = new System.Data.DataSet();
+        //string[] snoNumbers = snoID.Split(',');
 
-        sql = "Select distinct * from EstimateAndMaterialOthersRelations EMR INNER JOIN VendorInfo V ON EMR.VendorId = V.ID where ";
+        //string sql = string.Empty;
 
-        foreach (string str in snoNumbers)
-        {
-            sql += "EMR.Sno like  '%" + str + "%' OR ";
-        }
-    
+        //sql = "Select distinct * from EstimateAndMaterialOthersRelations EMR INNER JOIN VendorInfo V ON EMR.VendorId = V.ID where ";
 
-        sql = sql.Substring(0, sql.Length - 3);
+        //foreach (string str in snoNumbers)
+        //{
+        //    sql += "EMR.Sno like  '%" + str + "%' OR ";
+        //}
 
-        dsVendor = DAL.DalAccessUtility.GetDataInDataSet(sql);
 
-        List<VendorInfo> getBillDetailsByVendorIDs = new List<VendorInfo>();
+        //sql = sql.Substring(0, sql.Length - 3);
 
-        VendorInfo getBillDetailsByVendorID = null;
-            for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
-            {
-                getBillDetailsByVendorID = new VendorInfo();
-                getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
-                getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
-                getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
-                getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
-            }
-        return getBillDetailsByVendorIDs;
+        //dsVendor = DAL.DalAccessUtility.GetDataInDataSet(sql);
+
+        //List<VendorInfo> getBillDetailsByVendorIDs = new List<VendorInfo>();
+
+        //VendorInfo getBillDetailsByVendorID = null;
+        //    for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
+        //    {
+        //        getBillDetailsByVendorID = new VendorInfo();
+        //        getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
+        //        getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
+        //        getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
+        //        getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
+        //    }
+        //return getBillDetailsByVendorIDs;
     }
 
     public List<POBillingAddress> GetDeliveryAddressList()
@@ -218,9 +220,9 @@ public class PurchaseRepository
         return _context.POBillingAddress.Where(x => x.ID == AddressID).ToList();
     }
 
-    public List<PurchaseOrder> GetPONumber()
+    public List<PurchaseOrderDetail> GetPONumber()
     {
-        return _context.PurchaseOrder.ToList();
+        return _context.PurchaseOrderDetail.ToList();
     }
 
     public string AddNewVendorInformation(VendorInfo vendorInfo)
@@ -1507,23 +1509,19 @@ public class PurchaseRepository
         return dto;
     }
 
-    public string AddNewBucketInformation(BucketName bucketName)
+    public void AddNewBucketInformation(BucketName bucketName)
     {
         _context.Entry(bucketName).State = EntityState.Added;
         _context.SaveChanges();
-
-        return bucketName.BucketID.ToString();
     }
 
-
-    public string UpdateBucketInformation(BucketName bucketName)
+    public void UpdateBucketInformation(BucketName bucketName)
     {
         _context.EstimateBucketMaterialRelation.RemoveRange(_context.EstimateBucketMaterialRelation.Where(v => v.BucketID == bucketName.BucketID));
         _context.SaveChanges();
 
           BucketName bucket = _context.BucketName.Where(v => v.BucketID == bucketName.BucketID).Include(r => r.EstimateBucketMaterialRelation) .FirstOrDefault();
-
-        bucket.Name = bucketName.Name;
+          bucket.Name = bucketName.Name;
      
         bucket.EstimateBucketMaterialRelation = new List<EstimateBucketMaterialRelation>();
         EstimateBucketMaterialRelation estimateBucketMaterialRelation;
@@ -1542,7 +1540,6 @@ public class PurchaseRepository
         _context.Entry(bucket).State = EntityState.Modified;
         _context.SaveChanges();
 
-        return bucketName.BucketID.ToString();
     }
 
 
@@ -1612,6 +1609,20 @@ public class PurchaseRepository
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
 
         return mt;
+    }
+
+    public void BucketInfoToDelete(int bucketID)
+    {
+        _context.EstimateBucketMaterialRelation.RemoveRange(_context.EstimateBucketMaterialRelation.Where(v => v.BucketID == bucketID));
+        BucketName delBucketName = _context.BucketName.Where(v => v.BucketID == bucketID).Include(r => r.EstimateBucketMaterialRelation).FirstOrDefault();
+        _context.Entry(delBucketName).State = EntityState.Deleted;
+        _context.SaveChanges();
+    }
+
+    public void AddNewPODetail(PurchaseOrderDetail po)
+    {
+        _context.Entry(po).State = EntityState.Added;
+        _context.SaveChanges();
     }
 
 }

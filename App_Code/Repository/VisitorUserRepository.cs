@@ -594,6 +594,7 @@ public class VisitorUserRepository
         stu.CountryID = student.CountryID;
         stu.StateID = student.StateID;
         stu.CityID = student.CityID;
+        stu.Address = student.Address;
         
         _context.Entry(stu).State = EntityState.Modified;
         _context.SaveChanges();
