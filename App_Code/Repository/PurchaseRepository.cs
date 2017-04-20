@@ -151,21 +151,16 @@ public class PurchaseRepository
         return _context.VendorInfo.Where(x => x.Active == true).ToList();
     }
 
-    public List<Estimate> GetEstimateNumberList(int inchargeID, int purchaseSourceID)
+    public List<EstimateDTO> GetEstimateNumberList(int inchargeID, int purchaseSourceID)
     {
-        List<Estimate> estimates = new List<Estimate>();
+        List<EstimateDTO> estimates = new List<EstimateDTO>();
 
-        DateTime getdate = DateTime.Now.AddDays(-60);
+        DateTime getdate = DateTime.Now.AddDays(-180);
 
-        if (inchargeID > 0)
+        estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).AsEnumerable().Select(x => new EstimateDTO
         {
-            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 1 && er.PurchaseEmpID == inchargeID)).ToList(); ;
-        }
-        else
-        {
-
-            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).ToList(); 
-        }
+            EstId = x.EstId,
+        }).OrderByDescending(e => e.EstId).Reverse().ToList();
 
         return estimates;
     }
@@ -744,7 +739,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-               
+
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -762,7 +757,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-               
+
 
                 if (estimateRelation.Count > 0)
                 {
@@ -792,7 +787,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                
+
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -810,7 +805,7 @@ public class PurchaseRepository
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
 
-                
+
                 if (estimateRelation.Count > 0)
                 {
                     e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -870,7 +865,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -899,7 +894,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-         
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -926,7 +921,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -981,7 +976,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1011,7 +1006,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1036,7 +1031,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1063,7 +1058,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1102,19 +1097,19 @@ public class PurchaseRepository
 
     }
 
-    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID, int UserTypeId, int UserId)
+    public List<Estimate> EstimateDetailByEstId(int EstID, int PSID, int UserTypeId, int UserId, int ModuleID)
     {
         List<Estimate> estimates = new List<Estimate>();
         if ((UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION) || (UserTypeId == (int)TypeEnum.UserType.ADMIN) || (UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN))
         {
-            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsActive==true)
+            var ests = _context.Estimate.Where(e => e.EstId == EstID && e.IsActive == true && e.ModuleID == ModuleID)
                 .Include(z => z.Zone)
                 .Include(a => a.Academy).ToList();
 
 
             foreach (Estimate e in ests)
             {
-                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.EstId == e.EstId)
+                var estimateRelation = _context.EstimateAndMaterialOthersRelations.Where(er => er.EstId == e.EstId)
                     .Include(m => m.Material)
                     .Include(u => u.Unit)
                     .Include(i => i.Incharge)
@@ -1167,7 +1162,7 @@ public class PurchaseRepository
                     .Include(u => u.Unit)
                     .Include(i => i.Incharge)
                     .Include(p => p.PurchaseSource).ToList();
- 
+
 
                 if (estimateRelation.Count > 0)
                 {
@@ -1201,7 +1196,7 @@ public class PurchaseRepository
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
 
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1228,7 +1223,7 @@ public class PurchaseRepository
                 .Include(u => u.Unit)
                 .Include(i => i.Incharge)
                 .Include(p => p.PurchaseSource).ToList();
-           
+
             if (estimateRelation.Count > 0)
             {
                 e.EstimateAndMaterialOthersRelations = estimateRelation;
@@ -1392,7 +1387,7 @@ public class PurchaseRepository
         {
             sql += "AltrenatePhoneNumber like  '%" + str + "%' OR ";
         }
-        
+
 
         foreach (string str in vendornames)
         {
@@ -1410,14 +1405,14 @@ public class PurchaseRepository
         List<VendorInfo> getBillDetailsByVendorIDs = new List<VendorInfo>();
 
         VendorInfo getBillDetailsByVendorID = null;
-            for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
-            {
-                getBillDetailsByVendorID = new VendorInfo();
-                getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
-                getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
-                getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
-                getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
-            }
+        for (int i = 0; i < dsVendor.Tables[0].Rows.Count; i++)
+        {
+            getBillDetailsByVendorID = new VendorInfo();
+            getBillDetailsByVendorID.VendorName = dsVendor.Tables[0].Rows[i]["VendorName"].ToString();
+            getBillDetailsByVendorID.VendorContactNo = dsVendor.Tables[0].Rows[i]["VendorContactNo"].ToString();
+            getBillDetailsByVendorID.VendorAddress = dsVendor.Tables[0].Rows[i]["VendorAddress"].ToString();
+            getBillDetailsByVendorIDs.Add(getBillDetailsByVendorID);
+        }
         return getBillDetailsByVendorIDs;
     }
 
@@ -1481,7 +1476,7 @@ public class PurchaseRepository
         List<BucketName> bucket = _context.BucketName.OrderByDescending(e => e.BucketID).ToList();
         List<EstimateBucketDTO> dto = new List<EstimateBucketDTO>();
         EstimateBucketDTO bucketDTO = null;
-       
+
 
         foreach (BucketName v in bucket)
         {
@@ -1520,9 +1515,9 @@ public class PurchaseRepository
         _context.EstimateBucketMaterialRelation.RemoveRange(_context.EstimateBucketMaterialRelation.Where(v => v.BucketID == bucketName.BucketID));
         _context.SaveChanges();
 
-          BucketName bucket = _context.BucketName.Where(v => v.BucketID == bucketName.BucketID).Include(r => r.EstimateBucketMaterialRelation) .FirstOrDefault();
-          bucket.Name = bucketName.Name;
-     
+        BucketName bucket = _context.BucketName.Where(v => v.BucketID == bucketName.BucketID).Include(r => r.EstimateBucketMaterialRelation) .FirstOrDefault();
+        bucket.Name = bucketName.Name;
+
         bucket.EstimateBucketMaterialRelation = new List<EstimateBucketMaterialRelation>();
         EstimateBucketMaterialRelation estimateBucketMaterialRelation;
         foreach (EstimateBucketMaterialRelation rm in bucketName.EstimateBucketMaterialRelation)
@@ -1533,7 +1528,7 @@ public class PurchaseRepository
             estimateBucketMaterialRelation.MatTypeID = rm.MatTypeID;
             estimateBucketMaterialRelation.InchargeID = rm.InchargeID;
             estimateBucketMaterialRelation.CreatedOn = rm.CreatedOn;
-        
+
             bucket.EstimateBucketMaterialRelation.Add(estimateBucketMaterialRelation);
         }
 
@@ -1622,6 +1617,14 @@ public class PurchaseRepository
     public void AddNewPODetail(PurchaseOrderDetail po)
     {
         _context.Entry(po).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+
+    public void EstimateDelete(int estID)
+    {
+        _context.EstimateAndMaterialOthersRelations.RemoveRange(_context.EstimateAndMaterialOthersRelations.Where(v => v.EstId == estID));
+        Estimate delEstimate = _context.Estimate.Where(v => v.EstId == estID).Include(r => r.EstimateAndMaterialOthersRelations).FirstOrDefault();
+        _context.Entry(delEstimate).State = EntityState.Deleted;
         _context.SaveChanges();
     }
 

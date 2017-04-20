@@ -565,6 +565,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 ImageButton imgbtnEdit = (ImageButton)e.Row.FindControl("imgbtnEdit");
                 ImageButton imgbtnDelete = (ImageButton)e.Row.FindControl("imgbtnDelete");
                 imgbtnEdit.Visible = imgbtnDelete.Visible = false;
+                btnRejectEdit.Visible = false;
             }
         }
 

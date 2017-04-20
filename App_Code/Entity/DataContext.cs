@@ -46,7 +46,7 @@ namespace AkalAcademy
         public DbSet<SecurityEmployeeInfo> SecurityEmployeeInfo { get; set; }
         public DbSet<MaterialNonApprovedRate> MaterialNonApprovedRate { get; set; }
         public DbSet<POBillingAddress> POBillingAddress { get; set; }
-        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         public DbSet<MaterialType> MaterialType { get; set; }
         public DbSet<Unit> Unit { get; set; }
         public DbSet<WorkAllot> WorkAllot { get; set; }

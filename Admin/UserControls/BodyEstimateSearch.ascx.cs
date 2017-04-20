@@ -19,6 +19,11 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
             else
             {
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
+             
+            }
+            if (Request.QueryString["DeleteEstId"] != null)
+            {
+                DeleteEstimate(Request.QueryString["DeleteEstId"].ToString());
             }
         }
     }
@@ -32,6 +37,7 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
     {
         int UserTypeID = Convert.ToInt32(Session["UserTypeID"].ToString());
         int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
+        int ModuleID = Convert.ToInt32(Session["ModuleID"].ToString());
         DataTable dtapproved = new DataTable();
 
         List<Estimate> PurchaseRegister = new List<Estimate>();
@@ -41,11 +47,11 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
         {
             if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN || UserTypeID == (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
             {
-                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop, UserTypeID, UserID);
+                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop, UserTypeID, UserID, ModuleID);
             }
             else
             {
-                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.Mohali, UserTypeID, UserID);
+                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.Mohali, UserTypeID, UserID, ModuleID);
             }
         }
 
@@ -80,7 +86,15 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 ZoneInfo += "<td class='center' width='20%'><b style='color:red;'>Zone:</b> " + Est.Zone.ZoneName + "</td>";
                 if (UserTypeID == (int)TypeEnum.UserType.ADMIN)
                 {
-                      ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                    DataTable dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT ER.PurchaseEmpID  FROM  EstimateAndMaterialOthersRelations ER  where ER.EstId='" + Est.EstId + "' and ER.PurchaseEmpID!=0").Tables[0];
+                    if (dsEstimate1Details.Rows.Count > 0)
+                    {
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                    }
+                    else
+                    {
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>&nbsp;&nbsp;<a href='AdminEstimateSearch.aspx?DeleteEstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Delete</span></a></td>";
+                    }
                 }
                 else if (UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
                 {
@@ -94,8 +108,8 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                 {
                     //if (DispatchStatus == 0)
                     //{
-                        ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Material To Dispatch</span></a></td>";
-                   // }
+                    ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Material To Dispatch</span></a></td>";
+                    // }
                 }
                 else
                 {
@@ -179,6 +193,7 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
 
         divMaterialDetails.InnerHtml = ZoneInfo.ToString();
     }
+
     private string GetFileName(string filepaths, string fileName)
     {
         string anchorLink = string.Empty;
@@ -191,5 +206,12 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
         }
 
         return anchorLink.Substring(0, anchorLink.Length - 3);
+    }
+
+    protected void DeleteEstimate(string estID)
+    {
+        PurchaseRepository purchaseRepository = new PurchaseRepository(new AkalAcademy.DataContext());
+        purchaseRepository.EstimateDelete(Convert.ToInt32(estID));
+        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Estimate Delete Successfully.');", true);
     }
 }

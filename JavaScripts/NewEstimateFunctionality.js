@@ -448,7 +448,7 @@ function SignedCopyFileUpload(estid) {
             else if ($("input[id*='hdnIsAdmin']").val() == 30 || $("input[id*='hdnIsAdmin']").val() == 6) {
                 window.location.replace("WorkshopEmployee_ParticularEstimateView.aspx?EstId=" + estid);
             }
-            else if ($("input[id*='hdnIsAdmin']").val() == 2) {
+            else if ($("input[id*='hdnIsAdmin']").val() == 2 || $("input[id*='hdnIsAdmin']").val() == 34) {
                 window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
             }
             else {

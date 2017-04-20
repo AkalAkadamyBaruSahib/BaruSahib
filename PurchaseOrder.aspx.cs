@@ -88,13 +88,14 @@ public partial class PurchaseOrder : System.Web.UI.Page
 
     protected void btnpdf_Click(object sender, EventArgs e)
     {
-        getHTML();
+         getHTML();
     }
 
     public string getGrid()
     {
+        PurchaseOrderDetail po = new PurchaseOrderDetail();
         DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         string MaterialInfo = string.Empty;
         MaterialInfo += "<table style='width:100%' border='1'>";
         MaterialInfo += "<thead>";
@@ -126,6 +127,21 @@ public partial class PurchaseOrder : System.Web.UI.Page
             {
                 hdnIndentNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
             }
+            po.CreatedOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
+            po.PONumber = txtPO.Text;
+            po.EstID = Convert.ToInt32(dt.Rows[i]["EstID"].ToString());
+            po.VendorID = Convert.ToInt32(hdnVendorID.Value);
+            po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
+            po.Qty = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString());
+            po.Rate = Convert.ToDecimal(dt.Rows[i]["Rate"].ToString());
+            po.Description = Request.Form["txtdescription" + i];
+            po.Vat = Convert.ToDecimal(txtvat.Text);
+            if (txtExcise.Text != "")
+            {
+                po.Excise = Convert.ToDecimal(txtExcise.Text);
+            }
+            PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+            repo.AddNewPODetail(po);
         }
         MaterialInfo += "</tbody>";
         MaterialInfo += "</table>";

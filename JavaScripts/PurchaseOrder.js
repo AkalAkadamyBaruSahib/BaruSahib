@@ -16,7 +16,7 @@ $(document).ready(function () {
     BindEstimate();
     BindCurrentDate();
     BindDeliveryAddress();
-    BindPONumber();
+    //BindPONumber();
    
     $("[id$='lblIndentNo']").html($("select[id*='drpEstimate']").val());
     $("[id$='lblExciseStatus']").html('NA');
@@ -415,23 +415,23 @@ function GetDeliveryAddressInfo(selectedValue) {
     });
 }
 
-function BindPONumber() {
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "Services/PurchaseControler.asmx/GetPONumber",
-        dataType: "json",
-        success: function (result, textStatus) {
-            if (textStatus == "success") {
-                var Result = result.d;
+//function BindPONumber() {
+//    $.ajax({
+//        type: "POST",
+//        contentType: "application/json; charset=utf-8",
+//        url: "Services/PurchaseControler.asmx/GetPONumber",
+//        dataType: "json",
+//        success: function (result, textStatus) {
+//            if (textStatus == "success") {
+//                var Result = result.d;
                
-              }
-        },
-        error: function (result, textStatus) {
-            alert(result.responseText);
-        }
-    });
-}
+//              }
+//        },
+//        error: function (result, textStatus) {
+//            alert(result.responseText);
+//        }
+//    });
+//}
 
 function GetBillingAddressInfo(selectedValue) {
     var cityname = "";
