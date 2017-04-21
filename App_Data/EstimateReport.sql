@@ -1,4 +1,4 @@
-ALTER View EstimateReport
+CREATE View EstimateReport
 
 AS
 
@@ -12,7 +12,7 @@ SELECT distinct E.EstId,Z.ZoneName AS Zone,A.AcaName AS Academy,MT.MatTypeName a
 
 				(ER.Qty - dbo.fnMaterialReceivedQuantity(ER.Sno)) AS [StorePendingQuantity],
 
-				(ER.Qty-ER.PurchaseQty) AS [PurchaserPendingQuantity],
+    			(ER.Qty-ER.PurchaseQty) AS [PurchaserPendingQuantity],
 
      			dbo.fnDirectPurchasedQuantity(ER.Sno) AS [DirectPurchasedQty],
 
@@ -22,15 +22,15 @@ SELECT distinct E.EstId,Z.ZoneName AS Zone,A.AcaName AS Academy,MT.MatTypeName a
 
      			convert(nvarchar(20),ER.DispatchDate,100) AS PurchaseDate,
 
-			(ISNULL(INC.InName,'')) AS PurchaserName,  
+    			(ISNULL(INC.InName,'')) AS PurchaserName,  
 
-               CASE        
+              CASE        
 
 				WHEN ER.DirectPurchase=1 then 'Direct Purchased'      
 
                WHEN dbo.fnMaterialDispatchQuantity(ER.Sno)>=ER.Qty then 'Sent'      
 
-                WHEN (dbo.fnMaterialDispatchQuantity(ER.Sno)!=dbo.fnMaterialReceivedQuantity(ER.Sno))  THEN 'InStore'       
+              WHEN (dbo.fnMaterialDispatchQuantity(ER.Sno)!=dbo.fnMaterialReceivedQuantity(ER.Sno))  THEN 'InStore'       
 
 				WHEN (ER.PurchaseQty>0) AND (dbo.fnMaterialReceivedQuantity(ER.Sno)=0)  THEN 'Purchased'       
 
@@ -52,13 +52,13 @@ SELECT distinct E.EstId,Z.ZoneName AS Zone,A.AcaName AS Academy,MT.MatTypeName a
 
                 dbo.fnMaterialReceivedBillNumber(ER.Sno) AS 'Received BillNumber',
 
-				ER.remarkByPurchase as Remarks,
+        		ER.remarkByPurchase as Remarks,
 
 				E.ModifyOn,
 
 				ER.PSId,
 
-				E.IsApproved,
+    			E.IsApproved,
 
 				ER.PurchaseEmpID,
 
@@ -66,7 +66,11 @@ SELECT distinct E.EstId,Z.ZoneName AS Zone,A.AcaName AS Academy,MT.MatTypeName a
 
 				E.IsReceived,
 
-				E.SanctionDate
+    			E.SanctionDate,
+
+				SE.ReceivedOn AS StoreReceivedOn,
+
+				SDE.DispatchOn AS StoreDispatchOn
 
 FROM Estimate E     
 
@@ -85,3 +89,7 @@ INNER JOIN MaterialType MT ON ER.MatTypeId = MT.MatTypeId
 INNER JOIN Unit ON ER.UnitId = Unit.UnitId               
 
 INNER JOIN PurchaseSource ON ER.PSId = PurchaseSource.PSId
+
+LEFT OUTER JOIN StockEntry SE ON SE.EMRID = ER.Sno
+
+LEFT OUTER JOIN StockDispatchEntry SDE ON SDE.EMRID = ER.Sno    

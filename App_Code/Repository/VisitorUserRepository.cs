@@ -344,7 +344,7 @@ public class VisitorUserRepository
         {
             newVisitor.Name = visitor.Name;
             newVisitor.ContactNumber = visitor.ContactNumber;
-            newVisitor.TimePeriodTo = visitor.CreatedOn;
+            newVisitor.TimePeriodTo = visitor.TimePeriodTo;
             newVisitor.TimePeriodFrom = visitor.TimePeriodFrom;
             newVisitor.BuildingID = visitor.BuildingID;
             newVisitor.VisitorAddress = visitor.VisitorAddress;

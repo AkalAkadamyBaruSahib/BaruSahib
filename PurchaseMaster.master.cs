@@ -24,14 +24,17 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         {
             liReport.Visible = true;
             liPurchaseOrder.Visible = true;
+            liHome.Visible = true;
         }
         else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASECOMMITTEE).ToString())
         {
             liRateApproved.Visible = true;
             liPurchaseOrder.Visible = true;
+            liPurchaseHome.Visible = true;
         }
         else
         {
+            liHome.Visible = true;
             liStatusReport.Visible = false;
           
         }

@@ -72,6 +72,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[SubTotal]", hdnSubTotal.Value);
         htmlCode = htmlCode.Replace("[GrandTotal]", hdnGrandTotal.Value);
         htmlCode = htmlCode.Replace("[Freight]", hdnFreight.Value);
+        htmlCode = htmlCode.Replace("[CompletedBy]", txtCompleted.Text);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
         htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
         htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
@@ -95,7 +96,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
     {
         PurchaseOrderDetail po = new PurchaseOrderDetail();
         DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         string MaterialInfo = string.Empty;
         MaterialInfo += "<table style='width:100%' border='1'>";
         MaterialInfo += "<thead>";
@@ -118,8 +119,8 @@ public partial class PurchaseOrder : System.Web.UI.Page
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Qty"].ToString() + "</td>";
             MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;'>" + description + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Rate"].ToString() + "</td>";
-            var SubTotal = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dt.Rows[i]["Rate"].ToString());
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
+            var SubTotal = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             SubTotal = Math.Round(SubTotal, 2);
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             MaterialInfo += "</tr>";
@@ -133,7 +134,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
             po.VendorID = Convert.ToInt32(hdnVendorID.Value);
             po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
             po.Qty = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString());
-            po.Rate = Convert.ToDecimal(dt.Rows[i]["Rate"].ToString());
+            po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             po.Description = Request.Form["txtdescription" + i];
             po.Vat = Convert.ToDecimal(txtvat.Text);
             if (txtExcise.Text != "")

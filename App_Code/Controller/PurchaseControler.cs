@@ -572,4 +572,11 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         repository.BucketInfoToDelete(bucketID);
     }
+
+    [WebMethod]
+    public RateNonApprovedChart GetRateNonApprovedChartData()
+    {
+        PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repo.GetRateNonApprovedChartData();
+    }
 }

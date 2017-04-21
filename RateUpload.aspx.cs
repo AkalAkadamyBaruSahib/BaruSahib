@@ -343,7 +343,7 @@ public partial class RateUpload : System.Web.UI.Page
                     materialnonapprovedrate.MatID = int.Parse(hdnMaterial);
                     materialnonapprovedrate.Rate = decimal.Parse(Rate);
                     materialnonapprovedrate.CreatedBy = InchargeID;
-                    materialnonapprovedrate.CreatedOn = DateTime.Now;
+                    materialnonapprovedrate.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
                     DAL.DalAccessUtility.ExecuteNonQuery("Update Material set UnitID='" + Unit + "', IsRateApproved= 0 where MatID = '" + hdnMaterial + "'");
                     ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
                     repo.SaveMaterial(materialnonapprovedrate);

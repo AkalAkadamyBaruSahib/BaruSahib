@@ -1628,4 +1628,11 @@ public class PurchaseRepository
         _context.SaveChanges();
     }
 
+    public RateNonApprovedChart GetRateNonApprovedChartData()
+    {
+        RateNonApprovedChart rateNonApprovedChart = new RateNonApprovedChart();
+        rateNonApprovedChart.ApprovedRates = _context.MaterialRateApproved.Count();
+        rateNonApprovedChart.NonApprovedRates = _context.MaterialNonApprovedRate.Count();
+        return rateNonApprovedChart;
+    }
 }

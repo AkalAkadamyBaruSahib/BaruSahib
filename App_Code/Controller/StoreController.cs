@@ -60,7 +60,7 @@ public class StoreController : System.Web.Services.WebService
     [WebMethod]
     public decimal? SaveStroeMaterialDetail(StockEntry stockentry)
     {
-        stockentry.ReceivedOn = DateTime.UtcNow;
+        stockentry.ReceivedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
         return repository.SaveStroeMaterialDetail(stockentry);
     }
@@ -68,7 +68,7 @@ public class StoreController : System.Web.Services.WebService
     [WebMethod]
     public decimal? SaveDisatchMaterialDetail(StockDispatchEntry stockdispatchentry)
     {
-        stockdispatchentry.DispatchOn = DateTime.UtcNow;
+        stockdispatchentry.DispatchOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         StoreRepository repository = new StoreRepository(new AkalAcademy.DataContext());
         return repository.SaveDisatchMaterialDetail(stockdispatchentry);
     }

@@ -9,6 +9,17 @@ public partial class Admin_UserControls_Dashboard : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!Page.IsPostBack)
+        {
 
+            if (Session["EmailId"] == null)
+            {
+                Response.Redirect("Default.aspx");
+            }
+            else
+            {
+                hdnUserType.Value = Session["UserTypeID"].ToString();
+            }
+        }
     }
 }

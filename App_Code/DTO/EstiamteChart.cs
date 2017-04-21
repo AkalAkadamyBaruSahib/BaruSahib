@@ -29,3 +29,9 @@ public class DrawingChart
 
     public int? NonApprovedDrawings { get; set; }
 }
+
+public class RateNonApprovedChart
+{
+    public int? ApprovedRates { get; set; }
+    public int? NonApprovedRates { get; set; }
+}

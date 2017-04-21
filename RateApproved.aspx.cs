@@ -31,7 +31,7 @@ public partial class RateApproved : System.Web.UI.Page
     protected void BindNonApprovedRateMaterial()
     {
         DataSet dsMat = new DataSet();
-        dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,MN.Rate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MN on M.MatId = MN.MatID INNER JOIN MaterialType MT on M.MatTypeId = MT.MatTypeId INNER JOIN Unit U On M.UnitId = U.UnitId INNER JOIN Incharge Inc On MN.CreatedBy = Inc.InchargeId  where M.IsRateApproved = 0");
+        dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,MN.Rate,Inc.InName,MN.CreatedOn from Material M INNER JOIN MaterialNonApprovedRate MN on M.MatId = MN.MatID INNER JOIN MaterialType MT on M.MatTypeId = MT.MatTypeId INNER JOIN Unit U On M.UnitId = U.UnitId INNER JOIN Incharge Inc On MN.CreatedBy = Inc.InchargeId  where M.IsRateApproved = 0");
         grvNonApprovedRateDetails.DataSource = dsMat;
         grvNonApprovedRateDetails.DataBind();
     }
@@ -53,7 +53,7 @@ public partial class RateApproved : System.Web.UI.Page
         materialrateapproved.MatID = Convert.ToInt32(approvedid);
         materialrateapproved.ApprovedRate = Convert.ToDecimal(txtNewRate.Text);
         materialrateapproved.ApprovedBy = InchargeID;
-        materialrateapproved.ApprovedOn = DateTime.Now;
+        materialrateapproved.ApprovedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
 
         ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
         repo.SaveApprovedMaterial(materialrateapproved);

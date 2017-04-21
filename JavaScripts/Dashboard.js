@@ -1,7 +1,16 @@
 ﻿
 
 $(document).ready(function () {
-    $.when(DrawChart(), DrawDrawingChart(), DrawBillsChart()).then(hideAtag());
+    if ($("input[id*='hdnUserType']").val() == 23)
+    {
+        $.when(DrawRateNonApprovedChart()).then(hideAtag());
+        $("#trPurchase").show();
+    }
+    else
+    {
+        $.when(DrawChart(), DrawDrawingChart(), DrawBillsChart()).then(hideAtag());
+        $("#trAdmin").show();
+    }
 
 });
 
@@ -145,3 +154,48 @@ function DrawBillsChart() {
 
 function BillButton_onClick(e)
 { }
+
+function DrawRateNonApprovedChart() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetRateNonApprovedChartData",
+        dataType: "json",
+        async: false,
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+
+                var chart = new CanvasJS.Chart("divRateNonApprovedChart", {
+                    title: {
+                        text: "All  Non Approved Rates"
+                    },
+                    data: [
+                    {
+                        type: "column",
+                        dataPoints: [
+                            { label: "ApprovedRates", y: Result.ApprovedRates },
+                            { label: "NotApprovedRates", y: Result.NonApprovedRates }
+                        ],
+                        click: RateNonApprovedButton_onClick
+                    }
+                    ]
+                });
+                chart.render();
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function RateNonApprovedButton_onClick(e) {
+    var event = e;
+    if (e.dataPointIndex == 1) {
+        location.href = "RateApproved.aspx";
+    }
+    else if (e.dataPointIndex == 2) {
+        location.href = "RateUpload.aspx";
+    }
+}

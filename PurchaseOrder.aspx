@@ -66,7 +66,7 @@
         <asp:HiddenField ID="hdnEstimateID" runat="server" />
         <asp:HiddenField ID="hdnSelectedItems" runat="server" />
         <asp:HiddenField ID="hdnItemsLength" runat="server" />
-         <asp:HiddenField ID="hdnVendorID" runat="server" />
+        <asp:HiddenField ID="hdnVendorID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -240,6 +240,9 @@
                                     <td>
                                         <asp:HiddenField ID="hdnExciseStatus" runat="server" />
                                     </td>
+                                </tr> 
+                                <tr>
+                                    <td colspan="2" style="height: 30px;"><span class="footerheading">Delivery must be completed by: </span><asp:TextBox ID="txtCompleted" runat="server"></asp:TextBox> </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="height: 30px;">
@@ -247,12 +250,13 @@
                                         <asp:HiddenField ID="hdnIndentNo" runat="server" />
                                     </td>
                                 </tr>
-
+                               
                                 <tr>
                                     <td colspan="2" style="height: 30px; text-align: center">
                                         <asp:Button ID="btnpdf" runat="server" Width="250px" CssClass="btn btn-primary" OnClick="btnpdf_Click" Text="Click to Generate PDF" ValidationGroup="po" />
                                     </td>
                                 </tr>
+
 
                             </table>
                         </div>

@@ -296,8 +296,8 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         $newRow.find("#qty").html(adminLoanList[i].Qty);
         $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
         $newRow.find("#details").html(adminLoanList[i].Material.MatName);
-        $newRow.find("#unitprice").html(adminLoanList[i].Rate);
-        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Rate;
+        $newRow.find("#unitprice").html(adminLoanList[i].Material.MatCost);
+        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Material.MatCost;
         $newRow.find("#linetotal").html("<input type='hidden' value='" + linetotal + "' id='txtlineTotal" + i + "' />" + linetotal);
         count++;
         sum += linetotal;

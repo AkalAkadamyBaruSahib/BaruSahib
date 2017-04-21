@@ -142,7 +142,8 @@
                     <div class="well nav-collapse sidebar-nav">
                         <ul class="nav nav-tabs nav-stacked main-menu">
                             <li class="nav-header hidden-tablet">Main</li>
-                            <li><a class="ajax-link" href="Purchase_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
+                            <li id="liHome" runat="server" visible="false"><a class="ajax-link" href="Purchase_Home.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
+                            <li id="liPurchaseHome" runat="server" visible="false"><a class="ajax-link" href="Purchase_Dashboard.aspx"><i class="icon-home"></i><span class="hidden-tablet">Purchase Home</span></a></li>
                             <li><a href="Purchase_MaterialToBeDispatch.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Material to be dispatch</span></a></li>
                             <!-- <li><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet">Stock</span></a></li>
                             <li><a class="ajax-link" href="Purchase_SubmitBills.aspx"><i class="icon-eye-open"></i><span class="hidden-tablet">Submit Bills</span></a></li>-->
@@ -282,6 +283,6 @@
              $("select").searchable();
          });
     </script>
-
+   <script src="js/canvasjs.min.js"></script>
 </body>
 </html>
