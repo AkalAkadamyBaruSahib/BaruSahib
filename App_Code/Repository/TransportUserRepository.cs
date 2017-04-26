@@ -280,6 +280,7 @@ public class TransportUserRepository
         newVehicleEmployee.EmployeeType = VehicleEmp.EmployeeType;
         newVehicleEmployee.MobileNumber = VehicleEmp.MobileNumber;
         newVehicleEmployee.DLType = VehicleEmp.DLType;
+        newVehicleEmployee.DLNumber = VehicleEmp.DLNumber;
         newVehicleEmployee.DLValidity = VehicleEmp.DLValidity;
         newVehicleEmployee.Address = VehicleEmp.Address;
         newVehicleEmployee.FatherName = VehicleEmp.FatherName;

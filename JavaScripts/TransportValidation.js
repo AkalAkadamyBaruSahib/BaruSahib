@@ -47,7 +47,10 @@ $(document).ready(function () {
 
     });
     $("#btnEdit").click(function (e) {
-        UpdateTansportEmployeeInfo();
+        if (Page_ClientValidate("driver")) {
+            ClientSideClick(this);
+            UpdateTansportEmployeeInfo();
+        }
     });
    
     $("#anc_add").click(function () {
@@ -420,8 +423,7 @@ $(document).ready(function () {
     }
    
     function GetTranportEmployeeInfoToUpdate(vehicleEmployeeID) {
-        
-        $("#divemptype").hide();
+        $("select[id*='drpEmployeeType']").prop('disabled', true);
         $("input[id*='btnSave'] ").hide();
 
         $.ajax({
