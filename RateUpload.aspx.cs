@@ -336,11 +336,11 @@ public partial class RateUpload : System.Web.UI.Page
             Rate = txtra.Text;
             if (Rate != "")
             {
-                DataTable dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select MatCost from Material  where MatID = '" + hdnMaterial + "'").Tables[0];
-                DataTable dsAlreadyMat = DAL.DalAccessUtility.GetDataInDataSet("Select MatID from MaterialNonApprovedRate  where MatID = '" + hdnMaterial + "'").Tables[0];
+                DataTable dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select MatCost,MatID from Material  where MatName = '" + Material + "'").Tables[0];
+                DataTable dsAlreadyMat = DAL.DalAccessUtility.GetDataInDataSet("Select * from MaterialNonApprovedRate  where MatID = '" + Convert.ToInt32(dsMat.Rows[0]["MatID"].ToString()) + "'").Tables[0];
                 if (dsAlreadyMat.Rows.Count == 0)
                 {
-                    materialnonapprovedrate.MatID = int.Parse(hdnMaterial);
+                    materialnonapprovedrate.MatID = int.Parse(dsMat.Rows[0]["MatID"].ToString());
                     materialnonapprovedrate.Rate = decimal.Parse(Rate);
                     materialnonapprovedrate.CreatedBy = InchargeID;
                     materialnonapprovedrate.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
@@ -424,7 +424,7 @@ public partial class RateUpload : System.Web.UI.Page
 
         string FileName = string.Empty;
         string cc = string.Empty;
-        string to = "itmoahli@barusahib.org";//dshah@barusahib.org";
+        string to = "itmohali@barusahib.org";//dshah@barusahib.org";
         if (MaterialTypeID == ((int)TypeEnum.MatTypeID.TRANSPORTMATERIAL).ToString()) // Transport Material
         {
            // cc = "akaltransport@barusahib.org";
@@ -440,7 +440,7 @@ public partial class RateUpload : System.Web.UI.Page
 
         try
         {
-            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
+          //  Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
         }
         catch { }
         finally

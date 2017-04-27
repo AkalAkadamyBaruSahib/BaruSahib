@@ -36,7 +36,7 @@
                         <asp:UpdatePanel ID="updpanel2" runat="server">
                             <ContentTemplate>
                                 <table style="width: 100%" border="0">
-                                     <asp:Label ID="lblUser" Visible="false" runat="server"></asp:Label>
+                                    <asp:Label ID="lblUser" Visible="false" runat="server"></asp:Label>
                                     <tr>
                                         <td width="50%">
                                             <div class="control-group">
@@ -92,9 +92,8 @@
                                                             <asp:TextBox ID="txtRate" runat="server" CssClass="span6 typeahead" Width="200Px"></asp:TextBox>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                  <asp:TemplateField  ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
-                                                    </asp:TemplateField>
-                                                    <asp:CommandField ShowDeleteButton="True" ControlStyle-ForeColor="Red" HeaderText="Action"  />
+                                                    <asp:TemplateField ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle"></asp:TemplateField>
+                                                    <asp:CommandField ShowDeleteButton="True" ControlStyle-ForeColor="Red" HeaderText="Action" />
                                                 </Columns>
                                                 <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
                                                 <RowStyle BackColor="#EFF3FB" />
@@ -108,7 +107,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" OnClientClick="ClientSideClick(this)"  UseSubmitBehavior="false"/>
+                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="false" />
                                         </td>
                                     </tr>
                                 </table>

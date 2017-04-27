@@ -167,7 +167,7 @@ public class PurchaseRepository
 
     public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
     {
-        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Where(x => x.EstId == EstimateID).ToList();
+        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Include(u => u.Unit).Where(x => x.EstId == EstimateID).ToList();
     }
 
     public List<VendorInfo> GetVendorAddress(int vendorID)
