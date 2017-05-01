@@ -159,14 +159,35 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 lbl.Attributes.Remove("style");
                 lbl.Attributes.Add("style", "display:blockp;");
                 DisDate.Attributes.Add("style", "display:none;");
-
+                Qty = Convert.ToDecimal(gvRow.Cells[3].Text);  // Est Required Quantity 
+                var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);
+                var LessExtraQty = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 5 / 100);
                 if (Convert.ToDecimal(txtRate.Text) > Convert.ToDecimal(hdnRate.Value))
                 {
                     var PurchasedQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);
                     var estCost = Convert.ToDecimal(txtRate.Text) * PurchasedQty;
                     var ExtraRate = (Convert.ToDecimal(hdnRate.Value) * 10 / 100) + Convert.ToDecimal(hdnRate.Value);
-
-                    if (Convert.ToInt16(hdnMatTypeID.Value) == 53 || Convert.ToInt16(hdnMatTypeID.Value) == 52)
+                    if (Convert.ToInt16(hdnMatTypeID.Value) == 52)
+                    {
+                        if (PurchasedQty > ExtraQty)
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase Qty can not greater than 5% extra.');", true);
+                        }
+                        else
+                        {
+                            if ((PurchasedQty >= Qty && PurchasedQty <= ExtraQty) || (PurchasedQty <= Qty && PurchasedQty >= LessExtraQty))
+                            {
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "'  where Sno='" + Sno + "'");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
+                            }
+                            else
+                            {
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "'  where Sno='" + Sno + "'");
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
+                            }
+                        }
+                    }
+                    else if (Convert.ToInt16(hdnMatTypeID.Value) == 53)
                     {
                         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
@@ -191,13 +212,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
 
                 else
                 {
-
-                    Qty = Convert.ToDecimal(gvRow.Cells[3].Text);  // Est Required Quantity 
-
                     var PurchaseQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);   // Purchasing Quantity 
-
-                    var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);
-                    var LessExtraQty = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 5 / 100);// 5% of Est Required Less Quantity
                     var TotalSteelWoodTileQuantity = (Convert.ToDecimal(Qty) * 10 / 100) + Convert.ToDecimal(Qty);  // 10% of Est Required Quantity(Steel,Wood,Tiles)
                     var TotalLessSteelWoodTileQuantit = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 10 / 100);
 

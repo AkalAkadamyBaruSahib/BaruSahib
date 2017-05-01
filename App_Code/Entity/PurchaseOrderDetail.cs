@@ -38,4 +38,8 @@ public class PurchaseOrderDetail
     public decimal? Excise { get; set; }
 
     public string Description { get; set; }
+
+    public decimal? FrieghtCharges { get; set; }
+
+    public decimal? LoadingCharges { get; set; }
 }

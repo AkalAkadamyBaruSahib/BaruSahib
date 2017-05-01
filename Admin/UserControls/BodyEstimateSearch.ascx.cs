@@ -89,11 +89,11 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                     DataTable dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT ER.PurchaseEmpID  FROM  EstimateAndMaterialOthersRelations ER  where ER.EstId='" + Est.EstId + "' and ER.PurchaseEmpID!=0").Tables[0];
                     if (dsEstimate1Details.Rows.Count > 0)
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a></td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>&nbsp;&nbsp;<a href='Admin_EstimateEdit.aspx?EstId=" + Est.EstId + "&AcaID=" + Est.AcaId + "'><span class='label label-warning' style='font-size: 15.998px;'>Edit</span></a></td>";
                     }
                     else
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>&nbsp;&nbsp;<a href='AdminEstimateSearch.aspx?DeleteEstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Delete</span></a></td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='Purchase_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>&nbsp;&nbsp;<a href='Admin_EstimateEdit.aspx?EstId=" + Est.EstId + "&AcaID=" + Est.AcaId + "'><span class='label label-warning' style='font-size: 15.998px;'>Edit</span></a>&nbsp;&nbsp;<a href='AdminEstimateSearch.aspx?DeleteEstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Delete</span></a></td>";
                     }
                 }
                 else if (UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)

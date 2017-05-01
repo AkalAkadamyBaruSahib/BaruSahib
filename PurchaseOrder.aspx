@@ -67,6 +67,8 @@
         <asp:HiddenField ID="hdnSelectedItems" runat="server" />
         <asp:HiddenField ID="hdnItemsLength" runat="server" />
         <asp:HiddenField ID="hdnVendorID" runat="server" />
+        <asp:HiddenField ID="hdnQty" runat="server" />
+
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -85,15 +87,27 @@
                         <table id="tblPO" width="100%">
                             <tbody>
                                 <tr>
-                                    <td style="float: left; width: 174px;">
+                                    <td style="float: left;">
                                         <span class="footerheading">Estimate:-</span>
                                         <select required="required" id="drpEstimate" style="width: 150px;">
                                             <option value="0">-Select Estimate--</option>
                                         </select>
                                     </td>
-                                    <td>
-                                        <label class="control-label" for="typeahead" style="color: #cc3300; font-weight: bold; margin-left: 828px;"><b>P.O.-</b></label>
-                                        <asp:TextBox ID="txtPO" required="required" runat="server" Style="width: 150px; float: right; margin-top: -1px;"></asp:TextBox>
+                                    <td style="padding-top: 38px;">
+                                        <span class="footerheading">PO For:-</span>
+                                        <asp:DropDownList ID="drpPOFor" runat="server" required="required">
+                                            <asp:ListItem Value="0">--Select PO Type--</asp:ListItem>
+                                            <asp:ListItem Value="1">THE KALGIDAHR SOCIETY</asp:ListItem>
+                                            <asp:ListItem Value="2">THE KALGIDAHR TRUST</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="footerheading" style="margin-right: -37px;">Date:-</span>
+                                        <asp:TextBox ID="txtDate" runat="server" CssClass="input-xlarge datepicker" Width="150px" Style="margin-top: 54px;" required="required"></asp:TextBox>
+                                    </td>
+                                    <td style="float: right;">
+                                        <span class="footerheading" style="margin-right: -31px;"><b>P.O.-</b></span>
+                                        <asp:TextBox ID="txtPO" required="required" runat="server" Style="width: 150px; margin-top: 54px;"></asp:TextBox>
                                         <asp:Label ID="lblCurrentDate" runat="server" Visible="false"></asp:Label>
                                         <asp:HiddenField ID="hdnCurrentDate" runat="server" />
                                     </td>
@@ -104,7 +118,7 @@
                         <table class='table table-striped table-bordered bootstrap-datatable datatable'>
                             <tr>
                                 <td>
-                                    <label class="control-label" for="typeahead" style="color: #cc3300; font-weight: bold;"><b>Vendor:</b></label>
+                                    <label class="control-label" for="typeahead" style="color: #cc3300; font-weight: bold;"><b>VENDOR:</b></label>
                                     <div class="controls">
                                         <select id="drpVendor">
                                             <option value="0">--Select Vendor--</option>
@@ -155,10 +169,12 @@
                                 <thead>
                                     <tr class="heading">
                                         <th style="text-align: center;">Sr No</th>
-                                        <th style="text-align: center; width: 115px;">Qty</th>
                                         <th style="text-align: center;">Description</th>
                                         <th style="text-align: center;">Detail</th>
+                                        <th style="text-align: center;">Unit</th>   
+                                        <th style="text-align: center; width: 115px;">Qty</th>
                                         <th style="text-align: center;">Unit Price</th>
+                                        <th style="text-align: center;">Vat/Cst</th>
                                         <th id="linetotal" style="text-align: center;">Line Total</th>
                                     </tr>
                                 </thead>
@@ -166,7 +182,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td rowspan="4" style="width: 65px;" colspan="4">
+                                        <td rowspan="5" style="width: 65px;" colspan="6">
                                             <label id="lblDeliveryAddress" style="color: #cc3300"><u><b>DELIVERY ADDRESS:-</b></u></label>
                                             <div class="controls">
                                                 <select id="drpBillingAddress" class="AddressDrp">
@@ -185,7 +201,7 @@
                                                 <br />
                                             </div>
                                             <br />
-                                            <label id="lblContact" style="color: #cc3300"><u><b>Contact Person:-</b></u></label>
+                                            <label id="lblContact" style="color: #cc3300"><u><b>CONTACT PERSON:-</b></u></label>
                                             <asp:TextBox required="required" ID="txtcontact" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox>
                                         </td>
                                         <th style="color: #cc3300;">Sub Total :</th>
@@ -203,9 +219,15 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th style="color: #cc3300;">VAT/CST :</th>
+                                        <th style="color: #cc3300;">Frieght/Cartage :</th>
                                         <td>
-                                            <asp:TextBox ID="txtvat" runat="server" required="required" Style="width: 80px;"></asp:TextBox>
+                                            <asp:TextBox ID="txtFrieght" required="required" runat="server" Style="width: 80px;"></asp:TextBox>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="color: #cc3300;">Loading:</th>
+                                        <td>
+                                            <asp:TextBox ID="txtLoading" required="required" runat="server" Style="width: 80px;"></asp:TextBox>
                                     </tr>
                                     <tr>
                                         <th style="color: #cc3300;">Grand Total:</th>
@@ -229,7 +251,7 @@
                                 </tr>
                                 <tr>
                                     <td style="height: 80px;">
-                                        <span class="footerheading">Freight:-</span><select id="drpFreight" style="width: 130px; height: 24px; float: right; margin-right: -103px; margin-top: -21px;">
+                                        <span class="footerheading">Freight:-</span><select id="drpFreight" style="width: 130px; height: 26px; float: right; margin-right: -103px; margin-top: -21px;">
                                             <option value="0">--Select One--</option>
                                             <option value="Free On Road">Free On Road</option>
                                             <option value="Extra">Extra</option>
@@ -240,9 +262,16 @@
                                     <td>
                                         <asp:HiddenField ID="hdnExciseStatus" runat="server" />
                                     </td>
-                                </tr> 
+                                </tr>
                                 <tr>
-                                    <td colspan="2" style="height: 30px;"><span class="footerheading">Delivery must be completed by: </span><asp:TextBox ID="txtCompleted" runat="server"></asp:TextBox> </td>
+                                    <td colspan="2"><span class="footerheading">Payment Mode: </span>
+                                        <asp:TextBox ID="txtPaymentMode" runat="server" Style="width: 150px; margin-right: 1045px; float: right;"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="height: 40px;"><span class="footerheading">Delivery must be completed by: </span>
+                                        <asp:TextBox ID="txtCompleted" runat="server"></asp:TextBox>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="height: 30px;">
@@ -250,7 +279,7 @@
                                         <asp:HiddenField ID="hdnIndentNo" runat="server" />
                                     </td>
                                 </tr>
-                               
+
                                 <tr>
                                     <td colspan="2" style="height: 30px; text-align: center">
                                         <asp:Button ID="btnpdf" runat="server" Width="250px" CssClass="btn btn-primary" OnClick="btnpdf_Click" Text="Click to Generate PDF" ValidationGroup="po" />

@@ -51,13 +51,29 @@ public partial class PurchaseOrder : System.Web.UI.Page
             htmlCode = client.DownloadString(hostName + "/PurchaseOrderTemplate.html");
         }
 
-        htmlCode = htmlCode.Replace("[Vendor]", hdnVendorName.Value + "" + hdnVendorAddress.Value + "" + hdnCity.Value);
-        htmlCode = htmlCode.Replace("[ShipTo]", hdnTrustName.Value + "," + hdnDeliveryAddress.Value + "," + hdnDeliveryPhoneNo.Value);
-        htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", hdnBillingName.Value + "," + hdnBillingAddres.Value + "," + hdnBillingPhone.Value);
+        htmlCode = htmlCode.Replace("[Vendor]", hdnVendorName.Value.ToUpper() + ",<br/>" + hdnVendorAddress.Value.ToUpper() + "" + hdnCity.Value.ToUpper());
+        if (drpPOFor.SelectedValue == "1")
+        {
+            htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR SOCIETY,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
+            htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR SOCIETY,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
+            htmlCode = htmlCode.Replace("[POheader]", "THE KALGIDHAR SOCIETY");
+            htmlCode = htmlCode.Replace("[status]", "Society");
+            htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Society.png");
+        }
+        else
+        {
+            htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR TRUST,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
+            htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value); 
+            htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
+            htmlCode = htmlCode.Replace("[POheader]", "THE KALGIDHAR TRUST");
+            htmlCode = htmlCode.Replace("[status]", "Trust");
+        }
+    
         htmlCode = htmlCode.Replace("[ContactPerson]", txtcontact.Text);
         htmlCode = htmlCode.Replace("[PO]", txtPO.Text);
-        htmlCode = htmlCode.Replace("[DATE]", hdnCurrentDate.Value);
-        htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
+        htmlCode = htmlCode.Replace("[DATE]", txtDate.Text);
+        htmlCode = htmlCode.Replace("[PaymentMode]", txtPaymentMode.Text);
+        
         htmlCode = htmlCode.Replace("[Excise]", hdnExciseStatus.Value);
         if (txtExcise.Text == "")
         {
@@ -67,15 +83,17 @@ public partial class PurchaseOrder : System.Web.UI.Page
         {
             htmlCode = htmlCode.Replace("[ExciseTextBox]", txtExcise.Text);
         }
-        htmlCode = htmlCode.Replace("[VAT/CST]", txtvat.Text);
-        //htmlCode = htmlCode.Replace("[Payment]", txtpayment.Text);
+    
         htmlCode = htmlCode.Replace("[SubTotal]", hdnSubTotal.Value);
         htmlCode = htmlCode.Replace("[GrandTotal]", hdnGrandTotal.Value);
         htmlCode = htmlCode.Replace("[Freight]", hdnFreight.Value);
+        htmlCode = htmlCode.Replace("[FrieghtCartage]", txtFrieght.Text);
+        htmlCode = htmlCode.Replace("[Loading]", txtLoading.Text);
         htmlCode = htmlCode.Replace("[CompletedBy]", txtCompleted.Text);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
         htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
-        htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
+        htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
+     
         pnlHtml.InnerHtml = htmlCode;
 
         hdnIndentNo.Value = hdnIndentNo.Value.Replace(',', '_');
@@ -96,47 +114,70 @@ public partial class PurchaseOrder : System.Web.UI.Page
     {
         PurchaseOrderDetail po = new PurchaseOrderDetail();
         DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         string MaterialInfo = string.Empty;
-        MaterialInfo += "<table style='width:100%' border='1'>";
+        MaterialInfo += "<table style='width:100%' border='1' cellspacing='0' cellpadding='0'>";
         MaterialInfo += "<thead>";
         MaterialInfo += "<tr>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Sr.No</th>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>QTY</th>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>DESCRIPTION</th>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>DETAIL</th>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>UNIT PRICE</th>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>LINE TOTAL</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>Sr.No</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>DESCRIPTION</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>DETAIL</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>UNIT</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>QTY</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>PRICE</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>VAT</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>LINE TOTAL</th>";
         MaterialInfo += "</tr>";
         MaterialInfo += "</thead>";
         MaterialInfo += "<tbody>";
         hdnIndentNo.Value = string.Empty;
+        hdnVatStatus.Value = string.Empty;
         for (int i = 0; i < dt.Rows.Count; i++)
         {
             string description = Request.Form["txtdescription" + i];
+            string qty = Request.Form["txtQty" + i];
+            string vat = Request.Form["txtvat" + i];
             MaterialInfo += "<tr>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + (i + 1) + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Qty"].ToString() + "</td>";
-            MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;'>" + description + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
+            MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;font-size: 12px;'>" + description + "</td>";
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["UnitName"].ToString() + "</td>";  
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + qty + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
-            var SubTotal = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + vat + "</td>";
+            var SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             SubTotal = Math.Round(SubTotal, 2);
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
+            if (vat == "0")
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
+            }
+            else
+            {
+                var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(vat) / 100;
+                var totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
+                totalAmount = Math.Round(totalAmount, 2);
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + totalAmount + "</td>";
+            }
             MaterialInfo += "</tr>";
             if (!hdnIndentNo.Value.Contains(dt.Rows[i]["EstID"].ToString()))
             {
                 hdnIndentNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
+            }
+            if (!hdnVatStatus.Value.Contains(vat))
+            {
+                hdnVatStatus.Value += vat + "%" + ",";
             }
             po.CreatedOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
             po.PONumber = txtPO.Text;
             po.EstID = Convert.ToInt32(dt.Rows[i]["EstID"].ToString());
             po.VendorID = Convert.ToInt32(hdnVendorID.Value);
             po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
-            po.Qty = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString());
+            po.Qty = Convert.ToDecimal(qty);
             po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             po.Description = Request.Form["txtdescription" + i];
-            po.Vat = Convert.ToDecimal(txtvat.Text);
+            po.Vat = Convert.ToDecimal(vat);
+            po.FrieghtCharges = Convert.ToDecimal(txtFrieght.Text);
+            po.LoadingCharges = Convert.ToDecimal(txtLoading.Text);
             if (txtExcise.Text != "")
             {
                 po.Excise = Convert.ToDecimal(txtExcise.Text);
