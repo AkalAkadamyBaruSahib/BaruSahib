@@ -42,6 +42,7 @@ public static class Utility
             }
 
         }
+        
 
         mail.IsBodyHtml = true;
         SmtpClient smtp = new SmtpClient();
@@ -51,7 +52,7 @@ public static class Utility
         smtp.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUserName"].ToString(), ConfigurationManager.AppSettings["SMTPPassword"].ToString());
         smtp.Timeout = 1000000;
         smtp.EnableSsl = true;
-        smtp.Send(mail);
+        smtp.SendAsync(mail, smtp);
     }
 
     public static void SendSMS(string sto, string body)
@@ -705,4 +706,140 @@ public static class Utility
         return grid;
     }
 
+    public static void DiffrenciateVehicleDocuments()
+    {
+        UsersRepository users = new UsersRepository(new AkalAcademy.DataContext());
+
+        List<Academy> academies = users.GetAllAcademy((int)TypeEnum.Module.Transport);
+
+        foreach (Academy aca in academies)
+        {
+            string sourceFilePath = @"E:\AkalSewa_Live Site\VehicleDoc\";
+            string filePath = @"E:\Test\";
+
+            Directory.CreateDirectory(filePath + aca.AcaName);
+
+            var pathInsurance = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.Insurance.ToString();
+            Directory.CreateDirectory(pathInsurance);
+
+            var pathPassing = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.Passing.ToString();
+            Directory.CreateDirectory(pathPassing);
+
+            var pathPollution = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.Pollution.ToString();
+            Directory.CreateDirectory(pathPollution);
+
+            var pathPermit = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.Permit.ToString();
+            Directory.CreateDirectory(pathPermit);
+
+            var pathRegistration = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.Registration.ToString();
+            Directory.CreateDirectory(pathRegistration);
+
+            var pathRouteMap = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.RouteMap.ToString();
+            Directory.CreateDirectory(pathRouteMap);
+
+            var pathTax = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.Tax.ToString();
+            Directory.CreateDirectory(pathTax);
+
+            var pathWrittenContract = filePath + aca.AcaName + "/" + TypeEnum.TransportDocumentType.WrittenContract.ToString();
+            Directory.CreateDirectory(pathWrittenContract);
+
+            TransportUserRepository transport = new TransportUserRepository(new AkalAcademy.DataContext());
+
+            List<Vehicles> vehicles = transport.GetAllVehiclesByAcademyID(aca.AcaID);
+
+            foreach (Vehicles vehicle in vehicles)
+            {
+                List<VechilesDocumentRelation> docs = transport.GetVechilesDocumentRelationByVehicleID(vehicle.ID);
+
+                foreach (VechilesDocumentRelation doc in docs)
+                {
+
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.Insurance))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var insuranceFile = sourceFilePath + docPath;
+                        if (File.Exists(insuranceFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(insuranceFile);
+                            File.Move(insuranceFile, pathInsurance + "/" + filename);
+                        }
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.Passing))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var passingFile = sourceFilePath + docPath;
+                        if (File.Exists(passingFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(passingFile);
+                            File.Move(passingFile, pathPassing + "/" + filename);
+                        }
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.Pollution))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var pollutionFile = sourceFilePath + docPath;
+                        if (File.Exists(pollutionFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(pollutionFile);
+                            File.Move(pollutionFile, pathPollution + "/" + filename);
+                        }
+
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.Permit))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var permitFile = sourceFilePath + docPath;
+                        if (File.Exists(permitFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(permitFile);
+                            File.Move(permitFile, pathPermit + "/" + filename);
+                        }
+
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.Registration))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var registrationFile = sourceFilePath + docPath;
+                        if (File.Exists(registrationFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(registrationFile);
+                            File.Move(registrationFile, pathRegistration + "/" + filename);
+                        }
+
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.RouteMap))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var routeMapFile = sourceFilePath + docPath;
+                        if (File.Exists(routeMapFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(routeMapFile);
+                            File.Move(routeMapFile, pathRouteMap + "/" + filename);
+                        }
+
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.Tax))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var taxFile = sourceFilePath + docPath;
+                        if (File.Exists(taxFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(taxFile);
+                            File.Move(taxFile, pathTax + "/" + filename);
+                        }
+                    }
+                    if (doc.TransportDocumentID == (int)(TypeEnum.TransportDocumentType.WrittenContract))
+                    {
+                        var docPath = System.IO.Path.GetFileName(doc.Path);
+                        var writtenFile = sourceFilePath + docPath;
+                        if (File.Exists(writtenFile))
+                        {
+                            string filename = System.IO.Path.GetFileName(writtenFile);
+                            File.Move(writtenFile, pathWrittenContract + "/" + filename);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

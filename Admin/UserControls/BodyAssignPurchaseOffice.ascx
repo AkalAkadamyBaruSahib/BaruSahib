@@ -74,7 +74,7 @@
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h3>Select Purchase Employee</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body"  style="height:200px;">
             <table>
                 <tr>
                     <td>Select Employee</td>

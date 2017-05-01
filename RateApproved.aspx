@@ -42,16 +42,16 @@
                                             <asp:GridView ID="grvNonApprovedRateDetails" runat="server" Width="100%" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4"  ForeColor="#333333" GridLines="None" Style="text-align: left">
                                                 <Columns>
                                                     <%--  <asp:BoundField DataField="RowNumber" HeaderText="SNo" />--%>
-                                                    <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtMaterialType" Width="200px" runat="server" Text='<%# Eval("MatTypeName") %>'></asp:Label>
+                                                            <asp:Label ID="txtMaterialType" Width="200px" runat="server" Text='<%# Eval("MatTypeName") %>' style="text-align:left;"></asp:Label>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtMaterialName" Width="240px" runat="server" Text='<%# Eval("MatName") %>'></asp:Label>
+                                                            <asp:Label ID="txtMaterialName" Width="240px" runat="server" Text='<%# Eval("MatName") %>' style="text-align:left;"></asp:Label>
                                                         </ItemTemplate>
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="315px" />

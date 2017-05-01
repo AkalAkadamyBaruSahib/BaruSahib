@@ -148,7 +148,7 @@ public class PurchaseRepository
 
     public List<VendorInfo> GetVendorsNameList()
     {
-        return _context.VendorInfo.Where(x => x.Active == true).ToList();
+        return _context.VendorInfo.Where(x => x.Active == true).OrderBy(x => x.VendorName).ToList();
     }
 
     public List<EstimateDTO> GetEstimateNumberList(int inchargeID, int purchaseSourceID)
@@ -157,7 +157,7 @@ public class PurchaseRepository
 
         DateTime getdate = DateTime.Now.AddDays(-180);
 
-        estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.CreatedOn >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).AsEnumerable().Select(x => new EstimateDTO
+        estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.SanctionDate >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).AsEnumerable().Select(x => new EstimateDTO
         {
             EstId = x.EstId,
         }).OrderByDescending(e => e.EstId).Reverse().ToList();
@@ -207,7 +207,7 @@ public class PurchaseRepository
 
     public List<POBillingAddress> GetDeliveryAddressList()
     {
-        return _context.POBillingAddress.ToList();
+        return _context.POBillingAddress.OrderBy(x=>x.TrustName).ToList();
     }
 
     public List<POBillingAddress> GetDeliveryAddressInfo(int AddressID)
