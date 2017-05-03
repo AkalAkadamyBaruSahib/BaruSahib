@@ -185,7 +185,7 @@
                                                                     <label id="lblUnit0"></label>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtRate0" type="text" style="width: 80px;" />
+                                                                    <input id="txtRate0" type="text" style="width: 80px;" onchange="Rate_ChangeEvent(0);" />
                                                                 </td>
                                                                 <td>
                                                                     <span id="txtTotal0" class="span6 typeahead" ></span>

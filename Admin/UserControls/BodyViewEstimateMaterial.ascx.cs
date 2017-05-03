@@ -162,12 +162,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 Qty = Convert.ToDecimal(gvRow.Cells[3].Text);  // Est Required Quantity 
                 var ExtraQty = (Convert.ToDecimal(Qty) * 5 / 100) + Convert.ToDecimal(Qty);
                 var LessExtraQty = Convert.ToDecimal(Qty) - (Convert.ToDecimal(Qty) * 5 / 100);
-                if (Convert.ToDecimal(txtRate.Text) > Convert.ToDecimal(hdnRate.Value))
+                if (Convert.ToDecimal(txtRate.Text) > Convert.ToDecimal(hdnRate.Value) || Convert.ToDecimal(txtRate.Text) < Convert.ToDecimal(hdnRate.Value))
                 {
                     var PurchasedQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);
                     var estCost = Convert.ToDecimal(txtRate.Text) * PurchasedQty;
                     var ExtraRate = (Convert.ToDecimal(hdnRate.Value) * 10 / 100) + Convert.ToDecimal(hdnRate.Value);
-                    if (Convert.ToInt16(hdnMatTypeID.Value) == 52)
+                    if (Convert.ToInt16(hdnMatTypeID.Value) == 52) // Ration Create Enum
                     {
                         if (PurchasedQty > ExtraQty)
                         {
@@ -186,11 +186,13 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
+                        DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     }
                     else if (Convert.ToInt16(hdnMatTypeID.Value) == 53)
                     {
                         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
+                        DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     }
                     else if (Convert.ToInt16(txtMatID.Value) == 844 || Convert.ToInt16(txtMatID.Value) == 2387)
                     {
@@ -198,6 +200,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
+                            DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                         }
                         else
                         {

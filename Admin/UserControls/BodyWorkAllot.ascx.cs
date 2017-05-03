@@ -51,9 +51,8 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
                     div1st.Visible = true;
                     lblWorkMsg.Text = "Work Allot Details";
                 }
-              
             }
-           if (Request.QueryString["WAId"] != null)
+            if (Request.QueryString["WAId"] != null)
             {
                 getAcaDetails(Request.QueryString["WAId"].ToString(), PurchaseSource);
                 btnEdit.Visible = true;
@@ -63,32 +62,33 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
                 imgWorkAllot.Visible = true;
 
             }
-           else if (Request.QueryString["WAIdIA"] != null)
-           {
-               DeactiveAca(Request.QueryString["WAIdIA"].ToString(), PurchaseSource);
-           }
-           else if (Request.QueryString["WAIdA"] != null)
-           {
-               ActiveAca(Request.QueryString["WAIdA"].ToString(), PurchaseSource);
-           }
-           else if (Request.QueryString["AcaId"] != null)
-           {
-               GetWorkAllotDetailsByClick(Request.QueryString["AcaId"].ToString());
-               div1st.Visible = false;
-           }
-           else if (Request.QueryString["WAIDExcel"] != null)
-           {
-               MaterialDetailByWorkAllotIDInExcel(Request.QueryString["WAIDExcel"].ToString(), PurchaseSource);
-           }
-           else if (Request.QueryString["WAIDPdf"] != null)
-           {
-               MaterialDetailByWorkAllotIDInPDF(Request.QueryString["WAIDPdf"].ToString(), PurchaseSource);
-           }
-           else
-           {
-               BindZone();
-               BindWorkAllotDetails(PurchaseSource);
-           }
+            else if (Request.QueryString["WAIdIA"] != null)
+            {
+                DeactiveAca(Request.QueryString["WAIdIA"].ToString(), PurchaseSource);
+            }
+            else if (Request.QueryString["WAIdA"] != null)
+            {
+                ActiveAca(Request.QueryString["WAIdA"].ToString(), PurchaseSource);
+            }
+            else if (Request.QueryString["AcaId"] != null)
+            {
+                GetWorkAllotDetailsByClick(Request.QueryString["AcaId"].ToString());
+                div1st.Visible = false;
+            }
+            else if (Request.QueryString["WAIDExcel"] != null)
+            {
+                MaterialDetailByWorkAllotIDInExcel(Request.QueryString["WAIDExcel"].ToString(), PurchaseSource);
+            }
+            else if (Request.QueryString["WAIDPdf"] != null)
+            {
+                MaterialDetailByWorkAllotIDInPDF(Request.QueryString["WAIDPdf"].ToString(), PurchaseSource);
+            }
+            else
+            {
+                BindZone();
+                BindALLAcademy();
+
+            }
         }
     }
 
@@ -247,7 +247,6 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Name of Work Create Successfully!!.');", true);
             }
             SendSMS(ddlAcademy.SelectedValue);
-            BindWorkAllotDetails(PurchaseSource);
             txtWorkAllot.Text = "";
             ddlZone.SelectedIndex = 0;
             ddlAcademy.SelectedIndex = 0;
@@ -272,14 +271,14 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         Utility.SendSMS(smsTo, "New Work for " + ddlAcademy.SelectedItem.Text + " has been uploaded to www.Akalsewa.org.");
     }
 
-    protected void BindWorkAllotDetails(int PurchaseSource)
+    protected void BindWorkAllotDetails(int PurchaseSource, int WaID)
     {
         DataSet dsSateDetails = new DataSet();
         DataTable dsEstimateCost = new DataTable();
-        DataTable dsBillCost =new DataTable();
+        DataTable dsBillCost = new DataTable();
         view_BillSubmitedDetails BillDetail = new view_BillSubmitedDetails();
         ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
-        dsSateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowWorkAllotDetails_ByUser " + InchargeID + "," + PurchaseSource);
+        dsSateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_ShowWorkAllotDetails_ByUser " + InchargeID + "," + PurchaseSource + "," + WaID);
         divAcademyDetails.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
@@ -405,7 +404,6 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         {
             DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewWorkAllot '" + Acaid + "','" + ddlZone.SelectedValue + "','" + ddlAcademy.SelectedValue + "','" + txtWorkAllot.Text + "','" + lblImgFileName.Text + "','" + imgWorkAllot.ImageUrl + "','1','" + InchargeID + "','2'");
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Name Of Work edit Successfully.');", true);
-            BindWorkAllotDetails(PSID);
             txtWorkAllot.Text = "";
             ddlZone.SelectedIndex = 0;
             ddlAcademy.SelectedIndex = 0;
@@ -415,7 +413,6 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
     protected void DeactiveAca(string ID, int PSID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewWorkAllot '" + ID + "','','','','','','0','" + InchargeID + "','4'");
-        BindWorkAllotDetails(PSID);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Work deactive successfully.');", true);
 
     }
@@ -423,12 +420,11 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
     protected void ActiveAca(string ID, int PSID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewWorkAllot '" + ID + "','','','','','','1','" + InchargeID + "','4'");
-        BindWorkAllotDetails(PSID);
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Work active successfully.');", true);
 
     }
 
-    private void getAcaDetails(string ID,int PSID)
+    private void getAcaDetails(string ID, int PSID)
     {
         DataSet dsCouDetails = new DataSet();
         dsCouDetails = DAL.DalAccessUtility.GetDataInDataSet("select WorkAllotName,ZoneId,AcaId,ImageFilePath,ImageFileName from WorkAllot where Active=1 and WAId='" + ID + "'");
@@ -446,7 +442,6 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please active Work Allot Status before edit..');", true);
         }
-        BindWorkAllotDetails(PSID);
     }
 
     protected void MaterialDetailByWorkAllotIDInExcel(string workAllotID, int PSID)
@@ -455,7 +450,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         Response.Buffer = true;
         Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "MaterialDetailReport.xls"));
         Response.ContentType = "application/ms-excel";
-        DataTable dt = BindMaterialDetail(Convert.ToInt32(workAllotID),PSID);
+        DataTable dt = BindMaterialDetail(Convert.ToInt32(workAllotID), PSID);
         string str = string.Empty;
         foreach (DataColumn dtcol in dt.Columns)
         {
@@ -541,5 +536,42 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         string folderPath = Server.MapPath("Bills");
         string fileName = "Material_Details_By_WorlAllot_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".pdf";
         Utility.GeneratePDF(pdfhtml, fileName, folderPath);
+    }
+
+    protected void BindWorkAllot()
+    {
+        DataSet dsZone = new DataSet();
+        dsZone = DAL.DalAccessUtility.GetDataInDataSet("select distinct WAId,WorkAllotName from WorkAllot where Active=1 and AcaID='" + drpAcademy.SelectedValue + "' order by WorkAllotName");
+        drpWorkAllot.DataSource = dsZone;
+        drpWorkAllot.DataValueField = "WAId";
+        drpWorkAllot.DataTextField = "WorkAllotName";
+        drpWorkAllot.DataBind();
+        drpWorkAllot.Items.Insert(0, "--SELECT ALLOTED WORK--");
+        drpWorkAllot.SelectedIndex = 0;
+    }
+
+    protected void drpWorkAllot_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindWorkAllotDetails(PurchaseSource, Convert.ToInt32(drpWorkAllot.SelectedValue));
+    }
+
+    protected void drpAcademy_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindWorkAllot();
+    }
+
+    protected void BindALLAcademy()
+    {
+        DataTable dsAca = new DataTable();
+        dsAca = DAL.DalAccessUtility.GetDataInDataSet("select AcaId,AcaName from Academy where Active=1 Order by AcaName").Tables[0];
+        if (dsAca != null && dsAca.Rows.Count > 0)
+        {
+            drpAcademy.DataSource = dsAca;
+            drpAcademy.DataValueField = "AcaId";
+            drpAcademy.DataTextField = "AcaName";
+            drpAcademy.DataBind();
+            drpAcademy.Items.Insert(0, new ListItem("--SELECT ACADEMY--", "0"));
+            drpAcademy.SelectedIndex = 0;
+        }
     }
 }

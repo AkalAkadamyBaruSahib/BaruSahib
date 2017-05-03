@@ -1635,4 +1635,24 @@ public class PurchaseRepository
         rateNonApprovedChart.NonApprovedRates = _context.MaterialNonApprovedRate.Count();
         return rateNonApprovedChart;
     }
+
+    public int GetPendingEstimateCount(int PSID, int UserID, int EstID,int UserTypeID)
+    {
+        var ests = 0;
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASEEMPLOYEE)
+        {
+            ests = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == UserID && er.EstId == EstID).Count();
+        }
+        else
+        {
+            ests = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == 0 && er.EstId == EstID).Count();
+        }
+        return ests;
+    }
+    public int GetPurchaserPendingItemsCount(int PSID, int UserID)
+    {
+        var ests = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == UserID).Count();
+        return ests;
+    }
 }
+

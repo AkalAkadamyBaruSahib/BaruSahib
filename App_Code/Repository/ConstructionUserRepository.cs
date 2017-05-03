@@ -129,6 +129,7 @@ public class ConstructionUserRepository
 
         decimal? receivedQty = (from S in _context.SubmitBillByUser
                                 where S.AcaId == AcademyID && S.CreatedOn >= firstDateOfMonth && S.CreatedOn <= lastDateOfMonth && S.BillType == BillTypeID
+                                //&& (S.FirstVarifyStatus == null || S.FirstVarifyStatus == 1)
                                 select (decimal?)S.TotalAmount).Sum();
         return receivedQty;
     }

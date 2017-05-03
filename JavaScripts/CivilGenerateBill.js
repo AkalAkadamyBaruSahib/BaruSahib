@@ -453,9 +453,15 @@ function Qty_ChangeEvent(cntID) {
     var rate = $("#txtRate" + cntID).val();
     var qty = $("#txtQty" + cntID).val();
     $("#txtTotal" + cntID).text(rate * qty);
-
+    TotalEstimateAmt();
 }
 
+function Rate_ChangeEvent(cntID) {
+    var rate = $("#txtRate" + cntID).val();
+    var qty = $("#txtQty" + cntID).val();
+    $("#txtTotal" + cntID).text(rate * qty);
+    TotalEstimateAmt();
+}
 function SourceType_ChangeEvent(cntID) {
     ClearData(cntID);
 }
@@ -548,7 +554,7 @@ function AddMaterialRow() {
             '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
             '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" onchange="Qty_ChangeEvent(' + cntM + ');" /></td>' +
             '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
-            '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+            '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" onchange="Rate_ChangeEvent(' + cntM + ');" /></td>' +
             '<td><span id="txtTotal' + cntM + '" name="txtTotal' + cntM + '" class="span6 typeahead" /></td>' +
             '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /><input type="hidden" id="hdnMaterialTypeName' + cntM + '" /></td></tr>');
 
@@ -571,6 +577,7 @@ function AddMaterialRow() {
 }
 
 function Validation() {
+    TotalEstimateAmt();
     if ($("#txtAgencyName").val() != undefined) {
         var vendorname = $("#txtAgencyName").val();
         var ValidateMaterial = $.grep(VendorObjectList, function (e) { return e.VendorName == vendorname })[0];
@@ -640,37 +647,37 @@ function Validation() {
         $("#txtTotal" + i).text(($("#txtRate" + i).val()) * ($("#txtQty" + i).val()));
 
     }
+  
     return true;
 }
 
 function TotalEstimateAmt() {
     //BillSumitRateCondition();
-    if (Validation()) {
-        var tablelength = $("#tbody2").children('tr').length;
-        var Amt = 0;
-        var rate = 0;
-        var qty = 0;
-        for (var i = 0 ; i < (tablelength + delItems) ; i++) {
-            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
-                qty = 0;
-            }
-            else {
-                qty = $("#txtQty" + i).val();
-            }
-
-            if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
-                rate = 0;
-            }
-            else {
-                rate = $("#txtRate" + i).val();
-            }
-
-            Amt += parseFloat(qty) * parseFloat(rate);
+    var tablelength = $("#tbody2").children('tr').length;
+    var Amt = 0;
+    var rate = 0;
+    var qty = 0;
+    for (var i = 0 ; i < (tablelength + delItems) ; i++) {
+        if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
+            qty = 0;
         }
-        var RoundAmt = Amt.toFixed(2);
-        $("[id$='lblAmt']").html(RoundAmt);
-        $("input[id*='hdnAmount']").val(RoundAmt);
+        else {
+            qty = $("#txtQty" + i).val();
+        }
+
+        if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
+            rate = 0;
+        }
+        else {
+            rate = $("#txtRate" + i).val();
+        }
+
+        Amt += parseFloat(qty) * parseFloat(rate);
     }
+    var RoundAmt = Amt.toFixed(2);
+    $("[id$='lblAmt']").html(RoundAmt);
+    $("input[id*='hdnAmount']").val(RoundAmt);
+
 }
 
 function SaveNonSanctionData() {
@@ -839,7 +846,7 @@ function ValidationAmount() {
         alert("Please click on the BillCost button");
         return false;
     }
-    else if ((alreadyBillAmount == 5000 || billingAmount > 5000) && $("input[id*='hdnUpdateBillID']").val() == "") {
+    else if (( billingAmount > 5000) && $("input[id*='hdnUpdateBillID']").val() == "") {
         alert("You already submitted bills for Rs 5000 for this month. Now you can not submit more bills for this month.");
         return false;
     }
@@ -933,7 +940,7 @@ function AddUpdateMaterialRow() {
         '<td> <span id="spnMaterialTypeID' + cntM + '" style="width:150px;"></td>' +
         '<td><input id="txtQty' + cntM + '" name="txtQty' + cntM + '" value="" type="text" style="width:80px;" onchange="Qty_ChangeEvent(' + cntM + ');"/></td>' +
         '<td>  <label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
-        '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" /></td>' +
+        '<td> <input id="txtRate' + cntM + '" name="txtRate' + cntM + '" value="" type="text" style="width:80px;" onchange="Rate_ChangeEvent(' + cntM + ');" /></td>' +
         '<td><span id="txtTotal' + cntM + '" name="txtTotal' + cntM + '" class="span6 typeahead" style="width:200px;"/></td>' +
         '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /><input type="hidden" id="hdnMaterialTypeName' + cntM + '" /></td></tr>');
 

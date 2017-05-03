@@ -31,64 +31,64 @@
                 </div>
             </div>
             <div class="box-content">
-                    <form class="form-horizontal">
-                        <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="workallot" />
-                        <fieldset>
-                            <asp:UpdatePanel ID="UpdatePanel3" runat="server">
-                                <ContentTemplate>
-                                    <div class="control-group">
-                                        <label class="control-label" for="typeahead">Select Zone</label>
-                                        <div class="controls">
-                                            <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-                                            <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged">
-                                                <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="reqddlZone" runat="server" InitialValue="0" Display="None" ValidationGroup="workallot" ErrorMessage="Please select Zone." ForeColor="Red" ControlToValidate="ddlZone"></asp:RequiredFieldValidator>
-                                        </div>
+                <form class="form-horizontal">
+                    <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="workallot" />
+                    <fieldset>
+                        <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                            <ContentTemplate>
+                                <div class="control-group">
+                                    <label class="control-label" for="typeahead">Select Zone</label>
+                                    <div class="controls">
+                                        <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
+                                        <asp:DropDownList ID="ddlZone" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged">
+                                            <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="reqddlZone" runat="server" InitialValue="0" Display="None" ValidationGroup="workallot" ErrorMessage="Please select Zone." ForeColor="Red" ControlToValidate="ddlZone"></asp:RequiredFieldValidator>
                                     </div>
-                                    <div class="control-group">
-                                        <label class="control-label" for="typeahead">Select Academy</label>
-                                        <div class="controls">
-                                            <asp:DropDownList ID="ddlAcademy" runat="server">
-                                                <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="reqddlAcademy" runat="server" InitialValue="0" Display="None" ValidationGroup="workallot" ErrorMessage="Please select Academy." ForeColor="Red" ControlToValidate="ddlAcademy"></asp:RequiredFieldValidator>
-                                        </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="typeahead">Select Academy</label>
+                                    <div class="controls">
+                                        <asp:DropDownList ID="ddlAcademy" runat="server">
+                                            <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:RequiredFieldValidator ID="reqddlAcademy" runat="server" InitialValue="0" Display="None" ValidationGroup="workallot" ErrorMessage="Please select Academy." ForeColor="Red" ControlToValidate="ddlAcademy"></asp:RequiredFieldValidator>
                                     </div>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
-                            <div class="control-group">
-                                <label class="control-label" for="typeahead">Name of Work</label>
-                                <div class="controls">
-                                    <asp:TextBox ID="txtWorkAllot" runat="server" CssClass="span6 typeahead"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="reqtxtWorkAllot" runat="server" Display="None" ErrorMessage="Please enter the  Name of Work." ValidationGroup="workallot" ForeColor="Red" ControlToValidate="txtWorkAllot"></asp:RequiredFieldValidator>
                                 </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                        <div class="control-group">
+                            <label class="control-label" for="typeahead">Name of Work</label>
+                            <div class="controls">
+                                <asp:TextBox ID="txtWorkAllot" runat="server" CssClass="span6 typeahead"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="reqtxtWorkAllot" runat="server" Display="None" ErrorMessage="Please enter the  Name of Work." ValidationGroup="workallot" ForeColor="Red" ControlToValidate="txtWorkAllot"></asp:RequiredFieldValidator>
                             </div>
-                            <div class="control-group" style="display: none;">
-                                <label class="control-label" for="typeahead">Work Image Name</label>
-                                <div class="controls">
+                        </div>
+                        <div class="control-group" style="display: none;">
+                            <label class="control-label" for="typeahead">Work Image Name</label>
+                            <div class="controls">
 
-                                    <asp:TextBox ID="txtImageName" runat="server" Width="550px"></asp:TextBox>
-                                </div>
+                                <asp:TextBox ID="txtImageName" runat="server" Width="550px"></asp:TextBox>
                             </div>
-                            <div class="control-group">
-                                <label class="control-label" for="typeahead">Upload Work Alloted File </label>
-                                <div class="controls">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="typeahead">Upload Work Alloted File </label>
+                            <div class="controls">
 
-                                    <asp:FileUpload ID="fuImgeFile" runat="server" />
-                                    <asp:Image ID="imgWorkAllot" runat="server" Width="75px" Height="75px" Visible="false" />
-                                    <asp:Label runat="server" ID="lblImgFileName" Visible="false"></asp:Label>
-                                </div>
+                                <asp:FileUpload ID="fuImgeFile" runat="server" />
+                                <asp:Image ID="imgWorkAllot" runat="server" Width="75px" Height="75px" Visible="false" />
+                                <asp:Label runat="server" ID="lblImgFileName" Visible="false"></asp:Label>
                             </div>
+                        </div>
 
-                            <div class="form-actions">
-                                <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="workallot" CssClass="btn btn-primary" OnClick="btnSave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                                <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" ValidationGroup="workallot" Visible="false" OnClick="btnEdit_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                                <asp:Button ID="btnExecl" runat="server" Text="Excel Download" CssClass="btn btn-primary" OnClick="btnExecl_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
-                                <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn btn-danger" />
-                            </div>
-                        </fieldset>
-                    </form>
+                        <div class="form-actions">
+                            <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="workallot" CssClass="btn btn-primary" OnClick="btnSave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
+                            <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" ValidationGroup="workallot" Visible="false" OnClick="btnEdit_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
+                            <asp:Button ID="btnExecl" runat="server" Text="Excel Download" CssClass="btn btn-primary" OnClick="btnExecl_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" />
+                            <asp:Button ID="btnCl" runat="server" Text="Cancel" CssClass="btn btn-danger" />
+                        </div>
+                    </fieldset>
+                </form>
             </div>
         </div>
         <!--/span-->
@@ -98,7 +98,8 @@
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
-                <h2><i class="icon-user"></i><asp:label ID="lblWorkMsg" runat="server"></asp:label></h2>
+                <h2><i class="icon-user"></i>
+                    <asp:Label ID="lblWorkMsg" runat="server"></asp:Label></h2>
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
@@ -106,7 +107,24 @@
                 </div>
             </div>
             <div class="box-content">
-                <div id="divAcademyDetails" runat="server"></div>
+                <table>
+                    <tr>
+                        <td>
+                            <div id="divAcademy" runat="server">
+                                Select Academy:
+                                <asp:DropDownList ID="drpAcademy" OnSelectedIndexChanged="drpAcademy_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
+                       </div>
+                        </td>
+                        <td style="width:10%"></td>
+                        <td>
+                            <div id="divWorkAllot" runat="server">
+                                Select WorkAllot To show Bills:
+                                <asp:DropDownList ID="drpWorkAllot" OnSelectedIndexChanged="drpWorkAllot_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+               <div id="divAcademyDetails" runat="server"></div>
             </div>
         </div>
         <!--/span-->
