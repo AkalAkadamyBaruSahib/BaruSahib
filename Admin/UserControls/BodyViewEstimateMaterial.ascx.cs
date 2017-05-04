@@ -167,7 +167,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                     var PurchasedQty = Convert.ToDecimal(txtPurchaseQty.Text) + Convert.ToDecimal(hdnPurchaseQty.Value);
                     var estCost = Convert.ToDecimal(txtRate.Text) * PurchasedQty;
                     var ExtraRate = (Convert.ToDecimal(hdnRate.Value) * 10 / 100) + Convert.ToDecimal(hdnRate.Value);
-                    if (Convert.ToInt16(hdnMatTypeID.Value) == 52) // Ration Create Enum
+                    if (Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.RATION) // Ration Create Enum
                     {
                         if (PurchasedQty > ExtraQty)
                         {
@@ -188,13 +188,13 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         }
                         DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     }
-                    else if (Convert.ToInt16(hdnMatTypeID.Value) == 53)
+                    else if (Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.VEGETABLESANDFRUITS)
                     {
                         DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "' where Sno='" + Sno + "'");
                         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     }
-                    else if (Convert.ToInt16(txtMatID.Value) == 844 || Convert.ToInt16(txtMatID.Value) == 2387)
+                    else if (Convert.ToInt16(txtMatID.Value) == (int)TypeEnum.MatID.ANGLEPATTI460MM || Convert.ToInt16(txtMatID.Value) == (int)TypeEnum.MatID.SARIA)
                     {
                         if (Convert.ToDecimal(txtRate.Text) <= ExtraRate)
                         {
@@ -228,7 +228,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         DAL.DalAccessUtility.ExecuteNonQuery("update Material set LocalRate=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     }
 
-                    if (Convert.ToInt16(hdnMatTypeID.Value) == 53) // vegitable
+                    if (Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.VEGETABLESANDFRUITS) // vegitable
                     {
                         if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                         {
@@ -238,7 +238,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         }
                     }
-                    else if (Convert.ToInt16(hdnMatTypeID.Value) == 29 || Convert.ToInt16(hdnMatTypeID.Value) == 65 || Convert.ToInt16(hdnMatTypeID.Value) == 24) // Tiles,Wood,Steel
+                    else if (Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.TILES || Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.WOODMATERIAL || Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.BHUILDINGMATERIAL) // Tiles,Wood,Steel
                     {
                         if (PurchaseQty > TotalSteelWoodTileQuantity)
                         {

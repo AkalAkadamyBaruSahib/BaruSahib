@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ArchMaster.master" AutoEventWireup="true" CodeFile="Arch_UploadDrawing.aspx.cs" Inherits="Arch_UploadDrawing" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/ArchMaster.master" Async="true" AutoEventWireup="true" CodeFile="Arch_UploadDrawing.aspx.cs" Inherits="Arch_UploadDrawing" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript">

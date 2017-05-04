@@ -263,7 +263,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
         int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         int matid = 0;
         DataSet dsExist = new DataSet();
-        dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct MatTypeId,MatName from Material where MatTypeId='" + ddlMatType.SelectedValue + "' and MatName='" + txtMat.Text + "'");
+        dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct MatTypeId,MatName from Material where MatName='" + txtMat.Text + "'");
         if (dsExist.Tables[0].Rows.Count > 0)
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material with Material Type already assigned to Zone');", true);

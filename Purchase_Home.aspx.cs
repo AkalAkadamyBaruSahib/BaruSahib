@@ -99,7 +99,7 @@ public partial class Purchase_Home : System.Web.UI.Page
         PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
         List<Estimate> EstimateView = new List<Estimate>();
 
-        if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+        if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.PURCHASECOMMITTEE))
         {
             EstimateView = repo.EstimateViewForPurchase((int)TypeEnum.PurchaseSourceID.Mohali, UserTypeID, Convert.ToInt32(hbnInchargeID.Value));
             spnPendingItem.Visible = false;
@@ -134,7 +134,7 @@ public partial class Purchase_Home : System.Web.UI.Page
             ZoneInfo += "<tr>";
             ZoneInfo += "<td width='40%'>" + estimate.EstId + "</td>";
             ZoneInfo += "<td width='40%'>" + repo.GetPendingEstimateCount((int)TypeEnum.PurchaseSourceID.Mohali, Convert.ToInt32(hbnInchargeID.Value), estimate.EstId, UserTypeID) + "</td>";
-            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE))
+            if (UserTypeID == (int)(TypeEnum.UserType.PURCHASE) || UserTypeID == (int)(TypeEnum.UserType.PURCHASECOMMITTEE))
             {
                 ZoneInfo += "<td  width='20%' class='center'><a href='Purchase_ViewEstMaterial.aspx?EstId=" + estimate.EstId + "'>View</a></td>";
             }
@@ -152,10 +152,22 @@ public partial class Purchase_Home : System.Web.UI.Page
 
     private void getRecentRateApproved()
     {
-        DateTime dt1 = DateTime.Now.AddDays(-7);
+        int UserTypeID = Convert.ToInt16(Session["UserTypeID"].ToString());
+        DataTable dsMatUnApprovdRate = new DataTable();
+        DataTable dsMatRate = new DataTable();
 
-        DataTable dsMatRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.ApprovedOn,MR.ApprovedRate from Material M INNER JOIN MaterialRateApproved MR on M.MatId = MR.MatID where  MR.ApprovedOn >= '" + dt1 + "'").Tables[0];
- 
+
+        DateTime dt1 = DateTime.Now.AddDays(-7);
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+        {
+            spnNewRate.Visible = true;
+            dsMatUnApprovdRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.Rate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MR on M.MatId = MR.MatID INNER JOIN Incharge Inc ON Inc.InchargeId = MR.CreatedBy").Tables[0];
+        }
+        else
+        {
+            spnRateAproved.Visible = true;
+            dsMatRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.ApprovedOn,MR.ApprovedRate from Material M INNER JOIN MaterialRateApproved MR on M.MatId = MR.MatID where  MR.ApprovedOn >= '" + dt1 + "'").Tables[0];
+        }
         divRecentRateApproved.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
 
@@ -163,20 +175,43 @@ public partial class Purchase_Home : System.Web.UI.Page
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
         ZoneInfo += "<th width='40%' style='color: #cc3300;'>Item Name</th>";
-        ZoneInfo += "<th width='30%' style='color: #cc3300;'>Approved Rate</th>";
-        ZoneInfo += "<th width='30%' style='color: #cc3300;'>Approved On</th>";
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+        {
+            ZoneInfo += "<th width='20%' style='color: #cc3300;'>Rate</th>";
+            ZoneInfo += "<th width='20%' style='color: #cc3300;'>Requested By</th>";
+            ZoneInfo += "<th width='20%' style='color: #cc3300;'>View</th>";
+        }
+        else
+        {
+            ZoneInfo += "<th width='30%' style='color: #cc3300;'>Approved Rate</th>";
+            ZoneInfo += "<th width='30%' style='color: #cc3300;'>Approved On</th>";
+        }
         ZoneInfo += "</tr>";
         ZoneInfo += "</thead>";
 
         ZoneInfo += "<tbody>";
-
-        for (int i = 0; i < dsMatRate.Rows.Count; i++)
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
         {
-            ZoneInfo += "<tr>";
-            ZoneInfo += "<td width='40%'>" + dsMatRate.Rows[i]["MatName"].ToString() + "</td>";
-            ZoneInfo += "<td width='30%'>" + dsMatRate.Rows[i]["ApprovedRate"].ToString() + "</td>";
-            ZoneInfo += "<td width='30%'>" + dsMatRate.Rows[i]["ApprovedOn"].ToString() + "</td>";
-            ZoneInfo += "</tr>";
+            for (int i = 0; i < dsMatUnApprovdRate.Rows.Count; i++)
+            {
+                ZoneInfo += "<tr>";
+                ZoneInfo += "<td width='40%'>" + dsMatUnApprovdRate.Rows[i]["MatName"].ToString() + "</td>";
+                ZoneInfo += "<td width='20%'>" + dsMatUnApprovdRate.Rows[i]["Rate"].ToString() + "</td>";
+                ZoneInfo += "<td width='20%'>" + dsMatUnApprovdRate.Rows[i]["InName"].ToString() + "</td>";
+                ZoneInfo += "<td width='20%'><a href='RateApproved.aspx'>View</a></td>";
+                ZoneInfo += "</tr>";
+            }
+        }
+        else
+        {
+            for (int i = 0; i < dsMatRate.Rows.Count; i++)
+            {
+                ZoneInfo += "<tr>";
+                ZoneInfo += "<td width='40%'>" + dsMatRate.Rows[i]["MatName"].ToString() + "</td>";
+                ZoneInfo += "<td width='30%'>" + dsMatRate.Rows[i]["ApprovedRate"].ToString() + "</td>";
+                ZoneInfo += "<td width='30%'>" + dsMatRate.Rows[i]["ApprovedOn"].ToString() + "</td>";
+                ZoneInfo += "</tr>";
+            }
         }
 
         ZoneInfo += "</tbody>";

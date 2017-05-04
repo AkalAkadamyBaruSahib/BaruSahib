@@ -84,14 +84,11 @@ public partial class _Default : System.Web.UI.Page
                 {
                    Response.Redirect("Workshop_Home.aspx");
                 }
-                else if (inchrge.UserTypeId == 4 || inchrge.UserTypeId == 12)
+                else if (inchrge.UserTypeId == 4 || inchrge.UserTypeId == 12 || inchrge.UserTypeId == 23)
                 {
                     Response.Redirect("Purchase_Home.aspx");
                 }
-                    else if(inchrge.UserTypeId == 23)
-                {
-                    Response.Redirect("Purchase_Dashboard.aspx");
-                }
+              
                 else if (inchrge.UserTypeId == 3)
                 {
                     Response.Redirect("AuditHome.aspx");

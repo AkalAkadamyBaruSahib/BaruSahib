@@ -52,10 +52,21 @@ public class TypeEnum
 
     public enum MatTypeID : int
     {
-        TRANSPORTMATERIAL = 1,
-        ELECTRICALMATERIAL = 2,
-        MOTORSANDPUMPS = 3,
-        EXTERNALELECTRICALWORK = 4
+        TRANSPORTMATERIAL = 49,
+        ELECTRICALMATERIAL = 22,
+        MOTORSANDPUMPS = 35,
+        EXTERNALELECTRICALWORK = 48,
+        BHUILDINGMATERIAL = 24,
+        TILES = 29,
+        RATION = 52,
+        VEGETABLESANDFRUITS = 53,
+        WOODMATERIAL = 65
+    }
+
+    public enum MatID : int
+    {
+        ANGLEPATTI460MM = 844,
+        SARIA = 2387
     }
 
     public enum TransportDocumentType : int

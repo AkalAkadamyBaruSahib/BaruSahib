@@ -30,7 +30,7 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         {
             liRateApproved.Visible = true;
             liPurchaseOrder.Visible = true;
-            liPurchaseHome.Visible = true;
+            liHome.Visible = true;
         }
         else
         {

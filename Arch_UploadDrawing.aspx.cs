@@ -105,9 +105,11 @@ public partial class Arch_UploadDrawing : System.Web.UI.Page
                     fuPdf.SaveAs(Server.MapPath(pdffilepath));
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing submit Successfully!!.');", true);
                 }
-                SendSMStoAdmin();
+                //SendSMStoAdmin(); 
+                SendEmailToConstructionRegardingDrawing(txtDrwName.Text);
                 Response.Redirect("Arch_DrawingView.aspx");
                 // BindAllDrawing();
+               
             }
         }
     }
@@ -144,5 +146,62 @@ public partial class Arch_UploadDrawing : System.Web.UI.Page
         {
             Utility.SendSMS(adminNumber, " Non-Approved Drawing of " + ddlAcademy.SelectedItem.Text + " has been uploaded to www.Akalsewa.org.");
         }
+    }
+
+    public void SendEmailToConstructionRegardingDrawing(string drawingName)
+    {
+        string MsgInfo = string.Empty;
+        MsgInfo += "<table style='width:100%;'>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
+        MsgInfo += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
+        MsgInfo += "</td>";
+        MsgInfo += "<td style='text-align: right; width:40%;'>";
+        MsgInfo += "<br /><br />";
+        MsgInfo += "<div style='font-style:italic; text-align: right;'>";
+        MsgInfo += "Baru Shahib,";
+        MsgInfo += "<br />Dist: Sirmaur";
+        MsgInfo += "<br />Himachal Pradesh-173001";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td colspan='2' style='height:50px'>";
+        MsgInfo += "New Drawing has been uploaded.Please click on <a href='http://akalsewa.org/'>Akal Sewa</a>";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "</table>";
+        MsgInfo += "<table border='1' style='width:100%' cellspacing='0' cellpadding='0' >";
+        MsgInfo += "<tbody>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Academy Name:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += ddlAcademy.SelectedItem.Text;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Drawing Name:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += drawingName;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "</tbody>";
+        MsgInfo += "</table>";
+        string to = "akalconstruction@barusahib.org ";
+        string cc = string.Empty;
+
+        try
+        {
+            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Drawing of Akal Academy " + ddlAcademy.SelectedItem.Text + " has been uploaded");
+        }
+        catch { }
+        finally
+        {
+
+        }
+
     }
 }

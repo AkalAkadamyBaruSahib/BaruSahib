@@ -54,6 +54,7 @@ public partial class RateApproved : System.Web.UI.Page
         materialrateapproved.ApprovedRate = Convert.ToDecimal(txtNewRate.Text);
         materialrateapproved.ApprovedBy = InchargeID;
         materialrateapproved.ApprovedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        materialrateapproved.RequestedBy = Convert.ToInt32(dsNonMat.Rows[0]["CreatedBy"].ToString());
 
         ConstructionUserRepository repo = new ConstructionUserRepository(new AkalAcademy.DataContext());
         repo.SaveApprovedMaterial(materialrateapproved);
@@ -115,7 +116,7 @@ public partial class RateApproved : System.Web.UI.Page
 
         try
         {
-           //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approved Successfully.");
+          // Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approved Successfully.");
         }
         catch { }
         finally

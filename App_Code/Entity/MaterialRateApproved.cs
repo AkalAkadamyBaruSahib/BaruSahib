@@ -23,4 +23,6 @@ public class MaterialRateApproved
     public int ApprovedBy { get; set; }
 
     public DateTime? ApprovedOn { get; set; }
+
+    public int? RequestedBy { get; set; }
 }
