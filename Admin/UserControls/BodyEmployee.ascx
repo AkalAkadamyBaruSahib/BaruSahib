@@ -47,8 +47,11 @@
                                                 Mobile<br />
                                                 <asp:TextBox ID="txtMob" runat="server"></asp:TextBox>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtMob" Display="None" ErrorMessage="Please enter the Mobile." ForeColor="Red" ValidationGroup="emp"></asp:RequiredFieldValidator>
-                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtMob" ErrorMessage="Invalid Mob No" ValidationExpression="[0-9]{10}" ForeColor="Red"></asp:RegularExpressionValidator>
-                                            </div>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtMob" ErrorMessage="Invalid Mob No" ValidationExpression="[0-9]{10}" ForeColor="Red"></asp:RegularExpressionValidator><br />
+                                                EmailID<br />
+                                                <asp:TextBox ID="txtEmailID" runat="server"></asp:TextBox>
+                                               <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="txtEmailID" ForeColor="Red" ErrorMessage="Invalid Login Id Format!!!! Use The Email Format"></asp:RegularExpressionValidator>
+                                               </div>
                                         </div>
                                     </td>
                                     <td width="50%"></td>

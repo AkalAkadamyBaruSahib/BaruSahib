@@ -28,7 +28,8 @@ public class Incharge
     public int? UserTypeId { get; set; }
     public DateTime? ChangePwdOn { get; set; }
     public int? ModuleID { get; set; }
-
+    public string EmailID { get; set; }
+    
     [ForeignKey("InchargeId")]
     public AdminTypeRelation AdminTypeRelation { get; set; }
 }

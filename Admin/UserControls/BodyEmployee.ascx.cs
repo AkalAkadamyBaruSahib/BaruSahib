@@ -83,7 +83,7 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
     private void getInchargeDetails(string ID)
     {
         DataSet dsCouDetails = new DataSet();
-        dsCouDetails = DAL.DalAccessUtility.GetDataInDataSet("Select InName,InMobile,LoginId,UserPwd,DepId,DesigId,UserTypeId,U.RoleID FROM Incharge  LEFT OUTER JOIN UserRole U ON U.UserID = Incharge.InchargeId WHERE InchargeId='" + ID + "' and Active=1");
+        dsCouDetails = DAL.DalAccessUtility.GetDataInDataSet("Select InName,InMobile,LoginId,UserPwd,DepId,DesigId,UserTypeId,U.RoleID,EmailID FROM Incharge  LEFT OUTER JOIN UserRole U ON U.UserID = Incharge.InchargeId WHERE InchargeId='" + ID + "' and Active=1");
         if (dsCouDetails.Tables[0].Rows.Count > 0)
         {
             txtName.Text = dsCouDetails.Tables[0].Rows[0]["InName"].ToString();
@@ -93,6 +93,7 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             ddlDept.SelectedValue = dsCouDetails.Tables[0].Rows[0]["DepId"].ToString();
             ddlDesig.SelectedValue = dsCouDetails.Tables[0].Rows[0]["DesigId"].ToString();
             ddlUserType.SelectedValue = dsCouDetails.Tables[0].Rows[0]["UserTypeId"].ToString();
+            txtEmailID.Text = dsCouDetails.Tables[0].Rows[0]["EmailID"].ToString();
             if (dsCouDetails.Tables[0].Rows[0]["RoleID"] != null)
             {
                 foreach (ListItem item in chkUserRole.Items)
@@ -222,6 +223,7 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
             param.Add("UserPwd", txtUserPwd.Text);
             param.Add("userType", ddlUserType.SelectedValue);
             param.Add("moduleID", ModuleID);
+            param.Add("EmailID", txtEmailID.Text);
             int InchargeID = DAL.DalAccessUtility.GetDataInScaler("USP_NewInchargeProc", param);
 
             UserRole role = null;
@@ -267,7 +269,7 @@ public partial class Admin_UserControls_BodyEmployee : System.Web.UI.UserControl
         else
         {
             string InId = Request.QueryString["InchargeId"];
-            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewInchargeProc '" + InId + "','" + txtName.Text + "','" + txtMob.Text + "','','','" + lblUser.Text + "','2','1','" + txtLoginId.Text + "','" + txtUserPwd.Text + "','" + ddlUserType.SelectedValue + "','" + ModuleID + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewInchargeProc '" + InId + "','" + txtName.Text + "','" + txtMob.Text + "','','','" + lblUser.Text + "','2','1','" + txtLoginId.Text + "','" + txtUserPwd.Text + "','" + ddlUserType.SelectedValue + "','" + ModuleID + "','" + txtEmailID.Text + "'");
             DAL.DalAccessUtility.ExecuteNonQuery("Delete From UserRole where UserID='" + Convert.ToInt32(InId) + "'");
             UserRole role = null;
             foreach (ListItem chk in chkUserRole.Items)

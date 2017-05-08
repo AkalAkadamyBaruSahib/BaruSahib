@@ -1651,7 +1651,11 @@ public class PurchaseRepository
     }
     public int GetPurchaserPendingItemsCount(int PSID, int UserID)
     {
-        var ests = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == UserID).Count();
+        var ests = (from e in _context.Estimate
+                    join er in _context.EstimateAndMaterialOthersRelations on e.EstId equals er.EstId
+                    where er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == UserID && e.IsApproved == true && e.IsActive == true
+                    select (int)er.Sno).Count();
+        //  var ests = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == UserID).Count();
         return ests;
     }
 }
