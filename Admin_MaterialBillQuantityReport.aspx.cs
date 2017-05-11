@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ClosedXML.Excel;
 
 public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
 {
@@ -83,29 +84,228 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
 
     protected void btnDownload_Click(object sender, EventArgs e)
     {
-        Response.ClearContent();
-        Response.Buffer = true;
-        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "BillQuantityReportByNameOFWork(" + ddlNameOfWork.SelectedItem + ").xls"));
-        Response.ContentType = "application/ms-excel";
-        DataTable dt = BindDatatable();
-        string str = string.Empty;
-        foreach (DataColumn dtcol in dt.Columns)
+        var wb = new XLWorkbook();
+        var ws = wb.Worksheets.Add("Bills Report");
+
+        DataTable dsDes = new DataTable();
+        DataTable dsRate = new DataTable();
+
+        int WAID = Convert.ToInt16(ddlNameOfWork.SelectedValue);
+        int AcaID = Convert.ToInt16(ddlAcademy.SelectedValue);
+
+        DataTable dtMaterials = GetBillReportByNameOFWork();
+
+        DataTable dsEstimateCost = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct SUM(distinct ER.Amount) As EstimateCost FROM Estimate E Inner JOIn EstimateAndMaterialOthersRelations ER on ER.EstId=E.EstId WHERE E.WAId='" + ddlNameOfWork.SelectedValue + "'and E.AcaId ='" + ddlAcademy.SelectedValue + "' and ER.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and E.IsApproved=1").Tables[0];
+
+        DataTable dsPurchaseCost = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct SUM(SE.Amount) AS PurchaseCost FROM SubmitBillByUser S INNER JOIN SubmitBillByUserAndMaterialOthersRelation SE ON S.SubBillId = SE.SubBillId WHERE S.WAId='" + ddlNameOfWork.SelectedValue + "' AND ISNULL(S.FirstVarifyStatus,-1) != 0 AND ISNULL(S.SecondVarifyStatus,-1) != 0  and S.AcaId='" + ddlAcademy.SelectedValue + "'").Tables[0];
+
+
+        dsDes = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct M.MatName,M.MatId,WA.WorkAllotName,A.AcaName From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId INNER JOIN Academy A ON A.AcaId=ES.AcaId  INNER JOIN WorkAllot WA ON WA.WAId=ES.WAId INNER JOIN Material M ON EM.MatId = M.MatId  WHERE WA.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1").Tables[0];
+
+        ws.Cell("D1").Value = "TOTAL LOCAL ESTIMATE COST";
+        var rngTable = ws.Range("D1:F1");
+        ws.Cell("E1").Value = dsEstimateCost.Rows[0]["EstimateCost"].ToString();
+        ws.Cell("D2").Value = "TOTAL BILL SUBMITTED:-";
+        var rngTable1 = ws.Range("D2:F2");
+        if (dsPurchaseCost.Rows[0]["PurchaseCost"].ToString() == string.Empty)
         {
-            Response.Write(str + dtcol.ColumnName);
-            str = "\t";
+            ws.Cell("E2").Value = 0;
         }
-        Response.Write("\n");
-        foreach (DataRow dr in dt.Rows)
+        else
         {
-            str = "";
-            for (int j = 0; j < dt.Columns.Count; j++)
+            ws.Cell("E2").Value = dsPurchaseCost.Rows[0]["PurchaseCost"].ToString();
+        }
+
+
+        ws.Cell("D3").Value = "BALANCE COST:-";
+        ws.Cell("A3").Value = "NAME OF ACADEMY:-";
+        ws.Cell("B3").Value = dsDes.Rows[0]["AcaName"].ToString();
+        var rngTable2 = ws.Range("D3:F3");
+
+        decimal balanceCost = 0;
+        if (dsPurchaseCost.Rows[0]["PurchaseCost"].ToString() == string.Empty)
+        {
+            balanceCost = Convert.ToDecimal(dsEstimateCost.Rows[0]["EstimateCost"].ToString());
+        }
+        else
+        {
+            balanceCost = Convert.ToDecimal(dsEstimateCost.Rows[0]["EstimateCost"].ToString()) - Convert.ToDecimal(dsPurchaseCost.Rows[0]["PurchaseCost"].ToString());
+        }
+        ws.Cell("E3").Value = balanceCost.ToString();
+        ws.Cell("A4").Value = "NAME OF WORK:-";
+        ws.Cell("B4").Value = dsDes.Rows[0]["WorkAllotName"].ToString();
+        var rngTableEstimate = ws.Range("A6:C6");
+        rngTable.IsMerged();
+        var rngTable11 = ws.Range("A3:A3");
+        var rngTable12 = ws.Range("A4:A4");
+
+        ws.Cell("A6").Value = "";
+        ws.Cell("B6").Value = "ESTIMATES";
+        ws.Cell("C6").Value = "";
+        var rngTable5 = ws.Range("A6:A6");
+        var rngTable6 = ws.Range("B6:B6");
+        var rngTable4 = ws.Range("C6:C6");
+        ws.Cell("A7").Value = "EST NO.";
+        ws.Cell("B7").Value = "ESTIMATE SUBHEAD";
+        ws.Cell("C7").Value = "COST";
+        var rngTable7 = ws.Range("A7:A7");
+        var rngTable8 = ws.Range("B7:B7");
+        var rngTable9 = ws.Range("C7:C7");
+        int rowNum = 8;
+        DataTable dsEstimate = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Es.EstId,Es.SubEstimate,Es.EstmateCost From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId  WHERE  ES.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1").Tables[0];
+        for (int x = 0; x < dsEstimate.Rows.Count; x++)
+        {
+            ws.Cell("A" + rowNum).Value = dsEstimate.Rows[x]["EstId"].ToString();
+            ws.Cell("B" + rowNum).Value = dsEstimate.Rows[x]["SubEstimate"].ToString();
+            ws.Cell("C" + rowNum).Value = dsEstimate.Rows[x]["EstmateCost"].ToString();
+            rowNum = rowNum + 1;
+        }
+        rowNum = rowNum + 2;
+        int col = 1;
+        ws.Cell("D" + rowNum).Value = "DETAILS";
+        foreach (DataColumn dtcol in dtMaterials.Columns)
+        {
+            var rngTable13 = ws.Range(getAlphabeticCharacter(col) + rowNum);
+            rngTable13.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.CornflowerBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+            col += 1;
+        }
+        rowNum = rowNum + 1;
+        int tcol = 1;
+        foreach (DataColumn dtcol in dtMaterials.Columns)
+        {
+            ws.Cell(getAlphabeticCharacter(tcol) + rowNum).Value = dtcol.ColumnName;
+            var rngTable10 = ws.Range(getAlphabeticCharacter(tcol) + rowNum);
+            rngTable10.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Aqua).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+            tcol += 1;
+        }
+
+        rowNum = rowNum + 1;
+        for (int i = 0; i < dtMaterials.Rows.Count; i++)
+        {
+
+            int dataCol = 1;
+            for (int j = 1; j <= dtMaterials.Columns.Count; j++)
             {
-                Response.Write(str + Convert.ToString(dr[j]));
-                str = "\t";
+                ws.Cell(getAlphabeticCharacter(dataCol) + rowNum).Value = dtMaterials.Rows[i][(j - 1)].ToString();
+                dataCol += 1;
             }
-            Response.Write("\n");
+            rowNum += 1;
         }
+        rngTable.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.AntiqueWhite).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+        rngTable1.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Aquamarine).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+        rngTable2.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Apricot).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+        rngTable4.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.CornflowerBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+        rngTable5.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.CornflowerBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+        rngTable6.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.CornflowerBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+        rngTable7.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Aqua).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+        rngTable8.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Aqua).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+        rngTable9.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Aqua).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+        rngTable11.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.Aquamarine).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+        rngTable12.FirstCell().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.AntiqueWhite).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Font.Bold = true;
+
+        ws.Columns().AdjustToContents();
+
+        string FileName = "MaterialReport" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
+
+        string FilePath = Server.MapPath("EstFile") + "\\" + FileName;
+        wb.SaveAs(@FilePath);
+
+        Response.Clear();
+        Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", FileName));
+        Response.ContentType = "application/octet-stream";
+        Response.WriteFile(@FilePath);
         Response.End();
+    } 
+    
+    private string getAlphabeticCharacter(int num)
+    {
+        string character = string.Empty;
+
+        switch (num)
+        {
+            case 1:
+                character = "A";
+                break;
+            case 2:
+                character = "B";
+                break;
+            case 3:
+                character = "C";
+                break;
+            case 4:
+                character = "D";
+                break;
+            case 5:
+                character = "E";
+                break;
+            case 6:
+                character = "F";
+                break;
+            case 7:
+                character = "G";
+                break;
+            case 8:
+                character = "H";
+                break;
+            case 9:
+                character = "I";
+                break;
+            case 10:
+                character = "J";
+                break;
+            case 11:
+                character = "K";
+                break;
+            case 12:
+                character = "L";
+                break;
+            case 13:
+                character = "M";
+                break;
+            case 14:
+                character = "N";
+                break;
+            case 15:
+                character = "O";
+                break;
+            case 16:
+                character = "P";
+                break;
+            case 17:
+                character = "Q";
+                break;
+            case 18:
+                character = "R";
+                break;
+            case 19:
+                character = "S";
+                break;
+            case 20:
+                character = "T";
+                break;
+            case 21:
+                character = "U";
+                break;
+            case 22:
+                character = "V";
+                break;
+            case 23:
+                character = "W";
+                break;
+            case 24:
+                character = "X";
+                break;
+            case 25:
+                character = "Y";
+                break;
+            case 26:
+                character = "Z";
+                break;
+            default:
+                break;
+        }
+
+        return character;
     }
 
     private DataTable BillDetailDataTable(int waID)

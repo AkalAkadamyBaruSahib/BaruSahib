@@ -93,6 +93,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
         htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
         htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
+        htmlCode = htmlCode.Replace("[RefernceNo]", txtRefernceNo.Text);
      
         pnlHtml.InnerHtml = htmlCode;
 
@@ -126,6 +127,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>QTY</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>PRICE</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>VAT</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>NET PRICE</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>LINE TOTAL</th>";
         MaterialInfo += "</tr>";
         MaterialInfo += "</thead>";
@@ -145,17 +147,22 @@ public partial class PurchaseOrder : System.Web.UI.Page
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + qty + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + vat + "</td>";
-            var SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+           var SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             SubTotal = Math.Round(SubTotal, 2);
             if (vat == "0")
             {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             }
             else
             {
                 var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(vat) / 100;
                 var totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
+                var netAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) * Convert.ToDecimal(vat) / 100;
+                var toatlNetAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) + +Convert.ToDecimal(netAmount);
                 totalAmount = Math.Round(totalAmount, 2);
+                toatlNetAmount = Math.Round(toatlNetAmount, 2);
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + toatlNetAmount + "</td>";
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + totalAmount + "</td>";
             }
             MaterialInfo += "</tr>";

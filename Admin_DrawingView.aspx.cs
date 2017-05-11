@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.UI.HtmlControls;
+using AkalAcademy;
 public partial class Admin_DrawingView : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -84,8 +85,9 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         isreadonly.SetValue(this.Request.QueryString, false, null);
         // remove
         this.Request.QueryString.Clear();
-
         BindAllDrawing(false, -1);
+        DataTable dsDrawing = DAL.DalAccessUtility.GetDataInDataSet("Select D.AcaID,D.DrawingName,A.AcaName FROM Drawing D INNER JOIN Academy A ON A.AcaID =D.AcaID Where DwgId=" + p).Tables[0];
+       SendEmailToConstructionUser(int.Parse(dsDrawing.Rows[0]["AcaID"].ToString()), dsDrawing.Rows[0]["AcaName"].ToString(), dsDrawing.Rows[0]["DrawingName"].ToString());
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing has been approved successfully.');", true);
     }
 
@@ -116,6 +118,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         }
         Response.End();
     }
+
     protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
@@ -124,6 +127,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         dt = ds.Tables[0];
         return dt;
     }
+
     protected void BinddWGtYPE()
     {
         DataTable dsZone = new DataTable();
@@ -138,6 +142,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             ddlDwgType.SelectedIndex = 0;
         }
     }
+
     protected void DeactiveDrawing(string ID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewDrawingProc '" + ID + "','','','','','','','','','','','','4','0',1,0");
@@ -155,6 +160,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing Delete successfully.');", true);
 
     }
+
     protected void ActiveDrawing(string ID)
     {
         DAL.DalAccessUtility.GetDataInDataSet("exec USP_NewDrawingProc '" + ID + "','','','','','','','','','','','','4','1',1,0");
@@ -163,6 +169,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing active successfully.');", true);
 
     }
+
     protected void BindAllDrawing(bool IsApproved, int acaID)
     {
         if (IsApproved)
@@ -257,6 +264,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         divAllDrawingView.InnerHtml = ZoneInfo.ToString();
 
     }
+
     protected void BindDrawing()
     {
         DataSet dsZoneDetails = new DataSet();
@@ -354,6 +362,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             ((Button)sender).Text = "View Non Approved Drawing";
         }
     }
+
     private void BindAcademy()
     {
         DataTable dsBillDetails = DAL.DalAccessUtility.GetDataInDataSet("Select AcaName,AcaID FROM Academy order by AcaName asc").Tables[0];
@@ -365,6 +374,72 @@ public partial class Admin_DrawingView : System.Web.UI.Page
             ddlAcademy.DataBind();
             ddlAcademy.Items.Insert(0, new ListItem("--All Academy---", "0"));
             ddlAcademy.SelectedIndex = 0;
+        }
+
+    }
+
+    public void SendEmailToConstructionUser(int acaID,string acaName,string drawingName)
+    {
+        UsersRepository user = new UsersRepository(new DataContext());
+        Incharge dsCostructiontUserID = new Incharge();
+
+        dsCostructiontUserID = user.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.CONSTRUCTION),acaID);
+    
+        string MsgInfo = string.Empty;
+        MsgInfo += "<table style='width:100%;'>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
+        MsgInfo += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
+        MsgInfo += "</td>";
+        MsgInfo += "<td style='text-align: right; width:40%;'>";
+        MsgInfo += "<br /><br />";
+        MsgInfo += "<div style='font-style:italic; text-align: right;'>";
+        MsgInfo += "Baru Shahib,";
+        MsgInfo += "<br />Dist: Sirmaur";
+        MsgInfo += "<br />Himachal Pradesh-173001";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td colspan='2' style='height:50px'>";
+        MsgInfo += "Drawing has been Approved.Please click on <a href='http://akalsewa.org/'>Akal Sewa</a>";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "</table>";
+        MsgInfo += "<table border='1' style='width:100%' cellspacing='0' cellpadding='0'>";
+        MsgInfo += "<tbody>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Academy Name:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += acaName;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Drawing Name:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += drawingName;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "</tbody>";
+        MsgInfo += "</table>";
+        string to = dsCostructiontUserID.EmailID;
+       // string to = "itmohali@barusahib.org";
+        string cc = string.Empty;
+
+        try
+        {
+            if (to != null)
+            {
+               Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, " Drawing of Akal Academy " + acaName + " has been Approved");
+            }
+        }
+        catch { }
+        finally
+        {
+
         }
 
     }

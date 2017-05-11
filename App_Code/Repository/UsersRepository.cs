@@ -41,7 +41,8 @@ public class UsersRepository
                              InMobile = x.InMobile,
                              InName = x.InName,
                              LoginId = x.LoginId,
-                             UserTypeId = x.UserTypeId
+                             UserTypeId = x.UserTypeId,
+                             EmailID = x.EmailID
 
                          }).AsEnumerable().Select(x => new Incharge
                          {
@@ -49,7 +50,8 @@ public class UsersRepository
                              InMobile = x.InMobile,
                              InName = x.InName,
                              LoginId = x.LoginId,
-                             UserTypeId = x.UserTypeId
+                             UserTypeId = x.UserTypeId,
+                             EmailID = x.EmailID
                          }).FirstOrDefault();
 
         return incharges;

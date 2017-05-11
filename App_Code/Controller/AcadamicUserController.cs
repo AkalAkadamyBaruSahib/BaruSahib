@@ -99,8 +99,8 @@ public class AcadamicUserController : System.Web.Services.WebService
         dsConstructionUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.CONSTRUCTION), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
         //AcademuicUser
         dsAcaUserID = usersRepository.GetInchargeByUserTypeAndAcaID(Convert.ToInt32(TypeEnum.UserType.ACADEMIC), int.Parse(dsDegisDetails.Tables[0].Rows[0]["AcaID"].ToString()));
-  
-       if (UserTypeID == Convert.ToInt32(TypeEnum.UserType.ACADEMIC) && complaintTickets.Feedback==null)
+
+        if (UserTypeID == Convert.ToInt32(TypeEnum.UserType.ACADEMIC) && complaintTickets.Status == "Assigned")
         {
             string MsgInfo = string.Empty;
             MsgInfo += "<table style='width:100%;'>";
@@ -117,14 +117,14 @@ public class AcadamicUserController : System.Web.Services.WebService
             MsgInfo += "</td>";
             MsgInfo += "</tr>";
             MsgInfo += "</table>";
-            MsgInfo += "<table border='1' style='width:100%'>";
+            MsgInfo += "<table border='1' style='width:100%' cellspacing='0' cellpadding='0'>";
             MsgInfo += "<tbody>";
             MsgInfo += "<tr>";
             MsgInfo += "<td>";
             MsgInfo += "<b>Academy:</b>";
             MsgInfo += "</td>";
             MsgInfo += "<td>";
-            MsgInfo +=  dsDegisDetails.Tables[0].Rows[0]["AcaName"].ToString();
+            MsgInfo += dsDegisDetails.Tables[0].Rows[0]["AcaName"].ToString();
             MsgInfo += "</td>";
             MsgInfo += "</tr>";
             MsgInfo += "<tr>";
@@ -156,14 +156,14 @@ public class AcadamicUserController : System.Web.Services.WebService
             MsgInfo += "</table>";
 
             string FileName = string.Empty;
-            string to = "itmohali@barusahib.org";
+            string to = "akalconstruction@barusahib.org";
             string cc = string.Empty;
             //string to = dsComplintUserID.LoginId;
             //string cc = dsConstructionUserID.LoginId + ";" + dsComplintUserID.LoginId;
-       
+
             try
             {
-                //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Complaint has been created");
+                //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Complaint has been Register By  AA " + dsDegisDetails.Tables[0].Rows[0]["AcaName"].ToString());
             }
             catch { }
             finally
@@ -203,7 +203,7 @@ public class AcadamicUserController : System.Web.Services.WebService
             MsgInfo += "<b>Comments:</b>";
             MsgInfo += "</td>";
             MsgInfo += "<td>";
-            MsgInfo += complaintTickets.Comments ;
+            MsgInfo += complaintTickets.Comments;
             MsgInfo += "</td>";
             MsgInfo += "</tr>";
             MsgInfo += "<tr>";
@@ -232,7 +232,7 @@ public class AcadamicUserController : System.Web.Services.WebService
             //string cc = dsConstructionUserID.LoginId;
             try
             {
-               //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "Complaint has been updated");
+                //Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "Complaint has been updated");
             }
             catch { }
             finally

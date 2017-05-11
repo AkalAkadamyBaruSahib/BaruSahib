@@ -175,6 +175,7 @@
                                         <th style="text-align: center; width: 115px;">Qty</th>
                                         <th style="text-align: center;">Unit Price</th>
                                         <th style="text-align: center;">Vat/Cst</th>
+                                        <th style="text-align: center;">Net Price</th>
                                         <th id="linetotal" style="text-align: center;">Line Total</th>
                                     </tr>
                                 </thead>
@@ -182,7 +183,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td rowspan="5" style="width: 65px;" colspan="6">
+                                        <td rowspan="5" style="width: 65px;" colspan="7">
                                             <label id="lblDeliveryAddress" style="color: #cc3300"><u><b>DELIVERY ADDRESS:-</b></u></label>
                                             <div class="controls">
                                                 <select id="drpBillingAddress" class="AddressDrp">
@@ -192,17 +193,14 @@
                                             <div>
                                                 <asp:Label ID="lblBillingName" runat="server"></asp:Label>
                                                 <asp:HiddenField ID="hdnBillingName" runat="server" />
-                                                <br />
                                                 <asp:Label ID="lblBillingAddres" runat="server"></asp:Label>
                                                 <asp:HiddenField ID="hdnBillingAddres" runat="server" />
-                                                <br />
-                                                <asp:Label ID="lblBillingPhone" runat="server"></asp:Label>
-                                                <asp:HiddenField ID="hdnBillingPhone" runat="server" />
-                                                <br />
-                                            </div>
+                                             </div>
                                             <br />
                                             <label id="lblContact" style="color: #cc3300"><u><b>CONTACT PERSON:-</b></u></label>
-                                            <asp:TextBox required="required" ID="txtcontact" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox>
+                                            <asp:TextBox required="required" ID="txtcontact" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox><br /><br />
+                                            <label id="lblRefernceNo" style="color: #cc3300"><u><b>AS PER YOUR REFERENCE No./EMAIL DATE NO:-</b></u></label>
+                                            <asp:TextBox required="required" ID="txtRefernceNo" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox>
                                         </td>
                                         <th style="color: #cc3300;">Sub Total :</th>
                                         <td>
@@ -253,7 +251,7 @@
                                     <td style="height: 80px;">
                                         <span class="footerheading">Freight:-</span><select id="drpFreight" style="width: 130px; height: 26px; float: right; margin-right: -103px; margin-top: -21px;">
                                             <option value="0">--Select One--</option>
-                                            <option value="Free On Road">Free On Road</option>
+                                            <option value="F.O.R">F.O.R</option>
                                             <option value="Extra">Extra</option>
                                         </select>
                                         <asp:HiddenField ID="hdnFreight" runat="server" />

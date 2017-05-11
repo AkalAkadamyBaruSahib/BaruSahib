@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin_DrawingView.aspx.cs" Inherits="Admin_DrawingView" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" Async="true" AutoEventWireup="true" CodeFile="Admin_DrawingView.aspx.cs" Inherits="Admin_DrawingView" %>
 
 <%@ Register Src="~/Admin/UserControls/EmailTemplate.ascx" TagPrefix="uc1" TagName="EmailTemplate" %>
 

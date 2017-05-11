@@ -301,7 +301,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
     for (var i = 0; i < rowCount; i++) {
         $("#rowTemplate").remove();
     }
-    var rowTemplate = '<tr id="rowTemplate"><td id="srno">abc</td><td style="width:360px" id="description">abc</td><td id="details">cc</td><td id="unit">cc</td><td id="qty">abc</td><td id="unitprice"></td><td style="width:100px"  id="vat"></td><td id="linetotal"></td></tr>';
+    var rowTemplate = '<tr id="rowTemplate"><td id="srno">abc</td><td style="width:360px" id="description">abc</td><td id="details">cc</td><td id="unit">cc</td><td id="qty">abc</td><td id="unitprice"></td><td style="width:100px"  id="vat"></td><td style="width:100px"  id="net"></td><td id="linetotal"></td></tr>';
 
     var adminLoanList = selectedMaterialList;
     if (adminLoanList.length > 0) {
@@ -323,6 +323,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' />");
         $newRow.find("#unitprice").html(adminLoanList[i].Material.MatCost);
         $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
+        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>");
         $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
         count++;
         sum += linetotal;
@@ -527,13 +528,18 @@ function vat_ChangeEvent(cntID,matcost) {
         amount = amount.toFixed(2);
         $("#txtlineTotal" + cntID).text(amount);
         $("#hdnLineTotal" + cntID).val(amount);
+        $("#spnNetPrice" + cntID).text(matcost);
     }
     else {
+        var netamount = parseFloat(matcost) * vat / 100;
+        var totalnetamount = parseFloat(matcost) + netamount;
         var vatamount = amount * vat / 100;
         var totalamount = amount + vatamount;
         totalamount = totalamount.toFixed(2);
+        totalnetamount = totalnetamount.toFixed(2);
         $("#txtlineTotal" + cntID).text(totalamount);
         $("#hdnLineTotal" + cntID).val(totalamount);
+        $("#spnNetPrice" + cntID).text(totalnetamount);
     }
     TotalAmt();
 }
