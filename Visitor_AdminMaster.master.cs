@@ -23,10 +23,7 @@ public partial class Visitor_AdminMaster : System.Web.UI.MasterPage
             InchargeID = Convert.ToInt16(Session["InchargeID"].ToString());
             lblUserName.Text = Session["InName"].ToString();
         }
-        if (UserType != (int)TypeEnum.UserType.RECEPTIONADMIN)
-        {
-            liReport.Visible = false;
-        }
+      
         DataSet dsUser = new DataSet();
         dsUser = DAL.DalAccessUtility.GetDataInDataSet("exec USP_UserCount " + InchargeID);
         lblUserName.Text = dsUser.Tables[0].Rows[0]["InName"].ToString();

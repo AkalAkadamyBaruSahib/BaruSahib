@@ -119,13 +119,23 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
 
         ws.Cell("D3").Value = "BALANCE COST:-";
         ws.Cell("A3").Value = "NAME OF ACADEMY:-";
-        ws.Cell("B3").Value = dsDes.Rows[0]["AcaName"].ToString();
+        if (dsDes.Rows.Count > 0 && dsDes != null)
+        {
+            ws.Cell("B3").Value = dsDes.Rows[0]["AcaName"].ToString();
+        }
         var rngTable2 = ws.Range("D3:F3");
 
         decimal balanceCost = 0;
         if (dsPurchaseCost.Rows[0]["PurchaseCost"].ToString() == string.Empty)
         {
-            balanceCost = Convert.ToDecimal(dsEstimateCost.Rows[0]["EstimateCost"].ToString());
+            if (dsEstimateCost.Rows[0]["EstimateCost"].ToString() == string.Empty)
+            {
+                balanceCost = 0;
+            }
+            else
+            {
+                balanceCost = Convert.ToDecimal(dsEstimateCost.Rows[0]["EstimateCost"].ToString());
+            }
         }
         else
         {
@@ -133,7 +143,10 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         }
         ws.Cell("E3").Value = balanceCost.ToString();
         ws.Cell("A4").Value = "NAME OF WORK:-";
-        ws.Cell("B4").Value = dsDes.Rows[0]["WorkAllotName"].ToString();
+        if (dsDes.Rows.Count > 0 && dsDes != null)
+        {
+            ws.Cell("B4").Value = dsDes.Rows[0]["WorkAllotName"].ToString();
+        }
         var rngTableEstimate = ws.Range("A6:C6");
         rngTable.IsMerged();
         var rngTable11 = ws.Range("A3:A3");

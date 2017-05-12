@@ -73,6 +73,7 @@
                         <asp:ListItem Text="Room Status Report" Value="6"></asp:ListItem>
                         <asp:ListItem Text="Visitors Report By Places" Value="3"></asp:ListItem>
                         <asp:ListItem Text="Permanent Room Detail Report" Value="4"></asp:ListItem>
+                        <asp:ListItem Text="Daily Visitor Status Report" Value="7"></asp:ListItem>
                     </asp:DropDownList> 
                     <asp:RequiredFieldValidator ID="reqReport" runat="server" ValidationGroup="vreport" ErrorMessage="Please Select the Report Type" ForeColor="Red" ControlToValidate="drpFilterData" InitialValue="0"></asp:RequiredFieldValidator>
                 </div>
@@ -80,7 +81,7 @@
                 <div class="control-group" id="divCheckInDate" runat="server" visible="false">
                     <label class="control-label" for="typeahead">Check In Date:</label>
                     <asp:TextBox runat="server" ID="txtCheckInDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
-                    <label class="control-label" for="typeahead">Check Out Date:</label>
+                    <label id="lblCheckOut" runat="server" class="control-label" for="typeahead">Check Out Date:</label>
                     <asp:TextBox runat="server" ID="txtCheckOutDate" CssClass="input-xlarge datepicker" Style="width: 220px; height: 20px;"></asp:TextBox>
                 </div>
 
@@ -105,7 +106,6 @@
                     </asp:DropDownList><br />
                     <br />
                 </div>
-
             </div>
             <div>
                 <asp:Button ID="btnDownload" ValidationGroup="vreport" runat="server" Text="Click To Download Report in Excel Sheet" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="355px" />

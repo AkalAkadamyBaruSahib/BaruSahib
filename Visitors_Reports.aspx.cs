@@ -41,9 +41,13 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "RoomStatus.xls"));
         }
-        else
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PermanentRoomDetails.xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DailyVisitorDetails.xls"));
         }
 
         Response.ContentType = "application/ms-excel";
@@ -93,9 +97,13 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomStatusByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
         }
-        else
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetPermanentRoomReport] '" + drpBuildingName.SelectedValue + "'").Tables[0];
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
+        {
+             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetDailyWiseVisitorsReports] '" + txtCheckInDate.Text + "'").Tables[0];
         }
         return dt;
     }
@@ -181,6 +189,14 @@ public partial class Visitors_Reports : System.Web.UI.Page
             divCheckInDate.Visible = false;
             divEmptyRooms.Visible = false;
             divPlaces.Visible = true;
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
+        {
+            divCheckInDate.Visible = true;
+            divEmptyRooms.Visible = false;
+            divPlaces.Visible = false;
+            txtCheckOutDate.Visible = false;
+            lblCheckOut.Visible = false;
         }
         else
         {

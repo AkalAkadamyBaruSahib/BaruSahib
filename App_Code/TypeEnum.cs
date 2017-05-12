@@ -211,7 +211,8 @@ public class TypeEnum
         VisitorsReportByPlaces = 3,
         PermanentRoomDetailReport = 4,
         ViewBookedRoomList = 5,
-        RoomStatus = 6
+        RoomStatus = 6,
+        DailyVisitorStatusReport =7
     }
     public enum TransportProformaType : int
     {
