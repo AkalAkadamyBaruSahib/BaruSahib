@@ -140,7 +140,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<br /><br />";
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Material Dispatch Details</div>";
         EstInfo += "<br />";
-        EstInfo += "<table style='width:99%; margin-top:20px;font-size:18px' border='1'>";
+        EstInfo += "<table style='width:98%; margin-top:20px;font-size:18px' border='1' cellspacing='0' cellpadding='0'>";
         EstInfo += "<thead>";
         EstInfo += "<tr>";
         EstInfo += "<th style='font-size:18px;' ><b>Sr. No.</b></th>";
