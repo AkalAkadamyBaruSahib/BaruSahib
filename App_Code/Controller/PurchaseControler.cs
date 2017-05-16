@@ -529,10 +529,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<EstimateBucketDTO> GetBucketInformation()
+    public List<EstimateBucketDTO> GetBucketInformation(int inchargeID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetBucketInformation();
+        return repository.GetBucketInformation(inchargeID);
     }
     [WebMethod]
     public BucketName GetBucketInfoToUpdate(int estBucketID)

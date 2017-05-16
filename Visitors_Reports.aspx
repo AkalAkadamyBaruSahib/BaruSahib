@@ -66,7 +66,7 @@
             <div id="divDesigDetails" runat="server">
 
                 <div class="control-group" id="divFilterData" runat="server">
-                    <label class="control-label" for="typeahead">Filter By:</label>
+                    <label class="control-label" for="typeahead">Select Type to Download Report:</label>
                     <asp:DropDownList ID="drpFilterData" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFilterData_SelectedIndexChanged">
                         <asp:ListItem Text="" Value="0">--Select One--</asp:ListItem>
                         <asp:ListItem Text="According Date" Value="1"></asp:ListItem>

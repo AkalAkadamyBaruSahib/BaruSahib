@@ -491,7 +491,7 @@ public class PurchaseRepository
 
     public List<BucketName> GetBucketName(int inchargeID)
     {
-        return _context.BucketName.ToList();
+        return _context.BucketName.Where(b => b.CreatedBy == inchargeID).ToList();
     }
 
     public List<Academy> GetAcademybyZoneID(int ZoneID)
@@ -1471,9 +1471,9 @@ public class PurchaseRepository
         return bills;
     }
 
-    public List<EstimateBucketDTO> GetBucketInformation()
+    public List<EstimateBucketDTO> GetBucketInformation(int inchargeID)
     {
-        List<BucketName> bucket = _context.BucketName.OrderByDescending(e => e.BucketID).ToList();
+        List<BucketName> bucket = _context.BucketName.Where(b => b.CreatedBy == inchargeID).OrderByDescending(e => e.BucketID).ToList();
         List<EstimateBucketDTO> dto = new List<EstimateBucketDTO>();
         EstimateBucketDTO bucketDTO = null;
 
@@ -1547,7 +1547,8 @@ public class PurchaseRepository
 
         dto.BucketID = Convert.ToInt32(bucketInfo.BucketID);
         dto.Name = bucketInfo.Name;
-
+        dto.CreatedBy = bucketInfo.CreatedBy;
+      
         dto.EstimateBucketMaterialRelation = new List<EstimateBucketMaterialRelation>();
         EstimateBucketMaterialRelation bucketMatRel;
         DataSet dsmat = new DataSet();

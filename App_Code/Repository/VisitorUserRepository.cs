@@ -266,11 +266,22 @@ public class VisitorUserRepository
 
     public void CheckOutVisitor(int VisitorID)
     {
+        List<VisitorRoomNumbers> visitorroom = _context.VisitorRoomNumbers.Where(v => v.VisitorID == VisitorID).ToList();
+
+        VisitorsCheckOutLog checkoutLog = null;
+        foreach (VisitorRoomNumbers v in visitorroom)
+        {
+            checkoutLog = new VisitorsCheckOutLog();
+            checkoutLog.VisitorID = v.VisitorID;
+            checkoutLog.RoomNumberID = v.RoomNumberID;
+            checkoutLog.CreatedOn = v.CreatedOn;
+            _context.Entry(checkoutLog).State = EntityState.Added;
+            _context.SaveChanges();
+        }
 
         _context.VisitorRoomNumbers.RemoveRange(_context.VisitorRoomNumbers.Where(v => v.VisitorID == VisitorID));
 
-        Visitors visitor = _context.Visitors.Where(v => v.ID == VisitorID)
-                            .Include(r => r.VisitorRoomNumbers).FirstOrDefault();
+        Visitors visitor = _context.Visitors.Where(v => v.ID == VisitorID).Include(r => r.VisitorRoomNumbers).FirstOrDefault();
 
         visitor.VisitorRoomNumbers = null;
         visitor.IsActive = false;

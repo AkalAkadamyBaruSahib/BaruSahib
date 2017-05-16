@@ -639,14 +639,14 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     protected void btnNonApproved_Click(object sender, EventArgs e)
     {
         string acaID = ddlAcademy.SelectedIndex == -1 ? "-1" : ddlAcademy.SelectedValue;
-        if (((Button)sender).Text == "View Non Approved Estimates")
+        if (((Button)sender).Text == "View Un Approved Estimates")
         {
             IsApproved = false;
             IsItemRejected = true;
             getEstimateDetails(false, -1, true);
             btnEstimateMaterialStatement.Visible = false;
             ((Button)sender).Text = "View Approved Estimates";
-            btnEstimateStatement.Text = "Download Non Estimate Statement";
+            btnEstimateStatement.Text = "Download Un Approved Estimate Statement";
             ddlAcademy.Visible = false;
             lblAcaName.Visible = false;
             ViewState["IsApproved"] = 0;
@@ -659,7 +659,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             btnEstimateStatement.Text = "Download Estimate Statement";
             IsApproved = true;
             IsItemRejected = false;
-            ((Button)sender).Text = "View Non Approved Estimates";
+            ((Button)sender).Text = "View Un Approved Estimates";
             ViewState["IsApproved"] = 1;
             if (ModuleID == ((int)(TypeEnum.Module.Transport)))
             {

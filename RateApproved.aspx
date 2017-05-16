@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" AutoEventWireup="true" CodeFile="RateApproved.aspx.cs" Inherits="RateApproved" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" Async="true" AutoEventWireup="true" CodeFile="RateApproved.aspx.cs" Inherits="RateApproved" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript">
@@ -91,9 +91,10 @@
                                                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Action" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Action" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                                         <ItemTemplate>
                                                             <asp:Button ID="btn_Approved" Text="Rate Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)"  UseSubmitBehavior="false"/>
+                                                            <asp:Button ID="btn_Rejected" Text="Rate Rejected" CommandArgument='<%#Eval("MatId")%>' runat="server"  CssClass="btn btn-info"  UseSubmitBehavior="false" OnClick="btn_Rejected_Click"/>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 

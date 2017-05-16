@@ -17,7 +17,7 @@ $(document).ready(function () {
         }
     });
     
-    LoadBucketInfo();
+    LoadBucketInfo($("input[id*='hdnInchargeID']").val());
 });
 
 function GetMaterialType() {
@@ -82,6 +82,7 @@ function SaveEstimateBucketDetail() {
     var BucketName = new Object();
     BucketName.BucketID = 0;
     BucketName.Name = $("#txtBucketName").val();
+    BucketName.CreatedBy = $("input[id*='hdnInchargeID']").val();
     var estimateBucketMaterialRelation = new Array();
 
     $("#drpMaterialName  :selected").each(function (index) {
@@ -108,7 +109,7 @@ function SaveEstimateBucketDetail() {
         async: false,
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                LoadBucketInfo();
+                LoadBucketInfo($("input[id*='hdnInchargeID']").val());
                 alert("Bucket Create successfully");
                 ClearText();
             }
@@ -119,7 +120,7 @@ function SaveEstimateBucketDetail() {
     });
 }
 
-function LoadBucketInfo() {
+function LoadBucketInfo(inchargeID) {
 
     /*create/distroy grid for the new search*/
     if (typeof grdBucketDiscription != 'undefined') {
@@ -136,6 +137,7 @@ function LoadBucketInfo() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetBucketInformation",
+        data: JSON.stringify({ inchargeID: parseInt(inchargeID) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -271,7 +273,7 @@ function UpdateEstimateBucketDetail() {
         async: false,
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                LoadBucketInfo();
+                LoadBucketInfo($("input[id*='hdnInchargeID']").val());
                 $("input[id*='btnLoad']").show();
                 $("input[id*='btnUpdateLoadBucket']").hide();
                 alert("Bucket Update successfully");
@@ -300,7 +302,7 @@ function GetBucketInfoToDelete(bucketID) {
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
-                LoadBucketInfo();
+                LoadBucketInfo($("input[id*='hdnInchargeID']").val());
                 alert("Record has been Delete successfully");
             }
         },

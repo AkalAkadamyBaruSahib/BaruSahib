@@ -82,6 +82,7 @@ namespace AkalAcademy
         public DbSet<view_BillsApprovalForAdmin> view_BillsApprovalForAdmin { get; set; }
         public DbSet<EstimateBucketMaterialRelation> EstimateBucketMaterialRelation { get; set; }
         public DbSet<BucketName> BucketName { get; set; }
+        public DbSet<VisitorsCheckOutLog> VisitorsCheckOutLog { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

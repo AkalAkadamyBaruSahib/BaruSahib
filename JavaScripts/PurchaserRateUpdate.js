@@ -19,16 +19,28 @@ $(document).ready(function () {
 
     $("[id*=gvMaterailDetailForPurchase] input[id*='btnDispatch']").click(function (e) {
         var row = $(this).closest("tr");
-        var tablelength = row.find("[id*='txtRate']").prop('disabled', false);
-        //if (tablelength == "") {
-        //    row.find("#errMsg").show();
-        //    return false;
-        //}
-        //else {
-        //    return true;
-        //}
+        row.find("[id*='txtRate']").prop('disabled', false);
+        row.find("[id*='txtDiscount']").prop('disabled', false);
+        row.find("[id*='txtMRP']").prop('disabled', false);
+        var discountVal = row.find("[id*='txtDiscount']").val();
+        if (discountVal > 100) {
+            alert("Discount can not Greater then 100%");
+            return false;
+        }
     });
-    GetVendors();
+    $("[id*=gvMaterailDetailForPurchase] input[id*='txtRate']").change(function (e) {
+        var row = $(this).closest("tr");
+        row.find("[id*='txtRate']").prop('disabled', false);
+        row.find("[id*='txtDiscount']").prop('disabled', false);
+        row.find("[id*='txtMRP']").prop('disabled', false);
+  });
+    $("[id*=gvMaterailDetailForPurchase] input[id*='txtPurchaseQty']").change(function (e) {
+        var row = $(this).closest("tr");
+        row.find("[id*='txtRate']").prop('disabled', false);
+        row.find("[id*='txtDiscount']").prop('disabled', false);
+        row.find("[id*='txtMRP']").prop('disabled', false);
+    });
+     GetVendors();
 });
 
 function OpenUpdateRatePopUp() {

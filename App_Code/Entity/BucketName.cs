@@ -9,17 +9,19 @@ using System.Web;
 /// </summary>
 public class BucketName
 {
-	public BucketName()
-	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+    public BucketName()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
     [Key()]
 
     public int BucketID { get; set; }
 
     public string Name { get; set; }
 
-    public  List<EstimateBucketMaterialRelation> EstimateBucketMaterialRelation { get; set; }
+    public int? CreatedBy { get; set; }
+
+    public List<EstimateBucketMaterialRelation> EstimateBucketMaterialRelation { get; set; }
 }
