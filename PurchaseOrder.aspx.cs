@@ -11,6 +11,7 @@ using iTextSharp.text.pdf;
 using System.Net;
 using System.Collections.Specialized;
 using System.Data;
+using System.Globalization;
 
 
 public partial class PurchaseOrder : System.Web.UI.Page
@@ -63,17 +64,19 @@ public partial class PurchaseOrder : System.Web.UI.Page
         else
         {
             htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR TRUST,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
-            htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value); 
+            htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
             htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
             htmlCode = htmlCode.Replace("[POheader]", "THE KALGIDHAR TRUST");
             htmlCode = htmlCode.Replace("[status]", "Trust");
         }
-    
+
         htmlCode = htmlCode.Replace("[ContactPerson]", txtcontact.Text);
         htmlCode = htmlCode.Replace("[PO]", txtPO.Text);
-        htmlCode = htmlCode.Replace("[DATE]", txtDate.Text);
+        DateTime date = Convert.ToDateTime(txtDate.Text.Trim());
+        string dateString = date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+        htmlCode = htmlCode.Replace("[DATE]", dateString);
         htmlCode = htmlCode.Replace("[PaymentMode]", txtPaymentMode.Text);
-        
+
         htmlCode = htmlCode.Replace("[Excise]", hdnExciseStatus.Value);
         if (txtExcise.Text == "")
         {
@@ -83,7 +86,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         {
             htmlCode = htmlCode.Replace("[ExciseTextBox]", txtExcise.Text);
         }
-    
+
         htmlCode = htmlCode.Replace("[SubTotal]", hdnSubTotal.Value);
         htmlCode = htmlCode.Replace("[GrandTotal]", hdnGrandTotal.Value);
         htmlCode = htmlCode.Replace("[Freight]", hdnFreight.Value);
@@ -94,7 +97,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
         htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
         htmlCode = htmlCode.Replace("[RefernceNo]", txtRefernceNo.Text);
-     
+
         pnlHtml.InnerHtml = htmlCode;
 
         hdnIndentNo.Value = hdnIndentNo.Value.Replace(',', '_');
@@ -108,7 +111,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
 
     protected void btnpdf_Click(object sender, EventArgs e)
     {
-         getHTML();
+        getHTML();
     }
 
     public string getGrid()
@@ -139,27 +142,30 @@ public partial class PurchaseOrder : System.Web.UI.Page
             string description = Request.Form["txtdescription" + i];
             string qty = Request.Form["txtQty" + i];
             string vat = Request.Form["txtvat" + i];
+            string mat = Request.Form["txtMatName" + i];
+            string unit = Request.Form["txtUnitName" + i];
+            string cost = Request.Form["txtMatCost" + i];
             MaterialInfo += "<tr>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + (i + 1) + "</td>";
             MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;font-size: 12px;'>" + description + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["UnitName"].ToString() + "</td>";  
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + mat + "</td>";
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + unit + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + qty + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
+            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + vat + "</td>";
-           var SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+            var SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(cost);
             SubTotal = Math.Round(SubTotal, 2);
             if (vat == "0")
             {
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             }
             else
             {
                 var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(vat) / 100;
                 var totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
-                var netAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) * Convert.ToDecimal(vat) / 100;
-                var toatlNetAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) + +Convert.ToDecimal(netAmount);
+                var netAmount = Convert.ToDecimal(cost) * Convert.ToDecimal(vat) / 100;
+                var toatlNetAmount = Convert.ToDecimal(cost) + +Convert.ToDecimal(netAmount);
                 totalAmount = Math.Round(totalAmount, 2);
                 toatlNetAmount = Math.Round(toatlNetAmount, 2);
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + toatlNetAmount + "</td>";
@@ -180,7 +186,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
             po.VendorID = Convert.ToInt32(hdnVendorID.Value);
             po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
             po.Qty = Convert.ToDecimal(qty);
-            po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+            po.Rate = Convert.ToDecimal(cost);
             po.Description = Request.Form["txtdescription" + i];
             po.Vat = Convert.ToDecimal(vat);
             po.FrieghtCharges = Convert.ToDecimal(txtFrieght.Text);
@@ -199,5 +205,5 @@ public partial class PurchaseOrder : System.Web.UI.Page
 
         return MaterialInfo;
     }
-  
+
 }

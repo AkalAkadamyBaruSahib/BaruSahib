@@ -219,7 +219,7 @@ function BindEstimate() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetEstimateNumberList",
-        data: JSON.stringify({ purchaseSourceID:2, inchargeID: 0 }),
+        data: JSON.stringify({ purchaseSourceID: 2, inchargeID: 0 }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -317,11 +317,11 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         }
         var $newRow = $("#rowTemplate").clone();
         $newRow.find("#srno").html(count);
-         $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
-        $newRow.find("#details").html(adminLoanList[i].Material.MatName);
-        $newRow.find("#unit").html(adminLoanList[i].Unit.UnitName);
+        $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
+        $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatName);
+        $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].Unit.UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Unit.UnitName);
         $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' />");
-        $newRow.find("#unitprice").html(adminLoanList[i].Material.MatCost);
+        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatCost);
         $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
         $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>");
         $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
@@ -347,7 +347,6 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
             "bFilter": false,
             "bInfo": false,
         });
-
 }
 
 function GetVendorAddress(selectedValue) {
@@ -520,7 +519,7 @@ function Qty_ChangeEvent(cntID, matcost) {
     TotalAmt();
 }
 
-function vat_ChangeEvent(cntID,matcost) {
+function vat_ChangeEvent(cntID, matcost) {
     var qty = $("#txtQty" + cntID).val();
     var vat = $("#txtvat" + cntID).val();
     var amount = parseFloat(qty) * parseFloat(matcost);
