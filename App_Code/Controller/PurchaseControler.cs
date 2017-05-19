@@ -579,4 +579,25 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
         return repo.GetRateNonApprovedChartData();
     }
+
+    [WebMethod]
+    public List<PONumber> GetPONumberList()
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetPONumberList();
+    }
+    [WebMethod]
+    public List<PurchaseOrderDetail> GetPurchaserOrderDetailByPONumber(int purchaserOrderID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetPurchaserOrderDetailByPONumber(purchaserOrderID);
+
+    }
+
+    [WebMethod]
+    public List<EstimateAndMaterialOthersRelations> GetMaterialDetailList(int sno)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetMaterialDetailList(sno);
+    }
 }

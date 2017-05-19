@@ -89,6 +89,9 @@
                         <asp:HiddenField runat="server" ID="hdnMatTypeID" Value='<%#Eval("MatTypeID") %>' />
                         <asp:HiddenField runat="server" ID="txtUnitID" Value='<%#Eval("UnitID") %>' />
                         <asp:HiddenField runat="server" ID="hdnRate" Value='<%#Eval("Rate") %>' />
+                        <asp:HiddenField runat="server" ID="hdnMRP" Value='<%#Eval("MRP") %>' />
+                        <asp:HiddenField runat="server" ID="hdnDiscount" Value='<%#Eval("Discount") %>' />
+                         <asp:HiddenField runat="server" ID="hdnVat" Value='<%#Eval("Vat") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="MatName">
@@ -110,7 +113,7 @@
                         <asp:TextBox runat="server" Width="100px" ID="txtPurchaseQty"></asp:TextBox>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:BoundField DataField="Rate" HeaderText="EstRate" />
+                <asp:BoundField DataField="Rate" HeaderText="NetRate" />
 
                 <asp:TemplateField HeaderText="Purchased Rate">
                     <ItemTemplate>

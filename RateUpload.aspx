@@ -1,7 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" AutoEventWireup="true" CodeFile="RateUpload.aspx.cs" Inherits="RateUpload" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PurchaseMaster.master" Async="true" AutoEventWireup="true" CodeFile="RateUpload.aspx.cs" Inherits="RateUpload" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
     <script type="text/javascript">
         function ClientSideClick(myButton) {
             // Client side validation
@@ -75,25 +74,53 @@
                                                             <asp:HiddenField ID="hdnMatType" runat="server" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
+                                                    <asp:TemplateField HeaderText="Material" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblMaterial" runat="server" Width="300px" Style="text-align: left;"></asp:Label>
-                                                         </ItemTemplate>
+                                                            <asp:Label ID="lblMaterial" runat="server" Width="200px" Style="text-align: left;"></asp:Label>
+                                                        </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Unit" ItemStyle-Width="350px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                                    <asp:TemplateField HeaderText="Vendor Name" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
+                                                        <ItemTemplate>
+                                                            <asp:DropDownList ID="drpVendorName" runat="server" Width="150px"></asp:DropDownList>
+                                                            <asp:RequiredFieldValidator ID="reqVendor" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="drpVendorName" InitialValue="0" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
+                                                            <%--<input type="text" id="txtVendorName" name="txtVendorName"  required />--%>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Unit" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>
                                                             <asp:DropDownList ID="ddlUnit" runat="server" Width="100px"></asp:DropDownList>
-                                                            <asp:Label runat="server" ID="lblUnit" Visible="false" Width="300px"></asp:Label>
+                                                            <asp:Label runat="server" ID="lblUnit" Visible="false" Width="100px"></asp:Label>
+                                                            <asp:RequiredFieldValidator ID="reqddlUnit" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="ddlUnit" InitialValue="0" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="CurrentRate" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                                    <asp:TemplateField HeaderText="CurrentRate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblCurrentRate" runat="server" Width="300px" Style="text-align: Center;"></asp:Label>
+                                                            <asp:Label ID="lblCurrentRate" runat="server" Width="100px" Style="text-align: Center;"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Price/Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                                    <asp:TemplateField HeaderText="MRP" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                                         <ItemTemplate>
-                                                            <asp:TextBox ID="txtRate" runat="server" CssClass="span6 typeahead" Width="200px"></asp:TextBox>
+                                                            <asp:TextBox ID="txtMRP" runat="server" Width="100px" Style="text-align: Center;" required="required"></asp:TextBox>
+                                                            <asp:RequiredFieldValidator ID="reqMRP" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="txtMRP" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Discount" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                                        <ItemTemplate>
+                                                            <asp:TextBox ID="txtDiscount" runat="server" Width="50px" Style="text-align: Center;" required="required"></asp:TextBox>%
+                                                            <asp:RequiredFieldValidator ID="reqDiscount" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="txtDiscount" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:TemplateField HeaderText="Vat" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                                        <ItemTemplate>
+                                                            <asp:TextBox ID="txtVat" runat="server" Width="50px" Style="text-align: Center;" AutoPostBack="true" OnTextChanged="txtVat_TextChanged" required="required"></asp:TextBox>%
+                                                                       <asp:RequiredFieldValidator ID="reqtxtVat" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="txtVat" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
+
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+
+                                                    <asp:TemplateField HeaderText="Net Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="txtNetRate" runat="server" CssClass="span6 typeahead" Width="100px"></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="SavingId" Visible="false">
@@ -116,7 +143,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" OnClick="btnsave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="false" />
+                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" ValidationGroup="rateapproved" OnClick="btnsave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="false" />
                                         </td>
                                     </tr>
                                 </table>

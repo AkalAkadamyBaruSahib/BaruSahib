@@ -1620,6 +1620,12 @@ public class PurchaseRepository
         _context.Entry(po).State = EntityState.Added;
         _context.SaveChanges();
     }
+    public int SavePONumber(PONumber ponum)
+    {
+        _context.Entry(ponum).State = EntityState.Added;
+        _context.SaveChanges();
+        return ponum.ID;
+    }
 
     public void EstimateDelete(int estID)
     {
@@ -1658,6 +1664,20 @@ public class PurchaseRepository
                     select (int)er.Sno).Count();
         //  var ests = _context.EstimateAndMaterialOthersRelations.Where(er => er.PSId == PSID && er.DispatchStatus == 0 && er.PurchaseEmpID == UserID).Count();
         return ests;
+    }
+
+    public List<PONumber> GetPONumberList()
+    {
+        return _context.PONumber.OrderBy(x => x.PurchaseOrderNumber).ToList();
+    }
+    public List<PurchaseOrderDetail> GetPurchaserOrderDetailByPONumber(int purchaserOrderID)
+    {
+        return _context.PurchaseOrderDetail.Include(m => m.Material).Where(x => x.PONumberID == purchaserOrderID).ToList();
+    }
+
+    public List<EstimateAndMaterialOthersRelations> GetMaterialDetailList(int sno)
+    {
+        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Include(u => u.Unit).Where(x => x.Sno == sno).ToList();
     }
 }
 

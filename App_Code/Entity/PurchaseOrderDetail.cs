@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
-/// <summary>
-/// Summary description for PurchaseOrder
-/// </summary>
 public class PurchaseOrderDetail
 {
     public PurchaseOrderDetail()
@@ -19,7 +12,7 @@ public class PurchaseOrderDetail
 
     public int ID { get; set; }
 
-    public string PONumber { get; set; }
+    public int PONumberID { get; set; }
 
     public int? EstID { get; set; }
 
@@ -28,6 +21,8 @@ public class PurchaseOrderDetail
     public int? VendorID { get; set; }
 
     public int? MatID { get; set; }
+
+    public string UnitName { get; set; }
 
     public decimal? Qty { get; set; }
 
@@ -42,4 +37,8 @@ public class PurchaseOrderDetail
     public decimal? FrieghtCharges { get; set; }
 
     public decimal? LoadingCharges { get; set; }
+
+    public virtual Material Material { get; set; }
+
+    public int? SnoID { get; set; }
 }

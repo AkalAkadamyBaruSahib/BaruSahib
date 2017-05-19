@@ -69,6 +69,8 @@ public class EstimateAndMaterialOthersRelations
     public decimal? PurchaseQty { get; set; }
 
     public virtual Material Material { get; set; }
+
+ 
     public virtual Unit Unit { get; set; }
 
     [ForeignKey("PSId")] 
@@ -78,6 +80,12 @@ public class EstimateAndMaterialOthersRelations
     public virtual Incharge Incharge { get; set; }
 
     public bool? DirectPurchase { get; set; }
+
+    public decimal? MRP { get; set; }
+
+    public decimal? Discount { get; set; }
+
+    public decimal? Vat { get; set; }
 
 }
 

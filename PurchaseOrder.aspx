@@ -68,6 +68,8 @@
         <asp:HiddenField ID="hdnItemsLength" runat="server" />
         <asp:HiddenField ID="hdnVendorID" runat="server" />
         <asp:HiddenField ID="hdnQty" runat="server" />
+        <asp:HiddenField ID="hdnPoID" runat="server" />
+        <asp:HiddenField ID="hdnSno" runat="server" />
 
         <div class="row-fluid sortable">
             <div class="box span12">
@@ -88,8 +90,16 @@
                             <tbody>
                                 <tr>
                                     <td style="float: left;">
+                                        <span class="footerheading">PO Bucket:-</span>
+                                        <select id="drpPOBucket" style="width: 230px;">
+                                            <option value="0">-Select PO Number--</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="float: left;">
                                         <span class="footerheading">Estimate:-</span>
-                                        <select required="required" id="drpEstimate" style="width: 150px;">
+                                        <select required id="drpEstimate" style="width: 150px;">
                                             <option value="0">-Select Estimate--</option>
                                         </select>
                                     </td>
@@ -171,7 +181,7 @@
                                         <th style="text-align: center;">Sr No</th>
                                         <th style="text-align: center;">Description</th>
                                         <th style="text-align: center;">Detail</th>
-                                        <th style="text-align: center;">Unit</th>   
+                                        <th style="text-align: center;">Unit</th>
                                         <th style="text-align: center; width: 115px;">Qty</th>
                                         <th style="text-align: center;">Unit Price</th>
                                         <th style="text-align: center;">Vat/Cst</th>
@@ -195,10 +205,11 @@
                                                 <asp:HiddenField ID="hdnBillingName" runat="server" />
                                                 <asp:Label ID="lblBillingAddres" runat="server"></asp:Label>
                                                 <asp:HiddenField ID="hdnBillingAddres" runat="server" />
-                                             </div>
+                                            </div>
                                             <br />
                                             <label id="lblContact" style="color: #cc3300"><u><b>CONTACT PERSON:-</b></u></label>
-                                            <asp:TextBox required="required" ID="txtcontact" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox><br /><br />
+                                            <asp:TextBox required="required" ID="txtcontact" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox><br />
+                                            <br />
                                             <label id="lblRefernceNo" style="color: #cc3300"><u><b>AS PER YOUR REFERENCE No./EMAIL DATE NO:-</b></u></label>
                                             <asp:TextBox required="required" ID="txtRefernceNo" Style="margin-left: 27px; width: 117px;" runat="server"></asp:TextBox>
                                         </td>
@@ -279,7 +290,10 @@
                                 </tr>
 
                                 <tr>
-                                    <td colspan="2" style="height: 30px; text-align: center">
+                                    <td style="height: 30px; text-align: right;">
+                                        <asp:Button ID="btnSaveExit" runat="server" Width="150px" CssClass="btn btn-primary" Text="Save & Exit" OnClick="btnSaveExit_Click" />
+                                    </td>
+                                    <td style="height: 30px;">
                                         <asp:Button ID="btnpdf" runat="server" Width="250px" CssClass="btn btn-primary" OnClick="btnpdf_Click" Text="Click to Generate PDF" ValidationGroup="po" />
                                     </td>
                                 </tr>

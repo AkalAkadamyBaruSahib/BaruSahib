@@ -161,7 +161,7 @@ public partial class Purchase_Home : System.Web.UI.Page
         if (UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
         {
             spnNewRate.Visible = true;
-            dsMatUnApprovdRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.Rate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MR on M.MatId = MR.MatID INNER JOIN Incharge Inc ON Inc.InchargeId = MR.CreatedBy").Tables[0];
+            dsMatUnApprovdRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.NetRate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MR on M.MatId = MR.MatID INNER JOIN Incharge Inc ON Inc.InchargeId = MR.CreatedBy").Tables[0];
         }
         else
         {
@@ -196,7 +196,7 @@ public partial class Purchase_Home : System.Web.UI.Page
             {
                 ZoneInfo += "<tr>";
                 ZoneInfo += "<td width='40%'>" + dsMatUnApprovdRate.Rows[i]["MatName"].ToString() + "</td>";
-                ZoneInfo += "<td width='20%'>" + dsMatUnApprovdRate.Rows[i]["Rate"].ToString() + "</td>";
+                ZoneInfo += "<td width='20%'>" + dsMatUnApprovdRate.Rows[i]["NetRate"].ToString() + "</td>";
                 ZoneInfo += "<td width='20%'>" + dsMatUnApprovdRate.Rows[i]["InName"].ToString() + "</td>";
                 ZoneInfo += "<td width='20%'><a href='RateApproved.aspx'>View</a></td>";
                 ZoneInfo += "</tr>";

@@ -83,6 +83,7 @@ namespace AkalAcademy
         public DbSet<EstimateBucketMaterialRelation> EstimateBucketMaterialRelation { get; set; }
         public DbSet<BucketName> BucketName { get; set; }
         public DbSet<VisitorsCheckOutLog> VisitorsCheckOutLog { get; set; }
+        public DbSet<PONumber> PONumber { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
