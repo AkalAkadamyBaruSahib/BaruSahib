@@ -42,6 +42,7 @@ public class ConstructionUserController : System.Web.Services.WebService
 
         SubmitBillByUser.ModifyOn = DateTime.UtcNow;
         SubmitBillByUser.CreatedOn = DateTime.UtcNow;
+        SubmitBillByUser.FirstVarifyStatus = null;
 
         foreach (SubmitBillByUserAndMaterialOthersRelation relation in SubmitBillByUser.SubmitBillByUserAndMaterialOthersRelation)
         {

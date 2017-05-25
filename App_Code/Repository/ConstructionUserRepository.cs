@@ -82,6 +82,7 @@ public class ConstructionUserRepository
             submitBill.BillType = SubmitBillByUser.BillType;
             submitBill.VendorBillNumber = SubmitBillByUser.VendorBillNumber;
             submitBill.TotalAmount = SubmitBillByUser.TotalAmount;
+            submitBill.FirstVarifyStatus = SubmitBillByUser.FirstVarifyStatus;
 
             if (SubmitBillByUser.VendorBillPath != null)
             {
@@ -129,7 +130,7 @@ public class ConstructionUserRepository
 
         decimal? receivedQty = (from S in _context.SubmitBillByUser
                                 where S.AcaId == AcademyID && S.CreatedOn >= firstDateOfMonth && S.CreatedOn <= lastDateOfMonth && S.BillType == BillTypeID
-                                //&& (S.FirstVarifyStatus == null || S.FirstVarifyStatus == 1)
+                                && (S.FirstVarifyStatus == null || S.FirstVarifyStatus == 1)
                                 select (decimal?)S.TotalAmount).Sum();
         return receivedQty;
     }
