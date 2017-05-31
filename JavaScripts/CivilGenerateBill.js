@@ -296,6 +296,13 @@ $(document).ready(function () {
                 return false;
             }
         }
+        if ($("input[id*='fileAgencyBill']")[0].files != undefined) {
+            var size = parseFloat($("input[id*='fileAgencyBill']")[0].files[0].size);
+            if (size > 2097152) {
+                alert("Maximum size allowed Less than 2 MB");
+                return false;
+            }
+        }
     });
   
       $("input[id*=btnShowData]").click(function () {
@@ -584,6 +591,14 @@ function Validation() {
         if (ValidateMaterial == undefined) {
             alert("Vendor not Exit.Please create a new vendor.");
             $("#txtAgencyName").val("");
+            return false;
+        }
+    }
+
+    if ($("input[id*='fileAgencyBill']")[0].files != undefined) {
+        var size = parseFloat($("input[id*='fileAgencyBill']")[0].files[0].size);
+        if (size > 2097152) {
+            alert("Maximum size allowed Less than 2 MB");
             return false;
         }
     }

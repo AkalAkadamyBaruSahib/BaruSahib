@@ -1,4 +1,4 @@
-ALTER PROCEDURE [dbo].[USP_PendingStatusForPurchaser]         
+CREATE PROCEDURE [dbo].[USP_PendingStatusForPurchaser]         
 
 (        
 
@@ -16,7 +16,7 @@ BEGIN
 
 SELECT distinct  EstId
 
-				,Zone
+			    ,Zone
 
 				,Academy
 
@@ -24,29 +24,29 @@ SELECT distinct  EstId
 
 				,Material
 
-    			,UnitName
+    			              ,UnitName
 
 				,[EstimateQuantity]
 
 				,[PurchaseQuantity]
 
-				,([EstimateQuantity]-[PurchaseQuantity]) AS [PendingQuantity]
+				,[PurchaserPendingQuantity]
 
-				,[PurchaserPendingStatus] AS [Dispatch Status]
-
-     			,Rate AS [PerItemRate]
+				,Rate AS [PerItemRate]
 
 				,Amount AS [TotalAmount]
 
-				,CreatedOnDate
+	            ,SanctionDate AS EstimateReceivedOn
 
 				,EmployeeAssignDate
 
     			,PurchaseDate
 
-				,PurchaserName
+  				,PurchaserName
 
-FROM EstimateReport 
+    			,[PurchaserPendingStatus] AS [Dispatch Status]
+
+FROM PurchaserEstimateReport 
 
 WHERE PSId=@PsId
 

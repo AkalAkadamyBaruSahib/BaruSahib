@@ -199,7 +199,14 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
             int dataCol = 1;
             for (int j = 1; j <= dtMaterials.Columns.Count; j++)
             {
-                ws.Cell(getAlphabeticCharacter(dataCol) + rowNum).Value = dtMaterials.Rows[i][(j - 1)].ToString();
+                if (dtMaterials.Rows[i][(j - 1)].ToString() != "")
+                {
+                    ws.Cell(getAlphabeticCharacter(dataCol) + rowNum).Value = dtMaterials.Rows[i][(j - 1)].ToString();
+                }
+                else
+                {
+                    ws.Cell(getAlphabeticCharacter(dataCol) + rowNum).Value = 0;
+                }
                 dataCol += 1;
             }
             rowNum += 1;
@@ -314,6 +321,396 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
             case 26:
                 character = "Z";
                 break;
+            case 27:
+                character = "AA";
+                break;
+            case 28:
+                character = "AB";
+                break;
+            case 29:
+                character = "AC";
+                break;
+            case 30:
+                character = "AD";
+                break;
+            case 31:
+                character = "AE";
+                break;
+            case 32:
+                character = "AF";
+                break;
+            case 33:
+                character = "AG";
+                break;
+            case 34:
+                character = "AH";
+                break;
+            case 35:
+                character = "AI";
+                break;
+            case 36:
+                character = "AJ";
+                break;
+            case 37:
+                character = "AK";
+                break;
+            case 38:
+                character = "AL";
+                break;
+            case 39:
+                character = "AM";
+                break;
+            case 40:
+                character = "AN";
+                break;
+            case 41:
+                character = "AO";
+                break;
+            case 42:
+                character = "AP";
+                break;
+            case 43:
+                character = "AQ";
+                break;
+            case 44:
+                character = "AR";
+                break;
+            case 45:
+                character = "AS";
+                break;
+            case 46:
+                character = "AT";
+                break;
+            case 47:
+                character = "AU";
+                break;
+            case 48:
+                character = "AV";
+                break;
+            case 49:
+                character = "AW";
+                break;
+            case 50:
+                character = "AX";
+                break;
+            case 51:
+                character = "AY";
+                break;
+            case 52:
+                character = "AZ";
+                break;
+            case 53:
+                character = "BA";
+                break;
+            case 54:
+                character = "BB";
+                break;
+            case 55:
+                character = "BC";
+                break;
+            case 56:
+                character = "BD";
+                break;
+            case 57:
+                character = "BE";
+                break;
+            case 58:
+                character = "BF";
+                break;
+            case 59:
+                character = "BG";
+                break;
+            case 60:
+                character = "BH";
+                break;
+            case 61:
+                character = "BI";
+                break;
+            case 62:
+                character = "J";
+                break;
+            case 63:
+                character = "BK";
+                break;
+            case 64:
+                character = "BL";
+                break;
+            case 65:
+                character = "BM";
+                break;
+            case 66:
+                character = "BN";
+                break;
+            case 67:
+                character = "BO";
+                break;
+            case 68:
+                character = "BP";
+                break;
+            case 69:
+                character = "BQ";
+                break;
+            case 70:
+                character = "BR";
+                break;
+            case 71:
+                character = "BS";
+                break;
+            case 72:
+                character = "BT";
+                break;
+            case 73:
+                character = "BU";
+                break;
+            case 74:
+                character = "BV";
+                break;
+            case 75:
+                character = "BW";
+                break;
+            case 76:
+                character = "BX";
+                break;
+            case 78:
+                character = "BY";
+                break;
+            case 79:
+                character = "BZ";
+                break;
+            case 80:
+                character = "CA";
+                break;
+            case 81:
+                character = "CB";
+                break;
+            case 82:
+                character = "CC";
+                break;
+            case 83:
+                character = "CD";
+                break;
+            case 84:
+                character = "CE";
+                break;
+            case 85:
+                character = "CF";
+                break;
+            case 86:
+                character = "CG";
+                break;
+            case 87:
+                character = "CH";
+                break;
+            case 88:
+                character = "CI";
+                break;
+            case 89:
+                character = "CJ";
+                break;
+            case 90:
+                character = "CK";
+                break;
+            case 91:
+                character = "CL";
+                break;
+            case 92:
+                character = "CM";
+                break;
+            case 93:
+                character = "CN";
+                break;
+            case 94:
+                character = "CO";
+                break;
+            case 95:
+                character = "CP";
+                break;
+            case 96:
+                character = "CQ";
+                break;
+            case 97:
+                character = "CR";
+                break;
+            case 98:
+                character = "CS";
+                break;
+            case 99:
+                character = "CT";
+                break;
+            case 100:
+                character = "CU";
+                break;
+            case 101:
+                character = "CV";
+                break;
+            case 102:
+                character = "CW";
+                break;
+            case 103:
+                character = "CX";
+                break;
+            case 104:
+                character = "CY";
+                break;
+            case 105:
+                character = "CZ";
+                break;
+            case 106:
+                character = "DA";
+                break;
+            case 107:
+                character = "DB";
+                break;
+            case 108:
+                character = "DC";
+                break;
+            case 109:
+                character = "DD";
+                break;
+            case 110:
+                character = "DE";
+                break;
+            case 111:
+                character = "DF";
+                break;
+            case 112:
+                character = "DG";
+                break;
+            case 113:
+                character = "DH";
+                break;
+            case 114:
+                character = "DI";
+                break;
+            case 115:
+                character = "DJ";
+                break;
+            case 116:
+                character = "DK";
+                break;
+            case 117:
+                character = "DL";
+                break;
+            case 118:
+                character = "DM";
+                break;
+            case 119:
+                character = "DN";
+                break;
+            case 120:
+                character = "DO";
+                break;
+            case 121:
+                character = "DP";
+                break;
+            case 122:
+                character = "DQ";
+                break;
+            case 123:
+                character = "DR";
+                break;
+            case 124:
+                character = "DS";
+                break;
+            case 125:
+                character = "DT";
+                break;
+            case 126:
+                character = "DU";
+                break;
+            case 127:
+                character = "DV";
+                break;
+            case 128:
+                character = "DW";
+                break;
+            case 129:
+                character = "DX";
+                break;
+            case 130:
+                character = "DY";
+                break;
+            case 131:
+                character = "DZ";
+                break;
+            case 132:
+                character = "EA";
+                break;
+            case 133:
+                character = "EB";
+                break;
+            case 134:
+                character = "EC";
+                break;
+            case 135:
+                character = "ED";
+                break;
+            case 136:
+                character = "EE";
+                break;
+            case 137:
+                character = "EF";
+                break;
+            case 138:
+                character = "EG";
+                break;
+            case 139:
+                character = "EH";
+                break;
+            case 140:
+                character = "EI";
+                break;
+            case 141:
+                character = "EJ";
+                break;
+            case 142:
+                character = "EK";
+                break;
+            case 143:
+                character = "EL";
+                break;
+            case 144:
+                character = "EM";
+                break;
+            case 145:
+                character = "EN";
+                break;
+            case 146:
+                character = "EO";
+                break;
+            case 147:
+                character = "EP";
+                break;
+            case 148:
+                character = "EQ";
+                break;
+            case 149:
+                character = "ER";
+                break;
+            case 150:
+                character = "ES";
+                break;
+            case 151:
+                character = "ET";
+                break;
+            case 152:
+                character = "EU";
+                break;
+            case 153:
+                character = "EV";
+                break;
+            case 154:
+                character = "EW";
+                break;
+            case 155:
+                character = "EX";
+                break;
+            case 156:
+                character = "EY";
+                break;
+            case 157:
+                character = "EZ";
+                break;
             default:
                 break;
         }
@@ -327,6 +724,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         AddColumns(ref dt, "Sr.No");
         AddColumns(ref dt, "Name Of Material");
         AddColumns(ref dt, "Estimate Rate");
+        AddColumns(ref dt, "Average Rate");
         DataTable dtEstimateColumns = DAL.DalAccessUtility.GetDataInDataSet("exec [viewGetEstimateByWorkAllot] " + waID).Tables[0];
 
         for (int i = 0; i < dtEstimateColumns.Rows.Count; i++)
@@ -358,6 +756,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         DataTable dsDes = new DataTable();
 
         DataTable dsRate = new DataTable();
+        DataTable dsAverageRate = new DataTable();
 
         int WAID = Convert.ToInt16(ddlNameOfWork.SelectedValue);
         int AcaID = Convert.ToInt16(ddlAcademy.SelectedValue);
@@ -375,7 +774,13 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         {
             for (int i = 0; i < dsDes.Rows.Count; i++)
             {
+                decimal AverageRate = 0;
                 dsRate = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Max(EM.Rate) As Rate From EstimateAndMaterialOthersRelations EM  INNER JOIN Estimate ES ON ES.EstId=EM.EstId  WHERE ES.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.PSID ='" + (int)TypeEnum.PurchaseSourceID.Local + "' and ES.IsApproved=1 and EM.MatId='" + dsDes.Rows[i]["MatId"].ToString() + "'").Tables[0];
+                dsAverageRate = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct SUM(EM.Rate) As Rate,COUNT(*) AS TotalBill From [dbo].[SubmitBillByUserAndMaterialOthersRelation] EM  INNER JOIN [dbo].[SubmitBillByUser] ES ON ES.SubBillId=EM.SubBillId  WHERE ES.WAId='" + ddlNameOfWork.SelectedValue + "'and ES.AcaId ='" + ddlAcademy.SelectedValue + "' and EM.MatId='" + dsDes.Rows[i]["MatId"].ToString() + "' and ISNULL(ES.FirstVarifyStatus,1)=1 ").Tables[0];
+                if (dsAverageRate.Rows[0]["Rate"].ToString() != "")
+                {
+                    AverageRate = Convert.ToDecimal(dsAverageRate.Rows[0]["Rate"].ToString());
+                }
 
                 decimal BillQty = 0;
                 decimal EstimateQty = 0;
@@ -383,6 +788,14 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
                 dr[0] = i + 1;
                 dr["Name Of Material"] = dsDes.Rows[i]["MatName"].ToString();
                 dr["Estimate Rate"] = dsRate.Rows[0]["Rate"].ToString();
+                if (dsAverageRate.Rows[0]["Rate"].ToString() != "")
+                {
+                    dr["Average Rate"] = AverageRate / Convert.ToInt32(dsAverageRate.Rows[0]["TotalBill"].ToString());
+                }
+                else
+                {
+                    dr["Average Rate"] = 0;
+                }
 
                 for (int j = 0; j < dtEstimateQtyDetail.Rows.Count; j++)
                 {

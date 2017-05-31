@@ -15,6 +15,17 @@
         function OpenVendorInfo() {
             $("#divVendorInformation").modal('show');
         }
+        function validateFileSize() {
+            var uploadControl = $("input[id*='fileAgencyBill']")[0].files[0].size;
+            if (uploadControl > 2097152) {
+                $('#dvMsg').show();
+                return false;
+            }
+            else {
+                $('#dvMsg').hide();
+                return true;
+            }
+        }
     </script>
     <script src="JavaScripts/Vendor.js"></script>
     <script src="JavaScripts/CivilGenerateBill.js"></script>
@@ -24,10 +35,10 @@
     <asp:HiddenField ID="hdnInchargeID" runat="server"></asp:HiddenField>
     <asp:HiddenField ID="hdnAcaID" runat="server"></asp:HiddenField>
     <asp:HiddenField ID="hdnZoneID" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hdnSubBillID" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hdnTotalAmount" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hdnAmount" runat="server"></asp:HiddenField>
-     <asp:HiddenField ID="hdnUpdateBillID" runat="server"></asp:HiddenField>
+    <asp:HiddenField ID="hdnSubBillID" runat="server"></asp:HiddenField>
+    <asp:HiddenField ID="hdnTotalAmount" runat="server"></asp:HiddenField>
+    <asp:HiddenField ID="hdnAmount" runat="server"></asp:HiddenField>
+    <asp:HiddenField ID="hdnUpdateBillID" runat="server"></asp:HiddenField>
     <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
     <div id="content" class="span10">
         <div class="row-fluid sortable">
@@ -69,7 +80,7 @@
                             <td>
                                 <h4>
                                     <asp:Label ID="lblNameOfWork" runat="server" Visible="false" Style="font-size: medium;"></asp:Label></h4>
-                                <asp:DropDownList ID="ddlNameOfWork"  OnSelectedIndexChanged="ddlNameOfWork_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlNameOfWork" OnSelectedIndexChanged="ddlNameOfWork_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
                             </td>
                         </tr>
                         <tr runat="server" id="trMatSelect">
@@ -122,11 +133,14 @@
                                                 <asp:RequiredFieldValidator ID="reqBillDate" runat="server" Style="float: right; margin-right: 145px;" ControlToValidate="txtBillDate" ErrorMessage="Please enter Bill Date." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
                                             </td>
                                             <td>Agency Bill Upload :
-                                                <asp:FileUpload ID="fileAgencyBill" AllowMultiple="true" runat="server" />
-                                                  <div id="afileVendorBillPath" style="display:none;"></div>
+                                                <asp:FileUpload ID="fileAgencyBill" AllowMultiple="true" runat="server" onchange="validateFileSize();" />
+                                                <div id="afileVendorBillPath" style="display: none;"></div>
                                                 <a href="#" runat="server" id="afilePath" visible="false" style="font-size: 13px;" target="_blank">Bill Copy</a>
-                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="fileAgencyBill" ErrorMessage="Please Upload the Agency Bill." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
-                                           
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="fileAgencyBill" ErrorMessage="Please Upload the Agency Bill." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
+                                                <div id="dvMsg" style="color: Red;display: none;">
+                                                    Maximum size allowed Less than 2 MB                                   
+                                                </div>
+
                                             </td>
                                         </tr>
                                         <tr>
@@ -136,14 +150,14 @@
                                                 <asp:TextBox ID="txtGateEntryNo" runat="server" Width="100px"></asp:TextBox>
                                             </td>
                                         </tr>
-                                         <tr>
-                                            <td style="height:30px;" colspan="2">
-                                              <span id="spnmsg" style="font-size:15px;color:red;"></span>
+                                        <tr>
+                                            <td style="height: 30px;" colspan="2">
+                                                <span id="spnmsg" style="font-size: 15px; color: red;"></span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <asp:Panel ID="pnlNonSanction"  runat="server">
+                                                <asp:Panel ID="pnlNonSanction" runat="server">
                                                     <table id="tblEstimateMatDetail" style="width: 100%;" class='table table-striped table-bordered'>
                                                         <thead>
                                                             <tr>
@@ -188,7 +202,7 @@
                                                                     <input id="txtRate0" type="text" style="width: 80px;" onchange="Rate_ChangeEvent(0);" />
                                                                 </td>
                                                                 <td>
-                                                                    <span id="txtTotal0" class="span6 typeahead" ></span>
+                                                                    <span id="txtTotal0" class="span6 typeahead"></span>
                                                                 </td>
                                                                 <td>
                                                                     <a href="javascript:void(0);" id="aAddNewRow0" onclick="AddMaterialRow();"><b>Add Row</b></a>
@@ -315,8 +329,8 @@
                         <tr>
                             <td colspan="2">
                                 <div class="form-actions" runat="server" id="divFinalButtons" visible="false">
-                                    <asp:Button ID="btnSubmit" runat="server" Visible ="false" Text="Submit for Approval" CssClass="btn btn-primary" OnClick="btnSubmit_Click"  ValidationGroup="civilBill" />
-                                    <input type="button" id="btnSubmitApprovel" value="Submit for Approval" title="Submit for Approval" class="btn btn-primary" style="display:none;" />
+                                    <asp:Button ID="btnSubmit" runat="server" Visible="false" Text="Submit for Approval" CssClass="btn btn-primary" OnClick="btnSubmit_Click" ValidationGroup="civilBill" />
+                                    <input type="button" id="btnSubmitApprovel" value="Submit for Approval" title="Submit for Approval" class="btn btn-primary" style="display: none;" />
                                     <asp:Button ID="btnCl" runat="server" CssClass="btn btn-primary" Text="Cancel" />
                                 </div>
                             </td>
@@ -339,18 +353,18 @@
         </div>
     </div>
     <div id="pnlHtml" runat="server"></div>
-     <div id="progress" class="modal hide fade" style="width: 900px;">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Create New Agency</h3>
-            </div>
-            <div class="modal-body" style="width: 1000px;">
-                <img src="img/animated.gif" /><br />
-                Wait while Materials is uploading....
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
-            </div>
+    <div id="progress" class="modal hide fade" style="width: 900px;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Create New Agency</h3>
         </div>
+        <div class="modal-body" style="width: 1000px;">
+            <img src="img/animated.gif" /><br />
+            Wait while Materials is uploading....
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+        </div>
+    </div>
 </asp:Content>
 

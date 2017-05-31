@@ -28,7 +28,8 @@ public class TypeEnum
     {
         Complaint = 1,
         TransportMaintenance = 2,
-        TransportVehicleMaintenance = 3
+        TransportVehicleMaintenance = 3,
+        Clerk = 4
     }
 
     public enum TransportEmployeeType : int

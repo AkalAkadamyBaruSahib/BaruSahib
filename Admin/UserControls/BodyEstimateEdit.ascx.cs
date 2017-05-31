@@ -217,11 +217,11 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
         if (hdnIsApproved.Value.ToLower() == "false")
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set SanctionDate ='" + DateTime.Now + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set SanctionDate ='" + Utility.GetLocalDateTime(DateTime.UtcNow) + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
         }
         else
         {
-            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set  ModifyOn='" + DateTime.Now + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
+            DAL.DalAccessUtility.ExecuteNonQuery("Update Estimate set  ModifyOn='" + Utility.GetLocalDateTime(DateTime.UtcNow) + "' where estid = '" + Request.QueryString["EstId"].ToString() + "'");
         }
 
         EventLog();

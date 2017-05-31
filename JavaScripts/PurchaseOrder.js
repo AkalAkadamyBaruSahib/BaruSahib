@@ -9,19 +9,19 @@ var listVal = "";
 var selectedEstList = new Array();
 
 $(document).ready(function () {
-   
+
     $("select").searchable();
 
     BindVendors();
     BindEstimate();
     BindCurrentDate();
     BindDeliveryAddress();
-    //BindPONumber();
-   
+    BindPONumber();
+
     $("[id$='lblIndentNo']").html($("select[id*='drpEstimate']").val());
     $("[id$='lblExciseStatus']").html('NA');
     $("[id$='lblVatStatus']").html('0%');
-   
+
     $("#drpEstimate").change(function (e) {
         if ($(this).val() != 0) {
             $("#divUploadMaterial").modal('show');
@@ -46,17 +46,17 @@ $(document).ready(function () {
         }
         SnoValue = SnoValue.substr(0,SnoValue.length - 1);
         $("input[id*='hdnItemsLength']").val(SnoValue);
-      //  GetVendorAddress(SnoValue);
+        //  GetVendorAddress(SnoValue);
         if (selectedMaterialList.length > 0) {
             $("[id$='lblIndentNo']").html($("input[id*='hdnIndentNo']").val())
         }
         $("#divUploadMaterial").modal('hide');
     });
-    $("input[id*='btntest']").click(function (e) {
+ $("input[id*='btntest']").click(function (e) {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($("select[id*='drpEstimate']").val());
     });
-    $("#chkExcise").change(function () {
+   $("#chkExcise").change(function () {
         if (this.checked) {
             $("input[id*='txtExcise']").show();
             $("input[id*='txtExcise']").prop('disabled', false);
@@ -66,9 +66,9 @@ $(document).ready(function () {
             $("input[id*='txtExcise']").prop('disabled', true);
         }
     });
-  
+
     $("input[id*='txtExcise']").change(function () {
-         Calcution();
+        Calcution();
     });
 
     $("input[id*='txtFrieght']").change(function () {
@@ -90,16 +90,20 @@ $(document).ready(function () {
     $("#drpDeliveryAddress").change(function () {
         GetDeliveryAddressInfo($(this).val());
     });
-    $("#drpBillingAddress").change(function () {
+  $("#drpBillingAddress").change(function () {
         GetBillingAddressInfo($(this).val());
     });
-    $("#drpFreight").change(function () {
-      var  FreightVal = $(this).val();
-      $("[id$='lblFreight']").html(FreightVal);
-      $("input[id*='hdnFreight']").val(FreightVal);
+   $("#drpFreight").change(function () {
+        var  FreightVal = $(this).val();
+        $("[id$='lblFreight']").html(FreightVal);
+        $("input[id*='hdnFreight']").val(FreightVal);
     });
-  
-   
+
+    $("#drpPOBucket").change(function (e) {
+        UpdatePurchaseOrderInfo($(this).val());
+    });
+
+
 });
 
 
@@ -114,7 +118,7 @@ function Calcution() {
     }
     else {
         var subtotal = $("[id$='lblSubTotal']").text();
-         VatSum = parseInt(subtotal);
+        VatSum = parseInt(subtotal);
     }
 
     if ($("input[id*='txtFrieght']").val() == "") {
@@ -154,7 +158,7 @@ function RemoveItem(chkbox, sno) {
         });
 
         selectedMaterialList = selectedMaterialListNew;
-      //  LoadWorkshopBillInfo(selectedMaterialList);
+        //  LoadWorkshopBillInfo(selectedMaterialList);
     }
 }
 
@@ -316,7 +320,7 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
             className = "warning";
         }
         var $newRow = $("#rowTemplate").clone();
-        $newRow.find("#srno").html(count);
+        $newRow.find("#srno").html("<input type='text'  id='txtSno" + i + "' name='txtSno" + i + "' value='" + adminLoanList[i].Sno + "'  style='width:100px;display:none;');' />" + count);
         $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
         $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatName);
         $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].Unit.UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Unit.UnitName);
@@ -372,7 +376,7 @@ function GetVendorAddress(selectedValue) {
                     }
                 }
             }
-         //  $("input[id*='hdnCity']").val(cityname);
+            //  $("input[id*='hdnCity']").val(cityname);
         },
         error: function (result, textStatus) {
             alert(result.responseText)
@@ -434,7 +438,7 @@ function GetDeliveryAddressInfo(selectedValue) {
                 $("[id$='lblAdress']").html(cityname);
                 $("input[id*='hdnTrustName']").val(msg[0].TrustName);
                 $("input[id*='hdnDeliveryAddress']").val(cityname);
-              
+
             }
         },
         error: function (result, textStatus) {
@@ -460,7 +464,7 @@ function GetBillingAddressInfo(selectedValue) {
                 name = msg[0].TrustName;
                 cityname =  msg[0].Address;
                 if ($("select[id*='drpPOFor']").val() == "1") {
-                   $("[id$='lblBillingName']").html("THE KALGIDHAR SOCIETY,<br/>" + name);
+                    $("[id$='lblBillingName']").html("THE KALGIDHAR SOCIETY,<br/>" + name);
                 }
                 else {
                     $("[id$='lblBillingName']").html("THE KALGIDHAR TRUST,<br/>" + name);
@@ -485,7 +489,7 @@ function TotalAmt() {
             $("#txtlineTotal" + i).text(0);
         }
         var qty = parseFloat($("#txtlineTotal" + i).text());
-       
+
         Amt += parseFloat(qty);
     }
     Amt = Amt.toFixed(2);
@@ -541,6 +545,145 @@ function vat_ChangeEvent(cntID, matcost) {
         $("#spnNetPrice" + cntID).text(totalnetamount);
     }
     TotalAmt();
+}
+
+function BindPONumber() {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetPONumberList",
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var Result = result.d;
+                $.each(Result, function (key, value) {
+                    $("#drpPOBucket").append($("<option></option>").val(value.ID).html(value.PurchaseOrderNumber));
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+function UpdatePurchaseOrderInfo(purchaseorderno) {
+
+    /*create/distroy grid for the new search*/
+    if (typeof grdTicketDiscription != 'undefined') {
+        grdTicketDiscription.fnClearTable();
+    }
+
+    var rowCount = $('#grid').find("#rowTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowTemplate").remove();
+    }
+    var rowTemplate = '<tr id="rowTemplate"><td id="srno">abc</td><td style="width:360px" id="description">abc</td><td id="details">cc</td><td id="unit">cc</td><td id="qty">abc</td><td id="unitprice"></td><td style="width:100px"  id="vat"></td><td style="width:100px"  id="net"></td><td id="linetotal"></td></tr>';
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetPurchaserOrderDetailByPONumber",
+        data: JSON.stringify({ purchaserOrderID: parseInt(purchaseorderno) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                $("#drpVendor").val(adminLoanList[0].VendorID);
+                $("input[id*='hdnVendorID']").val(adminLoanList[0].VendorID); 
+                $("input[id*='txtPO']").val($("#drpPOBucket option:selected").text());
+                $("input[id*='hdnPoID']").val($("#drpPOBucket").val());
+                GetVendorAddress(adminLoanList[0].VendorID);
+                if (adminLoanList.length > 0) {
+                    $("#tbody").append(rowTemplate);
+                }
+                $("input[id*='hdnItemsLength']").val("");
+                var SnoValue = "";
+                var count = 1;
+                for (var i = 0; i < adminLoanList.length; i++) {
+                    var className = "info";
+                    if (i % 2 == 0) {
+                        className = "warning";
+                    }
+                    GetUpdateMaterialList(adminLoanList[i].SnoID)
+                    var $newRow = $("#rowTemplate").clone();
+                    $newRow.find("#srno").html(count);
+                    $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' >" + adminLoanList[i].Description + "</textarea>");
+                    $newRow.find("#details").html(adminLoanList[i].Material.MatName);
+                    $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].UnitName);
+                    $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' value='" + adminLoanList[i].Qty + "' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' />");
+                    $newRow.find("#unitprice").html(adminLoanList[i].Rate);
+                    $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' value='" + adminLoanList[i].Vat + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
+                    var amount = parseFloat(adminLoanList[i].Qty) * parseFloat(adminLoanList[i].Material.MatCost);
+                    if (adminLoanList[i].Vat == "0") {
+                        amount = amount.toFixed(2);
+                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost + "</span>");
+                        $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
+                    }
+                    else {
+                        var netamount = parseFloat(adminLoanList[i].Material.MatCost) * adminLoanList[i].Vat / 100;
+                        var totalnetamount = parseFloat(adminLoanList[i].Material.MatCost) + netamount;
+                        var vatamount = amount * adminLoanList[i].Vat / 100;
+                        amount = amount + vatamount;
+                        amount = amount.toFixed(2);
+                        totalnetamount = totalnetamount.toFixed(2);
+                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + totalnetamount + "</span>");
+                        $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
+                    }
+                    sum += parseFloat(amount);
+                    $("[id$='lblSubTotal']").html(sum);
+                    $("input[id*='hdnSubTotal']").val(sum);
+                    $("[id$='lblGrandTotal']").html(sum);
+                    $("input[id*='hdnGrandTotal']").val(sum);
+                    count++;
+                    $newRow.addClass(className);
+                    $newRow.show();
+
+                    if (i == 0) {
+                        $("#rowTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grid > tbody");
+                    }
+                    $("#grid").removeAttr("style");
+
+                }
+                grdTicketDiscription = $('#grid').DataTable(
+                    {
+                        "bPaginate": false,
+                        "bDestroy": true,
+                        "bFilter": false,
+                        "bInfo": false,
+                    });
+            }
+
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+}
+
+
+function GetUpdateMaterialList(selectedValue) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetMaterialDetailList",
+        data: JSON.stringify({ sno: parseInt(selectedValue) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                MaterialList = result.d;
+                for (var i = 0; i < MaterialList.length; i++) {
+                        selectedMaterialList.push(MaterialList[i]);
+                }
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
 }
 
 

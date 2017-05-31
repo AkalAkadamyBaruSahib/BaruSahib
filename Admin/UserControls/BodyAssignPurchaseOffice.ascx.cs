@@ -105,7 +105,7 @@ public partial class Admin_UserControls_BodyAssignPurchaseOffice : System.Web.UI
                 try
                 {
                     DAL.DalAccessUtility.ExecuteNonQuery("INSERT INTO InchargeEmployee values(" + Session["InchargeID"].ToString() + "," + ddlEmployee.SelectedValue + ") ");
-                    DAL.DalAccessUtility.ExecuteNonQuery("UPDATE EstimateAndMaterialOthersRelations SET PurchaseEmpID=" + ddlEmployee.SelectedValue + ", EmployeeAssignDateTime=GETDATE() where Sno=" + hdnSno.Value);
+                    DAL.DalAccessUtility.ExecuteNonQuery("UPDATE EstimateAndMaterialOthersRelations SET PurchaseEmpID=" + ddlEmployee.SelectedValue + ", EmployeeAssignDateTime='" + Utility.GetLocalDateTime(DateTime.UtcNow) + "' where Sno=" + hdnSno.Value);
                     smsTo = ddlEmployee.SelectedValue;
                     SendSMSToAssignEmployee(smsTo);
                 }

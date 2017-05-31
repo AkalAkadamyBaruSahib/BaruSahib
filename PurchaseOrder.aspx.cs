@@ -116,6 +116,19 @@ public partial class PurchaseOrder : System.Web.UI.Page
 
     public string getGrid()
     {
+        PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+        PONumber ponum = new PONumber();
+        DataTable   dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + txtPO.Text + "'").Tables[0];
+        if (dsExist.Rows.Count > 0)
+        {
+            DAL.DalAccessUtility.ExecuteNonQuery("Delete From PurchaseOrderDetail where PONumberID='" + dsExist.Rows[0]["ID"].ToString() + "'");
+        }
+        else
+        {
+            ponum.PurchaseOrderNumber = txtPO.Text;
+            repo.SavePONumber(ponum);
+            hdnPoID.Value = ponum.ID.ToString();
+        }
         PurchaseOrderDetail po = new PurchaseOrderDetail();
         DataTable dt = new DataTable();
         dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
@@ -145,6 +158,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
             string mat = Request.Form["txtMatName" + i];
             string unit = Request.Form["txtUnitName" + i];
             string cost = Request.Form["txtMatCost" + i];
+            string sno = Request.Form["txtSno" + i];
             MaterialInfo += "<tr>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + (i + 1) + "</td>";
             MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;font-size: 12px;'>" + description + "</td>";
@@ -181,21 +195,30 @@ public partial class PurchaseOrder : System.Web.UI.Page
                 hdnVatStatus.Value += vat + "%" + ",";
             }
             po.CreatedOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
-            po.PONumber = txtPO.Text;
-            po.EstID = Convert.ToInt32(dt.Rows[i]["EstID"].ToString());
+            if (dsExist.Rows.Count > 0)
+            {
+                po.PONumberID = Convert.ToInt32(dsExist.Rows[0]["ID"].ToString());
+            }
+            else
+            {
+                po.PONumberID = Convert.ToInt32(hdnPoID.Value);
+            }
             po.VendorID = Convert.ToInt32(hdnVendorID.Value);
+            po.EstID = Convert.ToInt32(dt.Rows[i]["EstID"].ToString());
             po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
             po.Qty = Convert.ToDecimal(qty);
             po.Rate = Convert.ToDecimal(cost);
             po.Description = Request.Form["txtdescription" + i];
             po.Vat = Convert.ToDecimal(vat);
+            po.UnitName = unit;
             po.FrieghtCharges = Convert.ToDecimal(txtFrieght.Text);
             po.LoadingCharges = Convert.ToDecimal(txtLoading.Text);
+            po.SnoID = Convert.ToInt32(sno);
             if (txtExcise.Text != "")
             {
                 po.Excise = Convert.ToDecimal(txtExcise.Text);
             }
-            PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
+
             repo.AddNewPODetail(po);
         }
         MaterialInfo += "</tbody>";
@@ -206,4 +229,8 @@ public partial class PurchaseOrder : System.Web.UI.Page
         return MaterialInfo;
     }
 
+    protected void btnSaveExit_Click(object sender, EventArgs e)
+    {
+        getGrid();
+    }
 }

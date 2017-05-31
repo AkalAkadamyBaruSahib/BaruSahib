@@ -150,6 +150,7 @@
                             </li>
                             <li id="liMaterial" runat="server"><a class="dropmenu" href="#"><i class="icon-star"></i><span class="hidden-tablet"><b>MATERIALS</b></span></a>
                                 <ul>
+                                    <li id="liViewMaterial" runat="server" visible="false"><a class="ajax-link" href="Admin_ViewMaterial.aspx"><i></i><span class="hidden-tablet">View Materials</span></a></li>
                                     <li id="liUnit" runat="server"><a class="ajax-link" href="Admin_Unit.aspx"><i></i><span class="hidden-tablet">Unit</span></a></li>
                                     <li id="liMaterialType" runat="server"><a class="ajax-link" href="Admin_MaterialType.aspx"><i></i><span class="hidden-tablet">Material Type</span></a></li>
                                     <li id="liCreateMaterial" runat="server"><a class="ajax-link" href="Admin_Material.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
@@ -187,7 +188,7 @@
                             </li>
                             <li id="liReort" runat="server"><a class="ajax-link" href="#"><i class="icon-edit"></i><span class="hidden-tablet"><b>REPORTS</b></span></a>
                                 <ul>
-                                    <li id="liLocalReort" runat="server"><a class="ajax-link" href="Admin_LocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
+                                    <li id="liLocalReort" runat="server" visible="false"><a class="ajax-link" href="Admin_LocalMaterialReport.aspx"><i></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
                                     <li id="li3" runat="server"><a class="ajax-link" href="Admin_BillReports.aspx"><i></i><span class="hidden-tablet">Submit Bill Report</span></a></li>
                                     <li id="liMohaliReort" runat="server"><a class="ajax-link" href="Admin_EstimatePendencyReport.aspx"><i></i><span class="hidden-tablet">Estimate Pendency Report</span></a></li>
                                     <li id="li1" runat="server"><a class="ajax-link" href="Admin_StoreEstimateReceivedReport.aspx"><i></i><span class="hidden-tablet"> Store Received Estimate Report</span></a></li>

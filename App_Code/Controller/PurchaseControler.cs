@@ -280,14 +280,14 @@ public class PurchaseControler : System.Web.Services.WebService
     {
         if (estimate.IsApproved == true)
         {
-            estimate.SanctionDate = DateTime.UtcNow;
+            estimate.SanctionDate = Utility.GetLocalDateTime(DateTime.UtcNow);
         }
-        estimate.CreatedOn = DateTime.UtcNow;
+        estimate.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
 
         foreach (EstimateAndMaterialOthersRelations relation in estimate.EstimateAndMaterialOthersRelations)
         {
-            relation.CreatedOn = DateTime.UtcNow;
-            relation.ModifyOn = DateTime.UtcNow;
+            relation.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+            relation.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         }
 
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());

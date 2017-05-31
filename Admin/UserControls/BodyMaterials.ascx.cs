@@ -17,6 +17,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     }
     public static int UserTypeID = -1;
     public int ModuleID = -1;
+    public int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["ModuleID"] != null)
@@ -33,9 +34,10 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
             {
                 lblUser.Text = Session["EmailId"].ToString();
                 UserTypeID = int.Parse(Session["UserTypeID"].ToString());
+                InchargeID = int.Parse(Session["InchargeID"].ToString());
             }
 
-            if (UserTypeID == 10 || UserTypeID == 2)
+            if (UserTypeID == 10 || UserTypeID == 2 || InchargeID == 78 || InchargeID == 84)
             {
                 divAddNew.Visible = false;
             }

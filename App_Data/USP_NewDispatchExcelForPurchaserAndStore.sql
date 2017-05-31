@@ -14,53 +14,39 @@ AS
 
 BEGIN      
 
-SELECT distinct  EstId
+SELECT 
 
-				,Zone
+EstId
 
-				,Academy
+,Zone
 
-				,MaterialType
+,Academy
 
-				,Material
+,MaterialType
 
-				,UnitName
+,Material
 
-    			,[EstimateQuantity]
+,UnitName
 
-				,[PurchaseQuantity]
+,EstimateQuantity
 
-    			,ReceivedStoreQuantity
+,StoreReceivedQuantity
 
-    			,DispatchQuantity
+,StoreDispatchQuantity
 
-				,[StorePendingQuantity]
+,PendingQuantity
 
-				,[DirectPurchasedQty]
+,StoreStatus
 
-     			,Rate AS [PerItemRate]
+,[Received BillNumber]
 
-				,Amount AS [TotalAmount]
+,SanctionDate AS EstimateReceivedOn
 
-     			,SanctionDate
 
-    			,EmployeeAssignDate
 
-				,PurchaseDate
+ FROM StoreInventory
 
-				,PurchaserName
-
-				,StoreReceivedOn
-
-				,StoreDispatchOn
-
-				,[StoreDispatchStatus] AS [Dispatch Status],  
-
-                [Received BillNumber],
-
-				[EmployeeDispatchStatus]
-
-         		 from EstimateReport WHERE PSId=@PsId 
+WHERE PSId=@PsId 
 
 AND IsApproved=1  AND IsReceived=0
 

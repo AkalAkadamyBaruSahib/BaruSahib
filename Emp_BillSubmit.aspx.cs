@@ -552,6 +552,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
             txtAgenyBillNo.Text = dsBill.Tables[0].Rows[0]["AgencyBillNumber"].ToString();
            // Request.Form["txtAgencyName"] = dsBill.Tables[0].Rows[0]["AgencyName"].ToString();
             afilePath.HRef ="Bills/"+ dsBill.Tables[0].Rows[0]["AgencyBill"].ToString();
+            hdnVandorID.Value = dsBill.Tables[0].Rows[0]["VendorID"].ToString();
             GetAllMaterials(dsBill.Tables[0].Rows[0]["WAId"].ToString(), dsBill.Tables[2]);
             btnSubmit.Visible = true;
        
