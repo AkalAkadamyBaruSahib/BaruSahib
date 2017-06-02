@@ -18,6 +18,7 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
     public static int UserTypeID = -1;
     public int ModuleID = -1;
     public int InchargeID = -1;
+    private int AdminType = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["ModuleID"] != null)
@@ -35,9 +36,17 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 lblUser.Text = Session["EmailId"].ToString();
                 UserTypeID = int.Parse(Session["UserTypeID"].ToString());
                 InchargeID = int.Parse(Session["InchargeID"].ToString());
+                if (UserTypeID == (int)TypeEnum.UserType.ADMIN)
+                {
+                    AdminType = Convert.ToInt16(Session["AdminType"].ToString());
+                }
             }
 
-            if (UserTypeID == 10 || UserTypeID == 2 || InchargeID == 78 || InchargeID == 84)
+            if (UserTypeID == (int)TypeEnum.UserType.ACADEMIC || UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION)
+            {
+                divAddNew.Visible = false;
+            }
+            else if (AdminType == (int)TypeEnum.SubAdminName.Electrical || AdminType == (int)TypeEnum.SubAdminName.Barusahib)
             {
                 divAddNew.Visible = false;
             }

@@ -48,7 +48,7 @@ public class WorkshopRepository
         workshopStoreMaterial.Material.AkalWorkshopRate = workshopStoreMaterialDTO.Rate;
         workshopStoreMaterial.InStoreQty = workshopStoreMaterialDTO.InStoreQty;
         workshopStoreMaterial.ModifyBy = workshopStoreMaterialDTO.ModifyBy;
-        workshopStoreMaterial.ModifyOn = DateTime.UtcNow;
+        workshopStoreMaterial.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         _context.Entry(workshopStoreMaterial).State = EntityState.Modified;
 
 

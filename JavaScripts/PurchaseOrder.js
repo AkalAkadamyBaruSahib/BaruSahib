@@ -612,7 +612,7 @@ function UpdatePurchaseOrderInfo(purchaseorderno) {
                     $newRow.find("#details").html(adminLoanList[i].Material.MatName);
                     $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].UnitName);
                     $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' value='" + adminLoanList[i].Qty + "' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' />");
-                    $newRow.find("#unitprice").html(adminLoanList[i].Rate);
+                    $newRow.find("#unitprice").html(adminLoanList[i].Material.MatCost);
                     $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' value='" + adminLoanList[i].Vat + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
                     var amount = parseFloat(adminLoanList[i].Qty) * parseFloat(adminLoanList[i].Material.MatCost);
                     if (adminLoanList[i].Vat == "0") {

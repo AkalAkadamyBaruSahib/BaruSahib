@@ -452,6 +452,11 @@ public static class Utility
         HtmlToPdf HtmlToPdf = new IronPdf.HtmlToPdf();
         HtmlToPdf.PrintOptions.PaperSize = PdfPrintOptions.PdfPaperSize.A4;
         HtmlToPdf.PrintOptions.Header.Spacing = 50;
+        // HtmlToPdf.PrintOptions.DPI = 300;
+        // HtmlToPdf.PrintOptions.EnableJavaScript = true;
+        HtmlToPdf.PrintOptions.MarginTop = 20;
+        //  HtmlToPdf.PrintOptions.Header = true;
+        //HtmlToPdf.PrintOptions.SetHeaderText = "{page} of {total-pages}";
 
         PdfResource PDF = HtmlToPdf.RenderHtmlAsPdf(html);
 
@@ -659,7 +664,6 @@ public static class Utility
         grid += "</tr>";
         grid += "</table>";
         grid += "<table border='1' style='width:100%'>";
-        grid += "<thead>";
         grid += "<tr>";
 
         int columnWidth = 0;
@@ -670,7 +674,6 @@ public static class Utility
             columnWidth++;
         }
         grid += "</tr>";
-        grid += "</thead>";
         if (footarRow)
         {
             grid += "<tfoot>";

@@ -191,7 +191,6 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Particular Details</div>";
         EstInfo += "<br />";
         EstInfo += "<table style='width:99%; margin-top:20px;' border='1'>";
-        EstInfo += "<thead>";
         EstInfo += "<tr>";
         EstInfo += "<th>MaterialType</th>";
         EstInfo += "<th>Material</th>";
@@ -200,7 +199,6 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "<th>Rate</th>";
         EstInfo += "<th style='width:152px;'>Amount</th>";
         EstInfo += "</tr>";
-        EstInfo += "</thead>";
         EstInfo += "<tbody>";
         for (int i = 0; i < dsValue.Tables[1].Rows.Count; i++)
         {

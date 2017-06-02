@@ -285,7 +285,7 @@ public class VisitorUserRepository
 
         visitor.VisitorRoomNumbers = null;
         visitor.IsActive = false;
-        visitor.TimePeriodTo = DateTime.UtcNow;
+        visitor.TimePeriodTo = Utility.GetLocalDateTime(DateTime.UtcNow);
         _context.Entry(visitor).State = EntityState.Modified;
         _context.SaveChanges();
     }

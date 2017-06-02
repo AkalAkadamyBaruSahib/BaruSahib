@@ -203,7 +203,7 @@ public class SecurityRepository
         SecurityEmployeeInfo newEmpInfo = _context.SecurityEmployeeInfo.Where(v => v.ID == EmployeeTransfer.EmpID).FirstOrDefault();
         newEmpInfo.AcaID = EmployeeTransfer.NewAcaID;
         newEmpInfo.ZoneID = EmployeeTransfer.NewZoneID;
-        newEmpInfo.ModifyOn = DateTime.UtcNow;
+        newEmpInfo.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         _context.Entry(newEmpInfo).State = EntityState.Modified;
         _context.SaveChanges();
     }

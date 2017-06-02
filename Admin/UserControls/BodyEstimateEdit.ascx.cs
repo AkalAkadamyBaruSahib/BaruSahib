@@ -405,7 +405,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + lbUnit.Text + "'");
                 int uId = Convert.ToInt32(dsUnitId.Tables[0].Rows[0]["UnitId"].ToString());
                 Label lbAmt = (Label)gvDetails.FooterRow.FindControl("lblAmtFooter");
-                DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + ddlPsFooter.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + System.DateTime.Now.ToString("yyyy-MM-dd") + "',0)");
+                DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID,VendorID,PurchaseQty,DispatchStatus,MRP,Discount,Vat,DirectPurchase,ModifyOn,ModifyBy) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + ddlPsFooter.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + Utility.GetLocalDateTime(DateTime.UtcNow) + "',0,0,0,0,0,0,0,'" + false + "','" + Utility.GetLocalDateTime(DateTime.UtcNow) + "','" + InchargeID + "')");
                 DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + id + "'");
                 DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + id + "'");
                 GetEstimateDetails();
@@ -444,9 +444,6 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
 
 
         DataTable dsSourcTypef = new DataTable();
-
-        if (hdnIsApproved.Value.ToLower() == "false")
-        {
             if (ddlMateType.SelectedValue == "83")
             {
                 dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
@@ -455,11 +452,6 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             {
                 dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where  Active=1 and PSId!=" + (int)TypeEnum.PurchaseSourceID.AkalWorkshop).Tables[0];
             }
-        }
-        else
-        {
-            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1 AND psid=" + (int)TypeEnum.PurchaseSourceID.Local).Tables[0];
-        }
         if (dsSourcTypef != null)
         {
             ddlPurchaseSource.DataSource = dsSourcTypef;
@@ -520,16 +512,8 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             dsMatTypef = DAL.DalAccessUtility.GetDataInDataSet("select MatTypeId,MatTypeName from MaterialType where Active=1 order by MatTypeName asc");
         }
         DataSet dsSourcTypef = new DataSet();
-
-        if (hdnIsApproved.Value.ToLower() == "false")
-        {
-            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
-        }
-        else
-        {
-            dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1 AND psid=" + (int)TypeEnum.PurchaseSourceID.Local);
-        }
-        
+        dsSourcTypef = DAL.DalAccessUtility.GetDataInDataSet("select PSId,PSName from PurchaseSource where Active=1");
+       
         DataSet dsremarks = new DataSet();
 
         if (e.Row.RowType == DataControlRowType.Footer)

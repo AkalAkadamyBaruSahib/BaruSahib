@@ -356,8 +356,8 @@ public class PurchaseControler : System.Web.Services.WebService
     [WebMethod]
     public void SaveDrawingDetail(Drawing drawing)
     {
-        drawing.ModifyOn = DateTime.UtcNow;
-        drawing.CreatedOn = DateTime.UtcNow;
+        drawing.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        drawing.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
 
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         repository.SaveDrawingDetail(drawing);
@@ -599,5 +599,124 @@ public class PurchaseControler : System.Web.Services.WebService
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetMaterialDetailList(sno);
+    }
+
+    [WebMethod]
+    public void SaveNonApprovedRate(MaterialNonApprovedRate materialNonApprovedRate, string UserName, string MatName, int MatTypeID, decimal MatCost)
+    {
+        materialNonApprovedRate.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+
+        PurchaseRepository tr = new PurchaseRepository(new AkalAcademy.DataContext());
+
+        tr.SaveNonApprovedRate(materialNonApprovedRate);
+        string MsgInfo = string.Empty;
+        MsgInfo += "<table style='width:100%;'>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
+        MsgInfo += "<img src='http://akalsewa.org/img/logoakalnew.png' style='width:100%;' />";
+        MsgInfo += "</td>";
+        MsgInfo += "<td style='text-align: right; width:40%;'>";
+        MsgInfo += "<br /><br />";
+        MsgInfo += "<div style='font-style:italic; text-align: right;'>";
+        MsgInfo += "Baru Shahib,";
+        MsgInfo += "<br />Dist: Sirmaur";
+        MsgInfo += "<br />Himachal Pradesh-173001";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td colspan='2' style='height:50px'>";
+        MsgInfo += "Please approved New rate for Materials. <a href='http://akalsewa.org/'>Akal Sewa</a>";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "</table>";
+        MsgInfo += "<table border='1' style='width:50%' cellspacing='0' cellpadding='0'>";
+        MsgInfo += "<tbody>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Requested By:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += UserName;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Material Name:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += MatName;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Old Rate:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += "Rs. " + MatCost;//CurrentRate
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>MRP/Dealer Price:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += "Rs. " + materialNonApprovedRate.MRP;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Discount:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += materialNonApprovedRate.Discount + "%";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Vat:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += materialNonApprovedRate.Vat + "%";
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+        MsgInfo += "<tr>";
+        MsgInfo += "<td>";
+        MsgInfo += "<b>Net Rate:</b>";
+        MsgInfo += "</td>";
+        MsgInfo += "<td>";
+        MsgInfo += "Rs. " + materialNonApprovedRate.NetRate;
+        MsgInfo += "</td>";
+        MsgInfo += "</tr>";
+
+
+        MsgInfo += "</tbody>";
+
+        MsgInfo += "</table>";
+
+        string FileName = string.Empty;
+        string to = "dshah@barusahib.org";
+        string cc = string.Empty;
+        if (MatTypeID == ((int)TypeEnum.MatTypeID.TRANSPORTMATERIAL)) // Transport Material
+        {
+            cc = "bhupinder@barusahib.org,akaltransport@barusahib.org";
+        }
+        else if (MatTypeID == ((int)TypeEnum.MatTypeID.ELECTRICALMATERIAL) || MatTypeID == ((int)TypeEnum.MatTypeID.MOTORSANDPUMPS) || MatTypeID == ((int)TypeEnum.MatTypeID.EXTERNALELECTRICALWORK)) // Electrical Material
+        {
+            cc = "bhupinder@barusahib.org,electricals@barusahib.org";
+        }
+        else // Construction Material
+        {
+            cc = "bhupinder@barusahib.org,akalconstruction@barusahib.org";
+        }
+
+        try
+        {
+          //  Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
+        }
+        catch { }
+        finally
+        {
+
+        }
     }
 }

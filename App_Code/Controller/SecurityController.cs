@@ -57,7 +57,7 @@ public class SecurityController : System.Web.Services.WebService {
     [WebMethod]
     public void SaveSecurityTransferLetter(EmployeeTransfer EmployeeTransfer)
     {
-        EmployeeTransfer.DateOfTransfer = DateTime.UtcNow;
+        EmployeeTransfer.DateOfTransfer = Utility.GetLocalDateTime(DateTime.UtcNow);
         SecurityRepository securityRepository = new SecurityRepository(new AkalAcademy.DataContext());
         securityRepository.SaveSecurityTransferLetter(EmployeeTransfer);
     }

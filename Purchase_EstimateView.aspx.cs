@@ -111,7 +111,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Estimate Purchase Details Assigned to " + lblUser.Text + "</div>";
         EstInfo += "<br />";
         EstInfo += "<table style='width:98%; margin-top:20px;font-size:18px;border-color:black' border='1' cellspacing='0' cellpadding='0'>";
-        EstInfo += "<thead>";
+        EstInfo += "<tbody>";
         EstInfo += "<tr>";
         EstInfo += "<th style='font-size:18px;'>Sr.No</th>";
         EstInfo += "<th style='font-size:18px;'>Material Name</th>";
@@ -121,8 +121,6 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "<th style='font-size:18px;'>Rate</th>";
         EstInfo += "<th style='width:152px;font-size:18px;'>Amount</th>";
         EstInfo += "</tr>";
-        EstInfo += "</thead>";
-        EstInfo += "<tbody>";
         for (int i = 0; i < dsValue.Tables[1].Rows.Count; i++)
         {
 

@@ -141,7 +141,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<div style='width:100%; font-size:20px; font-weight:bold; text-align:center;'>Material Dispatch Details</div>";
         EstInfo += "<br />";
         EstInfo += "<table style='width:98%; margin-top:20px;font-size:18px' border='1' cellspacing='0' cellpadding='0'>";
-        EstInfo += "<thead>";
         EstInfo += "<tr>";
         EstInfo += "<th style='font-size:18px;' ><b>Sr. No.</b></th>";
         EstInfo += "<th style='font-size:18px;width:20%'><b>Material</b></th>";
@@ -155,7 +154,6 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         }
         EstInfo += "<th style='font-size:18px;'><b>" + HeaderText + "</b></th>";
         EstInfo += "</tr>";
-        EstInfo += "</thead>";
         EstInfo += "<tbody>";
         DataSet dsMatDetails = new DataSet();
         if (UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)

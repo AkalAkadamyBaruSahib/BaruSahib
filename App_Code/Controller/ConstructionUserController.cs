@@ -40,14 +40,14 @@ public class ConstructionUserController : System.Web.Services.WebService
     public int SaveCivilBillDetail(SubmitBillByUser SubmitBillByUser)
     {
 
-        SubmitBillByUser.ModifyOn = DateTime.UtcNow;
-        SubmitBillByUser.CreatedOn = DateTime.UtcNow;
+        SubmitBillByUser.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        SubmitBillByUser.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         SubmitBillByUser.FirstVarifyStatus = null;
 
         foreach (SubmitBillByUserAndMaterialOthersRelation relation in SubmitBillByUser.SubmitBillByUserAndMaterialOthersRelation)
         {
-            relation.CreatedOn = DateTime.UtcNow;
-            relation.ModifyOn = DateTime.UtcNow;
+            relation.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+            relation.ModifyOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         }
         ConstructionUserRepository repository = new ConstructionUserRepository(new AkalAcademy.DataContext());
         return repository.SaveCivilBillDetail(SubmitBillByUser);

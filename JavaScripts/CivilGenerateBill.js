@@ -595,7 +595,7 @@ function Validation() {
         }
     }
 
-    if ($("input[id*='fileAgencyBill']")[0].files != undefined) {
+    if ($("input[id*='fileAgencyBill']")[0].files.length != 0) {
         var size = parseFloat($("input[id*='fileAgencyBill']")[0].files[0].size);
         if (size > 2097152) {
             alert("Maximum size allowed Less than 2 MB");

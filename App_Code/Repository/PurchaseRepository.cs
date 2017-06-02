@@ -1244,7 +1244,7 @@ public class PurchaseRepository
     {
         Estimate estimate = _context.Estimate.Where(v => v.EstId == EstID).FirstOrDefault();
         estimate.IsReceived = true;
-        estimate.ReceivedMaterialDate = DateTime.UtcNow;
+        estimate.ReceivedMaterialDate = Utility.GetLocalDateTime(DateTime.UtcNow);
         estimate.ReceivedBy = InchargeID;
         _context.Entry(estimate).State = EntityState.Modified;
         _context.SaveChanges();
@@ -1678,6 +1678,12 @@ public class PurchaseRepository
     public List<EstimateAndMaterialOthersRelations> GetMaterialDetailList(int sno)
     {
         return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Include(u => u.Unit).Where(x => x.Sno == sno).ToList();
+    }
+
+    public void SaveNonApprovedRate(MaterialNonApprovedRate materialNonApprovedRate)
+    {
+        _context.Entry(materialNonApprovedRate).State = EntityState.Added;
+        _context.SaveChanges();
     }
 }
 
