@@ -55,6 +55,12 @@ public class Material
 
     public decimal? AkalWorkshopRate { get; set; }
 
+    public decimal? MRP { get; set; }
+
+    public decimal? Vat { get; set; }
+
+    public decimal? Discount { get; set; }
+
     [ForeignKey("MatTypeId")]
     public  MaterialType MaterialType { get; set; }
 }

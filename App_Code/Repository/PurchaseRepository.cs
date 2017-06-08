@@ -64,6 +64,9 @@ public class PurchaseRepository
             MatID = x.MatId,
             MatName = x.MatName.Trim(),
             MatCost = x.MatCost,
+            MRP = x.MRP,
+            Discount = x.Discount,
+            Vat = x.Vat,
             AkalWorkshopRate = x.AkalWorkshopRate,
             LocalRate = x.LocalRate,
             Unit = x.Unit,
@@ -118,6 +121,9 @@ public class PurchaseRepository
             LocalRate = x.LocalRate,
             Unit = x.Unit,
             MatTypeID = x.MatTypeId,
+            MRP = x.MRP,
+            Discount = x.Discount,
+            Vat = x.Vat,
             MaterialType = x.MaterialType
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
     }

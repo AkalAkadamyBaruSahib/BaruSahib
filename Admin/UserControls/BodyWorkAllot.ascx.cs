@@ -469,14 +469,19 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             Response.Write("\n");
         }
         Response.End();
-
-
     }
 
     protected DataTable BindMaterialDetail(int workAllotID, int PSID)
     {
         DataTable dsMaterial = new DataTable();
-        dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + PSID + "'").Tables[0];
+        if (workAllotID == -1)
+        {
+            dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec procEstimateBalanceCost").Tables[0];
+        }
+        else
+        {
+            dsMaterial = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getMaterialDetailsByWorkAllot'" + workAllotID + "','" + PSID + "'").Tables[0];
+        }
         return dsMaterial;
     }
 
@@ -547,12 +552,21 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
         drpWorkAllot.DataTextField = "WorkAllotName";
         drpWorkAllot.DataBind();
         drpWorkAllot.Items.Insert(0, "--SELECT ALLOTED WORK--");
+        drpWorkAllot.Items.Insert(1, new ListItem("--ALL WORK--", "-1"));
         drpWorkAllot.SelectedIndex = 0;
     }
 
     protected void drpWorkAllot_SelectedIndexChanged(object sender, EventArgs e)
     {
-        BindWorkAllotDetails(PurchaseSource, Convert.ToInt32(drpWorkAllot.SelectedValue));
+        if (Convert.ToInt32(drpWorkAllot.SelectedValue) == -1)
+        {
+            MaterialDetailByWorkAllotIDInExcel("-1", (int)TypeEnum.PurchaseSourceID.Local);
+        }
+        else
+        {
+            BindWorkAllotDetails(PurchaseSource, Convert.ToInt32(drpWorkAllot.SelectedValue)); 
+        }
+
     }
 
     protected void drpAcademy_SelectedIndexChanged(object sender, EventArgs e)
@@ -571,6 +585,7 @@ public partial class Admin_UserControls_BodyWorkAllot : System.Web.UI.UserContro
             drpAcademy.DataTextField = "AcaName";
             drpAcademy.DataBind();
             drpAcademy.Items.Insert(0, new ListItem("--SELECT ACADEMY--", "0"));
+            drpAcademy.Items.Insert(1, new ListItem("--ALL ACADEMY--", "-1"));
             drpAcademy.SelectedIndex = 0;
         }
     }

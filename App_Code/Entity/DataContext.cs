@@ -84,6 +84,9 @@ namespace AkalAcademy
         public DbSet<BucketName> BucketName { get; set; }
         public DbSet<VisitorsCheckOutLog> VisitorsCheckOutLog { get; set; }
         public DbSet<PONumber> PONumber { get; set; }
+        public DbSet<VehicleServiceRecord> VehicleServiceRecord { get; set; }
+        public DbSet<SittingTyreRelation> SittingTyreRelation { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

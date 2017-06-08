@@ -479,6 +479,11 @@ public class TransportUserRepository
         return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true && x.TypeID != TypeID).ToList();
     }
 
+    public List<Vehicles> GetTrustVehiclesByAcademyIdAndTypeID(int AcaID, int TypeID)
+    {
+        return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true && x.TypeID == TypeID).ToList();
+    }
+
     public Vehicles GetVehiclesInfoByVehicleID(int VehicleID)
     {
         return _context.Vehicles.Where(v => v.ID == VehicleID).Include(t => t.TransportTypes).FirstOrDefault();
@@ -495,5 +500,85 @@ public class TransportUserRepository
     public List<UserRole> GetUserRoleByInchargeID(int UserID)
     {
         return _context.UserRole.Where(x => x.UserID == UserID).ToList();
+    }
+
+    public SittingTyreRelation GetVehiclesTyreCountBySitting(int seatingCapacity)
+    {
+        return _context.SittingTyreRelation.Where(x => x.SittingCapacity == seatingCapacity).FirstOrDefault();
+    }
+
+    public int SaveVehicleDetailService(VehicleServiceRecord VehicleServiceRecord)
+    {
+        _context.VehicleServiceRecord.Add(VehicleServiceRecord);
+        _context.SaveChanges();
+
+        return VehicleServiceRecord.ID;
+    }
+
+    public List<VehicleServiceRecord> GetLoadVehicleServiceInformation(int inchargeID)
+    {
+        List<VehicleServiceRecord> mt = new List<VehicleServiceRecord>();
+        return mt = _context.VehicleServiceRecord.Include(v => v.Vehicles).Include(v => v.Academy).Where(v => v.CreatedBy == inchargeID).AsEnumerable().Select(v => new VehicleServiceRecord
+        {
+            ID = v.ID,
+            VehicleID = v.VehicleID,
+            AcaID = v.AcaID,
+            CurrentKm = v.CurrentKm,
+            LastServiceKm = v.LastServiceKm,
+            MeterReadingFilePath = v.MeterReadingFilePath,
+            BatteryInstalationDate = v.BatteryInstalationDate,
+            CreatedOn = v.CreatedOn,
+            CreatedBy = v.CreatedBy,
+            Vehicles = v.Vehicles,
+            Academy = v.Academy,
+            MakeofBattery = v.MakeofBattery,
+            BatteryCapacity = v.BatteryCapacity,
+            BatterySerialNum = v.BatterySerialNum,
+            BatteryLifeInYears = v.BatteryLifeInYears,
+            LastServiceDate = v.LastServiceDate
+
+        }).OrderByDescending(x => x.CreatedOn).ToList();
+    }
+
+    public VehicleServiceRecord GetGetVehicleInfoToUpdate(int VehicleServiceID)
+    {
+        VehicleServiceRecord vehicleServiceRecord = _context.VehicleServiceRecord.Where(v => v.ID == VehicleServiceID).FirstOrDefault();
+        return vehicleServiceRecord;
+        // Get Info through upper query
+    }
+
+    public void UpdateVehicleDetailService(VehicleServiceRecord VehicleServiceRecord)
+    {
+        VehicleServiceRecord newVehicleServiceRecord = _context.VehicleServiceRecord.Where(v => v.ID == VehicleServiceRecord.ID)
+            .FirstOrDefault();
+
+        newVehicleServiceRecord.ID = VehicleServiceRecord.ID;
+        newVehicleServiceRecord.VehicleID = VehicleServiceRecord.VehicleID;
+        newVehicleServiceRecord.AcaID = VehicleServiceRecord.AcaID;
+        newVehicleServiceRecord.CurrentKm = VehicleServiceRecord.CurrentKm;
+        newVehicleServiceRecord.FrontLeftKm = VehicleServiceRecord.FrontLeftKm;
+        newVehicleServiceRecord.FrontRightSerialNum = VehicleServiceRecord.FrontRightSerialNum;
+        newVehicleServiceRecord.FrontLeftSerialNum = VehicleServiceRecord.FrontLeftSerialNum;
+        newVehicleServiceRecord.FrontRightKm = VehicleServiceRecord.FrontRightKm;
+        newVehicleServiceRecord.RearLeftOneKm = VehicleServiceRecord.RearLeftOneKm;
+        newVehicleServiceRecord.RearLeftSecondKm = VehicleServiceRecord.RearLeftSecondKm;
+        newVehicleServiceRecord.RearRightOneKm = VehicleServiceRecord.RearRightOneKm;
+        newVehicleServiceRecord.RearRightSecondKm = VehicleServiceRecord.RearRightSecondKm;
+        newVehicleServiceRecord.RearLeftOneSerialNum = VehicleServiceRecord.RearLeftOneSerialNum;
+        newVehicleServiceRecord.RearLeftSecondSerialNum = VehicleServiceRecord.RearLeftSecondSerialNum;
+        newVehicleServiceRecord.RearRightOneSerialNum = VehicleServiceRecord.RearRightOneSerialNum;
+        newVehicleServiceRecord.RearRightSecondSerialNum = VehicleServiceRecord.RearRightSecondSerialNum;
+        newVehicleServiceRecord.LastServiceKm = VehicleServiceRecord.LastServiceKm;
+        newVehicleServiceRecord.BatteryInstalationDate = VehicleServiceRecord.BatteryInstalationDate;
+        newVehicleServiceRecord.StafneySerialNum = VehicleServiceRecord.StafneySerialNum;
+        newVehicleServiceRecord.StafneyKm = VehicleServiceRecord.StafneyKm;
+        newVehicleServiceRecord.MakeofBattery = VehicleServiceRecord.MakeofBattery;
+        newVehicleServiceRecord.BatteryCapacity = VehicleServiceRecord.BatteryCapacity;
+        newVehicleServiceRecord.BatterySerialNum = VehicleServiceRecord.BatterySerialNum;
+        newVehicleServiceRecord.BatteryLifeInYears = VehicleServiceRecord.BatteryLifeInYears;
+        newVehicleServiceRecord.LastServiceDate = VehicleServiceRecord.LastServiceDate;
+
+        _context.Entry(newVehicleServiceRecord).State = EntityState.Modified;
+        _context.SaveChanges();
     }
 }

@@ -17,7 +17,7 @@
                         <td colspan="23">Select Zone
                             <asp:DropDownList ID="ddlZone" OnSelectedIndexChanged="ddlZone_SelectedIndexChanged" AutoPostBack="true" runat="server"></asp:DropDownList>
                         </td>
-                        <td>Select Last Date:
+                        <td>Select Academy:
                             <asp:DropDownList ID="ddlAcademy" runat="server"></asp:DropDownList>
                         </td>
                     </tr>

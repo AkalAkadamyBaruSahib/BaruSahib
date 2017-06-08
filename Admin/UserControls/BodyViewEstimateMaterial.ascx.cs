@@ -343,7 +343,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
             TextBox txtPurchaseQty = e.Row.FindControl("txtPurchaseQty") as TextBox;
             HiddenField hdnMatTypeID = e.Row.FindControl("hdnMatTypeID") as HiddenField;
 
-            btnDispatch.OnClientClick = "return OnClientClick(" + hdnMatTypeID.ClientID + ");";
+            btnDispatch.OnClientClick = "return OnClientClick(" + hdnMatTypeID.ClientID + "," + Request.QueryString["IsLocal"].ToString() + ");";
         }
     }
     protected void btnDispatchWorkshop_Click(object sender, EventArgs e)

@@ -123,6 +123,7 @@
                                     <li><a class="ajax-link" href="AddEditVehicle.aspx"><i></i><span class="hidden-tablet">Add New Vehicle</span></a></li>
                                     <li><a class="ajax-link" href="Transport_VechicleRouteMap.aspx"><i></i><span class="hidden-tablet">Vehicle Route Map</span></a></li>
                                     <li><a class="ajax-link" href="TransportDocumentUpload.aspx"><i></i><span class="hidden-tablet">Vehicle Documents Upload</span></a></li>
+                                    <li><a class="ajax-link" href="Transport_VehicleServiceDetails.aspx"><i></i><span class="hidden-tablet">Vehicle Service Detail</span></a></li>
                                 </ul>
                             </li>
                             <li id="lireport" runat="server"><a class="dropmenu" href="#"><i>

@@ -18,5 +18,8 @@ public class MaterialsDTO
     public decimal? LocalRate { get; set; }
     public int? AcaID { get; set; }
     public decimal? AkalWorkshopRate { get; set; }
+    public decimal? MRP { get; set; }
+    public decimal? Discount { get; set; }
+    public decimal? Vat { get; set; }
 
 }

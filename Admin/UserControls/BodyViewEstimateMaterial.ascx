@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="BodyViewEstimateMaterial.ascx.cs" Inherits="Admin_UserControls_BodyViewEstimateMaterial" %>
 <script type="text/javascript">
-    function OnClientClick(hiddenfiled) {
+    function OnClientClick(hiddenfiled, psID) {
         if (Page_ClientValidate()) {
             var gvcheck = document.getElementById('<%= gvMaterailDetailForPurchase.ClientID %>');
             if ($('td :checkbox', gvcheck).prop('checked') == true) {
@@ -10,15 +10,16 @@
                 }
             }
             var link = document.getElementById('aVendorLink');
-            if (hiddenfiled.value != "53") {
-                if ($("input[id*='hdnVandorID']").val() != "") {
-                    return true;
+            if (psID == "2")
+                if (hiddenfiled.value != "53") {
+                    if ($("input[id*='hdnVandorID']").val() != "") {
+                        return true;
+                    }
+                    else {
+                        window.alert('Please click on the select vendor');
+                        return false;
+                    }
                 }
-                else {
-                    window.alert('Please click on the select vendor');
-                    return false;
-                }
-            }
         }
     }
 </script>

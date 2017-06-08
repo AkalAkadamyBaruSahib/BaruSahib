@@ -118,6 +118,16 @@ public partial class PurchaseOrder : System.Web.UI.Page
     {
         PurchaseRepository repo = new PurchaseRepository(new AkalAcademy.DataContext());
         PONumber ponum = new PONumber();
+        PurchaseOrderDetail po = new PurchaseOrderDetail();
+        DataTable dt = new DataTable();
+        if (hdnItemsLength.Value != "")
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+        }
+        else
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
+        } 
         DataTable   dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + txtPO.Text + "'").Tables[0];
         if (dsExist.Rows.Count > 0)
         {
@@ -129,9 +139,6 @@ public partial class PurchaseOrder : System.Web.UI.Page
             repo.SavePONumber(ponum);
             hdnPoID.Value = ponum.ID.ToString();
         }
-        PurchaseOrderDetail po = new PurchaseOrderDetail();
-        DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         string MaterialInfo = string.Empty;
         MaterialInfo += "<table style='width:100%' border='1' cellspacing='0' cellpadding='0'>";
         MaterialInfo += "<thead>";
@@ -159,27 +166,61 @@ public partial class PurchaseOrder : System.Web.UI.Page
             string unit = Request.Form["txtUnitName" + i];
             string cost = Request.Form["txtMatCost" + i];
             string sno = Request.Form["txtSno" + i];
+            decimal SubTotal = 0;
             MaterialInfo += "<tr>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + (i + 1) + "</td>";
             MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;font-size: 12px;'>" + description + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + mat + "</td>";
+            if (mat != null)
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + mat + "</td>";
+            }
+            else
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
+            }
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + unit + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + qty + "</td>";
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";
+            if (cost != null)
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";   
+               SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(cost);
+            }
+            else
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
+                SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+            }
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + vat + "</td>";
-            var SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(cost);
+       
             SubTotal = Math.Round(SubTotal, 2);
             if (vat == "0")
             {
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";
+                if (cost != null)
+                {
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";
+                }
+                else
+                {
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
+                }
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             }
             else
             {
+                decimal netAmount =0;
+                decimal toatlNetAmount = 0;
                 var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(vat) / 100;
                 var totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
-                var netAmount = Convert.ToDecimal(cost) * Convert.ToDecimal(vat) / 100;
-                var toatlNetAmount = Convert.ToDecimal(cost) + +Convert.ToDecimal(netAmount);
+                if (cost != null)
+                {
+                    netAmount = Convert.ToDecimal(cost) * Convert.ToDecimal(vat) / 100;
+                    toatlNetAmount = Convert.ToDecimal(cost) + +Convert.ToDecimal(netAmount);
+                }
+                else
+                {
+                   netAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) * Convert.ToDecimal(vat) / 100;
+                   toatlNetAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) + +Convert.ToDecimal(netAmount);
+                }
                 totalAmount = Math.Round(totalAmount, 2);
                 toatlNetAmount = Math.Round(toatlNetAmount, 2);
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + toatlNetAmount + "</td>";
@@ -207,13 +248,27 @@ public partial class PurchaseOrder : System.Web.UI.Page
             po.EstID = Convert.ToInt32(dt.Rows[i]["EstID"].ToString());
             po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
             po.Qty = Convert.ToDecimal(qty);
-            po.Rate = Convert.ToDecimal(cost);
+            if (cost != null)
+            {
+                po.Rate = Convert.ToDecimal(cost);
+            }
+            else
+            {
+                po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+            }
             po.Description = Request.Form["txtdescription" + i];
             po.Vat = Convert.ToDecimal(vat);
             po.UnitName = unit;
             po.FrieghtCharges = Convert.ToDecimal(txtFrieght.Text);
             po.LoadingCharges = Convert.ToDecimal(txtLoading.Text);
-            po.SnoID = Convert.ToInt32(sno);
+            if (sno != null)
+            {
+                po.SnoID = Convert.ToInt32(sno);
+            }
+            else
+            {
+                po.SnoID = Convert.ToInt32(dt.Rows[i]["SnoID"].ToString());
+            }
             if (txtExcise.Text != "")
             {
                 po.Excise = Convert.ToDecimal(txtExcise.Text);
@@ -224,7 +279,10 @@ public partial class PurchaseOrder : System.Web.UI.Page
         MaterialInfo += "</tbody>";
         MaterialInfo += "</table>";
 
-        hdnIndentNo.Value = hdnIndentNo.Value.Substring(0, hdnIndentNo.Value.Length - 1);
+        if (hdnIndentNo.Value != "")
+        {
+            hdnIndentNo.Value = hdnIndentNo.Value.Substring(0, hdnIndentNo.Value.Length - 1);
+        }
 
         return MaterialInfo;
     }

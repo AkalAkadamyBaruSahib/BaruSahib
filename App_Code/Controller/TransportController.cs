@@ -140,4 +140,48 @@ public class TransportController : System.Web.Services.WebService
         TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
         return repository.GetVehicleEmployeeInfo(VehicleID, EmpType);
     }
+
+    [WebMethod]
+    public List<Vehicles> GetTrustVehiclesByAcademyIdAndTypeID(int AcaID, int TypeID)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        return repository.GetTrustVehiclesByAcademyIdAndTypeID(AcaID, TypeID);
+    }
+
+    [WebMethod]
+    public SittingTyreRelation GetVehiclesTyreCountBySitting(int seatingCapacity)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        return repository.GetVehiclesTyreCountBySitting(seatingCapacity);
+    }
+
+    [WebMethod]
+    public int SaveVehicleDetailService(VehicleServiceRecord VehicleServiceRecord)
+    {
+        VehicleServiceRecord.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        return repository.SaveVehicleDetailService(VehicleServiceRecord);
+    }
+
+    [WebMethod]
+    public List<VehicleServiceRecord> GetLoadVehicleServiceInformation(int inchargeID)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        return repository.GetLoadVehicleServiceInformation(inchargeID);
+
+    }
+
+    [WebMethod]
+    public VehicleServiceRecord GetGetVehicleInfoToUpdate(int VehicleServiceID)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        return repository.GetGetVehicleInfoToUpdate(VehicleServiceID);
+    }
+
+    [WebMethod]
+    public void UpdateVehicleDetailService(VehicleServiceRecord VehicleServiceRecord)
+    {
+        TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
+        repository.UpdateVehicleDetailService(VehicleServiceRecord);
+    }
 }
