@@ -15,6 +15,7 @@ $(document).ready(function () {
     $("input[id*='btnSaveVehicleService']").click(function (e) {
         if (Page_ClientValidate("vehicle")) {
             if (Validation()) {
+                ClientSideClick(this);
                 $("#btnSaveVehicleService").prop('disabled', true);
                 SaveVehicleServiceDeatil();
             }
@@ -24,6 +25,7 @@ $(document).ready(function () {
     $("input[id*='btnEdit']").click(function (e) {
         if (Page_ClientValidate("vehicle")) {
             if (Validation()) {
+                ClientSideClick(this);
                 $("#btnEdit").prop('disabled', true);
                 UpdateVehicleServiceDeatil();
             }
