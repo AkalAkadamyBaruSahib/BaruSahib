@@ -13,6 +13,7 @@ using System.Drawing;
 public partial class Purchase_Home : System.Web.UI.Page
 {
     public static int UserTypeID = -1;
+    public static int InchargeID = -1;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -26,6 +27,7 @@ public partial class Purchase_Home : System.Web.UI.Page
             {
                 lblUser.Text = Session["EmailId"].ToString();
                 hbnInchargeID.Value = Session["InchargeID"].ToString();
+                InchargeID = Convert.ToInt32(Session["InchargeID"].ToString());
                 UserTypeID = int.Parse(Session["UserTypeID"].ToString());
             }
 
@@ -161,12 +163,19 @@ public partial class Purchase_Home : System.Web.UI.Page
         if (UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
         {
             spnNewRate.Visible = true;
-            dsMatUnApprovdRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.NetRate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MR on M.MatId = MR.MatID INNER JOIN Incharge Inc ON Inc.InchargeId = MR.CreatedBy").Tables[0];
+            if (InchargeID == (int)TypeEnum.PurchaseCommittee.FirstApproval)
+            {
+                dsMatUnApprovdRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.NetRate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MR on M.MatId = MR.MatID INNER JOIN MaterialRateApproved MRA on MRA.MatId = MR.MatID  INNER JOIN Incharge Inc ON Inc.InchargeId = MR.CreatedBy Where MRA.FirstApproval is null and MRA.SecondApproval is null").Tables[0];
+            }
+            else
+            {
+                dsMatUnApprovdRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.NetRate,Inc.InName from Material M INNER JOIN MaterialNonApprovedRate MR on M.MatId = MR.MatID INNER JOIN MaterialRateApproved MRA on MRA.MatId = MR.MatID INNER JOIN Incharge Inc ON Inc.InchargeId = MR.CreatedBy Where MRA.FirstApproval ='" + (int)TypeEnum.PurchaseCommittee.FirstApproval + "' and MRA.SecondApproval is null").Tables[0];
+            }
         }
         else
         {
             spnRateAproved.Visible = true;
-            dsMatRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.ApprovedOn,MR.ApprovedRate from Material M INNER JOIN MaterialRateApproved MR on M.MatId = MR.MatID where  MR.ApprovedOn >= '" + dt1 + "'").Tables[0];
+            dsMatRate = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,MR.ApprovedOn,MR.ApprovedRate from Material M INNER JOIN MaterialRateApproved MR on M.MatId = MR.MatID where  MR.ApprovedOn >= '" + dt1 + "' and MR.FirstApproval = '" + (int)TypeEnum.PurchaseCommittee.FirstApproval + "' and MR.SecondApproval = '" + (int)TypeEnum.PurchaseCommittee.SecondApproval + "'").Tables[0];
         }
         divRecentRateApproved.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;

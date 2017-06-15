@@ -65,6 +65,8 @@
     <asp:HiddenField ID="hdnMaterialType" runat="server" />
     <asp:HiddenField ID="hdnMaterialID" runat="server" />
     <asp:HiddenField ID="hdnVandorID" runat="server" />
+    <asp:HiddenField ID="hdnNewRate" runat="server" />
+    <asp:HiddenField ID="hdnVendor" runat="server" />
     <div class="box-header well">
         <h2><i class="icon-user"></i>Material Details for
                 <asp:Label ID="lblZoneName" runat="server"></asp:Label>
@@ -92,7 +94,7 @@
                         <asp:HiddenField runat="server" ID="hdnRate" Value='<%#Eval("Rate") %>' />
                         <asp:HiddenField runat="server" ID="hdnMRP" Value='<%#Eval("MRP") %>' />
                         <asp:HiddenField runat="server" ID="hdnDiscount" Value='<%#Eval("Discount") %>' />
-                         <asp:HiddenField runat="server" ID="hdnVat" Value='<%#Eval("Vat") %>' />
+                        <asp:HiddenField runat="server" ID="hdnVat" Value='<%#Eval("Vat") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="MatName">
@@ -104,7 +106,7 @@
                     <ItemTemplate>
                         <a href="#" id="aVendorLink" onclick="linkClicked = true">Select Vendor</a>
                         <input type="text" id="txtVendorName" onblur="postValue(this);" name="txtVendorName" style="display: none;" required disabled="disabled" />
-                        <asp:HiddenField ID="hdnVendorName" runat="server"/>
+                        <asp:HiddenField ID="hdnVendorName" runat="server" />
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="Qty" HeaderText="RequiredQty" />
@@ -118,10 +120,11 @@
 
                 <asp:TemplateField HeaderText="Purchased Rate">
                     <ItemTemplate>
-                        <asp:TextBox runat="server" Width="100px" ID="txtRate" required="required" Enabled="false" ></asp:TextBox>
-                        <span id="errMsg" style="color:red;display:none;" >*</span>
-                     <%--     <asp:RequiredFieldValidator ID="reqRate" runat="server"  ForeColor="Red" ErrorMessage="*" ControlToValidate="txtRate"  ValidationGroup="purchaseRate"/>
-                    --%>    <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*" ControlToValidate="txtRate" />
+                        <asp:TextBox runat="server" Width="100px" ID="txtRate" required="required" Enabled="false"></asp:TextBox>
+                        <span id="errMsg" style="color: red; display: none;">*</span>
+                        <%--     <asp:RequiredFieldValidator ID="reqRate" runat="server"  ForeColor="Red" ErrorMessage="*" ControlToValidate="txtRate"  ValidationGroup="purchaseRate"/>
+                        --%>
+                        <asp:RegularExpressionValidator ID="Regex1" runat="server" ValidationExpression="((\d+)((\.\d{1,2})?))$" ForeColor="Red" ErrorMessage="*" ControlToValidate="txtRate" />
                         <asp:HiddenField runat="server" ID="txtEstID" Value='<%#Eval("EstID") %>' />
                         <asp:HiddenField runat="server" ID="hdnPurchaseQty" Value='<%#Eval("PurchaseQty") %>' />
                     </ItemTemplate>
@@ -135,7 +138,7 @@
                 <asp:TemplateField HeaderText="Purchase Date">
                     <ItemTemplate>
                         <asp:Label runat="server" ID="txtDispatchDate" Text='<%# Eval("DispatchDate") %>' Visible="false" Style="display: none;"></asp:Label>
-                        <asp:Button runat="server" ID="btnDispatch" CssClass="btn btn-primary" data-rel="tooltip" data-original-title="Click To Dispatch Material" 
+                        <asp:Button runat="server" ID="btnDispatch" CssClass="btn btn-primary" data-rel="tooltip" data-original-title="Click To Dispatch Material"
                             Text="Purchase Material" CommandName="DispatchDate" CommandArgument='<%#Eval("Sno") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -190,7 +193,7 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Dispatch Material">
                     <ItemTemplate>
-                        <asp:Button runat="server" ID="btnDispatchWorkshop" CssClass="btn btn-primary"  data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Dispatch Material" CommandArgument='<%#Eval("Sno") %>' OnClick="btnDispatchWorkshop_Click" />
+                        <asp:Button runat="server" ID="btnDispatchWorkshop" CssClass="btn btn-primary" data-rel="tooltip" data-original-title="Click To Dispatch Material" Text="Dispatch Material" CommandArgument='<%#Eval("Sno") %>' OnClick="btnDispatchWorkshop_Click" />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

@@ -1608,6 +1608,9 @@ public class PurchaseRepository
             Unit = x.Unit,
             MaterialType = x.MaterialType,
             MatTypeID = x.MatTypeId,
+            Discount = x.Discount,
+            Vat = x.Vat,
+            MRP = x.MRP,
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
 
         return mt;
@@ -1688,6 +1691,15 @@ public class PurchaseRepository
 
     public void SaveNonApprovedRate(MaterialNonApprovedRate materialNonApprovedRate)
     {
+        MaterialRateApproved materialrateapproved = new MaterialRateApproved();
+        materialrateapproved.MatID = materialNonApprovedRate.MatID;
+        materialrateapproved.ApprovedRate = materialNonApprovedRate.NetRate;
+        materialrateapproved.ApprovedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+        materialrateapproved.RequestedBy = Convert.ToInt32(materialNonApprovedRate.CreatedBy);
+        _context.Entry(materialrateapproved).State = EntityState.Added;
+        _context.SaveChanges();
+
+
         _context.Entry(materialNonApprovedRate).State = EntityState.Added;
         _context.SaveChanges();
     }

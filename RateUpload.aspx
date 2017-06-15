@@ -19,7 +19,12 @@
             return true;
         }
     </script>
+    <script src="JavaScripts/RateUpload.js"></script>
+    <asp:HiddenField ID="hdnInchargeID" runat="server" />
+    <asp:HiddenField ID="hdnUserName" runat="server" />
+    <asp:HiddenField ID="hdnVandorID" runat="server" />
     <div id="content" class="span10">
+
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -30,127 +35,103 @@
                         <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
                     </div>
                 </div>
-                <fieldset>
-                    <div class="box-content">
-                        <asp:UpdatePanel ID="updpanel2" runat="server">
-                            <ContentTemplate>
-                                <table style="width: 100%" border="0">
-                                    <asp:Label ID="lblUser" Visible="false" runat="server"></asp:Label>
-                                    <tr>
-                                        <td width="50%">
-                                            <div class="control-group">
-                                                <label class="control-label" for="typeahead"></label>
-                                                <div class="controls">
-                                                    Select Material Type
-                                                    <br />
-                                                    <asp:ListBox ID="lstMaterialTypes" Height="150px" Width="400px" CssClass="list-group" AutoPostBack="true" SelectionMode="Multiple" runat="server" OnSelectedIndexChanged="lstMaterialTypes_SelectedIndexChanged"></asp:ListBox>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td width="50%">
-                                            <div class="control-group">
-                                                <label class="control-label" for="typeahead"></label>
-                                                <div class="controls">
-                                                    Select Material Items
-                                                    <br />
-                                                    <asp:ListBox ID="lstMaterials" SelectionMode="Multiple" Height="150px" Width="400px" runat="server"></asp:ListBox>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <asp:Button ID="btnloadMaterials" Text="Load Material to Update Rate" Height="30px" CssClass="btn btn-primary" runat="server" OnClick="btnloadMaterials_Click" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" width="100%" align="left">
-                                            <asp:GridView ID="grvMaterialDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" Width="99%" ForeColor="#333333" GridLines="None" Style="text-align: left" OnRowDeleting="grvMaterialDetails_RowDeleting" OnRowDataBound="grvMaterialDetails_RowDataBound">
-                                                <Columns>
-                                                    <asp:BoundField DataField="RowNumber" HeaderText="SNo" />
-                                                    <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblMaterialType" runat="server" Width="300px"></asp:Label>
-                                                            <asp:HiddenField ID="hdnMatType" runat="server" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Material" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblMaterial" runat="server" Width="200px" Style="text-align: left;"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Vendor Name" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
-                                                        <ItemTemplate>
-                                                            <asp:DropDownList ID="drpVendorName" runat="server" Width="150px"></asp:DropDownList>
-                                                            <asp:RequiredFieldValidator ID="reqVendor" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="drpVendorName" InitialValue="0" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
-                                                            <%--<input type="text" id="txtVendorName" name="txtVendorName"  required />--%>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Unit" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:DropDownList ID="ddlUnit" runat="server" Width="100px"></asp:DropDownList>
-                                                            <asp:Label runat="server" ID="lblUnit" Visible="false" Width="100px"></asp:Label>
-                                                            <asp:RequiredFieldValidator ID="reqddlUnit" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="ddlUnit" InitialValue="0" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="CurrentRate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblCurrentRate" runat="server" Width="100px" Style="text-align: Center;"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="MRP" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:TextBox ID="txtMRP" runat="server" Width="100px" Style="text-align: Center;" required="required"></asp:TextBox>
-                                                            <asp:RequiredFieldValidator ID="reqMRP" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="txtMRP" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Discount" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:TextBox ID="txtDiscount" runat="server" Width="50px" Style="text-align: Center;" required="required"></asp:TextBox>%
-                                                            <asp:RequiredFieldValidator ID="reqDiscount" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="txtDiscount" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Vat" ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:TextBox ID="txtVat" runat="server" Width="50px" Style="text-align: Center;" AutoPostBack="true" OnTextChanged="txtVat_TextChanged" required="required"></asp:TextBox>%
-                                                                       <asp:RequiredFieldValidator ID="reqtxtVat" runat="server" ErrorMessage="*" ForeColor="Red" ControlToValidate="txtVat" ValidationGroup="rateapproved"></asp:RequiredFieldValidator>
-
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-
-                                                    <asp:TemplateField HeaderText="Net Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="txtNetRate" runat="server" CssClass="span6 typeahead" Width="100px"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="SavingId" Visible="false">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="hdnMatID" runat="server"></asp:Label>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField ItemStyle-Width="100px"></asp:TemplateField>
-                                                    <asp:CommandField ShowDeleteButton="True" ControlStyle-ForeColor="Red" HeaderText="Action" />
-                                                </Columns>
-                                                <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
-                                                <RowStyle BackColor="#EFF3FB" />
-                                                <EditRowStyle BackColor="#2461BF" />
-                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                                                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                                                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                                                <AlternatingRowStyle BackColor="LightGray" />
-                                            </asp:GridView>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <asp:Button ID="btnsave" Visible="false" runat="server" Text="Send for Approval" Style="float: right;" CssClass="btn btn-primary" ValidationGroup="rateapproved" OnClick="btnsave_Click" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="false" />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-                    </div>
-                </fieldset>
+                <div class="box-content">
+                    <table id="tblRateUploadDetail" style="width: 100%;" class='table table-striped table-bordered'>
+                        <thead>
+                            <tr>
+                                <th style="color: #cc3300;">Sr No</th>
+                                <th style="color: #cc3300; width: 200px;">Vendor</th>
+                                <th style="color: #cc3300; width: 200px;">Material</th>
+                                <th style="color: #cc3300;">Material Type</th>
+                                <th style="color: #cc3300;">Unit</th>
+                                <th style="color: #cc3300;">Current Rate</th>
+                                <th style="color: #cc3300;">New Rate</th>
+                                <th style="color: #cc3300;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <tr id="tr0">
+                                <td><span id="spn0">1</span></td>
+                                <td>
+                                    <input id="txtVendorName0" name="txtVendorName0" onblur="VendorTextBox_ChangeEvent(0);" style="position: absolute; width: 200px;" type="text" class="span6 typeahead" required />
+                                    <br />
+                                    <br />
+                                    <div id="menu" style="position: absolute; width: 500px;"></div>
+                                </td>
+                                <td>
+                                    <input id="txtMaterialName0" name="txtMaterialName1" style="position: absolute; width: 200px;" onblur="MaterialTextBox_ChangeEvent(0);" type="text" class="span6 typeahead" required />
+                                    <br />
+                                    <br />
+                                    <div id="menu-container0" style="position: absolute; width: 500px;"></div>
+                                </td>
+                                <td>
+                                    <label id="lblMaterialType0"></label>
+                                </td>
+                                <td>
+                                    <label id="lblUnit0"></label>
+                                </td>
+                                <td>
+                                    <table id="myNestedTableOne">
+                                        <tbody id="first">
+                                            <tr id="trlblMRP0">
+                                                <td>MRP/Dealer Price:
+                                                    <label id="lblMRP0"></label>
+                                                </td>
+                                            </tr>
+                                            <tr id="trlblDiscount0">
+                                                <td>Discount:
+                                                    <label id="lblDiscount0"></label>
+                                                </td>
+                                            </tr>
+                                            <tr id="trlblVat0">
+                                                <td>Vat:
+                                                    <label id="lblVat0"></label>
+                                                </td>
+                                            </tr>
+                                            <tr id="trlblRate0">
+                                                <td>Net Rate:
+                                                    <label id="lblRate0"></label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table id="myNestedTableTwo">
+                                        <tbody id="second">
+                                            <tr id="trMRP0">
+                                                <td>MRP/Dealer Price:
+                                                    <input id="txtMRP0" type="text" style="width: 80px;" onblur="MRPTextBox_ChangeEvent(0);" required /></td>
+                                            </tr>
+                                            <tr id="trDiscount0">
+                                                <td>Discount:
+                                                    <input id="txtDiscount0" type="text" style="width: 80px;" onblur="DiscountTextBox_ChangeEvent(0);" required /></td>
+                                            </tr>
+                                            <tr id="trVat0">
+                                                <td>Vat:
+                                                    <input id="txtVat0" type="text" style="width: 80px;" onblur="VatTextBox_ChangeEvent(0);" required /></td>
+                                            </tr>
+                                        </tbody>
+                                        <tr id="trRate0">
+                                            <td>Net Rate:
+                                                <label id="lblNetRate0"></label>
+                                            </td>
+                                    </table>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" id="aAddNewRow0" onclick="AddMaterialRow();"><b>Add Row</b></a>&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:void(0);" id="aDeleteRow0" onclick="removeRow(0);"><b>Delete</b></a>
+                                    <input type="hidden" id="hdnMatID0" /><input type="hidden" id="hdnMatTypeID0" /><input type="hidden" id="hdnUnitID0" />
+                                    <input type="hidden" id="hdnMatCost0" /><input type="hidden" id="hdnLocalCost0" /><input type="hidden" id="hdnAkalWorkshopCost0" />
+                                    <input type="hidden" id="hdnVendorID0" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions" style="text-align: center">
+                    <input type="button" id="btnSendforApproval" value="Send Rate for Approval" title="Send for Approval" class="btn btn-primary" />
+                </div>
             </div>
         </div>
     </div>

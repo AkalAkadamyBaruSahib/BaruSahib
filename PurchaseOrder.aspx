@@ -182,8 +182,8 @@
                                         <th style="text-align: center;">Description</th>
                                         <th style="text-align: center;">Detail</th>
                                         <th style="text-align: center;">Unit</th>
-                                        <th style="text-align: center; width: 115px;">Qty</th>
-                                        <th style="text-align: center;">Unit Price</th>
+                                        <th style="text-align: center;">Qty</th>
+                                        <th style="text-align: center;">MRP</th>
                                         <th style="text-align: center;">Vat/Cst</th>
                                         <th style="text-align: center;">Net Price</th>
                                         <th id="linetotal" style="text-align: center;">Line Total</th>

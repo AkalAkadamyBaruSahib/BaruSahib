@@ -38,6 +38,12 @@ public class TypeEnum
         Reference = 2
     }
 
+    public enum PurchaseCommittee : int
+    {
+        FirstApproval = 361,
+        SecondApproval = 147
+    }
+
     public enum TransportVehicleEmployeeType : int
     {
         Driver = 1,
@@ -226,7 +232,8 @@ public class TypeEnum
     {
         PendingReport = 1,
         VisitorRoomStatus = 2,
-        CompliantReport = 3
+        CompliantReport = 3,
+        PendingReportOnSevenDay = 4
     }
     public enum ComplaintTicketStatus : int
     {
