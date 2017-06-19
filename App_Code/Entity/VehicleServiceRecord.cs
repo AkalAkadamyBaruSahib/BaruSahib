@@ -56,6 +56,22 @@ public class VehicleServiceRecord
 
     public DateTime? BatteryInstalationDate { get; set; }
 
+    public int? BatteryChangeMeterReading { get; set; }
+
+    public DateTime? FrontLeftDateChanged { get; set; }
+
+    public DateTime? FrontRightDateChanged { get; set; }
+
+    public DateTime? RearLeftOneDateChanged { get; set; }
+
+    public DateTime? RearLeftSecondDateChanged { get; set; }
+
+    public DateTime? RearRightOneDateChanged { get; set; }
+
+    public DateTime? RearRightSecondDateChanged { get; set; }
+
+    public DateTime? StafneyDateChanged { get; set; }
+
     public DateTime? CreatedOn { get; set; }
 
     public int? CreatedBy { get; set; }
@@ -73,6 +89,7 @@ public class VehicleServiceRecord
     public int? BatteryLifeInYears { get; set; }
 
     public DateTime? LastServiceDate { get; set; }
+
 
     [ForeignKey("VehicleID")]
     public Vehicles Vehicles { get; set; }

@@ -72,6 +72,11 @@
                                                             <asp:Label ID="lblDiscount" runat="server" Text='<%# Eval("Discount")+"%" %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+                                                     <asp:TemplateField HeaderText="Additional Discount">
+                                                        <ItemTemplate>
+                                                            <asp:Label ID="lblAdditionalDiscount" runat="server" Text='<%# Eval("AdditionalDiscount")+"%" %>'></asp:Label>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Vat">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblVat" runat="server" Text='<%# Eval("Vat")+"%" %>'></asp:Label>

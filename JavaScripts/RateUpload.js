@@ -16,11 +16,12 @@ $(document).ready(function () {
             SendRateforApproval();
         }
     });
+    if ($("input[id*='hdnMaterialID']").val() == undefined || $("input[id*='hdnMaterialID']").val() == "") {
+        GetVendors(0);
+        GetMaterials(0);
+    }
 
-    GetVendors(0);
-    GetMaterials(0);
     $("#aDeleteRow0").hide();
-
 });
 
 
@@ -32,8 +33,8 @@ function AddMaterialRow() {
             '<td><input id="txtMaterialName' + cntM + '" name="txtMaterialName' + cntM + '" onblur="MaterialTextBox_ChangeEvent(' + cntM + ');"  type="text" style="width:200px;" /></td>' +
             '<td><label id="lblMaterialType' + cntM + '" name="lblMaterialType' + cntM + '" ></label></td>' +
             '<td><label id="lblUnit' + cntM + '" name="lblUnit' + cntM + '" ></label></td>' +
-            '<td><table  id="myNestedTableOne' + cntM + '"><tr id="trlblMRP' + cntM + '"><td>MRP/Dealer Price: <label id="lblMRP' + cntM + '" name="lblMRP' + cntM + '""></label></td></tr><tr id="trlblDiscount' + cntM + '"><td>Discount: <label id="lblDiscount' + cntM + '" name="lblDiscount' + cntM + '""></label></td></tr><tr id="trlblVat' + cntM + '"><td>Vat: <label id="lblVat' + cntM + '" name="lblVat' + cntM + '""></label></td></tr><tr id="trlblRate' + cntM + '"><td>Net Rate: <label id="lblRate' + cntM + '" name="lblRate' + cntM + '""></label></td></tr></table></td>' +
-            '<td><table  id="myNestedTableTwo' + cntM + '"><tr id="trMRP' + cntM + '"><td>MRP/Dealer Price: <input id="txtMRP' + cntM + '" name="txtMRP' + cntM + '" value="" type="text" style="width:80px;" onblur="MRPTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trDiscount' + cntM + '"><td>Discount: <input id="txtDiscount' + cntM + '" name="txtDiscount' + cntM + '" value="" type="text" style="width:80px;" onblur="DiscountTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trVat' + cntM + '"><td>Vat: <input id="txtVat' + cntM + '" name="txtVat' + cntM + '" value="" type="text" style="width:80px;" onblur="VatTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trRate' + cntM + '"><td>Net Rate: <label id="lblNetRate' + cntM + '" name="lblNetRate' + cntM + '" ></label></td></tr></table></td>' +
+            '<td><table  id="myNestedTableOne' + cntM + '"><tr id="trlblMRP' + cntM + '"><td>MRP/Dealer Price: <label id="lblMRP' + cntM + '" name="lblMRP' + cntM + '""></label></td></tr><tr id="trlblDiscount' + cntM + '"><td>Discount: <label id="lblDiscount' + cntM + '" name="lblDiscount' + cntM + '""></label></td></tr><tr id="trlblAdditionalDiscount' + cntM + '"><td>Additional Discount: <label id="lblAdditionalDiscount' + cntM + '" name="lblAdditionalDiscount' + cntM + '""></label></td></tr><tr id="trlblVat' + cntM + '"><td>Vat: <label id="lblVat' + cntM + '" name="lblVat' + cntM + '""></label></td></tr><tr id="trlblRate' + cntM + '"><td>Net Rate: <label id="lblRate' + cntM + '" name="lblRate' + cntM + '""></label></td></tr></table></td>' +
+            '<td><table  id="myNestedTableTwo' + cntM + '"><tr id="trMRP' + cntM + '"><td>MRP/Dealer Price: <input id="txtMRP' + cntM + '" name="txtMRP' + cntM + '" value="" type="text" style="width:50px;" onblur="MRPTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trDiscount' + cntM + '"><td>Discount: <input id="txtDiscount' + cntM + '" name="txtDiscount' + cntM + '" value="" type="text" style="width:50px;" onblur="DiscountTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trAdditionalDiscount' + cntM + '"><td>Additional Discount: <input id="txtAdditionalDiscount' + cntM + '" name="txtAdditionalDiscount' + cntM + '" value="" type="text" style="width:50px;" onblur="AdditionalDiscountTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trVat' + cntM + '"><td>Vat: <input id="txtVat' + cntM + '" name="txtVat' + cntM + '" value="" type="text" style="width:50px;" onblur="VatTextBox_ChangeEvent(' + cntM + ');" /></td></tr><tr id="trRate' + cntM + '"><td>Net Rate: <label id="lblNetRate' + cntM + '" name="lblNetRate' + cntM + '" ></label></td></tr></table></td>' +
             '<td><a href="javascript:void(0);" id="aAddNewRow' + cntM + '" onclick="AddMaterialRow();"><b>Add Row</b></a> <a href="javascript:void(0);" id="aDeleteRow' + cntM + '" onclick="removeRow(' + cntM + ');"><b>Delete</b></a><input type="hidden" id="hdnMatID' + cntM + '" /><input type="hidden" id="hdnMatTypeID' + cntM + '" /><input type="hidden" id="hdnUnitID' + cntM + '" /><input type="hidden" id="hdnVendorID' + cntM + '" /></td></tr>');
 
         fixSerialNumber();
@@ -118,6 +119,7 @@ function MaterialTextBox_ChangeEvent(cntID) {
         $("#lblMaterialType" + cntID).text(selectedMaterial.MaterialType.MatTypeName);
 
         $("#lblDiscount" + cntID).text(selectedMaterial.Discount);
+        $("#lblAdditionalDiscount" + cntID).text(selectedMaterial.AdditionalDiscount);
         $("#lblVat" + cntID).text(selectedMaterial.Vat);
         if (selectedMaterial.Discount == 0 && selectedMaterial.Vat == 0) {
             $("#lblMRP" + cntID).text(selectedMaterial.MatCost);
@@ -128,6 +130,7 @@ function MaterialTextBox_ChangeEvent(cntID) {
         $("#lblRate" + cntID).text(selectedMaterial.MatCost);
         $("#txtMRP" + cntID).val("");
         $("#txtDiscount" + cntID).val("");
+        $("#txtAdditionalDiscount" + cntID).val("");
         $("#txtVat" + cntID).val("");
         $("#lblNetRate" + cntID).text("");
     }
@@ -136,21 +139,28 @@ function MaterialTextBox_ChangeEvent(cntID) {
 function MRPTextBox_ChangeEvent(cntID) {
     var mrp = $("#txtMRP" + cntID).val();
     var discount = $("#txtDiscount" + cntID).val();
+    var addtinalDiscount = $("#txtAdditionalDiscount" + cntID).val();
     var vat = $("#txtVat" + cntID).val();
-    if (vat == "" && discount == "") {
+    if (vat == "" && discount == "" && addtinalDiscount == "") {
         $("#lblNetRate" + cntID).text(mrp);
     }
-    else if (discount == "" && vat != "") {
+    else if (discount == "" && vat != "" && addtinalDiscount == "") {
         var rateAftervat = parseFloat(mrp) + (parseFloat(mrp) * parseFloat(vat) / 100);
         $("#lblNetRate" + cntID).text(rateAftervat.toFixed(2));
     }
-    else if (vat == "" && discount != "") {
+    else if (vat == "" && discount != "" && addtinalDiscount == "") {
         var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
         $("#lblNetRate" + cntID).text(afterDiscountRate.toFixed(2));
     }
-    else {
+    else if (vat != "" && discount != "" && addtinalDiscount == "") {
         var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
         var totalAmount = parseFloat(afterDiscountRate) + (parseFloat(afterDiscountRate) * parseFloat(vat) / 100);
+        $("#lblNetRate" + cntID).text(totalAmount.toFixed(2));
+    }
+    else {
+        var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
+        var addtionalDiscountRate = parseFloat(afterDiscountRate) - (parseFloat(afterDiscountRate) * parseFloat(addtinalDiscount) / 100);
+        var totalAmount = parseFloat(addtionalDiscountRate) + (parseFloat(addtionalDiscountRate) * parseFloat(vat) / 100);
         $("#lblNetRate" + cntID).text(totalAmount.toFixed(2));
     }
 }
@@ -158,6 +168,7 @@ function MRPTextBox_ChangeEvent(cntID) {
 function DiscountTextBox_ChangeEvent(cntID) {
     var mrp = $("#txtMRP" + cntID).val();
     var discount = $("#txtDiscount" + cntID).val();
+    var addtinalDiscount = $("#txtAdditionalDiscount" + cntID).val();
     var vat = $("#txtVat" + cntID).val();
     var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
     if (mrp == "") {
@@ -165,12 +176,59 @@ function DiscountTextBox_ChangeEvent(cntID) {
         return false;
     }
     else {
-        if (vat == "") {
-            $("#lblNetRate" + cntID).text(afterDiscountRate.toFixed(2));
+        if (addtinalDiscount == "") {
+            if (vat == "") {
+                $("#lblNetRate" + cntID).text(afterDiscountRate.toFixed(2));
+            }
+            else {
+                var totalCalculateAmount = parseFloat(afterDiscountRate) + (parseFloat(afterDiscountRate) * parseFloat(vat) / 100);
+                $("#lblNetRate" + cntID).text(totalCalculateAmount.toFixed(2));
+            }
         }
         else {
-            var totalCalculateAmount = parseFloat(afterDiscountRate) + (parseFloat(afterDiscountRate) * parseFloat(vat) / 100);
-            $("#lblNetRate" + cntID).text(totalCalculateAmount.toFixed(2));
+            var addtionalDiscountRate = parseFloat(afterDiscountRate) - (parseFloat(afterDiscountRate) * parseFloat(addtinalDiscount) / 100);
+            if (vat == "") {
+                $("#lblNetRate" + cntID).text(afterDiscountRate.toFixed(2));
+            }
+            else {
+                var totalCalculateAmount = parseFloat(addtionalDiscountRate) + (parseFloat(addtionalDiscountRate) * parseFloat(vat) / 100);
+                $("#lblNetRate" + cntID).text(totalCalculateAmount.toFixed(2));
+            }
+
+        }
+    }
+}
+
+function AdditionalDiscountTextBox_ChangeEvent(cntID) {
+    var mrp = $("#txtMRP" + cntID).val();
+    var discount = $("#txtDiscount" + cntID).val();
+    var addtinalDiscount = $("#txtAdditionalDiscount" + cntID).val();
+    var vat = $("#txtVat" + cntID).val();
+    var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
+    var addtionalDiscountRate = parseFloat(afterDiscountRate) - (parseFloat(afterDiscountRate) * parseFloat(addtinalDiscount) / 100);
+    if (mrp == "") {
+        $("#txtMRP" + cntID).css('border-color', 'red');
+        return false;
+    }
+    else {
+        if (addtinalDiscount == 0) {
+            if (vat == "") {
+                $("#lblNetRate" + cntID).text(afterDiscountRate.toFixed(2));
+            }
+            else {
+                var totalCalculateAmount = parseFloat(afterDiscountRate) + (parseFloat(afterDiscountRate) * parseFloat(vat) / 100);
+                $("#lblNetRate" + cntID).text(totalCalculateAmount.toFixed(2));
+            }
+        }
+        else {
+            if (vat == "") {
+                $("#lblNetRate" + cntID).text(addtionalDiscountRate.toFixed(2));
+            }
+            else {
+                var totalCalculateAmount = parseFloat(addtionalDiscountRate) + (parseFloat(addtionalDiscountRate) * parseFloat(vat) / 100);
+                $("#lblNetRate" + cntID).text(totalCalculateAmount.toFixed(2));
+            }
+
         }
     }
 }
@@ -178,6 +236,7 @@ function DiscountTextBox_ChangeEvent(cntID) {
 function VatTextBox_ChangeEvent(cntID) {
     var mrp = $("#txtMRP" + cntID).val();
     var discount = $("#txtDiscount" + cntID).val();
+    var addtinalDiscount = $("#txtAdditionalDiscount" + cntID).val();
     var vat = $("#txtVat" + cntID).val();
     if (mrp == "")
     {
@@ -188,9 +247,14 @@ function VatTextBox_ChangeEvent(cntID) {
         $("#txtDiscount" + cntID).css('border-color', 'red');
         return false;
     }
+    else if (addtinalDiscount == "") {
+        $("#txtAdditionalDiscount" + cntID).css('border-color', 'red');
+        return false;
+    }
     else {
         var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
-        var rateAfterDiscountvat = parseFloat(afterDiscountRate) + (parseFloat(afterDiscountRate) * parseFloat(vat) / 100);
+        var afterAddDiscountRate = parseFloat(afterDiscountRate) - (parseFloat(afterDiscountRate) * parseFloat(addtinalDiscount) / 100);
+        var rateAfterDiscountvat = parseFloat(afterAddDiscountRate) + (parseFloat(afterAddDiscountRate) * parseFloat(vat) / 100);
         $("#lblNetRate" + cntID).text(rateAfterDiscountvat.toFixed(2));
     }
 }
@@ -211,8 +275,10 @@ function SendRateforApproval() {
             var mrp = $("#txtMRP" + i).val();
             var discount = $("#txtDiscount" + i).val();
             var vat = $("#txtVat" + i).val();
+            var addtinalDiscount = $("#txtAdditionalDiscount" + i).val();
             var afterDiscountRate = parseFloat(mrp) - (parseFloat(mrp) * parseFloat(discount) / 100);
-            var rateAfterDiscountvat = parseFloat(afterDiscountRate) + (parseFloat(afterDiscountRate) * parseFloat(vat) / 100);
+            var addtinalDiscountRate = parseFloat(afterDiscountRate) - (parseFloat(afterDiscountRate) * parseFloat(addtinalDiscount) / 100);
+            var rateAfterDiscountvat = parseFloat(addtinalDiscountRate) + (parseFloat(addtinalDiscountRate) * parseFloat(vat) / 100);
 
             var MaterialNonApprovedRate = new Object();
 
@@ -221,6 +287,7 @@ function SendRateforApproval() {
             MaterialNonApprovedRate.CreatedOn = "";
             MaterialNonApprovedRate.MRP = $("#txtMRP" + i).val();
             MaterialNonApprovedRate.Discount = $("#txtDiscount" + i).val();
+            MaterialNonApprovedRate.AdditionalDiscount = $("#txtAdditionalDiscount" + i).val();
             MaterialNonApprovedRate.Vat = $("#txtVat" + i).val();
             MaterialNonApprovedRate.NetRate = rateAfterDiscountvat.toFixed(2);
             MaterialNonApprovedRate.VendorID = $("#hdnVendorID" + i).val();
@@ -316,6 +383,19 @@ function Validation() {
             }
         }
 
+        if ($("#txtAdditionalDiscount" + i).val() != undefined) {
+            var value = $("#txtAdditionalDiscount" + i).val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+
+            if ($("#txtAdditionalDiscount" + i).val() == "" || !value.match(regex)) {
+                $("#txtAdditionalDiscount" + i).css('border-color', 'red');
+                return false;
+            }
+            else {
+                $("#txtAdditionalDiscount" + i).css('border-color', '');
+            }
+        }
+
         if ($("#txtVat" + i).val() != undefined) {
             var value = $("#txtVat" + i).val()
             var regex = new RegExp(/^\+?[0-9(),.-]+$/);
@@ -345,6 +425,7 @@ function ClearTextBox() {
         $("#lblNetRate" + i).text("");
         $("#lblNetRate" + i).text("");
         $("#txtVendorName" + i).val("");
+        $("#txtAdditionalDiscount" + i).val("");
     }
 }
 
@@ -378,6 +459,7 @@ function GetMaterialInfoByMatID(matID, vendorID, newRate) {
                 $("#lblMaterialType0").text(msg[0].MaterialType.MatTypeName);
                 $("#txtMRP0").val(newRate);
                 $("#lblNetRate0").text(newRate);
+                $("#lblAdditionalDiscount0").text(msg[0].AdditionalDiscount);
                 GetVendorName(vendorID);
                 $("#hdnVendorID0").val(vendorID);
             }
@@ -406,7 +488,6 @@ function GetVendorName(vendorID) {
         }
     });
 }
-
 
 function GetVendors(cntID) {
     $.ajax({

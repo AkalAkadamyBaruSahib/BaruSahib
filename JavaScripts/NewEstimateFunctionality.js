@@ -398,6 +398,7 @@ function SaveEstimate() {
             EstimateAndMaterialOthersRelation.MRP = 0;
             EstimateAndMaterialOthersRelation.Discount = 0;
             EstimateAndMaterialOthersRelation.Vat = 0;
+            EstimateAndMaterialOthersRelation.AdditionalDiscount = 0;
             Amt += parseFloat(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
             EstimateAndMaterialOthersRelation.Amount = parseFloat(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
             estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);

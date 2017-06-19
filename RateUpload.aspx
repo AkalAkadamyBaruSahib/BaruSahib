@@ -23,6 +23,7 @@
     <asp:HiddenField ID="hdnInchargeID" runat="server" />
     <asp:HiddenField ID="hdnUserName" runat="server" />
     <asp:HiddenField ID="hdnVandorID" runat="server" />
+    <asp:HiddenField ID="hdnMaterialID" runat="server" />
     <div id="content" class="span10">
 
         <div class="row-fluid sortable">
@@ -83,6 +84,11 @@
                                                     <label id="lblDiscount0"></label>
                                                 </td>
                                             </tr>
+                                            <tr id="trlblAdditionalDiscount0">
+                                                <td>Additional Discount:
+                                                    <label id="lblAdditionalDiscount0"></label>
+                                                </td>
+                                            </tr>
                                             <tr id="trlblVat0">
                                                 <td>Vat:
                                                     <label id="lblVat0"></label>
@@ -101,15 +107,19 @@
                                         <tbody id="second">
                                             <tr id="trMRP0">
                                                 <td>MRP/Dealer Price:
-                                                    <input id="txtMRP0" type="text" style="width: 80px;" onblur="MRPTextBox_ChangeEvent(0);" required /></td>
+                                                    <input id="txtMRP0" type="text" style="width: 50px;" onblur="MRPTextBox_ChangeEvent(0);" required /></td>
                                             </tr>
                                             <tr id="trDiscount0">
                                                 <td>Discount:
-                                                    <input id="txtDiscount0" type="text" style="width: 80px;" onblur="DiscountTextBox_ChangeEvent(0);" required /></td>
+                                                    <input id="txtDiscount0" type="text" style="width: 50px;" onblur="DiscountTextBox_ChangeEvent(0);" required /></td>
+                                            </tr>
+                                            <tr id="trAdditionalDiscount0">
+                                                <td>Additional Discount:
+                                                    <input id="txtAdditionalDiscount0" type="text" style="width: 50px;" onblur="AdditionalDiscountTextBox_ChangeEvent(0);" required /></td>
                                             </tr>
                                             <tr id="trVat0">
                                                 <td>Vat:
-                                                    <input id="txtVat0" type="text" style="width: 80px;" onblur="VatTextBox_ChangeEvent(0);" required /></td>
+                                                    <input id="txtVat0" type="text" style="width: 50px;" onblur="VatTextBox_ChangeEvent(0);" required /></td>
                                             </tr>
                                         </tbody>
                                         <tr id="trRate0">

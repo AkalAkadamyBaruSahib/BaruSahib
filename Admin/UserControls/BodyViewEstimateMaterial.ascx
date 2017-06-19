@@ -94,6 +94,7 @@
                         <asp:HiddenField runat="server" ID="hdnRate" Value='<%#Eval("Rate") %>' />
                         <asp:HiddenField runat="server" ID="hdnMRP" Value='<%#Eval("MRP") %>' />
                         <asp:HiddenField runat="server" ID="hdnDiscount" Value='<%#Eval("Discount") %>' />
+                        <asp:HiddenField runat="server" ID="hdnAddtinalDiscount" Value='<%#Eval("AdditionalDiscount") %>' />
                         <asp:HiddenField runat="server" ID="hdnVat" Value='<%#Eval("Vat") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>

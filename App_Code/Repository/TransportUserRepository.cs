@@ -474,7 +474,7 @@ public class TransportUserRepository
         return Zones;
     }
 
-    public List<Vehicles> GetVehiclesByAcademyIDandTypeID(int AcaID,int TypeID)
+    public List<Vehicles> GetVehiclesByAcademyIDandTypeID(int AcaID, int TypeID)
     {
         return _context.Vehicles.Where(x => x.AcademyID == AcaID && x.IsApproved == true && x.TypeID != TypeID).ToList();
     }
@@ -577,6 +577,14 @@ public class TransportUserRepository
         newVehicleServiceRecord.BatterySerialNum = VehicleServiceRecord.BatterySerialNum;
         newVehicleServiceRecord.BatteryLifeInYears = VehicleServiceRecord.BatteryLifeInYears;
         newVehicleServiceRecord.LastServiceDate = VehicleServiceRecord.LastServiceDate;
+        newVehicleServiceRecord.FrontLeftDateChanged = VehicleServiceRecord.FrontLeftDateChanged;
+        newVehicleServiceRecord.FrontRightDateChanged = VehicleServiceRecord.FrontRightDateChanged;
+        newVehicleServiceRecord.RearLeftOneDateChanged = VehicleServiceRecord.RearLeftOneDateChanged;
+        newVehicleServiceRecord.RearLeftSecondDateChanged = VehicleServiceRecord.RearLeftSecondDateChanged;
+        newVehicleServiceRecord.RearRightOneDateChanged = VehicleServiceRecord.RearRightOneDateChanged;
+        newVehicleServiceRecord.RearRightSecondDateChanged = VehicleServiceRecord.RearRightSecondDateChanged;
+        newVehicleServiceRecord.StafneyDateChanged = VehicleServiceRecord.StafneyDateChanged;
+        newVehicleServiceRecord.BatteryChangeMeterReading = VehicleServiceRecord.BatteryChangeMeterReading;
 
         _context.Entry(newVehicleServiceRecord).State = EntityState.Modified;
         _context.SaveChanges();

@@ -149,6 +149,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 HiddenField hdnMRP = (HiddenField)gvRow.FindControl("hdnMRP");
                 HiddenField hdnVat = (HiddenField)gvRow.FindControl("hdnVat");
                 HiddenField hdnDiscount = (HiddenField)gvRow.FindControl("hdnDiscount");
+                HiddenField hdnAddtinalDiscount = (HiddenField)gvRow.FindControl("hdnAddtinalDiscount");
                 if (UserTypeID == (int)(TypeEnum.UserType.PURCHASEEMPLOYEE))
                 {
                     chkDirectPurchase.Visible = true;
@@ -180,12 +181,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             if ((PurchasedQty >= Qty && PurchasedQty <= ExtraQty) || (PurchasedQty <= Qty && PurchasedQty >= LessExtraQty))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
@@ -193,7 +194,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                     }
                     else if (Convert.ToInt16(hdnMatTypeID.Value) == (int)TypeEnum.MatTypeID.VEGETABLESANDFRUITS)
                     {
-                        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "' where Sno='" + Sno + "'");
+                        DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "' where Sno='" + Sno + "'");
                         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                     }
@@ -201,7 +202,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                     {
                         if (Convert.ToDecimal(txtRate.Text) <= ExtraRate)
                         {
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchasedQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "' where Sno='" + Sno + "'");
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             DAL.DalAccessUtility.ExecuteNonQuery("update Material set MatCost=" + txtRate.Text + " where MatID='" + txtMatID.Value + "'");
                         }
@@ -237,7 +238,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             var estimateCost = Convert.ToDecimal(txtRate.Text) * PurchaseQty;
 
-                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "' where Sno='" + Sno + "'");
+                            DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "' where Sno='" + Sno + "'");
                             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                         }
                     }
@@ -252,12 +253,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                             var estimateCost = Convert.ToDecimal(txtRate.Text) * PurchaseQty;
                             if ((PurchaseQty >= Qty && PurchaseQty <= TotalSteelWoodTileQuantity) || (PurchaseQty <= Qty && PurchaseQty >= TotalLessSteelWoodTileQuantit))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ", Amount=" + estimateCost + ", DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ", Amount=" + estimateCost + ", DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }
@@ -273,12 +274,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         {
                             if ((PurchaseQty >= Qty && PurchaseQty <= ExtraQty) || (PurchaseQty <= Qty && PurchaseQty >= LessExtraQty))
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty ='" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been dispatch.')", true);
                             }
                             else
                             {
-                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "'  where Sno='" + Sno + "'");
+                                DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set rate=" + txtRate.Text + ",Amount=" + estimateCost + ",DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "',PurchaseQty = '" + PurchaseQty + "',DirectPurchase ='" + chkDirectPurchase.Checked + "',VendorID ='" + hdnVandorID.Value + "',MRP ='" + hdnMRP.Value + "',Discount ='" + hdnDiscount.Value + "',Vat ='" + hdnVat.Value + "',AdditionalDiscount ='" + hdnAddtinalDiscount.Value + "'  where Sno='" + Sno + "'");
                                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Purchase quantity has been updated.')", true);
                             }
                         }

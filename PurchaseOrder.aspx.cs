@@ -122,11 +122,11 @@ public partial class PurchaseOrder : System.Web.UI.Page
         DataTable dt = new DataTable();
         if (hdnItemsLength.Value != "")
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName,M.Vat  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost,M.Vat from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
         } 
         DataTable   dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + txtPO.Text + "'").Tables[0];
         if (dsExist.Rows.Count > 0)
@@ -190,7 +190,14 @@ public partial class PurchaseOrder : System.Web.UI.Page
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
                 SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             }
-            MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + vat + "</td>";
+            if (vat != null)
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + vat + "</td>";
+            }
+            else
+            {
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Vat"].ToString() + "</td>";
+            }
        
             SubTotal = Math.Round(SubTotal, 2);
             if (vat == "0")
@@ -231,9 +238,19 @@ public partial class PurchaseOrder : System.Web.UI.Page
             {
                 hdnIndentNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
             }
-            if (!hdnVatStatus.Value.Contains(vat))
+            if (vat != null)
             {
-                hdnVatStatus.Value += vat + "%" + ",";
+                if (!hdnVatStatus.Value.Contains(vat))
+                {
+                    hdnVatStatus.Value += vat + "%" + ",";
+                }
+            }
+            else
+            {
+                if (!hdnVatStatus.Value.Contains(dt.Rows[i]["Vat"].ToString()))
+                {
+                    hdnVatStatus.Value += dt.Rows[i]["Vat"].ToString() + "%" + ",";
+                }
             }
             po.CreatedOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
             if (dsExist.Rows.Count > 0)
@@ -257,7 +274,13 @@ public partial class PurchaseOrder : System.Web.UI.Page
                 po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
             }
             po.Description = Request.Form["txtdescription" + i];
-            po.Vat = Convert.ToDecimal(vat);
+            if (vat != null)
+            {
+                po.Vat = Convert.ToDecimal(vat);
+            }
+            else {
+                po.Vat = Convert.ToDecimal(dt.Rows[i]["Vat"].ToString());
+            }
             po.UnitName = unit;
             po.FrieghtCharges = Convert.ToDecimal(txtFrieght.Text);
             po.LoadingCharges = Convert.ToDecimal(txtLoading.Text);

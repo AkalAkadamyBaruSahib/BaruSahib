@@ -36,6 +36,7 @@ public partial class RateUpload : System.Web.UI.Page
                 MatID = Convert.ToInt32(Request.QueryString["MatID"].ToString());
                 VendorID = Convert.ToInt32(Request.QueryString["VendorID"].ToString());
                 NewRate = Convert.ToDecimal(Request.QueryString["NewRate"].ToString());
+                hdnMaterialID.Value = Request.QueryString["MatID"].ToString();
 
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetMaterialInfoByMatID(" + MatID + "," + VendorID + "," + NewRate + ");", true);
             }

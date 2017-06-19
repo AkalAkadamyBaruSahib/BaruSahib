@@ -1,6 +1,6 @@
 USE [Akal]
 GO
-/****** Object:  Table [dbo].[VehicleServiceRecord]    Script Date: 6/7/2017 5:19:25 PM ******/
+/****** Object:  Table [dbo].[VehicleServiceRecord]    Script Date: 6/17/2017 10:42:51 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -27,6 +27,14 @@ CREATE TABLE [dbo].[VehicleServiceRecord](
 	[LastServiceKm] [int] NULL,
 	[MeterReadingFilePath] [nvarchar](max) NULL,
 	[BatteryInstalationDate] [datetime] NULL,
+	[BatteryChangeMeterReading] [int] NULL,
+	[FrontLeftDateChanged] [datetime] NULL,
+	[FrontRightDateChanged] [datetime] NULL,
+	[RearLeftOneDateChanged] [datetime] NULL,
+	[RearLeftSecondDateChanged] [datetime] NULL,
+	[RearRightOneDateChanged] [datetime] NULL,
+	[RearRightSecondDateChanged] [datetime] NULL,
+	[StafneyDateChanged] [datetime] NULL,
 	[CreatedOn] [datetime] NULL,
 	[CreatedBy] [int] NULL,
 	[StafneyKm] [int] NULL,

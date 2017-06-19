@@ -36,6 +36,10 @@ $(document).ready(function () {
 
     LoadVehicleServiceInfo();
 
+    //$(".input-xlarge").datepicker({
+    //    dateFormat: 'dd/mm/yy'
+    //});
+
    });
 function BindVehicles(acaID,vehicleID) {
   
@@ -129,6 +133,8 @@ function GetTyreInfoBySeatingCapacity(sittingCapacity) {
                     $("#txtRearLeftTwoOldTyreNo").prop('disabled', false);
                     $("#txtRearRightTwoRunning").prop('disabled', false);
                     $("#txtRearRightTwoOldTyreNo").prop('disabled', false);
+                    $("#txtRearLeftTwoDateChanged").prop('disabled', false);
+                    $("#txtRearRightTwoDateChanged").prop('disabled', false);
                 }
                 else {
                     $("#trTyre").show();
@@ -142,6 +148,8 @@ function GetTyreInfoBySeatingCapacity(sittingCapacity) {
                     $("#txtRearLeftTwoOldTyreNo").prop('disabled', true);
                     $("#txtRearLeftTwoRunning").prop('disabled', true);
                     $("#txtRearRightTwoOldTyreNo").prop('disabled', true);
+                    $("#txtRearLeftTwoDateChanged").prop('disabled', true);
+                    $("#txtRearRightTwoDateChanged").prop('disabled', true);
                 }
             }
             else {
@@ -156,6 +164,8 @@ function GetTyreInfoBySeatingCapacity(sittingCapacity) {
                 $("#txtRearLeftTwoOldTyreNo").prop('disabled', true);
                 $("#txtRearLeftTwoRunning").prop('disabled', true);
                 $("#txtRearRightTwoOldTyreNo").prop('disabled', true);
+                $("#txtRearLeftTwoDateChanged").prop('disabled', true);
+                $("#txtRearRightTwoDateChanged").prop('disabled', true);
             }
         },
         error: function (result, textStatus) {
@@ -195,6 +205,14 @@ function SaveVehicleServiceDeatil() {
     VehicleServiceRecord.BatteryCapacity = $("input[id*='txtBatteryCapacity']").val();
     VehicleServiceRecord.BatterySerialNum = $("input[id*='txtBatterySerialNum']").val();
     VehicleServiceRecord.BatteryLifeInYears = $("input[id*='txtBatteryLifeInYears']").val();
+    VehicleServiceRecord.FrontLeftDateChanged = $("#txtFrontLeftDateChanged").val();
+    VehicleServiceRecord.FrontRightDateChanged = $("#txtFrontRightDateChanged").val();
+    VehicleServiceRecord.RearLeftOneDateChanged = $("#txtRearLeftDateChanged").val();
+    VehicleServiceRecord.RearLeftSecondDateChanged = $("#txtRearLeftTwoDateChanged").val();
+    VehicleServiceRecord.RearRightOneDateChanged = $("#txtRearRightDateChanged").val();
+    VehicleServiceRecord.RearRightSecondDateChanged = $("#txtRearRightTwoDateChanged").val();
+    VehicleServiceRecord.StafneyDateChanged = $("#txtStafneyDateChanged").val();
+    VehicleServiceRecord.BatteryChangeMeterReading = $("input[id*='txtBatteryChangeMeterReading']").val();
   
     params.VehicleServiceRecord = VehicleServiceRecord;
 
@@ -273,6 +291,14 @@ function ClearText() {
     $("input[id*='txtBatteryCapacity']").val("");
     $("input[id*='txtBatterySerialNum']").val("");
     $("input[id*='txtBatteryLifeInYears']").val("");
+    $("#txtFrontLeftDateChanged").val("");
+    $("#txtFrontRightDateChanged").val("");
+    $("#txtRearLeftDateChanged").val("");
+    $("#txtRearLeftTwoDateChanged").val("");
+    $("#txtRearRightDateChanged").val("");
+    $("#txtRearRightTwoDateChanged").val("");
+    $("#txtStafneyDateChanged").val("");
+    $("input[id*='txtBatteryChangeMeterReading']").val("");
    
 }
 
@@ -388,6 +414,16 @@ function GetVehicleInfoToUpdate(vehicleServiceID) {
                 $("input[id*='txtBatteryCapacity']").val(rdata.BatteryCapacity);
                 $("input[id*='txtBatterySerialNum']").val(rdata.BatterySerialNum);
                 $("input[id*='txtBatteryLifeInYears']").val(rdata.BatteryLifeInYears);
+                $("#txtFrontLeftDateChanged").val(getJsonDate(rdata.FrontLeftDateChanged));
+                $("#txtFrontRightDateChanged").val(getJsonDate(rdata.FrontRightDateChanged));
+                $("#txtRearLeftDateChanged").val(getJsonDate(rdata.RearLeftOneDateChanged));
+                $("#txtRearLeftTwoDateChanged").val(getJsonDate(rdata.RearLeftSecondDateChanged));
+                $("#txtRearRightDateChanged").val(getJsonDate(rdata.RearRightOneDateChanged));
+                $("#txtRearRightTwoDateChanged").val(getJsonDate(rdata.RearRightSecondDateChanged));
+                $("#txtStafneyDateChanged").val(getJsonDate(rdata.StafneyDateChanged));
+                $("input[id*='txtBatteryChangeMeterReading']").val(rdata.BatteryChangeMeterReading);
+
+
                 if (rdata.MeterReadingFilePath != "") {
                     $("#aMeterReading").show();
                     var meterReadingFilePics = rdata.MeterReadingFilePath.split(',');
@@ -414,7 +450,7 @@ function getJsonDate(strDate) {
     if (strDate != null) {
         var date = new Date(parseInt(strDate.substr(6)));
         // format display date (e.g. 04/10/2012)
-        displayDate = $.datepicker.formatDate("dd/mm/yy", date);
+        displayDate = $.datepicker.formatDate("mm/dd/yy", date);
     }
     return displayDate;
 }
@@ -447,6 +483,14 @@ function UpdateVehicleServiceDeatil() {
     VehicleServiceRecord.BatteryCapacity = $("input[id*='txtBatteryCapacity']").val();
     VehicleServiceRecord.BatterySerialNum = $("input[id*='txtBatterySerialNum']").val();
     VehicleServiceRecord.BatteryLifeInYears = $("input[id*='txtBatteryLifeInYears']").val();
+    VehicleServiceRecord.FrontLeftDateChanged = $("#txtFrontLeftDateChanged").val();
+    VehicleServiceRecord.FrontRightDateChanged = $("#txtFrontRightDateChanged").val();
+    VehicleServiceRecord.RearLeftOneDateChanged = $("#txtRearLeftDateChanged").val();
+    VehicleServiceRecord.RearLeftSecondDateChanged = $("#txtRearLeftTwoDateChanged").val();
+    VehicleServiceRecord.RearRightOneDateChanged = $("#txtRearRightDateChanged").val();
+    VehicleServiceRecord.RearRightSecondDateChanged = $("#txtRearRightTwoDateChanged").val();
+    VehicleServiceRecord.StafneyDateChanged = $("#txtStafneyDateChanged").val();
+    VehicleServiceRecord.BatteryChangeMeterReading = $("input[id*='txtBatteryChangeMeterReading']").val();
  
  
     updateParams.VehicleServiceRecord = VehicleServiceRecord;
@@ -505,25 +549,24 @@ function OpenCurrentMeterReading(scan) {
 
 function Validation() {
 
-    if ($("#txtFrontRightOldTyreNo").val() != undefined) {
-        var value = $("#txtFrontRightOldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtFrontRightOldTyreNo").val() != undefined) {
+    //    var value = $("#txtFrontRightOldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtFrontRightOldTyreNo").val() == "") {
-            $("#txtFrontRightOldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtFrontRightOldTyreNo").css('border-color', '');
-        }
-    }
+    //    if ($("#txtFrontRightOldTyreNo").val() == "") {
+    //        $("#txtFrontRightOldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtFrontRightOldTyreNo").css('border-color', '');
+    //    }
+    //}
 
-    if ($("#txtFrontRightRunning").val() != undefined) {
+    if ($("#txtFrontRightRunning").val() != "") {
         var value = $("#txtFrontRightRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
-
-        if ($("#txtFrontRightRunning").val() == "" || !value.match(regex)) {
-            $("#txtFrontRightRunning").css('border-color', 'red');
+        if (!value.match(regex)) {
+           $("#txtFrontRightRunning").css('border-color', 'red');
             return false;
         }
         else {
@@ -531,24 +574,23 @@ function Validation() {
         }
     }
 
-    if ($("#txtFrontLeftOldTyreNo").val() != undefined) {
-        var value = $("#txtFrontLeftOldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtFrontLeftOldTyreNo").val() != undefined) {
+    //    var value = $("#txtFrontLeftOldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtFrontLeftOldTyreNo").val() == "") {
-            $("#txtFrontLeftOldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtFrontLeftOldTyreNo").css('border-color', '');
-        }
-    }
+    //    if ($("#txtFrontLeftOldTyreNo").val() == "") {
+    //        $("#txtFrontLeftOldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtFrontLeftOldTyreNo").css('border-color', '');
+    //    }
+    //}
 
-    if ($("#txtFrontLeftRunning").val() != undefined) {
+    if ($("#txtFrontLeftRunning").val() != "") {
         var value = $("#txtFrontLeftRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
-
-        if ($("#txtFrontLeftRunning").val() == "" || !value.match(regex)) {
+        if (!value.match(regex)) {
             $("#txtFrontLeftRunning").css('border-color', 'red');
             return false;
         }
@@ -557,24 +599,24 @@ function Validation() {
         }
     }
 
-    if ($("#txtRearRightOldTyreNo").val() != undefined) {
-        var value = $("#txtRearRightOldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtRearRightOldTyreNo").val() != undefined) {
+    //    var value = $("#txtRearRightOldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearRightOldTyreNo").val() == "") {
-            $("#txtRearRightOldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtRearRightOldTyreNo").css('border-color', '');
-        }
-    }
+    //    if ($("#txtRearRightOldTyreNo").val() == "") {
+    //        $("#txtRearRightOldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtRearRightOldTyreNo").css('border-color', '');
+    //    }
+    //}
 
-    if ($("#txtRearRightRunning").val() != undefined) {
+    if ($("#txtRearRightRunning").val() != "") {
         var value = $("#txtRearRightRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearRightRunning").val() == "" || !value.match(regex)) {
+        if (!value.match(regex)) {
             $("#txtRearRightRunning").css('border-color', 'red');
             return false;
         }
@@ -583,24 +625,24 @@ function Validation() {
         }
     }
 
-    if ($("#txtRearLeftOldTyreNo").val() != undefined) {
-        var value = $("#txtRearLeftOldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtRearLeftOldTyreNo").val() != undefined) {
+    //    var value = $("#txtRearLeftOldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearLeftOldTyreNo").val() == "") {
-            $("#txtRearLeftOldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtRearLeftOldTyreNo").css('border-color', '');
-        }
-    }
+    //    if ($("#txtRearLeftOldTyreNo").val() == "") {
+    //        $("#txtRearLeftOldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtRearLeftOldTyreNo").css('border-color', '');
+    //    }
+    //}
    
-    if ($("#txtRearLeftRunning").val() != undefined) {
+    if ($("#txtRearLeftRunning").val() != "") {
         var value = $("#txtRearLeftRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearLeftRunning").val() == "" || !value.match(regex)) {
+       if (!value.match(regex)) {
             $("#txtRearLeftRunning").css('border-color', 'red');
             return false;
         }
@@ -609,24 +651,23 @@ function Validation() {
         }
     }
   
-    if ($("#txtRearLeftTwoOldTyreNo").val() != undefined) {
-        var value = $("#txtRearLeftTwoOldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtRearLeftTwoOldTyreNo").val() != undefined) {
+    //    var value = $("#txtRearLeftTwoOldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearLeftTwoOldTyreNo").val() == "") {
-            $("#txtRearLeftTwoOldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtRearLeftTwoOldTyreNo").css('border-color', '');
-        }
-    }
+    //    if ($("#txtRearLeftTwoOldTyreNo").val() == "") {
+    //        $("#txtRearLeftTwoOldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtRearLeftTwoOldTyreNo").css('border-color', '');
+    //    }
+    //}
 
-    if ($("#txtRearLeftTwoRunning").val() != undefined) {
+    if ($("#txtRearLeftTwoRunning").val() != "") {
         var value = $("#txtRearLeftTwoRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
-
-        if ($("#txtRearLeftTwoRunning").val() == "" || !value.match(regex)) {
+        if (!value.match(regex)) {
             $("#txtRearLeftTwoRunning").css('border-color', 'red');
             return false;
         }
@@ -635,24 +676,24 @@ function Validation() {
         }
     }
    
-    if ($("#txtRearRightTwoOldTyreNo").val() != undefined) {
-        var value = $("#txtRearRightTwoOldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtRearRightTwoOldTyreNo").val() != undefined) {
+    //    var value = $("#txtRearRightTwoOldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearRightTwoOldTyreNo").val() == "") {
-            $("#txtRearRightTwoOldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtRearRightTwoOldTyreNo").css('border-color', '');
-        }
-    }
+    //    if ($("#txtRearRightTwoOldTyreNo").val() == "") {
+    //        $("#txtRearRightTwoOldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtRearRightTwoOldTyreNo").css('border-color', '');
+    //    }
+    //}
 
-    if ($("#txtRearRightTwoRunning").val() != undefined) {
+    if ($("#txtRearRightTwoRunning").val() != "") {
         var value = $("#txtRearRightTwoRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtRearRightTwoRunning").val() == "" || !value.match(regex)) {
+        if (!value.match(regex)) {
             $("#txtRearRightTwoRunning").css('border-color', 'red');
             return false;
         }
@@ -661,23 +702,23 @@ function Validation() {
         }
     }
    
-    if ($("#txtStafneyldTyreNo").val() != undefined) {
-        var value = $("#txtStafneyldTyreNo").val();
-        var regex = new RegExp(/^\+?[0-9(),-]+$/);
+    //if ($("#txtStafneyldTyreNo").val() != undefined) {
+    //    var value = $("#txtStafneyldTyreNo").val();
+    //    var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtStafneyldTyreNo").val() == "") {
-            $("#txtStafneyldTyreNo").css('border-color', 'red');
-            return false;
-        }
-        else {
-            $("#txtStafneyldTyreNo").css('border-color', '');
-        }
-    }
-    if ($("#txtStafneyRunning").val() != undefined) {
+    //    if ($("#txtStafneyldTyreNo").val() == "") {
+    //        $("#txtStafneyldTyreNo").css('border-color', 'red');
+    //        return false;
+    //    }
+    //    else {
+    //        $("#txtStafneyldTyreNo").css('border-color', '');
+    //    }
+    //}
+    if ($("#txtStafneyRunning").val() != "") {
         var value = $("#txtStafneyRunning").val();
         var regex = new RegExp(/^\+?[0-9(),-]+$/);
 
-        if ($("#txtStafneyRunning").val() == "" || !value.match(regex)) {
+       if (!value.match(regex)) {
             $("#txtStafneyRunning").css('border-color', 'red');
             return false;
         }
@@ -712,5 +753,13 @@ function ClearonChangeFunction() {
     $("input[id*='txtBatteryCapacity']").val("");
     $("input[id*='txtBatterySerialNum']").val("");
     $("input[id*='txtBatteryLifeInYears']").val("");
+    $("#txtFrontLeftDateChanged").val("");
+    $("#txtFrontRightDateChanged").val("");
+    $("#txtRearLeftDateChanged").val("");
+    $("#txtRearLeftTwoDateChanged").val("");
+    $("#txtRearRightDateChanged").val("");
+    $("#txtRearRightTwoDateChanged").val("");
+    $("#txtStafneyDateChanged").val("");
+    $("input[id*='txtBatteryChangeMeterReading']").val("");
     $("#aMeterReading").hide();
 }

@@ -26,6 +26,8 @@ public class MaterialNonApprovedRate
 
     public decimal? Discount { get; set; }
 
+    public decimal? AdditionalDiscount { get; set; }
+
     public decimal? Vat { get; set; }
 
     public decimal? NetRate { get; set; }

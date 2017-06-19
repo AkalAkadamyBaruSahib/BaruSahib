@@ -87,6 +87,8 @@ public class EstimateAndMaterialOthersRelations
 
     public decimal? Vat { get; set; }
 
+    public decimal? AdditionalDiscount { get; set; }
+
 }
 
 

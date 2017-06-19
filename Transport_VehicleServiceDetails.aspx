@@ -104,8 +104,8 @@
                                         Last Service KM<br />
                                         <asp:TextBox ID="txtLastServiceKM" runat="server"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtLastServiceKM" ValidationGroup="vehicle" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid No!!!Use Numeric Value" ValidationExpression="^[0-9]*$"></asp:RegularExpressionValidator>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" Display="None" runat="server" ValidationGroup="vehicle" ControlToValidate="txtLastServiceKM" ErrorMessage="Please enter Last Service KM." ForeColor="Red"></asp:RequiredFieldValidator>
-                                        <br />
+                                   <%--     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" Display="None" runat="server" ValidationGroup="vehicle" ControlToValidate="txtLastServiceKM" ErrorMessage="Please enter Last Service KM." ForeColor="Red"></asp:RequiredFieldValidator>
+                                  --%>      <br />
                                     </div>
                                 </div>
                             </td>
@@ -114,10 +114,10 @@
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
                                         Last Service Date<br />
-                                        <asp:TextBox ID="txtLastServiceDate" runat="server" CssClass="input-xlarge datepicker" Width="240px"></asp:TextBox>
+                                        <asp:TextBox ID="txtLastServiceDate" runat="server" CssClass="input-xlarge datepicker"  Width="210px" ></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Invalid Format.Use(DD/MM/YYYY)." ValidationGroup="vehicle" ForeColor="Red" ControlToValidate="txtLastServiceDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Display="None" runat="server" ValidationGroup="vehicle" ControlToValidate="txtLastServiceDate" ErrorMessage="Please enter Last Service Date." ForeColor="Red"></asp:RequiredFieldValidator>
-                                        <br />
+                                 <%--       <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Display="None" runat="server" ValidationGroup="vehicle" ControlToValidate="txtLastServiceDate" ErrorMessage="Please enter Last Service Date." ForeColor="Red"></asp:RequiredFieldValidator>
+                               --%>         <br />
                                     </div>
                                 </div>
                             </td>
@@ -129,9 +129,9 @@
                                     <label class="control-label" for="typeahead"></label>
                                     <div class="controls">
                                         Battery Instalation Date:<br />
-                                        <asp:TextBox ID="txtBattery" runat="server" CssClass="input-xlarge datepicker" Width="240px" />
+                                        <asp:TextBox ID="txtBattery" runat="server" CssClass="input-xlarge datepicker" Width="210px"/>
                                         <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(DD/MM/YYYY)." ValidationGroup="vehicle" ForeColor="Red" ControlToValidate="txtBattery" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBattery" ErrorMessage="Please enter Battery Instalation Date." ForeColor="Red"></asp:RequiredFieldValidator>
+                                    <%--    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBattery" ErrorMessage="Please enter Battery Instalation Date." ForeColor="Red"></asp:RequiredFieldValidator>--%>
 
                                         <br />
                                     </div>
@@ -143,8 +143,8 @@
                                     <div class="controls">
                                         Make Of Battery<br />
                                         <asp:TextBox ID="txtMakeofbattery" runat="server" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtMakeofbattery" ErrorMessage="Please enter Make Of Battery." ForeColor="Red"></asp:RequiredFieldValidator>
-                                        <br />
+                                  <%--      <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtMakeofbattery" ErrorMessage="Please enter Make Of Battery." ForeColor="Red"></asp:RequiredFieldValidator>
+                                  --%>      <br />
                                     </div>
                                 </div>
                             </td>
@@ -156,8 +156,8 @@
                                     <div class="controls">
                                         Battery Capacity:<br />
                                         <asp:TextBox ID="txtBatteryCapacity" runat="server"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBatteryCapacity" ErrorMessage="Please enter  Battery Capacity." ForeColor="Red"></asp:RequiredFieldValidator>
-                                        <br />
+                                   <%--     <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBatteryCapacity" ErrorMessage="Please enter  Battery Capacity." ForeColor="Red"></asp:RequiredFieldValidator>
+                                  --%>      <br />
                                     </div>
                                 </div>
                             </td>
@@ -167,8 +167,8 @@
                                     <div class="controls">
                                         Battery Serial Number<br />
                                         <asp:TextBox ID="txtBatterySerialNum" runat="server" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBatterySerialNum" ErrorMessage="Please enter Battery Serial Number." ForeColor="Red"></asp:RequiredFieldValidator>
-                                        <br />
+                                <%--        <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBatterySerialNum" ErrorMessage="Please enter Battery Serial Number." ForeColor="Red"></asp:RequiredFieldValidator>
+                                --%>        <br />
                                     </div>
                                 </div>
                             </td>
@@ -181,7 +181,20 @@
                                         Battery Life In Years:<br />
                                         <asp:TextBox ID="txtBatteryLifeInYears" runat="server" />
                                         <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="txtBatteryLifeInYears" ValidationGroup="vehicle" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid No!!!Use Numeric Value" ValidationExpression="^[0-9]*$"></asp:RegularExpressionValidator>
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBatteryLifeInYears" ErrorMessage="Please enter  Battery Life In Years." ForeColor="Red"></asp:RequiredFieldValidator>
+                                   <%--     <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" Display="None" ValidationGroup="vehicle" ControlToValidate="txtBatteryLifeInYears" ErrorMessage="Please enter  Battery Life In Years." ForeColor="Red"></asp:RequiredFieldValidator>
+                                 --%>       <br />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="control-group">
+                                    <label class="control-label" for="typeahead"></label>
+                                    <div class="controls">
+                                        Battery Change Meter Reading<br />
+                                        <asp:TextBox ID="txtBatteryChangeMeterReading" runat="server"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vehicle" ControlToValidate="txtBatteryChangeMeterReading" ForeColor="Red" Font-Size="13px" ErrorMessage="Invalid No!!!Use Numeric Value" ValidationExpression="^[0-9]*$"></asp:RegularExpressionValidator>
+                                        <%--         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Display="None" runat="server" ValidationGroup="vehicle" ControlToValidate="txtBatteryChangeMeterReading" ErrorMessage="Please enter Current Meter Reading." ForeColor="Red"></asp:RequiredFieldValidator>--%>
+
                                         <br />
                                     </div>
                                 </div>
@@ -195,71 +208,92 @@
                                             <th>Tyre Type</th>
                                             <th><b>KM Running Of Individual Tyre</b></th>
                                             <th>Tyre Sr.No.</th>
-
+                                            <th>Date Changed</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody1">
                                         <tr id="tr3">
                                             <td>FRONT RIGHT</td>
                                             <td>
-                                                <input type="text" id="txtFrontRightRunning" name="txtFrontRightRunning" required />
+                                                <input type="text" id="txtFrontRightRunning" name="txtFrontRightRunning"/>
                                             </td>
                                             <td>
-                                                <input type="text" id="txtFrontRightOldTyreNo" name="txtFrontRightOldTyreNo" required />
+                                                <input type="text" id="txtFrontRightOldTyreNo" name="txtFrontRightOldTyreNo"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtFrontRightDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtFrontRightDateChanged"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>FRONT LEFT</td>
                                             <td>
-                                                <input type="text" id="txtFrontLeftRunning" name="txtFrontLeftRunning" required />
+                                                <input type="text" id="txtFrontLeftRunning"  name="txtFrontLeftRunning"/>
                                             </td>
                                             <td>
-                                                <input type="text" id="txtFrontLeftOldTyreNo" name="txtFrontLeftOldTyreNo" required />
+                                                <input type="text" id="txtFrontLeftOldTyreNo" name="txtFrontLeftOldTyreNo"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtFrontLeftDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtFrontLeftDateChanged"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>REAR RIGHT</td>
                                             <td>
-                                                <input type="text" id="txtRearRightRunning" name="txtRearRightRunning" required />
+                                                <input type="text" id="txtRearRightRunning" name="txtRearRightRunning"/>
                                             </td>
                                             <td>
-                                                <input type="text" id="txtRearRightOldTyreNo" name="txtRearRightOldTyreNo" required />
+                                                <input type="text" id="txtRearRightOldTyreNo" name="txtRearRightOldTyreNo"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtRearRightDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtRearRightDateChanged"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>REAR LEFT</td>
                                             <td>
-                                                <input type="text" id="txtRearLeftRunning" name="txtRearLeftRunning" required />
+                                                <input type="text" id="txtRearLeftRunning" name="txtRearLeftRunning"/>
                                             </td>
                                             <td>
-                                                <input type="text" id="txtRearLeftOldTyreNo" name="txtRearLeftOldTyreNo" required />
+                                                <input type="text" id="txtRearLeftOldTyreNo" name="txtRearLeftOldTyreNo"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtRearLeftDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtRearLeftDateChanged"/>
                                             </td>
                                         </tr>
                                         <tr id="trRearLeftTwo" style="display: none;">
                                             <td>REAR LEFT TWO</td>
                                             <td>
-                                                <input type="text" id="txtRearLeftTwoRunning" name="txtRearLeftTwoRunning" required disabled="disabled" />
+                                                <input type="text" id="txtRearLeftTwoRunning" name="txtRearLeftTwoRunning" disabled="disabled" />
                                             </td>
                                             <td>
-                                                <input type="text" id="txtRearLeftTwoOldTyreNo" name="txtRearLeftTwoOldTyreNo" required disabled="disabled" />
+                                                <input type="text" id="txtRearLeftTwoOldTyreNo" name="txtRearLeftTwoOldTyreNo" disabled="disabled" />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtRearLeftTwoDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtRearLeftTwoDateChanged" />
                                             </td>
                                         </tr>
                                         <tr id="trRearRightTwo" style="display: none;">
                                             <td>REAR RIGHT TWO</td>
                                             <td>
-                                                <input type="text" id="txtRearRightTwoRunning" name="txtRearRightTwoRunning" required />
+                                                <input type="text" id="txtRearRightTwoRunning" name="txtRearRightTwoRunning"/>
                                             </td>
                                             <td>
-                                                <input type="text" id="txtRearRightTwoOldTyreNo" name="txtRearRightTwoOldTyreNo" required />
+                                                <input type="text" id="txtRearRightTwoOldTyreNo" name="txtRearRightTwoOldTyreNo"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtRearRightTwoDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtRearRightTwoDateChanged"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>STAFNEY</td>
                                             <td>
-                                                <input type="text" id="txtStafneyRunning" name="txtStafneyRunning" required />
+                                                <input type="text" id="txtStafneyRunning" name="txtStafneyRunning" />
                                             </td>
                                             <td>
-                                                <input type="text" id="txtStafneyldTyreNo" name="txtStafneyldTyreNo" required />
+                                                <input type="text" id="txtStafneyldTyreNo" name="txtStafneyldTyreNo"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="txtStafneyDateChanged" class="input-xlarge datepicker" style="width:200px;" name="txtStafneyDateChanged" />
                                             </td>
                                         </tr>
 
@@ -291,11 +325,11 @@
                         <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
                             <thead>
                                 <tr>
-                                    <th style="color: #cc3300;width:15%">Academy</th>
-                                    <th style="color: #cc3300;width:15%">Vehicle Number</th>
-                                    <th style="color: #cc3300;width:30%">Last Service</th>
-                                    <th style="color: #cc3300;width:30%">Battery Detail</th>
-                                    <th style="color: #cc3300; width:10%">Action</th>
+                                    <th style="color: #cc3300; width: 15%">Academy</th>
+                                    <th style="color: #cc3300; width: 15%">Vehicle Number</th>
+                                    <th style="color: #cc3300; width: 30%">Last Service</th>
+                                    <th style="color: #cc3300; width: 30%">Battery Detail</th>
+                                    <th style="color: #cc3300; width: 10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
