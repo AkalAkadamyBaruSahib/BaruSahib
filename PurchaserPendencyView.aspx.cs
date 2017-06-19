@@ -24,7 +24,7 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
     public void PurchaserPendency(int inchargeId)
     {
         DataSet PendingEst = new DataSet();
-        PendingEst = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PurchaserPendencyView]'" + (int)TypeEnum.PurchaseSourceID.Mohali +"','" + inchargeId  +"'");
+        PendingEst = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PurchaserPendencyView]'" + (int)TypeEnum.PurchaseSourceID.Mohali + "','" + inchargeId + "'");
         divPurchaserPendencyView.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
         ZoneInfo += "<div class='row-fluid sortable'>";
@@ -46,7 +46,7 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
         ZoneInfo += "<tbody>";
 
         for (int i = 0; i < PendingEst.Tables[0].Rows.Count; i++)
-        {  
+        {
             ZoneInfo += "<tr>";
             ZoneInfo += "<td class='center' width='5%'>" + (i + 1) + "</td>";
             ZoneInfo += "<td class='center' width='10%'>" + PendingEst.Tables[0].Rows[i]["EstimateNumber"].ToString() + "</td>";
@@ -61,7 +61,8 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
         ZoneInfo += "</div>";
         ZoneInfo += "</div>";
         ZoneInfo += "</div>";
-    
+
         divPurchaserPendencyView.InnerHtml = ZoneInfo.ToString();
     }
+
 }
