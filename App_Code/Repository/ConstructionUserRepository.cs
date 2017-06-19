@@ -48,11 +48,28 @@ public class ConstructionUserRepository
         _context.SaveChanges();
     }
 
+    public void UpdateApprovedMaterial(MaterialRateApproved materialrateapproved,int InchargeID)
+    {
+        MaterialRateApproved materialRate = _context.MaterialRateApproved.Where(v => v.ID == materialrateapproved.ID).FirstOrDefault();
+        if (InchargeID == (int)TypeEnum.PurchaseCommittee.SecondApproval)
+        {
+            materialRate.SecondApproval = materialrateapproved.SecondApproval;
+        }
+        else
+        {
+            materialRate.FirstApproval = materialrateapproved.FirstApproval;
+        }
+        materialRate.ApprovedOn = materialrateapproved.ApprovedOn;
+        _context.Entry(materialRate).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
     public void SaveApprovedMaterial(MaterialRateApproved materialrateapproved)
     {
         _context.MaterialRateApproved.Add(materialrateapproved);
         _context.SaveChanges();
     }
+
     public view_BillSubmitedDetails GetEstimateAndBillCost(int worksAllotID, int AcademyID)
     {
         return _context.view_BillSubmitedDetails.Where(x => x.AcaId == AcademyID && x.WAId == worksAllotID && x.IsApproved == true).FirstOrDefault();

@@ -7,7 +7,9 @@ $(document).ready(function () {
     $("#aRateUpdateLink").click(function (e) {
         var MatTypeID = $("input[id*='hdnMaterialType']").val();
         var MatID = $("input[id*='hdnMaterialID']").val();
-        window.location.replace("RateUpload.aspx?MatTypeID=" + MatTypeID + "&MatID=" + MatID);
+        var VendorID = $("input[id*='hdnVendor']").val();
+        var NewRate = $("input[id*='hdnNewRate']").val();
+        window.location.replace("RateUpload.aspx?MatTypeID=" + MatTypeID + "&MatID=" + MatID + "&VendorID=" + VendorID + "&NewRate=" + NewRate);
     });
     $("[id*=gvMaterailDetailForPurchase] [id*=aVendorLink]").click(function () {
         var row = $(this).closest("tr");
@@ -33,6 +35,7 @@ $(document).ready(function () {
         row.find("[id*='txtRate']").prop('disabled', false);
         row.find("[id*='txtDiscount']").prop('disabled', false);
         row.find("[id*='txtMRP']").prop('disabled', false);
+        $("input[id*='hdnNewRate']").val(row.find("[id*='txtRate']").val());
   });
     $("[id*=gvMaterailDetailForPurchase] input[id*='txtPurchaseQty']").change(function (e) {
         var row = $(this).closest("tr");
@@ -49,9 +52,11 @@ function OpenUpdateRatePopUp() {
     $('#divUpdateRate').modal('show');
 }
 
-function ShowPopup(MatTypeID, MatID) {
+function ShowPopup(MatTypeID, MatID,VendorID,NewRate) {
     $("input[id*='hdnMaterialType']").val(MatTypeID);
     $("input[id*='hdnMaterialID']").val(MatID);
+    $("input[id*='hdnVendor']").val(VendorID);
+    $("input[id*='hdnNewRate']").val(NewRate);
     $(function () {
         $("#divUpdateRate").dialog({
             title: "Material Rate Update",

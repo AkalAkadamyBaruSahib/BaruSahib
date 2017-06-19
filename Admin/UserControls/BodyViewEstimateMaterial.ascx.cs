@@ -207,12 +207,12 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         }
                         else
                         {
-                            Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + ");", true);
+                            Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + ");", true);
                         }
                     }
                     else
                     {
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + ");", true);
+                        Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + ");", true);
                     }
                 }
 

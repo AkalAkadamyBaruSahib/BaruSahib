@@ -16,13 +16,16 @@ public class MaterialRateApproved
 
     public int ID { get; set; }
 
-    public int MatID { get; set; }
+    public int? MatID { get; set; }
 
-    public decimal ApprovedRate { get; set; }
-
-    public int ApprovedBy { get; set; }
+    public decimal? ApprovedRate { get; set; }
 
     public DateTime? ApprovedOn { get; set; }
 
+    public int? FirstApproval { get; set; }
+
+    public int? SecondApproval { get; set; }
+
     public int? RequestedBy { get; set; }
+
 }

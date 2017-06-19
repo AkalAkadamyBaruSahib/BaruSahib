@@ -35,87 +35,67 @@
                     <div class="box-content">
                         <asp:UpdatePanel ID="updpanel2" runat="server">
                             <ContentTemplate>
-                                <table style="width: 100%" border="0">
+                                <table border="0">
                                     <asp:Label ID="lblUser" Visible="false" runat="server"></asp:Label>
                                     <tr>
-                                        <td width="100%" align="left">
-                                            <asp:GridView ID="grvNonApprovedRateDetails" runat="server" Width="100%" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" Style="text-align: left">
+                                        <td align="left">
+                                            <asp:GridView ID="grvNonApprovedRateDetails" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" Style="text-align: left">
                                                 <Columns>
                                                     <%--  <asp:BoundField DataField="RowNumber" HeaderText="SNo" />--%>
-                                                    <asp:TemplateField HeaderText="Material Type" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left">
+                                                    <asp:TemplateField HeaderText="Material Type">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtMaterialType" Width="200px" runat="server" Text='<%# Eval("MatTypeName") %>' Style="text-align: left;"></asp:Label>
+                                                            <asp:Label ID="txtMaterialType" runat="server" Text='<%# Eval("MatTypeName") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="left" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="left" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Material" ItemStyle-Width="315px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Material">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtMaterialName" Width="240px" runat="server" Text='<%# Eval("MatName")+ "(" + Eval("UnitName") +")"%>' Style="text-align: left;"></asp:Label>
+                                                            <asp:Label ID="txtMaterialName" runat="server" Text='<%# Eval("MatName")+ "(" + Eval("UnitName") +")"%>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="315px" />
                                                     </asp:TemplateField>
-                                                       <asp:TemplateField HeaderText="Vendor" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Vendor">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblVendorName" Width="200px" runat="server" Text='<%# Eval("VendorName")+ "<br>" + Eval("VendorAddress") %>'></asp:Label>
+                                                            <asp:Label ID="lblVendorName" runat="server" Text='<%# Eval("VendorName")+ "<br>" + Eval("VendorAddress") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="200px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Old Rate" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Old Rate">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="txtRate" Width="100px" runat="server" Text='<%# Eval("MatCost") %>'></asp:Label>
+                                                            <asp:Label ID="txtRate" runat="server" Text='<%# Eval("MatCost") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="MRP" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="MRP">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblMRP" runat="server" Text='<%# Eval("MRP") %>' CssClass="span6 typeahead" Width="100Px"></asp:Label>
+                                                            <asp:Label ID="lblMRP" runat="server" Text='<%# Eval("MRP") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Discount" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Discount">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblDiscount" runat="server" Text='<%# Eval("Discount")+"%" %>' CssClass="span6 typeahead" Width="50px"></asp:Label>
+                                                            <asp:Label ID="lblDiscount" runat="server" Text='<%# Eval("Discount")+"%" %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="50px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Vat" ItemStyle-Width="50px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Vat">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblVat" runat="server" Text='<%# Eval("Vat")+"%" %>' CssClass="span6 typeahead" Width="50px"></asp:Label>
+                                                            <asp:Label ID="lblVat" runat="server" Text='<%# Eval("Vat")+"%" %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="50px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Net Rate" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="NetRate">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblNewRate" runat="server" Text='<%# Eval("NetRate") %>' CssClass="span6 typeahead" Width="100Px"></asp:Label>
+                                                            <asp:Label ID="lblNewRate" runat="server" Text='<%# Eval("NetRate") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Requested On" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Requested On">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblRequestedOn" runat="server" Text='<%# Eval("CreatedOn") %>' CssClass="span6 typeahead" Width="200Px"></asp:Label>
+                                                            <asp:Label ID="lblRequestedOn" runat="server" Text='<%# Eval("CreatedOn") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="New Rate By" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Requested By">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblNewRateCreatedBy" runat="server" Text='<%# Eval("InName") %>' CssClass="span6 typeahead" Width="200Px"></asp:Label>
+                                                            <asp:Label ID="lblNewRateCreatedBy" runat="server" Text='<%# Eval("InName") %>'></asp:Label>
                                                         </ItemTemplate>
-                                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Action" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                                    <asp:TemplateField HeaderText="Action">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="btn_Approved" Text="Rate Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="false" />
-                                                            <asp:Button ID="btn_Rejected" Text="Rate Rejected" CommandArgument='<%#Eval("MatId")%>' runat="server" CssClass="btn btn-info" UseSubmitBehavior="false" OnClick="btn_Rejected_Click" />
+                                                            <asp:Button ID="btn_Approved" Text="Approved" CommandArgument='<%#Eval("MatId")%>' runat="server" OnClick="btn_Approved_Click" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="false" />
+                                                            <asp:Button ID="btn_Rejected" Text="Rejected" CommandArgument='<%#Eval("MatId")%>' runat="server" CssClass="btn btn-info" UseSubmitBehavior="false" OnClick="btn_Rejected_Click" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
