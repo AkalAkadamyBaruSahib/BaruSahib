@@ -27,11 +27,7 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
         PendingEst = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_PurchaserPendencyView]'" + (int)TypeEnum.PurchaseSourceID.Mohali + "','" + inchargeId + "'");
         divPurchaserPendencyView.InnerHtml = string.Empty;
         string ZoneInfo = string.Empty;
-        ZoneInfo += "<div class='row-fluid sortable'>";
-        ZoneInfo += "<div class='box span12'>";
-        ZoneInfo += "<div class='box-header well' data-original-title>";
-        ZoneInfo += "</div>";
-        ZoneInfo += "<div class='box-content'>";
+        lblPurchaserName.Text = PendingEst.Tables[0].Rows[0]["PurchaserName"].ToString();
         ZoneInfo += "<table class='table table-striped table-bordered bootstrap-datatable datatable'>";
         ZoneInfo += "<thead>";
         ZoneInfo += "<tr>";
@@ -58,10 +54,7 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
         }
         ZoneInfo += "</tbody>";
         ZoneInfo += "</table>";
-        ZoneInfo += "</div>";
-        ZoneInfo += "</div>";
-        ZoneInfo += "</div>";
-
+   
         divPurchaserPendencyView.InnerHtml = ZoneInfo.ToString();
     }
 

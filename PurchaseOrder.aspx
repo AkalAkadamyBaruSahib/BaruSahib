@@ -148,7 +148,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <label class="control-label" for="typeahead" style="color: #cc3300; font-weight: bold;"><b>SHIP TO:-</b></label>
+                                    <label class="control-label" for="typeahead" style="color: #cc3300; font-weight: bold;"><b>BILLING ADDRESS:-</b></label>
                                     <div class="controls">
                                         <select id="drpDeliveryAddress">
                                             <option value="0">-Select Billing Address--</option>
