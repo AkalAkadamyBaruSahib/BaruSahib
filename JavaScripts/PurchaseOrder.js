@@ -324,14 +324,14 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
         $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatName);
         $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].Unit.UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Unit.UnitName);
-        $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:50px' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' />");
-        if (adminLoanList[i].Material.Discount == 0 && adminLoanList[i].Material.Vat == 0) {
-            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: " + adminLoanList[i].Material.MatCost + " </td></tr><tr><td>Discount:" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
+        $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:50px' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' /><input type='text'  id='txtMatID" + i + "' name='txtMatID" + i + "' value='" + adminLoanList[i].Material.MatId + "'  style='width:100px;display:none;');' />");
+        if (adminLoanList[i].Material.Vat == 0) {
+            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
             $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "'  name='txtvat" + i + "' required style='width:50px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
             $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>");
         }
         else {
-            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: " + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
+            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
             $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' value='" + adminLoanList[i].Material.Vat + "' disabled='disabled' required style='width:50px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
             $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost);
         }
@@ -616,32 +616,42 @@ function UpdatePurchaseOrderInfo(purchaseorderno) {
                     var $newRow = $("#rowTemplate").clone();
                     $newRow.find("#srno").html(count);
                     $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' >" + adminLoanList[i].Description + "</textarea>");
-                    $newRow.find("#details").html(adminLoanList[i].Material.MatName);
+                    $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />"+adminLoanList[i].Material.MatName);
                     $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].UnitName);
-                    $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' value='" + adminLoanList[i].Qty + "' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' />");
+                    $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' value='" + adminLoanList[i].Qty + "' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' /><input type='text'  id='txtMatID" + i + "' name='txtMatID" + i + "' value='" + adminLoanList[i].Material.MatId + "'  style='width:100px;display:none;');' />");
                 
                     if (adminLoanList[i].Vat == 0) {
-                        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: " + adminLoanList[i].Material.MatCost + " </td></tr><tr><td>Discount:" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Vat + "</td></tr></table>");
+                        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
                         $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' value='" + adminLoanList[i].Vat + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
                     }
                     else {
-                        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: " + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Vat + "</td></tr></table>");
+                        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
                         $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' disabled='disabled' name='txtvat" + i + "' value='" + adminLoanList[i].Vat + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
                     }
                     var amount = parseFloat(adminLoanList[i].Qty) * parseFloat(adminLoanList[i].Material.MatCost);
                     if (adminLoanList[i].Vat == "0") {
-                        amount = amount.toFixed(2);
-                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost + "</span>");
-                        $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
+                        if (adminLoanList[i].Material.MRP == "0") {
+                            amount = amount.toFixed(2);
+                            $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost + "</span>");
+                            $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
+                        }
+                        else {
+                            var netamount = parseFloat(adminLoanList[i].Material.MRP) * adminLoanList[i].Material.Discount / 100;
+                            netamount = parseFloat(adminLoanList[i].Material.MRP) - parseFloat(netamount);
+                            var netAddDiscount = parseFloat(netamount) * adminLoanList[i].Material.AdditionalDiscount / 100;
+                            netAddDiscount = parseFloat(netamount) - parseFloat(netAddDiscount);
+                            var vatamount = netAddDiscount * adminLoanList[i].Vat / 100;
+                            var totalnetamount = parseFloat(netAddDiscount) + parseFloat(vatamount);
+                            amount = amount + vatamount;
+                            amount = amount.toFixed(2);
+                            totalnetamount = totalnetamount.toFixed(2);
+                            $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + totalnetamount + "</span>");
+                            $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
+                        }
                     }
                     else {
-                        var netamount = parseFloat(adminLoanList[i].Material.MatCost) * adminLoanList[i].Vat / 100;
-                        var totalnetamount = parseFloat(adminLoanList[i].Material.MatCost) + netamount;
-                        var vatamount = amount * adminLoanList[i].Vat / 100;
-                        amount = amount + vatamount;
                         amount = amount.toFixed(2);
-                        totalnetamount = totalnetamount.toFixed(2);
-                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + totalnetamount + "</span>");
+                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost + "</span>");
                         $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
                     }
                     sum += parseFloat(amount);

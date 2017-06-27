@@ -70,7 +70,8 @@
         <asp:HiddenField ID="hdnQty" runat="server" />
         <asp:HiddenField ID="hdnPoID" runat="server" />
         <asp:HiddenField ID="hdnSno" runat="server" />
-
+         <asp:HiddenField ID="hdnTotalPrice" runat="server" />
+          <asp:HiddenField ID="hdnGrand" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>

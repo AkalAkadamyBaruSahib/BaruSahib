@@ -87,8 +87,8 @@ public partial class PurchaseOrder : System.Web.UI.Page
             htmlCode = htmlCode.Replace("[ExciseTextBox]", txtExcise.Text);
         }
 
-        htmlCode = htmlCode.Replace("[SubTotal]", hdnSubTotal.Value);
-        htmlCode = htmlCode.Replace("[GrandTotal]", hdnGrandTotal.Value);
+      
+       
         htmlCode = htmlCode.Replace("[Freight]", hdnFreight.Value);
         htmlCode = htmlCode.Replace("[FrieghtCartage]", txtFrieght.Text);
         htmlCode = htmlCode.Replace("[Loading]", txtLoading.Text);
@@ -97,7 +97,11 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
         htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
         htmlCode = htmlCode.Replace("[RefernceNo]", txtRefernceNo.Text);
-
+       
+        htmlCode = htmlCode.Replace("[SubTotal]", hdnTotalPrice.Value);
+        decimal grandSum = Convert.ToDecimal(txtFrieght.Text) + Convert.ToDecimal(txtLoading.Text);
+        grandSum = grandSum + Convert.ToDecimal(hdnTotalPrice.Value);
+        htmlCode = htmlCode.Replace("[GrandTotal]", grandSum.ToString());
         pnlHtml.InnerHtml = htmlCode;
 
         hdnIndentNo.Value = hdnIndentNo.Value.Replace(',', '_');
@@ -126,9 +130,9 @@ public partial class PurchaseOrder : System.Web.UI.Page
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost,M.Vat from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
-        } 
-        DataTable   dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + txtPO.Text + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost,Ma.MRP,M.Vat from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
+        }
+        DataTable dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + txtPO.Text + "'").Tables[0];
         if (dsExist.Rows.Count > 0)
         {
             DAL.DalAccessUtility.ExecuteNonQuery("Delete From PurchaseOrderDetail where PONumberID='" + dsExist.Rows[0]["ID"].ToString() + "'");
@@ -157,8 +161,10 @@ public partial class PurchaseOrder : System.Web.UI.Page
         MaterialInfo += "<tbody>";
         hdnIndentNo.Value = string.Empty;
         hdnVatStatus.Value = string.Empty;
+        decimal sum = 0;
         for (int i = 0; i < dt.Rows.Count; i++)
         {
+            DataTable dtmatID = new DataTable();
             string description = Request.Form["txtdescription" + i];
             string qty = Request.Form["txtQty" + i];
             string vat = Request.Form["txtvat" + i];
@@ -166,7 +172,16 @@ public partial class PurchaseOrder : System.Web.UI.Page
             string unit = Request.Form["txtUnitName" + i];
             string cost = Request.Form["txtMatCost" + i];
             string sno = Request.Form["txtSno" + i];
+            string mrp = Request.Form["txtMRP" + i];
+            string matid = Request.Form["txtMatID" + i];
+            string discount = Request.Form["txtDiscount" + i];
+            string aditionaldiscount = Request.Form["txtAdditionalDiscount" + i];
             decimal SubTotal = 0;
+            if (hdnItemsLength.Value != "")
+            {
+                dtmatID = DAL.DalAccessUtility.GetDataInDataSet("Select Vat,MatName,MatCost From Material Where MatID ='" + matid + "'").Tables[0];
+            }
+
             MaterialInfo += "<tr>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + (i + 1) + "</td>";
             MaterialInfo += "<td style='width: 30px; text-align: center; vertical-align: middle;font-size: 12px;'>" + description + "</td>";
@@ -176,19 +191,35 @@ public partial class PurchaseOrder : System.Web.UI.Page
             }
             else
             {
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
+                if (hdnItemsLength.Value != "")
+                {
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + dtmatID.Rows[0]["MatName"].ToString() + "</td>";
+                }
+                else
+                {
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;font-size: 12px;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
+
+                }
             }
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + unit + "</td>";
             MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + qty + "</td>";
-            if (cost != null)
+            if (mrp != "0")
             {
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";   
-               SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(cost);
+                decimal discountTotal = Convert.ToDecimal(mrp) * (Convert.ToDecimal(discount) / 100);
+                discountTotal = Convert.ToDecimal(mrp) - discountTotal;
+                decimal TotaladitionlDisunt = discountTotal * (Convert.ToDecimal(aditionaldiscount) / 100);
+                discountTotal = Convert.ToDecimal(discountTotal) - TotaladitionlDisunt;
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + discountTotal + "</td>";
+                SubTotal = discountTotal;
             }
             else
             {
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
-                SubTotal = Convert.ToDecimal(qty) * Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+                decimal discountTotal = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) * (Convert.ToDecimal(discount) / 100);
+                discountTotal = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) - discountTotal;
+                decimal TotaladitionlDisunt = discountTotal * (Convert.ToDecimal(aditionaldiscount) / 100);
+                discountTotal = Convert.ToDecimal(discountTotal) - TotaladitionlDisunt;
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + discountTotal + "</td>";
+                SubTotal = discountTotal;
             }
             if (vat != null)
             {
@@ -196,42 +227,75 @@ public partial class PurchaseOrder : System.Web.UI.Page
             }
             else
             {
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Vat"].ToString() + "</td>";
-            }
-       
-            SubTotal = Math.Round(SubTotal, 2);
-            if (vat == "0")
-            {
-                if (cost != null)
+                if (hdnItemsLength.Value != "")
                 {
-                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + cost + "</td>";
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dtmatID.Rows[0]["Vat"].ToString() + "</td>";
                 }
                 else
                 {
-                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatCost"].ToString() + "</td>";
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Vat"].ToString() + "</td>";
                 }
+            }
+
+            SubTotal = Math.Round(SubTotal, 2);
+            if (vat == "0")
+            {
+                if (mrp != "0")
+                {
+                    decimal discountTotal = Convert.ToDecimal(mrp) * (Convert.ToDecimal(discount) / 100);
+                    discountTotal = Convert.ToDecimal(mrp) - discountTotal;
+                    decimal TotaladitionlDisunt = discountTotal * (Convert.ToDecimal(aditionaldiscount) / 100);
+                    discountTotal = Convert.ToDecimal(discountTotal) - TotaladitionlDisunt;
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + discountTotal + "</td>";
+                    SubTotal = discountTotal * Convert.ToDecimal(qty);
+                }
+                else
+                {
+                    decimal discountTotal = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) * (Convert.ToDecimal(discount) / 100);
+                    discountTotal = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) - discountTotal;
+                    decimal TotaladitionlDisunt = discountTotal * (Convert.ToDecimal(aditionaldiscount) / 100);
+                    discountTotal = Convert.ToDecimal(discountTotal) - TotaladitionlDisunt;
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + discountTotal + "</td>";
+                    SubTotal = discountTotal * Convert.ToDecimal(qty);
+                }
+                sum += SubTotal;
+                hdnTotalPrice.Value = Math.Round(sum, 2).ToString();
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             }
             else
             {
-                decimal netAmount =0;
+                decimal totalAmount = 0;
                 decimal toatlNetAmount = 0;
-                var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(vat) / 100;
-                var totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
-                if (cost != null)
+
+                if (hdnItemsLength.Value != "")
                 {
-                    netAmount = Convert.ToDecimal(cost) * Convert.ToDecimal(vat) / 100;
-                    toatlNetAmount = Convert.ToDecimal(cost) + +Convert.ToDecimal(netAmount);
+                    decimal vatTotal = 0;
+                    if (vat != null)
+                    {
+                        vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(vat) / 100;
+                    }
+                    else
+                    {
+                        vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(dtmatID.Rows[0]["Vat"].ToString()) / 100;
+                    }
+                    totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
+                    toatlNetAmount = totalAmount * Convert.ToDecimal(qty);
+                    totalAmount = Math.Round(totalAmount, 2);
+                    toatlNetAmount = Math.Round(toatlNetAmount, 2);
                 }
                 else
                 {
-                   netAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) * Convert.ToDecimal(vat) / 100;
-                   toatlNetAmount = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString()) + +Convert.ToDecimal(netAmount);
+                    var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(dt.Rows[i]["Vat"].ToString()) / 100;
+                    totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
+                    toatlNetAmount = totalAmount * Convert.ToDecimal(qty);
+                    totalAmount = Math.Round(totalAmount, 2);
+                    toatlNetAmount = Math.Round(toatlNetAmount, 2);
+
                 }
-                totalAmount = Math.Round(totalAmount, 2);
-                toatlNetAmount = Math.Round(toatlNetAmount, 2);
-                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + toatlNetAmount + "</td>";
+                sum += toatlNetAmount;
+                hdnTotalPrice.Value = Math.Round(sum, 2).ToString();
                 MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + totalAmount + "</td>";
+                MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + toatlNetAmount + "</td>";
             }
             MaterialInfo += "</tr>";
             if (!hdnIndentNo.Value.Contains(dt.Rows[i]["EstID"].ToString()))
@@ -247,9 +311,19 @@ public partial class PurchaseOrder : System.Web.UI.Page
             }
             else
             {
-                if (!hdnVatStatus.Value.Contains(dt.Rows[i]["Vat"].ToString()))
+                if (hdnItemsLength.Value != "")
                 {
-                    hdnVatStatus.Value += dt.Rows[i]["Vat"].ToString() + "%" + ",";
+                    if (!hdnVatStatus.Value.Contains(dtmatID.Rows[0]["Vat"].ToString()))
+                    {
+                        hdnVatStatus.Value += dtmatID.Rows[0]["Vat"].ToString() + "%" + ",";
+                    }
+                }
+                else
+                {
+                    if (!hdnVatStatus.Value.Contains(dt.Rows[i]["Vat"].ToString()))
+                    {
+                        hdnVatStatus.Value += dt.Rows[i]["Vat"].ToString() + "%" + ",";
+                    }
                 }
             }
             po.CreatedOn = Utility.GetLocalDateTime(System.DateTime.UtcNow);
@@ -263,7 +337,15 @@ public partial class PurchaseOrder : System.Web.UI.Page
             }
             po.VendorID = Convert.ToInt32(hdnVendorID.Value);
             po.EstID = Convert.ToInt32(dt.Rows[i]["EstID"].ToString());
-            po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
+            if (hdnItemsLength.Value != "")
+            {
+                po.MatID = Convert.ToInt32(matid);
+            }
+            else
+            {
+                po.MatID = Convert.ToInt32(dt.Rows[i]["MatID"].ToString());
+            }
+
             po.Qty = Convert.ToDecimal(qty);
             if (cost != null)
             {
@@ -271,15 +353,30 @@ public partial class PurchaseOrder : System.Web.UI.Page
             }
             else
             {
-                po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+                if (hdnItemsLength.Value != "")
+                {
+                    po.Rate = Convert.ToDecimal(dtmatID.Rows[0]["MatCost"].ToString());
+                }
+                else
+                {
+                    po.Rate = Convert.ToDecimal(dt.Rows[i]["MatCost"].ToString());
+                }
             }
             po.Description = Request.Form["txtdescription" + i];
             if (vat != null)
             {
                 po.Vat = Convert.ToDecimal(vat);
             }
-            else {
-                po.Vat = Convert.ToDecimal(dt.Rows[i]["Vat"].ToString());
+            else
+            {
+                if (hdnItemsLength.Value != "")
+                {
+                    po.Vat = Convert.ToDecimal(dtmatID.Rows[0]["Vat"].ToString());
+                }
+                else
+                {
+                    po.Vat = Convert.ToDecimal(dt.Rows[i]["Vat"].ToString());
+                }
             }
             po.UnitName = unit;
             po.FrieghtCharges = Convert.ToDecimal(txtFrieght.Text);
