@@ -155,7 +155,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
         DataSet dsval = new DataSet();
         dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InName='" + ddlEmpl.SelectedItem.Text + "'");
         int userTypeID = Convert.ToInt32(dsval.Tables[0].Rows[0]["UserTypeId"].ToString());
-        if (userTypeID == ((int)TypeEnum.UserType.CONSTRUCTION) || userTypeID == ((int)TypeEnum.UserType.FrontDesk) || userTypeID == ((int)TypeEnum.UserType.CONSTRUCTIONSUBADMIN))
+        if (userTypeID == ((int)TypeEnum.UserType.CONSTRUCTION) || userTypeID == ((int)TypeEnum.UserType.FrontDesk) || userTypeID == ((int)TypeEnum.UserType.CONSTRUCTIONSUBADMIN) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTZONEINCHARGE))
         {
             pnlSingleSelect.Visible = true;
             lblDesignation.Visible = true;
@@ -164,10 +164,10 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             GridAcademy.Visible = false;
         }
 
-        else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC) || userTypeID == ((int)TypeEnum.UserType.AUDIT) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTADMIN) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE) || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE)
+        else if (userTypeID == ((int)TypeEnum.UserType.ACADEMIC) || userTypeID == ((int)TypeEnum.UserType.AUDIT)  || userTypeID == ((int)TypeEnum.UserType.TRANSPORTMANAGER) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICE) || userTypeID == ((int)TypeEnum.UserType.INSURANCECOORDINATOR) || userTypeID == ((int)TypeEnum.UserType.TRANSPORTINCHARGE)
             || userTypeID == ((int)TypeEnum.UserType.BACKOFFICEHO) || userTypeID == ((int)TypeEnum.UserType.SECURITYSUPERVISOR)
             || userTypeID == ((int)TypeEnum.UserType.TRANSPORTTRAINEE) || userTypeID == ((int)TypeEnum.UserType.BACKOFFICETRAINEE) || userTypeID == ((int)TypeEnum.UserType.WORKSHOPADMIN)
-            || userTypeID == ((int)TypeEnum.UserType.WORKSHOPEMPLOYEE) || userTypeID == ((int)TypeEnum.UserType.COMPLAINT) || userTypeID == ((int)TypeEnum.UserType.ELECTRICAL))
+            || userTypeID == ((int)TypeEnum.UserType.WORKSHOPEMPLOYEE) || userTypeID == ((int)TypeEnum.UserType.COMPLAINT) || userTypeID == ((int)TypeEnum.UserType.ELECTRICAL) || userTypeID == ((int)TypeEnum.UserType.CIVILTRANSPORTSUPERVISOR) || userTypeID == ((int)TypeEnum.UserType.CLUSTERHEAD)) 
         {
             BindZoneGridOnSelectedEmp();
             BindBtnAcademyClickGrid();

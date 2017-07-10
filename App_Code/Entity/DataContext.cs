@@ -86,7 +86,7 @@ namespace AkalAcademy
         public DbSet<PONumber> PONumber { get; set; }
         public DbSet<VehicleServiceRecord> VehicleServiceRecord { get; set; }
         public DbSet<SittingTyreRelation> SittingTyreRelation { get; set; }
-
+        public DbSet<StudentDetailInTransport> StudentDetailInTransport { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

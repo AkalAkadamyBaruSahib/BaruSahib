@@ -26,8 +26,6 @@
     <link href='css/fullcalendar.css' rel='stylesheet' />
     <link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
     <link href='css/uniform.default.css' rel='stylesheet' />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
     <script src="js/jquery-2.2.3.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
@@ -114,6 +112,7 @@
                                     <li id="liCreateMaterial" runat="server"><a class="ajax-link" href="Transport_Material.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
                                     <li id="liLocationAssign" runat="server"><a class="ajax-link" href="Transport_AssignLocation.aspx"><i></i><span class="hidden-tablet">Location Assign</span></a></li>
                                     <li id="liAddNewDriverConductor" runat="server"><a class="ajax-link" href="Transport_AddNewDriver.aspx"><i></i><span class="hidden-tablet">Add New Driver/Conductor</span></a></li>
+                                    <li id="liStudentWiseTransportDetail" runat="server"><a class="ajax-link" href="StudentWiseTransportDetail.aspx"><i></i><span class="hidden-tablet">Transport Student Detail</span></a></li>
                                 </ul>
                             </li>
                             <li id="liVehicles" runat="server"><a class="dropmenu" href="#"><i>
@@ -170,7 +169,8 @@
                                     <li id="liVSearch" runat="server"><a class="ajax-link" href="Transport_VehicleSearch.aspx"><i></i><span class="hidden-tablet">Vehicle Search</span></a></li>
                                 </ul>
                             </li>
-                            <li id="liComplaints" runat="server" visible="false" ><a class="ajax-link" ><i><img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
+                            <li id="liComplaints" runat="server" visible="false"><a class="ajax-link"><i>
+                                <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>
                                 <ul>
                                     <li id="liComplaintsTickets" runat="server"><a class="ajax-link" href="Transport_CreateTicket.aspx"><i></i><span class="hidden-tablet">Complaint Tickets</span></a></li>
                                 </ul>

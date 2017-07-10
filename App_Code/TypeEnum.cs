@@ -42,6 +42,8 @@ public class TypeEnum
     {
         FirstApproval = 361,
         SecondApproval = 147
+        //FirstApproval = 96,
+        //SecondApproval = 97
     }
 
     public enum TransportVehicleEmployeeType : int
@@ -120,7 +122,10 @@ public class TypeEnum
         SECURITYSUPERVISOR = 31,
         RECEPTIONADMIN = 32,
         COMPLAINT = 33,
-        ELECTRICAL=34
+        ELECTRICAL = 34,
+        CIVILTRANSPORTSUPERVISOR = 35,
+        TRANSPORTZONEINCHARGE = 36,
+        CLUSTERHEAD = 37
     }
     public enum TransportNormsType : int
     {

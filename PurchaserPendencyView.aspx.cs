@@ -34,7 +34,8 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
         ZoneInfo += "<th width='5%'><b>Sr.No.</b></th>";
         ZoneInfo += "<th width='20%'>EstID</th>";
         ZoneInfo += "<th width='2%'>Material Name</th>";
-        ZoneInfo += "<th width='2%'>Quantity</th>";
+        ZoneInfo += "<th width='2%'>Estimate Quantity</th>";
+        ZoneInfo += "<th width='2%'>Pending Quantity</th>";
         ZoneInfo += "<th width='5%'>Unit</th>";
         ZoneInfo += "<th width='5%'>Assigned Date</th>";
         ZoneInfo += "</tr>";
@@ -48,6 +49,7 @@ public partial class PurchaserPendencyView : System.Web.UI.Page
             ZoneInfo += "<td class='center' width='10%'>" + PendingEst.Tables[0].Rows[i]["EstimateNumber"].ToString() + "</td>";
             ZoneInfo += "<td class='center' width='20%'>" + PendingEst.Tables[0].Rows[i]["MaterialName"].ToString() + "</td>";
             ZoneInfo += "<td class='center' width='10%'>" + PendingEst.Tables[0].Rows[i]["EstimateQuantity"].ToString() + "</td>";
+            ZoneInfo += "<td class='center' width='10%'>" + PendingEst.Tables[0].Rows[i]["PendingQuantity"].ToString() + "</td>";
             ZoneInfo += "<td class='center' width='5%'>" + PendingEst.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
             ZoneInfo += "<td class='center' width='20%'>" + PendingEst.Tables[0].Rows[i]["EmployeeAssignDateTime"].ToString() + "</td>";
             ZoneInfo += "</tr>";

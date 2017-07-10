@@ -589,4 +589,68 @@ public class TransportUserRepository
         _context.Entry(newVehicleServiceRecord).State = EntityState.Modified;
         _context.SaveChanges();
     }
+
+    public void AddNewStudents(StudentDetailInTransport student)
+    {
+        _context.Entry(student).State = EntityState.Added;
+        _context.SaveChanges();
+    }
+    public void UpdateStudentsInfo(StudentDetailInTransport student)
+    {
+        StudentDetailInTransport stu = _context.StudentDetailInTransport.Where(v => v.ID == student.ID).FirstOrDefault();
+        stu.ID = student.ID;
+        stu.ContactNo = student.ContactNo;
+        stu.Class = student.Class;
+        stu.StudentName = student.StudentName;
+        stu.NameOfVillage = student.NameOfVillage;
+        stu.FatherName = student.FatherName;
+        stu.AcaID = student.AcaID;
+
+        _context.Entry(stu).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
+    public List<StudentDetailInTransport> GeTransportStudentInfo(int inchargeID)
+    {
+        var vehicle = (from S in _context.StudentDetailInTransport
+                       join A in _context.Academy on S.AcaID equals A.AcaID
+                       join AAE in _context.AcademyAssignToEmployee on A.AcaID equals AAE.AcaId
+                       where AAE.EmpId == inchargeID
+                       select new
+                       {
+                           ID= S.ID,
+                           Class = S.Class,
+                           AdmissionNumber = S.AdmissionNumber,
+                           StudentName = S.StudentName,
+                           FatherName = S.FatherName,
+                           ContactNo = S.ContactNo,
+                           NameOfVillage = S.NameOfVillage,
+
+                       }).AsEnumerable().Select(x => new StudentDetailInTransport
+                       {
+                           ID = x.ID,
+                           Class = x.Class,
+                           AdmissionNumber = x.AdmissionNumber,
+                           StudentName = x.StudentName,
+                           FatherName = x.FatherName,
+                           ContactNo = x.ContactNo,
+                           NameOfVillage = x.NameOfVillage,
+                       }).OrderByDescending(m => m.AdmissionNumber).Reverse().ToList();
+      
+        vehicle = vehicle.GroupBy(v => v.ID).Select(s => s.First()).ToList();
+        return vehicle;
+    }
+
+    public StudentDetailInTransport GetStudentInfoByStudentID(int studentID)
+    {
+        StudentDetailInTransport studentinfo = _context.StudentDetailInTransport.Where(v => v.ID == studentID).FirstOrDefault();
+        return studentinfo;
+    }
+
+    public void GetStudentInfoToDeleteByStudentID(int studentID)
+    {
+        StudentDetailInTransport DelVehicleEmployee = _context.StudentDetailInTransport.Where(v => v.ID == studentID).FirstOrDefault();
+       _context.Entry(DelVehicleEmployee).State = EntityState.Deleted;
+        _context.SaveChanges();
+    }
 }
