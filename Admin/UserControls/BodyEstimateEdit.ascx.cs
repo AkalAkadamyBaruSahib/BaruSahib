@@ -254,7 +254,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         {
             Response.Redirect("WorkshopAdmin_EstimateView.aspx");
         }
-        else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTMANAGER) || UserTypeID == (int)(TypeEnum.UserType.BACKOFFICE) || UserTypeID == (int)(TypeEnum.UserType.TRANSPORTINCHARGE))
+        else if (UserTypeID == (int)(TypeEnum.UserType.TRANSPORTMANAGER) || UserTypeID == (int)(TypeEnum.UserType.TRANSPORTZONEINCHARGE))
         {
             Response.Redirect("Transport_EstimateAcademyWise.aspx");
         }
@@ -405,7 +405,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
                 DataSet dsUnitId = DAL.DalAccessUtility.GetDataInDataSet("select UnitId from Unit where UnitName='" + lbUnit.Text + "'");
                 int uId = Convert.ToInt32(dsUnitId.Tables[0].Rows[0]["UnitId"].ToString());
                 Label lbAmt = (Label)gvDetails.FooterRow.FindControl("lblAmtFooter");
-                DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID,VendorID,PurchaseQty,DispatchStatus,MRP,Discount,Vat,DirectPurchase,ModifyOn,ModifyBy,AdditionalDiscount) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + ddlPsFooter.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + Utility.GetLocalDateTime(DateTime.UtcNow) + "',0,0,0,0,0,0,0,'" + false + "','" + Utility.GetLocalDateTime(DateTime.UtcNow) + "','" + InchargeID + "',0)");
+                DAL.DalAccessUtility.ExecuteNonQuery("insert into EstimateAndMaterialOthersRelations(EstId,MatTypeId,MatId,PSId,Qty,UnitId,Rate,Amount,Active,CreatedBy,CreatedOn,PurchaseEmpID,VendorID,PurchaseQty,DispatchStatus,MRP,Discount,Vat,DirectPurchase,ModifyOn,ModifyBy,AdditionalDiscount,GST) values ('" + id + "','" + dlMatT.SelectedValue + "','" + dlMat.SelectedValue + "','" + ddlPsFooter.SelectedValue + "','" + txQty.Text + "','" + uId + "','" + txRate.Text + "','" + lbAmt.Text + "','1','" + InchargeID + "','" + Utility.GetLocalDateTime(DateTime.UtcNow) + "',0,0,0,0,0,0,0,'" + false + "','" + Utility.GetLocalDateTime(DateTime.UtcNow) + "','" + InchargeID + "',0,0)");
                 DataSet dsTotalAmt = DAL.DalAccessUtility.GetDataInDataSet("select SUM(Amount)as TtlAmt from EstimateAndMaterialOthersRelations where EstId='" + id + "'");
                 DAL.DalAccessUtility.ExecuteNonQuery("update Estimate set EstmateCost='" + dsTotalAmt.Tables[0].Rows[0]["TtlAmt"].ToString() + "',ModifyBy='" + InchargeID + "',ModifyOn='" + System.DateTime.Now.ToString("yyyy-MM-dd") + "' where EstId='" + id + "'");
                 GetEstimateDetails();

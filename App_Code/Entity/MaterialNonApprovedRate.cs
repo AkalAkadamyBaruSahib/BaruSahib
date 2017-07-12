@@ -33,4 +33,6 @@ public class MaterialNonApprovedRate
     public decimal? NetRate { get; set; }
 
     public int? VendorID { get; set; }
+
+    public decimal? GST { get; set; }
 }

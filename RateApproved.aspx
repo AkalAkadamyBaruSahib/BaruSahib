@@ -77,9 +77,9 @@
                                                             <asp:Label ID="lblAdditionalDiscount" runat="server" Text='<%# Eval("AdditionalDiscount")+"%" %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Vat">
+                                                    <asp:TemplateField HeaderText="GST">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblVat" runat="server" Text='<%# Eval("Vat")+"%" %>'></asp:Label>
+                                                            <asp:Label ID="lblVat" runat="server" Text='<%# Eval("GST")+"%" %>'></asp:Label>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="NetRate">

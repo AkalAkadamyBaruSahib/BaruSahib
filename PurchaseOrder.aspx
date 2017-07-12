@@ -72,6 +72,8 @@
         <asp:HiddenField ID="hdnSno" runat="server" />
          <asp:HiddenField ID="hdnTotalPrice" runat="server" />
           <asp:HiddenField ID="hdnGrand" runat="server" />
+           <asp:HiddenField ID="hdnPoNum" runat="server" />
+          <asp:HiddenField ID="hdnUpdatePoID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -98,7 +100,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="float: left;">
+                                    <td style="float: left;padding-top: 35px;">
                                         <span class="footerheading">Estimate:-</span>
                                         <select required id="drpEstimate" style="width: 150px;">
                                             <option value="0">-Select Estimate--</option>
@@ -110,15 +112,16 @@
                                             <asp:ListItem Value="0">--Select PO Type--</asp:ListItem>
                                             <asp:ListItem Value="1">THE KALGIDAHR SOCIETY</asp:ListItem>
                                             <asp:ListItem Value="2">THE KALGIDAHR TRUST</asp:ListItem>
+                                            <asp:ListItem Value="3">GURUDWARA BARUSAHIB</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
                                     <td style="text-align: center;">
                                         <span class="footerheading" style="margin-right: -37px;">Date:-</span>
-                                        <asp:TextBox ID="txtDate" runat="server" CssClass="input-xlarge datepicker" Width="150px" Style="margin-top: 54px;" required="required"></asp:TextBox>
+                                        <asp:TextBox ID="txtDate" runat="server" CssClass="input-xlarge datepicker" Width="150px" Style="margin-top: 55px;" required="required"></asp:TextBox>
                                     </td>
-                                    <td style="float: right;">
+                                    <td style="float: right; display:none;" id="trPonum">
                                         <span class="footerheading" style="margin-right: -31px;"><b>P.O.-</b></span>
-                                        <asp:TextBox ID="txtPO" required="required" runat="server" Style="width: 150px; margin-top: 54px;"></asp:TextBox>
+                                        <asp:TextBox ID="txtPO"  runat="server" Style="width: 150px; margin-top: 54px;"></asp:TextBox>
                                         <asp:Label ID="lblCurrentDate" runat="server" Visible="false"></asp:Label>
                                         <asp:HiddenField ID="hdnCurrentDate" runat="server" />
                                     </td>
@@ -185,7 +188,7 @@
                                         <th style="text-align: center;">Unit</th>
                                         <th style="text-align: center;">Qty</th>
                                         <th style="text-align: center;">MRP</th>
-                                        <th style="text-align: center;">Vat/Cst</th>
+                                        <th style="text-align: center;">GST</th>
                                         <th style="text-align: center;">Net Price</th>
                                         <th id="linetotal" style="text-align: center;">Line Total</th>
                                     </tr>
@@ -194,7 +197,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td rowspan="5" style="width: 65px;" colspan="7">
+                                        <td rowspan="4" style="width: 65px;" colspan="7">
                                             <label id="lblDeliveryAddress" style="color: #cc3300"><u><b>DELIVERY ADDRESS:-</b></u></label>
                                             <div class="controls">
                                                 <select id="drpBillingAddress" class="AddressDrp">
@@ -218,14 +221,6 @@
                                         <td>
                                             <asp:Label ID="lblSubTotal" runat="server"></asp:Label>
                                             <asp:HiddenField ID="hdnSubTotal" runat="server" />
-                                        </td>
-                                    </tr>
-                                    <tr id="rowExcise">
-                                        <th style="color: #cc3300;">Is Excise Included:</th>
-                                        <td>
-                                            <asp:TextBox ID="txtExcise" runat="server" Enabled="false" required="required" Style="width: 80px; display: none;"></asp:TextBox>
-                                            <input type="checkbox" id="chkExcise" style="width: 10px; height: 10px;" />
-
                                         </td>
                                     </tr>
                                     <tr>

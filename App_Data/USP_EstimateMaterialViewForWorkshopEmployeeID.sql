@@ -1,76 +1,16 @@
-
-
-
-
-
-
-
-
 ALTER procedure [dbo].[USP_EstimateMaterialViewForWorkshopEmployeeID] --3747,3,108
-
-
-
-
-
-
-
 (                
-
-
-
-
-
-
-
 @estId as int,                
-
-
-
-
-
-
-
 @PsId as int,    
-
-
-
-
-
-
-
 @EmpID INT
-
-
-
-
-
-
-
 )                
-
-
-
-
-
-
-
 as                
-
-
-
-
-
-
-
 begin                
-
-
-
-
-
-
-
 SELECT    distinct Estimate.EstId, EstimateAndMaterialOthersRelations.PSId,Material.MatName,Material.MatTypeID,Material.MatID,Unit.UnitName,
+         Unit.UnitId,Material.AkalWorkshopRate,EstimateAndMaterialOthersRelations.Qty,EstimateAndMaterialOthersRelations.DispatchStatus,       
+          EstimateAndMaterialOthersRelations.Sno,ISNULL(WSM.InStoreQty,'0') AS InStoreQty,
+		  (SELECT  ISNULL(SUM(WorkshopDispatchMaterial.DispatchQty),'0') FROM WorkshopDispatchMaterial WHERE WorkshopDispatchMaterial.EMRID = EstimateAndMaterialOthersRelations.Sno) AS  DispatchQty,Material.MRP,Material.Discount,Material.Vat,
+		  Material.AdditionalDiscount,Material.GST
 
 
 
@@ -78,23 +18,7 @@ SELECT    distinct Estimate.EstId, EstimateAndMaterialOthersRelations.PSId,Mater
 
 
 
-           Unit.UnitId,Material.AkalWorkshopRate,EstimateAndMaterialOthersRelations.Qty,EstimateAndMaterialOthersRelations.DispatchStatus,       
 
-
-
-
-
-
-
-           EstimateAndMaterialOthersRelations.Sno,ISNULL(WSM.InStoreQty,'0') AS InStoreQty,
-
-
-
-
-
-
-
-           (SELECT  ISNULL(SUM(WorkshopDispatchMaterial.DispatchQty),'0') FROM WorkshopDispatchMaterial WHERE WorkshopDispatchMaterial.EMRID = EstimateAndMaterialOthersRelations.Sno) AS  DispatchQty,Material.MRP,Material.Discount,Material.Vat,Material.AdditionalDiscount
 
 
 
@@ -110,7 +34,23 @@ FROM         Estimate
 
 
 
+
+
+
+
+
+
+
+
 			INNER JOIN EstimateAndMaterialOthersRelations ON Estimate.EstId = EstimateAndMaterialOthersRelations.EstId 
+
+
+
+
+
+
+
+
 
 
 
@@ -126,7 +66,23 @@ FROM         Estimate
 
 
 
+
+
+
+
+
+
+
+
 			 Inner Join WorkshopStoreMaterial WSM ON WSM.MatID = Material.MatId
+
+
+
+
+
+
+
+
 
 
 
@@ -142,7 +98,23 @@ FROM         Estimate
 
 
 
+
+
+
+
+
+
+
+
 			 INNER JOIN Unit ON EstimateAndMaterialOthersRelations.UnitId = Unit.UnitId  
+
+
+
+
+
+
+
+
 
 
 
@@ -158,7 +130,23 @@ WHERE        Estimate.EstId=@estId
 
 
 
+
+
+
+
+
+
+
+
 				and EstimateAndMaterialOthersRelations.PSId=@PsId
+
+
+
+
+
+
+
+
 
 
 
@@ -174,7 +162,23 @@ WHERE        Estimate.EstId=@estId
 
 
 
+
+
+
+
+
+
+
+
              AND EstimateAndMaterialOthersRelations.PurchaseEmpID=@EmpID 
+
+
+
+
+
+
+
+
 
 
 
@@ -190,7 +194,23 @@ WHERE        Estimate.EstId=@estId
 
 
 
+
+
+
+
+
+
+
+
 			   
+
+
+
+
+
+
+
+
 
 
 

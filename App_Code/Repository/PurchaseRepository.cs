@@ -71,7 +71,8 @@ public class PurchaseRepository
             AkalWorkshopRate = x.AkalWorkshopRate,
             LocalRate = x.LocalRate,
             Unit = x.Unit,
-            MatTypeID = x.MatTypeId
+            MatTypeID = x.MatTypeId,
+            GST = x.GST,
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
     }
 
@@ -126,7 +127,8 @@ public class PurchaseRepository
             AdditionalDiscount = x.AdditionalDiscount,
             Discount = x.Discount,
             Vat = x.Vat,
-            MaterialType = x.MaterialType
+            MaterialType = x.MaterialType,
+            GST = x.GST
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
     }
 
@@ -1613,7 +1615,8 @@ public class PurchaseRepository
             Discount = x.Discount,
             Vat = x.Vat,
             MRP = x.MRP,
-            AdditionalDiscount = x.AdditionalDiscount
+            AdditionalDiscount = x.AdditionalDiscount,
+            GST = x.GST
         }).OrderByDescending(m => m.MatName).Reverse().ToList();
 
         return mt;

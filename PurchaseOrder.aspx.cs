@@ -53,6 +53,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         }
 
         htmlCode = htmlCode.Replace("[Vendor]", hdnVendorName.Value.ToUpper() + ",<br/>" + hdnVendorAddress.Value.ToUpper() + "" + hdnCity.Value.ToUpper());
+      
         if (drpPOFor.SelectedValue == "1")
         {
             htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR SOCIETY,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
@@ -61,7 +62,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
             htmlCode = htmlCode.Replace("[status]", "Society");
             htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Society.png");
         }
-        else
+        else if (drpPOFor.SelectedValue == "2")
         {
             htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR TRUST,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
             htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
@@ -69,35 +70,30 @@ public partial class PurchaseOrder : System.Web.UI.Page
             htmlCode = htmlCode.Replace("[POheader]", "THE KALGIDHAR TRUST");
             htmlCode = htmlCode.Replace("[status]", "Trust");
         }
+        else
+        {
+            htmlCode = htmlCode.Replace("[ShipTo]", "GURUDWARA BARUSAHIB,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
+            htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "GURUDWARA BARUSAHIB,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
+            htmlCode = htmlCode.Replace("[src]", Server.MapPath("img") + "/Logo_Small.png");
+            htmlCode = htmlCode.Replace("[POheader]", "GURUDWARA BARUSAHIB");
+            htmlCode = htmlCode.Replace("[status]", "Gurudwara Barusahib");
+        }
 
         htmlCode = htmlCode.Replace("[ContactPerson]", txtcontact.Text);
-        htmlCode = htmlCode.Replace("[PO]", txtPO.Text);
+       
         DateTime date = Convert.ToDateTime(txtDate.Text.Trim());
         string dateString = date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
         htmlCode = htmlCode.Replace("[DATE]", dateString);
         htmlCode = htmlCode.Replace("[PaymentMode]", txtPaymentMode.Text);
-
-        htmlCode = htmlCode.Replace("[Excise]", hdnExciseStatus.Value);
-        if (txtExcise.Text == "")
-        {
-            htmlCode = htmlCode.Replace("[ExciseTextBox]", "INCLUDED");
-        }
-        else
-        {
-            htmlCode = htmlCode.Replace("[ExciseTextBox]", txtExcise.Text);
-        }
-
-      
-       
         htmlCode = htmlCode.Replace("[Freight]", hdnFreight.Value);
         htmlCode = htmlCode.Replace("[FrieghtCartage]", txtFrieght.Text);
         htmlCode = htmlCode.Replace("[Loading]", txtLoading.Text);
         htmlCode = htmlCode.Replace("[CompletedBy]", txtCompleted.Text);
         htmlCode = htmlCode.Replace("[Grid]", getGrid());
         htmlCode = htmlCode.Replace("[EstimateNo]", hdnIndentNo.Value);
-        htmlCode = htmlCode.Replace("[VAT]", hdnVatStatus.Value);
+        htmlCode = htmlCode.Replace("[GST]", hdnVatStatus.Value);
         htmlCode = htmlCode.Replace("[RefernceNo]", txtRefernceNo.Text);
-       
+        htmlCode = htmlCode.Replace("[PO]", hdnPoNum.Value);
         htmlCode = htmlCode.Replace("[SubTotal]", hdnTotalPrice.Value);
         decimal grandSum = Convert.ToDecimal(txtFrieght.Text) + Convert.ToDecimal(txtLoading.Text);
         grandSum = grandSum + Convert.ToDecimal(hdnTotalPrice.Value);
@@ -106,7 +102,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
 
         hdnIndentNo.Value = hdnIndentNo.Value.Replace(',', '_');
 
-        var fileName = "PurchaseOrder_" + txtPO.Text.Trim() + ".pdf";
+        var fileName = "PurchaseOrder_" + hdnPoNum.Value.Trim() + ".pdf";
 
         string pathToSave = Server.MapPath("Bills") + "//PurchaseOrder";
 
@@ -124,23 +120,78 @@ public partial class PurchaseOrder : System.Web.UI.Page
         PONumber ponum = new PONumber();
         PurchaseOrderDetail po = new PurchaseOrderDetail();
         DataTable dt = new DataTable();
+        DataTable dtPONum = new DataTable();
         if (hdnItemsLength.Value != "")
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName,M.Vat  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatName,M.MatCost,EMR.EstID,EMR.Sno,EMR.Qty,EMR.Rate,EMR.MatID,U.UnitName,M.GST  from EstimateAndMaterialOthersRelations EMR INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U  on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         }
         else
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost,Ma.MRP,M.Vat from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
+            dt = DAL.DalAccessUtility.GetDataInDataSet(" Select M.EstID,M.MatID,M.SnoID,Ma.MatName,Ma.MatCost,Ma.MRP,M.GST from PurchaseOrderDetail M  INNER JOIN [dbo].[PONumber] P ON P.ID = M.[PONumberID]   INNER JOIN Material Ma  on Ma.MatId = M.MatId where P.PurchaseOrderNumber ='" + txtPO.Text + "'").Tables[0];
         }
-        DataTable dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + txtPO.Text + "'").Tables[0];
+        DataTable dsExist = DAL.DalAccessUtility.GetDataInDataSet("select distinct ID,PurchaseOrderNumber from PONumber where PurchaseOrderNumber='" + hdnUpdatePoID.Value + "'").Tables[0];
         if (dsExist.Rows.Count > 0)
         {
             DAL.DalAccessUtility.ExecuteNonQuery("Delete From PurchaseOrderDetail where PONumberID='" + dsExist.Rows[0]["ID"].ToString() + "'");
+            hdnPoNum.Value = dsExist.Rows[0]["PurchaseOrderNumber"].ToString();
         }
         else
         {
-            ponum.PurchaseOrderNumber = txtPO.Text;
+            if (drpPOFor.SelectedValue == "1")
+            {
+                dtPONum = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseOrderNumber from PONumber where [PurchaseOrderNumber] like '%KS%' order by ID desc").Tables[0];
+            }
+            else if (drpPOFor.SelectedValue == "2")
+            {
+                dtPONum = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseOrderNumber from PONumber where [PurchaseOrderNumber] like '%KT%' order by ID desc").Tables[0];
+            }
+            else
+            {
+                dtPONum = DAL.DalAccessUtility.GetDataInDataSet("Select PurchaseOrderNumber from PONumber where [PurchaseOrderNumber] like '%GB%' order by ID desc").Tables[0];
+            }
+            int pono = 0;
+            string newPONo = string.Empty;
+            string[] tokens;
+            if (dtPONum.Rows.Count > 0)
+            {
+                string d = dtPONum.Rows[0]["PurchaseOrderNumber"].ToString();
+                if (drpPOFor.SelectedValue == "1")
+                {
+                    tokens = d.Split('S');
+                    pono = Convert.ToInt32(tokens[1]) + 1;
+                    newPONo = "KS" + pono;
+                }
+                else if (drpPOFor.SelectedValue == "2")
+                {
+                    tokens = d.Split('T');
+                    pono = Convert.ToInt32(tokens[1]) + 1;
+                    newPONo = "KT" + pono;
+                }
+                else
+                {
+                    tokens = d.Split('B');
+                    pono = Convert.ToInt32(tokens[1]) + 1;
+                    newPONo = "GB" + pono;
+                }
+            }
+            else
+            {
+                if (drpPOFor.SelectedValue == "1")
+                {
+                    newPONo = "KS1";
+                }
+                else if (drpPOFor.SelectedValue == "2")
+                {
+                    newPONo = "KT1";
+                }
+                else
+                {
+                    newPONo = "GB1";
+                }
+            }
+            ponum.PurchaseOrderNumber = newPONo.ToString();
             repo.SavePONumber(ponum);
+            hdnPoNum.Value = newPONo.ToString();
             hdnPoID.Value = ponum.ID.ToString();
         }
         string MaterialInfo = string.Empty;
@@ -153,7 +204,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>UNIT</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>QTY</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>PRICE</th>";
-        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>VAT</th>";
+        MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>GST</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>NET PRICE</th>";
         MaterialInfo += "<th style='width: 10px; background-color: #CCCCCC; text-align: center; vertical-align: middle;font-size: 14px;font-family: Arial;'>LINE TOTAL</th>";
         MaterialInfo += "</tr>";
@@ -164,10 +215,18 @@ public partial class PurchaseOrder : System.Web.UI.Page
         decimal sum = 0;
         for (int i = 0; i < dt.Rows.Count; i++)
         {
+            string vat = string.Empty;
             DataTable dtmatID = new DataTable();
             string description = Request.Form["txtdescription" + i];
             string qty = Request.Form["txtQty" + i];
-            string vat = Request.Form["txtvat" + i];
+            if (vat != "")
+            {
+                vat = Request.Form["txtvat" + i];
+            }
+            else
+            {
+                vat = Request.Form["drpGst" + i];
+            }
             string mat = Request.Form["txtMatName" + i];
             string unit = Request.Form["txtUnitName" + i];
             string cost = Request.Form["txtMatCost" + i];
@@ -179,7 +238,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
             decimal SubTotal = 0;
             if (hdnItemsLength.Value != "")
             {
-                dtmatID = DAL.DalAccessUtility.GetDataInDataSet("Select Vat,MatName,MatCost From Material Where MatID ='" + matid + "'").Tables[0];
+                dtmatID = DAL.DalAccessUtility.GetDataInDataSet("Select GST,MatName,MatCost From Material Where MatID ='" + matid + "'").Tables[0];
             }
 
             MaterialInfo += "<tr>";
@@ -229,11 +288,11 @@ public partial class PurchaseOrder : System.Web.UI.Page
             {
                 if (hdnItemsLength.Value != "")
                 {
-                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dtmatID.Rows[0]["Vat"].ToString() + "</td>";
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dtmatID.Rows[0]["GST"].ToString() + "</td>";
                 }
                 else
                 {
-                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Vat"].ToString() + "</td>";
+                    MaterialInfo += "<td style='width: 10px; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["GST"].ToString() + "</td>";
                 }
             }
 
@@ -276,7 +335,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
                     }
                     else
                     {
-                        vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(dtmatID.Rows[0]["Vat"].ToString()) / 100;
+                        vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(dtmatID.Rows[0]["GST"].ToString()) / 100;
                     }
                     totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
                     toatlNetAmount = totalAmount * Convert.ToDecimal(qty);
@@ -285,7 +344,7 @@ public partial class PurchaseOrder : System.Web.UI.Page
                 }
                 else
                 {
-                    var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(dt.Rows[i]["Vat"].ToString()) / 100;
+                    var vatTotal = Convert.ToDecimal(SubTotal) * Convert.ToDecimal(dt.Rows[i]["GST"].ToString()) / 100;
                     totalAmount = Convert.ToDecimal(SubTotal) + Convert.ToDecimal(vatTotal);
                     toatlNetAmount = totalAmount * Convert.ToDecimal(qty);
                     totalAmount = Math.Round(totalAmount, 2);
@@ -313,16 +372,16 @@ public partial class PurchaseOrder : System.Web.UI.Page
             {
                 if (hdnItemsLength.Value != "")
                 {
-                    if (!hdnVatStatus.Value.Contains(dtmatID.Rows[0]["Vat"].ToString()))
+                    if (!hdnVatStatus.Value.Contains(dtmatID.Rows[0]["GST"].ToString()))
                     {
-                        hdnVatStatus.Value += dtmatID.Rows[0]["Vat"].ToString() + "%" + ",";
+                        hdnVatStatus.Value += dtmatID.Rows[0]["GST"].ToString() + "%" + ",";
                     }
                 }
                 else
                 {
-                    if (!hdnVatStatus.Value.Contains(dt.Rows[i]["Vat"].ToString()))
+                    if (!hdnVatStatus.Value.Contains(dt.Rows[i]["GST"].ToString()))
                     {
-                        hdnVatStatus.Value += dt.Rows[i]["Vat"].ToString() + "%" + ",";
+                        hdnVatStatus.Value += dt.Rows[i]["GST"].ToString() + "%" + ",";
                     }
                 }
             }
@@ -365,17 +424,17 @@ public partial class PurchaseOrder : System.Web.UI.Page
             po.Description = Request.Form["txtdescription" + i];
             if (vat != null)
             {
-                po.Vat = Convert.ToDecimal(vat);
+                po.GST = Convert.ToDecimal(vat);
             }
             else
             {
                 if (hdnItemsLength.Value != "")
                 {
-                    po.Vat = Convert.ToDecimal(dtmatID.Rows[0]["Vat"].ToString());
+                    po.GST = Convert.ToDecimal(dtmatID.Rows[0]["GST"].ToString());
                 }
                 else
                 {
-                    po.Vat = Convert.ToDecimal(dt.Rows[i]["Vat"].ToString());
+                    po.GST = Convert.ToDecimal(dt.Rows[i]["GST"].ToString());
                 }
             }
             po.UnitName = unit;
@@ -389,11 +448,6 @@ public partial class PurchaseOrder : System.Web.UI.Page
             {
                 po.SnoID = Convert.ToInt32(dt.Rows[i]["SnoID"].ToString());
             }
-            if (txtExcise.Text != "")
-            {
-                po.Excise = Convert.ToDecimal(txtExcise.Text);
-            }
-
             repo.AddNewPODetail(po);
         }
         MaterialInfo += "</tbody>";

@@ -19,7 +19,6 @@ $(document).ready(function () {
     BindPONumber();
 
     $("[id$='lblIndentNo']").html($("select[id*='drpEstimate']").val());
-    $("[id$='lblExciseStatus']").html('NA');
     $("[id$='lblVatStatus']").html('0%');
 
     $("#drpEstimate").change(function (e) {
@@ -56,20 +55,7 @@ $(document).ready(function () {
         $("#divUploadMaterial").modal('show');
         GetMaterialList($("select[id*='drpEstimate']").val());
     });
-   $("#chkExcise").change(function () {
-        if (this.checked) {
-            $("input[id*='txtExcise']").show();
-            $("input[id*='txtExcise']").prop('disabled', false);
-        }
-        else {
-            $("input[id*='txtExcise']").hide();
-            $("input[id*='txtExcise']").prop('disabled', true);
-        }
-    });
 
-    $("input[id*='txtExcise']").change(function () {
-        Calcution();
-    });
 
     $("input[id*='txtFrieght']").change(function () {
         Calcution()
@@ -101,6 +87,7 @@ $(document).ready(function () {
 
     $("#drpPOBucket").change(function (e) {
         UpdatePurchaseOrderInfo($(this).val());
+        $("#trPonum").show();
     });
 
 
@@ -108,18 +95,8 @@ $(document).ready(function () {
 
 
 function Calcution() {
-    var VatSum;
-    if ($("#chkExcise").is(":checked")) {
-        var Excisetotal = ($("[id$='lblSubTotal']").text()) * ($("input[id*='txtExcise']").val() / 100);
-        var subtotal = $("[id$='lblSubTotal']").text();
-        ExSum = parseInt(subtotal) + parseInt(Excisetotal);
-        ExSum = ExSum.toFixed(2);
-        VatSum = ExSum;
-    }
-    else {
-        var subtotal = $("[id$='lblSubTotal']").text();
-        VatSum = parseInt(subtotal);
-    }
+    var subtotal = $("[id$='lblSubTotal']").text();
+    VatSum = parseInt(subtotal);
 
     if ($("input[id*='txtFrieght']").val() == "") {
         VatSum = parseFloat(VatSum) + parseFloat(0.00);
@@ -137,9 +114,7 @@ function Calcution() {
 
 
     $("[id$='lblGrandTotal']").html(VatSum);
-    $("[id$='lblExciseStatus']").html('INCLUDED');
     $("input[id*='hdnGrandTotal']").val(VatSum);
-    $("input[id*='hdnExciseStatus']").val('INCLUDED');
 }
 
 function RemoveItem(chkbox, sno) {
@@ -324,18 +299,18 @@ function LoadPurchaseOrderInfo(selectedMaterialList) {
         $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' ></textarea>");
         $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatName);
         $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].Unit.UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Unit.UnitName);
-        $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:50px' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' /><input type='text'  id='txtMatID" + i + "' name='txtMatID" + i + "' value='" + adminLoanList[i].Material.MatId + "'  style='width:100px;display:none;');' />");
-        if (adminLoanList[i].Material.Vat == 0) {
-            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
-            $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "'  name='txtvat" + i + "' required style='width:50px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
-            $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>");
-        }
-        else {
-            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
-            $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' value='" + adminLoanList[i].Material.Vat + "' disabled='disabled' required style='width:50px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
+        $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:50px' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + "," + adminLoanList[i].Material.GST + ",0);' /><input type='text'  id='txtMatID" + i + "' name='txtMatID" + i + "' value='" + adminLoanList[i].Material.MatId + "'  style='width:100px;display:none;');' />");
+        if (adminLoanList[i].Material.GST == 5 || adminLoanList[i].Material.GST == 12 || adminLoanList[i].Material.GST == 18 || adminLoanList[i].Material.GST == 28) {
+            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>GST:" + adminLoanList[i].Material.GST + "</td></tr></table>");
+            $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' disabled='disabled' name='txtvat" + i + "' value='" + adminLoanList[i].Material.GST + "' required style='width:90px'>");
             $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost);
         }
- 
+        else {
+            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>GST:" + adminLoanList[i].Material.GST + "</td></tr></table>");
+            $newRow.find("#vat").html("<select id='drpGst" + i + "' name='drpGst" + i + "' required onchange='ddlGST_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' style='width:120px;'><option value='-1'>-Select GST-</option><option value='0'>0%</option><option value='5'>5%</option> <option value='12'>12%</option><option value='18'>18%</option><option value='28'>28%</option></select>");
+            $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>");
+        }
+
         $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
         count++;
         sum += linetotal;
@@ -439,8 +414,11 @@ function GetDeliveryAddressInfo(selectedValue) {
                 if ($("select[id*='drpPOFor']").val() == "1") {
                     $("[id$='lblTrustName']").html("THE KALGIDHAR SOCIETY,<br/>" + msg[0].TrustName);
                 }
-                else {
+                else if ($("select[id*='drpPOFor']").val() == "2") {
                     $("[id$='lblTrustName']").html("THE KALGIDHAR TRUST,<br/>" + msg[0].TrustName);
+                }
+                else {
+                    $("[id$='lblTrustName']").html("GURUDWARA BARUSAHIB,<br/>" + msg[0].TrustName);
                 }
                 cityname = msg[0].Address;
                 $("[id$='lblAdress']").html(cityname);
@@ -470,12 +448,15 @@ function GetBillingAddressInfo(selectedValue) {
 
             if (msg.length > 0) {
                 name = msg[0].TrustName;
-                cityname =  msg[0].Address;
+                cityname = msg[0].Address;
                 if ($("select[id*='drpPOFor']").val() == "1") {
                     $("[id$='lblBillingName']").html("THE KALGIDHAR SOCIETY,<br/>" + name);
                 }
-                else {
+                else if ($("select[id*='drpPOFor']").val() == "2") {
                     $("[id$='lblBillingName']").html("THE KALGIDHAR TRUST,<br/>" + name);
+                }
+                else {
+                    $("[id$='lblBillingName']").html("GURUDWARA BARUSAHIB,<br/>" + name);
                 }
                 $("[id$='lblBillingAddres']").html(cityname);
                 $("input[id*='hdnBillingName']").val(name);
@@ -522,35 +503,50 @@ function TotalAmt() {
     $("input[id*='hdnExciseStatus']").val('INCLUDED');
 }
 
-function Qty_ChangeEvent(cntID, matcost) {
+function Qty_ChangeEvent(cntID, matcost, gst,updategst) {
+    
     var qty = $("#txtQty" + cntID).val();
-    var amount = parseFloat(qty) * parseFloat(matcost);
-    amount = amount.toFixed(2);
-    $("#txtlineTotal" + cntID).text(amount);
-    $("#hdnLineTotal" + cntID).val(amount);
-    TotalAmt();
-}
-function vat_ChangeEvent(cntID, matcost) {
-    var qty = $("#txtQty" + cntID).val();
-    var vat = $("#txtvat" + cntID).val();
-    var amount = parseFloat(qty) * parseFloat(matcost);
-    if (vat == "0") {
+    var amount;
+    if (gst == 0)
+    {
+        var gstamount = (parseFloat(matcost) * parseFloat(updategst)) / 100;
+        gstamount = parseFloat(matcost) + parseFloat(gstamount);
+        amount = parseFloat(qty) * parseFloat(gstamount);
         amount = amount.toFixed(2);
         $("#txtlineTotal" + cntID).text(amount);
         $("#hdnLineTotal" + cntID).val(amount);
-        $("#spnNetPrice" + cntID).text(matcost);
+        TotalAmt();
     }
-    else {
-        var netamount = parseFloat(matcost) * vat / 100;
-        var totalnetamount = parseFloat(matcost) + netamount;
-        var vatamount = amount * vat / 100;
-        var totalamount = amount + vatamount;
-        totalamount = totalamount.toFixed(2);
-        totalnetamount = totalnetamount.toFixed(2);
-        $("#txtlineTotal" + cntID).text(totalamount);
-        $("#hdnLineTotal" + cntID).val(totalamount);
-        $("#spnNetPrice" + cntID).text(totalnetamount);
+    else
+    {
+        amount = parseFloat(qty) * parseFloat(matcost);
+        amount = amount.toFixed(2);
+        $("#txtlineTotal" + cntID).text(amount);
+        $("#hdnLineTotal" + cntID).val(amount);
+        TotalAmt();
     }
+}
+function ddlGST_ChangeEvent(cntID, matcost) {
+    var qty = $("#txtQty" + cntID).val();
+    var vat = $("#drpGst" + cntID).val();
+    var amount = parseFloat(qty) * parseFloat(matcost);
+    ////if (vat == "0") {
+    //    amount = amount.toFixed(2);
+    //    $("#txtlineTotal" + cntID).text(amount);
+    //    $("#hdnLineTotal" + cntID).val(amount);
+    //    $("#spnNetPrice" + cntID).text(matcost);
+    ////}
+    //else {
+    var netamount = parseFloat(matcost) * vat / 100;
+    var totalnetamount = parseFloat(matcost) + netamount;
+    var vatamount = amount * vat / 100;
+    var totalamount = amount + vatamount;
+    totalamount = totalamount.toFixed(2);
+    totalnetamount = totalnetamount.toFixed(2);
+    $("#txtlineTotal" + cntID).text(totalamount);
+    $("#hdnLineTotal" + cntID).val(totalamount);
+    $("#spnNetPrice" + cntID).text(totalnetamount);
+    //}
     TotalAmt();
 }
 
@@ -597,9 +593,10 @@ function UpdatePurchaseOrderInfo(purchaseorderno) {
             if (textStatus == "success") {
                 var adminLoanList = result.d;
                 $("#drpVendor").val(adminLoanList[0].VendorID);
-                $("input[id*='hdnVendorID']").val(adminLoanList[0].VendorID); 
+                $("input[id*='hdnVendorID']").val(adminLoanList[0].VendorID);
                 $("input[id*='txtPO']").val($("#drpPOBucket option:selected").text());
-                $("input[id*='hdnPoID']").val($("#drpPOBucket").val());
+                $("input[id*='hdnPoID']").val($("#drpPOBucket").val()); 
+                $("input[id*='hdnUpdatePoID']").val($("#drpPOBucket option:selected").text());
                 GetVendorAddress(adminLoanList[0].VendorID);
                 if (adminLoanList.length > 0) {
                     $("#tbody").append(rowTemplate);
@@ -616,20 +613,34 @@ function UpdatePurchaseOrderInfo(purchaseorderno) {
                     var $newRow = $("#rowTemplate").clone();
                     $newRow.find("#srno").html(count);
                     $newRow.find("#description").html("<textarea style='width:350px;height:50px' name='txtdescription" + i + "'  id='txtdescription" + i + "' >" + adminLoanList[i].Description + "</textarea>");
-                    $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />"+adminLoanList[i].Material.MatName);
+                    $newRow.find("#details").html("<input type='text'  id='txtMatName" + i + "' name='txtMatName" + i + "' value='" + adminLoanList[i].Material.MatName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatName);
                     $newRow.find("#unit").html("<input type='text'  id='txtUnitName" + i + "' name='txtUnitName" + i + "' value='" + adminLoanList[i].UnitName + "'  style='width:100px;display:none;');' />" + adminLoanList[i].UnitName);
-                    $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' value='" + adminLoanList[i].Qty + "' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' /><input type='text'  id='txtMatID" + i + "' name='txtMatID" + i + "' value='" + adminLoanList[i].Material.MatId + "'  style='width:100px;display:none;');' />");
-                
-                    if (adminLoanList[i].Vat == 0) {
-                        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
-                        $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' name='txtvat" + i + "' value='" + adminLoanList[i].Vat + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
+                    $newRow.find("#qty").html("<input type='text'  id='txtQty" + i + "' name='txtQty" + i + "'  style='width:100px' value='" + adminLoanList[i].Qty + "' onchange='Qty_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + "," + adminLoanList[i].Material.GST + "," + adminLoanList[i].GST + ");' /><input type='text'  id='txtMatID" + i + "' name='txtMatID" + i + "' value='" + adminLoanList[i].Material.MatId + "'  style='width:100px;display:none;');' />");
+                    if (adminLoanList[i].GST == 5 || adminLoanList[i].GST == 12 || adminLoanList[i].GST == 18 || adminLoanList[i].GST == 28) {
+                        if(adminLoanList[i].Material.Discount==0 && adminLoanList[i].Material.AdditionalDiscount==0 &&  adminLoanList[i].Material.MRP==0)
+                        {
+                            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatCost + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>GST:" + adminLoanList[i].GST + "</td></tr></table>");
+                        }
+                        else
+                        {
+                            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>GST:" + adminLoanList[i].GST + "</td></tr></table>");
+                   
+                        }
+                        $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' disabled='disabled' name='txtvat" + i + "' value='" + adminLoanList[i].GST + "' required style='width:90px'>");
                     }
                     else {
-                        $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MRP + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>Vat:" + adminLoanList[i].Material.Vat + "</td></tr></table>");
-                        $newRow.find("#vat").html("<input type='text'  id='txtvat" + i + "' disabled='disabled' name='txtvat" + i + "' value='" + adminLoanList[i].Vat + "' required style='width:90px' onchange='vat_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");'>");
+                        if (adminLoanList[i].Material.Discount == 0 && adminLoanList[i].Material.AdditionalDiscount == 0 && adminLoanList[i].Material.MRP == 0) {
+                            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MatCost + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>GST:" + adminLoanList[i].Material.GST + "</td></tr></table>");
+                        }
+                        else {
+                            $newRow.find("#unitprice").html("<input type='text'  id='txtMatCost" + i + "' name='txtMatCost" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' /><table><tr><td>MRP: <input type='text'  id='txtMRP" + i + "' name='txtMRP" + i + "' value='" + adminLoanList[i].Material.MatCost + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.MRP + " </td></tr><tr><td>Discount:<input type='text'  id='txtDiscount" + i + "' name='txtDiscount" + i + "' value='" + adminLoanList[i].Material.Discount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.Discount + "</td></tr><tr><td>Additional Discount:<input type='text'  id='txtAdditionalDiscount" + i + "' name='txtAdditionalDiscount" + i + "' value='" + adminLoanList[i].Material.AdditionalDiscount + "'  style='width:100px;display:none;');' />" + adminLoanList[i].Material.AdditionalDiscount + "</td></tr><tr><td>GST:" + adminLoanList[i].Material.GST + "</td></tr></table>");
+
+                        }
+                        $newRow.find("#vat").html("<select id='drpGst" + i + "' name='drpGst" + i + "' required onchange='ddlGST_ChangeEvent(" + i + "," + adminLoanList[i].Material.MatCost + ");' style='width:120px;'><option value='-1'>-Select GST-</option><option value='0'>0%</option><option value='5'>5%</option> <option value='12'>12%</option><option value='18'>18%</option><option value='28'>28%</option></select>");
                     }
+
                     var amount = parseFloat(adminLoanList[i].Qty) * parseFloat(adminLoanList[i].Material.MatCost);
-                    if (adminLoanList[i].Vat == "0") {
+                    if (adminLoanList[i].GST == "0") {
                         if (adminLoanList[i].Material.MRP == "0") {
                             amount = amount.toFixed(2);
                             $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost + "</span>");
@@ -640,7 +651,7 @@ function UpdatePurchaseOrderInfo(purchaseorderno) {
                             netamount = parseFloat(adminLoanList[i].Material.MRP) - parseFloat(netamount);
                             var netAddDiscount = parseFloat(netamount) * adminLoanList[i].Material.AdditionalDiscount / 100;
                             netAddDiscount = parseFloat(netamount) - parseFloat(netAddDiscount);
-                            var vatamount = netAddDiscount * adminLoanList[i].Vat / 100;
+                            var vatamount = netAddDiscount * adminLoanList[i].GST / 100;
                             var totalnetamount = parseFloat(netAddDiscount) + parseFloat(vatamount);
                             amount = amount + vatamount;
                             amount = amount.toFixed(2);
@@ -650,9 +661,16 @@ function UpdatePurchaseOrderInfo(purchaseorderno) {
                         }
                     }
                     else {
-                        amount = amount.toFixed(2);
-                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + adminLoanList[i].Material.MatCost + "</span>");
-                        $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
+                        var netamount = parseFloat(adminLoanList[i].Material.MRP) * adminLoanList[i].Material.Discount / 100;
+                        netamount = parseFloat(adminLoanList[i].Material.MRP) - parseFloat(netamount);
+                        var netAddDiscount = parseFloat(netamount) * adminLoanList[i].Material.AdditionalDiscount / 100;
+                        netAddDiscount = parseFloat(netamount) - parseFloat(netAddDiscount);
+                        var vatamount = netAddDiscount * adminLoanList[i].GST / 100;
+                        var totalnetamount = parseFloat(netAddDiscount) + parseFloat(vatamount);
+                        amount = parseFloat(totalnetamount) * parseFloat(adminLoanList[i].Qty);
+                        totalnetamount = totalnetamount.toFixed(2);
+                        $newRow.find("#net").html("<span id='spnNetPrice" + i + "'>" + totalnetamount + "</span>");
+                        $newRow.find("#linetotal").html("<span id='txtlineTotal" + i + "'>" + amount.toFixed(2) + "</span><input type='text' id='hdnLineTotal" + i + "'  style='display:none;'");
                     }
                     sum += parseFloat(amount);
                     $("[id$='lblSubTotal']").html(sum);
@@ -700,7 +718,7 @@ function GetUpdateMaterialList(selectedValue) {
             if (textStatus == "success") {
                 MaterialList = result.d;
                 for (var i = 0; i < MaterialList.length; i++) {
-                        selectedMaterialList.push(MaterialList[i]);
+                    selectedMaterialList.push(MaterialList[i]);
                 }
             }
         },
@@ -709,8 +727,6 @@ function GetUpdateMaterialList(selectedValue) {
         }
     });
 }
-
-
 
 
 

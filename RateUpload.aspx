@@ -90,7 +90,7 @@
                                                 </td>
                                             </tr>
                                             <tr id="trlblVat0">
-                                                <td>Vat:
+                                                <td>GST:
                                                     <label id="lblVat0"></label>
                                                 </td>
                                             </tr>
@@ -118,8 +118,16 @@
                                                     <input id="txtAdditionalDiscount0" type="text" style="width: 50px;" onblur="AdditionalDiscountTextBox_ChangeEvent(0);" required /></td>
                                             </tr>
                                             <tr id="trVat0">
-                                                <td>Vat:
-                                                    <input id="txtVat0" type="text" style="width: 50px;" onblur="VatTextBox_ChangeEvent(0);" required /></td>
+                                                <td>GST:
+                                                    <select id="drpGst0" required style="width: 120px;" onchange="ddlGST_ChangeEvent(0);">
+                                                        <option value="-1">-Select GST-</option>
+                                                        <option value="0">0%</option>
+                                                        <option value="5">5%</option>
+                                                        <option value="12">12%</option>
+                                                        <option value="18">18%</option>
+                                                        <option value="28">28%</option>
+                                                    </select>
+                                              </td>
                                             </tr>
                                         </tbody>
                                         <tr id="trRate0">

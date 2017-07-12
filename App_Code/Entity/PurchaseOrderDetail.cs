@@ -30,7 +30,7 @@ public class PurchaseOrderDetail
 
     public decimal? Vat { get; set; }
 
-    public decimal? Excise { get; set; }
+    public decimal? GST { get; set; }
 
     public string Description { get; set; }
 

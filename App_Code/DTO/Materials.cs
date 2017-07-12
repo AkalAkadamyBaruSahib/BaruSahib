@@ -21,6 +21,7 @@ public class MaterialsDTO
     public decimal? MRP { get; set; }
     public decimal? Discount { get; set; }
     public decimal? Vat { get; set; }
+    public decimal? GST { get; set; }
     public decimal? AdditionalDiscount { get; set; }
 
 }

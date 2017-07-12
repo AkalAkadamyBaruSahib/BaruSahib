@@ -623,7 +623,7 @@ public class PurchaseControler : System.Web.Services.WebService
         MsgInfo += "<tr><td><b>MRP/Dealer Price:</b></td><td>Rs. " + materialNonApprovedRate.MRP + "</td></tr>";
         MsgInfo += "<tr><td><b>Discount:</b></td><td>" + materialNonApprovedRate.Discount + "%</td></tr>";
         MsgInfo += "<tr><td><b>Additional Discount:</b></td><td>" + materialNonApprovedRate.AdditionalDiscount + "%</td></tr>";
-        MsgInfo += "<tr><td><b>Vat:</b></td><td>" + materialNonApprovedRate.Vat + "%</td></tr>";
+        MsgInfo += "<tr><td><b>GST:</b></td><td>" + materialNonApprovedRate.GST + "%</td></tr>";
         MsgInfo += "<tr><td><b>Net Rate:</b></td><td>Rs. " + materialNonApprovedRate.NetRate + "</td></tr>";
         MsgInfo += "<tr><td><b>Vendor Name:</b></td><td>" + VendorName + "</td></tr>";
         MsgInfo += "</tbody></table>";

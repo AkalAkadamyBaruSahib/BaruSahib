@@ -33,7 +33,7 @@ $(document).ready(function () {
     $("#tdWorkAllot").hide();
 
     $("select[id*='ddlZone']").change(function () {
-        if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 15) {
+        if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 37 || $("input[id*='hdnIsAdmin']").val() == 35) {
             BindAcademybyZoneIDByEmpID($(this).val(), $("input[id*='hdnInchargeID']").val());
         }
         else {
@@ -399,6 +399,7 @@ function SaveEstimate() {
             EstimateAndMaterialOthersRelation.Discount = 0;
             EstimateAndMaterialOthersRelation.Vat = 0;
             EstimateAndMaterialOthersRelation.AdditionalDiscount = 0;
+            EstimateAndMaterialOthersRelation.GST = 0;
             Amt += parseFloat(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
             EstimateAndMaterialOthersRelation.Amount = parseFloat(EstimateAndMaterialOthersRelation.Qty) * parseFloat(EstimateAndMaterialOthersRelation.Rate);
             estimateAndMaterialOthersRelations.push(EstimateAndMaterialOthersRelation);

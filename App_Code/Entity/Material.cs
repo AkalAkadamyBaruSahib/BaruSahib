@@ -63,6 +63,8 @@ public class Material
 
     public decimal? AdditionalDiscount { get; set; }
 
+    public decimal? GST { get; set; }
+
     [ForeignKey("MatTypeId")]
     public  MaterialType MaterialType { get; set; }
 }

@@ -70,10 +70,10 @@ public class EstimateAndMaterialOthersRelations
 
     public virtual Material Material { get; set; }
 
- 
+
     public virtual Unit Unit { get; set; }
 
-    [ForeignKey("PSId")] 
+    [ForeignKey("PSId")]
     public virtual PurchaseSource PurchaseSource { get; set; }
 
     [ForeignKey("PurchaseEmpID")]
@@ -88,6 +88,8 @@ public class EstimateAndMaterialOthersRelations
     public decimal? Vat { get; set; }
 
     public decimal? AdditionalDiscount { get; set; }
+
+    public decimal? GST { get; set; }
 
 }
 
