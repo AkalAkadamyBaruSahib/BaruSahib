@@ -98,7 +98,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
+        EstInfo += "<img src='http://akalsewa.org/img/Logo_Small.png'/>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right; width:40%;'>";
         EstInfo += "<br /><br />";
@@ -184,21 +184,24 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        Response.ContentType = "application/pdf";
-        Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
-        Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        StringWriter sw = new StringWriter();
-        HtmlTextWriter hw = new HtmlTextWriter(sw);
-        pnlPdf.RenderControl(hw);
-        StringReader sr = new StringReader(sw.ToString());
-        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 0f, 10f);
-        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        pdfDoc.Open();
-        htmlparser.Parse(sr);
-        pdfDoc.Close();
-        Response.Write(pdfDoc);
-        Response.End();
+        string FileName = "Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf";
+        Utility.GeneratePDF(pnlPdf.InnerHtml, FileName, "");
+
+        //Response.ContentType = "application/pdf";
+        //Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
+        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        //StringWriter sw = new StringWriter();
+        //HtmlTextWriter hw = new HtmlTextWriter(sw);
+        //pnlPdf.RenderControl(hw);
+        //StringReader sr = new StringReader(sw.ToString());
+        //Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 0f, 10f);
+        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        //pdfDoc.Open();
+        //htmlparser.Parse(sr);
+        //pdfDoc.Close();
+        //Response.Write(pdfDoc);
+        //Response.End();
     }
 
     private void GetEstimateDetailsByClick(string id)

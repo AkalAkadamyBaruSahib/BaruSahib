@@ -108,7 +108,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
-        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
+        EstInfo += "<img src='http://akalsewa.org/img/Logo_Small.png'/>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right; width:30%;'>";
         EstInfo += "<br /><br />";

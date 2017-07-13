@@ -74,7 +74,7 @@ public partial class Purchase_EstimateView : System.Web.UI.Page
         EstInfo += "<table style='width:99%;' border='0' >";
         EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:30%' valign='top'>";
-        EstInfo += "<img src='http://akalsewa.org/BaruSahib/img/Logo_Small.png'/>";
+        EstInfo += "<img src='http://akalsewa.org/img/Logo_Small.png'/>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right;'>";
         EstInfo += "<br /><br />";
