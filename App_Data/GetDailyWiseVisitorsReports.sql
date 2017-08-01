@@ -1,17 +1,18 @@
-CREATE PROCEDURE [dbo].[GetDailyWiseVisitorsReports] --'5/11/2017'
+ALTER PROCEDURE [dbo].[GetDailyWiseVisitorsReports] --'5/11/2017'
 (                          
 @from datetime
 )                          
 AS          
 BEGIN     
-SELECT distinct V.Name,
+SELECT distinct V.TimePeriodFrom As CheckIn,
+                V.Name,
                 V.VisitorAddress,
             	CO.CountryName,
              	S.StateName,
             	C.CityName, 
             	V.ContactNumber,
              	B.Name AS BuildingName,
-             	R.Number AS BookedRoomNumber, V.VehicleNo,
+             	R.Number AS BookedRoomNumber,
 				RO.Number AS CheckOutRoomNumber,
                 V.RoomRent AS LangerSewa,
               	V.PurposeOfVisit,
@@ -22,7 +23,6 @@ SELECT distinct V.Name,
                 V.VehicleNo,
 				V.Identification,
 				V.VisitorReference AS ReferenceTo,
-				V.TimePeriodFrom As CheckIn,
            	    V.TimePeriodTo As CheckOut
 FROM Visitors V 
 INNER JOIN VisitorType VT ON VT.ID= V.VisitorTypeID 
@@ -35,8 +35,13 @@ LEFT OUTER  JOIN RoomNumbers R ON R.ID = VRN.RoomNumberID
 LEFT OUTER  JOIN VisitorsCheckOutLog VCL ON VCL.VisitorID = V.ID
 LEFT OUTER  JOIN RoomNumbers RO ON RO.ID = VCL.RoomNumberID
 WHERE V.TimePeriodFrom >= @from AND V.VisitorTypeID=1
-
 END
+
+
+
+
+
+
 
 
 

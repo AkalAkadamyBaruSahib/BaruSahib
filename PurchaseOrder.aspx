@@ -70,10 +70,12 @@
         <asp:HiddenField ID="hdnQty" runat="server" />
         <asp:HiddenField ID="hdnPoID" runat="server" />
         <asp:HiddenField ID="hdnSno" runat="server" />
-         <asp:HiddenField ID="hdnTotalPrice" runat="server" />
-          <asp:HiddenField ID="hdnGrand" runat="server" />
-           <asp:HiddenField ID="hdnPoNum" runat="server" />
-          <asp:HiddenField ID="hdnUpdatePoID" runat="server" />
+        <asp:HiddenField ID="hdnTotalPrice" runat="server" />
+        <asp:HiddenField ID="hdnGrand" runat="server" />
+        <asp:HiddenField ID="hdnPoNum" runat="server" />
+        <asp:HiddenField ID="hdnUpdatePoID" runat="server" />
+        <asp:HiddenField ID="hdnDeliveryID" runat="server" />
+        <asp:HiddenField ID="hdnBillingID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -100,7 +102,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="float: left;padding-top: 35px;">
+                                    <td style="float: left; padding-top: 35px;">
                                         <span class="footerheading">Estimate:-</span>
                                         <select required id="drpEstimate" style="width: 150px;">
                                             <option value="0">-Select Estimate--</option>
@@ -112,16 +114,16 @@
                                             <asp:ListItem Value="0">--Select PO Type--</asp:ListItem>
                                             <asp:ListItem Value="1">THE KALGIDAHR SOCIETY</asp:ListItem>
                                             <asp:ListItem Value="2">THE KALGIDAHR TRUST</asp:ListItem>
-                                            <asp:ListItem Value="3">GURUDWARA BARUSAHIB</asp:ListItem>
+                                            <asp:ListItem Value="3">GURUDWARA BARU SAHIB</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
                                     <td style="text-align: center;">
                                         <span class="footerheading" style="margin-right: -37px;">Date:-</span>
                                         <asp:TextBox ID="txtDate" runat="server" CssClass="input-xlarge datepicker" Width="150px" Style="margin-top: 55px;" required="required"></asp:TextBox>
                                     </td>
-                                    <td style="float: right; display:none;" id="trPonum">
+                                    <td style="float: right; display: none;" id="trPonum">
                                         <span class="footerheading" style="margin-right: -31px;"><b>P.O.-</b></span>
-                                        <asp:TextBox ID="txtPO"  runat="server" Style="width: 150px; margin-top: 54px;"></asp:TextBox>
+                                        <asp:TextBox ID="txtPO" runat="server" Style="width: 150px; margin-top: 54px;"></asp:TextBox>
                                         <asp:Label ID="lblCurrentDate" runat="server" Visible="false"></asp:Label>
                                         <asp:HiddenField ID="hdnCurrentDate" runat="server" />
                                     </td>
@@ -147,8 +149,12 @@
                                         <asp:Label ID="lblVendorAddress" runat="server"></asp:Label>
                                         <asp:HiddenField ID="hdnVendorAddress" runat="server" />
                                         <br />
+                                        <asp:Label ID="lblVendorPhone" runat="server"></asp:Label>
+                                        <asp:HiddenField ID="hdnVendorContactNo" runat="server" />
                                         <asp:Label ID="lblCity" runat="server"></asp:Label>
                                         <asp:HiddenField ID="hdnCity" runat="server" />
+                                        <br />
+
                                     </div>
                                 </td>
                                 <td>

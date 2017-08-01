@@ -4,12 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
- 
+
 
     <title>Akal Academy | Security</title>
-   <link id="bs-css" href="css/bootstrap-united.css" rel="stylesheet" />
+    <link id="bs-css" href="css/bootstrap-united.css" rel="stylesheet" />
     <!-- The styles -->
-      <style type="text/css">
+    <style type="text/css">
         body
         {
             padding-bottom: 40px;
@@ -20,7 +20,7 @@
             padding: 9px 0;
         }
     </style>
-  
+
     <link href="css/bootstrap-responsive.css" rel="stylesheet" />
     <link href="css/charisma-app.css" rel="stylesheet" />
     <link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
@@ -37,14 +37,14 @@
     <link href='css/jquery.iphone.toggle.css' rel='stylesheet' />
     <link href='css/opa-icons.css' rel='stylesheet' />
     <link href='css/uploadify.css' rel='stylesheet' />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-   
-   
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+
+
     <!-- The fav icon -->
 </head>
 
- 
+
 <body>
     <!-- topbar starts -->
     <form runat="server" id="FrmPage">
@@ -123,7 +123,7 @@
                                     <li><a class="ajax-link" href="Security_Department.aspx"><i></i><span class="hidden-tablet">Department</span></a></li>
                                     <li id="liLocation" runat="server"><a class="ajax-link" href="Security_LocationAssign.aspx"><i></i><span class="hidden-tablet">Location Assign</span></a></li>
 
-                                 </ul>
+                                </ul>
                             </li>
                             <li><a class="dropmenu" href="#"><i>
                                 <img src="img/security.png" />
@@ -139,16 +139,16 @@
                                     <li><a class="ajax-link" href="Security_Reports.aspx"><i></i><span class="hidden-tablet">Reports</span></a></li>
                                 </ul>
                             </li>
-                          <%--   <li id="li1" runat="server"><a class="dropmenu" href="#"><i>
+                            <%--   <li id="li1" runat="server"><a class="dropmenu" href="#"><i>
                                 <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b> MESSAGES</b></span></a>
                                 <ul>
                                     <li><a class="ajax-link" href="Security_SendMessage.aspx"><i></i><span class="hidden-tablet">Send Message Through Phone</span></a></li>
                                 </ul>
                             </li>--%>
-                              <li id="liestimatesearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
+                            <li id="liestimatesearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
                                 <ul>
                                     <li><a href="SecuritySearchEmployee.aspx"><span class="hidden-tablet">Employee Search</span></a></li>
-                                   
+
                                 </ul>
                             </li>
                             <%--  <li id="liComplaints" runat="server"><a class="ajax-link" href="#"><i> <img src="img/Compliant1.png" /></i><span class="hidden-tablet"><b>COMPLAINTS</b></span></a>

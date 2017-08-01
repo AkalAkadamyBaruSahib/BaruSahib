@@ -75,9 +75,11 @@ $(document).ready(function () {
 
     $("#drpDeliveryAddress").change(function () {
         GetDeliveryAddressInfo($(this).val());
+        $("input[id*='hdnDeliveryID']").val($(this).val());
     });
   $("#drpBillingAddress").change(function () {
-        GetBillingAddressInfo($(this).val());
+      GetBillingAddressInfo($(this).val());
+      $("input[id*='hdnBillingID']").val($(this).val());
     });
    $("#drpFreight").change(function () {
         var  FreightVal = $(this).val();
@@ -350,11 +352,13 @@ function GetVendorAddress(selectedValue) {
                 if (adminLoanList.length > 0) {
 
                     for (var i = 0; i < adminLoanList.length; i++) {
-                        var vendorinfo = adminLoanList[i].VendorName + "(" + adminLoanList[i].VendorContactNo + ")";
+                        var vendorinfo = adminLoanList[i].VendorName;
                         $("span[id*='lblName']").text(vendorinfo.toUpperCase());
                         $("[id$='lblVendorAddress']").html(adminLoanList[i].VendorAddress.toUpperCase());
                         $("input[id*='hdnVendorName']").val(vendorinfo);
                         $("input[id*='hdnVendorAddress']").val(adminLoanList[i].VendorAddress);
+                        $("input[id*='hdnVendorContactNo']").val(adminLoanList[i].VendorContactNo);
+                        $("[id$='lblVendorPhone']").html(adminLoanList[i].VendorContactNo);
 
                     }
                 }
@@ -411,14 +415,27 @@ function GetDeliveryAddressInfo(selectedValue) {
 
             var msg = responce.d;
             if (msg.length > 0) {
-                if ($("select[id*='drpPOFor']").val() == "1") {
-                    $("[id$='lblTrustName']").html("THE KALGIDHAR SOCIETY,<br/>" + msg[0].TrustName);
-                }
-                else if ($("select[id*='drpPOFor']").val() == "2") {
-                    $("[id$='lblTrustName']").html("THE KALGIDHAR TRUST,<br/>" + msg[0].TrustName);
+                if (selectedValue == 119) {
+                    if ($("select[id*='drpPOFor']").val() == "1") {
+                        $("[id$='lblTrustName']").html("THE KALGIDHAR SOCIETY,<br/>");
+                    }
+                    else if ($("select[id*='drpPOFor']").val() == "2") {
+                        $("[id$='lblTrustName']").html("THE KALGIDHAR TRUST,<br/>");
+                    }
+                    else {
+                        $("[id$='lblTrustName']").html("GURUDWARA BARU SAHIB,<br/>");
+                    }
                 }
                 else {
-                    $("[id$='lblTrustName']").html("GURUDWARA BARUSAHIB,<br/>" + msg[0].TrustName);
+                    if ($("select[id*='drpPOFor']").val() == "1") {
+                        $("[id$='lblTrustName']").html("THE KALGIDHAR SOCIETY,<br/>" + msg[0].TrustName);
+                    }
+                    else if ($("select[id*='drpPOFor']").val() == "2") {
+                        $("[id$='lblTrustName']").html("THE KALGIDHAR TRUST,<br/>" + msg[0].TrustName);
+                    }
+                    else {
+                        $("[id$='lblTrustName']").html("GURUDWARA BARU SAHIB,<br/>" + msg[0].TrustName);
+                    }
                 }
                 cityname = msg[0].Address;
                 $("[id$='lblAdress']").html(cityname);
@@ -449,14 +466,27 @@ function GetBillingAddressInfo(selectedValue) {
             if (msg.length > 0) {
                 name = msg[0].TrustName;
                 cityname = msg[0].Address;
-                if ($("select[id*='drpPOFor']").val() == "1") {
-                    $("[id$='lblBillingName']").html("THE KALGIDHAR SOCIETY,<br/>" + name);
-                }
-                else if ($("select[id*='drpPOFor']").val() == "2") {
-                    $("[id$='lblBillingName']").html("THE KALGIDHAR TRUST,<br/>" + name);
+                if (selectedValue == 119) {
+                    if ($("select[id*='drpPOFor']").val() == "1") {
+                        $("[id$='lblBillingName']").html("THE KALGIDHAR SOCIETY,<br/>");
+                    }
+                    else if ($("select[id*='drpPOFor']").val() == "2") {
+                        $("[id$='lblBillingName']").html("THE KALGIDHAR TRUST,<br/>");
+                    }
+                    else {
+                        $("[id$='lblBillingName']").html("GURUDWARA BARU SAHIB,<br/>");
+                    }
                 }
                 else {
-                    $("[id$='lblBillingName']").html("GURUDWARA BARUSAHIB,<br/>" + name);
+                    if ($("select[id*='drpPOFor']").val() == "1") {
+                        $("[id$='lblBillingName']").html("THE KALGIDHAR SOCIETY,<br/>" + name);
+                    }
+                    else if ($("select[id*='drpPOFor']").val() == "2") {
+                        $("[id$='lblBillingName']").html("THE KALGIDHAR TRUST,<br/>" + name);
+                    }
+                    else {
+                        $("[id$='lblBillingName']").html("GURUDWARA BARU SAHIB,<br/>" + name);
+                    }
                 }
                 $("[id$='lblBillingAddres']").html(cityname);
                 $("input[id*='hdnBillingName']").val(name);
