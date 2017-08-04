@@ -3129,6 +3129,84 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
             case 962:
                 character = "AJZ";
                 break;
+            case 963:
+                character = "AKA";
+                break;
+            case 964:
+                character = "AKB";
+                break;
+            case 965:
+                character = "AKC";
+                break;
+            case 966:
+                character = "AKD";
+                break;
+            case 967:
+                character = "AKE";
+                break;
+            case 968:
+                character = "AKF";
+                break;
+            case 969:
+                character = "AKG";
+                break;
+            case 970:
+                character = "AKH";
+                break;
+            case 971:
+                character = "AKI";
+                break;
+            case 972:
+                character = "AKJ";
+                break;
+            case 973:
+                character = "AKK";
+                break;
+            case 974:
+                character = "AKL";
+                break;
+            case 975:
+                character = "AKM";
+                break;
+            case 976:
+                character = "AKN";
+                break;
+            case 977:
+                character = "AKO";
+                break;
+            case 978:
+                character = "AKP";
+                break;
+            case 979:
+                character = "AKQ";
+                break;
+            case 980:
+                character = "AKR";
+                break;
+            case 981:
+                character = "AKS";
+                break;
+            case 982:
+                character = "AKT";
+                break;
+            case 983:
+                character = "AKU";
+                break;
+            case 984:
+                character = "AKV";
+                break;
+            case 985:
+                character = "AKW";
+                break;
+            case 986:
+                character = "AKX";
+                break;
+            case 987:
+                character = "AKY";
+                break;
+            case 988:
+                character = "AKZ";
+                break;
             default:
                 break;
         }

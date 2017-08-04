@@ -55,15 +55,20 @@ public partial class PurchaseOrder : System.Web.UI.Page
         htmlCode = htmlCode.Replace("[Vendor]", hdnVendorName.Value.ToUpper() + ",<br/>" + hdnVendorAddress.Value.ToUpper() + "" + hdnCity.Value.ToUpper() + ",<br/>" + hdnVendorContactNo.Value);
         if (drpPOFor.SelectedValue == "1")
         {
-            if (hdnDeliveryID.Value == "119")
+            if (hdnDeliveryID.Value == "119" && hdnBillingID.Value != "119")
             {
                 htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR SOCIETY,<br/>" + hdnBillingAddres.Value);
                 htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR SOCIETY,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
             }
-            else if (hdnBillingID.Value == "119")
+            else if (hdnBillingID.Value == "119" && hdnDeliveryID.Value != "119")
             {
                 htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR SOCIETY,<br/>" + hdnDeliveryAddress.Value);
                 htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR SOCIETY,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
+            }
+            else if (hdnBillingID.Value == "119" && hdnDeliveryID.Value == "119")
+            {
+                htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR SOCIETY,<br/>" + hdnDeliveryAddress.Value);
+                htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR SOCIETY,<br/>" + hdnBillingAddres.Value);
             }
             else
             {
@@ -76,15 +81,20 @@ public partial class PurchaseOrder : System.Web.UI.Page
         }
         else if (drpPOFor.SelectedValue == "2")
        {
-           if (hdnDeliveryID.Value == "119")
+           if (hdnDeliveryID.Value == "119" && hdnBillingID.Value != "119")
            {
                htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR TRUST,<br/>"  + hdnDeliveryAddress.Value);
                htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
            }
-           else if (hdnBillingID.Value == "119")
+           else if (hdnBillingID.Value == "119" && hdnDeliveryID.Value != "119")
            {
                htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR TRUST,<br/>"  + hdnDeliveryAddress.Value);
                htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
+           }
+           else if (hdnBillingID.Value == "119" && hdnDeliveryID.Value == "119")
+           {
+               htmlCode = htmlCode.Replace("[ShipTo]", "THE KALGIDHAR TRUST,<br/>" + hdnDeliveryAddress.Value);
+               htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "THE KALGIDHAR TRUST,<br/>" + hdnBillingAddres.Value);
            }
            else
            {
@@ -97,15 +107,20 @@ public partial class PurchaseOrder : System.Web.UI.Page
         }
         else
         {
-            if (hdnDeliveryID.Value == "119")
+            if (hdnDeliveryID.Value == "119" && hdnBillingID.Value != "119")
             {
                 htmlCode = htmlCode.Replace("[ShipTo]", "GURUDWARA BARUSAHIB,<br/>"  + hdnDeliveryAddress.Value);
                 htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "GURUDWARA BARUSAHIB,<br/>" + hdnBillingName.Value + ",<br/>" + hdnBillingAddres.Value);
             }
-            else if (hdnBillingID.Value == "119")
+            else if (hdnBillingID.Value == "119" && hdnDeliveryID.Value != "119")
             {
                 htmlCode = htmlCode.Replace("[ShipTo]", "GURUDWARA BARUSAHIB,<br/>" + hdnTrustName.Value + ",<br/>" + hdnDeliveryAddress.Value);
                 htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "GURUDWARA BARUSAHIB,<br/>"  + hdnBillingAddres.Value);
+            }
+            else if (hdnBillingID.Value == "119" && hdnDeliveryID.Value == "119")
+            {
+                htmlCode = htmlCode.Replace("[ShipTo]", "GURUDWARA BARUSAHIB,<br/>" + hdnDeliveryAddress.Value);
+                htmlCode = htmlCode.Replace("[DELIVERYADDRESS]", "GURUDWARA BARUSAHIB,<br/>" + hdnBillingAddres.Value);
             }
             else
             {

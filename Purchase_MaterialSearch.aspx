@@ -22,10 +22,11 @@
                                     <td>
                                         <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
                                         <input id="txtMaterial" name="txtMaterial" />
-                                    </td>
-                                    <td>
                                         <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearch_Click" />
+                                        <br />
+                                        <div id="menu-container" style="position: absolute; width: 500px;"></div>
                                     </td>
+                               
                                 </tr>
                             </table>
 

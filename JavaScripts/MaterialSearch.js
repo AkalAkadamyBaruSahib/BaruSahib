@@ -16,7 +16,8 @@ function AutofillMaterialSearchBox() {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 $("#txtMaterial").autocomplete({
-                    source: result.d
+                    source: result.d,
+                    appendTo: '#menu-container'
                 });
                 
             }

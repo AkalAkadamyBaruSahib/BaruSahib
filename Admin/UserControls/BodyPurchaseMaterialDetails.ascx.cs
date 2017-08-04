@@ -144,7 +144,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         EstInfo += "<tr>";
         EstInfo += "<th style='font-size:18px;' ><b>Sr. No.</b></th>";
         EstInfo += "<th style='font-size:18px;width:20%'><b>Material</b></th>";
-        EstInfo += "<th style='font-size:18px;'><b>Source Type</b></th>";
+        if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.PURCHASE && UserTypeID != (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+        {
+            EstInfo += "<th style='font-size:18px;'><b>Source Type</b></th>";
+        }
         EstInfo += "<th style='font-size:18px;'><b>Qty</b></th>";
         EstInfo += "<th style='font-size:18px;'><b>Unit</b></th>";
         EstInfo += "<th style='font-size:18px;'><b>Rate</b></th>";
@@ -153,6 +156,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             EstInfo += "<th width='20%' style='font-size:18px;'><b>Purchase Officer</b></th>";
         }
         EstInfo += "<th style='font-size:18px;'><b>" + HeaderText + "</b></th>";
+        if (UserTypeID == (int)TypeEnum.UserType.PURCHASEEMPLOYEE || UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+        {
+            EstInfo += "<th style='font-size:18px;'><b>Remarks</b></th>";
+        }
         EstInfo += "</tr>";
         EstInfo += "<tbody>";
         DataSet dsMatDetails = new DataSet();
@@ -183,7 +190,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             EstInfo += "<tr>";
             EstInfo += "<td style='font-size:18px'>" + (i + 1) + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["MatName"].ToString() + "</td>";
-            EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
+            if (UserTypeID != (int)TypeEnum.UserType.PURCHASEEMPLOYEE && UserTypeID != (int)TypeEnum.UserType.PURCHASE && UserTypeID != (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+            {
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["PSName"].ToString() + "</td>";
+            }
             EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["Qty"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["UnitName"].ToString() + "</td>";
             EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["Rate"].ToString() + "</td>";
@@ -213,6 +223,10 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
             {
                 HeaderText = "Purchase Date";
                 EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["DispatchDate"].ToString() + "</td>";
+            }
+            if (UserTypeID == (int)TypeEnum.UserType.PURCHASEEMPLOYEE || UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
+            {
+                EstInfo += "<td style='padding:0px; text-align:left;font-size:18px'>" + dsMatDetails.Tables[0].Rows[i]["Remark"].ToString() + "</td>";
             }
             EstInfo += "</tr>";
         }
@@ -497,7 +511,7 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                                 }
                                 if (UserTypeID != (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {
-                                    ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
+                                    ZoneInfo += "<td>" + material.Remark + "</td>";
                                 }
                                 else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                                 {

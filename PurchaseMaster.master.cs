@@ -24,18 +24,21 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         {
             liReport.Visible = true;
             liPurchaseOrder.Visible = true;
+            liMaterialReport.Visible = false;
             liHome.Visible = true;
         }
         else if (Session["UserTypeID"].ToString() == ((int)TypeEnum.UserType.PURCHASECOMMITTEE).ToString())
         {
             liRateApproved.Visible = true;
             liPurchaseOrder.Visible = true;
+            liMaterialReport.Visible = true;
             liHome.Visible = true;
         }
         else
         {
             liHome.Visible = true;
             liStatusReport.Visible = false;
+            liMaterialReport.Visible = false;
           
         }
 
@@ -100,11 +103,11 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         }
         MsgInfo += "</tbody>";
         MsgInfo += "</table>";
-        string to = "dshah@barusahib.org";
-        string cc = "dsingh@barusahib.org";
+        string to = string.Empty;
+        string cc = "itmohali@barusahib.org" ;
         try
         {
-          //  Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "All Pending Estimates.");
+            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "All Pending Estimates.");
         }
         catch { }
         finally

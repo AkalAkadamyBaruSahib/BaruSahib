@@ -630,24 +630,24 @@ public class PurchaseControler : System.Web.Services.WebService
 
 
         string FileName = string.Empty;
-        string to = "dshah@barusahib.org";
+        string to = "bhupinder@barusahib.org ";
         string cc = string.Empty;
         if (MatTypeID == ((int)TypeEnum.MatTypeID.TRANSPORTMATERIAL)) // Transport Material
         {
-            cc = "bhupinder@barusahib.org,akaltransport@barusahib.org";
+            cc = "dshah@barusahib.org,akaltransport@barusahib.org";
         }
         else if (MatTypeID == ((int)TypeEnum.MatTypeID.ELECTRICALMATERIAL) || MatTypeID == ((int)TypeEnum.MatTypeID.MOTORSANDPUMPS) || MatTypeID == ((int)TypeEnum.MatTypeID.EXTERNALELECTRICALWORK)) // Electrical Material
         {
-            cc = "bhupinder@barusahib.org,electricals@barusahib.org";
+            cc = "dshah@barusahib.org,electricals@barusahib.org";
         }
         else // Construction Material
         {
-            cc = "bhupinder@barusahib.org,akalconstruction@barusahib.org";
+            cc = "dshah@barusahib.org,akalconstruction@barusahib.org";
         }
 
         try
         {
-           Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
+            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
         }
         catch { }
         finally

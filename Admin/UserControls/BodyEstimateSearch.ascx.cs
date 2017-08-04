@@ -169,7 +169,7 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
                         ZoneInfo += "<td>" + material.DispatchDate + "</td>";
 
 
-                        ZoneInfo += "<td>" + material.remarkByPurchase + "</td>";
+                        ZoneInfo += "<td>" + material.Remark + "</td>";
                         ZoneInfo += "</tr>";
                         count++;
                     }

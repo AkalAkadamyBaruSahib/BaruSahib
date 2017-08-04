@@ -142,7 +142,7 @@
                             <li id="liLocalPurchase" runat="server"><a class="ajax-link" href="Emp_LocalMaterialReort.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Local Purchase Report</span></a></li>
                             <li id="liVendor" runat="server"><a class="ajax-link" href="Emp_AddVendor.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Vendor Information</span></a></li>
                             <li id="li1" runat="server"><a class="ajax-link" href="Estimate_Bucket.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Estimate Bucket</span></a></li>
-
+                             <li id="li2" runat="server"><a class="ajax-link" href="Emp_MaterialSearch.aspx"><i class="icon-search""></i><span class="hidden-tablet">Material Search</span></a></li>
                         </ul>
 
                     </div>

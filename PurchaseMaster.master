@@ -154,6 +154,7 @@
                                 <ul> 
                                     <li id="liStatusReport" runat="server"><a class="ajax-link" href="Purchase_Reports.aspx"><span class="hidden-tablet">Status Reports</span></a></li>
                                     <li id="liPendingReort" runat="server"><a class="ajax-link" href="PurchasePendingReport.aspx"><i></i><span class="hidden-tablet">Pending Report</span></a></li>
+                                     <li id="liMaterialReport" runat="server"><a class="ajax-link" href="PurchaseReportByMaterial.aspx"><i></i><span class="hidden-tablet">Material Report</span></a></li>
                                 </ul>
                             </li>
                            

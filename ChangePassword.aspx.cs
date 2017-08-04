@@ -13,7 +13,7 @@ public partial class ChangePassword : System.Web.UI.Page
     }
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        DataSet dsOldPwd = DAL.DalAccessUtility.GetDataInDataSet("select UserPwd from Incharge where LoginId='" + txtLoginId.Text + "'");
+        DataSet dsOldPwd = DAL.DalAccessUtility.GetDataInDataSet("select UserPwd from Incharge where LoginId='" + txtLoginId.Text + "' and Active=1");
         if (dsOldPwd.Tables[0].Rows.Count > 0)
         {
             if (txtLoginId.Text == "")

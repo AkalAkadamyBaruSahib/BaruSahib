@@ -52,6 +52,7 @@ public static class Utility
         smtp.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUserName"].ToString(), ConfigurationManager.AppSettings["SMTPPassword"].ToString());
         smtp.Timeout = 1000000;
         smtp.EnableSsl = true;
+        smtp.UseDefaultCredentials = false;
         smtp.SendAsync(mail, smtp);
     }
 

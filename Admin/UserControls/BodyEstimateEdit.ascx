@@ -295,10 +295,10 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Remark">
                                                     <EditItemTemplate>
-                                                        <asp:TextBox ID="txtEditRemark" runat="server" Text='<%#Eval("remarkByPurchase") %>' />
+                                                        <asp:TextBox ID="txtEditRemark" runat="server" Text='<%#Eval("Remark") %>' />
                                                     </EditItemTemplate>
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblRemark" runat="server" ForeColor="Red" Text='<%#Eval("remarkByPurchase") %>' />
+                                                        <asp:Label ID="lblRemark" runat="server" ForeColor="Red" Text='<%#Eval("Remark") %>' />
                                                     </ItemTemplate>
 
                                                 </asp:TemplateField>
