@@ -509,6 +509,14 @@ public class PurchaseControler : System.Web.Services.WebService
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
         return repository.GetBillStatusDetails();
     }
+
+    [WebMethod]
+    public List<view_BillsApprovalForAdmin> GetBillDetails(int acaID)
+    {
+        PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
+        return repository.GetBillDetails(acaID);
+    }
+
     [WebMethod]
     public List<MaterialsDTO> GetActiveMaterialsByMatTypeID(int MatTypeID)
     {

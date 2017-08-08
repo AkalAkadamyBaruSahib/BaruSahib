@@ -40,5 +40,12 @@ public class view_BillsApprovalForAdmin
 
     public int? RecevingStatus { get; set; }
 
+    public int? EstId { get; set; }
+
+    public int? BillType { get; set; }
+
+    public string BillTypeName { get; set; }
+
+    public string WorkAllotName { get; set; }
 
 }

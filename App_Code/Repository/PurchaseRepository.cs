@@ -511,7 +511,7 @@ public class PurchaseRepository
 
     public List<WorkAllot> GetWorkAllotByAcademyID(int AcademyID)
     {
-        return _context.WorkAllot.Where(x => x.AcaId == AcademyID).ToList();
+        return _context.WorkAllot.Where(x => x.AcaId == AcademyID && x.Active == 1).ToList();
     }
 
     public List<Zone> GetZoneByInchargeID(int InchargeID)
@@ -1469,6 +1469,21 @@ public class PurchaseRepository
         {
             DateTime dt = Utility.GetLocalDateTime(DateTime.UtcNow.AddDays(-30));
             bills = _context.view_BillsApprovalForAdmin.Where(x => x.FirstVarifyStatus == null && x.CreatedOn >= dt).OrderByDescending(e => e.SubBillId).ToList();
+        }
+        return bills;
+    }
+
+    public List<view_BillsApprovalForAdmin> GetBillDetails(int acaID)
+    {
+        List<view_BillsApprovalForAdmin> bills = new List<view_BillsApprovalForAdmin>();
+        if (acaID > 0)
+        {
+            bills = _context.view_BillsApprovalForAdmin.Where(x => x.AcaID == acaID).OrderByDescending(e => e.SubBillId).ToList();
+        }
+        else
+        {
+           DateTime dt = Utility.GetLocalDateTime(DateTime.UtcNow.AddDays(-30));
+            bills = _context.view_BillsApprovalForAdmin.Where(x => x.CreatedOn >= dt).OrderByDescending(e => e.SubBillId).ToList();
         }
         return bills;
     }

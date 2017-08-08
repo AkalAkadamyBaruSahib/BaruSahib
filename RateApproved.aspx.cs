@@ -200,7 +200,7 @@ public partial class RateApproved : System.Web.UI.Page
     protected void btnRateApprovedReport_Click(object sender, EventArgs e)
     {
         DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("select M.MatName,MR.OldRate,MR.NewRate,MR.CreatedOn As ApprovedOn,(MR.OldRate-MR.NewRate) As DiffrenceBetweenRate From MaterialRateLog MR INNER JOIN Material M ON MR.MatID = M.MatId").Tables[0];
+        dt = DAL.DalAccessUtility.GetDataInDataSet("select M.MatName,MR.OldRate,MR.NewRate,MR.CreatedOn As ApprovedOn,(MR.NewRate- MR.OldRate) As DiffrenceBetweenRate From MaterialRateLog MR INNER JOIN Material M ON MR.MatID = M.MatId").Tables[0];
         string FileName = "RateApprovedReport" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
 
         string FilePath = Server.MapPath("EstFile") + "\\" + FileName;

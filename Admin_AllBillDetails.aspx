@@ -1,30 +1,52 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" CodeFile="Admin_AllBillDetails.aspx.cs" Inherits="Admin_AllBillDetails" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-      <script type="text/javascript">
-          function ClientSideClick(myButton) {
-              // Client side validation
-              if (typeof (Page_ClientValidate) == 'function') {
-                  if (Page_ClientValidate() == false)
-                  { return false; }
-              }
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div id="Div2" class="span10">
+        <script src="JavaScripts/BillDetail.js"></script>
+        <div class="row-fluid sortable">
+            <div class="box span12">
+                <div class="box-header well" data-original-title>
+                    <div><h2><i class="icon-user"></i>Bill Details</h2></div>
+                    <div style="float:right;">
+                        <asp:Button ID="btnExecl" runat="server" Text="Bill Details Excel" CssClass="btn btn-primary"  Font-Bold="True"  ForeColor="Black" title="Click this button you get Estimate Statement Execl." data-rel="tooltip" OnClick="btnExecl_Click" />
+                    </div>
+                </div>
+                <div class="box-content">
 
-              //make sure the button is not of type "submit" but "button"
-              if (myButton.getAttribute('type') == 'button') {
-                  // diable the button
-                  myButton.disabled = true;
-                  myButton.className = "btn btn-primary";
-                  myButton.value = "Please Wait...";
-              }
-              return true;
-          }
-    </script>
-    <div id="Div1" class="span10">
-        <asp:Button id="btnExecl" runat="server" Text="Bill Details Excel" CssClass="btn btn-primary" onclientclick="ClientSideClick(this)"  UseSubmitBehavior="False"  Width="220px" Height="40px" Font-Bold="True" Font-Size="16pt" ForeColor="Black" title="Click this button you get Estimate Statement Execl." data-rel="tooltip" OnClick="btnExecl_Click"/>
+                    <div id="divBillsDetails" runat="server">
+                        <table id="grid" style="width:100%" class='table table-striped table-bordered bootstrap-datatable datatable'>
+                            <thead>
+                                <tr>
+                                    <th style="color: #cc3300; width: 30%;">Bill Details</th>
+                                    <th style="color: #cc3300; width: 15%;">Zone</th>
+                                    <th style="color: #cc3300; width: 15%;">Academy</th>
+                                    <th style="color: #cc3300; width: 15%;">Amount</th>
+                                    <th style="color: #cc3300; width: 25%;">Chargable To</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal hide fade" style="width: 400px; height: 200px;" id="divprogress">
+            <div class="modal-body">
+                <table style="text-align: center; width: 100%">
+                    <tr>
+                        <td style="text-align: center">
+                            <img src="img/animated.gif" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Wait while bills are loading....</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-     <div id="content" class="span10">
-    <asp:Label ID="lblUser" runat="server" Visible="false"></asp:Label>
-    <div id="divAcademyDetails" runat="server"></div>
-         </div>
 </asp:Content>
+
+
 

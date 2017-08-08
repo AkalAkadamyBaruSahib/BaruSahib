@@ -1,23 +1,45 @@
 ALTER view [dbo].[view_BillsApprovalForAdmin]            
-as            
-SELECT DISTINCT   
-                      SubmitBillByUser.SubBillId,SubmitBillByUser.CreatedOn, 
-					  CONVERT(nvarchar(20), SubmitBillByUser.BillDate, 107) AS BillDate, 
-					  SubmitBillByUser.TotalAmount, SubmitBillByUser.AgencyName,   
-                      Academy.AcaName, Zone.ZoneName,SubmitBillByUser.FirstVarifyStatus
-FROM         SubmitBillByUser INNER JOIN  
-                      Academy ON SubmitBillByUser.AcaId = Academy.AcaId INNER JOIN  
-                     Zone ON SubmitBillByUser.ZoneId = Zone.ZoneId 
 
+AS            
 
+SELECT DISTINCT S.SubBillId,
 
+S.CreatedOn, 
 
+CONVERT(nvarchar(20), S.BillDate, 107) AS BillDate, 
 
+S.TotalAmount,
 
+ S.AgencyName,   
 
+Academy.AcaName, 
 
+Zone.ZoneName,
 
+S.FirstVarifyStatus,
 
+S.AcaId,
 
+S.SecondVarifyStatus, 
 
+S.PaymentStatus,
 
+S.RecevingStatus,
+
+S.EstId,
+
+S.BillType,
+
+BillType.BillTypeName,
+
+WorkAllot.WorkAllotName
+
+FROM  SubmitBillByUser  S INNER JOIN  
+
+Academy ON S.AcaId = Academy.AcaId INNER JOIN  
+
+Zone ON S.ZoneId = Zone.ZoneId  LEFT OUTER JOIN 
+
+BillType ON S.ChargetoBillTyId = BillType.BillTypeId LEFT OUTER JOIN 
+ 
+WorkAllot ON S.WAId = WorkAllot.WAId
