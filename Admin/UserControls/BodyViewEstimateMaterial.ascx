@@ -67,6 +67,7 @@
     <asp:HiddenField ID="hdnVandorID" runat="server" />
     <asp:HiddenField ID="hdnNewRate" runat="server" />
     <asp:HiddenField ID="hdnVendor" runat="server" />
+    <asp:HiddenField ID="hdnEstID" runat="server" />
     <div class="box-header well">
         <h2><i class="icon-user"></i>Material Details for
                 <asp:Label ID="lblZoneName" runat="server"></asp:Label>

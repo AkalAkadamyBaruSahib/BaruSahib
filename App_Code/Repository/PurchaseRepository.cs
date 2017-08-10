@@ -1717,6 +1717,7 @@ public class PurchaseRepository
         materialrateapproved.ApprovedRate = materialNonApprovedRate.NetRate;
         materialrateapproved.ApprovedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         materialrateapproved.RequestedBy = Convert.ToInt32(materialNonApprovedRate.CreatedBy);
+        materialrateapproved.EstID = Convert.ToInt32(materialNonApprovedRate.EstID);
         _context.Entry(materialrateapproved).State = EntityState.Added;
         _context.SaveChanges();
 

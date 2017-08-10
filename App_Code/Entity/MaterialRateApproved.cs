@@ -28,4 +28,6 @@ public class MaterialRateApproved
 
     public int? RequestedBy { get; set; }
 
+    public int? EstID { get; set; }
+
 }

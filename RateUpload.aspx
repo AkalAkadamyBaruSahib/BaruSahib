@@ -3,15 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript">
         function ClientSideClick(myButton) {
-            // Client side validation
+
             if (typeof (Page_ClientValidate) == 'function') {
                 if (Page_ClientValidate() == false)
                 { return false; }
             }
-
-            //make sure the button is not of type "submit" but "button"
             if (myButton.getAttribute('type') == 'button') {
-                // diable the button
                 myButton.disabled = true;
                 myButton.className = "btn btn-success";
                 myButton.value = "Please Wait...";
@@ -24,6 +21,7 @@
     <asp:HiddenField ID="hdnUserName" runat="server" />
     <asp:HiddenField ID="hdnVandorID" runat="server" />
     <asp:HiddenField ID="hdnMaterialID" runat="server" />
+   <asp:HiddenField ID="hdnEstID" runat="server" />
     <div id="content" class="span10">
 
         <div class="row-fluid sortable">
@@ -153,6 +151,6 @@
             </div>
         </div>
     </div>
-
+     
 </asp:Content>
 

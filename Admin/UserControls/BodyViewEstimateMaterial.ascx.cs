@@ -29,6 +29,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         {
             if (Request.QueryString["EstId"] != null)
             {
+                hdnEstID.Value =  Request.QueryString["EstId"].ToString();
                 getZoneAcaName(Request.QueryString["EstId"].ToString());
                 getMaterialDetails(Request.QueryString["IsLocal"].ToString(), Request.QueryString["EstId"].ToString());
                 if (ModuleID == 4)
@@ -208,12 +209,30 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                         }
                         else
                         {
-                            Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + ");", true);
+                            DataSet dsMat = new DataSet();
+                            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select * from MaterialNonApprovedRate Where EstID='" + hdnEstID.Value + "' and MatID='" + txtMatID.Value + "'");
+                            if (dsMat.Tables[0].Rows.Count > 0)
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Rate Already Sent for Approval.')", true);
+                            }
+                            else
+                            {
+                                Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + "," + hdnEstID.Value + ");", true);
+                            }
                         }
                     }
                     else
                     {
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + ");", true);
+                          DataSet dsMat = new DataSet();
+                            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select * from MaterialNonApprovedRate Where EstID='" + hdnEstID.Value + "' and MatID='" + txtMatID.Value + "'");
+                            if (dsMat.Tables[0].Rows.Count > 0)
+                            {
+                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Rate Already Sent for Approval.')", true);
+                            }
+                            else
+                            {
+                                Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + "," + hdnEstID.Value + ");", true);
+                            }
                     }
                 }
 

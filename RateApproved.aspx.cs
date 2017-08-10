@@ -32,11 +32,11 @@ public partial class RateApproved : System.Web.UI.Page
         DataSet dsMat = new DataSet();
         if (InchargeID == (int)TypeEnum.PurchaseCommittee.FirstApproval)
         {
-            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,Inc.InName,MN.CreatedOn,MN.MRP,MN.Discount,MN.GST,MN.NetRate,MN.AdditionalDiscount,V.VendorAddress,V.VendorName from Material M INNER JOIN MaterialNonApprovedRate MN on M.MatId = MN.MatID INNER JOIN MaterialType MT on M.MatTypeId = MT.MatTypeId INNER JOIN Unit U On M.UnitId = U.UnitId INNER JOIN Incharge Inc On MN.CreatedBy = Inc.InchargeId LEFT OUTER JOIN VendorInfo V On V.ID = MN.VendorID LEFT OUTER JOIN [dbo].[MaterialRateApproved] MR ON MR.MatID = MN.MatID WHERE MR.FirstApproval is null ");
+            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select distinct M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,Inc.InName,MN.CreatedOn,MN.MRP,MN.Discount,MN.GST,MN.NetRate,MN.AdditionalDiscount,V.VendorAddress,V.VendorName from Material M INNER JOIN MaterialNonApprovedRate MN on M.MatId = MN.MatID INNER JOIN MaterialType MT on M.MatTypeId = MT.MatTypeId INNER JOIN Unit U On M.UnitId = U.UnitId INNER JOIN Incharge Inc On MN.CreatedBy = Inc.InchargeId LEFT OUTER JOIN VendorInfo V On V.ID = MN.VendorID LEFT OUTER JOIN [dbo].[MaterialRateApproved] MR ON MR.MatID = MN.MatID WHERE MR.FirstApproval is null ");
         }
         else
         {
-            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,Inc.InName,MN.CreatedOn,MN.MRP,MN.Discount,MN.GST,MN.NetRate,MN.AdditionalDiscount,V.VendorAddress,V.VendorName from Material M INNER JOIN MaterialNonApprovedRate MN on M.MatId = MN.MatID INNER JOIN MaterialType MT on M.MatTypeId = MT.MatTypeId INNER JOIN Unit U On M.UnitId = U.UnitId INNER JOIN Incharge Inc On MN.CreatedBy = Inc.InchargeId LEFT OUTER JOIN VendorInfo V On V.ID = MN.VendorID LEFT OUTER JOIN [dbo].[MaterialRateApproved] MR ON MR.MatID = MN.MatID WHERE MR.FirstApproval = '" + (int)TypeEnum.PurchaseCommittee.FirstApproval + "' and MR.SecondApproval is null");
+            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select distinct M.MatId,MT.MatTypeName,M.MatName,M.MatCost,U.UnitName,Inc.InName,MN.CreatedOn,MN.MRP,MN.Discount,MN.GST,MN.NetRate,MN.AdditionalDiscount,V.VendorAddress,V.VendorName from Material M INNER JOIN MaterialNonApprovedRate MN on M.MatId = MN.MatID INNER JOIN MaterialType MT on M.MatTypeId = MT.MatTypeId INNER JOIN Unit U On M.UnitId = U.UnitId INNER JOIN Incharge Inc On MN.CreatedBy = Inc.InchargeId LEFT OUTER JOIN VendorInfo V On V.ID = MN.VendorID LEFT OUTER JOIN [dbo].[MaterialRateApproved] MR ON MR.MatID = MN.MatID WHERE MR.FirstApproval = '" + (int)TypeEnum.PurchaseCommittee.FirstApproval + "' and MR.SecondApproval is null");
         }
         grvNonApprovedRateDetails.DataSource = dsMat;
         grvNonApprovedRateDetails.DataBind();
@@ -136,7 +136,7 @@ public partial class RateApproved : System.Web.UI.Page
 
         try
         {
-         Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approved Successfully.");
+            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approved Successfully.");
         }
         catch { }
         finally
@@ -188,7 +188,7 @@ public partial class RateApproved : System.Web.UI.Page
         string cc = loginID;
         try
         {
-          Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "Request for Approve Rate for Materials " + Material + " is Rejected.");
+            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "Request for Approve Rate for Materials " + Material + " is Rejected.");
         }
         catch { }
         finally

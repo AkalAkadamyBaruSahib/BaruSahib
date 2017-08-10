@@ -13,12 +13,14 @@ public partial class RateUpload : System.Web.UI.Page
     public int MatTypeID { get; set; }
     public int MatID { get; set; }
     public int VendorID { get; set; }
+    public int EstID { get; set; }
     public decimal NewRate { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            Page.Form.Attributes.Add("enctype", "multipart/form-data");
             if (Session["EmailId"] == null)
             {
                 Response.Redirect("Default.aspx");
@@ -30,15 +32,16 @@ public partial class RateUpload : System.Web.UI.Page
                 hdnInchargeID.Value = Session["InchargeID"].ToString();
                 hdnUserName.Value = Session["InName"].ToString();
             }
-            if (Request.QueryString["MatTypeID"] != null && Request.QueryString["MatID"] != null && Request.QueryString["VendorID"] != null && Request.QueryString["NewRate"] != null)
+            if (Request.QueryString["MatTypeID"] != null && Request.QueryString["MatID"] != null && Request.QueryString["VendorID"] != null && Request.QueryString["NewRate"] != null && Request.QueryString["EstID"] != null)
             {
                 MatTypeID = Convert.ToInt32(Request.QueryString["MatTypeID"].ToString());
                 MatID = Convert.ToInt32(Request.QueryString["MatID"].ToString());
                 VendorID = Convert.ToInt32(Request.QueryString["VendorID"].ToString());
                 NewRate = Convert.ToDecimal(Request.QueryString["NewRate"].ToString());
                 hdnMaterialID.Value = Request.QueryString["MatID"].ToString();
+                EstID = Convert.ToInt32(Request.QueryString["EstID"].ToString());
 
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetMaterialInfoByMatID(" + MatID + "," + VendorID + "," + NewRate + ");", true);
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetMaterialInfoByMatID(" + MatID + "," + VendorID + "," + NewRate + "," + EstID + ");", true);
             }
         }
     }

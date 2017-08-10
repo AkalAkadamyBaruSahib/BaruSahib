@@ -35,4 +35,6 @@ public class MaterialNonApprovedRate
     public int? VendorID { get; set; }
 
     public decimal? GST { get; set; }
+
+    public int? EstID { get; set; }
 }

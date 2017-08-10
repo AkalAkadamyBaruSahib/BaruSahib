@@ -3,17 +3,21 @@ var MaterialList = new Array();
 var VendorList = new Array();
 var MaterialObjectList;
 var VendorObjectList;
-var MaterialList;
+var MaterialList; 
 var delItems = 0;
 var cntM = 1;
 
 $(document).ready(function () {
 
     $("#btnSendforApproval").click(function (e) {
-        if (Validation()) {
-            ClientSideClick(this);
-            $("#btnSendforApproval").prop('disabled', true);
-            SendRateforApproval();
+       if (Validation()) {
+    
+           $(this).val('Please wait ...').attr('disabled', 'disabled');
+           var x = setInterval(function () {
+                   clearInterval(x);
+                   SendRateforApproval();
+           }, 300);
+        
         }
     });
     if ($("input[id*='hdnMaterialID']").val() == undefined || $("input[id*='hdnMaterialID']").val() == "") {
@@ -263,7 +267,7 @@ function ddlGST_ChangeEvent(cntID) {
 }
 
 function SendRateforApproval() {
-
+    $("#btnSendforApproval").val('Please wait ...').attr('disabled', 'disabled');
     var tablelength = $("#tbody").children('tr').length;
     var param = new Object();
     for (var i = 0 ; i < (tablelength + delItems) ; i++) {
@@ -295,6 +299,7 @@ function SendRateforApproval() {
             MaterialNonApprovedRate.NetRate = rateAfterDiscountvat.toFixed(2);
             MaterialNonApprovedRate.VendorID = $("#hdnVendorID" + i).val();
             MaterialNonApprovedRate.Vat = 0;
+            MaterialNonApprovedRate.EstID = $("input[id*='hdnEstID']").val();
 
             param.materialNonApprovedRate = MaterialNonApprovedRate;
 
@@ -307,8 +312,8 @@ function SendRateforApproval() {
                 dataType: "json",
                 success: function (result, textStatus) {
                     if (textStatus == "success") {
-                     
-
+                        alert("Rate Send for Approval Successfully");
+                        ClearTextBox();
                     }
                 },
                 error: function (result, textStatus) {
@@ -317,9 +322,7 @@ function SendRateforApproval() {
             });
         }
     }
-    alert("Rate Send for Approval Successfully");
-    ClearTextBox();
-    $("#btnSendforApproval").prop('disabled', false);
+  
 }
 
 function Validation() {
@@ -430,7 +433,7 @@ function ClearTextBox() {
     }
 }
 
-function GetMaterialInfoByMatID(matID, vendorID, newRate) {
+function GetMaterialInfoByMatID(matID, vendorID, newRate,estID) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -463,6 +466,8 @@ function GetMaterialInfoByMatID(matID, vendorID, newRate) {
                 $("#lblAdditionalDiscount0").text(msg[0].AdditionalDiscount);
                 GetVendorName(vendorID);
                 $("#hdnVendorID0").val(vendorID);
+                $("input[id*='hdnEstID']").val(estID);
+              
             }
         },
         error: function (response) {

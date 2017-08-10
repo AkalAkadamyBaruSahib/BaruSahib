@@ -165,11 +165,11 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
         DataSet dsMatDetails = new DataSet();
         if (UserTypeID == (int)TypeEnum.UserType.PURCHASE || UserTypeID == (int)TypeEnum.UserType.PURCHASECOMMITTEE)
         {
-            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "' ");
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateMaterialViewForPurchase_V1 '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','2' ");
         }
         else if (UserTypeID == (int)TypeEnum.UserType.PURCHASEEMPLOYEE)
         {
-            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','" + PurchaseSource + "', " + UserID);
+            dsMatDetails = DAL.DalAccessUtility.GetDataInDataSet("exec [USP_EstimateMaterialViewForPurchase_V1ByEmployeeID] '" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "','2', " + UserID);
         }
         else if (UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION || UserTypeID == (int)TypeEnum.UserType.ADMIN)
         {
