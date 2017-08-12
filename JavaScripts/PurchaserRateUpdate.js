@@ -37,6 +37,14 @@ $(document).ready(function () {
         row.find("[id*='txtDiscount']").prop('disabled', false);
         row.find("[id*='txtMRP']").prop('disabled', false);
         $("input[id*='hdnNewRate']").val(row.find("[id*='txtRate']").val());
+        if (row.find("[id*='txtRate']").val() == "0") {
+            row.find("[id*='txtRate']").val("");
+            row.find("[id*='txtRate']").css('border-color', 'red');
+        }
+        else {
+            row.find("[id*='txtRate']").css('border-color', '');
+        }
+
   });
     $("[id*=gvMaterailDetailForPurchase] input[id*='txtPurchaseQty']").change(function (e) {
         var row = $(this).closest("tr");
