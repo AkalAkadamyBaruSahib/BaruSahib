@@ -67,7 +67,7 @@ $(document).ready(function () {
                 $("input[id*='hdnbookedSeats']").val(selectedSeats);
             }
             else {
-                selectedSeats = $("input[id*='hdnbookedSeats']").val() + ",";
+               // selectedSeats = $("input[id*='hdnbookedSeats']").val() + ",";
                 selectedSeats += str.join(',');
                 $("input[id*='hdnbookedSeats']").val(selectedSeats);
             }

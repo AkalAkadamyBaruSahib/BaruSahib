@@ -58,10 +58,47 @@ public partial class StudentWiseTransportDetail : System.Web.UI.Page
         txtFatherName.Text = "";
         txtStudentName.Text = "";
         drpAcademy.ClearSelection();
+        drpPassenger.SelectedIndex = 0;
+        drpViewPassenger.SelectedIndex = 0;
     }
 
     protected void btnClear_Click(object sender, EventArgs e)
     {
         Clear();
+    }
+    protected void btnStaffSave_Click(object sender, EventArgs e)
+    {
+        StaffDetailInTransport staff = new StaffDetailInTransport();
+        staff.ID = hdnStaffID.Value == "" ? 0 : Convert.ToInt16(hdnStaffID.Value);
+        staff.StaffType = Convert.ToInt32(drpStaffType.SelectedValue);
+        staff.StaffName = txtStafftName.Text;
+        staff.FatherName = txtStaffFatherName.Text;
+        staff.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
+        hdnStaffID.Value = "";
+       TransportUserRepository repo = new TransportUserRepository(new AkalAcademy.DataContext());
+        if (staff.ID == 0)
+        {
+            repo.AddNewStaffDetail(staff);
+        }
+        else
+        {
+            repo.UpdateStaffDetail(staff);
+        }
+        ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Record Saved Successfully');</script>", false);
+        StaffClear();
+       
+    }
+    protected void btnStaffClear_Click(object sender, EventArgs e)
+    {
+        StaffClear();
+    }
+    
+    public void StaffClear()
+    {
+        drpStaffType.ClearSelection();
+        txtStaffFatherName.Text = "";
+        txtStafftName.Text = "";
+        drpPassenger.SelectedIndex = 0;
+        drpViewPassenger.SelectedIndex = 0;
     }
 }

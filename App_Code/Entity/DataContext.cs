@@ -87,6 +87,7 @@ namespace AkalAcademy
         public DbSet<VehicleServiceRecord> VehicleServiceRecord { get; set; }
         public DbSet<SittingTyreRelation> SittingTyreRelation { get; set; }
         public DbSet<StudentDetailInTransport> StudentDetailInTransport { get; set; }
+        public DbSet<StaffDetailInTransport> StaffDetailInTransport { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -98,8 +99,6 @@ namespace AkalAcademy
 
             modelBuilder.Entity<VendorInfo>().HasMany(v => v.VendorMaterialRelations).WithOptional().HasForeignKey(r => r.VendorID);
             modelBuilder.Entity<Material>().HasMany(v => v.VendorMaterialRelation).WithOptional().HasForeignKey(r => r.MatID);
-          
-
         }
     }
 }

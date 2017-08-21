@@ -595,6 +595,12 @@ public class TransportUserRepository
         _context.Entry(student).State = EntityState.Added;
         _context.SaveChanges();
     }
+
+    public void AddNewStaffDetail(StaffDetailInTransport staff)
+    {
+        _context.Entry(staff).State = EntityState.Added;
+        _context.SaveChanges();
+    }
     public void UpdateStudentsInfo(StudentDetailInTransport student)
     {
         StudentDetailInTransport stu = _context.StudentDetailInTransport.Where(v => v.ID == student.ID).FirstOrDefault();
@@ -606,6 +612,18 @@ public class TransportUserRepository
         stu.FatherName = student.FatherName;
         stu.AcaID = student.AcaID;
 
+        _context.Entry(stu).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
+    public void UpdateStaffDetail(StaffDetailInTransport staff)
+    {
+        StaffDetailInTransport stu = _context.StaffDetailInTransport.Where(v => v.ID == staff.ID).FirstOrDefault();
+        stu.ID = staff.ID;
+        stu.StaffName = staff.StaffName;
+        stu.FatherName = staff.FatherName;
+        stu.StaffType = staff.StaffType;
+        stu.CreatedBy = staff.CreatedBy;
         _context.Entry(stu).State = EntityState.Modified;
         _context.SaveChanges();
     }
@@ -641,6 +659,18 @@ public class TransportUserRepository
         return vehicle;
     }
 
+    public List<StaffDetailInTransport> GetStaffInfoInTransport(int inchargeID)
+    {
+        if (inchargeID == 32)
+        {
+            return _context.StaffDetailInTransport.OrderByDescending(m => m.CreatedBy).ToList();
+        }
+        else
+        {
+            return _context.StaffDetailInTransport.Where(x => x.CreatedBy == inchargeID).OrderByDescending(m => m.CreatedBy).ToList();
+        }
+    }
+
     public StudentDetailInTransport GetStudentInfoByStudentID(int studentID)
     {
         StudentDetailInTransport studentinfo = _context.StudentDetailInTransport.Where(v => v.ID == studentID).FirstOrDefault();
@@ -651,6 +681,19 @@ public class TransportUserRepository
     {
         StudentDetailInTransport DelVehicleEmployee = _context.StudentDetailInTransport.Where(v => v.ID == studentID).FirstOrDefault();
        _context.Entry(DelVehicleEmployee).State = EntityState.Deleted;
+        _context.SaveChanges();
+    }
+
+    public StaffDetailInTransport GetStaffInfoByStaffID(int staffID)
+    {
+        StaffDetailInTransport staffinfo = _context.StaffDetailInTransport.Where(v => v.ID == staffID).FirstOrDefault();
+        return staffinfo;
+    }
+
+    public void GetStaffInfoToDeleteByStaffID(int staffID)
+    {
+        StaffDetailInTransport DelStaff = _context.StaffDetailInTransport.Where(v => v.ID == staffID).FirstOrDefault();
+        _context.Entry(DelStaff).State = EntityState.Deleted;
         _context.SaveChanges();
     }
 }

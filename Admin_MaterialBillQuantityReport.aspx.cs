@@ -235,8 +235,8 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
         Response.ContentType = "application/octet-stream";
         Response.WriteFile(@FilePath);
         Response.End();
-    } 
-    
+    }
+
     private string getAlphabeticCharacter(int num)
     {
         string character = string.Empty;
@@ -1020,7 +1020,7 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
             case 259:
                 character = "IY";
                 break;
-             case 260:
+            case 260:
                 character = "IZ";
                 break;
             case 261:
@@ -3207,10 +3207,1803 @@ public partial class Admin_MaterialBillQuantutyReport : System.Web.UI.Page
             case 988:
                 character = "AKZ";
                 break;
+            case 989:
+                character = "ALA";
+                break;
+            case 990:
+                character = "ALB";
+                break;
+            case 991:
+                character = "ALC";
+                break;
+            case 992:
+                character = "ALD";
+                break;
+            case 993:
+                character = "ALE";
+                break;
+            case 994:
+                character = "ALF";
+                break;
+            case 995:
+                character = "ALG";
+                break;
+            case 996:
+                character = "ALH";
+                break;
+            case 997:
+                character = "ALI";
+                break;
+            case 998:
+                character = "ALJ";
+                break;
+            case 999:
+                character = "ALK";
+                break;
+            case 1000:
+                character = "ALL";
+                break;
+            case 1001:
+                character = "ALM";
+                break;
+            case 1002:
+                character = "ALN";
+                break;
+            case 1003:
+                character = "ALO";
+                break;
+            case 1004:
+                character = "ALP";
+                break;
+            case 1005:
+                character = "ALQ";
+                break;
+            case 1006:
+                character = "ALR";
+                break;
+            case 1007:
+                character = "ALS";
+                break;
+            case 1008:
+                character = "ALT";
+                break;
+            case 1009:
+                character = "ALU";
+                break;
+            case 1010:
+                character = "ALV";
+                break;
+            case 1011:
+                character = "ALW";
+                break;
+            case 1012:
+                character = "ALX";
+                break;
+            case 1013:
+                character = "ALY";
+                break;
+            case 1014:
+                character = "ALZ";
+                break;
+            case 1015:
+                character = "AMA";
+                break;
+            case 1016:
+                character = "AMB";
+                break;
+            case 1017:
+                character = "AMC";
+                break;
+            case 1018:
+                character = "AMD";
+                break;
+            case 1019:
+                character = "AME";
+                break;
+            case 1020:
+                character = "AMF";
+                break;
+            case 1021:
+                character = "AMG";
+                break;
+            case 1022:
+                character = "AMH";
+                break;
+            case 1023:
+                character = "AMI";
+                break;
+            case 1024:
+                character = "AMJ";
+                break;
+            case 1025:
+                character = "AMK";
+                break;
+            case 1026:
+                character = "AML";
+                break;
+            case 1027:
+                character = "AMM";
+                break;
+            case 1028:
+                character = "AMN";
+                break;
+            case 1029:
+                character = "AMO";
+                break;
+            case 1030:
+                character = "AMP";
+                break;
+            case 1031:
+                character = "AMQ";
+                break;
+            case 1032:
+                character = "AMR";
+                break;
+            case 1033:
+                character = "AMS";
+                break;
+            case 1034:
+                character = "AMT";
+                break;
+            case 1035:
+                character = "AMU";
+                break;
+            case 1036:
+                character = "AMV";
+                break;
+            case 1037:
+                character = "AMW";
+                break;
+            case 1038:
+                character = "AMX";
+                break;
+            case 1039:
+                character = "AMY";
+                break;
+            case 1040:
+                character = "AMZ";
+                break;
+            case 1041:
+                character = "ANA";
+                break;
+            case 1042:
+                character = "ANB";
+                break;
+            case 1043:
+                character = "ANC";
+                break;
+            case 1044:
+                character = "AND";
+                break;
+            case 1045:
+                character = "ANE";
+                break;
+            case 1046:
+                character = "ANF";
+                break;
+            case 1047:
+                character = "ANG";
+                break;
+            case 1048:
+                character = "ANH";
+                break;
+            case 1049:
+                character = "ANI";
+                break;
+            case 1050:
+                character = "ANJ";
+                break;
+            case 1051:
+                character = "ANK";
+                break;
+            case 1052:
+                character = "ANL";
+                break;
+            case 1053:
+                character = "ANM";
+                break;
+            case 1054:
+                character = "ANN";
+                break;
+            case 1055:
+                character = "ANO";
+                break;
+            case 1056:
+                character = "ANP";
+                break;
+            case 1057:
+                character = "ANQ";
+                break;
+            case 1058:
+                character = "ANR";
+                break;
+            case 1059:
+                character = "ANS";
+                break;
+            case 1060:
+                character = "ANT";
+                break;
+            case 1061:
+                character = "ANU";
+                break;
+            case 1062:
+                character = "ANV";
+                break;
+            case 1063:
+                character = "ANW";
+                break;
+            case 1064:
+                character = "ANX";
+                break;
+            case 1065:
+                character = "ANY";
+                break;
+            case 1066:
+                character = "ANZ";
+                break;
+            case 1067:
+                character = "AOA";
+                break;
+            case 1068:
+                character = "AOB";
+                break;
+            case 1069:
+                character = "AOC";
+                break;
+            case 1070:
+                character = "AOD";
+                break;
+            case 1071:
+                character = "AOE";
+                break;
+            case 1072:
+                character = "AOF";
+                break;
+            case 1073:
+                character = "AOG";
+                break;
+            case 1074:
+                character = "AOH";
+                break;
+            case 1075:
+                character = "AOI";
+                break;
+            case 1076:
+                character = "AOJ";
+                break;
+            case 1077:
+                character = "AOK";
+                break;
+            case 1078:
+                character = "AOL";
+                break;
+            case 1079:
+                character = "AOM";
+                break;
+            case 1080:
+                character = "AON";
+                break;
+            case 1081:
+                character = "AOO";
+                break;
+            case 1082:
+                character = "AOP";
+                break;
+            case 1083:
+                character = "AOQ";
+                break;
+            case 1084:
+                character = "AOR";
+                break;
+            case 1085:
+                character = "AOS";
+                break;
+            case 1086:
+                character = "AOT";
+                break;
+            case 1087:
+                character = "AOU";
+                break;
+            case 1088:
+                character = "AOV";
+                break;
+            case 1089:
+                character = "AOW";
+                break;
+            case 1090:
+                character = "AOX";
+                break;
+            case 1091:
+                character = "AOY";
+                break;
+            case 1092:
+                character = "AOZ";
+                break;
+            case 1093:
+                character = "APA";
+                break;
+            case 1094:
+                character = "APB";
+                break;
+            case 1095:
+                character = "APC";
+                break;
+            case 1096:
+                character = "APD";
+                break;
+            case 1097:
+                character = "APE";
+                break;
+            case 1098:
+                character = "APF";
+                break;
+            case 1099:
+                character = "APG";
+                break;
+            case 1100:
+                character = "APH";
+                break;
+            case 1101:
+                character = "API";
+                break;
+            case 1102:
+                character = "APJ";
+                break;
+            case 1103:
+                character = "APK";
+                break;
+            case 1104:
+                character = "APL";
+                break;
+            case 1105:
+                character = "APM";
+                break;
+            case 1106:
+                character = "APN";
+                break;
+            case 1107:
+                character = "APO";
+                break;
+            case 1108:
+                character = "APP";
+                break;
+            case 1109:
+                character = "APQ";
+                break;
+            case 1110:
+                character = "APR";
+                break;
+            case 1111:
+                character = "APS";
+                break;
+            case 1112:
+                character = "APT";
+                break;
+            case 1113:
+                character = "APU";
+                break;
+            case 1114:
+                character = "APV";
+                break;
+            case 1115:
+                character = "APW";
+                break;
+            case 1116:
+                character = "APX";
+                break;
+            case 1117:
+                character = "APY";
+                break;
+            case 1118:
+                character = "APZ";
+                break;
+            case 1119:
+                character = "AQA";
+                break;
+            case 1120:
+                character = "AQB";
+                break;
+            case 1121:
+                character = "AQC";
+                break;
+            case 1122:
+                character = "AQD";
+                break;
+            case 1123:
+                character = "AQE";
+                break;
+            case 1124:
+                character = "AQF";
+                break;
+            case 1125:
+                character = "AQG";
+                break;
+            case 1126:
+                character = "AQH";
+                break;
+            case 1127:
+                character = "AQI";
+                break;
+            case 1128:
+                character = "AQJ";
+                break;
+            case 1129:
+                character = "AQK";
+                break;
+            case 1130:
+                character = "AQL";
+                break;
+            case 1131:
+                character = "AQM";
+                break;
+            case 1132:
+                character = "AQN";
+                break;
+            case 1133:
+                character = "AQO";
+                break;
+            case 1134:
+                character = "AQP";
+                break;
+            case 1135:
+                character = "AQQ";
+                break;
+            case 1136:
+                character = "AQR";
+                break;
+            case 1137:
+                character = "AQS";
+                break;
+            case 1138:
+                character = "AQT";
+                break;
+            case 1139:
+                character = "AQU";
+                break;
+            case 1140:
+                character = "AQV";
+                break;
+            case 1141:
+                character = "AQW";
+                break;
+            case 1142:
+                character = "AQX";
+                break;
+            case 1143:
+                character = "AQY";
+                break;
+            case 1144:
+                character = "AQZ";
+                break;
+            case 1145:
+                character = "ARA";
+                break;
+            case 1146:
+                character = "ARB";
+                break;
+            case 1147:
+                character = "ARC";
+                break;
+            case 1148:
+                character = "ARD";
+                break;
+            case 1149:
+                character = "ARE";
+                break;
+            case 1150:
+                character = "ARF";
+                break;
+            case 1151:
+                character = "ARG";
+                break;
+            case 1152:
+                character = "ARH";
+                break;
+            case 1153:
+                character = "ARI";
+                break;
+            case 1154:
+                character = "ARJ";
+                break;
+            case 1155:
+                character = "ARK";
+                break;
+            case 1156:
+                character = "ARL";
+                break;
+            case 1157:
+                character = "ARM";
+                break;
+            case 1158:
+                character = "ARN";
+                break;
+            case 1159:
+                character = "ARO";
+                break;
+            case 1160:
+                character = "ARP";
+                break;
+            case 1161:
+                character = "ARQ";
+                break;
+            case 1162:
+                character = "ARR";
+                break;
+            case 1163:
+                character = "ARS";
+                break;
+            case 1164:
+                character = "ART";
+                break;
+            case 1165:
+                character = "ARU";
+                break;
+            case 1166:
+                character = "ARV";
+                break;
+            case 1167:
+                character = "ARW";
+                break;
+            case 1168:
+                character = "ARX";
+                break;
+            case 1169:
+                character = "ARY";
+                break;
+            case 1170:
+                character = "ARZ";
+                break;
+            case 1171:
+                character = "ASA";
+                break;
+            case 1172:
+                character = "ASB";
+                break;
+            case 1173:
+                character = "ASC";
+                break;
+            case 1174:
+                character = "ASD";
+                break;
+            case 1175:
+                character = "ASE";
+                break;
+            case 1176:
+                character = "ASF";
+                break;
+            case 1177:
+                character = "ASG";
+                break;
+            case 1178:
+                character = "ASH";
+                break;
+            case 1179:
+                character = "ASI";
+                break;
+            case 1180:
+                character = "ASJ";
+                break;
+            case 1181:
+                character = "ASK";
+                break;
+            case 1182:
+                character = "ASL";
+                break;
+            case 1183:
+                character = "ASM";
+                break;
+            case 1184:
+                character = "ASN";
+                break;
+            case 1185:
+                character = "ASO";
+                break;
+            case 1186:
+                character = "ASP";
+                break;
+            case 1187:
+                character = "ASQ";
+                break;
+            case 1188:
+                character = "ASR";
+                break;
+            case 1189:
+                character = "ASS";
+                break;
+            case 1190:
+                character = "AST";
+                break;
+            case 1191:
+                character = "ASU";
+                break;
+            case 1192:
+                character = "ASV";
+                break;
+            case 1193:
+                character = "ASW";
+                break;
+            case 1194:
+                character = "ASX";
+                break;
+            case 1195:
+                character = "ASY";
+                break;
+            case 1196:
+                character = "ASZ";
+                break;
+            case 1197:
+                character = "ATA";
+                break;
+            case 1198:
+                character = "ATB";
+                break;
+            case 1199:
+                character = "ATC";
+                break;
+            case 1200:
+                character = "ATD";
+                break;
+            case 1201:
+                character = "ATE";
+                break;
+            case 1202:
+                character = "ATF";
+                break;
+            case 1203:
+                character = "ATG";
+                break;
+            case 1204:
+                character = "ATH";
+                break;
+            case 1205:
+                character = "ATI";
+                break;
+            case 1206:
+                character = "ATJ";
+                break;
+            case 1207:
+                character = "ATK";
+                break;
+            case 1208:
+                character = "ATL";
+                break;
+            case 1209:
+                character = "ATM";
+                break;
+            case 1210:
+                character = "ATN";
+                break;
+            case 1211:
+                character = "ATO";
+                break;
+            case 1212:
+                character = "ATP";
+                break;
+            case 1213:
+                character = "ATQ";
+                break;
+            case 1214:
+                character = "ATR";
+                break;
+            case 1215:
+                character = "ATS";
+                break;
+            case 1216:
+                character = "ATT";
+                break;
+            case 1217:
+                character = "ATU";
+                break;
+            case 1218:
+                character = "ATV";
+                break;
+            case 1219:
+                character = "ATW";
+                break;
+            case 1220:
+                character = "ATX";
+                break;
+            case 1221:
+                character = "ATY";
+                break;
+            case 1222:
+                character = "ATZ";
+                break;
+            case 1223:
+                character = "AUA";
+                break;
+            case 1224:
+                character = "AUB";
+                break;
+            case 1225:
+                character = "AUC";
+                break;
+            case 1226:
+                character = "AUD";
+                break;
+            case 1227:
+                character = "AUE";
+                break;
+            case 1228:
+                character = "AUF";
+                break;
+            case 1229:
+                character = "AUG";
+                break;
+            case 1230:
+                character = "AUH";
+                break;
+            case 1231:
+                character = "AUI";
+                break;
+            case 1232:
+                character = "AUJ";
+                break;
+            case 1233:
+                character = "AUK";
+                break;
+            case 1234:
+                character = "AUL";
+                break;
+            case 1235:
+                character = "AUM";
+                break;
+            case 1236:
+                character = "AUN";
+                break;
+            case 1237:
+                character = "AUO";
+                break;
+            case 1238:
+                character = "AUP";
+                break;
+            case 1239:
+                character = "AUQ";
+                break;
+            case 1240:
+                character = "AUR";
+                break;
+            case 1241:
+                character = "AUS";
+                break;
+            case 1242:
+                character = "AUT";
+                break;
+            case 1243:
+                character = "AUU";
+                break;
+            case 1244:
+                character = "AUV";
+                break;
+            case 1245:
+                character = "AUW";
+                break;
+            case 1246:
+                character = "AUX";
+                break;
+            case 1247:
+                character = "AUY";
+                break;
+            case 1248:
+                character = "AUZ";
+                break;
+            case 1249:
+                character = "AVA";
+                break;
+            case 1250:
+                character = "AVB";
+                break;
+            case 1251:
+                character = "AVC";
+                break;
+            case 1252:
+                character = "AVD";
+                break;
+            case 1253:
+                character = "AVE";
+                break;
+            case 1254:
+                character = "AVF";
+                break;
+            case 1255:
+                character = "AVG";
+                break;
+            case 1256:
+                character = "AVH";
+                break;
+            case 1257:
+                character = "AVI";
+                break;
+            case 1258:
+                character = "AVJ";
+                break;
+            case 1259:
+                character = "AVK";
+                break;
+            case 1260:
+                character = "AVL";
+                break;
+            case 1261:
+                character = "AVM";
+                break;
+            case 1262:
+                character = "AVN";
+                break;
+            case 1263:
+                character = "AVO";
+                break;
+            case 1264:
+                character = "AVP";
+                break;
+            case 1265:
+                character = "AVQ";
+                break;
+            case 1266:
+                character = "AVR";
+                break;
+            case 1267:
+                character = "AVS";
+                break;
+            case 1268:
+                character = "AVT";
+                break;
+            case 1269:
+                character = "AVU";
+                break;
+            case 1270:
+                character = "AVV";
+                break;
+            case 1271:
+                character = "AVW";
+                break;
+            case 1272:
+                character = "AVX";
+                break;
+            case 1273:
+                character = "AVY";
+                break;
+            case 1274:
+                character = "AVZ";
+                break;
+            case 1275:
+                character = "AWA";
+                break;
+            case 1276:
+                character = "AWB";
+                break;
+            case 1277:
+                character = "AWC";
+                break;
+            case 1278:
+                character = "AWD";
+                break;
+            case 1279:
+                character = "AWE";
+                break;
+            case 1280:
+                character = "AWF";
+                break;
+            case 1281:
+                character = "AWG";
+                break;
+            case 1282:
+                character = "AWH";
+                break;
+            case 1283:
+                character = "AWI";
+                break;
+            case 1284:
+                character = "AWJ";
+                break;
+            case 1285:
+                character = "AWK";
+                break;
+            case 1286:
+                character = "AWL";
+                break;
+            case 1287:
+                character = "AWM";
+                break;
+            case 1288:
+                character = "AWN";
+                break;
+            case 1289:
+                character = "AWO";
+                break;
+            case 1290:
+                character = "AWP";
+                break;
+            case 1291:
+                character = "AWQ";
+                break;
+            case 1292:
+                character = "AWR";
+                break;
+            case 1293:
+                character = "AWS";
+                break;
+            case 1294:
+                character = "AWT";
+                break;
+            case 1295:
+                character = "AWU";
+                break;
+            case 1296:
+                character = "AWV";
+                break;
+            case 1297:
+                character = "AWW";
+                break;
+            case 1298:
+                character = "AWX";
+                break;
+            case 1299:
+                character = "AWY";
+                break;
+            case 1300:
+                character = "AWZ";
+                break;
+            case 1301:
+                character = "AXA";
+                break;
+            case 1302:
+                character = "AXB";
+                break;
+            case 1303:
+                character = "AXC";
+                break;
+            case 1304:
+                character = "AXD";
+                break;
+            case 1305:
+                character = "AXE";
+                break;
+            case 1306:
+                character = "AXF";
+                break;
+            case 1307:
+                character = "AXG";
+                break;
+            case 1308:
+                character = "AXH";
+                break;
+            case 1309:
+                character = "AXI";
+                break;
+            case 1310:
+                character = "AXJ";
+                break;
+            case 1311:
+                character = "AXK";
+                break;
+            case 1312:
+                character = "AXL";
+                break;
+            case 1313:
+                character = "AXM";
+                break;
+            case 1314:
+                character = "AXN";
+                break;
+            case 1315:
+                character = "AXO";
+                break;
+            case 1316:
+                character = "AXP";
+                break;
+            case 1317:
+                character = "AXQ";
+                break;
+            case 1318:
+                character = "AXR";
+                break;
+            case 1319:
+                character = "AXS";
+                break;
+            case 1320:
+                character = "AXT";
+                break;
+            case 1321:
+                character = "AXU";
+                break;
+            case 1322:
+                character = "AXV";
+                break;
+            case 1323:
+                character = "AXW";
+                break;
+            case 1324:
+                character = "AXX";
+                break;
+            case 1325:
+                character = "AXY";
+                break;
+            case 1326:
+                character = "AXZ";
+                break;
+            case 1327:
+                character = "AYA";
+                break;
+            case 1328:
+                character = "AYB";
+                break;
+            case 1329:
+                character = "AYC";
+                break;
+            case 1330:
+                character = "AYD";
+                break;
+            case 1331:
+                character = "AYE";
+                break;
+            case 1332:
+                character = "AYF";
+                break;
+            case 1333:
+                character = "AYG";
+                break;
+            case 1334:
+                character = "AYH";
+                break;
+            case 1335:
+                character = "AYI";
+                break;
+            case 1336:
+                character = "AYJ";
+                break;
+            case 1337:
+                character = "AYK";
+                break;
+            case 1338:
+                character = "AYL";
+                break;
+            case 1339:
+                character = "AYM";
+                break;
+            case 1340:
+                character = "AYN";
+                break;
+            case 1341:
+                character = "AYO";
+                break;
+            case 1342:
+                character = "AYP";
+                break;
+            case 1343:
+                character = "AYQ";
+                break;
+            case 1344:
+                character = "AYR";
+                break;
+            case 1345:
+                character = "AYS";
+                break;
+            case 1346:
+                character = "AYT";
+                break;
+            case 1347:
+                character = "AYU";
+                break;
+            case 1348:
+                character = "AYV";
+                break;
+            case 1349:
+                character = "AYW";
+                break;
+            case 1350:
+                character = "AYX";
+                break;
+            case 1351:
+                character = "AYY";
+                break;
+            case 1352:
+                character = "AYZ";
+                break;
+            case 1353:
+                character = "AZA";
+                break;
+            case 1354:
+                character = "AZB";
+                break;
+            case 1355:
+                character = "AZC";
+                break;
+            case 1356:
+                character = "AZD";
+                break;
+            case 1357:
+                character = "AZE";
+                break;
+            case 1358:
+                character = "AZF";
+                break;
+            case 1359:
+                character = "AZG";
+                break;
+            case 1360:
+                character = "AZH";
+                break;
+            case 1361:
+                character = "AZI";
+                break;
+            case 1362:
+                character = "AZJ";
+                break;
+            case 1363:
+                character = "AZK";
+                break;
+            case 1364:
+                character = "AZL";
+                break;
+            case 1365:
+                character = "AZM";
+                break;
+            case 1366:
+                character = "AZN";
+                break;
+            case 1367:
+                character = "AZO";
+                break;
+            case 1368:
+                character = "AZP";
+                break;
+            case 1369:
+                character = "AZQ";
+                break;
+            case 1370:
+                character = "AZR";
+                break;
+            case 1371:
+                character = "AZS";
+                break;
+            case 1372:
+                character = "AZT";
+                break;
+            case 1373:
+                character = "AZU";
+                break;
+            case 1374:
+                character = "AZV";
+                break;
+            case 1375:
+                character = "AZW";
+                break;
+            case 1376:
+                character = "AZX";
+                break;
+            case 1377:
+                character = "AZY";
+                break;
+            case 1378:
+                character = "AZZ";
+                break;
+            case 1379:
+                character = "BAA";
+                break;
+            case 1380:
+                character = "BAB";
+                break;
+            case 1381:
+                character = "BAC";
+                break;
+            case 1382:
+                character = "BAD";
+                break;
+            case 1383:
+                character = "BAE";
+                break;
+            case 1384:
+                character = "BAF";
+                break;
+            case 1385:
+                character = "BAG";
+                break;
+            case 1386:
+                character = "BAH";
+                break;
+            case 1387:
+                character = "BAI";
+                break;
+            case 1388:
+                character = "BAJ";
+                break;
+            case 1389:
+                character = "BAK";
+                break;
+            case 1390:
+                character = "BAL";
+                break;
+            case 1391:
+                character = "BAM";
+                break;
+            case 1392:
+                character = "BAN";
+                break;
+            case 1393:
+                character = "BAO";
+                break;
+            case 1394:
+                character = "BAP";
+                break;
+            case 1395:
+                character = "BAQ";
+                break;
+            case 1396:
+                character = "BAR";
+                break;
+            case 1397:
+                character = "BAS";
+                break;
+            case 1398:
+                character = "BAT";
+                break;
+            case 1399:
+                character = "BAU";
+                break;
+            case 1400:
+                character = "BAV";
+                break;
+            case 1401:
+                character = "BAW";
+                break;
+            case 1402:
+                character = "BAX";
+                break;
+            case 1403:
+                character = "BAY";
+                break;
+            case 1404:
+                character = "BAZ";
+                break;
+            case 1405:
+                character = "BBA";
+                break;
+            case 1406:
+                character = "BBB";
+                break;
+            case 1407:
+                character = "BBC";
+                break;
+            case 1408:
+                character = "BBD";
+                break;
+            case 1409:
+                character = "BBE";
+                break;
+            case 1410:
+                character = "BBF";
+                break;
+            case 1411:
+                character = "BBG";
+                break;
+            case 1412:
+                character = "BBH";
+                break;
+            case 1413:
+                character = "BBI";
+                break;
+            case 1414:
+                character = "BBJ";
+                break;
+            case 1415:
+                character = "BBK";
+                break;
+            case 1416:
+                character = "BBL";
+                break;
+            case 1417:
+                character = "BBM";
+                break;
+            case 1418:
+                character = "BBN";
+                break;
+            case 1419:
+                character = "BBO";
+                break;
+            case 1420:
+                character = "BBP";
+                break;
+            case 1421:
+                character = "BBQ";
+                break;
+            case 1422:
+                character = "BBR";
+                break;
+            case 1423:
+                character = "BBS";
+                break;
+            case 1424:
+                character = "BBT";
+                break;
+            case 1425:
+                character = "BBU";
+                break;
+            case 1426:
+                character = "BBV";
+                break;
+            case 1427:
+                character = "BBW";
+                break;
+            case 1428:
+                character = "BBX";
+                break;
+            case 1429:
+                character = "BBY";
+                break;
+            case 1430:
+                character = "BBZ";
+                break;
+            case 1431:
+                character = "BCA";
+                break;
+            case 1432:
+                character = "BCB";
+                break;
+            case 1433:
+                character = "BCC";
+                break;
+            case 1434:
+                character = "BCD";
+                break;
+            case 1435:
+                character = "BCE";
+                break;
+            case 1436:
+                character = "BCF";
+                break;
+            case 1437:
+                character = "BCG";
+                break;
+            case 1438:
+                character = "BCH";
+                break;
+            case 1439:
+                character = "BCI";
+                break;
+            case 1440:
+                character = "BCJ";
+                break;
+            case 1441:
+                character = "BCK";
+                break;
+            case 1442:
+                character = "BCL";
+                break;
+            case 1443:
+                character = "BCM";
+                break;
+            case 1444:
+                character = "BCN";
+                break;
+            case 1445:
+                character = "BCO";
+                break;
+            case 1446:
+                character = "BCP";
+                break;
+            case 1447:
+                character = "BCQ";
+                break;
+            case 1448:
+                character = "BCR";
+                break;
+            case 1449:
+                character = "BCS";
+                break;
+            case 1450:
+                character = "BCT";
+                break;
+            case 1451:
+                character = "BCU";
+                break;
+            case 1452:
+                character = "BCV";
+                break;
+            case 1453:
+                character = "BCW";
+                break;
+            case 1454:
+                character = "BCX";
+                break;
+            case 1455:
+                character = "BCY";
+                break;
+            case 1456:
+                character = "BCZ";
+                break;
+            case 1457:
+                character = "BDA";
+                break;
+            case 1458:
+                character = "BDB";
+                break;
+            case 1459:
+                character = "BDC";
+                break;
+            case 1460:
+                character = "BDD";
+                break;
+            case 1461:
+                character = "BDE";
+                break;
+            case 1462:
+                character = "BDF";
+                break;
+            case 1463:
+                character = "BDG";
+                break;
+            case 1464:
+                character = "BDH";
+                break;
+            case 1465:
+                character = "BDI";
+                break;
+            case 1466:
+                character = "BDJ";
+                break;
+            case 1467:
+                character = "BDK";
+                break;
+            case 1468:
+                character = "BDL";
+                break;
+            case 1469:
+                character = "BDM";
+                break;
+            case 1470:
+                character = "BDN";
+                break;
+            case 1471:
+                character = "BDO";
+                break;
+            case 1472:
+                character = "BDP";
+                break;
+            case 1473:
+                character = "BDQ";
+                break;
+            case 1474:
+                character = "BDR";
+                break;
+            case 1475:
+                character = "BDS";
+                break;
+            case 1476:
+                character = "BDT";
+                break;
+            case 1477:
+                character = "BDU";
+                break;
+            case 1478:
+                character = "BDV";
+                break;
+            case 1479:
+                character = "BDW";
+                break;
+            case 1480:
+                character = "BDX";
+                break;
+            case 1481:
+                character = "BDY";
+                break;
+            case 1482:
+                character = "BDZ";
+                break;
+            case 1483:
+                character = "BEA";
+                break;
+            case 1484:
+                character = "BEB";
+                break;
+            case 1485:
+                character = "BEC";
+                break;
+            case 1486:
+                character = "BED";
+                break;
+            case 1487:
+                character = "BEE";
+                break;
+            case 1488:
+                character = "BEF";
+                break;
+            case 1489:
+                character = "BEG";
+                break;
+            case 1490:
+                character = "BEH";
+                break;
+            case 1491:
+                character = "BEI";
+                break;
+            case 1492:
+                character = "BEJ";
+                break;
+            case 1493:
+                character = "BEK";
+                break;
+            case 1494:
+                character = "BEL";
+                break;
+            case 1495:
+                character = "BEM";
+                break;
+            case 1496:
+                character = "BEN";
+                break;
+            case 1497:
+                character = "BEO";
+                break;
+            case 1498:
+                character = "BEP";
+                break;
+            case 1499:
+                character = "BEQ";
+                break;
+            case 1500:
+                character = "BER";
+                break;
+            case 1501:
+                character = "BES";
+                break;
+            case 1502:
+                character = "BET";
+                break;
+            case 1503:
+                character = "BEU";
+                break;
+            case 1504:
+                character = "BEV";
+                break;
+            case 1505:
+                character = "BEW";
+                break;
+            case 1506:
+                character = "BEX";
+                break;
+            case 1507:
+                character = "BEY";
+                break;
+            case 1508:
+                character = "BEZ";
+                break;
+            case 1509:
+                character = "BFA";
+                break;
+            case 1510:
+                character = "BFB";
+                break;
+            case 1511:
+                character = "BFC";
+                break;
+            case 1512:
+                character = "BFD";
+                break;
+            case 1513:
+                character = "BFE";
+                break;
+            case 1514:
+                character = "BFF";
+                break;
+            case 1515:
+                character = "BFG";
+                break;
+            case 1516:
+                character = "BFH";
+                break;
+            case 1517:
+                character = "BFI";
+                break;
+            case 1518:
+                character = "BFJ";
+                break;
+            case 1519:
+                character = "BFK";
+                break;
+            case 1520:
+                character = "BFL";
+                break;
+            case 1521:
+                character = "BFM";
+                break;
+            case 1522:
+                character = "BFN";
+                break;
+            case 1523:
+                character = "BFO";
+                break;
+            case 1524:
+                character = "BFP";
+                break;
+            case 1525:
+                character = "BFQ";
+                break;
+            case 1526:
+                character = "BFR";
+                break;
+            case 1527:
+                character = "BFS";
+                break;
+            case 1528:
+                character = "BFT";
+                break;
+            case 1529:
+                character = "BFU";
+                break;
+            case 1530:
+                character = "BFV";
+                break;
+            case 1531:
+                character = "BFW";
+                break;
+            case 1532:
+                character = "BFX";
+                break;
+            case 1533:
+                character = "BFY";
+                break;
+            case 1534:
+                character = "BFZ";
+                break;
+            case 1535:
+                character = "BGA";
+                break;
+            case 1536:
+                character = "BGB";
+                break;
+            case 1537:
+                character = "BGC";
+                break;
+            case 1538:
+                character = "BGD";
+                break;
+            case 1539:
+                character = "BGE";
+                break;
+            case 1540:
+                character = "BGF";
+                break;
+            case 1541:
+                character = "BGG";
+                break;
+            case 1542:
+                character = "BGH";
+                break;
+            case 1543:
+                character = "BGI";
+                break;
+            case 1544:
+                character = "BGJ";
+                break;
+            case 1545:
+                character = "BGK";
+                break;
+            case 1546:
+                character = "BGL";
+                break;
+            case 1547:
+                character = "BGM";
+                break;
+            case 1548:
+                character = "BGN";
+                break;
+            case 1549:
+                character = "BGO";
+                break;
+            case 1550:
+                character = "BGP";
+                break;
+            case 1551:
+                character = "BGQ";
+                break;
+            case 1552:
+                character = "BGR";
+                break;
+            case 1553:
+                character = "BGS";
+                break;
+            case 1554:
+                character = "BGT";
+                break;
+            case 1555:
+                character = "BGU";
+                break;
+            case 1556:
+                character = "BGV";
+                break;
+            case 1557:
+                character = "BGW";
+                break;
+            case 1558:
+                character = "BGX";
+                break;
+            case 1559:
+                character = "BGY";
+                break;
+            case 1560:
+                character = "BGZ";
+                break;
+            case 1561:
+                character = "BHA";
+                break;
+            case 1562:
+                character = "BHB";
+                break;
+            case 1563:
+                character = "BHC";
+                break;
+            case 1564:
+                character = "BHD";
+                break;
+            case 1565:
+                character = "BHE";
+                break;
+            case 1566:
+                character = "BHF";
+                break;
+            case 1567:
+                character = "BHG";
+                break;
+            case 1568:
+                character = "BHH";
+                break;
+            case 1569:
+                character = "BHI";
+                break;
+            case 1570:
+                character = "BHJ";
+                break;
+            case 1571:
+                character = "BHK";
+                break;
+            case 1572:
+                character = "BHL";
+                break;
+            case 1573:
+                character = "BHM";
+                break;
+            case 1574:
+                character = "BHN";
+                break;
+            case 1575:
+                character = "BHO";
+                break;
+            case 1576:
+                character = "BHP";
+                break;
+            case 1577:
+                character = "BHQ";
+                break;
+            case 1578:
+                character = "BHR";
+                break;
+            case 1579:
+                character = "BHS";
+                break;
+            case 1580:
+                character = "BHT";
+                break;
+            case 1581:
+                character = "BHU";
+                break;
+            case 1582:
+                character = "BHV";
+                break;
+            case 1583:
+                character = "BHW";
+                break;
+            case 1584:
+                character = "BHX";
+                break;
+            case 1585:
+                character = "BHY";
+                break;
+            case 1586:
+                character = "BHZ";
+                break;
             default:
                 break;
         }
-
         return character;
     }
 

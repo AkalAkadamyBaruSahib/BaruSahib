@@ -112,7 +112,7 @@
                                     <li id="liCreateMaterial" runat="server"><a class="ajax-link" href="Transport_Material.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
                                     <li id="liLocationAssign" runat="server"><a class="ajax-link" href="Transport_AssignLocation.aspx"><i></i><span class="hidden-tablet">Location Assign</span></a></li>
                                     <li id="liAddNewDriverConductor" runat="server"><a class="ajax-link" href="Transport_AddNewDriver.aspx"><i></i><span class="hidden-tablet">Add New Driver/Conductor</span></a></li>
-                                    <li id="liStudentWiseTransportDetail" runat="server"><a class="ajax-link" href="StudentWiseTransportDetail.aspx"><i></i><span class="hidden-tablet">Transport Student Detail</span></a></li>
+                                    <li id="liStudentWiseTransportDetail" runat="server"><a class="ajax-link" href="StudentWiseTransportDetail.aspx"><i></i><span class="hidden-tablet">Student & Staff Detail In Transport</span></a></li>
                                 </ul>
                             </li>
                             <li id="liVehicles" runat="server"><a class="dropmenu" href="#"><i>
