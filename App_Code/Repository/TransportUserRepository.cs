@@ -696,4 +696,19 @@ public class TransportUserRepository
         _context.Entry(DelStaff).State = EntityState.Deleted;
         _context.SaveChanges();
     }
+
+    public int SaveProformaDetail(ProformaDetail proforma)
+    {
+        _context.Entry(proforma).State = EntityState.Added;
+        _context.SaveChanges();
+        return proforma.ID;
+    }
+
+
+    public int SaveGensetProformaMaterialDetail(ProformaMaterialDetail matDetail)
+    {
+        _context.Entry(matDetail).State = EntityState.Added;
+        _context.SaveChanges();
+        return matDetail.ID;
+    }
 }

@@ -13,37 +13,91 @@ $(document).ready(function () {
 
     $("select[id*='ddlTyreAcaName']").change(function () {
         $("input[id*='hdnTyreAcaName']").val($("#ddlTyreAcaName option:selected").text());
+        $("input[id*='hdnTyreAcaID']").val($(this).val());
         BindTrustVechileByAcaID($(this).val());
     });
 
     $("select[id*='ddlServiceAcaName']").change(function () {
         BindTrustVechileByAcaID($(this).val());
         $("input[id*='hdnServiceAcaName']").val($("#ddlServiceAcaName option:selected").text());
+        $("input[id*='hdnServiceAcaID']").val($(this).val());
     });
 
     $("select[id*='ddlBatteryAcaName']").change(function () {
         $("input[id*='hdnBatteryAcaName']").val($("#ddlBatteryAcaName option:selected").text());
+        $("input[id*='hdnBatteryAcaID']").val($(this).val());
         BindTrustVechileByAcaID($(this).val());
     });
 
     $("select[id*='ddlServiceVehicleNo']").change(function () {
         BindSeatedAndModelByVehicleID($(this).val());
         $("input[id*='hdnServiceVehicleNo']").val($("#ddlServiceVehicleNo option:selected").text());
-
+        $("input[id*='hdnServiceVehicleID']").val($(this).val());
     });
 
     $("select[id*='ddlTyreVehicleNo']").change(function () {
         $("input[id*='hdnTyreVehicleNo']").val($("#ddlTyreVehicleNo option:selected").text());
+        $("input[id*='hdnTyreVehicleID']").val($(this).val());
         BindSeatedAndModelByVehicleID($(this).val());
     });
 
     $("select[id*='ddlVehicleNumber']").change(function () {
         BindSeatedAndModelByVehicleID($(this).val());
         $("input[id*='hdnBatteryVehicleNo']").val($("#ddlVehicleNumber option:selected").text());
+        $("input[id*='hdnBatteryVehicleID']").val($(this).val());
     });
 
     $("select[id*='ddlAcaName']").change(function () {
         $("input[id*='hdnGensetAcaName']").val($("#ddlAcaName option:selected").text());
+        $("input[id*='hdnGenAcaID']").val($(this).val());
+    });
+
+    $("#txtMrfQty").change(function () {
+        var mrfrate = $("#txtMrfRates").val();
+        if (mrfrate == "") {
+            $("#txtMrfAmount").val(0);
+        }
+        else {
+            var mrfqty = $("#txtMrfQty").val();
+            var mrf = parseFloat(mrfrate) * parseFloat(mrfqty);
+            $("#txtMrfAmount").val(mrf);
+        }
+    });
+
+    $("#txtApoloQty").change(function () {
+        var apolorate = $("#txtApoloRates").val();
+        if (apolorate == "") {
+            $("#txtApoloAmount").val(0);
+        }
+        else {
+            var apoloqty = $("#txtApoloQty").val();
+            var apolo = parseFloat(apolorate) * parseFloat(apoloqty);
+            $("#txtApoloAmount").val(apolo);
+        }
+    });
+
+    $("#txtCeatQty").change(function () {
+        var ceatrate = $("#txtCeatRates").val();
+        if (ceatrate == "") {
+            $("#txtCeatAmount").val(0);
+        }
+        else {
+            var ceatqty = $("#txtCeatQty").val();
+            var ceat = parseFloat(ceatrate) * parseFloat(ceatqty);
+            $("#txtCeatAmount").val(ceat);
+        }
+    });
+
+    $("#txtJkQty").change(function () {
+        var jkrate = $("#txtJkRates").val();
+        if (jkrate == "") {
+            $("#txtJkAmount").val(0);
+        }
+        else {
+            var jkqty = $("#txtJkQty").val();
+            var jk = parseFloat(jkrate) * parseFloat(jkqty);
+            $("#txtJkAmount").val(jk);
+        }
     });
 
     GetMaterials(2);
@@ -148,6 +202,9 @@ $(document).ready(function () {
             $("#txtJkAmount").prop('disabled', true);
             $("#txtTyreSeated").prop('disabled', true);
             $("#txtTyreModel").prop('disabled', true);
+            var length = $("#tbody1d").children('tr').length;
+            $("input[id*='hdnGensetTableLength']").val(length);
+            ClearTextBox();
         }
         else if ($(this).val() == 2) {
             $("#divGenset").hide();
@@ -460,6 +517,8 @@ $(document).ready(function () {
             $("#txtJkAmount").prop('disabled', true);
             $("#txtTyreSeated").prop('disabled', true);
             $("#txtTyreModel").prop('disabled', true);
+         
+            $("input[id*='hdnServiceTableLength']").val($("#tbodyService").children('tr').length);
             ClearTextBox();
         }
         else {
@@ -562,6 +621,7 @@ $(document).ready(function () {
             $("#txtJkAmount").prop('disabled', true);
             $("#txtTyreSeated").prop('disabled', true);
             $("#txtTyreModel").prop('disabled', true);
+         
             ClearTextBox();
         }
     });
@@ -1766,6 +1826,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate1").val(selectedMaterial.MatCost);
                         $("#txtUnit1").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID1").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID1").val(selectedMaterial.MatID);
                      }
                 }
 
@@ -1778,6 +1840,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate2").val(selectedMaterial.MatCost);
                         $("#txtUnit2").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID2").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID2").val(selectedMaterial.MatID);
                      }
                 }
 
@@ -1790,6 +1854,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate3").val(selectedMaterial.MatCost);
                         $("#txtUnit3").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID3").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID3").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1802,6 +1868,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate4").val(selectedMaterial.MatCost);
                         $("#txtUnit4").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID4").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID4").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1814,6 +1882,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate5").val(selectedMaterial.MatCost);
                         $("#txtUnit5").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID5").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID5").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1826,6 +1896,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate6").val(selectedMaterial.MatCost);
                         $("#txtUnit6").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID6").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID6").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1838,6 +1910,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate7").val(selectedMaterial.MatCost);
                         $("#txtUnit7").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID7").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID7").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1850,6 +1924,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate8").val(selectedMaterial.MatCost);
                         $("#txtUnit8").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID8").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID8").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1862,6 +1938,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate9").val(selectedMaterial.MatCost);
                         $("#txtUnit9").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID9").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID9").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1874,6 +1952,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate10").val(selectedMaterial.MatCost);
                         $("#txtUnit10").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID10").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID10").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1886,7 +1966,10 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate11").val(selectedMaterial.MatCost);
                         $("#txtUnit11").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID11").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID11").val(selectedMaterial.MatID);
                     }
+
                 }
 
             }).change();
@@ -1898,6 +1981,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate12").val(selectedMaterial.MatCost);
                         $("#txtUnit12").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID12").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID12").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1910,6 +1995,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate13").val(selectedMaterial.MatCost);
                         $("#txtUnit13").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID13").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID13").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1922,6 +2009,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate14").val(selectedMaterial.MatCost);
                         $("#txtUnit14").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID14").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID14").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1934,6 +2023,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate15").val(selectedMaterial.MatCost);
                         $("#txtUnit15").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID15").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID15").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1946,6 +2037,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate16").val(selectedMaterial.MatCost);
                         $("#txtUnit16").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID16").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID16").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1958,6 +2051,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate17").val(selectedMaterial.MatCost);
                         $("#txtUnit17").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID17").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID17").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1970,6 +2065,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate18").val(selectedMaterial.MatCost);
                         $("#txtUnit18").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID18").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID18").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -1982,6 +2079,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                     if (selectedMaterial != undefined) {
                         $("#txtRate19").val(selectedMaterial.MatCost);
                         $("#txtUnit19").val(selectedMaterial.Unit.UnitName);
+                        $("#hdnUnitID19").val(selectedMaterial.Unit.UnitId);
+                        $("#hdnMatID19").val(selectedMaterial.MatID);
                     }
                 }
 
@@ -2075,6 +2174,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice0").val(selectedMaterial.MatCost);
                             $("#txtSerUnit0").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID0").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID0").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2086,6 +2187,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice1").val(selectedMaterial.MatCost);
                             $("#txtSerUnit1").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID1").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID1").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2097,6 +2200,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice2").val(selectedMaterial.MatCost);
                             $("#txtSerUnit2").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID2").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID2").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2108,6 +2213,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice3").val(selectedMaterial.MatCost);
                             $("#txtSerUnit3").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID3").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID3").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2119,6 +2226,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice4").val(selectedMaterial.MatCost);
                             $("#txtSerUnit4").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID4").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID4").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2130,6 +2239,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice5").val(selectedMaterial.MatCost);
                             $("#txtSerUnit5").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID5").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID5").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2141,6 +2252,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice6").val(selectedMaterial.MatCost);
                             $("#txtSerUnit6").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID6").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID6").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2152,6 +2265,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice7").val(selectedMaterial.MatCost);
                             $("#txtSerUnit7").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID7").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID7").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2163,6 +2278,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice8").val(selectedMaterial.MatCost);
                             $("#txtSerUnit8").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID8").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID8").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2174,6 +2291,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice9").val(selectedMaterial.MatCost);
                             $("#txtSerUnit9").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID9").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID9").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2185,6 +2304,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice10").val(selectedMaterial.MatCost);
                             $("#txtSerUnit10").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID10").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID10").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2196,6 +2317,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice11").val(selectedMaterial.MatCost);
                             $("#txtSerUnit11").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID11").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID11").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2207,6 +2330,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice12").val(selectedMaterial.MatCost);
                             $("#txtSerUnit12").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID12").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID12").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2218,6 +2343,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice13").val(selectedMaterial.MatCost);
                             $("#txtSerUnit13").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID13").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID13").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2229,6 +2356,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice14").val(selectedMaterial.MatCost);
                             $("#txtSerUnit14").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID14").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID14").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2240,6 +2369,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice15").val(selectedMaterial.MatCost);
                             $("#txtSerUnit15").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID15").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID15").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2251,6 +2382,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice16").val(selectedMaterial.MatCost);
                             $("#txtSerUnit16").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID16").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID16").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2262,6 +2395,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice17").val(selectedMaterial.MatCost);
                             $("#txtSerUnit17").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID17").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID17").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2273,6 +2408,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice18").val(selectedMaterial.MatCost);
                             $("#txtSerUnit18").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID18").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID18").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2284,6 +2421,8 @@ function GetMaterialsFromMaterialObject(sourceTypeID) {
                         if (selectedMaterial != undefined) {
                             $("#txtPrice19").val(selectedMaterial.MatCost);
                             $("#txtSerUnit19").val(selectedMaterial.Unit.UnitName);
+                            $("#hdnSerUnitID19").val(selectedMaterial.Unit.UnitId);
+                            $("#hdnSerMatID19").val(selectedMaterial.MatID);
                         }
                     }
                 }).change();
@@ -2606,6 +2745,128 @@ function ClearTextBox() {
     $("#txtSerUnit16").val("");
     $("#txtSerUnit17").val("");
     $("#txtSerUnit18").val("");
+    $("#txtSerUnit19").val("");
+    $("#hdnMatID0").val("");
+    $("#hdnUnitID0").val("");
+    $("#hdnSerMatID0").val("");
+    $("#hdnSerUnitID0").val("");
+    $("#hdnMatID1").val("");
+    $("#hdnUnitID1").val("");
+    $("#hdnSerMatID1").val("");
+    $("#hdnSerUnitID1").val("");
+    $("#hdnMatID2").val("");
+    $("#hdnUnitID2").val("");
+    $("#hdnSerMatID2").val("");
+    $("#hdnSerUnitID2").val("");
+    $("#hdnMatID3").val("");
+    $("#hdnUnitID3").val("");
+    $("#hdnSerMatID3").val("");
+    $("#hdnSerUnitID3").val("");
+    $("#hdnMatID4").val("");
+    $("#hdnUnitID4").val("");
+    $("#hdnSerMatID4").val("");
+    $("#hdnSerUnitID4").val("");
+    $("#hdnMatID5").val("");
+    $("#hdnUnitID5").val("");
+    $("#hdnSerMatID5").val("");
+    $("#hdnSerUnitID5").val("");
+    $("#hdnMatID6").val("");
+    $("#hdnUnitID6").val("");
+    $("#hdnSerMatID6").val("");
+    $("#hdnSerUnitID6").val("");
+    $("#hdnMatID7").val("");
+    $("#hdnUnitID7").val("");
+    $("#hdnSerMatID7").val("");
+    $("#hdnSerUnitID7").val("");
+    $("#hdnMatID8").val("");
+    $("#hdnUnitID8").val("");
+    $("#hdnSerMatID8").val("");
+    $("#hdnSerUnitID8").val("");
+    $("#hdnMatID9").val("");
+    $("#hdnUnitID9").val("");
+    $("#hdnSerMatID9").val("");
+    $("#hdnSerUnitID9").val("");
+    $("#hdnMatID10").val("");
+    $("#hdnUnitID10").val("");
+    $("#hdnSerMatID10").val("");
+    $("#hdnSerUnitID10").val("");
+     $("#hdnMatID1").val("");
+    $("#hdnUnitID1").val("");
+    $("#hdnSerMatID1").val("");
+    $("#hdnSerUnitID1").val("");
+    $("#hdnMatID2").val("");
+    $("#hdnUnitID2").val("");
+    $("#hdnSerMatID2").val("");
+    $("#hdnSerUnitID2").val("");
+    $("#hdnMatID3").val("");
+    $("#hdnUnitID3").val("");
+    $("#hdnSerMatID3").val("");
+    $("#hdnSerUnitID3").val("");
+    $("#hdnMatID4").val("");
+    $("#hdnUnitID4").val("");
+    $("#hdnSerMatID4").val("");
+    $("#hdnSerUnitID4").val("");
+    $("#hdnMatID5").val("");
+    $("#hdnUnitID5").val("");
+    $("#hdnSerMatID5").val("");
+    $("#hdnSerUnitID5").val("");
+    $("#hdnMatID6").val("");
+    $("#hdnUnitID6").val("");
+    $("#hdnSerMatID6").val("");
+    $("#hdnSerUnitID6").val("");
+    $("#hdnMatID7").val("");
+    $("#hdnUnitID7").val("");
+    $("#hdnSerMatID7").val("");
+    $("#hdnSerUnitID7").val("");
+    $("#hdnMatID8").val("");
+    $("#hdnUnitID8").val("");
+    $("#hdnSerMatID8").val("");
+    $("#hdnSerUnitID8").val("");
+    $("#hdnMatID9").val("");
+    $("#hdnUnitID9").val("");
+    $("#hdnSerMatID9").val("");
+    $("#hdnSerUnitID9").val("");
+    $("#hdnMatID10").val("");
+    $("#hdnUnitID10").val("");
+    $("#hdnSerMatID10").val("");
+    $("#hdnSerUnitID10").val("");
+    $("#hdnMatID11").val("");
+    $("#hdnUnitID11").val("");
+    $("#hdnSerMatID11").val("");
+    $("#hdnSerUnitID11").val("");
+    $("#hdnMatID12").val("");
+    $("#hdnUnitID12").val("");
+    $("#hdnSerMatID12").val("");
+    $("#hdnSerUnitID12").val("");
+    $("#hdnMatID13").val("");
+    $("#hdnUnitID13").val("");
+    $("#hdnSerMatID13").val("");
+    $("#hdnSerUnitID13").val("");
+    $("#hdnMatID14").val("");
+    $("#hdnUnitID14").val("");
+    $("#hdnSerMatID14").val("");
+    $("#hdnSerUnitID14").val("");
+    $("#hdnMatID15").val("");
+    $("#hdnUnitID15").val("");
+    $("#hdnSerMatID15").val("");
+    $("#hdnSerUnitID15").val("");
+    $("#hdnMatID16").val("");
+    $("#hdnUnitID16").val("");
+    $("#hdnSerMatID16").val("");
+    $("#hdnSerUnitID16").val("");
+    $("#hdnMatID17").val("");
+    $("#hdnUnitID17").val("");
+    $("#hdnSerMatID17").val("");
+    $("#hdnSerUnitID17").val("");
+    $("#hdnMatID18").val("");
+    $("#hdnUnitID18").val("");
+    $("#hdnSerMatID18").val("");
+    $("#hdnSerUnitID18").val("");
+    $("#hdnMatID19").val("");
+    $("#hdnUnitID19").val("");
+    $("#hdnSerMatID19").val("");
+    $("#hdnSerUnitID19").val("");
+
 }
 
 function TotalGensetAmt() {
@@ -2615,18 +2876,25 @@ function TotalGensetAmt() {
         var rate = 0;
         var qty = 0;
         for (var i = 0 ; i < (tablelength) ; i++) {
-            if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
-                qty = 0;
+            if ($("#hdnMatID" + i).val() == "" || $("#hdnMatID" + i).val() == undefined) {
+                $("#txtMaterialName" + i).val("");
+                $("#txtRate" + i).val("");
+                $("#txtQty" + i).val("");
             }
             else {
-                qty = $("#txtQty" + i).val();
-            }
+                if ($("#txtQty" + i).val() == "" || $("#txtQty" + i).val() == undefined) {
+                    qty = 0;
+                }
+                else {
+                    qty = $("#txtQty" + i).val();
+                }
 
-            if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
-                rate = 0;
-            }
-            else {
-                rate = $("#txtRate" + i).val();
+                if ($("#txtRate" + i).val() == "" || $("#txtRate" + i).val() == undefined) {
+                    rate = 0;
+                }
+                else {
+                    rate = $("#txtRate" + i).val();
+                }
             }
 
             Amt += parseFloat(qty) * parseFloat(rate);
@@ -2664,20 +2932,26 @@ function TotalServiceAmt() {
         var rate = 0;
         var qty = 0;
         for (var i = 0 ; i < (tablelength) ; i++) {
-            if ($("#txtQuantity" + i).val() == "" || $("#txtQuantity" + i).val() == undefined) {
-                qty = 0;
+            if ($("#hdnSerMatID" + i).val() == "" || $("#hdnSerMatID" + i).val() == undefined) {
+                $("#txtMaterial" + i).val("");
+                $("#txtPrice" + i).val("");
+                $("#txtQuantity" + i).val("");
             }
             else {
-                qty = $("#txtQuantity" + i).val();
-            }
+                if ($("#txtQuantity" + i).val() == "" || $("#txtQuantity" + i).val() == undefined) {
+                    qty = 0;
+                }
+                else {
+                    qty = $("#txtQuantity" + i).val();
+                }
 
-            if ($("#txtPrice" + i).val() == "" || $("#txtPrice" + i).val() == undefined) {
-                rate = 0;
+                if ($("#txtPrice" + i).val() == "" || $("#txtPrice" + i).val() == undefined) {
+                    rate = 0;
+                }
+                else {
+                    rate = $("#txtPrice" + i).val();
+                }
             }
-            else {
-                rate = $("#txtPrice" + i).val();
-            }
-
             Amt += parseFloat(qty) * parseFloat(rate);
         }
         var RoundAmt = Amt.toFixed(2);

@@ -88,6 +88,8 @@ namespace AkalAcademy
         public DbSet<SittingTyreRelation> SittingTyreRelation { get; set; }
         public DbSet<StudentDetailInTransport> StudentDetailInTransport { get; set; }
         public DbSet<StaffDetailInTransport> StaffDetailInTransport { get; set; }
+        public DbSet<ProformaMaterialDetail> ProformaMaterialDetail { get; set; }
+        public DbSet<ProformaDetail> ProformaDetail { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

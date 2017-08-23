@@ -5,6 +5,17 @@
     <div id="content" class="span10">
         <asp:HiddenField ID="hdnInchargeID" runat="server" />
         <asp:HiddenField ID="hdnUserId" runat="server" />
+        <asp:HiddenField ID="hdnServiceTableLength" runat="server" />
+        <asp:HiddenField ID="hdnGensetTableLength" runat="server" />
+        <asp:HiddenField ID="hdnGenAcaID" runat="server" />
+        <asp:HiddenField ID="hdnBatteryVehicleID" runat="server" />
+        <asp:HiddenField ID="hdnTyreAcaID" runat="server" />
+        <asp:HiddenField ID="hdnServiceAcaID" runat="server" />
+        <asp:HiddenField ID="hdnBatteryAcaID" runat="server" />
+        <asp:HiddenField ID="hdnServiceVehicleID" runat="server" />
+        <asp:HiddenField ID="hdnTyreVehicleID" runat="server" />
+         <asp:HiddenField ID="hdnBatteryType" runat="server" />
+         <asp:HiddenField ID="hdnProformaID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well">
@@ -179,10 +190,11 @@
                                                                     <span id="spn0">1</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName0" id="txtMaterialName0" type="text" />
+                                                                    <input name="txtMaterialName0" id="txtMaterialName0" type="text" /><input type="text" style="display:none;" name="hdnMatID0" id="hdnMatID0" />
+
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit0" name="txtUnit0" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit0" name="txtUnit0" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID0" id="hdnUnitID0" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty0" name="txtQty0" type="text" style="width: 100px;" />
@@ -199,10 +211,10 @@
                                                                     <span id="Span1">2</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName1" id="txtMaterialName1" type="text" />
+                                                                    <input name="txtMaterialName1" id="txtMaterialName1" type="text" /><input type="text" style="display:none;" name="hdnMatID1" id="hdnMatID1" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit1" name="txtUnit1" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit1" name="txtUnit1" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID1" id="hdnUnitID1" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty1" name="txtQty1" type="text" style="width: 100px;" />
@@ -219,10 +231,10 @@
                                                                     <span id="Span2">3</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName2" id="txtMaterialName2" type="text" />
+                                                                    <input name="txtMaterialName2" id="txtMaterialName2" type="text" /><input type="text" style="display:none;" name="hdnMatID2" id="hdnMatID2" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit2" name="txtUnit2" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit2" name="txtUnit2" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID2" id="hdnUnitID2" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty2" name="txtQty2" type="text" style="width: 100px;" />
@@ -239,10 +251,10 @@
                                                                     <span id="Span3">4</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName3" id="txtMaterialName3" type="text" />
+                                                                    <input name="txtMaterialName3" id="txtMaterialName3" type="text" /><input type="text" style="display:none;" name="hdnMatID3" id="hdnMatID3" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit3" name="txtUnit3" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit3" name="txtUnit3" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID3" id="hdnUnitID3" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty3" name="txtQty3" type="text" style="width: 100px;" />
@@ -259,10 +271,10 @@
                                                                     <span id="Span4">5</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName4" id="txtMaterialName4" type="text" />
+                                                                    <input name="txtMaterialName4" id="txtMaterialName4" type="text" /><input type="text" style="display:none;" name="hdnMatID4" id="hdnMatID4" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit4" name="txtUnit4" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit4" name="txtUnit4" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID4" id="hdnUnitID4" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty4" name="txtQty4" type="text" style="width: 100px;" />
@@ -279,10 +291,10 @@
                                                                     <span id="Span19">6</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName5" id="txtMaterialName5" type="text" />
+                                                                    <input name="txtMaterialName5" id="txtMaterialName5" type="text" /><input type="text" style="display:none;" name="hdnMatID5" id="hdnMatID5" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit5" name="txtUnit5" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit5" name="txtUnit5" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID5" id="hdnUnitID5" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty5" name="txtQty5" type="text" style="width: 100px;" />
@@ -299,10 +311,10 @@
                                                                     <span id="Span20">7</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName6" id="txtMaterialName6" type="text" />
+                                                                    <input name="txtMaterialName6" id="txtMaterialName6" type="text" /><input type="text" style="display:none;" name="hdnMatID6" id="hdnMatID6" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit6" name="txtUnit6" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit6" name="txtUnit6" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID6" id="hdnUnitID6" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty6" name="txtQty6" type="text" style="width: 100px;" />
@@ -319,10 +331,10 @@
                                                                     <span id="Span21">8</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName7" id="txtMaterialName7" type="text" />
+                                                                    <input name="txtMaterialName7" id="txtMaterialName7" type="text" /><input type="text" style="display:none;" name="hdnMatID7" id="hdnMatID7" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit7" name="txtUnit7" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit7" name="txtUnit7" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID7" id="hdnUnitID7" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty7" name="txtQty7" type="text" style="width: 100px;" />
@@ -339,10 +351,10 @@
                                                                     <span id="Span24">9</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName8" id="txtMaterialName8" type="text" />
+                                                                    <input name="txtMaterialName8" id="txtMaterialName8" type="text" /><input type="text" style="display:none;" name="hdnMatID8" id="hdnMatID8" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit8" name="txtUnit8" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit8" name="txtUnit8" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID8" id="hdnUnitID8" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty8" name="txtQty8" type="text" style="width: 100px;" />
@@ -359,10 +371,10 @@
                                                                     <span id="Span25">10</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName9" id="txtMaterialName9" type="text" />
+                                                                    <input name="txtMaterialName9" id="txtMaterialName9" type="text" /><input type="text" style="display:none;" name="hdnMatID9" id="hdnMatID9" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit9" name="txtUnit9" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit9" name="txtUnit9" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID9" id="hdnUnitID9" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty9" name="txtQty9" type="text" style="width: 100px;" />
@@ -379,10 +391,10 @@
                                                                     <span id="Span28">11</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName10" id="txtMaterialName10" type="text" />
+                                                                    <input name="txtMaterialName10" id="txtMaterialName10" type="text" /><input type="text" style="display:none;" name="hdnMatID10" id="hdnMatID10" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit10" name="txtUnit10" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit10" name="txtUnit10" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID10" id="hdnUnitID10" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty10" name="txtQty10" type="text" style="width: 100px;" />
@@ -399,10 +411,10 @@
                                                                     <span id="Span29">12</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName11" id="txtMaterialName11" type="text" />
+                                                                    <input name="txtMaterialName11" id="txtMaterialName11" type="text" /><input type="text" style="display:none;" name="hdnMatID11" id="hdnMatID11" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit11" name="txtUnit11" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit11" name="txtUnit11" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID11" id="hdnUnitID11" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty11" name="txtQty11" type="text" style="width: 100px;" />
@@ -419,10 +431,10 @@
                                                                     <span id="Span30">13</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName12" id="txtMaterialName12" type="text" />
+                                                                    <input name="txtMaterialName12" id="txtMaterialName12" type="text" /><input type="text" style="display:none;" name="hdnMatID12" id="hdnMatID12" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit12" name="txtUnit12" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit12" name="txtUnit12" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID12" id="hdnUnitID12" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty12" name="txtQty12" type="text" style="width: 100px;" />
@@ -439,10 +451,10 @@
                                                                     <span id="Span31">14</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName13" id="txtMaterialName13" type="text" />
+                                                                    <input name="txtMaterialName13" id="txtMaterialName13" type="text" /><input type="text" style="display:none;" name="hdnMatID13" id="hdnMatID13" />
                                                                 </td>
-                                                                 <td>
-                                                                    <input id="txtUnit13" name="txtUnit13" type="text" style="width: 100px;" />
+                                                                <td>
+                                                                    <input id="txtUnit13" name="txtUnit13" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID13" id="hdnUnitID13" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty13" name="txtQty13" type="text" style="width: 100px;" />
@@ -458,11 +470,11 @@
                                                                         <span id="Span32">15</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName14" id="txtMaterialName14" type="text" />
+                                                                        <input name="txtMaterialName14" id="txtMaterialName14" type="text" /><input type="text" style="display:none;" name="hdnMatID14" id="hdnMatID14" />
                                                                     </td>
-                                                                     <td>
-                                                                    <input id="txtUnit14" name="txtUnit14" type="text" style="width: 100px;" />
-                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtUnit14" name="txtUnit14" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID14" id="hdnUnitID14" />
+                                                                    </td>
                                                                     <td>
                                                                         <input id="txtQty14" name="txtQty14" type="text" style="width: 100px;" />
                                                                     </td>
@@ -478,11 +490,11 @@
                                                                         <span id="Span38">16</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName15" id="txtMaterialName15" type="text" />
+                                                                        <input name="txtMaterialName15" id="txtMaterialName15" type="text" /><input type="text" style="display:none;" name="hdnMatID15" id="hdnMatID15" />
                                                                     </td>
-                                                                     <td>
-                                                                    <input id="txtUnit15" name="txtUnit15" type="text" style="width: 100px;" />
-                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtUnit15" name="txtUnit15" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID15" id="hdnUnitID15" />
+                                                                    </td>
                                                                     <td>
                                                                         <input id="txtQty15" name="txtQty15" type="text" style="width: 100px;" />
                                                                     </td>
@@ -498,11 +510,11 @@
                                                                         <span id="Span39">17</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName16" id="txtMaterialName16" type="text" />
+                                                                        <input name="txtMaterialName16" id="txtMaterialName16" type="text" /><input type="text" style="display:none;" name="hdnMatID16" id="hdnMatID16" />
                                                                     </td>
-                                                                     <td>
-                                                                    <input id="txtUnit16" name="txtUnit16" type="text" style="width: 100px;" />
-                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtUnit16" name="txtUnit16" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID16" id="hdnUnitID16" />
+                                                                    </td>
                                                                     <td>
                                                                         <input id="txtQty16" name="txtQty16" type="text" style="width: 100px;" />
                                                                     </td>
@@ -518,11 +530,11 @@
                                                                         <span id="Span40">18</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName17" id="txtMaterialName17" type="text" />
+                                                                        <input name="txtMaterialName17" id="txtMaterialName17" type="text" /><input type="text" style="display:none;" name="hdnMatID17" id="hdnMatID17" />
                                                                     </td>
-                                                                     <td>
-                                                                    <input id="txtUnit17" name="txtUnit17" type="text" style="width: 100px;" />
-                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtUnit17" name="txtUnit17" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID17" id="hdnUnitID17" />
+                                                                    </td>
                                                                     <td>
                                                                         <input id="txtQty17" name="txtQty17" type="text" style="width: 100px;" />
                                                                     </td>
@@ -538,11 +550,11 @@
                                                                         <span id="Span41">19</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName18" id="txtMaterialName18" type="text" />
+                                                                        <input name="txtMaterialName18" id="txtMaterialName18" type="text" /><input type="text" style="display:none;" name="hdnMatID18" id="hdnMatID18" />
                                                                     </td>
-                                                                     <td>
-                                                                    <input id="txtUnit18" name="txtUnit18" type="text" style="width: 100px;" />
-                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtUnit18" name="txtUnit18" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID18" id="hdnUnitID18" />
+                                                                    </td>
                                                                     <td>
                                                                         <input id="txtQty18" name="txtQty18" type="text" style="width: 100px;" />
                                                                     </td>
@@ -558,11 +570,11 @@
                                                                         <span id="Span42">20</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName19" id="txtMaterialName19" type="text" />
+                                                                        <input name="txtMaterialName19" id="txtMaterialName19" type="text" /><input type="text" style="display:none;" name="hdnMatID19" id="hdnMatID19" />
                                                                     </td>
-                                                                     <td>
-                                                                    <input id="txtUnit19" name="txtUnit19" type="text" style="width: 100px;" />
-                                                                </td>
+                                                                    <td>
+                                                                        <input id="txtUnit19" name="txtUnit19" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID19" id="hdnUnitID19" />
+                                                                    </td>
                                                                     <td>
                                                                         <input id="txtQty19" name="txtQty19" type="text" style="width: 100px;" />
                                                                     </td>
@@ -1279,10 +1291,10 @@
                                                                     <span id="Span1d0">1</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial0" name="txtMaterial0" type="text" />
+                                                                    <input id="txtMaterial0" name="txtMaterial0" type="text" /><input type="text" style="display:none;" name="hdnSerMatID0" id="hdnSerMatID0" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit0" name="txtSerUnit0" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit0" name="txtSerUnit0" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID0" style="display:none;" id="hdnSerUnitID0" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity0" name="txtQuantity0" type="text" style="width: 100px;" />
@@ -1299,10 +1311,10 @@
                                                                     <span id="Span11">2</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial1" name="txtMaterial1" type="text" />
+                                                                    <input id="txtMaterial1" name="txtMaterial1" type="text" /><input type="text" style="display:none;" name="hdnSerMatID1" id="hdnSerMatID1" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit1" name="txtSerUnit1" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit1" name="txtSerUnit1" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID1" style="display:none;" id="hdnSerUnitID1" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity1" name="txtQuantity1" type="text" style="width: 100px;" />
@@ -1319,10 +1331,10 @@
                                                                     <span id="Span12">3</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial2" name="txtMaterial2" type="text" />
+                                                                    <input id="txtMaterial2" name="txtMaterial2" type="text" /><input type="text" style="display:none;" name="hdnSerMatID2" id="hdnSerMatID2" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit2" name="txtSerUnit2" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit2" name="txtSerUnit2" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID2" style="display:none;" id="hdnSerUnitID2" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity2" name="txtQuantity2" type="text" style="width: 100px;" />
@@ -1339,10 +1351,10 @@
                                                                     <span id="Span14">4</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial3" name="txtMaterial3" type="text" />
+                                                                    <input id="txtMaterial3" name="txtMaterial3" type="text" /><input type="text" style="display:none;" name="hdnSerMatID3" id="hdnSerMatID3" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit3" name="txtSerUnit3" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit3" name="txtSerUnit3" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID3" style="display:none;" id="hdnSerUnitID3" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity3" name="txtQuantity3" type="text" style="width: 100px;" />
@@ -1359,10 +1371,10 @@
                                                                     <span id="Span15">5</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial4" name="txtMaterial4" type="text" />
+                                                                    <input id="txtMaterial4" name="txtMaterial4" type="text" /><input type="text" style="display:none;" name="hdnSerMatID4" id="hdnSerMatID4" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit4" name="txtSerUnit4" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit4" name="txtSerUnit4" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID4" style="display:none;" id="hdnSerUnitID4" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity4" name="txtQuantity4" type="text" style="width: 100px;" />
@@ -1379,10 +1391,10 @@
                                                                     <span id="Span16">6</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial5" name="txtMaterial5" type="text" />
+                                                                    <input id="txtMaterial5" name="txtMaterial5" type="text" /><input type="text" style="display:none;" name="hdnSerMatID5" id="hdnSerMatID5" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit5" name="txtSerUnit5" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit5" name="txtSerUnit5" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID5" style="display:none;" id="hdnSerUnitID5" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity5" name="txtQuantity5" type="text" style="width: 100px;" />
@@ -1399,10 +1411,10 @@
                                                                     <span id="Span17">7</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial6" name="txtMaterial6" type="text" />
+                                                                    <input id="txtMaterial6" name="txtMaterial6" type="text" /><input type="text" style="display:none;" name="hdnSerMatID6" id="hdnSerMatID6" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit6" name="txtSerUnit6" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit6" name="txtSerUnit6" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID6" style="display:none;" id="hdnSerUnitID6" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity6" name="txtQuantity6" type="text" style="width: 100px;" />
@@ -1419,10 +1431,10 @@
                                                                     <span id="Span18">8</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial7" name="txtMaterial7" type="text" />
+                                                                    <input id="txtMaterial7" name="txtMaterial7" type="text" /><input type="text" style="display:none;" name="hdnSerMatID7" id="hdnSerMatID7" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit7" name="txtSerUnit7" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit7" name="txtSerUnit7" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID7" style="display:none;" id="hdnSerUnitID7" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity7" name="txtQuantity7" type="text" style="width: 100px;" />
@@ -1439,10 +1451,10 @@
                                                                     <span id="Span22">9</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial8" name="txtMaterial8" type="text" />
+                                                                    <input id="txtMaterial8" name="txtMaterial8" type="text" /><input type="text" style="display:none;" name="hdnSerMatID8" id="hdnSerMatID8" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit8" name="txtSerUnit8" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit8" name="txtSerUnit8" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID8" style="display:none;" id="hdnSerUnitID8" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity8" name="txtQuantity8" type="text" style="width: 100px;" />
@@ -1459,10 +1471,10 @@
                                                                     <span id="Span23">10</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial9" name="txtMaterial9" type="text" />
+                                                                    <input id="txtMaterial9" name="txtMaterial9" type="text" /><input type="text" style="display:none;" name="hdnSerMatID9" id="hdnSerMatID9" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit9" name="txtSerUnit9" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit9" name="txtSerUnit9" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID9" style="display:none;" id="hdnSerUnitID9" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity9" name="txtQuantity9" type="text" style="width: 100px;" />
@@ -1479,10 +1491,10 @@
                                                                     <span id="Span33">11</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial10" name="txtMaterial10" type="text" />
+                                                                    <input id="txtMaterial10" name="txtMaterial10" type="text" /><input type="text" style="display:none;" name="hdnSerMatID10" id="hdnSerMatID10" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit10" name="txtSerUnit10" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit10" name="txtSerUnit10" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID10" style="display:none;" id="hdnSerUnitID10" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity10" name="txtQuantity10" type="text" style="width: 100px;" />
@@ -1499,10 +1511,10 @@
                                                                     <span id="Span34">12</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial11" name="txtMaterial11" type="text" />
+                                                                    <input id="txtMaterial11" name="txtMaterial11" type="text" /><input type="text" style="display:none;" name="hdnSerMatID11" id="hdnSerMatID11" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit11" name="txtSerUnit11" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit11" name="txtSerUnit11" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID11" style="display:none;" id="hdnSerUnitID11" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity11" name="txtQuantity11" type="text" style="width: 100px;" />
@@ -1519,10 +1531,10 @@
                                                                     <span id="Span35">13</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial12" name="txtMaterial12" type="text" />
+                                                                    <input id="txtMaterial12" name="txtMaterial12" type="text" /><input type="text" style="display:none;" name="hdnSerMatID12" id="hdnSerMatID12" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit12" name="txtSerUnit12" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit12" name="txtSerUnit12" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID12" style="display:none;" id="hdnSerUnitID12" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity12" name="txtQuantity12" type="text" style="width: 100px;" />
@@ -1539,10 +1551,10 @@
                                                                     <span id="Span36">14</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial13" name="txtMaterial13" type="text" />
+                                                                    <input id="txtMaterial13" name="txtMaterial13" type="text" /><input type="text" style="display:none;" name="hdnSerMatID13" id="hdnSerMatID13" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit13" name="txtSerUnit13" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit13" name="txtSerUnit13" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID13" id="hdnSerUnitID13" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity13" name="txtQuantity13" type="text" style="width: 100px;" />
@@ -1559,10 +1571,10 @@
                                                                     <span id="Span37">15</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial14" name="txtMaterial14" type="text" />
+                                                                    <input id="txtMaterial14" name="txtMaterial14" type="text" /><input type="text" style="display:none;" name="hdnSerMatID14" id="hdnSerMatID14" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit14" name="txtSerUnit14" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit14" name="txtSerUnit14" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID14" id="hdnSerUnitID14" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity14" name="txtQuantity14" type="text" style="width: 100px;" />
@@ -1579,10 +1591,10 @@
                                                                     <span id="Span43">16</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial15" name="txtMaterial15" type="text" />
+                                                                    <input id="txtMaterial15" name="txtMaterial15" type="text" /><input type="text" style="display:none;" name="hdnSerMatID15" id="hdnSerMatID15" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit15" name="txtSerUnit15" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit15" name="txtSerUnit15" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID15" id="hdnSerUnitID15" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity15" name="txtQuantity15" type="text" style="width: 100px;" />
@@ -1599,10 +1611,10 @@
                                                                     <span id="Span44">17</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial16" name="txtMaterial16" type="text" />
+                                                                    <input id="txtMaterial16" name="txtMaterial16" type="text" /><input type="text" style="display:none;" name="hdnSerMatID16" id="hdnSerMatID16" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit16" name="txtSerUnit16" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit16" name="txtSerUnit16" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID16" id="hdnSerUnitID16" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity16" name="txtQuantity16" type="text" style="width: 100px;" />
@@ -1619,10 +1631,10 @@
                                                                     <span id="Span45">18</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial17" name="txtMaterial17" type="text" />
+                                                                    <input id="txtMaterial17" name="txtMaterial17" type="text" /><input type="text" style="display:none;" name="hdnSerMatID17" id="hdnSerMatID17" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit17" name="txtSerUnit17" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit17" name="txtSerUnit17" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID17" id="hdnSerUnitID17" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity17" name="txtQuantity17" type="text" style="width: 100px;" />
@@ -1639,10 +1651,10 @@
                                                                     <span id="Span46">19</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial18" name="txtMaterial18" type="text" />
+                                                                    <input id="txtMaterial18" name="txtMaterial18" type="text" /><input type="text" style="display:none;" name="hdnSerMatID18" id="hdnSerMatID18" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit18" name="txtSerUnit18" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit18" name="txtSerUnit18" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID18" id="hdnSerUnitID18" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity18" name="txtQuantity18" type="text" style="width: 100px;" />
@@ -1659,10 +1671,10 @@
                                                                     <span id="Span47">20</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial19" name="txtMaterial19" type="text" />
+                                                                    <input id="txtMaterial19" name="txtMaterial19" type="text" /><input type="text" style="display:none;" name="hdnSerMatID19" id="hdnSerMatID19" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit19" name="txtSerUnit19" type="text" style="width: 100px;" />
+                                                                    <input id="txtSerUnit19" name="txtSerUnit19" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID19" id="hdnSerUnitID19" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity19" name="txtQuantity19" type="text" style="width: 100px;" />

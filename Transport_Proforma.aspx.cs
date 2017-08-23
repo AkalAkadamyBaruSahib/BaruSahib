@@ -430,27 +430,226 @@ public partial class Transport_Proforma : System.Web.UI.Page
         }
         string fileName = string.Empty;
 
+        TransportUserRepository repo = new TransportUserRepository(new AkalAcademy.DataContext());
+        ProformaDetail genSerDetail = new ProformaDetail();
         if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.GENSETREAPIRANDSERVICE).ToString())
         {
             hdnGensetAcaName.Value = hdnGensetAcaName.Value.Replace(" ", "");
             fileName = "GENSET_REAPIR_AND_SERVICE_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + hdnGensetAcaName.Value.Trim() + ".pdf";
+            genSerDetail.AcaID = Convert.ToInt32(hdnGenAcaID.Value);
+            // genSerDetail.VehicleID = 0;
+            genSerDetail.ProformaType = Convert.ToInt32(ddlproforma.SelectedValue);
+            genSerDetail.GensetCompany = Request.Form["txtGansetCompany"];
+            genSerDetail.GensetSrNo = Request.Form["txtGansetSrNumber"];
+            genSerDetail.GensetPowerInKVA = Request.Form["txtGensetPower"];
+            genSerDetail.GensetLastRepairDate = Convert.ToDateTime(Request.Form["txtLastRepairDate"]);
+            genSerDetail.GensetLastQuotationAmount = Convert.ToDecimal(Request.Form["txtLastRepairAmount"]);
+            genSerDetail.GensetCurrentQuotationAmount = Convert.ToDecimal(Request.Form["txtQuotationAmount"]);
+            genSerDetail.GensetTotalRunning = Request.Form["txtGensetTotalRunning"];
+            genSerDetail.AverageRunning = Convert.ToDecimal(Request.Form["txtGensetAverageRunning"]);
+            genSerDetail.ServicePlaceAgency = Request.Form["txtService"];
+            genSerDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
+            genSerDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+            genSerDetail.GensetDate = Convert.ToDateTime(Request.Form["txtDate"]);
+
+            repo.SaveProformaDetail(genSerDetail);
+            hdnProformaID.Value = genSerDetail.ID.ToString();
+            htmlCode = htmlCode.Replace("[Proformano]", hdnProformaID.Value);
+            ProformaMaterialDetail matDetail = null;
+            for (var i = 0; i < int.Parse(hdnGensetTableLength.Value); i++)
+            {
+                if (Request.Form["hdnMatID" + i] != "" && Request.Form["hdnMatID" + i] != null)
+                {
+                    matDetail = new ProformaMaterialDetail();
+                    matDetail.ProformaID = Convert.ToInt32(hdnProformaID.Value);
+                    matDetail.MatID = Convert.ToInt32(Request.Form["hdnMatID" + i]);
+                    matDetail.UnitID = Convert.ToInt32(Request.Form["hdnUnitID" + i]); 
+                    matDetail.Qty = Convert.ToDecimal(Request.Form["txtQty" + i]);
+                    if (Request.Form["txtRate" + i] == "0")
+                    {
+                        matDetail.Rate = 0;
+                        matDetail.Amount = 0;
+                    }
+                    else
+                    {
+                        matDetail.Rate = Convert.ToDecimal(Request.Form["txtRate" + i]); 
+                        matDetail.Amount = Convert.ToDecimal(Request.Form["txtQty" + i]) * Convert.ToDecimal(Request.Form["txtRate" + i]);
+                    }
+                    repo.SaveGensetProformaMaterialDetail(matDetail);
+                }
+            }
+           
+
         }
         else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.BATTERYQUOTATION).ToString())
         {
             hdnBatteryAcaName.Value = hdnBatteryAcaName.Value.Replace(" ", "");
             fileName = "BATTERY_QUOTATION_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + hdnBatteryAcaName.Value.Trim() + ".pdf";
+
+            ProformaDetail batryDetail = new ProformaDetail();
+            batryDetail.ProformaType = Convert.ToInt32(ddlproforma.SelectedValue);
+            batryDetail.BatteryBillNo = Convert.ToInt32(Request.Form["txtBillNo"]);
+            batryDetail.AcaID = Convert.ToInt32(hdnBatteryAcaID.Value);
+            batryDetail.BatteryType = Request.Form["ddlBatteryTye"];
+            batryDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeterReading"]);
+            batryDetail.NoOfRequiredNewBattery = Convert.ToInt32(Request.Form["txtNoRequird"]);
+            batryDetail.NewMakeOfBattery = Request.Form["txtNewMakeBattery"];
+            batryDetail.NewBatteryCapacity = Request.Form["txtNewBatteryCapacity"];
+            batryDetail.NewBatterySrNo = Request.Form["txtNewBatterySrNum"];
+            batryDetail.NewBatteryLifeInYears = Request.Form["txtNewBatteryLife"];
+            batryDetail.MakeOfBatteryAndCapacityOldBattery = Request.Form["txtBatteryCapacity"];
+            batryDetail.OldBatterySrNo = Request.Form["txtOldBatterySrNum"];
+            batryDetail.OldBatteryPurchaseDate = Convert.ToDateTime(Request.Form["txtPurchaseDate"]);
+            batryDetail.OldBatterySalePrice = Convert.ToDecimal(Request.Form["txtOldBatterySale"]);
+            batryDetail.ApprovalAmount = Convert.ToDecimal(Request.Form["txtBatteryApprovalAmount"]);
+            batryDetail.MicrotekSizeOfBattery = Request.Form["txtMocrotaxSize"];
+            batryDetail.MicrotekNoOfRequired = Convert.ToInt32(Request.Form["txtMocrotax"]);
+            batryDetail.MicrotekPriceOfBattery = Convert.ToDecimal(Request.Form["txtMocrotaxPrice"]);
+            batryDetail.TataSizeOfBattery = Request.Form["txtAmaronSize"];
+            batryDetail.TataNoOfRequired = Convert.ToInt32(Request.Form["txtAmaron"]);
+            batryDetail.TataPriceOfBattery = Convert.ToDecimal(Request.Form["txtAmaronPrice"]);
+            batryDetail.ExideSizeOfBattery = Request.Form["txtExideSize"];
+            batryDetail.ExideNoOfRequired = Convert.ToInt32(Request.Form["txtExide"]);
+            batryDetail.ExidePriceOfBattery = Convert.ToDecimal(Request.Form["txtExidePrice"]);
+            batryDetail.OkayaSizeOfBattery = Request.Form["txtMicroTechSize"];
+            batryDetail.OkayaNoOfRequired = Convert.ToInt32(Request.Form["txtMicroTech"]);
+            batryDetail.OkayaPriceOfBattery = Convert.ToDecimal(Request.Form["txtMicroTechPrice"]);
+            batryDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
+            batryDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+            if (Request.Form["ddlBatteryTye"] == "Vehicle Battery")
+            {
+                batryDetail.VehicleID = Convert.ToInt32(hdnBatteryVehicleID.Value);
+                batryDetail.GensetPowerInKVA = string.Empty;
+                batryDetail.GensetSrNo = string.Empty;
+                batryDetail.GensetCompany = string.Empty;
+                batryDetail.InvertarCompany = string.Empty;
+            }
+            else if (Request.Form["ddlBatteryTye"] == "Genset Battery")
+            {
+               // batryDetail.VehicleID = 0;
+                batryDetail.GensetPowerInKVA = Request.Form["txtBatteryGensetPower"];
+                batryDetail.GensetSrNo = Request.Form["txtBatteryGensetNo"];
+                batryDetail.GensetCompany = Request.Form["txtBatteryGensetCompany"];
+                batryDetail.InvertarCompany = string.Empty;
+            }
+            else
+            {
+               // batryDetail.VehicleID = 0;
+                batryDetail.GensetPowerInKVA = string.Empty;
+                batryDetail.GensetSrNo = string.Empty;
+                batryDetail.GensetCompany = string.Empty;
+                batryDetail.InvertarCompany = Request.Form["txtBatteryInvertarCompany"];
+            }
+
+            repo.SaveProformaDetail(batryDetail);
+            hdnProformaID.Value = batryDetail.ID.ToString();
+            htmlCode = htmlCode.Replace("[Proformano]", hdnProformaID.Value);
         }
         else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.TYREREQUIREMENTORQUOTATION).ToString())
         {
             hdnTyreAcaName.Value = hdnTyreAcaName.Value.Replace(" ", "");
             fileName = "TYRE_REQUIREMENT_OR_QUOTATION_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + hdnTyreAcaName.Value.Trim() + ".pdf";
+
+            ProformaDetail tyreDetail = new ProformaDetail();
+            tyreDetail.ProformaType = Convert.ToInt32(ddlproforma.SelectedValue);
+            tyreDetail.AcaID = Convert.ToInt32(hdnTyreAcaID.Value);
+            tyreDetail.VehicleID = Convert.ToInt32(hdnTyreVehicleID.Value);
+            tyreDetail.TyreTotalRunningKm = Convert.ToDecimal(Request.Form["txtTotalRuningKm"]);
+            tyreDetail.FrontLeftSerialNum = Request.Form["txtFrontLeftOldTyreNo"];
+            tyreDetail.FrontRightSerialNum = Request.Form["txtFrontRightOldTyreNo"];
+            tyreDetail.FrontLeftKm = Convert.ToInt32(Request.Form["txtFrontLeftRunning"]);
+            tyreDetail.FrontRightKm = Convert.ToInt32(Request.Form["txtFrontRightRunning"]);
+            tyreDetail.RearLeftKm = Convert.ToInt32(Request.Form["txtRearLeftRunning"]);
+            tyreDetail.RearRightKm = Convert.ToInt32(Request.Form["txtRearRightRunning"]);
+            tyreDetail.RearLeftSerialNum = Request.Form["txtRearLeftOldTyreNo"];
+            tyreDetail.RearRightSerialNum = Request.Form["txtRearRightOldTyreNo"];
+            tyreDetail.FrontLeftOldTyreCondition = Request.Form["txtFrontLeftCondition"];
+            tyreDetail.FrontRightOldTyreCondition = Request.Form["txtFrontRightCondition"];
+            tyreDetail.RearLeftOldTyreCondition = Request.Form["txtRearLeftCondition"];
+            tyreDetail.RearRightOldTyreCondition = Request.Form["txtRearRightCondition"];
+            tyreDetail.StafneyOldTyreCondition = Request.Form["txtStafneyCondition"];
+            tyreDetail.FrontLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontLeftRequired"]);
+            tyreDetail.FrontRightNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontRightRequired"]);
+            tyreDetail.RearLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtRearLeftRequired"]);
+            tyreDetail.RearRightNewTyreRequired = Convert.ToInt32(Request.Form["txtRearRightRequired"]);
+            tyreDetail.StafneyNewTyreRequired = Convert.ToInt32(Request.Form["txtStafneyRequired"]);
+            tyreDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+            tyreDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
+            tyreDetail.StafneyKm = Convert.ToInt32(Request.Form["txtStafneyRunning"]);
+            tyreDetail.StafneySerialNum = Request.Form["txtStafneyldTyreNo"];
+            tyreDetail.LastDateTyreChanged = Convert.ToDateTime(Request.Form["txtTyreLastChangeDate"]);
+            tyreDetail.TyreSize = Request.Form["txtTyreSize"];
+            tyreDetail.NoOfTyreRequired = Convert.ToInt32(Request.Form["txtNoofRequird"]);
+            tyreDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeter"]);
+            tyreDetail.NewTyreAmount = Convert.ToDecimal(Request.Form["txtNewTyreAmount"]);
+            tyreDetail.LastMeterReadingOfTyreChanged = Convert.ToInt32(Request.Form["txtTyreMeterReading"]);
+            tyreDetail.OldTyreSaleAmount = Convert.ToDecimal(Request.Form["txtOldTyreSaleAmount"]);
+            tyreDetail.ApprovalAmount = Convert.ToDecimal(Request.Form["txtTyreApproval"]);
+            tyreDetail.TyreChangOnlastMeterReading = Convert.ToInt32(Request.Form["txtTyreLastReading"]);
+            tyreDetail.MrfRates = Convert.ToDecimal(Request.Form["txtMrfRates"]);
+            tyreDetail.MrfQty = Convert.ToDecimal(Request.Form["txtMrfQty"]);
+            tyreDetail.MrfAmount = Convert.ToDecimal(Request.Form["txtMrfAmount"]);
+            tyreDetail.ApoloRates = Convert.ToDecimal(Request.Form["txtApoloRates"]);
+            tyreDetail.ApoloQty = Convert.ToDecimal(Request.Form["txtApoloQty"]);
+            tyreDetail.ApoloAmount = Convert.ToDecimal(Request.Form["txtApoloAmount"]);
+            tyreDetail.CeatRates = Convert.ToDecimal(Request.Form["txtCeatRates"]);
+            tyreDetail.CeatQty = Convert.ToDecimal(Request.Form["txtCeatQty"]);
+            tyreDetail.CeatAmount = Convert.ToDecimal(Request.Form["txtCeatAmount"]);
+            tyreDetail.JkRates = Convert.ToDecimal(Request.Form["txtJkRates"]);
+            tyreDetail.JkQty = Convert.ToDecimal(Request.Form["txtJkQty"]);
+            tyreDetail.JkAmount = Convert.ToDecimal(Request.Form["txtJkAmount"]);
+
+            repo.SaveProformaDetail(tyreDetail);
+            hdnProformaID.Value = tyreDetail.ID.ToString();
+            htmlCode = htmlCode.Replace("[Proformano]", hdnProformaID.Value);
         }
         else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.SERVICEOTHERREAPIRSOFVEHICLE).ToString())
         {
             hdnServiceAcaName.Value = hdnServiceAcaName.Value.Replace(" ", "");
             fileName = "SERVICE_OTHER_REAPIRS_OF_VEHICLE_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + "_" + hdnServiceAcaName.Value.Trim() + ".pdf";
-        }
 
+            genSerDetail.AcaID = Convert.ToInt32(hdnServiceAcaID.Value);
+            genSerDetail.VehicleID = Convert.ToInt32(hdnServiceVehicleID.Value);
+            genSerDetail.ProformaType = Convert.ToInt32(ddlproforma.SelectedValue);
+            genSerDetail.ServicePlaceAgency = Request.Form["txtServicePlace"];
+            genSerDetail.ServiceLastMeterReading = Request.Form["txtSrvicLastMetrReading"];
+            genSerDetail.ServiceCurrentMeterReading = Request.Form["txtSrvicCurntMetrReading"];
+            genSerDetail.ServiceQuotationAmount = Convert.ToDecimal(Request.Form["txtServiceQuotationAmount"]);
+            genSerDetail.ServiceApprovalAmount = Convert.ToDecimal(Request.Form["txtServiceApprovalAmount"]);
+            genSerDetail.AverageOfVehicle = Request.Form["txtAvergeVehicle"];
+            genSerDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
+            genSerDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
+
+            repo.SaveProformaDetail(genSerDetail);
+            hdnProformaID.Value = genSerDetail.ID.ToString();
+            htmlCode = htmlCode.Replace("[Proformano]", hdnProformaID.Value);
+            ProformaMaterialDetail matDetail = null;
+            for (var i = 0; i < int.Parse(hdnServiceTableLength.Value); i++)
+            {
+                if (Request.Form["hdnSerMatID" + i] != "" && Request.Form["hdnSerMatID" + i] != null)
+                {
+                    matDetail = new ProformaMaterialDetail();
+                    matDetail.ProformaID = Convert.ToInt32(hdnProformaID.Value);
+                    matDetail.MatID = int.Parse(Request.Form["hdnSerMatID" + i]);
+                    matDetail.UnitID = int.Parse(Request.Form["hdnSerUnitID" + i]); 
+                    matDetail.Qty = Convert.ToDecimal(Request.Form["txtQuantity" + i]);
+                    if (Request.Form["txtPrice" + i] == "0")
+                    {
+                        matDetail.Rate = 0;
+                        matDetail.Amount = 0;
+                    }
+                    else
+                    {
+                        matDetail.Rate = Convert.ToDecimal(Request.Form["txtPrice" + i]);
+                        matDetail.Amount = Convert.ToDecimal(Request.Form["txtQuantity" + i]) * Convert.ToDecimal(Request.Form["txtPrice" + i]);
+                    }
+                   
+                    
+                   
+                    repo.SaveGensetProformaMaterialDetail(matDetail);
+                }
+            }
+        }
         string folderPath = Server.MapPath("TransportApplicationForm/Proform/");
         Utility.GeneratePDF(htmlCode, fileName, folderPath);
     }
