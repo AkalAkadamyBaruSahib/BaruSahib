@@ -25,9 +25,15 @@
         function PurposeOnChange(control) {
             if (control.value == "Parents Meeting") {
                 $("#divAdminsnNo").show();
+                $("#divPurposeVisit").hide();
+            }
+            else if (control.value == "Others") {
+                $("#divAdminsnNo").hide();
+                $("#divPurposeVisit").show();
             }
             else {
                 $("#divAdminsnNo").hide();
+                $("#divPurposeVisit").hide();
             }
         }
 
@@ -135,7 +141,7 @@
         <asp:HiddenField ID="hdnBuildingID" runat="server" />
         <asp:HiddenField ID="hdnVisitorID" runat="server" />
         <asp:HiddenField ID="hdnVisitorType" runat="server" />
-          <asp:HiddenField ID="hdnUserType" runat="server" />
+        <asp:HiddenField ID="hdnUserType" runat="server" />
         <div class="row-fluid sortable" runat="server" id="divAllotment">
             <div class="box span12">
                 <div class="box-header well" data-original-title>
@@ -382,6 +388,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <div class="control-group" id="divPurposeVisit" style="display: none; margin-top: -5px;">
+                                                <label class="control-label" for="typeahead">Purpose Of Vist:</label>
+                                                <div class="control-group">
+                                                    <asp:TextBox ID="txtPurposevisit" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="control-group" id="divAdminsnNo" style="display: none; margin-top: -5px;">
                                                 <label class="control-label" for="typeahead">Admission Number:</label>

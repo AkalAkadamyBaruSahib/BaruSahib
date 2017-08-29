@@ -40,7 +40,11 @@ $(document).ready(function () {
         else {
             $(this).toggleClass(settings.selectingSeatCss);
         }
-    });
+   });
+
+   //$('.selectedSeat').live('click', function () {
+   //    $(this).toggleClass(settings.selectingSeatCss);
+   //});
 
     $('#btnShow').click(function () {
         var str = [];
@@ -289,6 +293,7 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("input[id*='txtReference']").val(msg.VisitorReference);
                     $("select[id*='ddlRoomRent']").val(msg.RoomRent);
                     $("input[id*='txtAdmissionNo']").val(msg.AdmissionNumber);
+                    $("input[id*='txtPurposevisit']").val(msg.PurposeOfVisitRemarks);
 
                     var bookedRoom = "";
                     bookedRoom = GetVisitorRoomList(msg.ID);
@@ -348,6 +353,17 @@ function LoadVisitorByVisitorID(visitorID) {
 
                 if (msg.PurposeOfVisit == "Parents Meeting") {
                     $("#divAdminsnNo").show();
+                    $("#divPurposeVisit").hide();
+                }
+                else if(msg.PurposeOfVisit == "Others")
+                {
+                    $("#divPurposeVisit").show();
+                    $("#divAdminsnNo").hide();
+                }
+                else
+                {
+                    $("#divPurposeVisit").hide();
+                    $("#divAdminsnNo").hide();
                 }
                 if ($("input[id*='hdnUserType']").val() == "22") {
                     $("input[id*='txtnoofperson']").prop('disabled', true);
@@ -363,6 +379,7 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("input[id*='txtReference']").prop('disabled', true);
                     $("select[id*='ddlRoomRent']").prop('disabled', true);
                     $("input[id*='txtAdmissionNo']").prop('disabled', true);
+                    $("input[id*='txtPurposevisit']").prop('disabled', true);
                     $("input[id*='txtDlNumber']").prop('disabled', true);
                     $("select[id*='drpProofType']").prop('disabled', true);
                     $("select[id*='ddlntypeofvisitor']").prop('disabled', true);

@@ -295,6 +295,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 }
                 visitor.IsActive = true;
                 visitor.AdmissionNumber = txtAdmissionNo.Text;
+                visitor.PurposeOfVisitRemarks = txtPurposevisit.Text;
                 visitor.VisitorReference = txtReference.Text;
 
 

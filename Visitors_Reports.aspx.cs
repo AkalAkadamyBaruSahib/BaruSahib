@@ -20,61 +20,65 @@ public partial class Visitors_Reports : System.Web.UI.Page
 
     protected void btnDownload_Click(object sender, EventArgs e)
     {
-        BindDatatable();
-        //Response.ClearContent();
-        //Response.Buffer = true;
-        //if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorReportByDate.xls"));
-        //}
-        //else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportOnEmptyRoomList.xls"));
-        //}
-        //else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorsReportByPlace.xls"));
-        //}
-        //else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportBookedRoomList.xls"));
-        //}
-        //else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "RoomStatus.xls"));
-        //}
-        //else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PermanentRoomDetails.xls"));
-        //}
-        //else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
-        //{
-        //    Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DailyVisitorDetails.xls"));
-        //}
+       // BindDatatable();
+        Response.ClearContent();
+        Response.Buffer = true;
+        if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorReportByDate" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportOnEmptyRoomList" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "VisitorsReportByPlace" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "ReportBookedRoomList" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "RoomStatus" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "PermanentRoomDetails" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "DailyVisitorDetails" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomSummaryReport).ToString())
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "RoomSummaryReport" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xls"));
+        }
 
-        //Response.ContentType = "application/ms-excel";
-        //DataTable dt = BindDatatable();
-        //string str = string.Empty;
-        //foreach (DataColumn dtcol in dt.Columns)
-        //{
-        //    Response.Write(str + dtcol.ColumnName);
-        //    str = "\t";
-        //}
-        //Response.Write("\n");
-        //foreach (DataRow dr in dt.Rows)
-        //{
-        //    str = "";
-        //    for (int j = 0; j < dt.Columns.Count; j++)
-        //    {
-        //        Response.Write(str + Convert.ToString(dr[j]));
-        //        str = "\t";
-        //    }
-        //    Response.Write("\n");
-        //}
-        //Response.End();
+        Response.ContentType = "application/ms-excel";
+        DataTable dt = BindDatatable();
+        string str = string.Empty;
+        foreach (DataColumn dtcol in dt.Columns)
+        {
+            Response.Write(str + dtcol.ColumnName);
+            str = "\t";
+        }
+        Response.Write("\n");
+        foreach (DataRow dr in dt.Rows)
+        {
+            str = "";
+            for (int j = 0; j < dt.Columns.Count; j++)
+            {
+                Response.Write(str + Convert.ToString(dr[j]));
+                str = "\t";
+            }
+            Response.Write("\n");
+        }
+        Response.End();
     }
 
-    protected void BindDatatable()
+    protected DataTable BindDatatable()
     {
         DataTable dt = new DataTable();
         string from = string.Empty;
@@ -83,59 +87,36 @@ public partial class Visitors_Reports : System.Web.UI.Page
         if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.AccordingDate).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetVisitorsReports] '" + txtCheckInDate.Text + "','" + txtCheckOutDate.Text + "'").Tables[0];
-            FileName = "VisitorReportByDate" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetVacantRoomListByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
-            FileName = "ReportOnEmptyRoomList" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.VisitorsReportByPlaces).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet(getSqlString()).Tables[0];
-            FileName = "VisitorsReportByPlace" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetBookedRoomListByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
-            FileName = "ReportBookedRoomList" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomStatusByBuilding] '" + drpBuildingName.SelectedValue + "'").Tables[0];
-            FileName = "RoomStatus" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetPermanentRoomReport] '" + drpBuildingName.SelectedValue + "'").Tables[0];
-            FileName = "PermanentRoomDetails" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
         {
             dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetDailyWiseVisitorsReports] '" + txtCheckInDate.Text + "'").Tables[0];
-            FileName = "DailyVisitorDetails" + "_" + DateTime.Now.Day + DateTime.Now.Month + DateTime.Now.Year + ".xlsx";
         }
-        string FilePath = Server.MapPath("EstFile") + "\\" + FileName;
-        try
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomSummaryReport).ToString())
         {
-            XLWorkbook workbook = new XLWorkbook();
-            DataTable table = dt;
-            workbook.Worksheets.Add(table);
-            workbook.SaveAs(FilePath);
-
-            Response.Clear();
-            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", FileName));
-            Response.ContentType = "application/octet-stream";
-            Response.WriteFile(@FilePath);
-            Response.End();
-
+            dt = GetRoomsSummaryReport();
         }
-        catch (Exception ex)
-        { }
-        finally
-        {
-
-        }
+        return dt;
     }
     
     protected void BindBuildingName()
@@ -261,5 +242,60 @@ public partial class Visitors_Reports : System.Web.UI.Page
         }
 
         return sql;
+    }
+
+
+    public DataTable GetRoomsSummaryReport()
+    {
+        DataTable dtRoomsSummary = new DataTable();
+        dtRoomsSummary.Columns.Add("NameOfBuilding");
+        dtRoomsSummary.Columns.Add("Total_Rooms", typeof(System.Int32));
+        dtRoomsSummary.Columns.Add("Permanent_Rooms", typeof(System.Int32));
+        dtRoomsSummary.Columns.Add("Temporary_Rooms", typeof(System.Int32));
+        dtRoomsSummary.Columns.Add("Vacant_Rooms", typeof(System.Int32));
+        dtRoomsSummary.Columns.Add("Remarks", typeof(System.String));
+    
+        DataRow dr;
+        VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
+        List<BuildingName> building = repository.GetBuildingNameList();
+        DataTable dtTotalNumberOfRooms;
+        int sumOfRooms = 0;
+        string numbers = string.Empty;
+        foreach (BuildingName aca in building)
+        {
+            numbers = string.Empty;
+            dr = dtRoomsSummary.NewRow();
+            dr["NameOfBuilding"] = aca.Name;
+            dtTotalNumberOfRooms = DAL.DalAccessUtility.GetDataInDataSet("select count(id) as count from RoomNumbers where  BuildingID = " + aca.ID).Tables[0];
+            if (dtTotalNumberOfRooms.Rows.Count > 0)
+            {
+                dr["Total_Rooms"] = dtTotalNumberOfRooms.Rows[0]["count"].ToString();
+                sumOfRooms += Convert.ToInt32(dtTotalNumberOfRooms.Rows[0]["count"].ToString());
+            }
+
+            dr["Permanent_Rooms"] = repository.GetPermanentRoomList(aca.ID);
+
+            dr["Temporary_Rooms"] = repository.GetTemporaryRoomList(aca.ID);
+
+            dr["Vacant_Rooms"] = repository.GetAvailableRoomListCount(aca.ID);
+
+            dr["Remarks"] = string.Empty;
+
+            dtRoomsSummary.Rows.Add(dr);
+
+        }
+
+        if (dtRoomsSummary.Rows.Count > 0)
+        {
+            dr = dtRoomsSummary.NewRow();
+
+            dr["NameOfBuilding"] = "Total";
+            dr["Total_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Total_Rooms)", string.Empty));
+            dr["Permanent_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Permanent_Rooms)", string.Empty));
+            dr["Temporary_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Temporary_Rooms)", string.Empty));
+            dr["Vacant_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Vacant_Rooms)", string.Empty));
+            dtRoomsSummary.Rows.Add(dr);
+        }
+        return dtRoomsSummary;
     }
 }

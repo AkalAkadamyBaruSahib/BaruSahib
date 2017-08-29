@@ -79,6 +79,8 @@ public class Visitors
 
     public string AdmissionNumber { get; set; }
 
+    public string PurposeOfVisitRemarks { get; set; }
+
     public List<VisitorRoomNumbers> VisitorRoomNumbers { get; set; }
 
     public VisitorType VisitorType { get; set; }

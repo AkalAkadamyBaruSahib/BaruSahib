@@ -74,6 +74,7 @@
                         <asp:ListItem Text="Visitors Report By Places" Value="3"></asp:ListItem>
                         <asp:ListItem Text="Permanent Room Detail Report" Value="4"></asp:ListItem>
                         <asp:ListItem Text="Daily Visitor Status Report" Value="7"></asp:ListItem>
+                        <asp:ListItem Text="Summary Report" Value="8"></asp:ListItem>
                     </asp:DropDownList> 
                     <asp:RequiredFieldValidator ID="reqReport" runat="server" ValidationGroup="vreport" ErrorMessage="Please Select the Report Type" ForeColor="Red" ControlToValidate="drpFilterData" InitialValue="0"></asp:RequiredFieldValidator>
                 </div>

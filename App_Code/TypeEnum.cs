@@ -38,12 +38,18 @@ public class TypeEnum
         Reference = 2
     }
 
+    public enum StaffType : int
+    {
+        Teaching = 1,
+        NonTeaching = 2
+    }
+
     public enum PurchaseCommittee : int
     {
+        //FirstApproval = 96,
+        //SecondApproval = 97,
         FirstApproval = 361,
         SecondApproval = 147
-        //FirstApproval = 96,
-        //SecondApproval = 97
     }
 
     public enum TransportVehicleEmployeeType : int
@@ -163,6 +169,8 @@ public class TypeEnum
         Ambulance = 7,
         SewaDarVehicle = 8,
         CivilEquipmentVehicle = 9
+        //TrustStaffBus =10,
+        //ContractualStaffBus =11
     }
     public enum TransportDLType : int
     {
@@ -220,7 +228,8 @@ public class TypeEnum
         PermanentRoomDetailReport = 4,
         ViewBookedRoomList = 5,
         RoomStatus = 6,
-        DailyVisitorStatusReport =7
+        DailyVisitorStatusReport = 7,
+        RoomSummaryReport = 8
     }
     public enum TransportProformaType : int
     {

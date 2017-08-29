@@ -54,7 +54,7 @@ public class VisitorUserRepository
         param.Add("IsActive", visitors.IsActive);
         param.Add("VisitorReference", visitors.VisitorReference);
         param.Add("RoomRentType", visitors.RoomRentType);
-
+        param.Add("PurposeOfVisitRemarks", visitors.PurposeOfVisitRemarks);
 
         int visitorID = DAL.DalAccessUtility.GetDataInScaler("procSaveVisitors", param);
         foreach (VisitorRoomNumbers vs in visitors.VisitorRoomNumbers)
@@ -110,6 +110,7 @@ public class VisitorUserRepository
             visitDTO.VisitorReference = v.VisitorReference;
             visitDTO.RoomRentType = v.RoomRentType;
             visitDTO.AdmissionNumber = v.AdmissionNumber;
+            visitDTO.PurposeOfVisitRemarks = v.PurposeOfVisitRemarks;
 
 
             visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
@@ -183,7 +184,8 @@ public class VisitorUserRepository
             visitDTO.VisitorReference = v.VisitorReference;
             visitDTO.RoomRentType = v.RoomRentType;
             visitDTO.AdmissionNumber = v.AdmissionNumber;
-            visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
+            visitDTO.PurposeOfVisitRemarks = v.PurposeOfVisitRemarks;
+                visitortype = DAL.DalAccessUtility.GetDataInDataSet("exec [GetRoomNumbersWithBuildingName] " + v.ID);
 
             if (visitortype != null && visitortype.Tables != null && visitortype.Tables.Count > 0
                 && visitortype.Tables[0].Rows.Count > 0)
@@ -215,6 +217,21 @@ public class VisitorUserRepository
     public List<RoomNumbers> GetAvailableRoomList(int BuildingID)
     {
         return _context.RoomNumbers.Where(r => (!_context.VisitorRoomNumbers.Select(vr => vr.RoomNumberID).Contains(r.ID)) && (r.BuildingID == BuildingID)).ToList();
+    }
+
+    public int GetPermanentRoomList(int BuildingID)
+    {
+        return _context.RoomNumbers.Where(r => r.BuildingID == BuildingID && r.IsPermanent == true).Count();
+    }
+
+    public int GetTemporaryRoomList(int BuildingID)
+    {
+        return _context.RoomNumbers.Where(r => r.BuildingID == BuildingID && r.IsPermanent == false).Count();
+    }
+
+    public int GetAvailableRoomListCount(int BuildingID)
+    {
+        return _context.RoomNumbers.Where(r => (!_context.VisitorRoomNumbers.Select(vr => vr.RoomNumberID).Contains(r.ID)) && (r.BuildingID == BuildingID)).Count();
     }
 
     public string GetBookedRoomList(int BuildingID)
@@ -339,6 +356,7 @@ public class VisitorUserRepository
         dto.VisitorReference = visitor.VisitorReference;
         dto.RoomRentType = visitor.RoomRentType;
         dto.AdmissionNumber = visitor.AdmissionNumber;
+        dto.PurposeOfVisitRemarks = visitor.PurposeOfVisitRemarks;
         return dto;
         //   newVisitor
 

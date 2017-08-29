@@ -80,4 +80,6 @@ public class VisitorsDTO
     public string BuildingName { get; set; }
 
     public string RoomNumbers { get; set; }
+
+    public string PurposeOfVisitRemarks { get; set; }
 }
