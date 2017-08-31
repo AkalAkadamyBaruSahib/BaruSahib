@@ -33,7 +33,7 @@ public class TransportVehicleDocumentUploader : IHttpHandler {
                 file[i].SaveAs(fileName);
 
 
-                DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + ID + "," + VehicleID + "," + DocumentTypeID + ",'" + ("VehicleDoc/" + strFileName) + "','" + date + "'");        
+                DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + ID + "," + VehicleID + "," + DocumentTypeID + ",'" + ("VehicleDoc/" + strFileName) + "','" + date + "',0");        
                 
             }
 

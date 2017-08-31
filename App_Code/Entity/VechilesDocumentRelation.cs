@@ -23,6 +23,8 @@ public class VechilesDocumentRelation
 
     public DateTime? CreatedOn { get; set; }
 
+    public bool IsApproved { get; set; }
+
     [ForeignKey("VehicleID")]
     public Vehicles Vehicles { get; set; }
 }

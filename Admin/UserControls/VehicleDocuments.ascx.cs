@@ -29,6 +29,13 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
         DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
         gvDocuments.DataSource = TransportDocuments.Tables[0];
         gvDocuments.DataBind();
+
+        DataTable TransportType = DAL.DalAccessUtility.GetDataInDataSet("Select T.Type AS Type from Vehicles V INNER JOIN TransportTypes T ON V.TypeID = T.ID Where V.ID=" + drpVehicle.SelectedValue).Tables[0];
+        if (TransportType != null)
+        {
+            lblVehicleType.Text = TransportType.Rows[0]["Type"].ToString();
+            tdtype.Visible = true;
+        }
     }
 
     protected void gvDocuments_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -45,12 +52,12 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
             Label lblDocu = e.Row.FindControl("lblDocu") as Label;
             TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
             Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
+            Button btnApproved = e.Row.FindControl("btnApproved") as Button;
 
             string path = string.Empty;
-            ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + drpVehicle.SelectedValue);
+            ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + drpVehicle.SelectedValue );
             if (ds.Tables[0].Rows.Count > 0)
             {
-
                 lblDocu.Text = ds.Tables[0].Rows[0]["ID"].ToString();
                 hypDoc.NavigateUrl = "../../" + ds.Tables[0].Rows[0]["Path"].ToString();
                 path = ds.Tables[0].Rows[0]["Path"].ToString();
@@ -61,7 +68,21 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
                     txtDate.Text = Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()).ToShortDateString();
                 }
                 btn_Approved.Visible = true;
+                btnApproved.Visible = true;
+                if (ds.Tables[0].Rows[0]["IsApproved"].ToString() == "True")
+                {
+                    btnApproved.Text = "Approved";
+                }
+                else
+                {
+                    btnApproved.Text = "NonApproved";
+                }
             }
+            if (InchargeID == 32)
+            {
+                btnApproved.Enabled = true;
+            }
+     
         }
     }
 
@@ -126,5 +147,31 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
     protected void ddrAcademy_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindVehicle();
+    }
+    protected void btnApproved_Click(object sender, EventArgs e)
+    {
+        GridViewRow gr = (GridViewRow)((DataControlFieldCell)((Button)sender).Parent).Parent;
+        Button btnapproved = (Button)gr.FindControl("btnApproved");
+        string approvedid = btnapproved.CommandArgument.ToString();
+        DataTable dsMat = new DataTable();
+        dsMat = DAL.DalAccessUtility.GetDataInDataSet("SELECT ID,TransportDocumentID,IsApproved FROM VechilesDocumentRelation WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + drpVehicle.SelectedValue).Tables[0];
+        if (dsMat != null && dsMat.Rows.Count > 0)
+        {
+            if (dsMat.Rows[0]["IsApproved"].ToString() == "True")
+            {
+                DAL.DalAccessUtility.ExecuteNonQuery("Update  VechilesDocumentRelation Set IsApproved=0 WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + drpVehicle.SelectedValue);
+                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Vehicle Document NonApproved Successfully');</script>", false);
+            }
+            else
+            {
+                DAL.DalAccessUtility.ExecuteNonQuery("Update  VechilesDocumentRelation Set IsApproved=1 WHERE TransportDocumentID=" + approvedid + " AND VehicleID=" + drpVehicle.SelectedValue);
+                ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Vehicle Document Approved Successfully');</script>", false);
+            }
+         }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('File does not exit!!!!! Please select the correct File');</script>", false);
+        }
+        bindDocumentGrid();
     }
 }

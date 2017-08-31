@@ -143,7 +143,7 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
                 //getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID in (select id from Vehicles where AcademyID=" + v.AcademyID + " AND ID=" + v.ID + ")").Tables[0];
 
-                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID = " + v.ID).Tables[0];
+                getDocuments = DAL.DalAccessUtility.GetDataInDataSet("select * from [dbo].[VechilesDocumentRelation] where VehicleID = '" + v.ID + "' and IsApproved=1").Tables[0];
 
                 DataRow[] drrow = getDocuments.Select("TransportDocumentID = " + (int)(TypeEnum.TransportDocumentType.Registration));
 

@@ -11,7 +11,7 @@
                             <div class="control-group">
                                 <label class="control-label" for="typeahead"></label>
                                 <div class="controls">
-                                    Select Academy<br />
+                                    <b>Select Academy:</b>
                                     <asp:DropDownList ID="drpAcademy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddrAcademy_SelectedIndexChanged"></asp:DropDownList><br />
                                 </div>
                             </div>
@@ -20,53 +20,52 @@
                             <div class="control-group">
                                 <label class="control-label" for="typeahead"></label>
                                 <div class="controls">
-                                    Vehicle<br />
+                                    <b>Vehicle:</b>
                                     <asp:DropDownList ID="drpVehicle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpVehicle_SelectedIndexChanged"></asp:DropDownList><br />
                                 </div>
                             </div>
                         </td>
+                        <td id="tdtype" runat="server" visible="false">
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Vehicle Type:</b> <asp:Label ID="lblVehicleType" runat="server"></asp:Label>
+                                   </div>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="2" width="50%" align="left">
+                        <td colspan="3"  align="left">
                             <asp:GridView ID="gvDocuments" runat="server" ShowFooter="True" AutoGenerateColumns="False"
-                                CellPadding="4" Width="900px" ForeColor="#333333" OnRowDataBound="gvDocuments_RowDataBound" GridLines="None" Style="text-align: left">
+                                CellPadding="5" Width="1000px" ForeColor="#333333" OnRowDataBound="gvDocuments_RowDataBound" GridLines="None" Style="text-align: left">
                                 <Columns>
-                                    <asp:TemplateField HeaderText="Document Type" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                    <asp:TemplateField HeaderText="Document Type"  ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                         <ItemTemplate>
                                             <asp:Label ID="lblDocumentType" runat="server" Text='<%# Eval("DocumentName") %>' class="control-label"></asp:Label>
                                         </ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="200px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Document Expiry Date" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                    <asp:TemplateField HeaderText="Document Expiry Date"  ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                         <ItemTemplate>
                                             <asp:TextBox ID="txtDate" runat="server" CssClass="input-large datepicker">(mm/dd/yyyy)</asp:TextBox>
                                         </ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="View/Download" ItemStyle-Width="300px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                    <asp:TemplateField HeaderText="View/Download" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                         <ItemTemplate>
                                             <asp:Label ID="lblDocumentTypeID" runat="server" Text='<%# Eval("ID") %>' Visible="true" class="control-label"></asp:Label>
                                             <asp:Label ID="lblDocu" Text="-1" runat="server" Visible="true" class="control-label"></asp:Label>
                                             <asp:HyperLink ID="hypDoc" Target="_blank" runat="server" Text="No document Uploaded"></asp:HyperLink>
                                         </ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="300px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Upload Document" ItemStyle-Width="400px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                    <asp:TemplateField HeaderText="Upload Document" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                         <ItemTemplate>
                                             <asp:FileUpload ID="fiupload" runat="server" />
                                         </ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="400px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Action" ItemStyle-Width="100px" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
+                                    <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center" ItemStyle-VerticalAlign="Middle" HeaderStyle-HorizontalAlign="Center" HeaderStyle-VerticalAlign="Middle">
                                         <ItemTemplate>
-                                            <asp:Button ID="btn_Approved" Visible="false" Text="Delete" CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-primary" OnClick="btn_Approved_Click" />
+                                            <asp:Button ID="btn_Approved" Visible="false"  Text="Delete"  CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-primary" OnClick="btn_Approved_Click" />
+                                            <asp:Button ID="btnApproved" Visible="false" Enabled="false" width="100px"  Text="Approved" CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-success" OnClick="btnApproved_Click"/>
                                         </ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                                     </asp:TemplateField>
                                 </Columns>
                                 <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />

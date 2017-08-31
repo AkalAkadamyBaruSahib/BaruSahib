@@ -234,6 +234,16 @@ public class VisitorUserRepository
         return _context.RoomNumbers.Where(r => (!_context.VisitorRoomNumbers.Select(vr => vr.RoomNumberID).Contains(r.ID)) && (r.BuildingID == BuildingID)).Count();
     }
 
+    public int GetBookedTemporaryRoomListCount(int BuildingID)
+    {
+        return _context.RoomNumbers.Where(r => (_context.VisitorRoomNumbers.Select(vr => vr.RoomNumberID).Contains(r.ID)) && (r.BuildingID == BuildingID && r.IsPermanent == false)).Count();
+    }
+
+    public int GetBookedPermanentRoomListCount(int BuildingID)
+    {
+        return _context.RoomNumbers.Where(r => (_context.VisitorRoomNumbers.Select(vr => vr.RoomNumberID).Contains(r.ID)) && (r.BuildingID == BuildingID && r.IsPermanent == true)).Count();
+    }
+
     public string GetBookedRoomList(int BuildingID)
     {
         List<RoomNumbers> rm = new List<RoomNumbers>();

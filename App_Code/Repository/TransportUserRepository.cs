@@ -73,7 +73,7 @@ public class TransportUserRepository
 
     public List<VechilesDocumentRelation> GetVechilesDocumentRelationByVehicleID(int VehicleID)
     {
-        return _context.VechilesDocumentRelation.Where(x => x.VehicleID == VehicleID).ToList();
+        return _context.VechilesDocumentRelation.Where(x => x.VehicleID == VehicleID && x.IsApproved == true).ToList();
     }
 
     public int SaveNewTransportEmployee(VehicleEmployee VehicleEmp)

@@ -248,11 +248,13 @@ public partial class Visitors_Reports : System.Web.UI.Page
     public DataTable GetRoomsSummaryReport()
     {
         DataTable dtRoomsSummary = new DataTable();
-        dtRoomsSummary.Columns.Add("NameOfBuilding");
+        dtRoomsSummary.Columns.Add("Name_Of_Building");
         dtRoomsSummary.Columns.Add("Total_Rooms", typeof(System.Int32));
         dtRoomsSummary.Columns.Add("Permanent_Rooms", typeof(System.Int32));
         dtRoomsSummary.Columns.Add("Temporary_Rooms", typeof(System.Int32));
-        dtRoomsSummary.Columns.Add("Vacant_Rooms", typeof(System.Int32));
+        dtRoomsSummary.Columns.Add("Booked_Temporary_Rooms", typeof(System.Int32));
+        dtRoomsSummary.Columns.Add("Booked_Permanent_Rooms", typeof(System.Int32)); 
+        dtRoomsSummary.Columns.Add("Total_Vacant_Rooms", typeof(System.Int32));
         dtRoomsSummary.Columns.Add("Remarks", typeof(System.String));
     
         DataRow dr;
@@ -265,7 +267,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             numbers = string.Empty;
             dr = dtRoomsSummary.NewRow();
-            dr["NameOfBuilding"] = aca.Name;
+            dr["Name_Of_Building"] = aca.Name;
             dtTotalNumberOfRooms = DAL.DalAccessUtility.GetDataInDataSet("select count(id) as count from RoomNumbers where  BuildingID = " + aca.ID).Tables[0];
             if (dtTotalNumberOfRooms.Rows.Count > 0)
             {
@@ -274,11 +276,10 @@ public partial class Visitors_Reports : System.Web.UI.Page
             }
 
             dr["Permanent_Rooms"] = repository.GetPermanentRoomList(aca.ID);
-
             dr["Temporary_Rooms"] = repository.GetTemporaryRoomList(aca.ID);
-
-            dr["Vacant_Rooms"] = repository.GetAvailableRoomListCount(aca.ID);
-
+            dr["Booked_Temporary_Rooms"] = repository.GetBookedTemporaryRoomListCount(aca.ID);
+            dr["Booked_Permanent_Rooms"] = repository.GetBookedPermanentRoomListCount(aca.ID); 
+            dr["Total_Vacant_Rooms"] = repository.GetAvailableRoomListCount(aca.ID);
             dr["Remarks"] = string.Empty;
 
             dtRoomsSummary.Rows.Add(dr);
@@ -289,11 +290,13 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             dr = dtRoomsSummary.NewRow();
 
-            dr["NameOfBuilding"] = "Total";
+            dr["Name_Of_Building"] = "Total";
             dr["Total_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Total_Rooms)", string.Empty));
             dr["Permanent_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Permanent_Rooms)", string.Empty));
             dr["Temporary_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Temporary_Rooms)", string.Empty));
-            dr["Vacant_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Vacant_Rooms)", string.Empty));
+            dr["Booked_Temporary_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Booked_Temporary_Rooms)", string.Empty));
+            dr["Booked_Permanent_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Booked_Permanent_Rooms)", string.Empty));
+            dr["Total_Vacant_Rooms"] = Convert.ToInt32(dtRoomsSummary.Compute("SUM(Total_Vacant_Rooms)", string.Empty));
             dtRoomsSummary.Rows.Add(dr);
         }
         return dtRoomsSummary;
