@@ -387,6 +387,7 @@ public class VisitorUserRepository
             newVisitor.TimePeriodFrom = visitor.TimePeriodFrom;
             newVisitor.BuildingID = visitor.BuildingID;
             newVisitor.VisitorAddress = visitor.VisitorAddress;
+            newVisitor.NoOfDaysToStay = visitor.NoOfDaysToStay;
 
             DataTable dsRoom = DAL.DalAccessUtility.GetDataInDataSet("SELECT distinct Name From BuildingName Where ID='" + visitor.BuildingID + "'").Tables[0];
 

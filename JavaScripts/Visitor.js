@@ -372,7 +372,7 @@ function LoadVisitorByVisitorID(visitorID) {
                     $("input[id*='txtvehicle']").prop('disabled', true);
                     $("select[id*='ddlpurpose']").prop('disabled', true);
                     $("select[id*='drpProofType']").prop('disabled', true);
-                    $("select[id*='drpNumberOfDays']").prop('disabled', true);
+                   // $("select[id*='drpNumberOfDays']").prop('disabled', true);
                     $("select[id*='drpCountry']").prop('disabled', true);
                     $("select[id*='drpState']").prop('disabled', true);
                     $("select[id*='drpCity']").prop('disabled', true);

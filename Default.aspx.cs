@@ -72,53 +72,54 @@ public partial class _Default : System.Web.UI.Page
                     }
                 }
 
-                if (inchrge.UserTypeId == 1)
+                if (inchrge.UserTypeId == (int)TypeEnum.UserType.ADMIN)
                 {
                     Response.Redirect("Admin_Dashboard.aspx");
                 }
-                else if (inchrge.UserTypeId == 2 || inchrge.UserTypeId == (int)TypeEnum.UserType.COMPLAINT || inchrge.UserTypeId == (int)TypeEnum.UserType.ELECTRICAL)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.CONSTRUCTION || inchrge.UserTypeId == (int)TypeEnum.UserType.COMPLAINT || inchrge.UserTypeId == (int)TypeEnum.UserType.ELECTRICAL)
                 {
                     Response.Redirect("Emp_Home.aspx");
                 }
-                else if (inchrge.UserTypeId == 30 || inchrge.UserTypeId == 6 )
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN || inchrge.UserTypeId == (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
                 {
                    Response.Redirect("Workshop_Home.aspx");
                 }
-                else if (inchrge.UserTypeId == 4 || inchrge.UserTypeId == 12 || inchrge.UserTypeId == 23)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.PURCHASE || inchrge.UserTypeId == (int)TypeEnum.UserType.PURCHASECOMMITTEE || inchrge.UserTypeId == (int)TypeEnum.UserType.PURCHASEEMPLOYEE)
                 {
                     Response.Redirect("Purchase_Home.aspx");
                 }
-              
-                else if (inchrge.UserTypeId == 3)
+
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.AUDIT)
                 {
                     Response.Redirect("AuditHome.aspx");
                 }
-                else if (inchrge.UserTypeId == 5)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.ACCOUNT)
                 {
                     Response.Redirect("Account_Home.aspx");
                 }
-                else if (inchrge.UserTypeId == 7)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.ARCHITECTURAL)
                 {
                     Response.Redirect("ArchHome.aspx");
                 }
-                else if (inchrge.UserTypeId == 10)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.ACADEMIC)
                 {
                     Response.Redirect("AcademicUserHome.aspx");
                 }
-                else if (inchrge.UserTypeId == 9)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.STORE)
                 {
                     Response.Redirect("StoreHome.aspx");
                     Response.Redirect("Store_Materials.aspx");
                 }
-                else if (inchrge.UserTypeId >= 13 && inchrge.UserTypeId <= 20)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.TRANSPORTADMIN || inchrge.UserTypeId == (int)TypeEnum.UserType.TRANSPORTMANAGER || inchrge.UserTypeId == (int)TypeEnum.UserType.INSURANCECOORDINATOR || inchrge.UserTypeId == (int)TypeEnum.UserType.TRANSPORTTRAINEE
+                         || inchrge.UserTypeId == (int)TypeEnum.UserType.TRANSPORTZONEINCHARGE || inchrge.UserTypeId == (int)TypeEnum.UserType.BACKOFFICEHQ || inchrge.UserTypeId == (int)TypeEnum.UserType.CLUSTERHEAD)
                 {
                     Response.Redirect("TransportHome.aspx");
                 }
-                else if (inchrge.UserTypeId == 22 || inchrge.UserTypeId == 32)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.FrontDesk || inchrge.UserTypeId == (int)TypeEnum.UserType.RECEPTIONADMIN)
                 {
                     Response.Redirect("Visitor_Home.aspx");
                 }
-                else if (inchrge.UserTypeId == 24)
+                else if (inchrge.UserTypeId == (int)TypeEnum.UserType.SECURITY)
                 {
                     Response.Redirect("Security_Home.aspx");
                 }

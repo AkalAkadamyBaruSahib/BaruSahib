@@ -278,20 +278,48 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                     visitor.NoOfDaysToStay = null;
                 }
                 visitor.VisitorTypeID = 1;
-              
-               
                 visitor.Identification = drpProofType.SelectedValue;
-                if (drpState.SelectedValue != null)
+
+                if (txtAdmissionNo.Text != "")
                 {
-                    visitor.State = int.Parse(drpState.SelectedValue);
+                    DataTable dtAdminsDetail = DAL.DalAccessUtility.GetDataInDataSet("select CountryID,StateID,CityID from StudentDetail where  AdmissionNumber = " + txtAdmissionNo.Text).Tables[0];
+                    if (dtAdminsDetail != null && dtAdminsDetail.Rows.Count > 0)
+                    {
+                        visitor.State = int.Parse(dtAdminsDetail.Rows[0]["StateID"].ToString());
+                        visitor.Country = int.Parse(dtAdminsDetail.Rows[0]["CountryID"].ToString());
+                        visitor.City = int.Parse(dtAdminsDetail.Rows[0]["CityID"].ToString());
+                    }
+                    else
+                    {
+                        if (drpState.SelectedValue != null)
+                        {
+                            visitor.State = int.Parse(drpState.SelectedValue);
+                        }
+                        if (drpCountry.SelectedValue != null)
+                        {
+                            visitor.Country = int.Parse(drpCountry.SelectedValue);
+                        }
+                        if (drpCity.SelectedValue != null)
+                        {
+                            visitor.City = int.Parse(drpCity.SelectedValue);
+                        }
+                    }
                 }
-                if (drpCountry.SelectedValue != null)
+                else
                 {
-                    visitor.Country = int.Parse(drpCountry.SelectedValue);
-                }
-                if (drpCity.SelectedValue != null)
-                {
-                    visitor.City = int.Parse(drpCity.SelectedValue);
+                    if (drpState.SelectedValue != null)
+                    {
+                        visitor.State = int.Parse(drpState.SelectedValue);
+                    }
+                    if (drpCountry.SelectedValue != null)
+                    {
+                        visitor.Country = int.Parse(drpCountry.SelectedValue);
+                    }
+                    if (drpCity.SelectedValue != null)
+                    {
+                        visitor.City = int.Parse(drpCity.SelectedValue);
+                    }
+                
                 }
                 visitor.IsActive = true;
                 visitor.AdmissionNumber = txtAdmissionNo.Text;
