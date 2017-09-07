@@ -568,11 +568,26 @@ public partial class Transport_Proforma : System.Web.UI.Page
             tyreDetail.RearLeftOldTyreCondition = Request.Form["txtRearLeftCondition"];
             tyreDetail.RearRightOldTyreCondition = Request.Form["txtRearRightCondition"];
             tyreDetail.StafneyOldTyreCondition = Request.Form["txtStafneyCondition"];
-            tyreDetail.FrontLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontLeftRequired"]);
-            tyreDetail.FrontRightNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontRightRequired"]);
-            tyreDetail.RearLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtRearLeftRequired"]);
-            tyreDetail.RearRightNewTyreRequired = Convert.ToInt32(Request.Form["txtRearRightRequired"]);
-            tyreDetail.StafneyNewTyreRequired = Convert.ToInt32(Request.Form["txtStafneyRequired"]);
+            if (Request.Form["txtFrontLeftRequired"] != "")
+            {
+                tyreDetail.FrontLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontLeftRequired"]);
+            }
+            if (Request.Form["txtFrontRightRequired"] != "")
+            {
+                tyreDetail.FrontRightNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontRightRequired"]);
+            }
+            if (Request.Form["txtRearLeftRequired"] != "")
+            {
+                tyreDetail.RearLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtRearLeftRequired"]);
+            }
+            if (Request.Form["txtRearRightRequired"] != "")
+            {
+                tyreDetail.RearRightNewTyreRequired = Convert.ToInt32(Request.Form["txtRearRightRequired"]);
+            }
+            if (Request.Form["txtStafneyRequired"] != "")
+            {
+                tyreDetail.StafneyNewTyreRequired = Convert.ToInt32(Request.Form["txtStafneyRequired"]);
+            }
             tyreDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             tyreDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
             tyreDetail.StafneyKm = Convert.ToInt32(Request.Form["txtStafneyRunning"]);
@@ -581,24 +596,59 @@ public partial class Transport_Proforma : System.Web.UI.Page
             tyreDetail.TyreSize = Request.Form["txtTyreSize"];
             tyreDetail.NoOfTyreRequired = Convert.ToInt32(Request.Form["txtNoofRequird"]);
             tyreDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeter"]);
-            tyreDetail.NewTyreAmount = Convert.ToDecimal(Request.Form["txtNewTyreAmount"]);
-            tyreDetail.LastMeterReadingOfTyreChanged = Convert.ToInt32(Request.Form["txtTyreMeterReading"]);
-            tyreDetail.OldTyreSaleAmount = Convert.ToDecimal(Request.Form["txtOldTyreSaleAmount"]);
+            tyreDetail.NewTyreAmount = Request.Form["txtNewTyreAmount"];
+            tyreDetail.LastMeterReadingOfTyreChanged = Request.Form["txtTyreMeterReading"];
+            tyreDetail.OldTyreSaleAmount = Request.Form["txtOldTyreSaleAmount"];
             tyreDetail.ApprovalAmount = Convert.ToDecimal(Request.Form["txtTyreApproval"]);
-            tyreDetail.TyreChangOnlastMeterReading = Convert.ToInt32(Request.Form["txtTyreLastReading"]);
-            tyreDetail.MrfRates = Convert.ToDecimal(Request.Form["txtMrfRates"]);
-            tyreDetail.MrfQty = Convert.ToDecimal(Request.Form["txtMrfQty"]);
-            tyreDetail.MrfAmount = Convert.ToDecimal(Request.Form["txtMrfAmount"]);
-            tyreDetail.ApoloRates = Convert.ToDecimal(Request.Form["txtApoloRates"]);
-            tyreDetail.ApoloQty = Convert.ToDecimal(Request.Form["txtApoloQty"]);
-            tyreDetail.ApoloAmount = Convert.ToDecimal(Request.Form["txtApoloAmount"]);
-            tyreDetail.CeatRates = Convert.ToDecimal(Request.Form["txtCeatRates"]);
-            tyreDetail.CeatQty = Convert.ToDecimal(Request.Form["txtCeatQty"]);
-            tyreDetail.CeatAmount = Convert.ToDecimal(Request.Form["txtCeatAmount"]);
-            tyreDetail.JkRates = Convert.ToDecimal(Request.Form["txtJkRates"]);
-            tyreDetail.JkQty = Convert.ToDecimal(Request.Form["txtJkQty"]);
-            tyreDetail.JkAmount = Convert.ToDecimal(Request.Form["txtJkAmount"]);
-
+            tyreDetail.TyreChangOnlastMeterReading = Request.Form["txtTyreLastReading"];
+            if (Request.Form["txtMrfRates"] != "")
+            {
+                tyreDetail.MrfRates = Convert.ToDecimal(Request.Form["txtMrfRates"]);
+            }
+            if (Request.Form["txtMrfQty"] != "")
+            {
+                tyreDetail.MrfQty = Convert.ToDecimal(Request.Form["txtMrfQty"]);
+            }
+            if (Request.Form["txtMrfAmount"] != "")
+            {
+                tyreDetail.MrfAmount = Convert.ToDecimal(Request.Form["txtMrfAmount"]);
+            }
+            if (Request.Form["txtApoloRates"] != "")
+            {
+                tyreDetail.ApoloRates = Convert.ToDecimal(Request.Form["txtApoloRates"]);
+            }
+            if (Request.Form["txtApoloQty"] != "")
+            {
+                tyreDetail.ApoloQty = Convert.ToDecimal(Request.Form["txtApoloQty"]);
+            }
+            if (Request.Form["txtApoloAmount"] != "")
+            {
+                tyreDetail.ApoloAmount = Convert.ToDecimal(Request.Form["txtApoloAmount"]);
+            }
+            if (Request.Form["txtCeatRates"] != "")
+            {
+                tyreDetail.CeatRates = Convert.ToDecimal(Request.Form["txtCeatRates"]);
+            }
+            if (Request.Form["txtCeatQty"] != "")
+            {
+                tyreDetail.CeatQty = Convert.ToDecimal(Request.Form["txtCeatQty"]);
+            }
+            if (Request.Form["txtCeatAmount"] != "")
+            {
+                tyreDetail.CeatAmount = Convert.ToDecimal(Request.Form["txtCeatAmount"]);
+            }
+            if (Request.Form["txtJkRates"] != "")
+            {
+                tyreDetail.JkRates = Convert.ToDecimal(Request.Form["txtJkRates"]);
+            }
+            if (Request.Form["txtJkQty"] != "")
+            {
+                tyreDetail.JkQty = Convert.ToDecimal(Request.Form["txtJkQty"]);
+            }
+            if (Request.Form["txtJkAmount"] != "")
+            {
+                tyreDetail.JkAmount = Convert.ToDecimal(Request.Form["txtJkAmount"]);
+            }
             repo.SaveProformaDetail(tyreDetail);
             hdnProformaID.Value = tyreDetail.ID.ToString();
             htmlCode = htmlCode.Replace("[Proformano]", hdnProformaID.Value);

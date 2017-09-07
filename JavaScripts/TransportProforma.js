@@ -64,6 +64,19 @@ $(document).ready(function () {
         }
     });
 
+    $("#txtMrfRates").change(function () {
+        var mrfqty = $("#txtMrfQty").val();
+        if (mrfqty == "") {
+            $("#txtMrfAmount").val($("#txtMrfRates").val());
+        }
+        else {
+            var mrfrate = $("#txtMrfRates").val();
+            var mrf = parseFloat(mrfrate) * parseFloat(mrfqty);
+            $("#txtMrfAmount").val(mrf);
+        }
+
+    });
+
     $("#txtApoloQty").change(function () {
         var apolorate = $("#txtApoloRates").val();
         if (apolorate == "") {
@@ -74,6 +87,19 @@ $(document).ready(function () {
             var apolo = parseFloat(apolorate) * parseFloat(apoloqty);
             $("#txtApoloAmount").val(apolo);
         }
+    });
+
+    $("#txtApoloRates").change(function () {
+        var mrfqty = $("#txtApoloQty").val();
+        if (mrfqty == "") {
+            $("#txtApoloAmount").val($("#txtApoloRates").val());
+        }
+        else {
+            var mrfrate = $("#txtApoloRates").val();
+            var mrf = parseFloat(mrfrate) * parseFloat(mrfqty);
+            $("#txtApoloAmount").val(mrf);
+        }
+
     });
 
     $("#txtCeatQty").change(function () {
@@ -88,6 +114,19 @@ $(document).ready(function () {
         }
     });
 
+    $("#txtCeatRates").change(function () {
+        var mrfqty = $("#txtCeatQty").val();
+        if (mrfqty == "") {
+            $("#txtCeatAmount").val($("#txtCeatRates").val());
+        }
+        else {
+            var mrfrate = $("#txtCeatRates").val();
+            var mrf = parseFloat(mrfrate) * parseFloat(mrfqty);
+            $("#txtCeatAmount").val(mrf);
+        }
+
+    });
+
     $("#txtJkQty").change(function () {
         var jkrate = $("#txtJkRates").val();
         if (jkrate == "") {
@@ -98,6 +137,19 @@ $(document).ready(function () {
             var jk = parseFloat(jkrate) * parseFloat(jkqty);
             $("#txtJkAmount").val(jk);
         }
+    });
+
+    $("#txtJkRates").change(function () {
+        var mrfqty = $("#txtJkQty").val();
+        if (mrfqty == "") {
+            $("#txtJkAmount").val($("#txtJkRates").val());
+        }
+        else {
+            var mrfrate = $("#txtJkRates").val();
+            var mrf = parseFloat(mrfrate) * parseFloat(mrfqty);
+            $("#txtJkAmount").val(mrf);
+        }
+
     });
 
     GetMaterials(2);

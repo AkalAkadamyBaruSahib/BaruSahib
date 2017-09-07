@@ -1716,7 +1716,7 @@
                         </tr>
                         <tr id="trbtnDownload" style="display: none;">
                             <td>
-                                <asp:Button ID="btnDownload" runat="server" Text="Download Proforma" CssClass="btn btn-primary" OnClick="btnDownload_Click" />
+                                <asp:Button ID="btnDownload" runat="server" Text="Save & Download Proforma" CssClass="btn btn-primary" OnClick="btnDownload_Click" />
                             </td>
                         </tr>
                     </table>

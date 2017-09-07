@@ -79,15 +79,15 @@ public class ProformaDetail
 
     public int? CurrentMeterReading { get; set; }
 
-    public decimal? NewTyreAmount { get; set; }
+    public string NewTyreAmount { get; set; }
 
-    public int? LastMeterReadingOfTyreChanged { get; set; }
+    public string LastMeterReadingOfTyreChanged { get; set; }
 
-    public decimal? OldTyreSaleAmount { get; set; }
+    public string OldTyreSaleAmount { get; set; }
 
     public decimal? ApprovalAmount { get; set; }
 
-    public int? TyreChangOnlastMeterReading { get; set; }
+    public string TyreChangOnlastMeterReading { get; set; }
 
     public decimal? MrfRates { get; set; }
 

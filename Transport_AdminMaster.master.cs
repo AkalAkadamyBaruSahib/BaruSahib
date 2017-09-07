@@ -25,7 +25,14 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             UserType = Convert.ToInt16(Session["UserTypeID"].ToString());
             InchargeID = int.Parse(Session["InchargeID"].ToString());
         }
-        if (UserType != (int)TypeEnum.UserType.TRANSPORTADMIN)
+        if (UserType == (int)TypeEnum.UserType.TRANSPORTADMIN || UserType == (int)TypeEnum.UserType.CLUSTERHEAD)
+        {
+            liEstimateiewForEmp.Visible = false;
+            liBills.Visible = true;
+            liComplaints.Visible = true;
+            showUnApprovedEstimateCount();
+        }
+        else
         {
             liDesignation.Visible = false;
             liDepartment.Visible = false;
@@ -35,15 +42,6 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liCreateMaterial.Visible = false;
             liContractRate.Visible = false;
             liBills.Visible = false;
-
-
-        }
-        else
-        {
-            liEstimateiewForEmp.Visible = false;
-            liBills.Visible = true;
-            liComplaints.Visible = true;
-            showUnApprovedEstimateCount();
         }
         ShowLinks();
     }

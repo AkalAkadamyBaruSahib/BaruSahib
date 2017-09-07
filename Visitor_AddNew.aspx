@@ -401,7 +401,8 @@
                                                 <label class="control-label" for="typeahead">Admission Number:</label>
                                                 <div class="control-group">
                                                     <asp:TextBox ID="txtAdmissionNo" CssClass="span6 typeahead" runat="server" Style="width: 220px;"></asp:TextBox>
-                                                </div>
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator4"  runat="server" ControlToValidate="txtAdmissionNo" ForeColor="Red" Font-Size="13px" ErrorMessage="Please Enter Digit Numbers" ValidationExpression="^[0-9]*$"></asp:RegularExpressionValidator>
+                                             </div>
                                             </div>
                                         </td>
                                     </tr>

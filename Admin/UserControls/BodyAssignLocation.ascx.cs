@@ -221,7 +221,7 @@ public partial class Admin_UserControls_BodyAssignLocation : System.Web.UI.UserC
             DataSet dsval = new DataSet();
             DataSet dsDelA = DAL.DalAccessUtility.GetDataInDataSet("delete AcademyAssignToEmployee where EmpId='" + ddlEmpl.SelectedValue + "'");
             dsval = DAL.DalAccessUtility.GetDataInDataSet("select UserTypeId from Incharge where InName='" + ddlEmpl.SelectedItem.Text + "'");
-            if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.CONSTRUCTION).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.PURCHASE).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.STORE).ToString())
+            if (dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.CONSTRUCTION).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.PURCHASEEMPLOYEE).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.PURCHASE).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.STORE).ToString() || dsval.Tables[0].Rows[0]["UserTypeId"].ToString() == ((int)TypeEnum.UserType.TRANSPORTZONEINCHARGE).ToString())
             {
                 SaveAllAcademyInZone();
             }
