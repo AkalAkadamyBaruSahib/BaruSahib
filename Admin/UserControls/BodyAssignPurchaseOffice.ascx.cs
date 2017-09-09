@@ -104,17 +104,20 @@ public partial class Admin_UserControls_BodyAssignPurchaseOffice : System.Web.UI
                 isCheck++;
                 try
                 {
-                    DAL.DalAccessUtility.ExecuteNonQuery("INSERT INTO InchargeEmployee values(" + Session["InchargeID"].ToString() + "," + ddlEmployee.SelectedValue + ") ");
-                    DAL.DalAccessUtility.ExecuteNonQuery("UPDATE EstimateAndMaterialOthersRelations SET PurchaseEmpID=" + ddlEmployee.SelectedValue + ", EmployeeAssignDateTime='" + Utility.GetLocalDateTime(DateTime.UtcNow) + "' where Sno=" + hdnSno.Value);
-                    smsTo = ddlEmployee.SelectedValue;
-                    SendSMSToAssignEmployee(smsTo);
+                    DataTable dsPurDetail = DAL.DalAccessUtility.GetDataInDataSet("select PurchaseQty from EstimateAndMaterialOthersRelations where sno='" + hdnSno.Value + "'").Tables[0];
+                    if (dsPurDetail.Rows[0]["PurchaseQty"].ToString() == "0.00")
+                    {
+                        DAL.DalAccessUtility.ExecuteNonQuery("INSERT INTO InchargeEmployee values(" + Session["InchargeID"].ToString() + "," + ddlEmployee.SelectedValue + ") ");
+                        DAL.DalAccessUtility.ExecuteNonQuery("UPDATE EstimateAndMaterialOthersRelations SET PurchaseEmpID=" + ddlEmployee.SelectedValue + ", EmployeeAssignDateTime='" + Utility.GetLocalDateTime(DateTime.UtcNow) + "' where Sno=" + hdnSno.Value);
+                        smsTo = ddlEmployee.SelectedValue;
+                        SendSMSToAssignEmployee(smsTo);
+                    }
                 }
                 catch (Exception ex)
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('" + ex.Message + "');", true);
                 }
             }
-
         }
 
         getMaterialDetails(Request.QueryString["EstId"].ToString());
@@ -125,8 +128,8 @@ public partial class Admin_UserControls_BodyAssignPurchaseOffice : System.Web.UI
         else
         {
             ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material has been assigned to purchase officer');", true);
-        }
 
+        }
 
     }
 

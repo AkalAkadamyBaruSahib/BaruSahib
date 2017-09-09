@@ -463,7 +463,7 @@ public partial class Transport_Proforma : System.Web.UI.Page
                     matDetail = new ProformaMaterialDetail();
                     matDetail.ProformaID = Convert.ToInt32(hdnProformaID.Value);
                     matDetail.MatID = Convert.ToInt32(Request.Form["hdnMatID" + i]);
-                    matDetail.UnitID = Convert.ToInt32(Request.Form["hdnUnitID" + i]); 
+                    matDetail.UnitID = Convert.ToInt32(Request.Form["hdnUnitID" + i]);
                     matDetail.Qty = Convert.ToDecimal(Request.Form["txtQty" + i]);
                     if (Request.Form["txtRate" + i] == "0")
                     {
@@ -472,15 +472,14 @@ public partial class Transport_Proforma : System.Web.UI.Page
                     }
                     else
                     {
-                        matDetail.Rate = Convert.ToDecimal(Request.Form["txtRate" + i]); 
+                        matDetail.Rate = Convert.ToDecimal(Request.Form["txtRate" + i]);
                         matDetail.Amount = Convert.ToDecimal(Request.Form["txtQty" + i]) * Convert.ToDecimal(Request.Form["txtRate" + i]);
                     }
                     repo.SaveGensetProformaMaterialDetail(matDetail);
                 }
             }
-           
-
         }
+
         else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.BATTERYQUOTATION).ToString())
         {
             hdnBatteryAcaName.Value = hdnBatteryAcaName.Value.Replace(" ", "");
@@ -503,17 +502,41 @@ public partial class Transport_Proforma : System.Web.UI.Page
             batryDetail.OldBatterySalePrice = Convert.ToDecimal(Request.Form["txtOldBatterySale"]);
             batryDetail.ApprovalAmount = Convert.ToDecimal(Request.Form["txtBatteryApprovalAmount"]);
             batryDetail.MicrotekSizeOfBattery = Request.Form["txtMocrotaxSize"];
-            batryDetail.MicrotekNoOfRequired = Convert.ToInt32(Request.Form["txtMocrotax"]);
-            batryDetail.MicrotekPriceOfBattery = Convert.ToDecimal(Request.Form["txtMocrotaxPrice"]);
+            if (Request.Form["txtMocrotax"] != "")
+            {
+                batryDetail.MicrotekNoOfRequired = Convert.ToInt32(Request.Form["txtMocrotax"]);
+            }
+            if (Request.Form["txtMocrotaxPrice"] != "")
+            {
+                batryDetail.MicrotekPriceOfBattery = Convert.ToDecimal(Request.Form["txtMocrotaxPrice"]);
+            }
             batryDetail.TataSizeOfBattery = Request.Form["txtAmaronSize"];
-            batryDetail.TataNoOfRequired = Convert.ToInt32(Request.Form["txtAmaron"]);
-            batryDetail.TataPriceOfBattery = Convert.ToDecimal(Request.Form["txtAmaronPrice"]);
+            if (Request.Form["txtAmaron"] != "")
+            {
+                batryDetail.TataNoOfRequired = Convert.ToInt32(Request.Form["txtAmaron"]);
+            }
+            if (Request.Form["txtAmaronPrice"] != "")
+            {
+                batryDetail.TataPriceOfBattery = Convert.ToDecimal(Request.Form["txtAmaronPrice"]);
+            }
             batryDetail.ExideSizeOfBattery = Request.Form["txtExideSize"];
-            batryDetail.ExideNoOfRequired = Convert.ToInt32(Request.Form["txtExide"]);
-            batryDetail.ExidePriceOfBattery = Convert.ToDecimal(Request.Form["txtExidePrice"]);
+            if (Request.Form["txtExide"] != "")
+            {
+                batryDetail.ExideNoOfRequired = Convert.ToInt32(Request.Form["txtExide"]);
+            }
+            if (Request.Form["txtExidePrice"] != "")
+            {
+                batryDetail.ExidePriceOfBattery = Convert.ToDecimal(Request.Form["txtExidePrice"]);
+            }
             batryDetail.OkayaSizeOfBattery = Request.Form["txtMicroTechSize"];
-            batryDetail.OkayaNoOfRequired = Convert.ToInt32(Request.Form["txtMicroTech"]);
-            batryDetail.OkayaPriceOfBattery = Convert.ToDecimal(Request.Form["txtMicroTechPrice"]);
+            if (Request.Form["txtMicroTech"] != "")
+            {
+                batryDetail.OkayaNoOfRequired = Convert.ToInt32(Request.Form["txtMicroTech"]);
+            }
+            if (Request.Form["txtMicroTechPrice"] != "")
+            {
+                batryDetail.OkayaPriceOfBattery = Convert.ToDecimal(Request.Form["txtMicroTechPrice"]);
+            }
             batryDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
             batryDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             if (Request.Form["ddlBatteryTye"] == "Vehicle Battery")
@@ -526,7 +549,7 @@ public partial class Transport_Proforma : System.Web.UI.Page
             }
             else if (Request.Form["ddlBatteryTye"] == "Genset Battery")
             {
-               // batryDetail.VehicleID = 0;
+                // batryDetail.VehicleID = 0;
                 batryDetail.GensetPowerInKVA = Request.Form["txtBatteryGensetPower"];
                 batryDetail.GensetSrNo = Request.Form["txtBatteryGensetNo"];
                 batryDetail.GensetCompany = Request.Form["txtBatteryGensetCompany"];
@@ -534,7 +557,7 @@ public partial class Transport_Proforma : System.Web.UI.Page
             }
             else
             {
-               // batryDetail.VehicleID = 0;
+                // batryDetail.VehicleID = 0;
                 batryDetail.GensetPowerInKVA = string.Empty;
                 batryDetail.GensetSrNo = string.Empty;
                 batryDetail.GensetCompany = string.Empty;
@@ -681,7 +704,7 @@ public partial class Transport_Proforma : System.Web.UI.Page
                     matDetail = new ProformaMaterialDetail();
                     matDetail.ProformaID = Convert.ToInt32(hdnProformaID.Value);
                     matDetail.MatID = int.Parse(Request.Form["hdnSerMatID" + i]);
-                    matDetail.UnitID = int.Parse(Request.Form["hdnSerUnitID" + i]); 
+                    matDetail.UnitID = int.Parse(Request.Form["hdnSerUnitID" + i]);
                     matDetail.Qty = Convert.ToDecimal(Request.Form["txtQuantity" + i]);
                     if (Request.Form["txtPrice" + i] == "0")
                     {
@@ -693,9 +716,9 @@ public partial class Transport_Proforma : System.Web.UI.Page
                         matDetail.Rate = Convert.ToDecimal(Request.Form["txtPrice" + i]);
                         matDetail.Amount = Convert.ToDecimal(Request.Form["txtQuantity" + i]) * Convert.ToDecimal(Request.Form["txtPrice" + i]);
                     }
-                   
-                    
-                   
+
+
+
                     repo.SaveGensetProformaMaterialDetail(matDetail);
                 }
             }
