@@ -132,4 +132,23 @@ public partial class Workshop_ViewEstMaterial : System.Web.UI.Page
 
         Utility.SendSMS(smsTo, "New Material has been assigned to you for purchase. Please login to www.akalsewa.org for more details");
     }
+    protected void chkboxSelectAll_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox ChkBoxHeader = (CheckBox)gvMaterailDetailForPurchase.HeaderRow.FindControl("chkboxSelectAll");
+
+        foreach (GridViewRow row in gvMaterailDetailForPurchase.Rows)
+        {
+            CheckBox ChkBoxRows = (CheckBox)row.FindControl("chkBok");
+
+            if (ChkBoxHeader.Checked)
+            {
+                ChkBoxRows.Checked = true;
+            }
+
+            else
+            {
+                ChkBoxRows.Checked = false;
+            }
+        }
+    }
 }

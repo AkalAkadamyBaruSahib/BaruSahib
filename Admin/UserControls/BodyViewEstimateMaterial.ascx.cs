@@ -14,6 +14,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         if (Session["ModuleID"] != null)
         {
             ModuleID = int.Parse(Session["ModuleID"].ToString());
+            hdnModule.Value = Session["ModuleID"].ToString();
         }
         if (Session["EmailId"] == null)
         {
@@ -29,7 +30,7 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         {
             if (Request.QueryString["EstId"] != null)
             {
-                hdnEstID.Value =  Request.QueryString["EstId"].ToString();
+                hdnEstID.Value = Request.QueryString["EstId"].ToString();
                 getZoneAcaName(Request.QueryString["EstId"].ToString());
                 getMaterialDetails(Request.QueryString["IsLocal"].ToString(), Request.QueryString["EstId"].ToString());
                 if (ModuleID == 4)
@@ -223,16 +224,16 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                     }
                     else
                     {
-                          DataSet dsMat = new DataSet();
-                            dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select * from MaterialNonApprovedRate Where EstID='" + hdnEstID.Value + "' and MatID='" + txtMatID.Value + "'");
-                            if (dsMat.Tables[0].Rows.Count > 0)
-                            {
-                                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Rate Already Sent for Approval.')", true);
-                            }
-                            else
-                            {
-                                Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + "," + hdnEstID.Value + ");", true);
-                            }
+                        DataSet dsMat = new DataSet();
+                        dsMat = DAL.DalAccessUtility.GetDataInDataSet("Select * from MaterialNonApprovedRate Where EstID='" + hdnEstID.Value + "' and MatID='" + txtMatID.Value + "'");
+                        if (dsMat.Tables[0].Rows.Count > 0)
+                        {
+                            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Rate Already Sent for Approval.')", true);
+                        }
+                        else
+                        {
+                            Page.ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup(" + hdnMatTypeID.Value + "," + txtMatID.Value + "," + hdnVandorID.Value + "," + txtRate.Text + "," + hdnEstID.Value + ");", true);
+                        }
                     }
                 }
 
@@ -372,11 +373,11 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         int UserID = Convert.ToInt32(Session["InchargeID"].ToString());
         GridViewRow gv = (GridViewRow)((Button)sender).NamingContainer;
         TextBox txtDispatchQty = (TextBox)gv.FindControl("txtDispatchQty");
+        TextBox txtWorkshopRate = (TextBox)gv.FindControl("txtWorkshopRate");
         HiddenField hdnEstID = (HiddenField)gv.FindControl("hdnEstID");
         HiddenField hdnSno = (HiddenField)gv.FindControl("hdnSno");
         HiddenField hdnMatID = (HiddenField)gv.FindControl("hdnMatID");
         HiddenField hdnDispatchQty = (HiddenField)gv.FindControl("hdnDispatchQty");
-        HiddenField hdnInStoreQty = (HiddenField)gv.FindControl("hdnInStoreQty");
         HiddenField hdnQty = (HiddenField)gv.FindControl("hdnQty");
         if (txtDispatchQty.Text == "")
         {
@@ -385,19 +386,9 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
         else
         {
             var DispatchQty = Convert.ToDecimal(txtDispatchQty.Text);
-            var LeftStoreQty = Convert.ToDecimal(hdnInStoreQty.Value) - Convert.ToDecimal(txtDispatchQty.Text);
             var TotalDispatchQty = Convert.ToDecimal(txtDispatchQty.Text) + Convert.ToDecimal(hdnDispatchQty.Value);
 
-
-            if (hdnInStoreQty.Value == "0" || hdnInStoreQty.Value == "0.00")
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please Updtae the InStoreQty before dispatch.');", true);
-            }
-            else if ((Convert.ToDecimal(DispatchQty) > Convert.ToDecimal(hdnInStoreQty.Value)))
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Qty can not greater than InStore Qty .');", true);
-            }
-            else if ((Convert.ToDecimal(TotalDispatchQty) > Convert.ToDecimal(hdnQty.Value)))
+            if ((Convert.ToDecimal(TotalDispatchQty) > Convert.ToDecimal(hdnQty.Value)))
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Dispatch Qty can not greater than Required Qty.');", true);
             }
@@ -407,8 +398,10 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 workshopDispatchMaterial.DispatchQty = Convert.ToInt32(txtDispatchQty.Text);
                 workshopDispatchMaterial.EstID = Convert.ToInt32(hdnEstID.Value);
                 workshopDispatchMaterial.EMRID = Convert.ToInt32(hdnSno.Value);
-                workshopDispatchMaterial.DispatchOn = DateTime.Now;
+                workshopDispatchMaterial.DispatchOn = Utility.GetLocalDateTime(DateTime.UtcNow);
                 workshopDispatchMaterial.DispatchBy = UserID;
+                workshopDispatchMaterial.MatID = Convert.ToInt32(hdnMatID.Value);
+                workshopDispatchMaterial.DispatchRate = Convert.ToDecimal(txtWorkshopRate.Text);
                 WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
                 if (workshopDispatchMaterial.ID == 0)
                 {
@@ -416,33 +409,20 @@ public partial class Admin_UserControls_BodyViewEstimateMaterial : System.Web.UI
                 }
                 if ((Convert.ToDecimal(TotalDispatchQty) == Convert.ToDecimal(hdnQty.Value)))
                 {
-                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "' where Sno='" + hdnSno.Value + "'");
+                    DAL.DalAccessUtility.ExecuteNonQuery("update Material set AkalWorkshopRate=" + txtWorkshopRate.Text + ",MRP=" + txtWorkshopRate.Text + " where MatID='" + hdnMatID.Value + "'");
+                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchDate=GETDATE(),Rate=" + txtWorkshopRate.Text + ",MRP ='" + txtWorkshopRate.Text + "',remarkByPurchase='" + string.Empty + "',DispatchStatus='1',DispatchOn=getdate(),PurchaseQty ='" + TotalDispatchQty + "',DispatchBy='" + lblUser.Text + "' where Sno='" + hdnSno.Value + "'");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Dispatch Successfully.')", true);
                 }
                 else
                 {
-                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchDate=GETDATE(),remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),DispatchBy='" + lblUser.Text + "' where Sno='" + hdnSno.Value + "'");
-
+                    DAL.DalAccessUtility.ExecuteNonQuery("update Material set AkalWorkshopRate=" + txtWorkshopRate.Text + ",MRP=" + txtWorkshopRate.Text + " where MatID='" + hdnMatID.Value + "'");
+                    DAL.DalAccessUtility.ExecuteNonQuery("update EstimateAndMaterialOthersRelations set DispatchDate=GETDATE(),Rate=" + txtWorkshopRate.Text + ",MRP ='" + txtWorkshopRate.Text + "',remarkByPurchase='" + string.Empty + "',DispatchStatus='0',DispatchOn=getdate(),PurchaseQty ='" + TotalDispatchQty + "',DispatchBy='" + lblUser.Text + "' where Sno='" + hdnSno.Value + "'");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Qty has been  Updated Successfully.')", true);
                 }
 
-                DAL.DalAccessUtility.ExecuteNonQuery("Update WorkshopStoreMaterial set InStoreQty='" + LeftStoreQty + "' where MatID='" + hdnMatID.Value + "'");
-                ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Material Dispatch Successfully.')", true);
                 getMaterialDetails(Request.QueryString["IsLocal"].ToString(), Request.QueryString["EstId"].ToString());
             }
         }
     }
 
-    protected void gvWorkShopMaterial_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        int groupName=0;
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            //RequiredFieldValidator reqtxtDispatchQty = e.Row.FindControl("reqtxtDispatchQty") as RequiredFieldValidator;
-            //reqtxtDispatchQty.ValidationGroup = groupName.ToString();
-            //Button objAdd = e.Row.FindControl("btnDispatchWorkshop") as Button;
-            //objAdd.ValidationGroup = groupName.ToString();
-            //TextBox objtxtAddress = e.Row.FindControl("txtDispatchQty") as TextBox;
-            //objtxtAddress.ValidationGroup = groupName.ToString();
-            //groupName++;
-        }
-    }
 }

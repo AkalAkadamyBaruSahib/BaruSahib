@@ -68,6 +68,7 @@
     <asp:HiddenField ID="hdnNewRate" runat="server" />
     <asp:HiddenField ID="hdnVendor" runat="server" />
     <asp:HiddenField ID="hdnEstID" runat="server" />
+    <asp:HiddenField ID="hdnModule" runat="server" />
     <div class="box-header well">
         <h2><i class="icon-user"></i>Material Details for
                 <asp:Label ID="lblZoneName" runat="server"></asp:Label>
@@ -148,7 +149,7 @@
         </asp:GridView>
 
         <asp:GridView runat="server" AutoGenerateColumns="false" DataKeyNames="EstId" ID="gvWorkShopMaterial"
-            class="table table-striped table-bordered bootstrap-datatable datatable" Visible="false" OnRowDataBound="gvWorkShopMaterial_RowDataBound">
+            class="table table-striped table-bordered bootstrap-datatable datatable" Visible="false">
 
             <Columns>
                 <asp:TemplateField HeaderText="SNO">
@@ -159,7 +160,7 @@
                         <asp:HiddenField runat="server" ID="hdnSno" Value='<%#Eval("Sno") %>' />
                         <asp:HiddenField runat="server" ID="hdnUnitID" Value='<%#Eval("UnitID") %>' />
                         <asp:HiddenField runat="server" ID="hdnDispatchQty" Value='<%#Eval("DispatchQty") %>' />
-                        <asp:HiddenField runat="server" ID="hdnInStoreQty" Value='<%#Eval("InStoreQty") %>' />
+                       <%-- <asp:HiddenField runat="server" ID="hdnInStoreQty" Value='<%#Eval("InStoreQty") %>' />--%>
                         <asp:HiddenField runat="server" ID="hdnQty" Value='<%#Eval("Qty") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
@@ -173,16 +174,6 @@
                         <asp:Label ID="lblRequiredQty" runat="server" Text='<%#Eval("Qty") %>'></asp:Label>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="Rate">
-                    <ItemTemplate>
-                        <asp:Label ID="lblRate" runat="server" Text='<%#Eval("AkalWorkshopRate") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="InStoreQty">
-                    <ItemTemplate>
-                        <asp:Label runat="server" Width="100px" ID="lblInStoreQty" Text='<%#Eval("InStoreQty") %>'></asp:Label>
-                    </ItemTemplate>
-                </asp:TemplateField>
                 <asp:TemplateField HeaderText="AlreadyDispatchQty">
                     <ItemTemplate>
                         <asp:Label runat="server" Width="100px" ID="lblAlreadyDispatchQty" Text='<%#Eval("DispatchQty") %>'></asp:Label>
@@ -191,6 +182,11 @@
                 <asp:TemplateField HeaderText="DispatchQty">
                     <ItemTemplate>
                         <asp:TextBox runat="server" Width="100px" ID="txtDispatchQty"></asp:TextBox>
+                    </ItemTemplate>
+                </asp:TemplateField> 
+                <asp:TemplateField HeaderText="Rate">
+                    <ItemTemplate>
+                        <asp:TextBox runat="server" Width="100px" ID="txtWorkshopRate" required="required" Enabled="false"></asp:TextBox>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Dispatch Material">

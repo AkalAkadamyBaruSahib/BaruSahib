@@ -75,10 +75,12 @@ function LoadMaterialInfo(acaid) {
                     {
                         "bPaginate": false,
                         "bDestroy": true,
-                        "bFilter": true
-                       
+                         "bFilter": true
+                        //"bFilter": false,
+                        //"aaSorting": []
                     });
                     DisableControl();
+
                 }
                
             },

@@ -51,4 +51,25 @@ public class WorkshopController : System.Web.Services.WebService
         WorkshopRepository workRepository = new WorkshopRepository(new AkalAcademy.DataContext());
         workRepository.ReturnEstimateMaterial(EMRID);
     }
+
+    [WebMethod]
+    public void RejectEstimate(int EstID)
+    {
+        WorkshopRepository workRepository = new WorkshopRepository(new AkalAcademy.DataContext());
+        workRepository.RejectEstimate(EstID);
+    }
+
+    [WebMethod]
+    public List<WorkshopBills> GetBillDetails(int EstID)
+    {
+        WorkshopRepository workRepository = new WorkshopRepository(new AkalAcademy.DataContext());
+        return workRepository.GetBillDetails(EstID);
+    }
+
+    [WebMethod]
+    public int WorkshopBillToDelete(int BillID)
+    {
+        WorkshopRepository repository = new WorkshopRepository(new AkalAcademy.DataContext());
+        return repository.WorkshopBillToDelete(BillID);
+    }
 }

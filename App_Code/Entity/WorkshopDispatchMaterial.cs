@@ -26,4 +26,10 @@ public class WorkshopDispatchMaterial
     public int? DispatchBy { get; set; }
 
     public DateTime? DispatchOn { get; set; }
+
+    public int? MatID { get; set; }
+
+    public decimal? DispatchRate { get; set; }
+
+    public virtual Material Material { get; set; }
 }

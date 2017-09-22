@@ -188,7 +188,11 @@ public class TypeEnum
     {
         InStoreReport = 1,
         DispatchMaterial = 2,
-        PendingMaterial =3
+        PendingMaterial =3,
+        DispatchMaterialReportByMatName=4,
+        DispatchMaterialReportByAcaName = 5,
+        SummaryReportForDispatchMaterial=6,
+        SummaryReportByMatName=7
     }
 
     public enum PurchaseSourceID : int

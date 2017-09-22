@@ -1,6 +1,7 @@
 ﻿
 var materialname = new Array();
 var tblUploadMaterial;
+var grdBills;
 var SnoIds;
 var MaterialList;
 var selectedMaterialList = new Array();
@@ -22,6 +23,7 @@ $(document).ready(function () {
         var EstVal = listVal.substr(0, listVal.length - 1);
         $("input[id*='hdnEstNo']").val(EstVal);
         GetAcademyName($(this).val());
+        $("input[id*='btnViewBill']").show();
     });
 
     $("input[id*='btnLoad']").click(function (e) {
@@ -30,8 +32,11 @@ $(document).ready(function () {
 
     });
 
-});
+    $("input[id*='btnViewBill']").click(function (e) {
+        OpenViewbill($("select[id*='drpEstimate']").val());
+    });
 
+});
 
 function RemoveItem(chkbox, sno) {
     var SnoIds = ($(chkbox).attr("emrid"));
@@ -48,6 +53,7 @@ function RemoveItem(chkbox, sno) {
         LoadWorkshopBillInfo(selectedMaterialList);
     }
 }
+
 function IsMaterialAlreadySelected(sno) {
     var flag = false;
 
@@ -175,10 +181,10 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
     var rowTemplate = '<tr id="rowTemplate">' +
         '<td id="srno">1</td>' +
     '<td id="nameofItem">abc</td>' +
-            '<td id="qty">abc</td>' +
+            //'<td id="qty">abc</td>' +
                 '<td id="pcs">abc</td>' +
                     '<td id="rate">abc</td>' +
-                        '<td id="amount">abc</td>' +
+                        //'<td id="amount">abc</td>' +
                            '<td id="delete">abc</td>' +
                             '</tr>';
 
@@ -197,14 +203,14 @@ function LoadWorkshopBillInfo(selectedMaterialList) {
         var $newRow = $("#rowTemplate").clone();
         $newRow.find("#srno").html("<span id=spn" + i + ">" + (i + 1) + "</span>");
         $newRow.find("#nameofItem").html(adminLoanList[i].Material.MatName);
-        $newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].Qty + "</label></td></tr></table>");
+        //$newRow.find("#qty").html("<table><tr><td><label id='MatQty'>" + adminLoanList[i].PurchaseQty + "</label></td></tr></table>");
         $newRow.find("#pcs").html(adminLoanList[i].Unit.UnitName);
         $newRow.find("#rate").html(adminLoanList[i].Material.AkalWorkshopRate);
-        var linetotal = adminLoanList[i].Qty * adminLoanList[i].Material.AkalWorkshopRate;
-        $newRow.find("#amount").html("<input type='hidden' value='" + linetotal + "' id='txtTotalAmount" + i + "' />" + linetotal);
+        //var linetotal = adminLoanList[i].PurchaseQty * adminLoanList[i].Material.AkalWorkshopRate;
+        //$newRow.find("#amount").html("<input type='hidden' value='" + linetotal + "' id='txtTotalAmount" + i + "' />" + linetotal);
         $newRow.find("#delete").html("<a  href='#' onclick='return RemoveItem($(this)," + adminLoanList[i].Sno + ")'>Delete</a>");
         count++;
-        sum += linetotal;
+       // sum += linetotal;
 
         $newRow.addClass(className);
         $newRow.show();
@@ -293,6 +299,87 @@ function MaterialItemLength(selectedMaterialList)
     }
     SnoValue = SnoValue.substr(0, SnoValue.length - 1);
     $("input[id*='hdnItemsLength']").val(SnoValue);
+}
+
+function OpenViewbill(estID) {
+    $("#spnEstID").text(estID);
+    /*create/distroy grid for the new search*/
+    if (typeof grdBills != 'undefined') {
+        grdBills.fnClearTable();
+    }
+
+    var rowCount = $('#grdBills').find("#rowViewTemplate").length;
+    for (var i = 0; i < rowCount; i++) {
+        $("#rowViewTemplate").remove();
+    }
+
+    var rowViewTemplate = '<tr id="rowViewTemplate"><td id="billName"></td><td id="view"></td><td id="delete"></td></tr>';
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/WorkshopController.asmx/GetBillDetails",
+        data: JSON.stringify({ EstID: parseInt(estID) }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                var adminLoanList = result.d;
+                if (adminLoanList.length > 0) {
+
+                    $("#tbodyViewBill").append(rowViewTemplate);
+                }
+
+                for (var i = 0; i < adminLoanList.length; i++) {
+
+                    var $newRow = $("#rowViewTemplate").clone();
+                    $newRow.find("#billName").html("<a target='_blank' href='" + adminLoanList[i].BillPath + "' >Bill_No_" + adminLoanList[i].BillNumber + "</a>");
+                    $newRow.find("#view").html("<a target='_blank' href='" + adminLoanList[i].BillPath + "' >View</a>");
+                    $newRow.find("#delete").html("<a href='#' onclick='WorkshopBillToDelete(" + adminLoanList[i].ID + ")'>Delete</a>");
+                    $newRow.show();
+                    if (i == 0) {
+                        $("#rowViewTemplate").replaceWith($newRow);
+                    }
+                    else {
+                        $newRow.appendTo("#grdBills > tbody");
+                    }
+
+                }
+                grdBills = $('#grdBills').DataTable({
+                    "bPaginate": false,
+                    "bDestroy": true,
+                    //"bFilter": true
+                    "bFilter": false,
+                    //"aaSorting": []
+                });
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
+
+    $("#divViewbill").modal('show');
+}
+
+function WorkshopBillToDelete(billID) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/WorkshopController.asmx/WorkshopBillToDelete",
+        data: JSON.stringify({ BillID: billID }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                $("input[id*='hdnEstID']").val(result.d);
+                
+                alert("Bill Delete Successfully");
+                OpenViewbill(result.d);
+            }
+        },
+        error: function (result, textStatus) {
+            alert(result.responseText);
+        }
+    });
 }
 
 

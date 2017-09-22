@@ -91,9 +91,10 @@
                         <tr id="trZone" runat="server">
                             <td width="50%">
                                 <div class="control-group">
-                                    <label id="lblzone" style="display: none;" class="control-label" for="typeahead">Zone</label>
+                                    <label id="lblzone" class="control-label" for="typeahead">Zone</label>
                                     <div class="controls">
                                         <asp:DropDownList ID="ddlZone" runat="server">
+                                             <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" InitialValue="0" Display="None" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
                                             ControlToValidate="ddlZone" ErrorMessage="Please Select Any Zone" ForeColor="#ff0000"></asp:RequiredFieldValidator><br />
@@ -102,10 +103,10 @@
                             </td>
                             <td width="50%">
                                 <div class="control-group">
-                                    <label id="lblAcademy" style="display: none;" class="control-label" for="typeahead">Academy</label>
-                                    <label id="lblSourceType" style="display: none;" class="control-label" for="typeahead">Select Workshop</label>
-                                    <div class="controls">
+                                    <label id="lblAcademy"  class="control-label" for="typeahead">Academy</label>
+                                     <div class="controls">
                                         <asp:DropDownList ID="ddlAcademy" runat="server">
+                                            <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" InitialValue="0" ForeColor="#ff0000" ID="ddlAcademy_RequiredFieldValidator"
                                             ControlToValidate="ddlAcademy" ErrorMessage="Please Select Any Academy" /><br />

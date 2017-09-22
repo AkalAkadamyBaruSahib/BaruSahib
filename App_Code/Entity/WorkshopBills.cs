@@ -25,4 +25,7 @@ public class WorkshopBills
     public DateTime? CreatedOn { get; set; }
 
     public int? CreatedBy { get; set; }
+
+    public int EstID { get; set; }
+
 }

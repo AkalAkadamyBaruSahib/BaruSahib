@@ -22,3 +22,22 @@ function ReturnEstimateMaterial(emrid) {
     });
 
 }
+
+function RejectEstimate(estid) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/WorkshopController.asmx/RejectEstimate",
+        data: JSON.stringify({ EstID: estid }),
+        dataType: "json",
+        success: function (result, textStatus) {
+            if (textStatus == "success") {
+                alert("Estimate Reject Successfully");
+            }
+        },
+        error: function (response) {
+            alert(response.status + '' + response.textStatus);
+        }
+    });
+
+}

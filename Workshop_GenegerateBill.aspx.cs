@@ -60,13 +60,15 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         wb.WSId = Convert.ToInt32(dtAcaID.Tables[0].Rows[0]["AcaId"].ToString());
         hdnUserId.Value = hdnUserId.Value.Replace(" ", "");
         wb.BillPath = "WorkshopBills/" + hdnUserId.Value.Trim() + "_" + estIDS + ".pdf";
+        wb.EstID = Convert.ToInt32(hdnEstNo.Value);
         wb.CreatedBy = UserId;
-        wb.CreatedOn = DateTime.Now;
+        wb.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
         WorkshopRepository repo = new WorkshopRepository(new AkalAcademy.DataContext());
         if (wb.ID == 0)
         {
             repo.AddNewBill(wb);
             hdnBillID.Value = wb.ID.ToString();
+            DAL.DalAccessUtility.ExecuteNonQuery("Update WorkshopBills Set BillPath= 'WorkshopBills/" + hdnUserId.Value.Trim() + "_" + estIDS + "_" + hdnBillID.Value + ".pdf' where ID='" + hdnBillID.Value + "'");
         }
         getHTML();
     }
@@ -102,36 +104,14 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         hdnUserId.Value = hdnUserId.Value.Replace(" ", "");
         string estIDS = hdnEstNo.Value.Replace(',', '_');
 
-        //Response.ContentType = "application/pdf";
-        //Response.AddHeader("content-disposition", "attachment;filename="+ hdnUserId.Value.Trim() + "_" + estIDS + ".pdf");
-        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
-
-        //BaseFont f_cb = BaseFont.CreateFont("c:\\windows\\fonts\\calibrib.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-        //BaseFont f_cn = BaseFont.CreateFont("c:\\windows\\fonts\\calibri.ttf", BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-
-        //StringWriter sw = new StringWriter();
-        //HtmlTextWriter hw = new HtmlTextWriter(sw);
-        //pnlHtml.RenderControl(hw);
-        //StringReader sr = new StringReader(sw.ToString());
-        //Document pdfDoc = new Document(PageSize.A4, 50, 50, 30, 30);
-        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        //pdfDoc.Open();
-        //htmlparser.Parse(sr);
-        //pdfDoc.Close();
-        //Response.Write(pdfDoc);
-
-        //Response.End();
-
-
-        Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + ".pdf"), folderPath);
+        Utility.GeneratePDF(htmlCode, (hdnUserId.Value.Trim() + "_" + estIDS + "_" + hdnBillID.Value + ".pdf"), folderPath);
     }
 
     public string getGrid()
     {
-        
+        decimal total = 0;
         DataTable dt = new DataTable();
-        dt = DAL.DalAccessUtility.GetDataInDataSet("Select EMR.EstID,M.MatName,EMR.Qty,M.AkalWorkshopRate,U.UnitName from EstimateAndMaterialOthersRelations EMR " +
+        dt = DAL.DalAccessUtility.GetDataInDataSet("Select EMR.EstID,EMR.Sno,M.MatName,EMR.PurchaseQty,M.AkalWorkshopRate,U.UnitName from EstimateAndMaterialOthersRelations EMR " +
         "INNER JOIN Material M  on M.MatId = EMR.MatId INNER JOIN Unit U on U.UnitId = EMR.UnitId where Sno in (" + hdnItemsLength.Value + ")").Tables[0];
         string MaterialInfo = string.Empty;
         MaterialInfo += "<table border='1' style='width:100%'>";
@@ -140,7 +120,7 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         MaterialInfo += "<th style='width: 10%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Sr.No</th>";
         MaterialInfo += "<th style='width: 35%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>NameofItem</th>";
         MaterialInfo += "<th style='width: 10%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Qty</th>";
-        MaterialInfo += "<th style='width: 10%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Pcs/Kg</th>";
+        MaterialInfo += "<th style='width: 10%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Unit</th>";
         MaterialInfo += "<th style='width: 35%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Rate</th>";
         MaterialInfo += "<th style='width: 10%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'>Amount</th>";
         MaterialInfo += "</tr>";
@@ -148,14 +128,16 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         MaterialInfo += "<tbody>";
         hdnEstNo.Value = string.Empty;
         for (int i = 0; i < dt.Rows.Count; i++)
-        {
+        { 
+            DataTable dtWorkDisptchDetail = new DataTable();
+            dtWorkDisptchDetail = DAL.DalAccessUtility.GetDataInDataSet("Select EstID,EMRID,DispatchQty,DispatchRate,ID from WorkshopDispatchMaterial where EMRID='" + dt.Rows[i]["Sno"].ToString() + "' Order By ID Desc").Tables[0];
             MaterialInfo += "<tr>";
             MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + (i + 1) + "</td>";
             MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["MatName"].ToString() + "</td>";
-            MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["Qty"].ToString() + "</td>";
+            MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + dtWorkDisptchDetail.Rows[0]["DispatchQty"].ToString() + "</td>";
             MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["UnitName"].ToString() + "</td>";
-            MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + dt.Rows[i]["AkalWorkshopRate"].ToString() + "</td>";
-            var SubTotal = Convert.ToDecimal(dt.Rows[i]["Qty"].ToString()) * Convert.ToDecimal(dt.Rows[i]["AkalWorkshopRate"].ToString());
+            MaterialInfo += "<td style='width: 35%; text-align: center; vertical-align: middle;'>" + dtWorkDisptchDetail.Rows[0]["DispatchRate"].ToString() + "</td>";
+            var SubTotal = Convert.ToDecimal(dtWorkDisptchDetail.Rows[0]["DispatchQty"].ToString()) * Convert.ToDecimal(dtWorkDisptchDetail.Rows[0]["DispatchRate"].ToString());
             SubTotal = Math.Round(SubTotal, 2);
             MaterialInfo += "<td style='width: 10%; text-align: center; vertical-align: middle;'>" + SubTotal + "</td>";
             MaterialInfo += "</tr>";
@@ -163,6 +145,10 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
             {
                 hdnEstNo.Value += dt.Rows[i]["EstID"].ToString() + ",";
             }
+            total += SubTotal;
+
+            DAL.DalAccessUtility.ExecuteNonQuery("Update WorkshopDispatchMaterial Set BillNo='" + hdnBillID.Value + "' where ID='" + dtWorkDisptchDetail.Rows[0]["ID"].ToString() + "'");
+           
         }
         MaterialInfo += "</tbody>";
         MaterialInfo += "<tfoot>";
@@ -170,7 +156,7 @@ public partial class Workshop_GenegerateBill : System.Web.UI.Page
         MaterialInfo += "<td rowspan='1' colspan='4'>";  
         MaterialInfo += "</td>";
         MaterialInfo += "<td style='width: 35%; background-color: #CCCCCC; text-align: center; vertical-align: middle;'><b>Total</b></td>";
-        MaterialInfo += "<td style='width: 10%; text-align: center; background-color: #CCCCCC; vertical-align: middle;'>" + hdnTotal.Value + "</td>";
+        MaterialInfo += "<td style='width: 10%; text-align: center; background-color: #CCCCCC; vertical-align: middle;'>" + total + "</td>";
         MaterialInfo += "</tr>";
         MaterialInfo += "</tfoot>";
         MaterialInfo += "</table>";

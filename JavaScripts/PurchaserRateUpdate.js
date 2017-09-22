@@ -52,7 +52,27 @@ $(document).ready(function () {
         row.find("[id*='txtDiscount']").prop('disabled', false);
         row.find("[id*='txtMRP']").prop('disabled', false);
     });
-     GetVendors();
+
+    $("[id*=gvWorkShopMaterial] input[id*='txtDispatchQty']").change(function (e) {
+        var row = $(this).closest("tr");
+        row.find("[id*='txtWorkshopRate']").prop('disabled', false);
+    });
+
+    $("[id*=gvWorkShopMaterial] input[id*='txtWorkshopRate']").change(function (e) {
+        var row = $(this).closest("tr");
+        row.find("[id*='txtWorkshopRate']").prop('disabled', false);
+        if (row.find("[id*='txtWorkshopRate']").val() == "0") {
+            row.find("[id*='txtWorkshopRate']").val("");
+            row.find("[id*='txtWorkshopRate']").css('border-color', 'red');
+        }
+        else {
+            row.find("[id*='txtWorkshopRate']").css('border-color', '');
+        }
+    });
+
+    if ($("input[id*='hdnModule']").val() != 3) {
+        GetVendors();
+    }
 });
 
 function OpenUpdateRatePopUp() {

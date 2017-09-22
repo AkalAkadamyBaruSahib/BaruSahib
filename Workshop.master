@@ -156,12 +156,13 @@
                                     <li id="liEstimateNewEstimate" runat="server"><a class="ajax-link" href="WorkShop_AddEstimate.aspx"><i></i><span class="hidden-tablet">New Estimate</span></a></li>
                                     <li id="liViewNewEstimate" runat="server"><a class="ajax-link" href="WorkshopAdmin_EstimateView.aspx"><i></i><span class="hidden-tablet">View Estimate</span></a></li>
                                     <li id="liEstimateView" runat="server"><a class="ajax-link" href="Workshop_EstimateView.aspx"><span class="hidden-tablet">View All Estimates</span></a></li>
+                                    <li id="liEstimateBucket" runat="server"><a class="ajax-link" href="Workshop_EstimateBucket.aspx"><i></i><span class="hidden-tablet">Estimate Bucket</span></a></li>
                                 </ul>
                             </li>
                             <li id="liBilldata" runat="server"><a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet"><b>MATERIAL TO DISPATCH</b></span></a>
                                 <ul>
                                     <li id="liMaterialAssign" runat="server"><a class="ajax-link" href="AkalWorkshop_MaterialToBeDispatch.aspx?AssignEst=0"><i></i><span id="spnPendingAssignEstimates" runat="server" class="hidden-tablet">Un Assigned Estimate</span></a></li>
-                                     <li id="liMaterialUnAssign" runat="server"><a class="ajax-link" href="AkalWorkshop_MaterialToBeDispatch.aspx?AssignEst=1"><i></i><span id="spnAssignEstimates" runat="server" class="hidden-tablet">Assigned Estimate</span></a></li>
+                                    <li id="liMaterialUnAssign" runat="server"><a class="ajax-link" href="AkalWorkshop_MaterialToBeDispatch.aspx?AssignEst=1"><i></i><span id="spnAssignEstimates" runat="server" class="hidden-tablet">Assigned Estimate</span></a></li>
                                     <li id="liMaterialDispatch" runat="server"><a href="Worksho_MaterialToBeDispatch.aspx?DispatchStatus=0"><span id="spnPendingEstimates" runat="server" class="hidden-tablet">Workshop Pending Estimate</span></a></li>
                                     <li id="liMaterialPending" runat="server"><a href="Worksho_MaterialToBeDispatch.aspx?DispatchStatus=1"><span class="hidden-tablet">Workshop Dispatch Estimate</span></a></li>
                                 </ul>
@@ -180,9 +181,10 @@
                             <li id="liestimatesearch" runat="server"><a class="ajax-link" href="#"><i class="icon-search"></i><span class="hidden-tablet"><b>SEARCH</b></span></a>
                                 <ul>
                                     <li><a href="WorkshopSearchEstimate.aspx"><span class="hidden-tablet">Estimate Search</span></a></li>
+                                    <li><a href="Workshop_MaterialSearch.aspx"><span class="hidden-tablet">Material Search</span></a></li>
                                 </ul>
                             </li>
-                          </ul>
+                        </ul>
 
                     </div>
                     <!--/.well -->
@@ -284,11 +286,13 @@
     <!-- application script for Charisma demo -->
     <script src="js/charisma.js"></script>
     <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
-      <script type="text/javascript">
-          $(document).ready(function () {
-              $("select").searchable();
-          });
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").searchable();
+        });
     </script>
+    <link href="css/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="js/bootstrap-multiselect.js"></script>
 
 </body>
 </html>

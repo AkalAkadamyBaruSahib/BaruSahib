@@ -733,10 +733,10 @@ public class PurchaseRepository
 
     public List<Estimate> EstimateViewForWorkshopPurchase(int PSID, int UserTypeID, int InchargeID, int PurchaseEmpID)
     {
-        DateTime dt1 = DateTime.Now.AddDays(-60);
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1)
+        //DateTime dt1 = DateTime.Now.AddDays(-60);
+        var ests = _context.Estimate.Where(e => e.IsApproved == true)// && e.SanctionDate >= dt1
              .Include(z => z.Zone)
-             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
+             .Include(a => a.Academy).OrderByDescending(e => e.EstId).ToList();
 
         List<Estimate> estimates = new List<Estimate>();
         if (PurchaseEmpID == 0)
@@ -833,7 +833,7 @@ public class PurchaseRepository
 
         var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsReceived==false)
             .Include(z => z.Zone)
-            .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
+            .Include(a => a.Academy).OrderByDescending(e => e.EstId).ToList();
 
 
         foreach (Estimate e in ests)
@@ -1660,7 +1660,8 @@ public class PurchaseRepository
     public void EstimateDelete(int estID)
     {
         _context.EstimateAndMaterialOthersRelations.RemoveRange(_context.EstimateAndMaterialOthersRelations.Where(v => v.EstId == estID));
-        Estimate delEstimate = _context.Estimate.Where(v => v.EstId == estID).Include(r => r.EstimateAndMaterialOthersRelations).FirstOrDefault();
+         DataSet dsDelA = DAL.DalAccessUtility.GetDataInDataSet("delete EstimateStatus Where EstID='" + estID + "'");
+         Estimate delEstimate = _context.Estimate.Where(v => v.EstId == estID).Include(r => r.EstimateAndMaterialOthersRelations).FirstOrDefault();
         _context.Entry(delEstimate).State = EntityState.Deleted;
         _context.SaveChanges();
     }

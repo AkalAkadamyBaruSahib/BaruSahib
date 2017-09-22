@@ -95,9 +95,7 @@
                 <div class="box-header well" data-original-title>
                     <h2><i class="icon-user"></i>Workshop Bill Details</h2>
                     <div class="box-icon">
-                        <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+                      <input id="btnViewBill" type="button" class="btn btn-primary" value="View Bill" style="display:none;"/>
                     </div>
                 </div>
                 <div class="box-content">
@@ -117,26 +115,27 @@
                             <tr class="heading">
                                 <th style="text-align: center;">SrNo</th>
                                 <th style="text-align: center;">NameofItem</th>
-                                <th style="text-align: center;">Qty</th>
-                                <th style="text-align: center;">Pcs/Kg</th>
+                                <%--<th style="text-align: center;">Qty</th>--%>
+                                <th style="text-align: center;">Unit</th>
                                 <th style="text-align: center;">Rate</th>
-                                <th style="text-align: center;">Amount</th>
+                               <%-- <th style="text-align: center;">Amount</th>--%>
                                 <th style="text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
                         </tbody>
-                        <tfoot>
+                       <%-- <tfoot>
                             <tr>
                                 <td rowspan="1" colspan="4"></td>
                                 <td style="color: #cc3300;">Total:</td>
                                 <td colspan="2">
                                     <asp:Label ID="lblTotal" runat="server"></asp:Label>
-                                    <asp:HiddenField ID="hdnTotal" runat="server" />
+                                    
                                 </td>
                              
                             </tr>
-                        </tfoot>
+                        </tfoot>--%>
+                        <asp:HiddenField ID="hdnTotal" runat="server" />
                     </table>
                     <asp:Button ID="btnpdf" runat="server" OnClick="btnpdf_Click" Style="margin-left: 550px; float: left" Text="Generate Bill" CssClass="btn btn-primary" />
                 </div>
@@ -167,5 +166,25 @@
 
     </div>
     <div id="pnlHtml" runat="server"></div>
+    <div id="divViewbill" class="modal hide fade" style="display: none; width: 400px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Bill(s) for Estimate ID:- <span id="spnEstID"></span></h3>
+    </div>
+    <div class="modal-body" style="width: 350px;">
+        <table id="grdBills" class='table table-striped table-bordered bootstrap-datatable datatable'>
+            <thead>
+                <tr>
+                    <th>Bills</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyViewBill">
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <input id="btnclose" value="Close" style="width: 40px" class="btn btn-primary" data-dismiss="modal" />
+    </div>
+</div>
 </asp:Content>
 

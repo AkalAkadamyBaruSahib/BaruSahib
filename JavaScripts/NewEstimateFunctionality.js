@@ -57,22 +57,6 @@ $(document).ready(function () {
 
     BindZoneByInchargeID($("input[id*='hdnInchargeID']").val())
 
-    if ($("input[id*='hdnIsAdmin']").val() == 6) {
-        $("#lblSourceType").show();
-        $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop--"));
-        BindAcademybyZoneIDByEmpID(21, $("input[id*='hdnInchargeID']").val());
-    }
-    else if ($("input[id*='hdnIsAdmin']").val() == 30) {
-        $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop--"));
-        BindAcademybyZoneIDByEmpID(21, $("input[id*='hdnInchargeID']").val());
-    }
-    else {
-        $("#lblzone").show();
-        $("#lblAcademy").show();
-        $("select[id*='ddlZone']").append($("<option></option>").val("0").html("--Select Zone--"));
-        $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
-    }
-  
     GetPurchaseSource();
     $("#aDeleteRow0").hide();
     GetMaterialType();
@@ -135,12 +119,7 @@ function BindAcademybyZoneID(selctZoneID) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
-                if ($("input[id*='hdnModule']").val() == 4) {
-                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop Type--"));
-                }
-                else {
-                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
-                }
+                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
                 $.each(Result, function (key, value) {
                     $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                 });
@@ -167,12 +146,7 @@ function BindAcademybyZoneIDByEmpID(selctZoneID, inchargeId) {
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var Result = result.d;
-                if ($("input[id*='hdnModule']").val() == 4) {
-                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Workshop--"));
-                }
-                else {
-                    $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
-                }
+                $("select[id*='ddlAcademy']").append($("<option></option>").val("0").html("--Select Academy--"));
                 $.each(Result, function (key, value) {
                     $("select[id*='ddlAcademy']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                 });

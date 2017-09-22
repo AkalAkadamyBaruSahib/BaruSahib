@@ -397,13 +397,14 @@ public partial class Admin_UserControls_BodyPurchaseMaterialDetails : System.Web
                     }
                     else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPADMIN))
                     {
-                        ZoneInfo += "<td class='center' width='20%'><a href='AkalWorkshop_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='Workshop_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Assign Workshop</span></a></td>";
+                        ZoneInfo += "<td class='center' width='20%'><a href='AkalWorkshop_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-success'  style='font-size: 15.998px;'>Print</span></a>&nbsp;&nbsp;<a href='Workshop_ViewEstMaterial.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Assign Workshop</span></a>&nbsp;&nbsp;<a href='javascript: RejectEstimate(" + Est.EstId + ");'><span class='label label-success'  style='font-size: 15.998px;'>Reject Estimate</span></a></td>";
                     }
                     else if (UserTypeID == (int)(TypeEnum.UserType.WORKSHOPEMPLOYEE))
                     {
                         if (DispatchStatus == 0)
                         {
-                            ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>/<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Material To Dispatch</span></a></td>";
+                            ZoneInfo += "<td class='center' width='20%'><a href='Worksho_MaterialToBeDispatch.aspx?EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Print</span></a>&nbsp;&nbsp;<a href='WorkshopEmployee_ViewEstMaterial.aspx?IsLocal=3&EstId=" + Est.EstId + "'><span class='label label-warning'  style='font-size: 15.998px;'>Material To Dispatch</span></td>";
+
                         }
                     }
                     else

@@ -443,10 +443,10 @@ public partial class Transport_Proforma : System.Web.UI.Page
             genSerDetail.GensetSrNo = Request.Form["txtGansetSrNumber"];
             genSerDetail.GensetPowerInKVA = Request.Form["txtGensetPower"];
             genSerDetail.GensetLastRepairDate = Convert.ToDateTime(Request.Form["txtLastRepairDate"]);
-            genSerDetail.GensetLastQuotationAmount = Convert.ToDecimal(Request.Form["txtLastRepairAmount"]);
-            genSerDetail.GensetCurrentQuotationAmount = Convert.ToDecimal(Request.Form["txtQuotationAmount"]);
+            genSerDetail.GensetLastQuotationAmount = Request.Form["txtLastRepairAmount"];
+            genSerDetail.GensetCurrentQuotationAmount = Request.Form["txtQuotationAmount"];
             genSerDetail.GensetTotalRunning = Request.Form["txtGensetTotalRunning"];
-            genSerDetail.AverageRunning = Convert.ToDecimal(Request.Form["txtGensetAverageRunning"]);
+            genSerDetail.AverageRunning = Request.Form["txtGensetAverageRunning"];
             genSerDetail.ServicePlaceAgency = Request.Form["txtService"];
             genSerDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
             genSerDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
@@ -490,8 +490,14 @@ public partial class Transport_Proforma : System.Web.UI.Page
             batryDetail.BatteryBillNo = Convert.ToInt32(Request.Form["txtBillNo"]);
             batryDetail.AcaID = Convert.ToInt32(hdnBatteryAcaID.Value);
             batryDetail.BatteryType = Request.Form["ddlBatteryTye"];
-            batryDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeterReading"]);
-            batryDetail.NoOfRequiredNewBattery = Convert.ToInt32(Request.Form["txtNoRequird"]);
+            if (Request.Form["txtCurrentMeterReading"] != "")
+            {
+                batryDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeterReading"]);
+            }
+            if (Request.Form["txtNoRequird"] != "")
+            {
+                batryDetail.NoOfRequiredNewBattery = Convert.ToInt32(Request.Form["txtNoRequird"]);
+            }
             batryDetail.NewMakeOfBattery = Request.Form["txtNewMakeBattery"];
             batryDetail.NewBatteryCapacity = Request.Form["txtNewBatteryCapacity"];
             batryDetail.NewBatterySrNo = Request.Form["txtNewBatterySrNum"];
@@ -499,8 +505,8 @@ public partial class Transport_Proforma : System.Web.UI.Page
             batryDetail.MakeOfBatteryAndCapacityOldBattery = Request.Form["txtBatteryCapacity"];
             batryDetail.OldBatterySrNo = Request.Form["txtOldBatterySrNum"];
             batryDetail.OldBatteryPurchaseDate = Convert.ToDateTime(Request.Form["txtPurchaseDate"]);
-            batryDetail.OldBatterySalePrice = Convert.ToDecimal(Request.Form["txtOldBatterySale"]);
-            batryDetail.ApprovalAmount = Convert.ToDecimal(Request.Form["txtBatteryApprovalAmount"]);
+            batryDetail.OldBatterySalePrice = Request.Form["txtOldBatterySale"];
+            batryDetail.ApprovalAmount = Request.Form["txtBatteryApprovalAmount"];
             batryDetail.MicrotekSizeOfBattery = Request.Form["txtMocrotaxSize"];
             if (Request.Form["txtMocrotax"] != "")
             {
@@ -577,13 +583,28 @@ public partial class Transport_Proforma : System.Web.UI.Page
             tyreDetail.ProformaType = Convert.ToInt32(ddlproforma.SelectedValue);
             tyreDetail.AcaID = Convert.ToInt32(hdnTyreAcaID.Value);
             tyreDetail.VehicleID = Convert.ToInt32(hdnTyreVehicleID.Value);
-            tyreDetail.TyreTotalRunningKm = Convert.ToDecimal(Request.Form["txtTotalRuningKm"]);
+            if (Request.Form["txtTotalRuningKm"] != "")
+            {
+                tyreDetail.TyreTotalRunningKm = Convert.ToDecimal(Request.Form["txtTotalRuningKm"]);
+            }
             tyreDetail.FrontLeftSerialNum = Request.Form["txtFrontLeftOldTyreNo"];
             tyreDetail.FrontRightSerialNum = Request.Form["txtFrontRightOldTyreNo"];
-            tyreDetail.FrontLeftKm = Convert.ToInt32(Request.Form["txtFrontLeftRunning"]);
-            tyreDetail.FrontRightKm = Convert.ToInt32(Request.Form["txtFrontRightRunning"]);
-            tyreDetail.RearLeftKm = Convert.ToInt32(Request.Form["txtRearLeftRunning"]);
-            tyreDetail.RearRightKm = Convert.ToInt32(Request.Form["txtRearRightRunning"]);
+            if (Request.Form["txtFrontLeftRunning"] != "")
+            {
+                tyreDetail.FrontLeftKm = Convert.ToInt32(Request.Form["txtFrontLeftRunning"]);
+            }
+            if (Request.Form["txtFrontRightRunning"] != "")
+            {
+                tyreDetail.FrontRightKm = Convert.ToInt32(Request.Form["txtFrontRightRunning"]);
+            }
+            if (Request.Form["txtRearLeftRunning"] != "")
+            {
+                tyreDetail.RearLeftKm = Convert.ToInt32(Request.Form["txtRearLeftRunning"]);
+            }
+            if (Request.Form["txtRearRightRunning"] != "")
+            {
+                tyreDetail.RearRightKm = Convert.ToInt32(Request.Form["txtRearRightRunning"]);
+            }
             tyreDetail.RearLeftSerialNum = Request.Form["txtRearLeftOldTyreNo"];
             tyreDetail.RearRightSerialNum = Request.Form["txtRearRightOldTyreNo"];
             tyreDetail.FrontLeftOldTyreCondition = Request.Form["txtFrontLeftCondition"];
@@ -613,16 +634,25 @@ public partial class Transport_Proforma : System.Web.UI.Page
             }
             tyreDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             tyreDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
-            tyreDetail.StafneyKm = Convert.ToInt32(Request.Form["txtStafneyRunning"]);
+            if (Request.Form["txtStafneyRunning"] != "")
+            {
+                tyreDetail.StafneyKm = Convert.ToInt32(Request.Form["txtStafneyRunning"]);
+            }
             tyreDetail.StafneySerialNum = Request.Form["txtStafneyldTyreNo"];
             tyreDetail.LastDateTyreChanged = Convert.ToDateTime(Request.Form["txtTyreLastChangeDate"]);
             tyreDetail.TyreSize = Request.Form["txtTyreSize"];
-            tyreDetail.NoOfTyreRequired = Convert.ToInt32(Request.Form["txtNoofRequird"]);
-            tyreDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeter"]);
+            if (Request.Form["txtNoofRequird"] != "")
+            {
+                tyreDetail.NoOfTyreRequired = Convert.ToInt32(Request.Form["txtNoofRequird"]);
+            }
+            if (Request.Form["txtCurrentMeter"] != "")
+            {
+                tyreDetail.CurrentMeterReading = Convert.ToInt32(Request.Form["txtCurrentMeter"]);
+            }
             tyreDetail.NewTyreAmount = Request.Form["txtNewTyreAmount"];
             tyreDetail.LastMeterReadingOfTyreChanged = Request.Form["txtTyreMeterReading"];
             tyreDetail.OldTyreSaleAmount = Request.Form["txtOldTyreSaleAmount"];
-            tyreDetail.ApprovalAmount = Convert.ToDecimal(Request.Form["txtTyreApproval"]);
+            tyreDetail.ApprovalAmount = Request.Form["txtTyreApproval"];
             tyreDetail.TyreChangOnlastMeterReading = Request.Form["txtTyreLastReading"];
             if (Request.Form["txtMrfRates"] != "")
             {
@@ -687,8 +717,8 @@ public partial class Transport_Proforma : System.Web.UI.Page
             genSerDetail.ServicePlaceAgency = Request.Form["txtServicePlace"];
             genSerDetail.ServiceLastMeterReading = Request.Form["txtSrvicLastMetrReading"];
             genSerDetail.ServiceCurrentMeterReading = Request.Form["txtSrvicCurntMetrReading"];
-            genSerDetail.ServiceQuotationAmount = Convert.ToDecimal(Request.Form["txtServiceQuotationAmount"]);
-            genSerDetail.ServiceApprovalAmount = Convert.ToDecimal(Request.Form["txtServiceApprovalAmount"]);
+            genSerDetail.ServiceQuotationAmount = Request.Form["txtServiceQuotationAmount"];
+            genSerDetail.ServiceApprovalAmount = Request.Form["txtServiceApprovalAmount"];
             genSerDetail.AverageOfVehicle = Request.Form["txtAvergeVehicle"];
             genSerDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
             genSerDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);

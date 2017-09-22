@@ -85,7 +85,7 @@ public class ProformaDetail
 
     public string OldTyreSaleAmount { get; set; }
 
-    public decimal? ApprovalAmount { get; set; }
+    public string ApprovalAmount { get; set; }
 
     public string TyreChangOnlastMeterReading { get; set; }
 
@@ -135,7 +135,7 @@ public class ProformaDetail
 
     public DateTime? OldBatteryPurchaseDate { get; set; }
 
-    public decimal? OldBatterySalePrice { get; set; }
+    public string OldBatterySalePrice { get; set; }
 
     public string MicrotekSizeOfBattery { get; set; }
 
@@ -169,13 +169,13 @@ public class ProformaDetail
 
     public DateTime? GensetLastRepairDate { get; set; }
 
-    public decimal? GensetLastQuotationAmount { get; set; }
+    public string GensetLastQuotationAmount { get; set; }
 
-    public decimal? GensetCurrentQuotationAmount { get; set; }
+    public string GensetCurrentQuotationAmount { get; set; }
 
     public string GensetTotalRunning { get; set; }
 
-    public decimal? AverageRunning { get; set; }
+    public string AverageRunning { get; set; }
 
     public string ServicePlaceAgency { get; set; }
 
@@ -183,9 +183,9 @@ public class ProformaDetail
 
     public string ServiceCurrentMeterReading { get; set; }
 
-    public decimal? ServiceQuotationAmount { get; set; }
+    public string ServiceQuotationAmount { get; set; }
 
-    public decimal? ServiceApprovalAmount { get; set; }
+    public string ServiceApprovalAmount { get; set; }
 
     public string AverageOfVehicle { get; set; }
 

@@ -90,6 +90,15 @@ public class WorkshopRepository
 
     }
 
+    public void RejectEstimate(int EstID)
+    {
+        Estimate RejectItem = _context.Estimate.Where(v => v.EstId == EstID).FirstOrDefault();
+        RejectItem.IsApproved = false;
+        RejectItem.IsItemRejected = true;
+        _context.Entry(RejectItem).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
     public WorkshopStoreMaterial GetWorkshopInStoreMaterialByMatID(int matID, int AcaID)
     {
         return _context.WorkshopStoreMaterial.Where(m => m.MatID == matID && m.AcaID == AcaID).FirstOrDefault();
@@ -99,7 +108,7 @@ public class WorkshopRepository
     {
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.IsReceived == false)
           .Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 0 && er.PurchaseEmpID == inchargeID)).Count();
         return ests;
     }
@@ -108,8 +117,22 @@ public class WorkshopRepository
     {
         List<Estimate> estimates = new List<Estimate>();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.IsReceived == false)
           .Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID && er.DispatchStatus == 0 && er.PurchaseEmpID == 0)).Count();
         return ests;
+    }
+
+    public List<WorkshopBills> GetBillDetails(int EstID)
+    {
+        List<WorkshopBills> workMaterialBill = _context.WorkshopBills.Where(s => s.EstID == EstID).ToList();
+        return workMaterialBill;
+    }
+
+    public int WorkshopBillToDelete(int BillID)
+    {
+        WorkshopBills DelWorkshopBills = _context.WorkshopBills.Where(v => v.ID == BillID).FirstOrDefault();
+        _context.Entry(DelWorkshopBills).State = EntityState.Deleted;
+        _context.SaveChanges();
+        return DelWorkshopBills.EstID;
     }
 }
