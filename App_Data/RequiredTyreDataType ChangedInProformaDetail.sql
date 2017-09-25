@@ -1,0 +1,5 @@
+ALTER TABLE ProformaDetail ALTER COLUMN  FrontLeftNewTyreRequired varchar(150)
+ALTER TABLE ProformaDetail ALTER COLUMN FrontRightNewTyreRequired varchar(150)
+ALTER TABLE ProformaDetail ALTER COLUMN RearLeftNewTyreRequired varchar(150) 
+ALTER TABLE ProformaDetail ALTER COLUMN RearRightNewTyreRequired varchar(150)
+ALTER TABLE ProformaDetail ALTER COLUMN StafneyNewTyreRequired varchar(150) 

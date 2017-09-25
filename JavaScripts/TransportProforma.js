@@ -7,7 +7,10 @@ var rate = 0;
 var qty = 0;
 
 $(document).ready(function () {
+    $("select").searchable();
+});
 
+$(document).ready(function () {
 
     BindAcademyByInchargeID($("input[id*='hdnInchargeID']").val());
 
@@ -152,10 +155,9 @@ $(document).ready(function () {
 
     });
 
-    GetMaterials(2);
-
     $("select[id*='ddlproforma']").change(function () {
         if ($(this).val() == 1) {
+            GetMaterials();
             $("#divGenset").show();
             $("#divBatteryQuotation").hide();
             $("#divTyreRequirement").hide();
@@ -470,6 +472,7 @@ $(document).ready(function () {
             ClearTextBox();
         }
         else if ($(this).val() == 4) {
+            GetMaterials();
             $("#divGenset").hide();
             $("#divBatteryQuotation").hide();
             $("#divTyreRequirement").hide();
@@ -569,7 +572,7 @@ $(document).ready(function () {
             $("#txtJkAmount").prop('disabled', true);
             $("#txtTyreSeated").prop('disabled', true);
             $("#txtTyreModel").prop('disabled', true);
-         
+
             $("input[id*='hdnServiceTableLength']").val($("#tbodyService").children('tr').length);
             ClearTextBox();
         }
@@ -673,7 +676,7 @@ $(document).ready(function () {
             $("#txtJkAmount").prop('disabled', true);
             $("#txtTyreSeated").prop('disabled', true);
             $("#txtTyreModel").prop('disabled', true);
-         
+
             ClearTextBox();
         }
     });
@@ -777,6 +780,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount0").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -798,6 +802,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount1").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -819,6 +824,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount2").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -840,6 +846,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount3").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -861,6 +868,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount4").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -882,6 +890,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount5").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -903,6 +912,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount6").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -924,6 +934,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount7").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -945,6 +956,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount8").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -966,6 +978,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount9").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -987,6 +1000,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount10").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1008,6 +1022,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount11").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1029,6 +1044,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount12").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1050,6 +1066,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount13").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1071,6 +1088,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount14").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1092,6 +1110,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount15").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1113,6 +1132,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount16").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1134,6 +1154,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount17").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1155,6 +1176,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount18").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1176,6 +1198,447 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtAmount19").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate0").change(function () {
+        if ($("#txtRate0").val() != undefined) {
+            var value = $("#txtRate0").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate0").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate0").css('border-color', '');
+                    qty = $("#txtQty0").val();
+                    rate = $("#txtRate0").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount0").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate1").change(function () {
+        if ($("#txtRate1").val() != undefined) {
+            var value = $("#txtRate1").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate1").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate1").css('border-color', '');
+                    qty = $("#txtQty1").val();
+                    rate = $("#txtRate1").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount1").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate2").change(function () {
+        if ($("#txtRate2").val() != undefined) {
+            var value = $("#txtRate2").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate2").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate2").css('border-color', '');
+                    qty = $("#txtQty2").val();
+                    rate = $("#txtRate2").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount2").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate3").change(function () {
+        if ($("#txtRate3").val() != undefined) {
+            var value = $("#txtRate3").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate3").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate3").css('border-color', '');
+                    qty = $("#txtQty3").val();
+                    rate = $("#txtRate3").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount3").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate4").change(function () {
+        if ($("#txtRate4").val() != undefined) {
+            var value = $("#txtRate4").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate4").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate4").css('border-color', '');
+                    qty = $("#txtQty4").val();
+                    rate = $("#txtRate4").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount4").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate5").change(function () {
+        if ($("#txtRate5").val() != undefined) {
+            var value = $("#txtRate5").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate5").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate5").css('border-color', '');
+                    qty = $("#txtQty5").val();
+                    rate = $("#txtRate5").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount5").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate6").change(function () {
+        if ($("#txtRate6").val() != undefined) {
+            var value = $("#txtRate6").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate6").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate6").css('border-color', '');
+                    qty = $("#txtQty6").val();
+                    rate = $("#txtRate6").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount6").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate7").change(function () {
+        if ($("#txtRate7").val() != undefined) {
+            var value = $("#txtRate7").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate7").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate7").css('border-color', '');
+                    qty = $("#txtQty7").val();
+                    rate = $("#txtRate7").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount7").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate8").change(function () {
+        if ($("#txtRate8").val() != undefined) {
+            var value = $("#txtRate8").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate8").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate8").css('border-color', '');
+                    qty = $("#txtQty8").val();
+                    rate = $("#txtRate8").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount8").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate9").change(function () {
+        if ($("#txtRate9").val() != undefined) {
+            var value = $("#txtRate9").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate9").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate9").css('border-color', '');
+                    qty = $("#txtQty9").val();
+                    rate = $("#txtRate9").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount9").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate10").change(function () {
+        if ($("#txtRate10").val() != undefined) {
+            var value = $("#txtRate10").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate10").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate10").css('border-color', '');
+                    qty = $("#txtQty10").val();
+                    rate = $("#txtRate10").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount10").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate11").change(function () {
+        if ($("#txtRate11").val() != undefined) {
+            var value = $("#txtRate11").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate11").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate11").css('border-color', '');
+                    qty = $("#txtQty11").val();
+                    rate = $("#txtRate11").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount11").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate12").change(function () {
+        if ($("#txtRate12").val() != undefined) {
+            var value = $("#txtRate12").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate12").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate12").css('border-color', '');
+                    qty = $("#txtQty12").val();
+                    rate = $("#txtRate12").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount12").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate13").change(function () {
+        if ($("#txtRate13").val() != undefined) {
+            var value = $("#txtRate13").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate13").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate13").css('border-color', '');
+                    qty = $("#txtQty13").val();
+                    rate = $("#txtRate13").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount13").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate14").change(function () {
+        if ($("#txtRate14").val() != undefined) {
+            var value = $("#txtRate14").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate14").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate14").css('border-color', '');
+                    qty = $("#txtQty14").val();
+                    rate = $("#txtRate14").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount14").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate15").change(function () {
+        if ($("#txtRate15").val() != undefined) {
+            var value = $("#txtRate15").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate15").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate15").css('border-color', '');
+                    qty = $("#txtQty15").val();
+                    rate = $("#txtRate15").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount15").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate16").change(function () {
+        if ($("#txtRate16").val() != undefined) {
+            var value = $("#txtRate16").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate16").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate16").css('border-color', '');
+                    qty = $("#txtQty16").val();
+                    rate = $("#txtRate16").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount16").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate17").change(function () {
+        if ($("#txtRate17").val() != undefined) {
+            var value = $("#txtRate17").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate17").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate17").css('border-color', '');
+                    qty = $("#txtQty17").val();
+                    rate = $("#txtRate17").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount17").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate18").change(function () {
+        if ($("#txtRate18").val() != undefined) {
+            var value = $("#txtRate18").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate18").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate18").css('border-color', '');
+                    qty = $("#txtQty18").val();
+                    rate = $("#txtRate18").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount18").val(RoundAmt);
+                    TotalGensetAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtRate19").change(function () {
+        if ($("#txtRate19").val() != undefined) {
+            var value = $("#txtRate19").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtRate19").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtRate19").css('border-color', '');
+                    qty = $("#txtQty19").val();
+                    rate = $("#txtRate19").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtAmount19").val(RoundAmt);
+                    TotalGensetAmt();
                 }
             }
         }
@@ -1197,6 +1660,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount0").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1218,6 +1682,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount1").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1239,6 +1704,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount2").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1260,6 +1726,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount3").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1281,6 +1748,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount4").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1302,6 +1770,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount5").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1323,6 +1792,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount6").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1344,6 +1814,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount7").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1365,6 +1836,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount8").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1386,6 +1858,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount9").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1407,6 +1880,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount10").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1428,6 +1902,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount11").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1449,6 +1924,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount12").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1470,6 +1946,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount13").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1491,6 +1968,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount14").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1512,6 +1990,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount15").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1533,6 +2012,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount16").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1554,6 +2034,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount17").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1575,6 +2056,7 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount18").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
@@ -1596,10 +2078,612 @@ $(document).ready(function () {
                     Amt = parseFloat(qty) * parseFloat(rate);
                     var RoundAmt = Amt.toFixed(2);
                     $("#txtSerAmount19").val(RoundAmt);
+                    TotalServiceAmt();
                 }
             }
         }
     });
+
+    $("#txtPrice0").change(function () {
+        if ($("#txtPrice0").val() != undefined) {
+            var value = $("#txtPrice0").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice0").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice0").css('border-color', '');
+                    qty = $("#txtQuantity0").val();
+                    rate = $("#txtPrice0").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount0").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice1").change(function () {
+        if ($("#txtPrice1").val() != undefined) {
+            var value = $("#txtPrice1").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice1").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice1").css('border-color', '');
+                    qty = $("#txtQuantity1").val();
+                    rate = $("#txtPrice1").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount1").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice2").change(function () {
+        if ($("#txtPrice2").val() != undefined) {
+            var value = $("#txtPrice").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice2").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice2").css('border-color', '');
+                    qty = $("#txtQuantity2").val();
+                    rate = $("#txtPrice2").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount2").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice3").change(function () {
+        if ($("#txtPrice3").val() != undefined) {
+            var value = $("#txtPrice3").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice3").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice3").css('border-color', '');
+                    qty = $("#txtQuantity3").val();
+                    rate = $("#txtPrice3").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount3").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice4").change(function () {
+        if ($("#txtPrice4").val() != undefined) {
+            var value = $("#txtPrice4").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice4").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice4").css('border-color', '');
+                    qty = $("#txtQuantity4").val();
+                    rate = $("#txtPrice4").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount4").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice5").change(function () {
+        if ($("#txtPrice5").val() != undefined) {
+            var value = $("#txtPrice5").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice5").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice5").css('border-color', '');
+                    qty = $("#txtQuantity5").val();
+                    rate = $("#txtPrice5").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount5").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice6").change(function () {
+        if ($("#txtPrice6").val() != undefined) {
+            var value = $("#txtPrice6").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice6").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice6").css('border-color', '');
+                    qty = $("#txtQuantity6").val();
+                    rate = $("#txtPrice6").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount6").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice7").change(function () {
+        if ($("#txtPrice7").val() != undefined) {
+            var value = $("#txtPrice7").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice7").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice7").css('border-color', '');
+                    qty = $("#txtQuantity7").val();
+                    rate = $("#txtPrice7").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount7").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice8").change(function () {
+        if ($("#txtPrice8").val() != undefined) {
+            var value = $("#txtPrice8").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice8").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice8").css('border-color', '');
+                    qty = $("#txtQuantity8").val();
+                    rate = $("#txtPrice8").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount8").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice9").change(function () {
+        if ($("#txtPrice9").val() != undefined) {
+            var value = $("#txtPrice9").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice9").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice9").css('border-color', '');
+                    qty = $("#txtQuantity9").val();
+                    rate = $("#txtPrice9").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount9").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice10").change(function () {
+        if ($("#txtPrice10").val() != undefined) {
+            var value = $("#txtPrice10").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice10").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice10").css('border-color', '');
+                    qty = $("#txtQuantity10").val();
+                    rate = $("#txtPrice10").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount10").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice11").change(function () {
+        if ($("#txtPrice11").val() != undefined) {
+            var value = $("#txtPrice11").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice11").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice11").css('border-color', '');
+                    qty = $("#txtQuantity11").val();
+                    rate = $("#txtPrice11").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount11").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice12").change(function () {
+        if ($("#txtPrice12").val() != undefined) {
+            var value = $("#txtPrice12").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice12").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice12").css('border-color', '');
+                    qty = $("#txtQuantity12").val();
+                    rate = $("#txtPrice12").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount12").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice13").change(function () {
+        if ($("#txtPrice13").val() != undefined) {
+            var value = $("#txtPrice13").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice13").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice13").css('border-color', '');
+                    qty = $("#txtQuantity13").val();
+                    rate = $("#txtPrice13").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount13").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice14").change(function () {
+        if ($("#txtPrice14").val() != undefined) {
+            var value = $("#txtPrice14").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice14").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice14").css('border-color', '');
+                    qty = $("#txtQuantity14").val();
+                    rate = $("#txtPrice14").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount14").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice15").change(function () {
+        if ($("#txtPrice15").val() != undefined) {
+            var value = $("#txtPrice15").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice15").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice15").css('border-color', '');
+                    qty = $("#txtQuantity15").val();
+                    rate = $("#txtPrice15").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount15").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice16").change(function () {
+        if ($("#txtPrice16").val() != undefined) {
+            var value = $("#txtPrice16").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice16").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice16").css('border-color', '');
+                    qty = $("#txtQuantity16").val();
+                    rate = $("#txtPrice16").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount16").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice17").change(function () {
+        if ($("#txtPrice17").val() != undefined) {
+            var value = $("#txtPrice17").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice17").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice17").css('border-color', '');
+                    qty = $("#txtQuantity17").val();
+                    rate = $("#txtPrice17").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount17").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice18").change(function () {
+        if ($("#txtPrice18").val() != undefined) {
+            var value = $("#txtPrice18").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice18").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice18").css('border-color', '');
+                    qty = $("#txtQuantity18").val();
+                    rate = $("#txtPrice18").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount18").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtPrice19").change(function () {
+        if ($("#txtPrice19").val() != undefined) {
+            var value = $("#txtPrice19").val()
+            var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+            if (value != "") {
+                if (!value.match(regex)) {
+                    $("#txtPrice19").css('border-color', 'red');
+                    return false;
+                }
+                else {
+                    $("#txtPrice19").css('border-color', '');
+                    qty = $("#txtQuantity19").val();
+                    rate = $("#txtPrice19").val();
+                    Amt = parseFloat(qty) * parseFloat(rate);
+                    var RoundAmt = Amt.toFixed(2);
+                    $("#txtSerAmount19").val(RoundAmt);
+                    TotalServiceAmt();
+                }
+            }
+        }
+    });
+
+    $("#txtMaterialName0").change(function () {
+        BindMaterialDetailByMatID(($(this).val()), 0);
+    });
+
+    $("#txtMaterialName1").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 1);
+    });
+
+    $("#txtMaterialName2").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 2);
+    });
+
+    $("#txtMaterialName3").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 3);
+    });
+
+    $("#txtMaterialName4").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 4);
+    });
+
+    $("#txtMaterialName5").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 5);
+    });
+
+    $("#txtMaterialName6").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 6);
+    });
+
+    $("#txtMaterialName7").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 7);
+    });
+
+    $("#txtMaterialName8").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 8);
+    });
+
+    $("#txtMaterialName9").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 9);
+    });
+
+    $("#txtMaterialName10").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 10);
+    });
+
+    $("#txtMaterialName11").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 11);
+    });
+
+    $("#txtMaterialName12").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 12);
+    });
+
+    $("#txtMaterialName13").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 13);
+    });
+
+    $("#txtMaterialName14").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 14);
+    });
+
+    $("#txtMaterialName15").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 15);
+    });
+
+    $("#txtMaterialName16").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 16);
+    });
+
+    $("#txtMaterialName17").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 17);
+    });
+
+    $("#txtMaterialName18").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 18);
+    });
+
+    $("#txtMaterialName19").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 19);
+    });
+
+    $("#txtMaterial0").change(function () {
+        BindMaterialDetailByMatID(($(this).val()), 0);
+    });
+
+    $("#txtMaterial1").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 1);
+    });
+
+    $("#txtMaterial2").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 2);
+    });
+
+    $("#txtMaterial3").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 3);
+    });
+
+    $("#txtMaterial4").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 4);
+    });
+
+    $("#txtMaterial5").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 5);
+    });
+
+    $("#txtMaterial6").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 6);
+    });
+
+    $("#txtMaterial7").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 7);
+    });
+
+    $("#txtMaterial8").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 8);
+    });
+
+    $("#txtMaterial9").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 9);
+    });
+
+    $("#txtMaterial10").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 10);
+    });
+
+    $("#txtMaterial11").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 11);
+    });
+
+    $("#txtMaterial12").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 12);
+    });
+
+    $("#txtMaterial13").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 13);
+    });
+
+    $("#txtMaterial14").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 14);
+    });
+
+    $("#txtMaterial15").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 15);
+    });
+
+    $("#txtMaterial16").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 16);
+    });
+
+    $("#txtMaterial17").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 17);
+    });
+
+    $("#txtMaterial18").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 18);
+    });
+
+    $("#txtMaterial19").change(function () {
+        BindMaterialDetailByMatID($(this).val(), 19);
+    });
+
 });
 
 function BindAcademyByInchargeID(inchargeId) {
@@ -1607,7 +2691,7 @@ function BindAcademyByInchargeID(inchargeId) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/TransportController.asmx/GetAcademyByInchargeID",
-       data: JSON.stringify({ InchargeID: parseInt(inchargeId) }),
+        data: JSON.stringify({ InchargeID: parseInt(inchargeId) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
@@ -1617,7 +2701,7 @@ function BindAcademyByInchargeID(inchargeId) {
                     $("select[id*='ddlBatteryAcaName']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                     $("select[id*='ddlTyreAcaName']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
                     $("select[id*='ddlServiceAcaName']").append($("<option></option>").val(value.AcaID).html(value.AcaName));
-                
+
                 });
             }
         },
@@ -1736,752 +2820,101 @@ function BindSeatedAndModelByVehicleID(vehicleID) {
     });
 }
 
-function GetMaterials(sourceTypeID) {
-    $.when(GetMaterialsAjax(sourceTypeID)
-   ).done
-    (GetMaterialsFromMaterialObject(sourceTypeID));
-}
-
-function GetMaterialsAjax(sourceTypeID) {
-    if (MaterialObjectList == undefined || MaterialObjectList.length == 0) {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-            url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeIDList",
-            dataType: "json",
-            async: false,
-            success: function (result, textStatus) {
-                MaterialObjectList = result.d;
-            },
-            error: function (result, textStatus) {
-                alert(result.responseText);
-            }
-        })
-    }
-    else {
-        $("#progress").dialog('close');
-    }
-}
-
-function GetMaterialsFromMaterialObject(sourceTypeID) {
-
+function GetMaterials() {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ sourceTypeID: parseInt(sourceTypeID) }),
-        url: "Services/PurchaseControler.asmx/GetMaterialsBySourceTypeID",
+        url: "Services/PurchaseControler.asmx/GetActiveMaterialsByMatTypeID",
+        data: JSON.stringify({ MatTypeID: 49 }),
         dataType: "json",
         async: false,
         success: function (result, textStatus) {
-            MaterialList = result.d;
-        
-            $("#txtMaterialName0").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName1").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName2").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName3").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName4").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName5").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName6").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName7").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName8").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName9").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName10").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName11").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName12").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName13").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName14").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName15").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName16").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName17").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName18").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-            $("#txtMaterialName19").autocomplete({
-                source: MaterialList,
-                minlength: 8
-            });
-           
-            $("#txtMaterialName0").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#hdnMatID0").val(selectedMaterial.MatID);
-                        $("#txtRate0").val(selectedMaterial.MatCost);
-                        $("#txtUnit0").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID0").val(selectedMaterial.Unit.UnitId);
-                    }
+            materialType = result.d;
+            $.each(materialType, function (key, value) {
+                if ($("select[id*='ddlproforma']").val() == 1) {
+                    $("#txtMaterialName0").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName1").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName2").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName3").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName4").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName5").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName6").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName7").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName8").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName9").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName10").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName11").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName12").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName13").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName14").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName15").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName16").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName17").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName19").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterialName18").append($("<option></option>").val(value.MatID).html(value.MatName));
                 }
-
-            }).change();
-
-            $("#txtMaterialName1").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate1").val(selectedMaterial.MatCost);
-                        $("#txtUnit1").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID1").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID1").val(selectedMaterial.MatID);
-                     }
+                else if ($("select[id*='ddlproforma']").val() == 4) {
+                    $("#txtMaterial0").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial1").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial2").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial3").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial4").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial5").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial6").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial7").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial8").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial9").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial10").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial11").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial12").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial13").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial14").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial15").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial16").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial17").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial18").append($("<option></option>").val(value.MatID).html(value.MatName));
+                    $("#txtMaterial19").append($("<option></option>").val(value.MatID).html(value.MatName));
                 }
-
-            }).change();
-
-            $("#txtMaterialName2").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate2").val(selectedMaterial.MatCost);
-                        $("#txtUnit2").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID2").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID2").val(selectedMaterial.MatID);
-                     }
-                }
-
-            }).change();
-
-            $("#txtMaterialName3").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate3").val(selectedMaterial.MatCost);
-                        $("#txtUnit3").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID3").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID3").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-         
-            $("#txtMaterialName4").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate4").val(selectedMaterial.MatCost);
-                        $("#txtUnit4").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID4").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID4").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName5").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate5").val(selectedMaterial.MatCost);
-                        $("#txtUnit5").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID5").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID5").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName6").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate6").val(selectedMaterial.MatCost);
-                        $("#txtUnit6").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID6").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID6").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName7").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate7").val(selectedMaterial.MatCost);
-                        $("#txtUnit7").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID7").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID7").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName8").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate8").val(selectedMaterial.MatCost);
-                        $("#txtUnit8").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID8").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID8").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName9").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate9").val(selectedMaterial.MatCost);
-                        $("#txtUnit9").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID9").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID9").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName10").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate10").val(selectedMaterial.MatCost);
-                        $("#txtUnit10").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID10").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID10").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName11").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate11").val(selectedMaterial.MatCost);
-                        $("#txtUnit11").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID11").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID11").val(selectedMaterial.MatID);
-                    }
-
-                }
-
-            }).change();
-
-            $("#txtMaterialName12").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate12").val(selectedMaterial.MatCost);
-                        $("#txtUnit12").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID12").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID12").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName13").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate13").val(selectedMaterial.MatCost);
-                        $("#txtUnit13").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID13").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID13").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName14").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate14").val(selectedMaterial.MatCost);
-                        $("#txtUnit14").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID14").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID14").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName15").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate15").val(selectedMaterial.MatCost);
-                        $("#txtUnit15").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID15").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID15").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName16").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate16").val(selectedMaterial.MatCost);
-                        $("#txtUnit16").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID16").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID16").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName17").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate17").val(selectedMaterial.MatCost);
-                        $("#txtUnit17").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID17").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID17").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName18").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate18").val(selectedMaterial.MatCost);
-                        $("#txtUnit18").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID18").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID18").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-
-            $("#txtMaterialName19").on('autocompletechange change', function () {
-                var Matname = this.value;
-                if (MaterialObjectList != undefined) {
-                    var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                    if (selectedMaterial != undefined) {
-                        $("#txtRate19").val(selectedMaterial.MatCost);
-                        $("#txtUnit19").val(selectedMaterial.Unit.UnitName);
-                        $("#hdnUnitID19").val(selectedMaterial.Unit.UnitId);
-                        $("#hdnMatID19").val(selectedMaterial.MatID);
-                    }
-                }
-
-            }).change();
-           
-               $("#txtMaterial0").autocomplete({
-                    source: MaterialList,
-                    minlength: 8
-               });
-               $("#txtMaterial1").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial2").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial3").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial4").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial5").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial6").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial7").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial8").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial9").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial10").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial11").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial12").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial13").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial14").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial15").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial16").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial17").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial18").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-               $("#txtMaterial19").autocomplete({
-                   source: MaterialList,
-                   minlength: 8
-               });
-             
-                $("#txtMaterial0").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice0").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit0").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID0").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID0").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial1").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice1").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit1").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID1").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID1").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial2").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice2").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit2").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID2").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID2").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial3").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice3").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit3").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID3").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID3").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial4").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice4").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit4").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID4").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID4").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial5").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice5").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit5").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID5").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID5").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial6").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice6").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit6").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID6").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID6").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial7").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice7").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit7").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID7").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID7").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial8").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice8").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit8").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID8").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID8").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial9").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice9").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit9").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID9").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID9").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial10").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice10").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit10").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID10").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID10").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial11").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice11").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit11").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID11").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID11").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial12").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice12").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit12").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID12").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID12").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial13").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice13").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit13").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID13").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID13").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial14").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice14").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit14").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID14").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID14").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial15").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice15").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit15").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID15").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID15").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial16").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice16").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit16").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID16").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID16").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial17").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice17").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit17").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID17").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID17").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial18").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice18").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit18").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID18").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID18").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-
-                $("#txtMaterial19").on('autocompletechange change', function () {
-                    var Matname = this.value;
-                    if (MaterialObjectList != undefined) {
-                        var selectedMaterial = $.grep(MaterialObjectList, function (e) { return e.MatName == Matname })[0];
-                        if (selectedMaterial != undefined) {
-                            $("#txtPrice19").val(selectedMaterial.MatCost);
-                            $("#txtSerUnit19").val(selectedMaterial.Unit.UnitName);
-                            $("#hdnSerUnitID19").val(selectedMaterial.Unit.UnitId);
-                            $("#hdnSerMatID19").val(selectedMaterial.MatID);
-                        }
-                    }
-                }).change();
-            
+            });
         },
         error: function (result, textStatus) {
             alert(result.responseText);
+        }
+    });
+}
+
+function BindMaterialDetailByMatID(matID, count) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "Services/PurchaseControler.asmx/GetBindMaterialByMaterialID",
+        data: JSON.stringify({ matID: parseInt(matID) }),
+        dataType: "json",
+        success: function (responce) {
+            var msg = responce.d;
+            if (msg != undefined) {
+                if ($("select[id*='ddlproforma']").val() == 1) {
+                    $("input[id*='hdnMaterialName" + count + "']").val(msg[0].MatName);
+                    $("#hdnMatID" + count).val(msg[0].MatID);
+                    $("#txtRate" + count).val(msg[0].MatCost);
+                    $("#txtUnit" + count).val(msg[0].Unit.UnitName);
+                    $("#hdnUnitID" + count).val(msg[0].Unit.UnitId);
+                    $("input[id*='hdnUnitName" + count + "']").val(msg[0].Unit.UnitName);
+                    $("#txtUnit" + count).prop('disabled', true);
+                }
+                else if ($("select[id*='ddlproforma']").val() == 4) {
+                    $("#txtPrice" + count).val(msg[0].MatCost);
+                    $("#txtSerUnit" + count).val(msg[0].Unit.UnitName);
+                    $("#hdnSerUnitID" + count).val(msg[0].Unit.UnitId);
+                    $("#hdnSerMatID" + count).val(msg[0].MatID);
+                    $("input[id*='hdnMaterial" + count + "']").val(msg[0].MatName);
+                    $("input[id*='hdnSerUnitName" + count + "']").val(msg[0].Unit.UnitName);
+                    $("#txtSerUnit" + count).prop('disabled', true);
+                }
+            }
+        },
+        error: function (response) {
+            alert(response.status + '' + response.textStatus);
         }
     });
 }
@@ -2842,7 +3275,7 @@ function ClearTextBox() {
     $("#hdnUnitID10").val("");
     $("#hdnSerMatID10").val("");
     $("#hdnSerUnitID10").val("");
-     $("#hdnMatID1").val("");
+    $("#hdnMatID1").val("");
     $("#hdnUnitID1").val("");
     $("#hdnSerMatID1").val("");
     $("#hdnSerUnitID1").val("");
@@ -2947,9 +3380,8 @@ function TotalGensetAmt() {
                 else {
                     rate = $("#txtRate" + i).val();
                 }
+                Amt += parseFloat(qty) * parseFloat(rate);
             }
-
-            Amt += parseFloat(qty) * parseFloat(rate);
         }
         var RoundAmt = Amt.toFixed(2);
         $("[id$='lblTotal']").html(RoundAmt);
@@ -3003,8 +3435,8 @@ function TotalServiceAmt() {
                 else {
                     rate = $("#txtPrice" + i).val();
                 }
+                Amt += parseFloat(qty) * parseFloat(rate);
             }
-            Amt += parseFloat(qty) * parseFloat(rate);
         }
         var RoundAmt = Amt.toFixed(2);
         $("[id$='lblServiceTotal']").html(RoundAmt);

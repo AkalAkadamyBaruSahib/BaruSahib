@@ -47,7 +47,7 @@ public partial class Admin_UserControls_BodyEstimateSearch : System.Web.UI.UserC
         {
             if (UserTypeID == (int)TypeEnum.UserType.WORKSHOPADMIN || UserTypeID == (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
             {
-                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop, UserTypeID, UserID, ModuleID);
+                PurchaseRegister = purchaseRepository.EstimateDetailByEstId(estID, (int)TypeEnum.PurchaseSourceID.AkalWorkshop, UserTypeID, UserID,(int)TypeEnum.Module.Purchase);
             }
             else
             {

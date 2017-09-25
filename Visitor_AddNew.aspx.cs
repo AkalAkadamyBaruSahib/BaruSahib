@@ -285,9 +285,18 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                     DataTable dtAdminsDetail = DAL.DalAccessUtility.GetDataInDataSet("select CountryID,StateID,CityID from StudentDetail where  AdmissionNumber = " + txtAdmissionNo.Text).Tables[0];
                     if (dtAdminsDetail != null && dtAdminsDetail.Rows.Count > 0)
                     {
-                        visitor.State = int.Parse(dtAdminsDetail.Rows[0]["StateID"].ToString());
-                        visitor.Country = int.Parse(dtAdminsDetail.Rows[0]["CountryID"].ToString());
-                        visitor.City = int.Parse(dtAdminsDetail.Rows[0]["CityID"].ToString());
+                        if (dtAdminsDetail.Rows[0]["StateID"].ToString() != "")
+                        {
+                            visitor.State = int.Parse(dtAdminsDetail.Rows[0]["StateID"].ToString());
+                        }
+                        if (dtAdminsDetail.Rows[0]["CountryID"].ToString() != "")
+                        {
+                            visitor.Country = int.Parse(dtAdminsDetail.Rows[0]["CountryID"].ToString());
+                        }
+                        if (dtAdminsDetail.Rows[0]["CityID"].ToString() != "")
+                        {
+                            visitor.City = int.Parse(dtAdminsDetail.Rows[0]["CityID"].ToString());
+                        }
                     }
                     else
                     {

@@ -78,68 +78,36 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[TotalRunningOfGenset]", Request.Form["txtGensetTotalRunning"]);
                 htmlCode = htmlCode.Replace("[AverageRunning]", Request.Form["txtGensetAverageRunning"]);
                 htmlCode = htmlCode.Replace("[ServicePlaceAgency]", Request.Form["txtService"]);
-                htmlCode = htmlCode.Replace("[MaterialName0]", Request.Form["txtMaterialName0"]);
+                htmlCode = htmlCode.Replace("[MaterialName0]", hdnMaterialName0.Value);
                 htmlCode = htmlCode.Replace("[txtQty0]", Request.Form["txtQty0"]);
                 htmlCode = htmlCode.Replace("[txtRate0]", Request.Form["txtRate0"]);
-                htmlCode = htmlCode.Replace("[MaterialName1]", Request.Form["txtMaterialName1"]);
+                htmlCode = htmlCode.Replace("[MaterialName1]", hdnMaterialName1.Value);
                 htmlCode = htmlCode.Replace("[txtQty1]", Request.Form["txtQty1"]);
                 htmlCode = htmlCode.Replace("[txtRate1]", Request.Form["txtRate1"]);
-                htmlCode = htmlCode.Replace("[MaterialName2]", Request.Form["txtMaterialName2"]);
+                htmlCode = htmlCode.Replace("[MaterialName2]", hdnMaterialName2.Value);
                 htmlCode = htmlCode.Replace("[txtQty2]", Request.Form["txtQty2"]);
                 htmlCode = htmlCode.Replace("[txtRate2]", Request.Form["txtRate2"]);
-                htmlCode = htmlCode.Replace("[MaterialName3]", Request.Form["txtMaterialName3"]);
+                htmlCode = htmlCode.Replace("[MaterialName3]", hdnMaterialName3.Value);
                 htmlCode = htmlCode.Replace("[txtQty3]", Request.Form["txtQty3"]);
                 htmlCode = htmlCode.Replace("[txtRate3]", Request.Form["txtRate3"]);
-                htmlCode = htmlCode.Replace("[MaterialName4]", Request.Form["txtMaterialName4"]);
+                htmlCode = htmlCode.Replace("[MaterialName4]", hdnMaterialName4.Value);
                 htmlCode = htmlCode.Replace("[txtQty4]", Request.Form["txtQty4"]);
                 htmlCode = htmlCode.Replace("[txtRate4]", Request.Form["txtRate4"]);
-                htmlCode = htmlCode.Replace("[MaterialName5]", Request.Form["txtMaterialName5"]);
+                htmlCode = htmlCode.Replace("[MaterialName5]", hdnMaterialName5.Value);
                 htmlCode = htmlCode.Replace("[txtQty5]", Request.Form["txtQty5"]);
                 htmlCode = htmlCode.Replace("[txtRate5]", Request.Form["txtRate5"]);
-                htmlCode = htmlCode.Replace("[MaterialName6]", Request.Form["txtMaterialName6"]);
+                htmlCode = htmlCode.Replace("[MaterialName6]", hdnMaterialName6.Value);
                 htmlCode = htmlCode.Replace("[txtQty6]", Request.Form["txtQty6"]);
                 htmlCode = htmlCode.Replace("[txtRate6]", Request.Form["txtRate6"]);
-                htmlCode = htmlCode.Replace("[MaterialName7]", Request.Form["txtMaterialName7"]);
+                htmlCode = htmlCode.Replace("[MaterialName7]", hdnMaterialName7.Value);
                 htmlCode = htmlCode.Replace("[txtQty7]", Request.Form["txtQty7"]);
                 htmlCode = htmlCode.Replace("[txtRate7]", Request.Form["txtRate7"]);
-                htmlCode = htmlCode.Replace("[MaterialName8]", Request.Form["txtMaterialName8"]);
+                htmlCode = htmlCode.Replace("[MaterialName8]", hdnMaterialName8.Value);
                 htmlCode = htmlCode.Replace("[txtQty8]", Request.Form["txtQty8"]);
                 htmlCode = htmlCode.Replace("[txtRate8]", Request.Form["txtRate8"]);
-                htmlCode = htmlCode.Replace("[MaterialName9]", Request.Form["txtMaterialName9"]);
+                htmlCode = htmlCode.Replace("[MaterialName9]", hdnMaterialName9.Value);
                 htmlCode = htmlCode.Replace("[txtQty9]", Request.Form["txtQty9"]);
                 htmlCode = htmlCode.Replace("[txtRate9]", Request.Form["txtRate9"]);
-                htmlCode = htmlCode.Replace("[MaterialName10]", Request.Form["txtMaterialName10"]);
-                htmlCode = htmlCode.Replace("[txtQty10]", Request.Form["txtQty10"]);
-                htmlCode = htmlCode.Replace("[txtRate10]", Request.Form["txtRate10"]);
-                htmlCode = htmlCode.Replace("[MaterialName11]", Request.Form["txtMaterialName11"]);
-                htmlCode = htmlCode.Replace("[txtQty11]", Request.Form["txtQty11"]);
-                htmlCode = htmlCode.Replace("[txtRate11]", Request.Form["txtRate11"]);
-                htmlCode = htmlCode.Replace("[MaterialName12]", Request.Form["txtMaterialName12"]);
-                htmlCode = htmlCode.Replace("[txtQty12]", Request.Form["txtQty12"]);
-                htmlCode = htmlCode.Replace("[txtRate12]", Request.Form["txtRate12"]);
-                htmlCode = htmlCode.Replace("[MaterialName13]", Request.Form["txtMaterialName13"]);
-                htmlCode = htmlCode.Replace("[txtQty13]", Request.Form["txtQty13"]);
-                htmlCode = htmlCode.Replace("[txtRate13]", Request.Form["txtRate13"]);
-                htmlCode = htmlCode.Replace("[MaterialName14]", Request.Form["txtMaterialName14"]);
-                htmlCode = htmlCode.Replace("[txtQty14]", Request.Form["txtQty14"]);
-                htmlCode = htmlCode.Replace("[txtRate14]", Request.Form["txtRate14"]);
-                htmlCode = htmlCode.Replace("[MaterialName15]", Request.Form["txtMaterialName15"]);
-                htmlCode = htmlCode.Replace("[txtQty15]", Request.Form["txtQty15"]);
-                htmlCode = htmlCode.Replace("[txtRate15]", Request.Form["txtRate15"]);
-                htmlCode = htmlCode.Replace("[MaterialName16]", Request.Form["txtMaterialName16"]);
-                htmlCode = htmlCode.Replace("[txtQty16]", Request.Form["txtQty16"]);
-                htmlCode = htmlCode.Replace("[txtRate16]", Request.Form["txtRate16"]);
-                htmlCode = htmlCode.Replace("[MaterialName17]", Request.Form["txtMaterialName17"]);
-                htmlCode = htmlCode.Replace("[txtQty17]", Request.Form["txtQty17"]);
-                htmlCode = htmlCode.Replace("[txtRate17]", Request.Form["txtRate17"]);
-                htmlCode = htmlCode.Replace("[MaterialName18]", Request.Form["txtMaterialName18"]);
-                htmlCode = htmlCode.Replace("[txtQty18]", Request.Form["txtQty18"]);
-                htmlCode = htmlCode.Replace("[txtRate18]", Request.Form["txtRate18"]);
-                htmlCode = htmlCode.Replace("[MaterialName19]", Request.Form["txtMaterialName19"]);
-                htmlCode = htmlCode.Replace("[txtQty19]", Request.Form["txtQty19"]);
-                htmlCode = htmlCode.Replace("[txtRate19]", Request.Form["txtRate19"]);
-                htmlCode = htmlCode.Replace("[GensetRemarks]", Request.Form["txtGensetRemarks"]);
-                htmlCode = htmlCode.Replace("[TotalGensetAmount]", hdnGensetTotal.Value);
                 htmlCode = htmlCode.Replace("[txtAmount0]", Request.Form["txtAmount0"]);
                 htmlCode = htmlCode.Replace("[txtAmount1]", Request.Form["txtAmount1"]);
                 htmlCode = htmlCode.Replace("[txtAmount2]", Request.Form["txtAmount2"]);
@@ -150,36 +118,225 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[txtAmount7]", Request.Form["txtAmount7"]);
                 htmlCode = htmlCode.Replace("[txtAmount8]", Request.Form["txtAmount8"]);
                 htmlCode = htmlCode.Replace("[txtAmount9]", Request.Form["txtAmount9"]);
+                htmlCode = htmlCode.Replace("[txtUnit0]", hdnUnitName0.Value);
+                htmlCode = htmlCode.Replace("[txtUnit1]", hdnUnitName1.Value);
+                htmlCode = htmlCode.Replace("[txtUnit2]", hdnUnitName2.Value);
+                htmlCode = htmlCode.Replace("[txtUnit3]", hdnUnitName3.Value);
+                htmlCode = htmlCode.Replace("[txtUnit4]", hdnUnitName4.Value);
+                htmlCode = htmlCode.Replace("[txtUnit5]", hdnUnitName5.Value);
+                htmlCode = htmlCode.Replace("[txtUnit6]", hdnUnitName6.Value);
+                htmlCode = htmlCode.Replace("[txtUnit7]", hdnUnitName7.Value);
+                htmlCode = htmlCode.Replace("[txtUnit8]", hdnUnitName8.Value);
+                htmlCode = htmlCode.Replace("[txtUnit9]", hdnUnitName9.Value);
+                if (Request.Form["hdnMatID10"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName10]", (hdnMaterialName10.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName10]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty10]", Request.Form["txtQty10"]);
+                htmlCode = htmlCode.Replace("[txtRate10]", Request.Form["txtRate10"]);
                 htmlCode = htmlCode.Replace("[txtAmount10]", Request.Form["txtAmount10"]);
+                if (Request.Form["hdnUnitID10"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit10]", hdnUnitName10.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit10]", "");
+                }
+
+                if (Request.Form["hdnMatID11"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName11]", (hdnMaterialName11.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName11]", "");
+                }
                 htmlCode = htmlCode.Replace("[txtAmount11]", Request.Form["txtAmount11"]);
+                if (Request.Form["hdnUnitID11"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit11]", hdnUnitName11.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit11]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty11]", Request.Form["txtQty11"]);
+                htmlCode = htmlCode.Replace("[txtRate11]", Request.Form["txtRate11"]);
+
+                if (Request.Form["hdnMatID12"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName12]", (hdnMaterialName12.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName12]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty12]", Request.Form["txtQty12"]);
+                htmlCode = htmlCode.Replace("[txtRate12]", Request.Form["txtRate12"]);
                 htmlCode = htmlCode.Replace("[txtAmount12]", Request.Form["txtAmount12"]);
+                if (Request.Form["hdnUnitID12"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit12]", hdnUnitName12.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit12]", "");
+                }
+
+
+                if (Request.Form["hdnMatID13"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName13]", (hdnMaterialName13.Value));
+
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName13]", "");
+                }
+                if (Request.Form["hdnUnitID13"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit13]", hdnUnitName13.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit13]", "");
+                }
                 htmlCode = htmlCode.Replace("[txtAmount13]", Request.Form["txtAmount13"]);
+                htmlCode = htmlCode.Replace("[txtQty13]", Request.Form["txtQty13"]);
+                htmlCode = htmlCode.Replace("[txtRate13]", Request.Form["txtRate13"]);
+
+                if (Request.Form["hdnMatID14"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName14]", (hdnMaterialName14.Value));
+
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName14]", "");
+                }
                 htmlCode = htmlCode.Replace("[txtAmount14]", Request.Form["txtAmount14"]);
+                if (Request.Form["hdnUnitID14"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit14]", hdnUnitName14.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit14]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty14]", Request.Form["txtQty14"]);
+                htmlCode = htmlCode.Replace("[txtRate14]", Request.Form["txtRate14"]);
+
+                if (Request.Form["hdnMatID15"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName15]", (hdnMaterialName15.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName15]", "");
+                }
                 htmlCode = htmlCode.Replace("[txtAmount15]", Request.Form["txtAmount15"]);
+                htmlCode = htmlCode.Replace("[txtQty15]", Request.Form["txtQty15"]);
+                htmlCode = htmlCode.Replace("[txtRate15]", Request.Form["txtRate15"]);
+                if (Request.Form["hdnUnitID15"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit15]", hdnUnitName15.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit15]", "");
+                }
+
+                if (Request.Form["hdnMatID16"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName16]", (hdnMaterialName16.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName16]", "");
+                }
                 htmlCode = htmlCode.Replace("[txtAmount16]", Request.Form["txtAmount16"]);
+                if (Request.Form["hdnUnitID16"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit16]", hdnUnitName16.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit16]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty16]", Request.Form["txtQty16"]);
+                htmlCode = htmlCode.Replace("[txtRate16]", Request.Form["txtRate16"]);
+
+                if (Request.Form["hdnMatID17"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName17]", (hdnMaterialName17.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName17]", "");
+                }
+
                 htmlCode = htmlCode.Replace("[txtAmount17]", Request.Form["txtAmount17"]);
+                if (Request.Form["hdnUnitID17"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit17]", hdnUnitName17.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit17]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty17]", Request.Form["txtQty17"]);
+                htmlCode = htmlCode.Replace("[txtRate17]", Request.Form["txtRate17"]);
+
+                if (Request.Form["hdnMatID18"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName18]", (hdnMaterialName18.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName18]", "");
+                }
+
                 htmlCode = htmlCode.Replace("[txtAmount18]", Request.Form["txtAmount18"]);
+                if (Request.Form["hdnUnitID18"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit18]", hdnUnitName18.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit18]", "");
+                }
+                htmlCode = htmlCode.Replace("[txtQty18]", Request.Form["txtQty18"]);
+                htmlCode = htmlCode.Replace("[txtRate18]", Request.Form["txtRate18"]);
+
+
+                if (Request.Form["hdnMatID19"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName19]", (hdnMaterialName19.Value));
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[MaterialName19]", "");
+                }
+
+                htmlCode = htmlCode.Replace("[txtQty19]", Request.Form["txtQty19"]);
+                htmlCode = htmlCode.Replace("[txtRate19]", Request.Form["txtRate19"]);
                 htmlCode = htmlCode.Replace("[txtAmount19]", Request.Form["txtAmount19"]);
-                htmlCode = htmlCode.Replace("[txtUnit0]", Request.Form["txtUnit0"]);
-                htmlCode = htmlCode.Replace("[txtUnit1]", Request.Form["txtUnit1"]);
-                htmlCode = htmlCode.Replace("[txtUnit2]", Request.Form["txtUnit2"]);
-                htmlCode = htmlCode.Replace("[txtUnit3]", Request.Form["txtUnit3"]);
-                htmlCode = htmlCode.Replace("[txtUnit4]", Request.Form["txtUnit4"]);
-                htmlCode = htmlCode.Replace("[txtUnit5]", Request.Form["txtUnit5"]);
-                htmlCode = htmlCode.Replace("[txtUnit6]", Request.Form["txtUnit6"]);
-                htmlCode = htmlCode.Replace("[txtUnit7]", Request.Form["txtUnit7"]);
-                htmlCode = htmlCode.Replace("[txtUnit8]", Request.Form["txtUnit8"]);
-                htmlCode = htmlCode.Replace("[txtUnit9]", Request.Form["txtUnit9"]);
-                htmlCode = htmlCode.Replace("[txtUnit10]", Request.Form["txtUnit10"]);
-                htmlCode = htmlCode.Replace("[txtUnit11]", Request.Form["txtUnit11"]);
-                htmlCode = htmlCode.Replace("[txtUnit12]", Request.Form["txtUnit12"]);
-                htmlCode = htmlCode.Replace("[txtUnit13]", Request.Form["txtUnit13"]);
-                htmlCode = htmlCode.Replace("[txtUnit14]", Request.Form["txtUnit14"]);
-                htmlCode = htmlCode.Replace("[txtUnit15]", Request.Form["txtUnit15"]);
-                htmlCode = htmlCode.Replace("[txtUnit16]", Request.Form["txtUnit16"]);
-                htmlCode = htmlCode.Replace("[txtUnit17]", Request.Form["txtUnit17"]);
-                htmlCode = htmlCode.Replace("[txtUnit18]", Request.Form["txtUnit18"]);
-                htmlCode = htmlCode.Replace("[txtUnit19]", Request.Form["txtUnit19"]);
+                if (Request.Form["hdnUnitID19"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit19]", hdnUnitName19.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[txtUnit19]", "");
+                }
+                htmlCode = htmlCode.Replace("[GensetRemarks]", Request.Form["txtGensetRemarks"]);
+                htmlCode = htmlCode.Replace("[TotalGensetAmount]", hdnGensetTotal.Value);
+
                 pnlGenset.InnerHtml = htmlCode;
             }
             else if (ddlproforma.SelectedValue == ((int)TypeEnum.TransportProformaType.BATTERYQUOTATION).ToString())
@@ -320,71 +477,6 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[ServiceApprovalAmount]", Request.Form["txtServiceApprovalAmount"]);
                 htmlCode = htmlCode.Replace("[AvergeVehicle]", Request.Form["txtAvergeVehicle"]);
                 htmlCode = htmlCode.Replace("[ServicePlace]", Request.Form["txtServicePlace"]);
-                htmlCode = htmlCode.Replace("[Material0]", Request.Form["txtMaterial0"]);
-                htmlCode = htmlCode.Replace("[Quantity0]", Request.Form["txtQuantity0"]);
-                htmlCode = htmlCode.Replace("[Price0]", Request.Form["txtPrice0"]);
-                htmlCode = htmlCode.Replace("[Material1]", Request.Form["txtMaterial1"]);
-                htmlCode = htmlCode.Replace("[Quantity1]", Request.Form["txtQuantity1"]);
-                htmlCode = htmlCode.Replace("[Price1]", Request.Form["txtPrice1"]);
-                htmlCode = htmlCode.Replace("[Material2]", Request.Form["txtMaterial2"]);
-                htmlCode = htmlCode.Replace("[Quantity2]", Request.Form["txtQuantity2"]);
-                htmlCode = htmlCode.Replace("[Price2]", Request.Form["txtPrice2"]);
-                htmlCode = htmlCode.Replace("[Material3]", Request.Form["txtMaterial3"]);
-                htmlCode = htmlCode.Replace("[Quantity3]", Request.Form["txtQuantity3"]);
-                htmlCode = htmlCode.Replace("[Price3]", Request.Form["txtPrice3"]);
-                htmlCode = htmlCode.Replace("[Material4]", Request.Form["txtMaterial4"]);
-                htmlCode = htmlCode.Replace("[Quantity4]", Request.Form["txtQuantity4"]);
-                htmlCode = htmlCode.Replace("[Price4]", Request.Form["txtPrice4"]);
-                htmlCode = htmlCode.Replace("[Material5]", Request.Form["txtMaterial5"]);
-                htmlCode = htmlCode.Replace("[Quantity5]", Request.Form["txtQuantity5"]);
-                htmlCode = htmlCode.Replace("[Price5]", Request.Form["txtPrice5"]);
-                htmlCode = htmlCode.Replace("[Material6]", Request.Form["txtMaterial6"]);
-                htmlCode = htmlCode.Replace("[Quantity6]", Request.Form["txtQuantity6"]);
-                htmlCode = htmlCode.Replace("[Price6]", Request.Form["txtPrice6"]);
-                htmlCode = htmlCode.Replace("[Material7]", Request.Form["txtMaterial7"]);
-                htmlCode = htmlCode.Replace("[Quantity7]", Request.Form["txtQuantity7"]);
-                htmlCode = htmlCode.Replace("[Price7]", Request.Form["txtPrice7"]);
-                htmlCode = htmlCode.Replace("[Material8]", Request.Form["txtMaterial8"]);
-                htmlCode = htmlCode.Replace("[Quantity8]", Request.Form["txtQuantity8"]);
-                htmlCode = htmlCode.Replace("[Price8]", Request.Form["txtPrice8"]);
-                htmlCode = htmlCode.Replace("[Material9]", Request.Form["txtMaterial9"]);
-                htmlCode = htmlCode.Replace("[Quantity9]", Request.Form["txtQuantity9"]);
-                htmlCode = htmlCode.Replace("[Price9]", Request.Form["txtPrice9"]);
-                htmlCode = htmlCode.Replace("[Material10]", Request.Form["txtMaterial10"]);
-                htmlCode = htmlCode.Replace("[Quantity10]", Request.Form["txtQuantity10"]);
-                htmlCode = htmlCode.Replace("[Price10]", Request.Form["txtPrice10"]);
-                htmlCode = htmlCode.Replace("[Material11]", Request.Form["txtMaterial11"]);
-                htmlCode = htmlCode.Replace("[Quantity11]", Request.Form["txtQuantity11"]);
-                htmlCode = htmlCode.Replace("[Price11]", Request.Form["txtPrice11"]);
-                htmlCode = htmlCode.Replace("[Material12]", Request.Form["txtMaterial12"]);
-                htmlCode = htmlCode.Replace("[Quantity12]", Request.Form["txtQuantity12"]);
-                htmlCode = htmlCode.Replace("[Price12]", Request.Form["txtPrice12"]);
-                htmlCode = htmlCode.Replace("[Material13]", Request.Form["txtMaterial13"]);
-                htmlCode = htmlCode.Replace("[Quantity13]", Request.Form["txtQuantity13"]);
-                htmlCode = htmlCode.Replace("[Price13]", Request.Form["txtPrice13"]);
-                htmlCode = htmlCode.Replace("[Material14]", Request.Form["txtMaterial14"]);
-                htmlCode = htmlCode.Replace("[Quantity14]", Request.Form["txtQuantity14"]);
-                htmlCode = htmlCode.Replace("[Price14]", Request.Form["txtPrice14"]);
-                htmlCode = htmlCode.Replace("[Material15]", Request.Form["txtMaterial15"]);
-                htmlCode = htmlCode.Replace("[Quantity15]", Request.Form["txtQuantity15"]);
-                htmlCode = htmlCode.Replace("[Price15]", Request.Form["txtPrice15"]);
-                htmlCode = htmlCode.Replace("[Material16]", Request.Form["txtMaterial16"]);
-                htmlCode = htmlCode.Replace("[Quantity16]", Request.Form["txtQuantity16"]);
-                htmlCode = htmlCode.Replace("[Price16]", Request.Form["txtPrice16"]);
-                htmlCode = htmlCode.Replace("[Material17]", Request.Form["txtMaterial17"]);
-                htmlCode = htmlCode.Replace("[Quantity17]", Request.Form["txtQuantity17"]);
-                htmlCode = htmlCode.Replace("[Price17]", Request.Form["txtPrice17"]);
-                htmlCode = htmlCode.Replace("[Material18]", Request.Form["txtMaterial18"]);
-                htmlCode = htmlCode.Replace("[Quantity18]", Request.Form["txtQuantity18"]);
-                htmlCode = htmlCode.Replace("[Price18]", Request.Form["txtPrice18"]);
-                htmlCode = htmlCode.Replace("[Material19]", Request.Form["txtMaterial19"]);
-                htmlCode = htmlCode.Replace("[Quantity19]", Request.Form["txtQuantity19"]);
-                htmlCode = htmlCode.Replace("[Price19]", Request.Form["txtPrice149"]);
-                htmlCode = htmlCode.Replace("[ServiceDate]", DateTime.Now.ToShortDateString());
-                htmlCode = htmlCode.Replace("[ServiceDriverName]", Request.Form["txtServiceDriverandNumber"]);
-                htmlCode = htmlCode.Replace("[ServiceVehicleType]", Request.Form["txtServiceVehicelType"]);
-                htmlCode = htmlCode.Replace("[ServiceRemarks]", Request.Form["txtServiceRemarks"]);
-                htmlCode = htmlCode.Replace("[TotalServiceAmount]", hdnServiceTotal.Value);
                 htmlCode = htmlCode.Replace("[SerAmount0]", Request.Form["txtSerAmount0"]);
                 htmlCode = htmlCode.Replace("[SerAmount1]", Request.Form["txtSerAmount1"]);
                 htmlCode = htmlCode.Replace("[SerAmount2]", Request.Form["txtSerAmount2"]);
@@ -395,36 +487,242 @@ public partial class Transport_Proforma : System.Web.UI.Page
                 htmlCode = htmlCode.Replace("[SerAmount7]", Request.Form["txtSerAmount7"]);
                 htmlCode = htmlCode.Replace("[SerAmount8]", Request.Form["txtSerAmount8"]);
                 htmlCode = htmlCode.Replace("[SerAmount9]", Request.Form["txtSerAmount9"]);
+                htmlCode = htmlCode.Replace("[SerUnit0]", hdnSerUnitName0.Value);
+                htmlCode = htmlCode.Replace("[SerUnit1]", hdnSerUnitName1.Value);
+                htmlCode = htmlCode.Replace("[SerUnit2]", hdnSerUnitName2.Value);
+                htmlCode = htmlCode.Replace("[SerUnit3]", hdnSerUnitName3.Value);
+                htmlCode = htmlCode.Replace("[SerUnit4]", hdnSerUnitName4.Value);
+                htmlCode = htmlCode.Replace("[SerUnit5]", hdnSerUnitName5.Value);
+                htmlCode = htmlCode.Replace("[SerUnit6]", hdnSerUnitName6.Value);
+                htmlCode = htmlCode.Replace("[SerUnit7]", hdnSerUnitName7.Value);
+                htmlCode = htmlCode.Replace("[SerUnit8]", hdnSerUnitName8.Value);
+                htmlCode = htmlCode.Replace("[SerUnit9]", hdnSerUnitName9.Value);
+                htmlCode = htmlCode.Replace("[Material0]", hdnMaterial0.Value);
+                htmlCode = htmlCode.Replace("[Quantity0]", Request.Form["txtQuantity0"]);
+                htmlCode = htmlCode.Replace("[Price0]", Request.Form["txtPrice0"]);
+                htmlCode = htmlCode.Replace("[Material1]", hdnMaterial1.Value);
+                htmlCode = htmlCode.Replace("[Quantity1]", Request.Form["txtQuantity1"]);
+                htmlCode = htmlCode.Replace("[Price1]", Request.Form["txtPrice1"]);
+                htmlCode = htmlCode.Replace("[Material2]", hdnMaterial2.Value);
+                htmlCode = htmlCode.Replace("[Quantity2]", Request.Form["txtQuantity2"]);
+                htmlCode = htmlCode.Replace("[Price2]", Request.Form["txtPrice2"]);
+                htmlCode = htmlCode.Replace("[Material3]", hdnMaterial3.Value);
+                htmlCode = htmlCode.Replace("[Quantity3]", Request.Form["txtQuantity3"]);
+                htmlCode = htmlCode.Replace("[Price3]", Request.Form["txtPrice3"]);
+                htmlCode = htmlCode.Replace("[Material4]", hdnMaterial4.Value);
+                htmlCode = htmlCode.Replace("[Quantity4]", Request.Form["txtQuantity4"]);
+                htmlCode = htmlCode.Replace("[Price4]", Request.Form["txtPrice4"]);
+                htmlCode = htmlCode.Replace("[Material5]", hdnMaterial5.Value);
+                htmlCode = htmlCode.Replace("[Quantity5]", Request.Form["txtQuantity5"]);
+                htmlCode = htmlCode.Replace("[Price5]", Request.Form["txtPrice5"]);
+                htmlCode = htmlCode.Replace("[Material6]", hdnMaterial6.Value);
+                htmlCode = htmlCode.Replace("[Quantity6]", Request.Form["txtQuantity6"]);
+                htmlCode = htmlCode.Replace("[Price6]", Request.Form["txtPrice6"]);
+                htmlCode = htmlCode.Replace("[Material7]", hdnMaterial7.Value);
+                htmlCode = htmlCode.Replace("[Quantity7]", Request.Form["txtQuantity7"]);
+                htmlCode = htmlCode.Replace("[Price7]", Request.Form["txtPrice7"]);
+                htmlCode = htmlCode.Replace("[Material8]", hdnMaterial8.Value);
+                htmlCode = htmlCode.Replace("[Quantity8]", Request.Form["txtQuantity8"]);
+                htmlCode = htmlCode.Replace("[Price8]", Request.Form["txtPrice8"]);
+                htmlCode = htmlCode.Replace("[Material9]", hdnMaterial9.Value);
+                htmlCode = htmlCode.Replace("[Quantity9]", Request.Form["txtQuantity9"]);
+                htmlCode = htmlCode.Replace("[Price9]", Request.Form["txtPrice9"]);
+                if (Request.Form["hdnSerMatID10"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material10]", hdnMaterial10.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material10]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity10]", Request.Form["txtQuantity10"]);
+                htmlCode = htmlCode.Replace("[Price10]", Request.Form["txtPrice10"]);
                 htmlCode = htmlCode.Replace("[SerAmount10]", Request.Form["txtSerAmount10"]);
+                if (Request.Form["hdnSerUnitID10"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit10]", hdnSerUnitName10.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit10]", "");
+                }
+                if (Request.Form["hdnSerMatID11"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material11]", hdnMaterial11.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material11]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity11]", Request.Form["txtQuantity11"]);
+                htmlCode = htmlCode.Replace("[Price11]", Request.Form["txtPrice11"]);
                 htmlCode = htmlCode.Replace("[SerAmount11]", Request.Form["txtSerAmount11"]);
+                if (Request.Form["hdnSerUnitID11"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit11]", hdnSerUnitName11.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit11]", "");
+                }
+                if (Request.Form["hdnSerMatID12"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material12]", hdnMaterial12.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material12]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity12]", Request.Form["txtQuantity12"]);
+                htmlCode = htmlCode.Replace("[Price12]", Request.Form["txtPrice12"]);
                 htmlCode = htmlCode.Replace("[SerAmount12]", Request.Form["txtSerAmount12"]);
+                if (Request.Form["hdnSerUnitID12"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit12]", hdnSerUnitName12.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit12]", "");
+                }
+                if (Request.Form["hdnSerMatID13"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material13]", hdnMaterial13.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material13]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity13]", Request.Form["txtQuantity13"]);
+                htmlCode = htmlCode.Replace("[Price13]", Request.Form["txtPrice13"]);
                 htmlCode = htmlCode.Replace("[SerAmount13]", Request.Form["txtSerAmount13"]);
+                if (Request.Form["hdnSerUnitID13"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit13]", hdnSerUnitName13.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit13]", "");
+                }
+                if (Request.Form["hdnSerMatID14"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material14]", hdnMaterial14.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material14]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity14]", Request.Form["txtQuantity14"]);
+                htmlCode = htmlCode.Replace("[Price14]", Request.Form["txtPrice14"]);
                 htmlCode = htmlCode.Replace("[SerAmount14]", Request.Form["txtSerAmount14"]);
+                if (Request.Form["hdnSerUnitID14"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit14]", hdnSerUnitName14.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit14]", "");
+                }
+                if (Request.Form["hdnSerMatID15"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material15]", hdnMaterial15.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material15]", "");
+                }
                 htmlCode = htmlCode.Replace("[SerAmount15]", Request.Form["txtSerAmount15"]);
+                if (Request.Form["hdnSerUnitID15"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit15]", hdnSerUnitName15.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit15]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity15]", Request.Form["txtQuantity15"]);
+                htmlCode = htmlCode.Replace("[Price15]", Request.Form["txtPrice15"]);
+                if (Request.Form["hdnSerMatID16"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material16]", hdnMaterial16.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material16]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity16]", Request.Form["txtQuantity16"]);
+                htmlCode = htmlCode.Replace("[Price16]", Request.Form["txtPrice16"]);
                 htmlCode = htmlCode.Replace("[SerAmount16]", Request.Form["txtSerAmount16"]);
+                if (Request.Form["hdnSerUnitID16"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit16]", hdnSerUnitName16.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit16]", "");
+                }
+                if (Request.Form["hdnSerMatID17"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material17]", hdnMaterial17.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material17]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity17]", Request.Form["txtQuantity17"]);
+                htmlCode = htmlCode.Replace("[Price17]", Request.Form["txtPrice17"]);
                 htmlCode = htmlCode.Replace("[SerAmount17]", Request.Form["txtSerAmount17"]);
+                if (Request.Form["hdnSerUnitID17"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit17]", hdnSerUnitName17.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit17]", "");
+                }
+                if (Request.Form["hdnSerMatID18"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material18]", hdnMaterial18.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material18]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity18]", Request.Form["txtQuantity18"]);
+                htmlCode = htmlCode.Replace("[Price18]", Request.Form["txtPrice18"]);
                 htmlCode = htmlCode.Replace("[SerAmount18]", Request.Form["txtSerAmount18"]);
+                if (Request.Form["hdnSerUnitID18"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit18]", hdnSerUnitName18.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit18]", "");
+                }
+                if (Request.Form["hdnSerMatID19"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[Material19]", hdnMaterial19.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[Material19]", "");
+                }
+                htmlCode = htmlCode.Replace("[Quantity19]", Request.Form["txtQuantity19"]);
+                htmlCode = htmlCode.Replace("[Price19]", Request.Form["txtPrice149"]);
                 htmlCode = htmlCode.Replace("[SerAmount19]", Request.Form["txtSerAmount19"]);
-                htmlCode = htmlCode.Replace("[SerUnit0]", Request.Form["txtSerUnit0"]);
-                htmlCode = htmlCode.Replace("[SerUnit1]", Request.Form["txtSerUnit1"]);
-                htmlCode = htmlCode.Replace("[SerUnit2]", Request.Form["txtSerUnit2"]);
-                htmlCode = htmlCode.Replace("[SerUnit3]", Request.Form["txtSerUnit3"]);
-                htmlCode = htmlCode.Replace("[SerUnit4]", Request.Form["txtSerUnit4"]);
-                htmlCode = htmlCode.Replace("[SerUnit5]", Request.Form["txtSerUnit5"]);
-                htmlCode = htmlCode.Replace("[SerUnit6]", Request.Form["txtSerUnit6"]);
-                htmlCode = htmlCode.Replace("[SerUnit7]", Request.Form["txtSerUnit7"]);
-                htmlCode = htmlCode.Replace("[SerUnit8]", Request.Form["txtSerUnit8"]);
-                htmlCode = htmlCode.Replace("[SerUnit9]", Request.Form["txtSerUnit9"]);
-                htmlCode = htmlCode.Replace("[SerUnit10]", Request.Form["txtSerUnit10"]);
-                htmlCode = htmlCode.Replace("[SerUnit11]", Request.Form["txtSerUnit11"]);
-                htmlCode = htmlCode.Replace("[SerUnit12]", Request.Form["txtSerUnit19"]);
-                htmlCode = htmlCode.Replace("[SerUnit13]", Request.Form["txtSerUnit12"]);
-                htmlCode = htmlCode.Replace("[SerUnit14]", Request.Form["txtSerUnit13"]);
-                htmlCode = htmlCode.Replace("[SerUnit15]", Request.Form["txtSerUnit14"]);
-                htmlCode = htmlCode.Replace("[SerUnit16]", Request.Form["txtSerUnit15"]);
-                htmlCode = htmlCode.Replace("[SerUnit17]", Request.Form["txtSerUnit16"]);
-                htmlCode = htmlCode.Replace("[SerUnit18]", Request.Form["txtSerUnit17"]);
-                htmlCode = htmlCode.Replace("[SerUnit19]", Request.Form["txtSerUnit18"]);
+                if (Request.Form["hdnSerUnitID19"] != "")
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit19]", hdnSerUnitName19.Value);
+                }
+                else
+                {
+                    htmlCode = htmlCode.Replace("[SerUnit19]", "");
+                }
+                htmlCode = htmlCode.Replace("[ServiceDate]", DateTime.Now.ToShortDateString());
+                htmlCode = htmlCode.Replace("[ServiceDriverName]", Request.Form["txtServiceDriverandNumber"]);
+                htmlCode = htmlCode.Replace("[ServiceVehicleType]", Request.Form["txtServiceVehicelType"]);
+                htmlCode = htmlCode.Replace("[ServiceRemarks]", Request.Form["txtServiceRemarks"]);
+                htmlCode = htmlCode.Replace("[TotalServiceAmount]", hdnServiceTotal.Value);
+
                 pnlServiceandOtherRepair.InnerHtml = htmlCode;
             }
         }
@@ -612,26 +910,11 @@ public partial class Transport_Proforma : System.Web.UI.Page
             tyreDetail.RearLeftOldTyreCondition = Request.Form["txtRearLeftCondition"];
             tyreDetail.RearRightOldTyreCondition = Request.Form["txtRearRightCondition"];
             tyreDetail.StafneyOldTyreCondition = Request.Form["txtStafneyCondition"];
-            if (Request.Form["txtFrontLeftRequired"] != "")
-            {
-                tyreDetail.FrontLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontLeftRequired"]);
-            }
-            if (Request.Form["txtFrontRightRequired"] != "")
-            {
-                tyreDetail.FrontRightNewTyreRequired = Convert.ToInt32(Request.Form["txtFrontRightRequired"]);
-            }
-            if (Request.Form["txtRearLeftRequired"] != "")
-            {
-                tyreDetail.RearLeftNewTyreRequired = Convert.ToInt32(Request.Form["txtRearLeftRequired"]);
-            }
-            if (Request.Form["txtRearRightRequired"] != "")
-            {
-                tyreDetail.RearRightNewTyreRequired = Convert.ToInt32(Request.Form["txtRearRightRequired"]);
-            }
-            if (Request.Form["txtStafneyRequired"] != "")
-            {
-                tyreDetail.StafneyNewTyreRequired = Convert.ToInt32(Request.Form["txtStafneyRequired"]);
-            }
+            tyreDetail.FrontLeftNewTyreRequired = Request.Form["txtFrontLeftRequired"];
+            tyreDetail.FrontRightNewTyreRequired = Request.Form["txtFrontRightRequired"];
+            tyreDetail.RearLeftNewTyreRequired = Request.Form["txtRearLeftRequired"];
+            tyreDetail.RearRightNewTyreRequired = Request.Form["txtRearRightRequired"];
+            tyreDetail.StafneyNewTyreRequired = Request.Form["txtStafneyRequired"];
             tyreDetail.CreatedOn = Utility.GetLocalDateTime(DateTime.UtcNow);
             tyreDetail.CreatedBy = Convert.ToInt32(hdnInchargeID.Value);
             if (Request.Form["txtStafneyRunning"] != "")

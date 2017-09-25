@@ -53,15 +53,15 @@ public class ProformaDetail
 
     public string StafneyOldTyreCondition { get; set; }
 
-    public int? FrontLeftNewTyreRequired { get; set; }
+    public string FrontLeftNewTyreRequired { get; set; }
 
-    public int? FrontRightNewTyreRequired { get; set; }
+    public string FrontRightNewTyreRequired { get; set; }
 
-    public int? RearLeftNewTyreRequired { get; set; }
+    public string RearLeftNewTyreRequired { get; set; }
 
-    public int? RearRightNewTyreRequired { get; set; }
+    public string RearRightNewTyreRequired { get; set; }
 
-    public int? StafneyNewTyreRequired { get; set; }
+    public string StafneyNewTyreRequired { get; set; }
 
     public DateTime? CreatedOn { get; set; }
 

@@ -14,8 +14,8 @@
         <asp:HiddenField ID="hdnBatteryAcaID" runat="server" />
         <asp:HiddenField ID="hdnServiceVehicleID" runat="server" />
         <asp:HiddenField ID="hdnTyreVehicleID" runat="server" />
-         <asp:HiddenField ID="hdnBatteryType" runat="server" />
-         <asp:HiddenField ID="hdnProformaID" runat="server" />
+        <asp:HiddenField ID="hdnBatteryType" runat="server" />
+        <asp:HiddenField ID="hdnProformaID" runat="server" />
         <div class="row-fluid sortable">
             <div class="box span12">
                 <div class="box-header well">
@@ -190,11 +190,18 @@
                                                                     <span id="spn0">1</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName0" id="txtMaterialName0" type="text" /><input type="text" style="display:none;" name="hdnMatID0" id="hdnMatID0" />
+                                                                    <select id="txtMaterialName0">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%-- <input name="txtMaterialName0" id="txtMaterialName0" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterialName0" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnMatID0" id="hdnMatID0" />
 
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit0" name="txtUnit0" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID0" id="hdnUnitID0" />
+                                                                    <input id="txtUnit0" name="txtUnit0" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID0" id="hdnUnitID0" />
+                                                                    <asp:HiddenField ID="hdnUnitName0" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty0" name="txtQty0" type="text" style="width: 100px;" />
@@ -210,11 +217,19 @@
                                                                 <td>
                                                                     <span id="Span1">2</span>
                                                                 </td>
+
                                                                 <td>
-                                                                    <input name="txtMaterialName1" id="txtMaterialName1" type="text" /><input type="text" style="display:none;" name="hdnMatID1" id="hdnMatID1" />
+                                                                    <select id="txtMaterialName1">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName1" runat="server" />
+                                                                    <%--<input name="txtMaterialName1" id="txtMaterialName1" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID1" id="hdnMatID1" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit1" name="txtUnit1" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID1" id="hdnUnitID1" />
+                                                                    <input id="txtUnit1" name="txtUnit1" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID1" id="hdnUnitID1" />
+                                                                    <asp:HiddenField ID="hdnUnitName1" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty1" name="txtQty1" type="text" style="width: 100px;" />
@@ -231,10 +246,17 @@
                                                                     <span id="Span2">3</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName2" id="txtMaterialName2" type="text" /><input type="text" style="display:none;" name="hdnMatID2" id="hdnMatID2" />
+                                                                    <select id="txtMaterialName2">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName2" runat="server" />
+                                                                    <%-- <input name="txtMaterialName2" id="txtMaterialName2" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID2" id="hdnMatID2" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit2" name="txtUnit2" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID2" id="hdnUnitID2" />
+                                                                    <input id="txtUnit2" name="txtUnit2" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID2" id="hdnUnitID2" />
+                                                                    <asp:HiddenField ID="hdnUnitName2" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty2" name="txtQty2" type="text" style="width: 100px;" />
@@ -251,10 +273,17 @@
                                                                     <span id="Span3">4</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName3" id="txtMaterialName3" type="text" /><input type="text" style="display:none;" name="hdnMatID3" id="hdnMatID3" />
+                                                                    <select id="txtMaterialName3">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName3" runat="server" />
+                                                                    <%--<input name="txtMaterialName3" id="txtMaterialName3" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID3" id="hdnMatID3" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit3" name="txtUnit3" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID3" id="hdnUnitID3" />
+                                                                    <input id="txtUnit3" name="txtUnit3" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID3" id="hdnUnitID3" />
+                                                                    <asp:HiddenField ID="hdnUnitName3" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty3" name="txtQty3" type="text" style="width: 100px;" />
@@ -271,10 +300,17 @@
                                                                     <span id="Span4">5</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName4" id="txtMaterialName4" type="text" /><input type="text" style="display:none;" name="hdnMatID4" id="hdnMatID4" />
+                                                                    <select id="txtMaterialName4">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName4" runat="server" />
+                                                                    <%--<input name="txtMaterialName4" id="txtMaterialName4" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID4" id="hdnMatID4" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit4" name="txtUnit4" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID4" id="hdnUnitID4" />
+                                                                    <input id="txtUnit4" name="txtUnit4" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID4" id="hdnUnitID4" />
+                                                                    <asp:HiddenField ID="hdnUnitName4" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty4" name="txtQty4" type="text" style="width: 100px;" />
@@ -291,10 +327,17 @@
                                                                     <span id="Span19">6</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName5" id="txtMaterialName5" type="text" /><input type="text" style="display:none;" name="hdnMatID5" id="hdnMatID5" />
+                                                                    <select id="txtMaterialName5">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName5" runat="server" />
+                                                                    <%--<input name="txtMaterialName5" id="txtMaterialName5" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID5" id="hdnMatID5" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit5" name="txtUnit5" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID5" id="hdnUnitID5" />
+                                                                    <input id="txtUnit5" name="txtUnit5" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID5" id="hdnUnitID5" />
+                                                                    <asp:HiddenField ID="hdnUnitName5" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty5" name="txtQty5" type="text" style="width: 100px;" />
@@ -311,10 +354,17 @@
                                                                     <span id="Span20">7</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName6" id="txtMaterialName6" type="text" /><input type="text" style="display:none;" name="hdnMatID6" id="hdnMatID6" />
+                                                                    <select id="txtMaterialName6">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName6" runat="server" />
+                                                                    <%--<input name="txtMaterialName6" id="txtMaterialName6" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID6" id="hdnMatID6" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit6" name="txtUnit6" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID6" id="hdnUnitID6" />
+                                                                    <input id="txtUnit6" name="txtUnit6" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID6" id="hdnUnitID6" />
+                                                                    <asp:HiddenField ID="hdnUnitName6" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty6" name="txtQty6" type="text" style="width: 100px;" />
@@ -331,10 +381,17 @@
                                                                     <span id="Span21">8</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName7" id="txtMaterialName7" type="text" /><input type="text" style="display:none;" name="hdnMatID7" id="hdnMatID7" />
+                                                                    <select id="txtMaterialName7">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName7" runat="server" />
+                                                                    <%--<input name="txtMaterialName7" id="txtMaterialName7" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID7" id="hdnMatID7" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit7" name="txtUnit7" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID7" id="hdnUnitID7" />
+                                                                    <input id="txtUnit7" name="txtUnit7" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID7" id="hdnUnitID7" />
+                                                                    <asp:HiddenField ID="hdnUnitName7" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty7" name="txtQty7" type="text" style="width: 100px;" />
@@ -351,10 +408,17 @@
                                                                     <span id="Span24">9</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName8" id="txtMaterialName8" type="text" /><input type="text" style="display:none;" name="hdnMatID8" id="hdnMatID8" />
+                                                                    <select id="txtMaterialName8">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName8" runat="server" />
+                                                                    <%--<input name="txtMaterialName8" id="txtMaterialName8" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID8" id="hdnMatID8" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit8" name="txtUnit8" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID8" id="hdnUnitID8" />
+                                                                    <input id="txtUnit8" name="txtUnit8" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID8" id="hdnUnitID8" />
+                                                                    <asp:HiddenField ID="hdnUnitName8" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty8" name="txtQty8" type="text" style="width: 100px;" />
@@ -371,10 +435,17 @@
                                                                     <span id="Span25">10</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName9" id="txtMaterialName9" type="text" /><input type="text" style="display:none;" name="hdnMatID9" id="hdnMatID9" />
+                                                                    <select id="txtMaterialName9">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName9" runat="server" />
+                                                                    <%--<input name="txtMaterialName9" id="txtMaterialName9" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID9" id="hdnMatID9" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit9" name="txtUnit9" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID9" id="hdnUnitID9" />
+                                                                    <input id="txtUnit9" name="txtUnit9" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID9" id="hdnUnitID9" />
+                                                                    <asp:HiddenField ID="hdnUnitName9" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty9" name="txtQty9" type="text" style="width: 100px;" />
@@ -391,10 +462,17 @@
                                                                     <span id="Span28">11</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName10" id="txtMaterialName10" type="text" /><input type="text" style="display:none;" name="hdnMatID10" id="hdnMatID10" />
+                                                                    <select id="txtMaterialName10">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName10" runat="server" />
+                                                                    <%--<input name="txtMaterialName10" id="txtMaterialName10" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID10" id="hdnMatID10" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit10" name="txtUnit10" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID10" id="hdnUnitID10" />
+                                                                    <input id="txtUnit10" name="txtUnit10" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID10" id="hdnUnitID10" />
+                                                                    <asp:HiddenField ID="hdnUnitName10" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty10" name="txtQty10" type="text" style="width: 100px;" />
@@ -411,10 +489,18 @@
                                                                     <span id="Span29">12</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName11" id="txtMaterialName11" type="text" /><input type="text" style="display:none;" name="hdnMatID11" id="hdnMatID11" />
+                                                                    <select id="txtMaterialName11">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName11" runat="server" />
+                                                                    <%--<input name="txtMaterialName11" id="txtMaterialName11" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID11" id="hdnMatID11" />
+
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit11" name="txtUnit11" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID11" id="hdnUnitID11" />
+                                                                    <input id="txtUnit11" name="txtUnit11" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID11" id="hdnUnitID11" />
+                                                                    <asp:HiddenField ID="hdnUnitName11" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty11" name="txtQty11" type="text" style="width: 100px;" />
@@ -431,10 +517,17 @@
                                                                     <span id="Span30">13</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName12" id="txtMaterialName12" type="text" /><input type="text" style="display:none;" name="hdnMatID12" id="hdnMatID12" />
+                                                                    <select id="txtMaterialName12">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName12" runat="server" />
+                                                                    <%--<input name="txtMaterialName12" id="txtMaterialName12" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID12" id="hdnMatID12" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit12" name="txtUnit12" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID12" id="hdnUnitID12" />
+                                                                    <input id="txtUnit12" name="txtUnit12" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID12" id="hdnUnitID12" />
+                                                                    <asp:HiddenField ID="hdnUnitName12" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty12" name="txtQty12" type="text" style="width: 100px;" />
@@ -451,10 +544,17 @@
                                                                     <span id="Span31">14</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input name="txtMaterialName13" id="txtMaterialName13" type="text" /><input type="text" style="display:none;" name="hdnMatID13" id="hdnMatID13" />
+                                                                    <select id="txtMaterialName13">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <asp:HiddenField ID="hdnMaterialName13" runat="server" />
+                                                                    <%--<input name="txtMaterialName13" id="txtMaterialName13" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnMatID13" id="hdnMatID13" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtUnit13" name="txtUnit13" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID13" id="hdnUnitID13" />
+                                                                    <input id="txtUnit13" name="txtUnit13" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnUnitID13" id="hdnUnitID13" />
+                                                                    <asp:HiddenField ID="hdnUnitName13" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQty13" name="txtQty13" type="text" style="width: 100px;" />
@@ -470,10 +570,17 @@
                                                                         <span id="Span32">15</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName14" id="txtMaterialName14" type="text" /><input type="text" style="display:none;" name="hdnMatID14" id="hdnMatID14" />
+                                                                        <select id="txtMaterialName14">
+                                                                            <option value="0">--Select Material--</option>
+                                                                        </select>
+                                                                        <asp:HiddenField ID="hdnMaterialName14" runat="server" />
+                                                                        <%--<input name="txtMaterialName14" id="txtMaterialName14" type="text" />--%>
+                                                                        <input type="text" style="display: none;" name="hdnMatID14" id="hdnMatID14" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtUnit14" name="txtUnit14" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID14" id="hdnUnitID14" />
+                                                                        <input id="txtUnit14" name="txtUnit14" type="text" style="width: 100px;" />
+                                                                        <input type="text" style="display: none;" name="hdnUnitID14" id="hdnUnitID14" />
+                                                                        <asp:HiddenField ID="hdnUnitName14" runat="server" />
                                                                     </td>
                                                                     <td>
                                                                         <input id="txtQty14" name="txtQty14" type="text" style="width: 100px;" />
@@ -490,10 +597,17 @@
                                                                         <span id="Span38">16</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName15" id="txtMaterialName15" type="text" /><input type="text" style="display:none;" name="hdnMatID15" id="hdnMatID15" />
+                                                                        <select id="txtMaterialName15">
+                                                                            <option value="0">--Select Material--</option>
+                                                                        </select>
+                                                                        <asp:HiddenField ID="hdnMaterialName15" runat="server" />
+                                                                        <%--<input name="txtMaterialName15" id="txtMaterialName15" type="text" />--%>
+                                                                        <input type="text" style="display: none;" name="hdnMatID15" id="hdnMatID15" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtUnit15" name="txtUnit15" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID15" id="hdnUnitID15" />
+                                                                        <input id="txtUnit15" name="txtUnit15" type="text" style="width: 100px;" />
+                                                                        <input type="text" style="display: none;" name="hdnUnitID15" id="hdnUnitID15" />
+                                                                        <asp:HiddenField ID="hdnUnitName15" runat="server" />
                                                                     </td>
                                                                     <td>
                                                                         <input id="txtQty15" name="txtQty15" type="text" style="width: 100px;" />
@@ -510,10 +624,17 @@
                                                                         <span id="Span39">17</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName16" id="txtMaterialName16" type="text" /><input type="text" style="display:none;" name="hdnMatID16" id="hdnMatID16" />
+                                                                        <select id="txtMaterialName16">
+                                                                            <option value="0">--Select Material--</option>
+                                                                        </select>
+                                                                        <asp:HiddenField ID="hdnMaterialName16" runat="server" />
+                                                                        <%--<input name="txtMaterialName16" id="txtMaterialName16" type="text" />--%>
+                                                                        <input type="text" style="display: none;" name="hdnMatID16" id="hdnMatID16" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtUnit16" name="txtUnit16" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID16" id="hdnUnitID16" />
+                                                                        <input id="txtUnit16" name="txtUnit16" type="text" style="width: 100px;" />
+                                                                        <input type="text" style="display: none;" name="hdnUnitID16" id="hdnUnitID16" />
+                                                                        <asp:HiddenField ID="hdnUnitName16" runat="server" />
                                                                     </td>
                                                                     <td>
                                                                         <input id="txtQty16" name="txtQty16" type="text" style="width: 100px;" />
@@ -530,10 +651,17 @@
                                                                         <span id="Span40">18</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName17" id="txtMaterialName17" type="text" /><input type="text" style="display:none;" name="hdnMatID17" id="hdnMatID17" />
+                                                                        <select id="txtMaterialName17">
+                                                                            <option value="0">--Select Material--</option>
+                                                                        </select>
+                                                                        <asp:HiddenField ID="hdnMaterialName17" runat="server" />
+                                                                        <%--<input name="txtMaterialName17" id="txtMaterialName17" type="text" />--%>
+                                                                        <input type="text" style="display: none;" name="hdnMatID17" id="hdnMatID17" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtUnit17" name="txtUnit17" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID17" id="hdnUnitID17" />
+                                                                        <input id="txtUnit17" name="txtUnit17" type="text" style="width: 100px;" />
+                                                                        <input type="text" style="display: none;" name="hdnUnitID17" id="hdnUnitID17" />
+                                                                        <asp:HiddenField ID="hdnUnitName17" runat="server" />
                                                                     </td>
                                                                     <td>
                                                                         <input id="txtQty17" name="txtQty17" type="text" style="width: 100px;" />
@@ -550,10 +678,17 @@
                                                                         <span id="Span41">19</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName18" id="txtMaterialName18" type="text" /><input type="text" style="display:none;" name="hdnMatID18" id="hdnMatID18" />
+                                                                        <select id="txtMaterialName18">
+                                                                            <option value="0">--Select Material--</option>
+                                                                        </select>
+                                                                        <asp:HiddenField ID="hdnMaterialName18" runat="server" />
+                                                                        <%--<input name="txtMaterialName18" id="txtMaterialName18" type="text" />--%>
+                                                                        <input type="text" style="display: none;" name="hdnMatID18" id="hdnMatID18" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtUnit18" name="txtUnit18" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID18" id="hdnUnitID18" />
+                                                                        <input id="txtUnit18" name="txtUnit18" type="text" style="width: 100px;" />
+                                                                        <input type="text" style="display: none;" name="hdnUnitID18" id="hdnUnitID18" />
+                                                                        <asp:HiddenField ID="hdnUnitName18" runat="server" />
                                                                     </td>
                                                                     <td>
                                                                         <input id="txtQty18" name="txtQty18" type="text" style="width: 100px;" />
@@ -570,10 +705,17 @@
                                                                         <span id="Span42">20</span>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="txtMaterialName19" id="txtMaterialName19" type="text" /><input type="text" style="display:none;" name="hdnMatID19" id="hdnMatID19" />
+                                                                        <select id="txtMaterialName19">
+                                                                            <option value="0">--Select Material--</option>
+                                                                        </select>
+                                                                        <asp:HiddenField ID="hdnMaterialName19" runat="server" />
+                                                                        <%--<input name="txtMaterialName19" id="txtMaterialName19" type="text" />--%>
+                                                                        <input type="text" style="display: none;" name="hdnMatID19" id="hdnMatID19" />
                                                                     </td>
                                                                     <td>
-                                                                        <input id="txtUnit19" name="txtUnit19" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnUnitID19" id="hdnUnitID19" />
+                                                                        <input id="txtUnit19" name="txtUnit19" type="text" style="width: 100px;" />
+                                                                        <input type="text" style="display: none;" name="hdnUnitID19" id="hdnUnitID19" />
+                                                                        <asp:HiddenField ID="hdnUnitName19" runat="server" />
                                                                     </td>
                                                                     <td>
                                                                         <input id="txtQty19" name="txtQty19" type="text" style="width: 100px;" />
@@ -1291,10 +1433,17 @@
                                                                     <span id="Span1d0">1</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial0" name="txtMaterial0" type="text" /><input type="text" style="display:none;" name="hdnSerMatID0" id="hdnSerMatID0" />
+                                                                    <select id="txtMaterial0">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial0" name="txtMaterial0" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID0" id="hdnSerMatID0" />
+                                                                    <asp:HiddenField ID="hdnMaterial0" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit0" name="txtSerUnit0" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID0" style="display:none;" id="hdnSerUnitID0" />
+                                                                    <input id="txtSerUnit0" name="txtSerUnit0" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID0" style="display: none;" id="hdnSerUnitID0" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName0" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity0" name="txtQuantity0" type="text" style="width: 100px;" />
@@ -1311,10 +1460,17 @@
                                                                     <span id="Span11">2</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial1" name="txtMaterial1" type="text" /><input type="text" style="display:none;" name="hdnSerMatID1" id="hdnSerMatID1" />
+                                                                    <select id="txtMaterial1">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial1" name="txtMaterial1" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID1" id="hdnSerMatID1" />
+                                                                    <asp:HiddenField ID="hdnMaterial1" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit1" name="txtSerUnit1" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID1" style="display:none;" id="hdnSerUnitID1" />
+                                                                    <input id="txtSerUnit1" name="txtSerUnit1" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID1" style="display: none;" id="hdnSerUnitID1" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName1" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity1" name="txtQuantity1" type="text" style="width: 100px;" />
@@ -1331,10 +1487,17 @@
                                                                     <span id="Span12">3</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial2" name="txtMaterial2" type="text" /><input type="text" style="display:none;" name="hdnSerMatID2" id="hdnSerMatID2" />
+                                                                    <select id="txtMaterial2">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial2" name="txtMaterial2" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID2" id="hdnSerMatID2" />
+                                                                    <asp:HiddenField ID="hdnMaterial2" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit2" name="txtSerUnit2" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID2" style="display:none;" id="hdnSerUnitID2" />
+                                                                    <input id="txtSerUnit2" name="txtSerUnit2" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID2" style="display: none;" id="hdnSerUnitID2" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName2" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity2" name="txtQuantity2" type="text" style="width: 100px;" />
@@ -1351,10 +1514,17 @@
                                                                     <span id="Span14">4</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial3" name="txtMaterial3" type="text" /><input type="text" style="display:none;" name="hdnSerMatID3" id="hdnSerMatID3" />
+                                                                    <select id="txtMaterial3">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial3" name="txtMaterial3" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial3" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID3" id="hdnSerMatID3" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit3" name="txtSerUnit3" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID3" style="display:none;" id="hdnSerUnitID3" />
+                                                                    <input id="txtSerUnit3" name="txtSerUnit3" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID3" style="display: none;" id="hdnSerUnitID3" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName3" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity3" name="txtQuantity3" type="text" style="width: 100px;" />
@@ -1371,10 +1541,17 @@
                                                                     <span id="Span15">5</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial4" name="txtMaterial4" type="text" /><input type="text" style="display:none;" name="hdnSerMatID4" id="hdnSerMatID4" />
+                                                                    <select id="txtMaterial4">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial4" name="txtMaterial4" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial4" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID4" id="hdnSerMatID4" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit4" name="txtSerUnit4" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID4" style="display:none;" id="hdnSerUnitID4" />
+                                                                    <input id="txtSerUnit4" name="txtSerUnit4" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID4" style="display: none;" id="hdnSerUnitID4" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName4" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity4" name="txtQuantity4" type="text" style="width: 100px;" />
@@ -1391,10 +1568,17 @@
                                                                     <span id="Span16">6</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial5" name="txtMaterial5" type="text" /><input type="text" style="display:none;" name="hdnSerMatID5" id="hdnSerMatID5" />
+                                                                    <select id="txtMaterial5">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial5" name="txtMaterial5" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID5" id="hdnSerMatID5" />
+                                                                    <asp:HiddenField ID="hdnMaterial5" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit5" name="txtSerUnit5" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID5" style="display:none;" id="hdnSerUnitID5" />
+                                                                    <input id="txtSerUnit5" name="txtSerUnit5" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID5" style="display: none;" id="hdnSerUnitID5" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName5" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity5" name="txtQuantity5" type="text" style="width: 100px;" />
@@ -1411,10 +1595,17 @@
                                                                     <span id="Span17">7</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial6" name="txtMaterial6" type="text" /><input type="text" style="display:none;" name="hdnSerMatID6" id="hdnSerMatID6" />
+                                                                    <select id="txtMaterial6">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial6" name="txtMaterial6" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID6" id="hdnSerMatID6" />
+                                                                    <asp:HiddenField ID="hdnMaterial6" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit6" name="txtSerUnit6" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID6" style="display:none;" id="hdnSerUnitID6" />
+                                                                    <input id="txtSerUnit6" name="txtSerUnit6" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID6" style="display: none;" id="hdnSerUnitID6" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName6" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity6" name="txtQuantity6" type="text" style="width: 100px;" />
@@ -1431,10 +1622,17 @@
                                                                     <span id="Span18">8</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial7" name="txtMaterial7" type="text" /><input type="text" style="display:none;" name="hdnSerMatID7" id="hdnSerMatID7" />
+                                                                    <select id="txtMaterial7">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial7" name="txtMaterial7" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID7" id="hdnSerMatID7" />
+                                                                    <asp:HiddenField ID="hdnMaterial7" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit7" name="txtSerUnit7" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID7" style="display:none;" id="hdnSerUnitID7" />
+                                                                    <input id="txtSerUnit7" name="txtSerUnit7" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID7" style="display: none;" id="hdnSerUnitID7" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName7" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity7" name="txtQuantity7" type="text" style="width: 100px;" />
@@ -1451,10 +1649,17 @@
                                                                     <span id="Span22">9</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial8" name="txtMaterial8" type="text" /><input type="text" style="display:none;" name="hdnSerMatID8" id="hdnSerMatID8" />
+                                                                    <select id="txtMaterial8">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial8" name="txtMaterial8" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID8" id="hdnSerMatID8" />
+                                                                    <asp:HiddenField ID="hdnMaterial8" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit8" name="txtSerUnit8" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID8" style="display:none;" id="hdnSerUnitID8" />
+                                                                    <input id="txtSerUnit8" name="txtSerUnit8" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID8" style="display: none;" id="hdnSerUnitID8" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName8" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity8" name="txtQuantity8" type="text" style="width: 100px;" />
@@ -1471,10 +1676,17 @@
                                                                     <span id="Span23">10</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial9" name="txtMaterial9" type="text" /><input type="text" style="display:none;" name="hdnSerMatID9" id="hdnSerMatID9" />
+                                                                    <select id="txtMaterial9">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial9" name="txtMaterial9" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID9" id="hdnSerMatID9" />
+                                                                    <asp:HiddenField ID="hdnMaterial9" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit9" name="txtSerUnit9" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID9" style="display:none;" id="hdnSerUnitID9" />
+                                                                    <input id="txtSerUnit9" name="txtSerUnit9" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID9" style="display: none;" id="hdnSerUnitID9" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName9" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity9" name="txtQuantity9" type="text" style="width: 100px;" />
@@ -1491,10 +1703,17 @@
                                                                     <span id="Span33">11</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial10" name="txtMaterial10" type="text" /><input type="text" style="display:none;" name="hdnSerMatID10" id="hdnSerMatID10" />
+                                                                    <select id="txtMaterial10">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial10" name="txtMaterial10" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID10" id="hdnSerMatID10" />
+                                                                    <asp:HiddenField ID="hdnMaterial10" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit10" name="txtSerUnit10" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID10" style="display:none;" id="hdnSerUnitID10" />
+                                                                    <input id="txtSerUnit10" name="txtSerUnit10" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID10" style="display: none;" id="hdnSerUnitID10" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName10" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity10" name="txtQuantity10" type="text" style="width: 100px;" />
@@ -1511,10 +1730,17 @@
                                                                     <span id="Span34">12</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial11" name="txtMaterial11" type="text" /><input type="text" style="display:none;" name="hdnSerMatID11" id="hdnSerMatID11" />
+                                                                    <select id="txtMaterial11">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial11" name="txtMaterial11" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID11" id="hdnSerMatID11" />
+                                                                    <asp:HiddenField ID="hdnMaterial11" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit11" name="txtSerUnit11" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID11" style="display:none;" id="hdnSerUnitID11" />
+                                                                    <input id="txtSerUnit11" name="txtSerUnit11" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID11" style="display: none;" id="hdnSerUnitID11" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName11" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity11" name="txtQuantity11" type="text" style="width: 100px;" />
@@ -1531,10 +1757,17 @@
                                                                     <span id="Span35">13</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial12" name="txtMaterial12" type="text" /><input type="text" style="display:none;" name="hdnSerMatID12" id="hdnSerMatID12" />
+                                                                    <select id="txtMaterial12">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial12" name="txtMaterial12" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID12" id="hdnSerMatID12" />
+                                                                    <asp:HiddenField ID="hdnMaterial12" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit12" name="txtSerUnit12" type="text" style="width: 100px;" /><input type="text" name="hdnSerUnitID12" style="display:none;" id="hdnSerUnitID12" />
+                                                                    <input id="txtSerUnit12" name="txtSerUnit12" type="text" style="width: 100px;" />
+                                                                    <input type="text" name="hdnSerUnitID12" style="display: none;" id="hdnSerUnitID12" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName12" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity12" name="txtQuantity12" type="text" style="width: 100px;" />
@@ -1551,10 +1784,17 @@
                                                                     <span id="Span36">14</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial13" name="txtMaterial13" type="text" /><input type="text" style="display:none;" name="hdnSerMatID13" id="hdnSerMatID13" />
+                                                                    <select id="txtMaterial13">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial13" name="txtMaterial13" type="text" />--%>
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID13" id="hdnSerMatID13" />
+                                                                    <asp:HiddenField ID="hdnMaterial13" runat="server" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit13" name="txtSerUnit13" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID13" id="hdnSerUnitID13" />
+                                                                    <input id="txtSerUnit13" name="txtSerUnit13" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID13" id="hdnSerUnitID13" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName13" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity13" name="txtQuantity13" type="text" style="width: 100px;" />
@@ -1571,10 +1811,17 @@
                                                                     <span id="Span37">15</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial14" name="txtMaterial14" type="text" /><input type="text" style="display:none;" name="hdnSerMatID14" id="hdnSerMatID14" />
+                                                                    <select id="txtMaterial14">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial14" name="txtMaterial14" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial14" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID14" id="hdnSerMatID14" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit14" name="txtSerUnit14" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID14" id="hdnSerUnitID14" />
+                                                                    <input id="txtSerUnit14" name="txtSerUnit14" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID14" id="hdnSerUnitID14" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName14" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity14" name="txtQuantity14" type="text" style="width: 100px;" />
@@ -1591,10 +1838,17 @@
                                                                     <span id="Span43">16</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial15" name="txtMaterial15" type="text" /><input type="text" style="display:none;" name="hdnSerMatID15" id="hdnSerMatID15" />
+                                                                    <select id="txtMaterial15">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial15" name="txtMaterial15" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial15" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID15" id="hdnSerMatID15" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit15" name="txtSerUnit15" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID15" id="hdnSerUnitID15" />
+                                                                    <input id="txtSerUnit15" name="txtSerUnit15" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID15" id="hdnSerUnitID15" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName15" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity15" name="txtQuantity15" type="text" style="width: 100px;" />
@@ -1611,10 +1865,17 @@
                                                                     <span id="Span44">17</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial16" name="txtMaterial16" type="text" /><input type="text" style="display:none;" name="hdnSerMatID16" id="hdnSerMatID16" />
+                                                                    <select id="txtMaterial16">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial16" name="txtMaterial16" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial16" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID16" id="hdnSerMatID16" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit16" name="txtSerUnit16" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID16" id="hdnSerUnitID16" />
+                                                                    <input id="txtSerUnit16" name="txtSerUnit16" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID16" id="hdnSerUnitID16" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName16" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity16" name="txtQuantity16" type="text" style="width: 100px;" />
@@ -1631,10 +1892,17 @@
                                                                     <span id="Span45">18</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial17" name="txtMaterial17" type="text" /><input type="text" style="display:none;" name="hdnSerMatID17" id="hdnSerMatID17" />
+                                                                    <select id="txtMaterial17">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial17" name="txtMaterial17" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial17" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID17" id="hdnSerMatID17" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit17" name="txtSerUnit17" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID17" id="hdnSerUnitID17" />
+                                                                    <input id="txtSerUnit17" name="txtSerUnit17" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID17" id="hdnSerUnitID17" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName17" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity17" name="txtQuantity17" type="text" style="width: 100px;" />
@@ -1651,10 +1919,17 @@
                                                                     <span id="Span46">19</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial18" name="txtMaterial18" type="text" /><input type="text" style="display:none;" name="hdnSerMatID18" id="hdnSerMatID18" />
+                                                                    <select id="txtMaterial18">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial18" name="txtMaterial18" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial18" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID18" id="hdnSerMatID18" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit18" name="txtSerUnit18" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID18" id="hdnSerUnitID18" />
+                                                                    <input id="txtSerUnit18" name="txtSerUnit18" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID18" id="hdnSerUnitID18" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName18" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity18" name="txtQuantity18" type="text" style="width: 100px;" />
@@ -1671,10 +1946,17 @@
                                                                     <span id="Span47">20</span>
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtMaterial19" name="txtMaterial19" type="text" /><input type="text" style="display:none;" name="hdnSerMatID19" id="hdnSerMatID19" />
+                                                                    <select id="txtMaterial19">
+                                                                        <option value="0">--Select Material--</option>
+                                                                    </select>
+                                                                    <%--<input id="txtMaterial19" name="txtMaterial19" type="text" />--%>
+                                                                    <asp:HiddenField ID="hdnMaterial19" runat="server" />
+                                                                    <input type="text" style="display: none;" name="hdnSerMatID19" id="hdnSerMatID19" />
                                                                 </td>
                                                                 <td>
-                                                                    <input id="txtSerUnit19" name="txtSerUnit19" type="text" style="width: 100px;" /><input type="text" style="display:none;" name="hdnSerUnitID19" id="hdnSerUnitID19" />
+                                                                    <input id="txtSerUnit19" name="txtSerUnit19" type="text" style="width: 100px;" />
+                                                                    <input type="text" style="display: none;" name="hdnSerUnitID19" id="hdnSerUnitID19" />
+                                                                    <asp:HiddenField ID="hdnSerUnitName19" runat="server" />
                                                                 </td>
                                                                 <td>
                                                                     <input id="txtQuantity19" name="txtQuantity19" type="text" style="width: 100px;" />
