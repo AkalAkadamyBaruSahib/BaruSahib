@@ -102,10 +102,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
+    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID, int PSID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetMaterialList(EstimateID);
+        return repository.GetMaterialList(EstimateID, PSID);
     }
 
     [WebMethod]

@@ -11,7 +11,9 @@ var delItems = 0;
 var cntM = 1;
 var removeMaterialList = "";
 
-
+$(document).ready(function () {
+    $("select").searchable();
+});
 $(document).ready(function () {
     BindEstimate($("input[id*='hdnInchargeID']").val());
     BindCurrentDate();
@@ -128,7 +130,7 @@ function GetMaterialList(selectedValue) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetMaterialList",
-        data: JSON.stringify({ EstimateID: parseInt(selectedValue) }),
+        data: JSON.stringify({ EstimateID: parseInt(selectedValue), PSID: parseInt(3) }),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {

@@ -232,7 +232,7 @@ function GetMaterialList(selectedValue) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/PurchaseControler.asmx/GetMaterialList",
-        data: JSON.stringify({ EstimateID: parseInt(selectedValue) }),
+        data: JSON.stringify({ EstimateID: parseInt(selectedValue),PSID:parseInt(2)}),
         dataType: "json",
         success: function (result, textStatus) {
             if (textStatus == "success") {
