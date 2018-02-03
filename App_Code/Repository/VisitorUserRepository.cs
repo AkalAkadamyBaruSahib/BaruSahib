@@ -21,7 +21,7 @@ public class VisitorUserRepository
         _context = context;
     }
 
-    public void AddNewVisitor(Visitors visitors)
+    public int AddNewVisitor(Visitors visitors)
     {
         Hashtable param = new Hashtable();
         param.Add("Name", visitors.Name);
@@ -65,6 +65,7 @@ public class VisitorUserRepository
             param.Add("CreatedOn", vs.CreatedOn);
             DAL.DalAccessUtility.GetDataInScaler("procSaveVisitorsRoom", param);
         }
+        return visitorID;
     }
 
     public List<VisitorsDTO> GetVisitorInformation(DateTime from, DateTime to)
@@ -356,7 +357,10 @@ public class VisitorUserRepository
             dto.VisitorsAuthorityLetter = visitor.VisitorsAuthorityLetter;
         }
         dto.TimePeriodTo = visitor.TimePeriodTo.Value.ToShortDateString();
-        dto.TimePeriodFrom = visitor.TimePeriodFrom.Value.ToShortDateString();
+        if (visitor.TimePeriodFrom != null)
+        {
+            dto.TimePeriodFrom = visitor.TimePeriodFrom.Value.ToShortDateString();
+        }
         dto.RoomRent = visitor.RoomRent;
         dto.ElectricityBill = visitor.ElectricityBill;
         dto.State = visitor.State;
@@ -638,5 +642,26 @@ public class VisitorUserRepository
         
         _context.Entry(stu).State = EntityState.Modified;
         _context.SaveChanges();
+    }
+
+    public Visitors GetVisitorsInfoByVisitorID(int visitorID)
+    {
+        return _context.Visitors.Where(x => x.ID == visitorID).FirstOrDefault();
+    }
+    public VisitorRoomNumbers GetVisitorsRoomInfoByVisitorID(int visitorID)
+    {
+        return _context.VisitorRoomNumbers.Where(x => x.VisitorID == visitorID).FirstOrDefault();
+    }
+    public RoomNumbers GetRoomInfoByRoomID(int roomID)
+    {
+        return _context.RoomNumbers.Where(x => x.ID == roomID).FirstOrDefault();
+    }
+    public State GetVisitorsStateDetail(int stateID)
+    {
+        return _context.State.Where(x => x.StateId == stateID).FirstOrDefault();
+    }
+    public City GetVisitorCityDetail(int cityID)
+    {
+        return _context.City.Where(x => x.CityId == cityID).FirstOrDefault();
     }
 }

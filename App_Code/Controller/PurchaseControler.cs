@@ -102,10 +102,10 @@ public class PurchaseControler : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
+    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID, int PSID)
     {
         PurchaseRepository repository = new PurchaseRepository(new AkalAcademy.DataContext());
-        return repository.GetMaterialList(EstimateID);
+        return repository.GetMaterialList(EstimateID, PSID);
     }
 
     [WebMethod]
@@ -655,7 +655,7 @@ public class PurchaseControler : System.Web.Services.WebService
 
         try
         {
-            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
+           // Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
         }
         catch { }
         finally

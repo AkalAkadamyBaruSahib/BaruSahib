@@ -42,14 +42,14 @@ public partial class Admin_UserControls_BodyMaterials : System.Web.UI.UserContro
                 }
             }
 
-            if (UserTypeID == (int)TypeEnum.UserType.ACADEMIC || UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION)
-            {
-                divAddNew.Visible = false;
-            }
-            else if (AdminType == (int)TypeEnum.SubAdminName.Electrical || AdminType == (int)TypeEnum.SubAdminName.Barusahib)
-            {
-                divAddNew.Visible = false;
-            }
+            //if (UserTypeID == (int)TypeEnum.UserType.ACADEMIC || UserTypeID == (int)TypeEnum.UserType.CONSTRUCTION)
+            //{
+            //    divAddNew.Visible = false;
+            //}
+            //else if (AdminType == (int)TypeEnum.SubAdminName.Electrical || AdminType == (int)TypeEnum.SubAdminName.Barusahib)
+            //{
+            //    divAddNew.Visible = false;
+            //}
             BindMatType();
             BindUnit();
             if (Request.QueryString["MatId"] != null)

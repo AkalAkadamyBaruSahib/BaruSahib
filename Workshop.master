@@ -145,7 +145,7 @@
                             </li>
                             <li id="liMaterial" runat="server"><a class="dropmenu" href="#"><i class="icon-star"></i><span class="hidden-tablet"><b>MATERIALS</b></span></a>
                                 <ul>
-                                    <li id="liWorkshop" runat="server" visible="false"><a class="ajax-link" href="AkalWorkshop_CreateMaterial.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
+                                    <li id="liWorkshop" runat="server"><a class="ajax-link" href="AkalWorkshop_CreateMaterial.aspx"><i></i><span class="hidden-tablet">Create Material</span></a></li>
                                     <li><a class="ajax-link" href="WorkshopMaterial.aspx"><i></i><span class="hidden-tablet">In Store Material</span></a></li>
                                     <li id="liEstimateWorkAllot" runat="server"><a class="ajax-link" href="Workshop_WorkAllot.aspx"><i></i><span class="hidden-tablet">Allot Work</span></a></li>
                                 </ul>

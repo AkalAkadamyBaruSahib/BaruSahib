@@ -67,7 +67,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         string id = Request.QueryString["EstId"].ToString();
         DataSet dsEstimate1Details = new DataSet();
         //dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetails  '" + ID + "'");
-        dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.SanctionDate,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved,Estimate.FilePath,Estimate.FileNme  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
+        dsEstimate1Details = DAL.DalAccessUtility.GetDataInDataSet("SELECT Academy.AcaName, Academy.AcaID,Zone.ZoneID, Zone.ZoneName, TypeOfWork.TypeWorkName, Estimate.EstId, Estimate.SubEstimate,CONVERT(NVARCHAR(20), Estimate.SanctionDate,107) AS SanctionDate, Estimate.Active, Estimate.CreatedBy, Estimate.CreatedOn, Estimate.EstmateCost, Estimate.ModifyOn, Estimate.ModifyBy, Academy.AcId, Zone.ZoId, WorkAllot.WorkAllotName,Estimate.IsApproved,Estimate.FilePath,Estimate.FileNme,Estimate.StartDate,Estimate.EndDate  FROM Estimate INNER JOIN  Academy ON Estimate.AcaId = Academy.AcaId INNER JOIN Zone ON Estimate.ZoneId = Zone.ZoneId INNER JOIN  TypeOfWork ON Estimate.TypeWorkId = TypeOfWork.TypeWorkId INNER JOIN  WorkAllot ON Estimate.WAId = WorkAllot.WAId where Estimate.EstId='" + id + "'");
         lblEstimateNo.Text = dsEstimate1Details.Tables[0].Rows[0]["EstId"].ToString();
         lblZoneCode.Text = dsEstimate1Details.Tables[0].Rows[0]["ZoneName"].ToString();
         lblAcaCode.Text = dsEstimate1Details.Tables[0].Rows[0]["AcaName"].ToString();
@@ -77,6 +77,8 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
         lblEstimateCost.Text = dsEstimate1Details.Tables[0].Rows[0]["EstmateCost"].ToString();
         lblWorkName.Text = dsEstimate1Details.Tables[0].Rows[0]["WorkAllotName"].ToString();
         hdnIsApproved.Value = dsEstimate1Details.Tables[0].Rows[0]["IsApproved"].ToString();
+        lblStartDate.Text = dsEstimate1Details.Tables[0].Rows[0]["StartDate"].ToString();
+        lblEndDate.Text = dsEstimate1Details.Tables[0].Rows[0]["EndDate"].ToString();
         signedcopyView.Text = GetFileName(dsEstimate1Details.Tables[0].Rows[0]["FilePath"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["FileNme"].ToString());
         BindWork(dsEstimate1Details.Tables[0].Rows[0]["AcaID"].ToString(), dsEstimate1Details.Tables[0].Rows[0]["ZoneID"].ToString());
         ddlWorkType.ClearSelection();
@@ -213,7 +215,7 @@ public partial class Admin_UserControls_BodyEstimateEdit : System.Web.UI.UserCon
             remark = "<span style='color:green'>" + txtRemark.Text + "</span>";
         }
 
-        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','" + txtSubEstimate.Text + "','" + ddlTypeOfWork.SelectedValue + "',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected);
+        DAL.DalAccessUtility.ExecuteNonQuery("exec USP_NewEstimate '0','0','" + txtSubEstimate.Text + "','" + ddlTypeOfWork.SelectedValue + "',''," + empid + ",'5','" + Request.QueryString["EstId"].ToString() + "','','0.0','" + ddlWorkType.SelectedValue + "','Singed Copy','" + fileNameToSave + "'," + IsApproved + ",'" + txtRemark.Text + "'," + !IsApproved + "," + IsItemRejected + ",'" + lblStartDate.Text + "','" + lblEndDate.Text + "'");
 
         if (hdnIsApproved.Value.ToLower() == "false")
         {

@@ -68,4 +68,8 @@ public class Estimate
     public DateTime? ReceivedMaterialDate { get; set; }
 
     public int? ReceivedBy { get; set; }
+
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
 }

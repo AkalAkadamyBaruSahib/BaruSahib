@@ -123,10 +123,11 @@ public class TransportUserRepository
 
     }
 
-    public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int VehicleEmployeeID)
+    public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int EmployeeTypeID, int VehicleID)
     {
 
-        List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true).Include(a => a.Vehicle)
+        List<VehicleEmployee> vehicleEmployee = _context.VehicleEmployee.Where(v => v.IsActive == true && v.EmployeeType == EmployeeTypeID && v.VehicleID == VehicleID)
+            .Include(a => a.Vehicle)
          .Include(e => e.TransportEmployeeRelation).Distinct().OrderByDescending(x => x.CreatedOn).ToList();
 
 
@@ -710,5 +711,13 @@ public class TransportUserRepository
         _context.Entry(matDetail).State = EntityState.Added;
         _context.SaveChanges();
         return matDetail.ID;
+    }
+
+    public int SaveDailyproformaDetail(Android_TransportDailyProformaDetail proforma)
+    {
+        _context.Entry(proforma).State = EntityState.Added;
+        _context.SaveChanges();
+
+        return proforma.TProformaID;
     }
 }

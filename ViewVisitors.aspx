@@ -77,5 +77,7 @@
             </div>
         </div>
     </div>
+
+    <div id="pnlHtml" runat="server"></div>
 </asp:Content>
 

@@ -34,6 +34,95 @@
                             </div>
                         </td>
                     </tr>
+                    <tr id="tdDrverInfo" runat="server" visible="false">
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Driver Name:</b>
+                                    <asp:Label ID="lblDriverName" runat="server"></asp:Label><br />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Driver Mobile Number:</b><asp:Label ID="lblDriverMobile" runat="server"></asp:Label><br />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>DL Number:</b> <asp:Label ID="lblDLNumber" runat="server"></asp:Label></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="tdDLtype" runat="server" visible="false">
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>DL Type:</b><asp:Label ID="lblDLType" runat="server" ></asp:Label><br />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Driving From Date:</b><asp:Label ID="lblDrivingDate" runat="server" ></asp:Label><br />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>DL Copy:</b> <asp:Label ID="lblDlCopy" runat="server"></asp:Label></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="tdConductorInfo" runat="server" visible="false">
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Conductor Name:</b> <asp:Label ID="lblConductorName" runat="server"></asp:Label></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Conductor Mobile Number:</b>
+                                    <asp:Label ID="lblCondutorMobile" runat="server"></asp:Label><br />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Experience:</b>
+                                    <asp:Label ID="lblExperince" runat="server"></asp:Label><br />
+                                </div>
+                            </div>
+                        </td>
+                       
+                    </tr>
+                    <tr id="trconductordate" runat="server" visible="false">
+                         <td>
+                            <div class="control-group">
+                                <label class="control-label" for="typeahead"></label>
+                                <div class="controls">
+                                    <b>Conductor From Date:</b><asp:Label ID="lblConductorDate" runat="server"></asp:Label>
+                                   </div>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="3"  align="left">
                             <asp:GridView ID="gvDocuments" runat="server" ShowFooter="True" AutoGenerateColumns="False"
@@ -65,8 +154,11 @@
                                         <ItemTemplate>
                                             <asp:Button ID="btn_Approved" Visible="false"  Text="Delete"  CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-primary" OnClick="btn_Approved_Click" />
                                             <asp:Button ID="btnApproved" Visible="false" Enabled="false" width="100px"  Text="Approved" CommandArgument='<%#Eval("ID")%>' runat="server" CssClass="btn btn-success" OnClick="btnApproved_Click"/>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
+                                            <asp:Button ID="btnExpire" Visible="false" Enabled="false" width="100px"  Text="Expire" runat="server" CssClass="btn btn-primary" />
+                        
+                                                </ItemTemplate>
+                              
+                                              </asp:TemplateField>
                                 </Columns>
                                 <FooterStyle BackColor="#3f9fd9" Font-Bold="True" ForeColor="White" />
                                 <RowStyle BackColor="#EFF3FB" />

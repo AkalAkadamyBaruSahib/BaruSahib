@@ -80,11 +80,12 @@
                         <tr>
                             <td>
                                 <div class="control-group">
-                                    <label id="Label1"  class="control-label" for="typeahead">Load Material From Bucket</label>
+                                    <label id="Label1" class="control-label" for="typeahead">Load Material From Bucket</label>
                                     <div class="controls">
-                                   <select id="ddlLoadBucket" onchange="ddlLoadBucket_onchange(this);">
-                                       <option value="0">--Select Bucket--</option>
-                                   </select>                                    </div>
+                                        <select id="ddlLoadBucket" onchange="ddlLoadBucket_onchange(this);">
+                                            <option value="0">--Select Bucket--</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -94,7 +95,7 @@
                                     <label id="lblzone" class="control-label" for="typeahead">Zone</label>
                                     <div class="controls">
                                         <asp:DropDownList ID="ddlZone" runat="server">
-                                             <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
+                                            <asp:ListItem Value="0">--Select Zone--</asp:ListItem>
                                         </asp:DropDownList>
                                         <asp:RequiredFieldValidator runat="server" InitialValue="0" Display="None" ValidationGroup="visitor" ID="ddlZone_RequiredFieldValidator"
                                             ControlToValidate="ddlZone" ErrorMessage="Please Select Any Zone" ForeColor="#ff0000"></asp:RequiredFieldValidator><br />
@@ -103,8 +104,8 @@
                             </td>
                             <td width="50%">
                                 <div class="control-group">
-                                    <label id="lblAcademy"  class="control-label" for="typeahead">Academy</label>
-                                     <div class="controls">
+                                    <label id="lblAcademy" class="control-label" for="typeahead">Academy</label>
+                                    <div class="controls">
                                         <asp:DropDownList ID="ddlAcademy" runat="server">
                                             <asp:ListItem Value="0">--Select Academy--</asp:ListItem>
                                         </asp:DropDownList>
@@ -215,6 +216,33 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td width="50%">
+                                <div class="control-group">
+                                    <label class="control-label" for="typeahead"></label>
+                                    <div class="controls">
+                                        Start Date<br />
+                                        <asp:TextBox runat="server" ID="txtStarDate" CssClass="input-xlarge datepicker" Width="210px"></asp:TextBox>
+                                        <asp:RequiredFieldValidator runat="server" ValidationGroup="visitor" Display="None" ID="RequiredFieldValidator1"
+                                            ControlToValidate="txtStarDate" ForeColor="#ff0000" ErrorMessage="Please Enter The Start Date." />
+                                        <asp:RegularExpressionValidator ID="regPurchaseDate" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtStarDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td width="50%">
+                                <div class="control-group">
+                                    <label class="control-label" for="typeahead"></label>
+                                    <div class="controls">
+                                        End Date<br />
+                                        <asp:TextBox runat="server" ID="txtEndDate" CssClass="input-xlarge datepicker" Width="210px"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="txtEndDate" runat="server" ValidationGroup="visitor" Display="None" ErrorMessage="Please Enter The End Date."></asp:RequiredFieldValidator>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtEndDate" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
 
                     </table>
                 </div>
@@ -239,7 +267,7 @@
                                     <span id="spn0">1</span>
                                 </td>
                                 <td>
-                                    <select id="ddlMaterialType0"  style="width: 150px;">
+                                    <select id="ddlMaterialType0" style="width: 150px;">
                                         <option value="0">Select Material Type</option>
                                     </select>
                                 </td>
@@ -248,7 +276,7 @@
                                     <br />
                                     <br />
                                     <div id="menu-container0" style="position: absolute; width: 500px;"></div>
-                                </td> 
+                                </td>
                                 <td>
                                     <label id="lblUnit0"></label>
                                 </td>
@@ -256,7 +284,7 @@
                                     <input id="txtQty0" type="text" style="width: 80px;" />
                                 </td>
                                 <td>
-                                    <select id="ddlSourceType0"  style="width: 150px;">
+                                    <select id="ddlSourceType0" style="width: 150px;">
                                         <option value="0">Select Source Type</option>
                                     </select>
                                 </td>

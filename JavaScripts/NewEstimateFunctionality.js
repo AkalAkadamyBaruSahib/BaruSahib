@@ -33,7 +33,7 @@ $(document).ready(function () {
     $("#tdWorkAllot").hide();
 
     $("select[id*='ddlZone']").change(function () {
-        if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 37 || $("input[id*='hdnIsAdmin']").val() == 35) {
+        if ($("input[id*='hdnIsAdmin']").val() == 14 || $("input[id*='hdnIsAdmin']").val() == 17 || $("input[id*='hdnIsAdmin']").val() == 37 || $("input[id*='hdnIsAdmin']").val() == 35 || $("input[id*='hdnIsAdmin']").val() == 10) {
             BindAcademybyZoneIDByEmpID($(this).val(), $("input[id*='hdnInchargeID']").val());
         }
         else {
@@ -331,6 +331,8 @@ function SaveEstimate() {
     Estimate.ModuleID = $("input[id*='hdnModule']").val();
     Estimate.IsReceived = false;
     Estimate.ReceivedBy = 0;
+    Estimate.StartDate = $("input[id*='txtStarDate']").val();
+    Estimate.EndDate = $("input[id*='txtEndDate']").val();
     Estimate.EstimateAndMaterialOthersRelations = new Object();
 
     var estimateAndMaterialOthersRelations = new Array();
@@ -429,6 +431,9 @@ function SignedCopyFileUpload(estid) {
             }
             else if ($("input[id*='hdnIsAdmin']").val() == 2 || $("input[id*='hdnIsAdmin']").val() == 34) {
                 window.location.replace("Emp_ParticularEstimateView.aspx?EstId=" + estid);
+            }
+            else if ($("input[id*='hdnIsAdmin']").val() == 10) {
+                window.location.replace("AcademicUser_ParticularEstimateView.aspx?EstId=" + estid);
             }
             else {
                 window.location.replace("Transport_ParticularEstimateView.aspx?EstId=" + estid);

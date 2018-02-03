@@ -107,7 +107,7 @@ public partial class PurchaseMaster : System.Web.UI.MasterPage
         string cc = "itmohali@barusahib.org" ;
         try
         {
-            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "All Pending Estimates.");
+          //  Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "All Pending Estimates.");
         }
         catch { }
         finally

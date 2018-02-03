@@ -2,8 +2,7 @@
 var cntR = 2;
 
 
-$(document).ready(function () {
-    $("select").searchable();
+$(document).ready(function () {    $("select").searchable();
 });
 
 $(document).ready(function () {
@@ -34,7 +33,7 @@ $(document).ready(function () {
     $("input[id*='btnEdit'] ").hide();
 
 
-    LoadTransportEmployeeInfo();
+    //LoadTransportEmployeeInfo();
 
     $("input[id$='btnSaveChanges']").click(function () {
         var txt;
@@ -131,7 +130,8 @@ $(document).ready(function () {
                         DLScanCopyUpload();
                         ApplicationFormUpload();
                         QualificationFileUpload();
-                        LoadTransportEmployeeInfo();
+                        //LoadTransportEmployeeInfo();
+                        window.location.replace("Transport_ViewDriverConductor.aspx");
                         alert("Record has been Saved successfully");
                         $("#btnSave").val("Save");
                         $("#btnSave").prop('disabled', false);
@@ -259,83 +259,7 @@ $(document).ready(function () {
         });
     }
 
-    function LoadTransportEmployeeInfo() {
-
-        /*create/distroy grid for the new search*/
-        if (typeof grdTransportEmployeeDiscription != 'undefined') {
-            grdTransportEmployeeDiscription.fnClearTable();
-        }
-
-        var rowCount = $('#grid').find("#rowTemplate").length;
-        for (var i = 0; i < rowCount; i++) {
-            $("#rowTemplate").remove();
-        }
-        var rowTemplate = '<tr id="rowTemplate"><td id="Name">abc</td><td id="DLValidity">abc</td><td id="CntactNoInCaseOfEmegeny">abc</td><td id="Qualification">cc</td></tr>';
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "Services/TransportController.asmx/GeTransportEmployeeInformation",
-            data: JSON.stringify({ VehicleEmployeeID: 1 }),
-            dataType: "json",
-            success: function (result, textStatus) {
-                if (textStatus == "success") {
-                    var adminLoanList = result.d;
-                    if (adminLoanList.length > 0) {
-
-                        $("#tbody").append(rowTemplate);
-                    }
-                    var EmployeeType = "";
-                    for (var i = 0; i < adminLoanList.length; i++) {
-                        var className = "info";
-                        if (i % 2 == 0) {
-                            className = "warning";
-                        }
-                        if (adminLoanList[i].EmployeeType == 1) {
-                            EmployeeType = "Driver";
-                        }
-                        else if (adminLoanList[i].EmployeeType == 2) {
-                            EmployeeType = "Conductor";
-                        }
-
-                        var $newRow = $("#rowTemplate").clone();
-                        $newRow.find("#Name").html("<table><tr><td><b>Name :</b> " + adminLoanList[i].Name + "(" + EmployeeType + ")</td></tr><tr><td><b>Vehicle Number :</b> " + adminLoanList[i].VehicleNumber + "</td></tr><tr><td><b>Contact No:</b>" + adminLoanList[i].MobileNumber + "</td></tr><tr><td><b>Date Of Joining:</b>" + adminLoanList[i].DateOfJoining + "</td></tr></table>");
-                        var DLScanLink = OpenDLCopy(adminLoanList[i].DLScanCopy);
-                        $newRow.find("#DLValidity").html("<table><tr><td><b>DL Validity :</b> " + adminLoanList[i].DLValidity + "</td></tr><tr><td><b>DL Number:</b>" + adminLoanList[i].DLNumber + "</td></tr><tr><td>" + DLScanLink + "</td></tr></table>");
-                        $newRow.find("#CntactNoInCaseOfEmegeny").html(adminLoanList[i].ContactNoInCaseOfEmergency);
-                        var link = OpenImages(adminLoanList[i].Qualification);
-                        var Applicationlink = OpenApplicationForm(adminLoanList[i].ApplicationForm);
-                        $newRow.find("#Qualification").html("<table><tr><td><a href='#' onclick='GetTranportEmployeeInfoToUpdate(" + adminLoanList[i].ID + ")'>Edit</a></td></tr><tr><td><a href='#' onclick='TranportEmployeeInfoToDelete(" + adminLoanList[i].ID + ")'>Delete</a></td></tr><tr><td>" + link + "</td></tr><tr><td>" + Applicationlink + "</td></tr></table>");
-                        $newRow.addClass(className);
-                        $newRow.show();
-
-                        if (i == 0) {
-                            $("#rowTemplate").replaceWith($newRow);
-                        }
-                        else {
-                            $newRow.appendTo("#grid > tbody");
-                        }
-                        $("#grid").removeAttr("style");
-
-                    }
-                    grdTransportEmployeeDiscription = $('#grid').DataTable(
-                    {
-                        "bPaginate": true,
-                        "iDisplayLength": 20,
-                        "sPaginationType": "full_numbers",
-                        "bAutoWidth": false,
-                        "bLengthChange": false,
-                        "bDestroy": true
-
-                    });
-                }
-            },
-            error: function (result, textStatus) {
-                alert(result.responseText);
-            }
-        });
-    }
-
+ 
     function OpenImages(quals) {
         var qualificationPics = quals.split(',');
         var link = "";
@@ -685,7 +609,7 @@ $(document).ready(function () {
                     DLScanCopyUpload();
                     ApplicationFormUpload();
                     QualificationFileUpload();
-                    LoadTransportEmployeeInfo();
+                    window.location.replace("Transport_ViewDriverConductor.aspx");
                     alert("Record has been Upadte successfully");
                     ClearTextBox();
                 } 
@@ -696,26 +620,7 @@ $(document).ready(function () {
         });
     }
 
-    function TranportEmployeeInfoToDelete(vehicleEmployeeID) {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "Services/TransportController.asmx/TranportEmployeeInfoToDelete",
-            data: JSON.stringify({ VehicleEmployeeID: vehicleEmployeeID }),
-            dataType: "json",
-            success: function (result, textStatus) {
-                if (textStatus == "success") {
-                    LoadTransportEmployeeInfo();
-                    alert("Record has been Delete successfully");
-                }
-            },
-            error: function (result, textStatus) {
-                alert(result.responseText);
-            }
-        });
-    }
-
-    function ClearTextBox() {
+   function ClearTextBox() {
 
         $("input[id*='txtName']").val("");
         $("input[id*='txtMobileNo']").val("");

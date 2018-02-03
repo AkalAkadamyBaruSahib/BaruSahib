@@ -27,9 +27,9 @@ public partial class _Default : System.Web.UI.Page
         {
             UsersRepository repo = new UsersRepository(new AkalAcademy.DataContext());
             Incharge inchrge = new Incharge();
-           
+
             inchrge = repo.GetLoginUserDetail(txtUserName.Text.Trim(), txtPwd.Text.Trim());
-           
+
             // DataSet dsExit = DAL.DalAccessUtility.GetDataInDataSet("select EmailId,Pwd from Login where Active=1 AND EmailId='" + txtUserName.Text + "'");
             if (inchrge != null && inchrge.InchargeId > 0)
             {
@@ -43,7 +43,7 @@ public partial class _Default : System.Web.UI.Page
                 Session["EmailId"] = inchrge.LoginId;
                 Session["InName"] = inchrge.InName;
                 Session["ModuleID"] = inchrge.ModuleID;
-                
+
 
                 if (subadmin != null)
                 {
@@ -82,7 +82,7 @@ public partial class _Default : System.Web.UI.Page
                 }
                 else if (inchrge.UserTypeId == (int)TypeEnum.UserType.WORKSHOPADMIN || inchrge.UserTypeId == (int)TypeEnum.UserType.WORKSHOPEMPLOYEE)
                 {
-                   Response.Redirect("Workshop_Home.aspx");
+                    Response.Redirect("Workshop_Home.aspx");
                 }
                 else if (inchrge.UserTypeId == (int)TypeEnum.UserType.PURCHASE || inchrge.UserTypeId == (int)TypeEnum.UserType.PURCHASECOMMITTEE || inchrge.UserTypeId == (int)TypeEnum.UserType.PURCHASEEMPLOYEE)
                 {

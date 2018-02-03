@@ -37,10 +37,10 @@ public class TransportController : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int VehicleEmployeeID)
+    public List<VehicleEmployeeDTO> GeTransportEmployeeInformation(int EmployeeTypeID, int VehicleID)
     {
         TransportUserRepository repository = new TransportUserRepository(new AkalAcademy.DataContext());
-        return repository.GeTransportEmployeeInformation(VehicleEmployeeID);
+        return repository.GeTransportEmployeeInformation(EmployeeTypeID, VehicleID);
 
     }
 

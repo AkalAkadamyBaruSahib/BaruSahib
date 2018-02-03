@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
@@ -43,11 +44,13 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 if (visitorType == "1")
                 {
                     BindNewVisitor();
+                    btnSave.Text = "Save & Print";
 
                 }
                 else
                 {
                     BindPermanentEmp();
+                    btnSave.Text = "Save";
                 }
 
                 hdnVisitorType.Value = visitorType;
@@ -60,6 +63,22 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                 int visitor = int.Parse(Request.QueryString["VisitorID"]);
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "LoadVisitorByVisitorID(" + visitor + ");", true);
             }
+        }
+    }
+
+    public class CookieAwareWebClient : WebClient
+    {
+        public CookieAwareWebClient()
+        {
+            CookieContainer = new CookieContainer();
+        }
+        public CookieContainer CookieContainer { get; private set; }
+
+        protected override WebRequest GetWebRequest(Uri address)
+        {
+            var request = (HttpWebRequest)base.GetWebRequest(address);
+            request.CookieContainer = CookieContainer;
+            return request;
         }
     }
 
@@ -146,7 +165,6 @@ public partial class Visitor_AddNew : System.Web.UI.Page
         }
         else
         {
-            string fileNameToSave = string.Empty;
             Visitors visitor = new Visitors();
             if (hdnVisitorType.Value == "1")
             {
@@ -282,7 +300,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
 
                 if (txtAdmissionNo.Text != "")
                 {
-                    DataTable dtAdminsDetail = DAL.DalAccessUtility.GetDataInDataSet("select CountryID,StateID,CityID from StudentDetail where  AdmissionNumber = " + txtAdmissionNo.Text).Tables[0];
+                    DataTable dtAdminsDetail = DAL.DalAccessUtility.GetDataInDataSet("SELECT Stu.CountryID,Stu.StateID,Stu.CityID,C.CountryName,S.StateName,CI.CityName FROM StudentDetail Stu INNER JOIN Country C ON Stu.CountryID = C.CountryId INNER JOIN State S ON S.StateId =Stu.StateID INNER JOIN City CI ON CI.CityId =Stu.CityID WHERE AdmissionNumber = " + txtAdmissionNo.Text).Tables[0];
                     if (dtAdminsDetail != null && dtAdminsDetail.Rows.Count > 0)
                     {
                         if (dtAdminsDetail.Rows[0]["StateID"].ToString() != "")
@@ -328,7 +346,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                     {
                         visitor.City = int.Parse(drpCity.SelectedValue);
                     }
-                
+
                 }
                 visitor.IsActive = true;
                 visitor.AdmissionNumber = txtAdmissionNo.Text;
@@ -355,6 +373,7 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                     string visitorfilepath = Server.MapPath("~/VisitorProof/" + txtPrmntName.Text + "_" + txtPrmntContactNo.Text + FileEx);
                     fileUploadPrmntProof.PostedFile.SaveAs(visitorfilepath);
                     visitor.IdentificationPath = "VisitorProof/" + txtPrmntName.Text + "_" + txtPrmntContactNo.Text + FileEx;
+
                 }
                 else
                 {
@@ -401,18 +420,18 @@ public partial class Visitor_AddNew : System.Web.UI.Page
                     visitor.ElectricityBill = 0;
                 }
 
-                if (string.IsNullOrEmpty(txtprmntFrom.Text))
-                {
-                    visitor.TimePeriodFrom = Utility.GetLocalDateTime(System.DateTime.UtcNow);
-                }
-                else
-                {
-                    var date = Convert.ToDateTime(txtprmntFrom.Text).ToShortDateString();
-                    var time = DateTime.Now.TimeOfDay.ToString();
+                //if (string.IsNullOrEmpty(txtprmntFrom.Text))
+                //{
+                //    visitor.TimePeriodFrom = Utility.GetLocalDateTime(System.DateTime.UtcNow);
+                //}
+                //else
+                //{
+                //    var date = Convert.ToDateTime(txtprmntFrom.Text).ToShortDateString();
+                //    var time = DateTime.Now.TimeOfDay.ToString();
 
-                    DateTime datetime = Convert.ToDateTime(date + " " + time);
-                    visitor.TimePeriodFrom = Utility.GetLocalDateTime(datetime.ToUniversalTime());
-                }
+                //    DateTime datetime = Convert.ToDateTime(date + " " + time);
+                //    visitor.TimePeriodFrom = Utility.GetLocalDateTime(datetime.ToUniversalTime());
+                //}
                 if (string.IsNullOrEmpty(txtprmntTo.Text))
                 {
                     visitor.TimePeriodTo = Utility.GetLocalDateTime(System.DateTime.UtcNow);
@@ -464,15 +483,16 @@ public partial class Visitor_AddNew : System.Web.UI.Page
             if (visitor.ID == 0)
             {
                 repo.AddNewVisitor(visitor);
+                DataTable dtAdminsDetail = DAL.DalAccessUtility.GetDataInDataSet("SELECT Max(ID) as VisitorID From Visitors").Tables[0];
+
+                Response.Redirect("ViewVisitors.aspx?VisitorPrintID=" + dtAdminsDetail.Rows[0]["VisitorID"].ToString());
             }
             else
             {
-
-                repo.UpdateVisitor(visitor,Convert.ToInt32(hdnUserType.Value));
+                repo.UpdateVisitor(visitor, Convert.ToInt32(hdnUserType.Value));
             }
             ScriptManager.RegisterClientScriptBlock(this.Page, this.GetType(), "Startup", "<script>alert('Record Saved Successfully');</script>", false);
             Response.Redirect("ViewVisitors.aspx");
-            Clear();
         }
     }
 

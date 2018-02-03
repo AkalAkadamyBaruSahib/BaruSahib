@@ -40,9 +40,21 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "SummaryReport(" + ddlALLZone.SelectedItem + ").xls"));
         }
-        else
+        else if (ddlReport.SelectedValue == "4")
         {
             Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "FutureExpireReport(" + ddlFutureZone.SelectedItem + ").xls"));
+        }
+        else if (ddlReport.SelectedValue == "5")
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "NonApprovedVehicleReport(" + ddlZone.SelectedItem + ").xls"));
+        }
+        else if (ddlReport.SelectedValue == "6")
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "InsuranceRenewalReport.xls"));
+        }
+        else
+        {
+            Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "NonApprovedVehicleDocumentReport.xls"));
         }
 
         Response.ContentType = "application/ms-excel";
@@ -782,9 +794,23 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
         {
             dt = GetTransportSummaryReport();
         }
-        else
+        else if (ddlReport.SelectedValue == "4")
         {
             dt = GetTransportFutureExpireReport();
+        }
+        else if (ddlReport.SelectedValue == "5")
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetNonApprovedVehicleInfo '" + ddlZone.SelectedValue + "'").Tables[0];
+        }
+        else if (ddlReport.SelectedValue == "6")
+        {
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetExpireInsuranceRenewalInfo '" + txtfirstDate.Text + "','" + txtlastDate.Text + "'").Tables[0];
+        }
+        else
+        {
+            DateTime firstdate = DateTime.UtcNow.AddDays(-1);
+            DateTime date = DateTime.UtcNow.AddDays(1);
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec GetNonApprovedVehicleDocsInfo '" + firstdate + "','" + date + "'").Tables[0];
         }
         return dt;
     }
@@ -956,4 +982,6 @@ public partial class Transport_ReporteDetails : System.Web.UI.Page
 
         return dt;
     }
+
+
 }

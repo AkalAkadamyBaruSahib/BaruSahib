@@ -11,7 +11,14 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Registration", 0);
+            var size = parseFloat($("input[id*='fiupload_0']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Registration", 0);
+            }
         }
     });
 
@@ -24,7 +31,14 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Passing", 1);
+            var size = parseFloat($("input[id*='fiupload_1']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Passing", 1);
+            }
         }
     });
 
@@ -37,7 +51,14 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Insurance", 2);
+            var size = parseFloat($("input[id*='fiupload_2']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Insurance", 2);
+            }
         }
     });
 
@@ -50,7 +71,14 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Tax", 3);
+            var size = parseFloat($("input[id*='fiupload_3']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Tax", 3);
+            }
         }
     });
 
@@ -63,7 +91,14 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Permit", 4);
+            var size = parseFloat($("input[id*='fiupload_4']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Permit", 4);
+            }
         }
     });
 
@@ -76,7 +111,14 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Pollution", 5);
+            var size = parseFloat($("input[id*='fiupload_5']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Pollution", 5);
+            }
         }
     });
 
@@ -89,13 +131,27 @@ $(document).ready(function () {
         }
         else {
             var $fileUpload = $(this)[0];
-            FileUpload($fileUpload, "Written Contract", 6);
+            var size = parseFloat($("input[id*='fiupload_6']")[0].files[0].size);
+            if (size > 1048576) {
+                alert("Maximum size allowed Less than 1 MB");
+                return false;
+            }
+            else {
+                FileUpload($fileUpload, "Written Contract", 6);
+            }
         }
     });
 
     $("input[id*='fiupload_7']").change(function () {
-            var $fileUpload = $(this)[0];
+        var $fileUpload = $(this)[0];
+        var size = parseFloat($("input[id*='fiupload_7']")[0].files[0].size);
+        if (size > 1048576) {
+            alert("Maximum size allowed Less than 1 MB");
+            return false;
+        }
+        else {
             FileUpload($fileUpload, "Route Map", 7);
+        }
     });
 
 });

@@ -6,8 +6,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style type="text/css">
-        .hidden
-        {
+        .hidden {
             display: none;
         }
     </style>
@@ -61,6 +60,29 @@
                                     <asp:ListItem Value="0">Select Bill Type</asp:ListItem>
                                     <asp:ListItem Value="1">Sanctioned</asp:ListItem>
                                     <asp:ListItem Value="2">NonSanctioned</asp:ListItem>
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr id="trMonthCalender" runat="server" visible="false">
+                            <td>Month:
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="drpMonthCalnder" AutoPostBack="true" runat="server" OnSelectedIndexChanged="drpMonthCalnder_SelectedIndexChanged">
+                                    <asp:ListItem Value="0">--Select Month--</asp:ListItem>
+                                    <asp:ListItem Value="11">November</asp:ListItem>
+                                    <asp:ListItem Value="12">December</asp:ListItem>
+                                    <asp:ListItem Value="1">January</asp:ListItem>
+                                    <asp:ListItem Value="2">Febuary</asp:ListItem>
+                                    <%-- <asp:ListItem Value="3">March</asp:ListItem>
+                                    <asp:ListItem Value="4">April</asp:ListItem>
+                                    <asp:ListItem Value="5">May</asp:ListItem>
+                                    <asp:ListItem Value="6">June</asp:ListItem>
+                                    <asp:ListItem Value="7">July</asp:ListItem>
+                                    <asp:ListItem Value="8">August</asp:ListItem>
+                                    <asp:ListItem Value="9">September</asp:ListItem>
+                                    <asp:ListItem Value="10">October</asp:ListItem>
+                                    <asp:ListItem Value="11">November</asp:ListItem>
+                                    <asp:ListItem Value="12">December</asp:ListItem>--%>
                                 </asp:DropDownList>
                             </td>
                         </tr>
@@ -137,7 +159,7 @@
                                                 <div id="afileVendorBillPath" style="display: none;"></div>
                                                 <a href="#" runat="server" id="afilePath" visible="false" style="font-size: 13px;" target="_blank">Bill Copy</a>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="fileAgencyBill" ErrorMessage="Please Upload the Agency Bill." ForeColor="Red" ValidationGroup="civilBill"></asp:RequiredFieldValidator>
-                                                <div id="dvMsg" style="color: Red;display: none;">
+                                                <div id="dvMsg" style="color: Red; display: none;">
                                                     Maximum size allowed Less than 2 MB                                   
                                                 </div>
 
@@ -335,6 +357,7 @@
                                 </div>
                             </td>
                         </tr>
+
                     </table>
                 </div>
             </div>

@@ -19,7 +19,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     private bool IsItemRejected = false;
     public string InchargeID = string.Empty;
     public int ModuleID = -1;
-    public int AcaID { get; set;}
+    public int AcaID { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -48,7 +48,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     lblAcaName.Visible = false;
                     IsItemRejected = false;
                     btnNonApproved.Text = "View Approved Estimates";
-                    getEstimateDetails(false, -1,false);
+                    getEstimateDetails(false, -1, false);
                 }
                 else if (Request.QueryString["fromChartNonApproved"] != null)
                 {
@@ -65,7 +65,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             AcaID = Convert.ToInt32(Request.QueryString["AcaId"].ToString());
             ddlAcademy.SelectedValue = AcaID.ToString();
             ddlAcademy_SelectedIndexChanged(ddlAcademy, new EventArgs());
-            
+
             //GetEstimateDetailsByClick(Request.QueryString["AcaId"].ToString());
             btnEstimateMaterialStatement.Visible = true;
             btnEstimateStatement.Visible = true;
@@ -97,6 +97,13 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<div style='width:99%;font-family:Calibri;'>";
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
+        EstInfo += "<td colspan='2'>";
+        EstInfo += "<div style='font-weight:bold;font-size:20px;text-align:center;'>";
+        EstInfo += "THE KALGIDHAR TRUST";
+        EstInfo += "</div>";
+        EstInfo += "</td>";
+        EstInfo += "</tr>";
+        EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
         EstInfo += "<img src='http://akalsewa.org/img/Logo_Small.png'/>";
         EstInfo += "</td>";
@@ -104,7 +111,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<br /><br />";
         EstInfo += "<div style='font-style:italic; text-align: right;'>";
         EstInfo += "Baru Shahib,";
-        EstInfo += "<br />Dist: Sirmaur";
+        EstInfo += "<br />Dist: Sirmour";
         EstInfo += "<br />Himachal Pradesh-173001";
         //EstInfo += "<br />XXXXXXXXXXX";
         EstInfo += "</div>";
@@ -112,35 +119,43 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='font-size:12px; margin-top:15px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["WorkAllotName"].ToString() + "</div>";
+        EstInfo += "<div style='margin-top:15px; font-weight:bold; width:100%;'>" + dsValue.Tables[0].Rows[0]["WorkAllotName"].ToString() + "</div>";
         EstInfo += "<table style='width:100%; margin-top:20px;'>";
         EstInfo += "<tr>";
-        EstInfo += "<td style='padding:0px; text-align:left;' valign='top'>";
+        EstInfo += "<td style='padding:0px; text-align:left;font-size:12px;' valign='top'>";
         EstInfo += "<p>";
-        EstInfo += "Estimate No: " + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "<br />";
-        EstInfo += "Zone:" + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "<br />";
-        EstInfo += "Estimate Title: " + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "<br />";
+        EstInfo += "<b>Estimate No: </b>" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "<br />";
+        EstInfo += "<b>Zone: </b>" + dsValue.Tables[0].Rows[0]["ZoneName"].ToString() + "<br />";
+        EstInfo += "<b>Estimate Title: </b>" + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "<br />";
         if (dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() == string.Empty)
         {
-            EstInfo += "Sanction Date: Not Sanctioned";
+            EstInfo += "<b>Sanction Date: </b>Not Sanctioned <br />";
         }
         else
         {
-            EstInfo += "Sanction Date: " + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
+            EstInfo += "<b>Sanction Date: </b>" + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() + "<br />";
+        }
+        if (dsValue.Tables[0].Rows[0]["StartDate"].ToString() != "")
+        {
+            EstInfo += "<b>Start Date: </b>" + dsValue.Tables[0].Rows[0]["StartDate"].ToString();
         }
         EstInfo += "</p>";
         EstInfo += "</td>";
-        EstInfo += "<td style='text-align: left;'>";
+        EstInfo += "<td style='text-align: left;font-size:12px;'>";
         EstInfo += "<p style='text-align: right;'>";
-        EstInfo += "Academy: " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
-        EstInfo += "Type of Work: " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "<br />";
-        EstInfo += "Estimate Cost: " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString();
+        EstInfo += "<b>Academy:</b> " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
+        EstInfo += "<b>Type of Work:</b> " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "<br />";
+        EstInfo += "<b>Estimate Cost:</b> " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString() + "<br />";
+        if (dsValue.Tables[0].Rows[0]["EndDate"].ToString() != "")
+        {
+            EstInfo += "<b>End Date:</b> " + dsValue.Tables[0].Rows[0]["EndDate"].ToString();
+        }
         EstInfo += "</p>";
         EstInfo += "</td>";
         EstInfo += "</tr>";
         EstInfo += "</table>";
         EstInfo += "<br /><br />";
-        EstInfo += "<div style='width:100%; font-size:15px; font-weight:bold; text-align:center;'>Estimate Particular Details</div>";
+        EstInfo += "<div style='width:100%; font-size:13px; font-weight:bold; text-align:center;'>Estimate Particular Details</div>";
         EstInfo += "<br />";
         EstInfo += "<table style='width:99%; margin-top:15px;' border='1'>";
         EstInfo += "<thead>";
@@ -148,7 +163,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<th><b>Material Type</b></th>";
         EstInfo += "<th><b>Material</b></th>";
         EstInfo += "<th><b>Source Type</b></th>";
-        EstInfo += "<th>EstQty</th>";
+        EstInfo += "<th><b>EstQty</b></th>";
         EstInfo += "<th><b>Rate</b></th>";
         EstInfo += "<th style='width:152px;'><b>Amount</b></th>";
         EstInfo += "</tr>";
@@ -156,13 +171,12 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<tbody>";
         for (int i = 0; i < dsValue.Tables[1].Rows.Count; i++)
         {
-
-            EstInfo += "<tr>";
+            EstInfo += "<tr style='font-size:10px;'>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatTypeName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["PSName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["EstQty"].ToString() + "</td>";
-           EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
+            EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Rate"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["Amount"].ToString() + "</td>";
             EstInfo += "</tr>";
 
@@ -175,7 +189,10 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<tr>";
         EstInfo += "</table>";
         EstInfo += "<br />";
+        EstInfo += "<div style='margin-top:50px; width:100%; text-align:right;'>EstNo_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "</div>";
+      
         EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;'>&copy; The Kalgidhar Society All Rights Reserved</div>";
+      
         EstInfo += "</div>";
 
         dt.Columns.Add("HtmlContent");
@@ -184,24 +201,26 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        string FileName = "Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf";
-        Utility.GeneratePDF(pnlPdf.InnerHtml, FileName, "");
-
-        //Response.ContentType = "application/pdf";
-        //Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
-        //Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        //StringWriter sw = new StringWriter();
-        //HtmlTextWriter hw = new HtmlTextWriter(sw);
-        //pnlPdf.RenderControl(hw);
-        //StringReader sr = new StringReader(sw.ToString());
-        //Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 0f, 10f);
-        //HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
-        //PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        //pdfDoc.Open();
-        //htmlparser.Parse(sr);
-        //pdfDoc.Close();
-        //Response.Write(pdfDoc);
-        //Response.End();
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter hw = new HtmlTextWriter(sw);
+        pnlPdf.RenderControl(hw);
+        StringReader sr = new StringReader(sw.ToString());
+        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 0f, 10f);
+        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        //pdfDoc.AddHeader("Header", "EstNo_"+dsValue.Tables[0].Rows[0]["EstId"].ToString());
+       // pdfDoc.Add(new Paragraph(pdfDoc.BottomMargin, "EstNo_"+dsValue.Tables[0].Rows[0]["EstId"].ToString()))
+      
+        pdfDoc.Open();
+        //pdfDoc.Add(new Paragraph(pdfDoc.BottomMargin, "EstNo_"+dsValue.Tables[0].Rows[0]["EstId"].ToString()));
+     //   pdfDoc.Add(footer);
+        htmlparser.Parse(sr);
+        pdfDoc.Close();
+        Response.Write(pdfDoc);
+        Response.End();
     }
 
     private void GetEstimateDetailsByClick(string id)
@@ -244,7 +263,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             ZoneInfo += "<td width='5%'>" + dtapproved.Rows[i]["EstId"].ToString() + "</td>";
             ZoneInfo += "<td width='20%'><table><tr><td><b>Zone</b>: " + dtapproved.Rows[i]["ZoneName"].ToString() + "</td></tr><tr><td><b>Academy</b>: " + dtapproved.Rows[i]["AcaName"].ToString() + "</td></tr><tr><td><b>Estimate File</b>: <a href='" + dtapproved.Rows[i]["FilePath"].ToString() + "' target='_blank'>" + dtapproved.Rows[i]["FileNme"].ToString() + "</a></td></tr></table></td>";
             ZoneInfo += "<td class='center'width='30%'><table>";
-            
+
             if (ModuleID == (int)(TypeEnum.Module.Transport))
             {
                 ZoneInfo += "<tr><td><b>Sub Head:</b> <a href='Transport_ParticularEstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'>" + dtapproved.Rows[i]["SubEstimate"].ToString() + "</a></td></tr>";
@@ -277,7 +296,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
             ZoneInfo += "<td width='20%'><table><tr><td> " + dtapproved.Rows[i]["EstmateCost"].ToString() + "</td></tr><tr><td><b>Bal</b>:0</td></tr></table></td>";
             ZoneInfo += "<td width='40%'><table width='100%'>";
             DataSet dsBillDetails = new DataSet();
-            DataSet dsTa =new DataSet();
+            DataSet dsTa = new DataSet();
             if (dsBillDetails.Tables.Count > 0)
             {
                 for (int j = 0; j < dsBillDetails.Tables[0].Rows.Count; j++)
@@ -351,7 +370,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
     {
         DataSet dsEstimateDetails = new DataSet();
         //dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailsByEmpAndZone  '" + ID + "','"+ lblUser.Text +"'");
-       // dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateViewForAdmin '" + ModuleID + "','" + InchargeID + "'");
+        // dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateViewForAdmin '" + ModuleID + "','" + InchargeID + "'");
         dsEstimateDetails = DAL.DalAccessUtility.GetDataInDataSet("exec USP_EstimateDetailForAdmin'" + ModuleID + "','" + InchargeID + "'");
         System.Data.EnumerableRowCollection<System.Data.DataRow> dtApproved = null;
 
@@ -474,7 +493,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                 }
                 else if (ModuleID == (int)(TypeEnum.Module.Workshop))
                 {
-                   ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                    ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                 }
                 else
                 {
@@ -491,7 +510,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     }
                     else if (ModuleID == (int)(TypeEnum.Module.Workshop))
                     {
-                       ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+                        ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
                     }
                     else
                     {
@@ -506,9 +525,9 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     }
                     else if (ModuleID == (int)(TypeEnum.Module.Workshop))
                     {
-                       ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
-                  
-                    
+                        ZoneInfo += "<tr><td><a class='btn btn-danger' href='WorkshopAdmin_EstimateEdit.aspx?&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Edit Estimate</span></a>   <a href='WorkshopAdmin_EstimateView.aspx?EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Print=1'><span class='label label-info'  style='font-size: 15.998px;'>Print Estimate</span></a></td></tr>";
+
+
                     }
                     else
                     {
@@ -532,7 +551,7 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     ZoneInfo += "<tr><td><a class='btn btn-danger' href='Admin_EstimateView.aspx?IsRejected=1&EstId=" + dtapproved.Rows[i]["EstId"].ToString() + "&Del=1'><span  style='font-size: 15.998px;'><i class='icon-edit icon-white'></i>Delete Estimate</span></a></td></tr>";
                 }
             }
-           
+
             ZoneInfo += "</table></td>";
 
             if (isApproved)
@@ -577,8 +596,8 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
                     }
                 }
             }
-        ZoneInfo += "</table></td>";
-        ZoneInfo += "</tr>";
+            ZoneInfo += "</table></td>";
+            ZoneInfo += "</tr>";
         }
         ZoneInfo += "</tbody>";
         ZoneInfo += "</table>";

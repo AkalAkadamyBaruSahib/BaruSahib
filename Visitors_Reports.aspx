@@ -107,6 +107,13 @@
                     </asp:DropDownList><br />
                     <br />
                 </div>
+
+                     <div class="box-content" id="divCheckBuilding" runat="server" visible="false">
+                    Select CheckBox To Download Report:<br />
+                    <div class="box-content">
+                        <asp:CheckBoxList ID="chkBuilding" runat="server" RepeatDirection="Horizontal"></asp:CheckBoxList>
+                    </div>
+                </div>
             </div>
             <div>
                 <asp:Button ID="btnDownload" ValidationGroup="vreport" runat="server" Text="Click To Download Report in Excel Sheet" CssClass="btn btn-primary" Font-Bold="True" ForeColor="Black" OnClick="btnDownload_Click" Width="355px" />

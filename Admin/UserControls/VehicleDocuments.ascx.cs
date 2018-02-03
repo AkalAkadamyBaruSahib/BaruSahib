@@ -10,6 +10,7 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
 {
     private int VehicleID = -1;
     private int InchargeID = -1;
+    private int UserTypeID = -1;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -17,6 +18,11 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
         {
             InchargeID = int.Parse(Session["InchargeID"].ToString());
         }
+        if (Session["UserTypeID"] != null)
+        {
+            UserTypeID = int.Parse(Session["UserTypeID"].ToString());
+        }
+        
         if (!Page.IsPostBack)
         {
             BindAcademy();
@@ -24,6 +30,22 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
         }
         
     }
+
+    private string GetFileName(string filepaths, string fileName)
+    {
+        string anchorLink = string.Empty;
+        string[] filePath = filepaths.Split(';');
+        int count = 0;
+        foreach (string path in filePath)
+        {
+            count++;
+            anchorLink += "<a href=  ../../" + path + " target='_blank'>" + fileName + "_" + count + "</a> , ";
+        }
+
+        return anchorLink.Substring(0, anchorLink.Length - 3);
+
+    }
+
     private void bindDocumentGrid()
     {
         DataSet TransportDocuments = DAL.DalAccessUtility.GetDataInDataSet("Select * from TransportDocuments order by displayOrder asc");
@@ -35,6 +57,31 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
         {
             lblVehicleType.Text = TransportType.Rows[0]["Type"].ToString();
             tdtype.Visible = true;
+        }
+        DataTable DriverDetail = DAL.DalAccessUtility.GetDataInDataSet("Select Name,MobileNumber,DLNumber,DLType,DateOfJoining,DLScanCopy from  VehicleEmployee Where EmployeeType=1 and VehicleID=" + drpVehicle.SelectedValue).Tables[0];
+        if (DriverDetail.Rows.Count > 0)
+        {
+            lblDriverName.Text = DriverDetail.Rows[0]["Name"].ToString();
+            lblDriverMobile.Text = DriverDetail.Rows[0]["MobileNumber"].ToString();
+            lblDLType.Text = DriverDetail.Rows[0]["DLNumber"].ToString();
+            lblDLNumber.Text = DriverDetail.Rows[0]["DLType"].ToString();
+            lblDrivingDate.Text = DriverDetail.Rows[0]["DateOfJoining"].ToString();
+            if (DriverDetail.Rows[0]["DLScanCopy"].ToString() != "")
+            {
+                lblDlCopy.Text = GetFileName(DriverDetail.Rows[0]["DLScanCopy"].ToString(), DriverDetail.Rows[0]["DLNumber"].ToString());
+            }
+            tdDrverInfo.Visible = true;
+            tdDLtype.Visible = true;
+        }
+        DataTable ConductorDetail = DAL.DalAccessUtility.GetDataInDataSet("Select Name,MobileNumber,DateOfJoining from  VehicleEmployee Where EmployeeType=2 and VehicleID=" + drpVehicle.SelectedValue).Tables[0];
+        if (ConductorDetail.Rows.Count > 0)
+        {
+            lblConductorName.Text = ConductorDetail.Rows[0]["Name"].ToString();
+            lblCondutorMobile.Text = ConductorDetail.Rows[0]["MobileNumber"].ToString();
+            lblConductorDate.Text = ConductorDetail.Rows[0]["DateOfJoining"].ToString();
+            tdDLtype.Visible = true;
+            tdConductorInfo.Visible = true;
+            trconductordate.Visible = true;
         }
     }
 
@@ -53,6 +100,7 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
             TextBox txtDate = e.Row.FindControl("txtDate") as TextBox;
             Button btn_Approved = e.Row.FindControl("btn_Approved") as Button;
             Button btnApproved = e.Row.FindControl("btnApproved") as Button;
+            Button btnExpire = e.Row.FindControl("btnExpire") as Button;
 
             string path = string.Empty;
             ds = DAL.DalAccessUtility.GetDataInDataSet("SELECT * FROM VechilesDocumentRelation WHERE TransportDocumentID=" + lblDocumentTypeID.Text + " AND VehicleID=" + drpVehicle.SelectedValue );
@@ -69,16 +117,21 @@ public partial class Admin_UserControls_VehicleDocuments : System.Web.UI.UserCon
                 }
                 btn_Approved.Visible = true;
                 btnApproved.Visible = true;
-                if (ds.Tables[0].Rows[0]["IsApproved"].ToString() == "True")
+                if (ds.Tables[0].Rows[0]["IsApproved"].ToString() == "True" && Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()) > Utility.GetLocalDateTime(DateTime.UtcNow))
                 {
                     btnApproved.Text = "Approved";
                 }
-                else
+                else if (ds.Tables[0].Rows[0]["IsApproved"].ToString() == "False" && Convert.ToDateTime(ds.Tables[0].Rows[0]["DocumentEndDate"].ToString()) > Utility.GetLocalDateTime(DateTime.UtcNow))
                 {
                     btnApproved.Text = "NonApproved";
                 }
+                else
+                {
+                    btnExpire.Visible = true;
+                    btnApproved.Visible = false;
+                }
             }
-            if (InchargeID == 32)
+            if (UserTypeID == (int)TypeEnum.UserType.TRANSPORTADMIN || UserTypeID == (int)TypeEnum.UserType.CLUSTERHEAD)
             {
                 btnApproved.Enabled = true;
             }

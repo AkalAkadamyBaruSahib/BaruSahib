@@ -15,6 +15,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
         {
             BindBuildingName();
             BindCountry();
+            BindBuilding();
         }
     }
 
@@ -110,7 +111,10 @@ public partial class Visitors_Reports : System.Web.UI.Page
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
         {
-            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetDailyWiseVisitorsReports] '" + txtCheckInDate.Text + "'").Tables[0];
+            var date = Convert.ToDateTime(txtCheckInDate.Text).ToShortDateString();
+            var time = DateTime.Now.TimeOfDay.ToString();
+            DateTime datetime = Convert.ToDateTime(date + " " + time);
+            dt = DAL.DalAccessUtility.GetDataInDataSet("exec [GetDailyWiseVisitorsReports] '" + Utility.GetLocalDateTime(datetime.ToUniversalTime()) + "'").Tables[0];
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomSummaryReport).ToString())
         {
@@ -190,6 +194,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
             divPlaces.Visible = false;
             txtCheckOutDate.Visible = true;
             lblCheckOut.Visible = true;
+            divCheckBuilding.Visible = false;
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomStatus).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewVacantRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.ViewBookedRoomList).ToString() || drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.PermanentRoomDetailReport).ToString())
         {
@@ -202,6 +207,7 @@ public partial class Visitors_Reports : System.Web.UI.Page
             divCheckInDate.Visible = false;
             divEmptyRooms.Visible = false;
             divPlaces.Visible = true;
+            divCheckBuilding.Visible = false;
         }
         else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.DailyVisitorStatusReport).ToString())
         {
@@ -210,12 +216,38 @@ public partial class Visitors_Reports : System.Web.UI.Page
             divPlaces.Visible = false;
             txtCheckOutDate.Visible = false;
             lblCheckOut.Visible = false;
+            divCheckBuilding.Visible = false;
         }
-        else
+        else if (drpFilterData.SelectedValue == ((int)TypeEnum.VisitorReportTypes.RoomSummaryReport).ToString())
         {
             divCheckInDate.Visible = false;
             divEmptyRooms.Visible = false;
             divPlaces.Visible = false;
+            txtCheckOutDate.Visible = false;
+            lblCheckOut.Visible = false;
+            divCheckBuilding.Visible = true;
+        }
+        else
+        {
+            divCheckBuilding.Visible = false;
+            divCheckInDate.Visible = false;
+            divEmptyRooms.Visible = false;
+            divPlaces.Visible = false;
+        }
+
+    }
+
+    public void BindBuilding()
+    {
+        DataTable dsBuilding = new DataTable();
+        VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
+        List<BuildingName> building = repository.GetBuildingNameList();
+        if (building != null)
+        {
+            chkBuilding.DataSource = building;
+            chkBuilding.DataValueField = "ID";
+            chkBuilding.DataTextField = "Name";
+            chkBuilding.DataBind();
         }
     }
 
@@ -260,29 +292,33 @@ public partial class Visitors_Reports : System.Web.UI.Page
         DataRow dr;
         VisitorUserRepository repository = new VisitorUserRepository(new AkalAcademy.DataContext());
         List<BuildingName> building = repository.GetBuildingNameList();
+        string selectedIncharge = String.Join(",", chkBuilding.Items.OfType<ListItem>().Where(r => r.Selected).Select(r => r.Value));
         DataTable dtTotalNumberOfRooms;
         int sumOfRooms = 0;
         string numbers = string.Empty;
-        foreach (BuildingName aca in building)
+        foreach (ListItem chk in chkBuilding.Items)
         {
             numbers = string.Empty;
             dr = dtRoomsSummary.NewRow();
-            dr["Name_Of_Building"] = aca.Name;
-            dtTotalNumberOfRooms = DAL.DalAccessUtility.GetDataInDataSet("select count(id) as count from RoomNumbers where  BuildingID = " + aca.ID).Tables[0];
-            if (dtTotalNumberOfRooms.Rows.Count > 0)
+            if (chk.Selected)
             {
-                dr["Total_Rooms"] = dtTotalNumberOfRooms.Rows[0]["count"].ToString();
-                sumOfRooms += Convert.ToInt32(dtTotalNumberOfRooms.Rows[0]["count"].ToString());
+                dr["Name_Of_Building"] = chk.Text;
+                dtTotalNumberOfRooms = DAL.DalAccessUtility.GetDataInDataSet("select count(id) as count from RoomNumbers where  BuildingID = " + chk.Value).Tables[0];
+                if (dtTotalNumberOfRooms.Rows.Count > 0)
+                {
+                    dr["Total_Rooms"] = dtTotalNumberOfRooms.Rows[0]["count"].ToString();
+                    sumOfRooms += Convert.ToInt32(dtTotalNumberOfRooms.Rows[0]["count"].ToString());
+                }
+
+                dr["Permanent_Rooms"] = repository.GetPermanentRoomList(Convert.ToInt32(chk.Value));
+                dr["Temporary_Rooms"] = repository.GetTemporaryRoomList(Convert.ToInt32(chk.Value));
+                dr["Booked_Temporary_Rooms"] = repository.GetBookedTemporaryRoomListCount(Convert.ToInt32(chk.Value));
+                dr["Booked_Permanent_Rooms"] = repository.GetBookedPermanentRoomListCount(Convert.ToInt32(chk.Value));
+                dr["Total_Vacant_Rooms"] = repository.GetAvailableRoomListCount(Convert.ToInt32(chk.Value));
+                dr["Remarks"] = string.Empty;
+
+                dtRoomsSummary.Rows.Add(dr);
             }
-
-            dr["Permanent_Rooms"] = repository.GetPermanentRoomList(aca.ID);
-            dr["Temporary_Rooms"] = repository.GetTemporaryRoomList(aca.ID);
-            dr["Booked_Temporary_Rooms"] = repository.GetBookedTemporaryRoomListCount(aca.ID);
-            dr["Booked_Permanent_Rooms"] = repository.GetBookedPermanentRoomListCount(aca.ID); 
-            dr["Total_Vacant_Rooms"] = repository.GetAvailableRoomListCount(aca.ID);
-            dr["Remarks"] = string.Empty;
-
-            dtRoomsSummary.Rows.Add(dr);
 
         }
 

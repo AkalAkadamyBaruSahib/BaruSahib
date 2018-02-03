@@ -26,12 +26,12 @@ public class TransportVehicleDocumentUploader : IHttpHandler {
                 string strFileName = fileName;
                 fileName = System.IO.Path.Combine(path, fileName);
 
-                //if (System.IO.File.Exists(context.Server.MapPath("~/VehicleDoc/" + fileName)))
-                //{
-                //    System.IO.File.Delete(context.Server.MapPath("~/VehicleDoc/" + fileName));
-                //}
+                if (System.IO.File.Exists(context.Server.MapPath("~/VehicleDoc/" + strFileName)))
+                {
+                    System.IO.File.Delete(context.Server.MapPath("~/VehicleDoc/" + strFileName));
+                }
                 file[i].SaveAs(fileName);
-
+               
 
                 DAL.DalAccessUtility.ExecuteNonQuery("exec uspSaveVehicleDocuments " + ID + "," + VehicleID + "," + DocumentTypeID + ",'" + ("VehicleDoc/" + strFileName) + "','" + date + "',0");        
                 

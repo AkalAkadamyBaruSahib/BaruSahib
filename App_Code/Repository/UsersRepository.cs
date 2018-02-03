@@ -291,7 +291,7 @@ public class UsersRepository
 
     public Incharge GetLoginUserDetail(string UserName, string password)
     {
-        return _context.Incharge.Where(v => v.LoginId == UserName && v.UserPwd == password && v.Active == 1).FirstOrDefault();
+         return _context.Incharge.Where(v => v.LoginId == UserName && v.UserPwd == password && v.Active == 1).FirstOrDefault();
     }
 
     public AdminTypeRelation GetAdminType(int UserID)

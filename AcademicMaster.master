@@ -5,7 +5,7 @@
 
 <html lang="en">
 <head id="Head1" runat="server">
-    
+
     <meta charset="utf-8">
     <title>Akal Academy | Employee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +82,7 @@
 
                     <!-- user dropdown starts -->
                     <div class="btn-group pull-right">
-                        <a data-rel="tooltip" title="New Messages 2" class="well span3 top-block" href="../Emp_Notification.aspx"  style="width: auto; color: ActiveBorder;">
+                        <a data-rel="tooltip" title="New Messages 2" class="well span3 top-block" href="../Emp_Notification.aspx" style="width: auto; color: ActiveBorder;">
                             <div>Notofication</div>
                             <span class="notification red">
                                 <asp:Label ID="lblMsg" runat="server"></asp:Label></span>
@@ -128,15 +128,17 @@
                             <li class="nav-header hidden-tablet">Main</li>
                             <li id="liHome" runat="server"><a class="ajax-link" href="AcademicUserHome.aspx"><i class="icon-home"></i><span class="hidden-tablet">Home</span></a></li>
                             <li id="liWork" runat="server"><a class="ajax-link" href="Emp_WorkAlloted.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Work Alloted(<asp:Label ID="lblWorkCount" runat="server" ForeColor="Red" Text="10"></asp:Label>)</span></a></li>
-                            <li id="liEstimate" runat="server"><a href="Emp_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate(<asp:Label ID="lblEstimate" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li id="liDispatchStatusForLocal" runat="server"><a class="ajax-link" href="Emp_MaterialDepatchStatus.aspx"><i class="icon-align-justify"></i><span class="hidden-tablet">Material Dispatch Status</span></a></li>
                             <li id="liStock" runat="server"><a class="ajax-link" href="#"><i class="icon-eye-open"></i><span class="hidden-tablet">Stock</span></a></li>
                             <%--<li><a class="ajax-link" href="Emp_DrawingView.aspx"><i class="icon-font"></i><span class="hidden-tablet"> Drawings</span></a></li>--%>
                             <li id="liBillStatus" runat="server"><a class="ajax-link" href="Emp_BillStatus.aspx"><i class="icon-list-alt"></i><span class="hidden-tablet">Bill Status(<asp:Label ID="lblBillStatus" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li id="LiReject" runat="server"><a class="ajax-link" href="Emp_RejectedBills.aspx"><i class="icon-font"></i><span class="hidden-tablet">Rejected Bills(<asp:Label ID="lblRejBills" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
                             <li id="liGallary" runat="server"><a class="ajax-link" href="Emp_GalleryView.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Gallery</span></a></li>
+
                             <li id="liComplaints" runat="server"><a class="ajax-link" href="Emp_CreateTicket.aspx"><i class="icon-picture"></i><span class="hidden-tablet">Compalaint Tickets</span></a></li>
                             <li id="liViewMaterial" runat="server"><a class="ajax-link" href="Academic_ViewMaterials.aspx"><i class="icon-picture"></i><span class="hidden-tablet">View Materials</span></a></li>
+                            <li id="liNewEstimate" runat="server"><a href="Academic_NewEstimate.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Create Estimate</span></a></li>
+                            <li id="liEstimate" runat="server"><a href="AcademicUser_EstimateAcademyWise.aspx"><i class="icon-globe"></i><span class="hidden-tablet">Estimate(<asp:Label ID="lblEstimate" runat="server" ForeColor="Red"></asp:Label>)</span></a></li>
 
                         </ul>
 
@@ -247,6 +249,14 @@
     <script src="js/jquery.history.js"></script>
     <!-- application script for Charisma demo -->
     <script src="js/charisma.js"></script>
+    <script src="js/jquery.searchabledropdown-1.0.8.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").searchable();
+        });
+    </script>
+    <link href="css/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="js/bootstrap-multiselect.js"></script>
 
 
 </body>

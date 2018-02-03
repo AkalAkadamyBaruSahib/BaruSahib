@@ -54,10 +54,10 @@ public class ConstructionUserController : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID)
+    public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID, int Month)
     {
         ConstructionUserRepository constructionUserRepository = new ConstructionUserRepository(new DataContext());
-        return constructionUserRepository.BillSumitRateCondition(AcademyID, BillTypeID);
+        return constructionUserRepository.BillSumitRateCondition(AcademyID, BillTypeID, Month);
     }
 
     [WebMethod]

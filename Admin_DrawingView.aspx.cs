@@ -87,7 +87,7 @@ public partial class Admin_DrawingView : System.Web.UI.Page
         this.Request.QueryString.Clear();
         BindAllDrawing(false, -1);
         DataTable dsDrawing = DAL.DalAccessUtility.GetDataInDataSet("Select D.AcaID,D.DrawingName,A.AcaName FROM Drawing D INNER JOIN Academy A ON A.AcaID =D.AcaID Where DwgId=" + p).Tables[0];
-       SendEmailToConstructionUser(int.Parse(dsDrawing.Rows[0]["AcaID"].ToString()), dsDrawing.Rows[0]["AcaName"].ToString(), dsDrawing.Rows[0]["DrawingName"].ToString());
+      // SendEmailToConstructionUser(int.Parse(dsDrawing.Rows[0]["AcaID"].ToString()), dsDrawing.Rows[0]["AcaName"].ToString(), dsDrawing.Rows[0]["DrawingName"].ToString());
         ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing has been approved successfully.');", true);
     }
 

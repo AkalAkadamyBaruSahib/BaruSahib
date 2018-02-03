@@ -63,7 +63,7 @@ function LoadVisitors() {
                     $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
                     var url = location.href.substring(0, location.href.lastIndexOf("/") + 1);
                     if (adminLoanList[i].IdentificationPath == "") {
-                        $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                        $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorID=" + adminLoanList[i].ID + "'>Print</a></td></tr></table>");
                     }
                     else {
                         $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
@@ -246,11 +246,21 @@ function LoadVisitorsByVisitorTypeID(selectedValue) {
                     $newRow.find("#arrivedOn").html(adminLoanList[i].CreatedOn);
                     $newRow.find("#NoOfDays").html(adminLoanList[i].TimePeriodTo);
                     var url = location.href.substring(0, location.href.lastIndexOf("/") + 1);
-                    if (adminLoanList[i].IdentificationPath != "") {
-                        $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                    if (selectedValue == 1) {
+                        if (adminLoanList[i].IdentificationPath != "") {
+                            $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr><tr><td><a href='" + url + "ViewVisitors.aspx?VisitorID=" + adminLoanList[i].ID + "'>Print</a></td></tr></table>");
+                        }
+                        else {
+                            $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr><tr><td><a href='" + url + "ViewVisitors.aspx?VisitorID=" + adminLoanList[i].ID + "'>Print</a></td></tr></table>");
+                        }
                     }
                     else {
-                        $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                        if (adminLoanList[i].IdentificationPath != "") {
+                            $newRow.find("#identityProof").html("<table><tr><td><a href='#' onclick='openLinkDailog(\"" + adminLoanList[i].IdentificationPath + "\",\"" + adminLoanList[i].Name + "\",\"" + adminLoanList[i].Identification + "\")'>" + adminLoanList[i].Identification + "</a></td></tr><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                        }
+                        else {
+                            $newRow.find("#identityProof").html("<table><tr><td><a href='" + url + "Visitor_AddNew.aspx?VisitorType=" + adminLoanList[i].VisitorTypeID + "&VisitorID=" + adminLoanList[i].ID + "'>Update</a></td></tr></table>");
+                        }
                     }
                  
                   

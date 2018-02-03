@@ -106,7 +106,7 @@ public partial class Arch_UploadDrawing : System.Web.UI.Page
                     ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Drawing submit Successfully!!.');", true);
                 }
                 //SendSMStoAdmin(); 
-                SendEmailToConstructionRegardingDrawing(txtDrwName.Text);
+             //   SendEmailToConstructionRegardingDrawing(txtDrwName.Text);
                 Response.Redirect("Arch_DrawingView.aspx");
                 // BindAllDrawing();
                
@@ -195,7 +195,7 @@ public partial class Arch_UploadDrawing : System.Web.UI.Page
 
         try
         {
-            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Drawing of Akal Academy " + ddlAcademy.SelectedItem.Text + " has been uploaded");
+           // Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Drawing of Akal Academy " + ddlAcademy.SelectedItem.Text + " has been uploaded");
         }
         catch { }
         finally

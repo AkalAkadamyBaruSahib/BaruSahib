@@ -30,6 +30,11 @@ public partial class Transport_AddNewDriver : System.Web.UI.Page
             BindDLType();
             BindTransportType();
             BindVehicleNumber();
+            if (Request.QueryString["TransportEmployeeID"] != null)
+            {
+                int emploeeID = int.Parse(Request.QueryString["TransportEmployeeID"]);
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "CallMyFunction", "GetTranportEmployeeInfoToUpdate(" + emploeeID + ");", true);
+            }
         }
     }
 

@@ -27,6 +27,18 @@
                 $("#divSummaryReport").hide();
                 $("#divFutureExire").show();
             }
+            else if (control.value == "5") {
+                $("#divPendingDocumentReport").show();
+                $("#divDailyReport").hide();
+                $("#divSummaryReport").hide();
+                $("#divFutureExire").hide();
+            }
+            else if (control.value == "6") {
+                $("#divPendingDocumentReport").hide();
+                $("#divDailyReport").show();
+                $("#divSummaryReport").hide();
+                $("#divFutureExire").hide();
+            }
             else {
                 $("#divPendingDocumentReport").hide();
                 $("#divDailyReport").hide();
@@ -34,8 +46,7 @@
                 $("#divFutureExire").hide();
             }
         }
-        function RadioButtonOnChange()
-        {
+        function RadioButtonOnChange() {
             $("#divRadioButton").show();
         }
 
@@ -61,6 +72,10 @@
                         <asp:ListItem Text="Pending Documents" Value="2"></asp:ListItem>
                         <asp:ListItem Text="Summary Report" Value="3"></asp:ListItem>
                         <asp:ListItem Text="Future Expire Report" Value="4"></asp:ListItem>
+                        <asp:ListItem Text="Non Approved Vehicles Report" Value="5"></asp:ListItem>
+                        <asp:ListItem Text="Insurance Renewal Report" Value="6"></asp:ListItem>
+                        <asp:ListItem Text="Non Approved Vehicles Docs Report" Value="7"></asp:ListItem>
+
                     </asp:DropDownList><br />
                 </div>
                 <div class="box-content" id="divPendingDocumentReport" style="display: none">
@@ -98,7 +113,7 @@
                                 <asp:ListItem Value="45" Text="45 days"></asp:ListItem>
                                 <asp:ListItem Value="60" Text="60 days"></asp:ListItem>
                             </asp:RadioButtonList>
-                         </div>
+                        </div>
                     </div>
 
                 </div>

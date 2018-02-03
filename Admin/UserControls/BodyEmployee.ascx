@@ -5,7 +5,7 @@
         if (typeof (Page_ClientValidate) == 'function') {
             if (Page_ClientValidate() == false)
             { return false; }
-        }
+        }A
 
         //make sure the button is not of type "submit" but "button"
         if (myButton.getAttribute('type') == 'button') {

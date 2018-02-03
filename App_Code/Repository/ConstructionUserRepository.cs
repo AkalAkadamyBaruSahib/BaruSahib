@@ -139,14 +139,28 @@ public class ConstructionUserRepository
         }
         return SubmitBillByUser.SubBillId;
     }
-    public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID)
+    public decimal? BillSumitRateCondition(int AcademyID, int BillTypeID, int Month)
     {
         DateTime date = Utility.GetLocalDateTime(DateTime.UtcNow);
-        var firstDateOfMonth = new DateTime(date.Year, date.Month, 1);
-        var lastDateOfMonth = firstDateOfMonth.AddMonths(1).AddDays(-1);
-
+        DateTime firstDateOfMonth = Convert.ToDateTime("1/1/2000");
+        DateTime lastDateOfMonth = Convert.ToDateTime("1/1/2000");
+        if (Month == 11)
+        {
+            firstDateOfMonth = new DateTime(2017, 11, 1);
+            lastDateOfMonth = firstDateOfMonth.AddMonths(1).AddDays(-1);
+        }
+        else if (Month == 12)
+        {
+            firstDateOfMonth = new DateTime(2017, 12, 1);
+            lastDateOfMonth = firstDateOfMonth.AddMonths(1).AddDays(-1);
+        }
+        else
+        {
+            firstDateOfMonth = new DateTime(date.Year, date.Month, 1);
+            lastDateOfMonth = firstDateOfMonth.AddMonths(1).AddDays(-1);
+        }
         decimal? receivedQty = (from S in _context.SubmitBillByUser
-                                where S.AcaId == AcademyID && S.CreatedOn >= firstDateOfMonth && S.CreatedOn <= lastDateOfMonth && S.BillType == BillTypeID
+                                where S.AcaId == AcademyID && S.BillDate >= firstDateOfMonth && S.BillDate <= lastDateOfMonth && S.BillType == BillTypeID
                                 && (S.FirstVarifyStatus == null || S.FirstVarifyStatus == 1)
                                 select (decimal?)S.TotalAmount).Sum();
         return receivedQty;

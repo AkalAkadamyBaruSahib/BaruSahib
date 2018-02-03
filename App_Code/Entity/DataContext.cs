@@ -90,6 +90,12 @@ namespace AkalAcademy
         public DbSet<StaffDetailInTransport> StaffDetailInTransport { get; set; }
         public DbSet<ProformaMaterialDetail> ProformaMaterialDetail { get; set; }
         public DbSet<ProformaDetail> ProformaDetail { get; set; }
+        public DbSet<LateArrivingVehiclesMorningAndEvening> LateArrivingVehiclesMorningAndEvening { get; set; }
+        public DbSet<Android_WithoutUniformDriverAndConductorArray> Android_WithoutUniformDriverAndConductorArray { get; set; }
+        public DbSet<Android_TransportComplaintArray> Android_TransportComplaintArray { get; set; }
+        public DbSet<Android_AbsentConductorArray> Android_AbsentConductorArray { get; set; }
+        public DbSet<Android_TransportDailyProformaDetail> Android_TransportDailyProformaDetail { get; set; }
+        public DbSet<Android_AcademyVisitDetail> Android_AcademyVisitDetail { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -101,6 +107,13 @@ namespace AkalAcademy
 
             modelBuilder.Entity<VendorInfo>().HasMany(v => v.VendorMaterialRelations).WithOptional().HasForeignKey(r => r.VendorID);
             modelBuilder.Entity<Material>().HasMany(v => v.VendorMaterialRelation).WithOptional().HasForeignKey(r => r.MatID);
+
+            modelBuilder.Entity<Android_TransportDailyProformaDetail>().HasMany(v => v.LateArrivingVehiclesMorningAndEvening).WithOptional().HasForeignKey(r => r.TransportDailyProformaID);
+            modelBuilder.Entity<Android_TransportDailyProformaDetail>().HasMany(v => v.Android_WithoutUniformDriverAndConductorArray).WithOptional().HasForeignKey(r => r.TransportDailyProformaID);
+            modelBuilder.Entity<Android_TransportDailyProformaDetail>().HasMany(v => v.Android_TransportComplaintArray).WithOptional().HasForeignKey(r => r.TransportDailyProformaID);
+            modelBuilder.Entity<Android_TransportDailyProformaDetail>().HasMany(v => v.Android_AbsentConductorArray).WithOptional().HasForeignKey(r => r.TransportDailyProformaID);
+            modelBuilder.Entity<Android_TransportDailyProformaDetail>().HasMany(v => v.Android_AcademyVisitDetail).WithOptional().HasForeignKey(r => r.TransportDailyProformaID);
+     
         }
     }
 }

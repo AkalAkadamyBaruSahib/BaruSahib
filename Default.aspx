@@ -15,8 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <style type="text/css">
-        .container > header
-        {
+        .container > header {
             padding: 20px 30px 10px 30px;
             margin: 0px 20px 10px 20px;
             position: relative;
@@ -26,8 +25,7 @@
         }
 
 
-        body
-        {
+        body {
             background: url(SliderTheme/VisitorHomeImages/HomeBarusahib.jpg);
             background-attachment: fixed;
             background-size: cover;
@@ -35,8 +33,7 @@
             font-family: 'Comfortaa', cursive !important;
         }
 
-        #wrapper
-        {
+        #wrapper {
             width: 60%;
             right: 0px;
             min-height: 560px;
@@ -46,16 +43,14 @@
         }
 
 
-            #wrapper h1
-            {
+            #wrapper h1 {
                 color: rgb(6, 106, 117);
                 padding: 2px 0 10px 0;
                 text-align: center;
                 padding-bottom: 30px;
             }
 
-                #wrapper h1:after
-                {
+                #wrapper h1:after {
                     content: ' ';
                     display: block;
                     width: 100%;
@@ -70,8 +65,7 @@
                 }
 
 
-            #wrapper input:not([type="checkbox"])
-            {
+            #wrapper input:not([type="checkbox"]) {
                 width: 92%;
                 margin-top: 4px;
                 padding: 10px 5px 10px;
@@ -93,8 +87,7 @@
             }
 
 
-        p.change_link
-        {
+        p.change_link {
             position: absolute;
             color: rgb(127, 124, 124);
             left: 0px;
@@ -114,8 +107,7 @@
             background: repeating-linear-gradient(-45deg, rgb(247, 247, 247), rgb(247, 247, 247) 15px, rgb(225, 234, 235) 15px, rgb(225, 234, 235) 30px, rgb(247, 247, 247) 30px );
         }
 
-        #wrapper p.change_link a
-        {
+        #wrapper p.change_link a {
             display: inline-block;
             font-weight: bold;
             background: rgb(247, 248, 241);
@@ -134,15 +126,13 @@
             transition: all 0.4s linear;
         }
 
-            #wrapper p.change_link a:hover
-            {
+            #wrapper p.change_link a:hover {
                 color: rgb(57, 191, 215);
                 background: rgb(247, 247, 247);
                 border: 1px solid rgb(74, 179, 198);
             }
 
-        #login
-        {
+        #login {
             position: absolute;
             top: 0px;
             width: 88%;
@@ -158,8 +148,7 @@
             border-radius: 5px;
         }
 
-        .animated
-        {
+        .animated {
             -webkit-animation-fill-mode: both;
             -moz-animation-fill-mode: both;
             -ms-animation-fill-mode: both;
@@ -249,7 +238,12 @@
                     </div>
                 </div>
             </div>
+            <div style="margin-top: -160px; margin-left: 32px; float: left;">
+                <h1><span style="color: rgb(255,255,255); font-size: 25px; text-shadow: 2px 6px 12px #000; font-family: 'Montserrat', sans-serif;">Download AkalSewa App</span></h1>
+
+                <a href="https://www.akalsewa.org/Android/uploads/AkalSewa_V1.0_1.apk" target='_blank'>
+                    <img src="img/android.png"  style="width: 300px;"/></a>
+            </div>
         </section>
-    </div>
 </body>
 </html>

@@ -397,41 +397,7 @@
             </div>
         </div>
 
-        <div class="row-fluid sortable">
-            <div class="box span12">
-                <div class="box-header well" data-original-title>
-                    <h2><i class="icon-user"></i>Transport Employee Details</h2>
-                    <div class="box-icon">
-                        <a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-                    </div>
-                </div>
-                <div class="box-content">
-                    <div id="divMatDetails" runat="server">
-                        <div id="divTransportEmpDetails" runat="server">
-                            <table id="grid" class='table table-striped table-bordered bootstrap-datatable datatable'>
-                                <thead>
-                                    <tr>
-
-                                        <th style="color: #cc3300;">Employee</th>
-                                        <th style="color: #cc3300; width: 300px;">Driving Licence</th>
-                                        <th style="color: #cc3300; width: 200px;">Contact Number<br />
-                                            (In Case Of Emergency)</th>
-                                        <th style="color: #cc3300;">Action</th>
-                                        <%-- <th style= "color: #cc3300;">DL Scan Copy</th>--%>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/span-->
-
-        </div>
+        
 
         <div id="myModal" class="modal hide fade" style="display: none; width: 800px; height: 500px">
             <div class="modal-header">

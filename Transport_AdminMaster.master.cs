@@ -43,7 +43,7 @@ public partial class Transport_AdminMaster : System.Web.UI.MasterPage
             liContractRate.Visible = false;
             liBills.Visible = false;
         }
-        ShowLinks();
+     //   ShowLinks();
     }
     private void showUnApprovedEstimateCount()
     {

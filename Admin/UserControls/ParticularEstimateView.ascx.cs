@@ -152,14 +152,21 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "<div style='width:99%; margin:20px; font-family:Calibri;'>";
         EstInfo += "<table style='width:100%;'>";
         EstInfo += "<tr>";
+        EstInfo += "<td colspan='2'>";
+        EstInfo += "<div style='font-weight:bold;font-size:20px;text-align:center;'>";
+        EstInfo += "THE KALGIDHAR TRUST";
+        EstInfo += "</div>";
+        EstInfo += "</td>";
+        EstInfo += "</tr>";
+        EstInfo += "<tr>";
         EstInfo += "<td style='padding:0px; text-align:left; width:50%' valign='top'>";
         EstInfo += "<img src='http://akalsewa.org/img/Logo_Small.png'/>";
         EstInfo += "</td>";
         EstInfo += "<td style='text-align: right; width:40%;'>";
         EstInfo += "<br /><br />";
         EstInfo += "<div style='font-style:italic; text-align: right;'>";
-        EstInfo += "Baru Shahib,";
-        EstInfo += "<br />Dist: Sirmaur";
+        EstInfo += "Baru Sahib,";
+        EstInfo += "<br />Dist: Sirmor";
         EstInfo += "<br />Himachal Pradesh-173001";
         EstInfo += "<br />XXXXXXXXXXX";
         EstInfo += "</div>";
@@ -225,6 +232,8 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         EstInfo += "<tr>";
         EstInfo += "</table>";
         EstInfo += "<br />";
+        EstInfo += "<div style='margin-top:50px; width:100%; text-align:right;'>EstNo_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "</div>";
+      
         EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;'>&copy; The Kalgidhar Socity All Rights Reserved</div>";
         EstInfo += "</div>";
 
@@ -234,7 +243,21 @@ public partial class Admin_UserControls_ParticularEstimateView : System.Web.UI.U
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
 
-        Utility.GeneratePDF(pnlPdf.InnerHtml, "EstimateDetails:" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf", string.Empty);
-        
+        //Utility.GeneratePDF(pnlPdf.InnerHtml, "EstimateDetails:" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf", string.Empty);
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("content-disposition", "attachment;filename=EstimateDetails:" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter hw = new HtmlTextWriter(sw);
+        pnlPdf.RenderControl(hw);
+        StringReader sr = new StringReader(sw.ToString());
+        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 0f, 10f);
+        HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+        PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        pdfDoc.Open();
+        htmlparser.Parse(sr);
+        pdfDoc.Close();
+        Response.Write(pdfDoc);
+        Response.End();
     }
 }

@@ -76,7 +76,7 @@
                                             <label class="control-label" for="typeahead"></label>
                                             <div class="controls">
                                                 Work Allot Name:
-                                                <asp:DropDownList ID="ddlWorkType" Width="300px" runat="server"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlWorkType" Width="300px" runat="server" Style="float: right; margin-top: -21px; margin-right: 185px;"></asp:DropDownList>
                                                 <asp:RequiredFieldValidator ID="reqddlWorkType" runat="server" Display="None" ValidationGroup="Sub" InitialValue="0" ControlToValidate="ddlWorkType" ForeColor="Red" ErrorMessage="Please Select the Work Allot Name."></asp:RequiredFieldValidator>
                                                 <asp:Label ID="lblWorkName" runat="server"></asp:Label>
                                             </div>
@@ -119,7 +119,7 @@
                                             <label class="control-label" for="typeahead"></label>
                                             <div class="controls">
                                                 Type Of work:
-                                                <asp:DropDownList ID="ddlTypeOfWork" runat="server" Width="200px" Style="float: right; margin-right: 290px;"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlTypeOfWork" runat="server" Width="188px" Style="float: right; margin-right: 298px;  margin-top: -20px;"></asp:DropDownList>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" Display="None" ValidationGroup="Sub" InitialValue="0" ControlToValidate="ddlTypeOfWork" ForeColor="Red" ErrorMessage="Please Select the Type Of Work."></asp:RequiredFieldValidator>
                                                 <asp:Label runat="server" ID="lblTpeofWork" Visible="false"></asp:Label>
                                             </div>
@@ -136,13 +136,39 @@
                                         </div>
                                     </td>
                                 </tr>
+
+                                 <tr>
+                                    <td width="50%">
+                                        <div class="control-group">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                               Start Date:
+                                                <asp:TextBox ID="lblStartDate"  runat="server" CssClass="input-xlarge datepicker" Width="178px" Style="float: right; margin-right: 300px;"></asp:TextBox>
+                                                <%--<asp:Label runat="server" ID="lblStartDate" Style="float: right; margin-right: 177px;"></asp:Label>--%>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td width="50%">
+                                        <div class="control-group"  runat="server">
+                                            <label class="control-label" for="typeahead"></label>
+                                            <div class="controls">
+                                                End Date:
+                                                   <asp:TextBox ID="lblEndDate"  runat="server" CssClass="input-xlarge datepicker" Width="181px" Style="float: right; margin-right: 335px;"></asp:TextBox>
+                                             
+                                                <%--<asp:Label ID="lblEndDate" runat="server" Style="float: right; margin-right: 177px;"></asp:Label>--%>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td width="50%">
                                         <div class="control-group">
                                             <label class="control-label" for="typeahead"></label>
                                             <div class="controls">
                                                 Estimate Cost:
-                                                    <asp:Label ID="lblEstimateCost" runat="server" ForeColor="Red" Text="00.00"></asp:Label>
+                                                    <asp:Label ID="lblEstimateCost" runat="server" ForeColor="Red" Text="00.00" Style="float: right; margin-right: 433px;"></asp:Label>
                                             </div>
                                         </div>
                                     </td>

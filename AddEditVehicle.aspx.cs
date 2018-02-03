@@ -466,7 +466,7 @@ public partial class AddVehicle : System.Web.UI.Page
 
     public void DisableControl()
     {
-        if (ddlTransportType.SelectedValue == "1")
+        if (ddlTransportType.SelectedValue == "1" || ddlTransportType.SelectedValue == "10")
         {
             chkWrittenContract.Enabled = false;
             ddlPeriodOfContract.Enabled = false;

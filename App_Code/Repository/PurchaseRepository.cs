@@ -165,19 +165,37 @@ public class PurchaseRepository
     {
         List<EstimateDTO> estimates = new List<EstimateDTO>();
 
-        DateTime getdate = DateTime.Now.AddDays(-180);
-
-        estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.SanctionDate >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).AsEnumerable().Select(x => new EstimateDTO
+        if (purchaseSourceID == (int)TypeEnum.PurchaseSourceID.Mohali)
         {
-            EstId = x.EstId,
-        }).OrderByDescending(e => e.EstId).Reverse().ToList();
+            DateTime getdate = DateTime.Now.AddDays(-180);
+
+            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true && e.SanctionDate >= getdate).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).AsEnumerable().Select(x => new EstimateDTO
+            {
+                EstId = x.EstId,
+            }).OrderByDescending(e => e.EstId).Reverse().ToList();
+        }
+        else
+        {
+            estimates = _context.Estimate.Where(e => e.IsApproved == true && e.IsActive == true).Where(r => r.EstimateAndMaterialOthersRelations.Any(er => er.PSId == purchaseSourceID)).AsEnumerable().Select(x => new EstimateDTO
+            {
+                EstId = x.EstId,
+            }).OrderByDescending(e => e.EstId).Reverse().ToList();
+        }
 
         return estimates;
     }
 
-    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID)
+    public List<EstimateAndMaterialOthersRelations> GetMaterialList(int EstimateID, int PSID)
     {
-        return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Include(u => u.Unit).Where(x => x.EstId == EstimateID).ToList();
+        if (PSID == (int)TypeEnum.PurchaseSourceID.AkalWorkshop)
+        {
+            return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Include(u => u.Unit).Where(x => x.EstId == EstimateID && x.PSId == PSID && x.PurchaseQty != 0).ToList();
+        }
+        else
+        {
+            return _context.EstimateAndMaterialOthersRelations.Include(m => m.Material).Include(u => u.Unit).Where(x => x.EstId == EstimateID && x.PSId == PSID && x.PSId == PSID).ToList();
+        }
+
     }
 
     public List<VendorInfo> GetVendorAddress(int vendorID)
@@ -855,13 +873,13 @@ public class PurchaseRepository
 
     }
 
-    public List<Estimate> MaterialDepatchStatusForAdmin(int PSID, int UserTypeID, int inchargeID)
+    public List<Estimate> MaterialDepatchStatusForAdmin(int PSID, int UserTypeID, int inchargeID, int ModuleID)
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
         var assignAcademies = _context.AcademyAssignToEmployee.Where(a => a.EmpId == inchargeID).Select(s => s.AcaId).ToList();
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && assignAcademies.Contains(e.AcaId))
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && assignAcademies.Contains(e.AcaId) && e.ModuleID == ModuleID)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
@@ -886,11 +904,11 @@ public class PurchaseRepository
         return estimates;
     }
 
-    public List<Estimate> MaterialDepatchStatusForAdminLocal(int PSID, int UserTypeID, int inchargeID)
+    public List<Estimate> MaterialDepatchStatusForAdminLocal(int PSID, int UserTypeID, int inchargeID,int ModuleID)
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.CreatedOn >= dt1 && e.ModuleID == ModuleID)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
@@ -998,11 +1016,11 @@ public class PurchaseRepository
 
     }
 
-    public List<Estimate> MaterialDepatchStatusForAdminLocalByAcaID(int PSID, int UserTypeID, int inchargeID, int AcaID)
+    public List<Estimate> MaterialDepatchStatusForAdminLocalByAcaID(int PSID, int UserTypeID, int inchargeID, int AcaID,int ModuleID)
     {
         DateTime dt1 = DateTime.Now.AddDays(-7);
 
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.SanctionDate >= dt1 && e.ModuleID == ModuleID)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 
@@ -1052,9 +1070,9 @@ public class PurchaseRepository
         return estimates;
     }
 
-    public List<Estimate> MaterialDepatchStatusForAdminByAcaID(int PSID, int UserTypeID, int inchargeID, int AcaID)
+    public List<Estimate> MaterialDepatchStatusForAdminByAcaID(int PSID, int UserTypeID, int inchargeID, int AcaID,int ModuleID)
     {
-        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId >= AcaID)
+        var ests = _context.Estimate.Where(e => e.IsApproved == true && e.AcaId >= AcaID && e.ModuleID==ModuleID)
             .Include(z => z.Zone)
             .Include(a => a.Academy).OrderByDescending(e => e.SanctionDate).ToList();
 

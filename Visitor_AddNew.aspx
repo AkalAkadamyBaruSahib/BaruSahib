@@ -37,6 +37,19 @@
             }
         }
 
+        function validateFileSize(controlID) {
+            var id = controlID.files[0].size;
+            if (id > 900000) {
+                $('#dvMsg').show();
+                controlID.value ='';
+                return false;
+            }
+            else {
+                $('#dvMsg').hide();
+                return true;
+            }
+        }
+
     </script>
     <style>
         #holder
@@ -140,6 +153,7 @@
         <asp:HiddenField ID="hdnNewSeats" runat="server" />
         <asp:HiddenField ID="hdnBuildingID" runat="server" />
         <asp:HiddenField ID="hdnVisitorID" runat="server" />
+          <asp:HiddenField ID="hdnVID" runat="server" />
         <asp:HiddenField ID="hdnVisitorType" runat="server" />
         <asp:HiddenField ID="hdnUserType" runat="server" />
         <div class="row-fluid sortable" runat="server" id="divAllotment">
@@ -156,6 +170,8 @@
                     </div>
                 </div>
                 <asp:ValidationSummary ID="vs" runat="server" ForeColor="Red" ValidationGroup="visitor" />
+               <div id="dvMsg" style="color: Red; width: 250px; display: none;">Maximum size allowed Less than is 900 KB </div>
+                       
                 <%-- <div class="well bs-component form-horizontal">--%>
                 <div class="well bs-component">
                     <fieldset>
@@ -255,7 +271,7 @@
                                             <div class="span6 typeahead">
                                                 <label class="control-label" for="typeahead">Upload Photo:</label>
 
-                                                <asp:FileUpload ID="fileUploadphoto" runat="server" />
+                                                <asp:FileUpload ID="fileUploadphoto" runat="server" onchange="validateFileSize(this);" />
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidatorphoto" ControlToValidate="fileUploadphoto" runat="server" ValidationGroup="visitor" Display="None" ErrorMessage="Please Upload the Photo"></asp:RequiredFieldValidator>
                                                 <a id="aPhoto" style="font-size: 13px;" target="_blank">Photo</a>
                                             </div>
@@ -276,8 +292,9 @@
                                         <td>
                                             <div class="span6 typeahead">
                                                 <label class="control-label" for="typeahead">Upload Identity Proof:</label>
-                                                <asp:FileUpload ID="fileUploadIdentity" runat="server" />
+                                                <asp:FileUpload ID="fileUploadIdentity" runat="server" onchange="validateFileSize(this);" />
                                                 <a id="aIdentityProof" style="font-size: 13px;" target="_blank">Visitor Proof</a>
+                                                                                
                                             </div>
                                         </td>
                                         <td>
@@ -287,7 +304,7 @@
                                         <td>
                                             <div class="span6 typeahead">
                                                 <label class="control-label" for="typeahead">Application Of Room From Authority:</label>
-                                                <asp:FileUpload ID="fileUploadauthority" CssClass="span6 typeahead" runat="server" />
+                                                <asp:FileUpload ID="fileUploadauthority" CssClass="span6 typeahead" runat="server" onchange="validateFileSize(this);" />
                                                 <a id="aAuthorityLetter" style="font-size: 13px;" target="_blank">Authority Letter</a>
                                             </div>
                                         </td>
@@ -555,10 +572,10 @@
                                             <div class="control-group">
                                                 <label class="control-label" for="typeahead">From:</label>
                                                 <asp:TextBox runat="server" ID="txtprmntTo" CssClass="input-xlarge datepicker" Style="width: 70px; height: 20px;"></asp:TextBox>
-                                                <label class="control-label" for="typeahead">To:</label>
-                                                <asp:TextBox runat="server" ID="txtprmntFrom" CssClass="input-xlarge datepicker" Style="width: 70px; height: 20px;"></asp:TextBox>
+                                               <%-- <label class="control-label" for="typeahead">To:</label>
+                                                <asp:TextBox runat="server" ID="txtprmntFrom" CssClass="input-xlarge datepicker" Style="width: 70px; height: 20px;"></asp:TextBox>--%>
                                                 <asp:RegularExpressionValidator ID="RegularExpressiontxtprmntTo" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtprmntTo" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
-                                                <asp:RegularExpressionValidator ID="RegularExpressiontxtprmntFrom" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtprmntFrom" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>
+                                                <%--<asp:RegularExpressionValidator ID="RegularExpressiontxtprmntFrom" runat="server" ErrorMessage="Invalid Format.Use(MM/DD/YYYY)." ForeColor="Red" ControlToValidate="txtprmntFrom" SetFocusOnError="true" ValidationExpression="^([0-9]|0[1-9]|1[012])\/([0-9]|0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$"></asp:RegularExpressionValidator>--%>
                                             </div>
                                         </td>
                                     </tr>
@@ -568,7 +585,7 @@
                         </div>
                         <div class="form-actions">
                             <%--<input id="btnSave" value="Save" class="btn btn-primary" />--%>
-                            <asp:Button ID="btnSave" Text="Save" runat="server" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" ValidationGroup="visitor" OnClick="btnSave_Click" />
+                            <asp:Button ID="btnSave" Text="Save & Print" runat="server" CssClass="btn btn-primary" OnClientClick="ClientSideClick(this)" UseSubmitBehavior="False" ValidationGroup="visitor" OnClick="btnSave_Click" />
                         </div>
                     </fieldset>
                 </div>
@@ -614,5 +631,6 @@
         </div>
 
     </div>
+       <div id="pnlHtml" runat="server"></div>
 </asp:Content>
 

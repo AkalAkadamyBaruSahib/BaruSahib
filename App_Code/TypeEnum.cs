@@ -192,7 +192,8 @@ public class TypeEnum
         DispatchMaterialReportByMatName=4,
         DispatchMaterialReportByAcaName = 5,
         SummaryReportForDispatchMaterial=6,
-        SummaryReportByMatName=7
+        SummaryReportByMatName=7,
+        DispatchAndPendingMaterialReport=8
     }
 
     public enum PurchaseSourceID : int

@@ -42,7 +42,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
                 hdnZoneID.Value = dsZone.Rows[0]["ZoneId"].ToString();
             }
 
-
+            //MonthDetail();
             BindBillType();
             ddlNameOfWork.Visible = false;
             ddlBillType.Visible = false;
@@ -124,21 +124,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         }
         else if (ddlBillType1.SelectedValue == "2")
         {
-            lblChargeable.Visible = false;
-            lblNameWork.Visible = false;
-            ddlBillType.Visible = false;
-            ddlEsimate.Visible = false;
-            pnlSanction.Visible = false;
-            pnlNonSanction.Visible = true;
-            pnlEstimateDetails.Visible = true;
-            trMatSelect.Visible = false;
-            btnAmtTotal.Visible = false;
-            divFinalButtons.Visible = true;
-            trRemarks.Visible = false;
-            btnShowData.Visible = false;
-            ddlNameOfWork.Visible = false;
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "msg", "BillSumitRateCondition();", true);
+            trMonthCalender.Visible = true;
         }
         else
         {
@@ -150,7 +136,7 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
     {
         DataSet dsAcademy = new DataSet();
         pnlEstimateDetails.Visible = false;
-        dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalanceNew'" + ddlNameOfWork.SelectedValue + "','1'");
+        dsAcademy = DAL.DalAccessUtility.GetDataInDataSet("exec USP_getEstimateBalanceNew '" + ddlNameOfWork.SelectedValue + "','1'");
         if (dsAcademy.Tables[0].Rows.Count > 0)
         {
             GridView1.DataSource = dsAcademy;
@@ -656,5 +642,43 @@ public partial class Emp_BillSubmit : System.Web.UI.Page
         pnlEstimateDetails.Visible = true;
         btnSubmit.Visible = true;
         ViewState["MaterialBalance"] = dsAcademy.Tables[0];
+    }
+    protected void drpMonthCalnder_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        lblChargeable.Visible = false;
+        lblNameWork.Visible = false;
+        ddlBillType.Visible = false;
+        ddlEsimate.Visible = false;
+        pnlSanction.Visible = false;
+        pnlNonSanction.Visible = true;
+        pnlEstimateDetails.Visible = true;
+        trMatSelect.Visible = false;
+        btnAmtTotal.Visible = false;
+        divFinalButtons.Visible = true;
+        trRemarks.Visible = false;
+        btnShowData.Visible = false;
+        ddlNameOfWork.Visible = false;
+        //sstrMonthCalender.Visible = false;
+
+        ScriptManager.RegisterStartupScript(this, GetType(), "msg", "BillSumitRateCondition();", true);
+       
+    }
+
+    private void MonthDetail()
+    {
+        ListItem lt = new ListItem();
+        int i = DateTime.Now.Month;
+        DateTime month = Convert.ToDateTime("1/1/2000");
+
+        for (i = 12-i ; i <= 12; i++)
+        {
+                     
+            DateTime NextMont = month.AddMonths(i);
+            ListItem list = new ListItem();
+            list.Text = NextMont.ToString("MMMM");
+            list.Value = NextMont.Month.ToString();
+            this.drpMonthCalnder.Items.Add(list);
+        }
+        //drpMonthCalnder.Items.FindByValue(System.DateTime.Now.Month.ToString()).Selected = true; // Set current month as 
     }
 }

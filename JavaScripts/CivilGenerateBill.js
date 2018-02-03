@@ -811,11 +811,13 @@ function BillSumitRateCondition() {
 
     var billTypeID = $("select[id*='ddlBillType1']").val();
 
+    var monthSelcted = $("select[id*='drpMonthCalnder']").val();
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "Services/ConstructionUserController.asmx/BillSumitRateCondition",
-        data: JSON.stringify({ AcademyID: parseInt(acaID), BillTypeID: parseInt(billTypeID) }),
+        data: JSON.stringify({ AcademyID: parseInt(acaID), BillTypeID: parseInt(billTypeID),Month: parseInt(monthSelcted) }),
         success: function (result, textStatus) {
             if (textStatus == "success") {
                 var totalBillingAmount = result.d == undefined ? 0 : result.d;
