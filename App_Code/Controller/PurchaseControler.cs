@@ -655,7 +655,7 @@ public class PurchaseControler : System.Web.Services.WebService
 
         try
         {
-           // Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
+            Utility.SendEmailWithoutAttachments(to, cc, MsgInfo, "New Rate Approval Request.");
         }
         catch { }
         finally
