@@ -129,11 +129,15 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<b>Estimate Title: </b>" + dsValue.Tables[0].Rows[0]["SubEstimate"].ToString() + "<br />";
         if (dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() == string.Empty)
         {
-            EstInfo += "<b>Sanction Date: </b>Not Sanctioned";
+            EstInfo += "<b>Sanction Date: </b>Not Sanctioned <br />";
         }
         else
         {
-            EstInfo += "<b>Sanction Date: </b>" + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString();
+            EstInfo += "<b>Sanction Date: </b>" + dsValue.Tables[0].Rows[0]["SanctionDate"].ToString() + "<br />";
+        }
+        if (dsValue.Tables[0].Rows[0]["StartDate"].ToString() != "")
+        {
+            EstInfo += "<b>Start Date: </b>" + dsValue.Tables[0].Rows[0]["StartDate"].ToString();
         }
         EstInfo += "</p>";
         EstInfo += "</td>";
@@ -141,7 +145,11 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<p style='text-align: right;'>";
         EstInfo += "<b>Academy:</b> " + dsValue.Tables[0].Rows[0]["AcaName"].ToString() + "<br />";
         EstInfo += "<b>Type of Work:</b> " + dsValue.Tables[0].Rows[0]["TypeWorkName"].ToString() + "<br />";
-        EstInfo += "<b>Estimate Cost:</b> " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString();
+        EstInfo += "<b>Estimate Cost:</b> " + dsValue.Tables[0].Rows[0]["EstmateCost"].ToString() + "<br />";
+        if (dsValue.Tables[0].Rows[0]["EndDate"].ToString() != "")
+        {
+            EstInfo += "<b>End Date:</b> " + dsValue.Tables[0].Rows[0]["EndDate"].ToString();
+        }
         EstInfo += "</p>";
         EstInfo += "</td>";
         EstInfo += "</tr>";
@@ -163,7 +171,6 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<tbody>";
         for (int i = 0; i < dsValue.Tables[1].Rows.Count; i++)
         {
-
             EstInfo += "<tr style='font-size:10px;'>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatTypeName"].ToString() + "</td>";
             EstInfo += "<td>" + dsValue.Tables[1].Rows[i]["MatName"].ToString() + "(" + dsValue.Tables[1].Rows[i]["UnitName"].ToString() + ")</td>";
@@ -182,7 +189,10 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         EstInfo += "<tr>";
         EstInfo += "</table>";
         EstInfo += "<br />";
+        EstInfo += "<div style='margin-top:50px; width:100%; text-align:right;'>EstNo_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + "</div>";
+      
         EstInfo += "<div style='margin-top:50px; width:100%; text-align:center;'>&copy; The Kalgidhar Society All Rights Reserved</div>";
+      
         EstInfo += "</div>";
 
         dt.Columns.Add("HtmlContent");
@@ -190,9 +200,6 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         dr["HtmlContent"] = EstInfo;
         dt.Rows.Add(dr);
         pnlPdf.InnerHtml = dt.Rows[0][0].ToString();
-
-        // string FileName = "Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf";
-        //   Utility.GeneratePDF(pnlPdf.InnerHtml, FileName, "");
 
         Response.ContentType = "application/pdf";
         Response.AddHeader("content-disposition", "attachment;filename=Estimate_" + dsValue.Tables[0].Rows[0]["EstId"].ToString() + ".pdf");
@@ -204,7 +211,12 @@ public partial class Admin_UserControls_EstimateView : System.Web.UI.UserControl
         Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 0f, 10f);
         HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
         PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+        //pdfDoc.AddHeader("Header", "EstNo_"+dsValue.Tables[0].Rows[0]["EstId"].ToString());
+       // pdfDoc.Add(new Paragraph(pdfDoc.BottomMargin, "EstNo_"+dsValue.Tables[0].Rows[0]["EstId"].ToString()))
+      
         pdfDoc.Open();
+        //pdfDoc.Add(new Paragraph(pdfDoc.BottomMargin, "EstNo_"+dsValue.Tables[0].Rows[0]["EstId"].ToString()));
+     //   pdfDoc.Add(footer);
         htmlparser.Parse(sr);
         pdfDoc.Close();
         Response.Write(pdfDoc);
